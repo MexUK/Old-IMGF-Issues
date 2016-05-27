@@ -1,0 +1,127 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project DefaultTargets="Build" ToolsVersion="12.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup Label="ProjectConfigurations">
+    <ProjectConfiguration Include="Debug|Win32">
+      <Configuration>Debug</Configuration>
+      <Platform>Win32</Platform>
+    </ProjectConfiguration>
+    <ProjectConfiguration Include="Release|Win32">
+      <Configuration>Release</Configuration>
+      <Platform>Win32</Platform>
+    </ProjectConfiguration>
+  </ItemGroup>
+  <PropertyGroup Label="Globals">
+    <ProjectGuid>{3F64E1A8-8228-4C62-ABB3-AF187659B914}</ProjectGuid>
+    <RootNamespace>GeneralC</RootNamespace>
+  </PropertyGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" Label="Configuration">
+    <ConfigurationType>StaticLibrary</ConfigurationType>
+    <UseDebugLibraries>true</UseDebugLibraries>
+    <PlatformToolset>v120</PlatformToolset>
+    <CharacterSet>MultiByte</CharacterSet>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'" Label="Configuration">
+    <ConfigurationType>StaticLibrary</ConfigurationType>
+    <UseDebugLibraries>false</UseDebugLibraries>
+    <PlatformToolset>v120</PlatformToolset>
+    <WholeProgramOptimization>true</WholeProgramOptimization>
+    <CharacterSet>MultiByte</CharacterSet>
+  </PropertyGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.props" />
+  <ImportGroup Label="ExtensionSettings">
+  </ImportGroup>
+  <ImportGroup Label="PropertySheets" Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+  </ImportGroup>
+  <ImportGroup Label="PropertySheets" Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+  </ImportGroup>
+  <PropertyGroup Label="UserMacros" />
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
+    <OutDir>C:\C++\Output\Library\General\$(Configuration)\</OutDir>
+    <IntDir>C:\C++\Output\Intermediate\General\$(Configuration)\</IntDir>
+    <LibraryPath>C:\C++\Output\Library\Ultra Core\$(Configuration)\;C:\C++\Output\Library\Core\$(Configuration)\;C:\C++\Output\Library\Utility\$(Configuration)\;C:\C++\Output\Library\Third Party\Compiled\$(Configuration)\;$(LibraryPath)</LibraryPath>
+    <IncludePath>C:\C++\Code\Ultra Core;C:\C++\Code\Ultra Core\Vector\Layer 3;C:\C++\Code\Ultra Core\Vector\Layer 4;C:\C++\Code\General;C:\C++\Code\General\File Format;C:\C++\Code\Core;C:\C++\Code\Utility;C:\C++\Code\Third Party\STB;$(IncludePath)</IncludePath>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
+    <OutDir>C:\C++\Output\Library\General\$(Configuration)\</OutDir>
+    <IntDir>C:\C++\Output\Intermediate\General\$(Configuration)\</IntDir>
+    <LibraryPath>C:\C++\Output\Library\Ultra Core\$(Configuration)\;C:\C++\Output\Library\Core\$(Configuration)\;C:\C++\Output\Library\Utility\$(Configuration)\;C:\C++\Output\Library\Third Party\Compiled\$(Configuration)\;$(LibraryPath)</LibraryPath>
+    <IncludePath>C:\C++\Code\Ultra Core;C:\C++\Code\Ultra Core\Vector\Layer 3;C:\C++\Code\Ultra Core\Vector\Layer 4;C:\C++\Code\General;C:\C++\Code\General\File Format;C:\C++\Code\Core;C:\C++\Code\Utility;C:\C++\Code\Third Party\STB;$(IncludePath)</IncludePath>
+  </PropertyGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
+    <ClCompile>
+      <WarningLevel>Level3</WarningLevel>
+      <Optimization>Disabled</Optimization>
+      <SDLCheck>true</SDLCheck>
+    </ClCompile>
+    <Link>
+      <GenerateDebugInformation>true</GenerateDebugInformation>
+    </Link>
+    <Lib>
+      <AdditionalDependencies>Ultra Core.lib;Core.lib;Utility.lib;STB.lib;%(AdditionalDependencies)</AdditionalDependencies>
+    </Lib>
+  </ItemDefinitionGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
+    <ClCompile>
+      <WarningLevel>Level3</WarningLevel>
+      <Optimization>MaxSpeed</Optimization>
+      <FunctionLevelLinking>true</FunctionLevelLinking>
+      <IntrinsicFunctions>true</IntrinsicFunctions>
+      <SDLCheck>true</SDLCheck>
+      <RuntimeLibrary>MultiThreaded</RuntimeLibrary>
+    </ClCompile>
+    <Link>
+      <GenerateDebugInformation>true</GenerateDebugInformation>
+      <EnableCOMDATFolding>true</EnableCOMDATFolding>
+      <OptimizeReferences>true</OptimizeReferences>
+    </Link>
+    <Lib>
+      <AdditionalDependencies>Ultra Core.lib;Core.lib;Utility.lib;STB.lib;%(AdditionalDependencies)</AdditionalDependencies>
+    </Lib>
+  </ItemDefinitionGroup>
+  <ItemGroup>
+    <ClCompile Include="..\..\..\Code\General\File Format\BMP\CBMPFormat.cpp" />
+    <ClCompile Include="..\..\..\Code\General\File Format\BMP\CBMPManager.cpp" />
+    <ClCompile Include="..\..\..\Code\General\File Format\DDS\CDDSFormat.cpp" />
+    <ClCompile Include="..\..\..\Code\General\File Format\DDS\CDDSManager.cpp" />
+    <ClCompile Include="..\..\..\Code\General\Game\CGameManager.cpp" />
+    <ClCompile Include="..\..\..\Code\General\Image\CImageFile.cpp" />
+    <ClCompile Include="..\..\..\Code\General\Image\CImageManager.cpp" />
+    <ClCompile Include="..\..\..\Code\General\Image\CRasterDataFormat.cpp" />
+    <ClCompile Include="..\..\..\Code\General\Image\CRasterDataFormatManager.cpp" />
+    <ClCompile Include="..\..\..\Code\General\Platform\CPlatformManager.cpp" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="..\..\..\Code\General\eCompressionAlgorithm.h" />
+    <ClInclude Include="..\..\..\Code\General\eFileStatus.h" />
+    <ClInclude Include="..\..\..\Code\General\File Format\BMP\CBMPFormat_Header1.h" />
+    <ClInclude Include="..\..\..\Code\General\File Format\BMP\CBMPFormat_Header2_Version2.h" />
+    <ClInclude Include="..\..\..\Code\General\File Format\BMP\CBMPFormat_Header2_Version3.h" />
+    <ClInclude Include="..\..\..\Code\General\File Format\BMP\CBMPFormat_Header2_Version4.h" />
+    <ClInclude Include="..\..\..\Code\General\File Format\BMP\CBMPFormat.h" />
+    <ClInclude Include="..\..\..\Code\General\File Format\BMP\CBMPManager.h" />
+    <ClInclude Include="..\..\..\Code\General\File Format\DDS\CDDSFormat.h" />
+    <ClInclude Include="..\..\..\Code\General\File Format\DDS\CDDSFormat_Header_DDS_HEADER.h" />
+    <ClInclude Include="..\..\..\Code\General\File Format\DDS\CDDSFormat_Header_DDS_HEADER_DXT10.h" />
+    <ClInclude Include="..\..\..\Code\General\File Format\DDS\CDDSFormat_Header_DDS_PIXELFORMAT_Part1.h" />
+    <ClInclude Include="..\..\..\Code\General\File Format\DDS\CDDSFormat_Header_DDS_PIXELFORMAT_Part2.h" />
+    <ClInclude Include="..\..\..\Code\General\File Format\DDS\CDDSManager.h" />
+    <ClInclude Include="..\..\..\Code\General\Game\CGame.h" />
+    <ClInclude Include="..\..\..\Code\General\Game\CGameManager.h" />
+    <ClInclude Include="..\..\..\Code\General\Game\eGame.h" />
+    <ClInclude Include="..\..\..\Code\General\Game\eGameFlag.h" />
+    <ClInclude Include="..\..\..\Code\General\Game\ePlatformedGame.h" />
+    <ClInclude Include="..\..\..\Code\General\Image\CImageFile.h" />
+    <ClInclude Include="..\..\..\Code\General\Image\CImageManager.h" />
+    <ClInclude Include="..\..\..\Code\General\Image\CRasterDataFormat.h" />
+    <ClInclude Include="..\..\..\Code\General\Image\CRasterDataFormatManager.h" />
+    <ClInclude Include="..\..\..\Code\General\Platform\CPlatform.h" />
+    <ClInclude Include="..\..\..\Code\General\Platform\CPlatformManager.h" />
+    <ClInclude Include="..\..\..\Code\General\Platform\ePlatform.h" />
+  </ItemGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
+  <ImportGroup Label="ExtensionTargets">
+  </ImportGroup>
+</Project>

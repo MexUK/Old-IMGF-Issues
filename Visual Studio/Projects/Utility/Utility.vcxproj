@@ -1,0 +1,119 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project DefaultTargets="Build" ToolsVersion="12.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup Label="ProjectConfigurations">
+    <ProjectConfiguration Include="Debug|Win32">
+      <Configuration>Debug</Configuration>
+      <Platform>Win32</Platform>
+    </ProjectConfiguration>
+    <ProjectConfiguration Include="Release|Win32">
+      <Configuration>Release</Configuration>
+      <Platform>Win32</Platform>
+    </ProjectConfiguration>
+  </ItemGroup>
+  <PropertyGroup Label="Globals">
+    <ProjectGuid>{3C3CB053-ACDC-4480-95F4-7A291F133D8E}</ProjectGuid>
+    <RootNamespace>Utility</RootNamespace>
+  </PropertyGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" Label="Configuration">
+    <ConfigurationType>StaticLibrary</ConfigurationType>
+    <UseDebugLibraries>true</UseDebugLibraries>
+    <PlatformToolset>v120</PlatformToolset>
+    <CharacterSet>Unicode</CharacterSet>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'" Label="Configuration">
+    <ConfigurationType>StaticLibrary</ConfigurationType>
+    <UseDebugLibraries>false</UseDebugLibraries>
+    <PlatformToolset>v120</PlatformToolset>
+    <WholeProgramOptimization>true</WholeProgramOptimization>
+    <CharacterSet>Unicode</CharacterSet>
+  </PropertyGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.props" />
+  <ImportGroup Label="ExtensionSettings">
+  </ImportGroup>
+  <ImportGroup Label="PropertySheets" Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+  </ImportGroup>
+  <ImportGroup Label="PropertySheets" Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+  </ImportGroup>
+  <PropertyGroup Label="UserMacros" />
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
+    <OutDir>C:\C++\Output\Library\Utility\$(Configuration)\</OutDir>
+    <IntDir>C:\C++\Output\Intermediate\Utility\$(Configuration)\</IntDir>
+    <LibraryPath>C:\C++\Output\Library\Third Party\Compiled\$(Configuration)\;$(LibraryPath)</LibraryPath>
+    <IncludePath>C:\C++\Code\Third Party\INI;C:\C++\Code\Third Party\ZLib;C:\C++\Code\Third Party\LZO Compression\include;C:\C++\Code\Third Party\LZ4 Compression;C:\C++\Code\Third Party\Squish;C:\C++\Code\Third Party\CRC;C:\C++\Code\Utility;C:\C++\Code\Ultra Core;C:\C++\Code\Ultra Core\Vector\Layer 3;C:\C++\Code\Ultra Core\Vector\Layer 4;$(IncludePath)</IncludePath>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
+    <OutDir>C:\C++\Output\Library\Utility\$(Configuration)\</OutDir>
+    <IntDir>C:\C++\Output\Intermediate\Utility\$(Configuration)\</IntDir>
+    <LibraryPath>C:\C++\Output\Library\Third Party\Compiled\$(Configuration)\;$(LibraryPath)</LibraryPath>
+    <IncludePath>C:\C++\Code\Third Party\INI;C:\C++\Code\Third Party\ZLib;C:\C++\Code\Third Party\LZO Compression\include;C:\C++\Code\Third Party\LZ4 Compression;C:\C++\Code\Third Party\Squish;C:\C++\Code\Third Party\CRC;C:\C++\Code\Utility;C:\C++\Code\Ultra Core;C:\C++\Code\Ultra Core\Vector\Layer 3;C:\C++\Code\Ultra Core\Vector\Layer 4;$(IncludePath)</IncludePath>
+  </PropertyGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
+    <ClCompile>
+      <WarningLevel>Level3</WarningLevel>
+      <Optimization>Disabled</Optimization>
+      <SDLCheck>true</SDLCheck>
+      <PreprocessorDefinitions>_AFXDLL;_CRT_SECURE_NO_WARNINGS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+    </ClCompile>
+    <Link>
+      <GenerateDebugInformation>true</GenerateDebugInformation>
+    </Link>
+    <Lib>
+      <AdditionalDependencies>INI.lib;ZLib.lib;LZO Compression.lib;LZ4 Compression.lib;Squish.lib;CRC.lib;%(AdditionalDependencies)</AdditionalDependencies>
+    </Lib>
+  </ItemDefinitionGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
+    <ClCompile>
+      <WarningLevel>Level3</WarningLevel>
+      <Optimization>MaxSpeed</Optimization>
+      <FunctionLevelLinking>true</FunctionLevelLinking>
+      <IntrinsicFunctions>true</IntrinsicFunctions>
+      <SDLCheck>true</SDLCheck>
+      <PreprocessorDefinitions>_CRT_SECURE_NO_WARNINGS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <RuntimeLibrary>MultiThreaded</RuntimeLibrary>
+    </ClCompile>
+    <Link>
+      <GenerateDebugInformation>true</GenerateDebugInformation>
+      <EnableCOMDATFolding>true</EnableCOMDATFolding>
+      <OptimizeReferences>true</OptimizeReferences>
+    </Link>
+    <Lib>
+      <AdditionalDependencies>INI.lib;ZLib.lib;LZO Compression.lib;LZ4 Compression.lib;Squish.lib;CRC.lib;%(AdditionalDependencies)</AdditionalDependencies>
+    </Lib>
+  </ItemDefinitionGroup>
+  <ItemGroup>
+    <ClInclude Include="..\..\..\Code\Utility\Compression\CCompressionUtility.h" />
+    <ClInclude Include="..\..\..\Code\Utility\File\CFileUtility.h" />
+    <ClInclude Include="..\..\..\Code\Utility\GDIPlus\CGDIPlusUtility.h" />
+    <ClInclude Include="..\..\..\Code\Utility\GUI\CGUIUtility.h" />
+    <ClInclude Include="..\..\..\Code\Utility\Image\CImageUtility.h" />
+    <ClInclude Include="..\..\..\Code\Utility\Image\eDXTCompressionType.h" />
+    <ClInclude Include="..\..\..\Code\Utility\Image\eRasterDataFormat.h" />
+    <ClInclude Include="..\..\..\Code\Utility\INI\CINIUtility.h" />
+    <ClInclude Include="..\..\..\Code\Utility\Math\CMathUtility.h" />
+    <ClInclude Include="..\..\..\Code\Utility\Memory\CMemoryUtility.h" />
+    <ClInclude Include="..\..\..\Code\Utility\Path\CPathUtility.h" />
+    <ClInclude Include="..\..\..\Code\Utility\Registry\CRegistryUtility.h" />
+    <ClInclude Include="..\..\..\Code\Utility\String\CStringUtility.h" />
+    <ClInclude Include="..\..\..\Code\Utility\Vector\CVectorUtility.h" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="..\..\..\Code\Utility\Compression\CCompressionUtility.cpp" />
+    <ClCompile Include="..\..\..\Code\Utility\File\CFileUtility.cpp" />
+    <ClCompile Include="..\..\..\Code\Utility\GDIPlus\CGDIPlusUtility.cpp" />
+    <ClCompile Include="..\..\..\Code\Utility\GUI\CGUIUtility.cpp" />
+    <ClCompile Include="..\..\..\Code\Utility\Image\CImageUtility.cpp" />
+    <ClCompile Include="..\..\..\Code\Utility\INI\CINIUtility.cpp" />
+    <ClCompile Include="..\..\..\Code\Utility\Math\CMathUtility.cpp" />
+    <ClCompile Include="..\..\..\Code\Utility\Memory\CMemoryUtility.cpp" />
+    <ClCompile Include="..\..\..\Code\Utility\Path\CPathUtility.cpp" />
+    <ClCompile Include="..\..\..\Code\Utility\Registry\CRegistryUtility.cpp" />
+    <ClCompile Include="..\..\..\Code\Utility\String\CStringUtility.cpp" />
+    <ClCompile Include="..\..\..\Code\Utility\Vector\CVectorUtility.cpp" />
+  </ItemGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
+  <ImportGroup Label="ExtensionTargets">
+  </ImportGroup>
+</Project>

@@ -1,0 +1,528 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <Filter Include="Source Files">
+      <UniqueIdentifier>{4FC737F1-C7A5-4376-A066-2A32D752A2FF}</UniqueIdentifier>
+      <Extensions>cpp;c;cc;cxx;def;odl;idl;hpj;bat;asm;asmx</Extensions>
+    </Filter>
+    <Filter Include="Header Files">
+      <UniqueIdentifier>{93995380-89BD-4b04-88EB-625FBE52EBFB}</UniqueIdentifier>
+      <Extensions>h;hh;hpp;hxx;hm;inl;inc;xsd</Extensions>
+    </Filter>
+    <Filter Include="Resource Files">
+      <UniqueIdentifier>{67DA6AB6-F800-4c08-8B7A-83BB121AAD01}</UniqueIdentifier>
+      <Extensions>rc;ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe;resx;tiff;tif;png;wav;mfcribbon-ms</Extensions>
+    </Filter>
+    <Filter Include="Header Files\Sort">
+      <UniqueIdentifier>{fc15c735-231f-4610-9fdd-cf9fc8cd7db4}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\Entry Viewer">
+      <UniqueIdentifier>{b5d46eb4-4ad1-4395-83e9-ee576e8f2bf6}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\Drag Drop">
+      <UniqueIdentifier>{2da4e01f-81cb-430d-a66d-e772befc50a9}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\Recently Open">
+      <UniqueIdentifier>{c9957d33-1558-40c7-a043-8b5a833dfa22}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\Update">
+      <UniqueIdentifier>{95b2575e-7be2-40fb-91af-dd87b2413458}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\Window">
+      <UniqueIdentifier>{7a339672-1db8-4b77-a781-0b156fc51996}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\Update">
+      <UniqueIdentifier>{f523ed23-3a91-4ae9-a6a1-f6364a501146}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\Recently Open">
+      <UniqueIdentifier>{1e2d2531-5e76-46e9-8e26-1226df840c87}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\Drag Drop">
+      <UniqueIdentifier>{7dc71615-13dd-48f2-bc40-068150e921f2}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\Entry Viewer">
+      <UniqueIdentifier>{6cca3ddf-485b-4335-9f9e-28aa3f791c10}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\Language">
+      <UniqueIdentifier>{a9118a4d-ad5e-44a6-bda7-62616d8db766}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\Window">
+      <UniqueIdentifier>{50fdb857-e196-4db4-a162-8ae74aae05c2}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\Session">
+      <UniqueIdentifier>{ecf839c6-8780-4cfe-b762-c36dae0d72a9}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\Session">
+      <UniqueIdentifier>{38855132-7c6a-4906-8860-111b11d72e94}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\File Format">
+      <UniqueIdentifier>{be344ecf-bbe9-42e8-8f93-338d1c58b864}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\File Format\DB">
+      <UniqueIdentifier>{dd01c5c2-63db-4ff8-b764-1ff406b80e11}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\File Format\LST">
+      <UniqueIdentifier>{dc991616-56e1-4a2c-b70f-dcb94205632a}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\File Format">
+      <UniqueIdentifier>{b11c09cf-842e-4f91-b33d-3249313a2f74}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\File Format\DB">
+      <UniqueIdentifier>{46180b95-ab84-486b-9c23-9b7fd3088776}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\File Format\LST">
+      <UniqueIdentifier>{4b4c91de-4010-415e-81ec-1a3171e0800e}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\Language">
+      <UniqueIdentifier>{f2126496-1edc-40ef-bfee-8a1d2d90d936}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\Window\Window Controls">
+      <UniqueIdentifier>{81caec09-a201-44f9-847f-6fdf5c434abb}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\Window\Window Controls">
+      <UniqueIdentifier>{b4228676-80c6-49bf-84f9-250bcb7a897c}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\Window\Window Controls\Components">
+      <UniqueIdentifier>{22a805f6-76d4-41dd-9025-d83aa7e71cfa}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\Window\Window Controls\Entries">
+      <UniqueIdentifier>{77863b0c-ba94-4e4d-bdb3-f8147ce638d7}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\Window\Window Controls\Controls">
+      <UniqueIdentifier>{80a0e575-57ec-478e-8291-cbf68c0a1df7}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\Window\Window Controls\Controls">
+      <UniqueIdentifier>{afa346d1-10b3-4145-9035-3cb02cba8d9a}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\Window\Window Types">
+      <UniqueIdentifier>{bd9f19fa-3008-4a46-a41d-86c7f0b32236}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\Window\Main Window">
+      <UniqueIdentifier>{38055722-f43f-4c55-914f-7e7630974808}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\Window\Main Window">
+      <UniqueIdentifier>{e825325d-9d08-46f6-adfb-0a23032f305a}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\Window\Window Types\Tabs">
+      <UniqueIdentifier>{08d2cbbc-d8cf-4e19-86ac-051f0914620f}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\Window\Window Types">
+      <UniqueIdentifier>{5b3b39d5-e2d8-404f-b975-7ae2e90f67f0}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\Window\Window Types\Tabs">
+      <UniqueIdentifier>{990805ff-8fe1-4d53-9881-74a6a6044385}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\Sort">
+      <UniqueIdentifier>{43c515c4-f4f9-4907-805c-301d6114a2ff}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\Task">
+      <UniqueIdentifier>{de2e17cc-117f-4264-abcc-10930003e944}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\Task">
+      <UniqueIdentifier>{befc1e00-668e-48a0-8882-4c1d1ea436fe}</UniqueIdentifier>
+    </Filter>
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="..\..\..\Code\KGM\CDumpManager.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\Code\KGM\CGUIManager.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\Code\KGM\CHTTPManager.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\Code\KGM\CLSTProcessingManager.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\Code\KGM\CSettingsManager.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\Code\KGM\CSocketUtility.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\Code\KGM\Globals.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\Code\KGM\Drag Drop\CDropTarget.cpp">
+      <Filter>Source Files\Drag Drop</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\Code\KGM\Drag Drop\CDragListCtrl.cpp">
+      <Filter>Source Files\Drag Drop</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\Code\KGM\Drag Drop\CDropSource.cpp">
+      <Filter>Source Files\Drag Drop</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\Code\KGM\Entry Viewer\CEntryViewerManager.cpp">
+      <Filter>Source Files\Entry Viewer</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\Code\KGM\Entry Viewer\CTextureViewer.cpp">
+      <Filter>Source Files\Entry Viewer</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\Code\KGM\Entry Viewer\CCollisionViewer.cpp">
+      <Filter>Source Files\Entry Viewer</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\Code\KGM\Language\CLanguageManager.cpp">
+      <Filter>Source Files\Language</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\Code\KGM\Recently Open\CRecentlyOpenEntry.cpp">
+      <Filter>Source Files\Recently Open</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\Code\KGM\Recently Open\CRecentlyOpenManager.cpp">
+      <Filter>Source Files\Recently Open</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\Code\KGM\Session\CSession.cpp">
+      <Filter>Source Files\Session</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\Code\KGM\Session\CSessionManager.cpp">
+      <Filter>Source Files\Session</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\Code\KGM\Sort\CSortType.cpp">
+      <Filter>Source Files\Sort</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\Code\KGM\Sort\CSortManager.cpp">
+      <Filter>Source Files\Sort</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\Code\KGM\Update\CUpdateManager.cpp">
+      <Filter>Source Files\Update</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\Code\KGM\Update\CUpdateConnectionManager.cpp">
+      <Filter>Source Files\Update</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\Code\KGM\File Format\DB\CDBEntry.cpp">
+      <Filter>Source Files\File Format\DB</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\Code\KGM\File Format\DB\CDBManager.cpp">
+      <Filter>Source Files\File Format\DB</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\Code\KGM\File Format\LST\CLSTManager.cpp">
+      <Filter>Source Files\File Format\LST</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\Code\KGM\File Format\LST\CLSTEntry.cpp">
+      <Filter>Source Files\File Format\LST</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\Code\KGM\Entry Viewer\CEntryViewer.cpp">
+      <Filter>Source Files\Entry Viewer</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\Code\KGM\File Format\DB\CDBFormat.cpp">
+      <Filter>Source Files\File Format\DB</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\Code\KGM\File Format\LST\CLSTFormat.cpp">
+      <Filter>Source Files\File Format\LST</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\Code\KGM\File Format\LST\CLSTSection.cpp">
+      <Filter>Source Files\File Format\LST</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\Code\KGM\CKGM.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\Code\KGM\Window\Window Controls\CWindowControl.cpp">
+      <Filter>Source Files\Window\Window Controls</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\Code\KGM\Window\Window Controls\Controls\CWindowControl_Text.cpp">
+      <Filter>Source Files\Window\Window Controls\Controls</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\Code\KGM\Window\Window Controls\Controls\CWindowControl_List.cpp">
+      <Filter>Source Files\Window\Window Controls\Controls</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\Code\KGM\Window\CWindowManager.cpp">
+      <Filter>Source Files\Window</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\Code\KGM\Window\CWindow.cpp">
+      <Filter>Source Files\Window</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\Code\KGM\Window\CWindowTab.cpp">
+      <Filter>Source Files\Window</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\Code\KGM\Window\Window Controls\Controls\CWindowControl_Scroll.cpp">
+      <Filter>Source Files\Window\Window Controls\Controls</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\Code\KGM\Window\Window Controls\Controls\CWindowControl_Button.cpp">
+      <Filter>Source Files\Window\Window Controls\Controls</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\Code\KGM\Window\Window Controls\Controls\CWindowControl_Check.cpp">
+      <Filter>Source Files\Window\Window Controls\Controls</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\Code\KGM\Window\Window Controls\Controls\CWindowControl_Drop.cpp">
+      <Filter>Source Files\Window\Window Controls\Controls</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\Code\KGM\Window\Window Controls\Controls\CWindowControl_Edit.cpp">
+      <Filter>Source Files\Window\Window Controls\Controls</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\Code\KGM\Window\Window Controls\Controls\CWindowControl_Progress.cpp">
+      <Filter>Source Files\Window\Window Controls\Controls</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\Code\KGM\Window\Window Controls\Controls\CWindowControl_Radio.cpp">
+      <Filter>Source Files\Window\Window Controls\Controls</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\Code\KGM\Window\Window Controls\Controls\CWindowControl_Menu.cpp">
+      <Filter>Source Files\Window\Window Controls\Controls</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\Code\KGM\Window\Main Window\CMainWindow.cpp">
+      <Filter>Source Files\Window\Main Window</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\Code\KGM\Window\Window Types\Tabs\CEntryListWindowTab.cpp">
+      <Filter>Source Files\Window\Window Types\Tabs</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\Code\KGM\Window\CTabbedWindow.cpp">
+      <Filter>Source Files\Window</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\Code\KGM\Window\Window Types\CEntryListWindow.cpp">
+      <Filter>Source Files\Window\Window Types</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\Code\KGM\Main.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\Code\KGM\CLastUsedValueManager.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\Code\KGM\Task\CTaskManager.cpp">
+      <Filter>Source Files\Task</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\Code\KGM\Task\CTaskDispatchManager.cpp">
+      <Filter>Source Files\Task</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\Code\KGM\CInstallationMeta.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="..\..\..\Code\KGM\Globals.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\Code\KGM\buildnumber.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\Code\KGM\CDumpManager.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\Code\KGM\CFilterOptions.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\Code\KGM\CGUIManager.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\Code\KGM\CHTTPManager.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\Code\KGM\CLSTProcessingManager.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\Code\KGM\CRenamedIMGEntry.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\Code\KGM\CSearchEntry.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\Code\KGM\CSettingsManager.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\Code\KGM\CSocketUtility.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\Code\KGM\Drag Drop\CDropTarget.h">
+      <Filter>Header Files\Drag Drop</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\Code\KGM\Drag Drop\CDragListCtrl.h">
+      <Filter>Header Files\Drag Drop</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\Code\KGM\Drag Drop\CDropSource.h">
+      <Filter>Header Files\Drag Drop</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\Code\KGM\Entry Viewer\CTextureViewerTextureData.h">
+      <Filter>Header Files\Entry Viewer</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\Code\KGM\Entry Viewer\eEntryViewerDisplayType.h">
+      <Filter>Header Files\Entry Viewer</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\Code\KGM\Entry Viewer\CCollisionViewer.h">
+      <Filter>Header Files\Entry Viewer</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\Code\KGM\Entry Viewer\CEntryViewer.h">
+      <Filter>Header Files\Entry Viewer</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\Code\KGM\Entry Viewer\CEntryViewerManager.h">
+      <Filter>Header Files\Entry Viewer</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\Code\KGM\Entry Viewer\CTextureViewer.h">
+      <Filter>Header Files\Entry Viewer</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\Code\KGM\Language\CLanguage.h">
+      <Filter>Header Files\Language</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\Code\KGM\Language\CLanguageManager.h">
+      <Filter>Header Files\Language</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\Code\KGM\Recently Open\CRecentlyOpenManager.h">
+      <Filter>Header Files\Recently Open</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\Code\KGM\Recently Open\CRecentlyOpenEntry.h">
+      <Filter>Header Files\Recently Open</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\Code\KGM\Session\CSessionManager.h">
+      <Filter>Header Files\Session</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\Code\KGM\Session\CSession.h">
+      <Filter>Header Files\Session</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\Code\KGM\Sort\CSortTypes.h">
+      <Filter>Header Files\Sort</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\Code\KGM\Sort\eSortType.h">
+      <Filter>Header Files\Sort</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\Code\KGM\Sort\CSortManager.h">
+      <Filter>Header Files\Sort</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\Code\KGM\Sort\CSortMenuItem.h">
+      <Filter>Header Files\Sort</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\Code\KGM\Sort\CSortMenuItems.h">
+      <Filter>Header Files\Sort</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\Code\KGM\Sort\CSortPriorities.h">
+      <Filter>Header Files\Sort</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\Code\KGM\Sort\CSortPriority.h">
+      <Filter>Header Files\Sort</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\Code\KGM\Sort\CSortType.h">
+      <Filter>Header Files\Sort</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\Code\KGM\Update\CUpdateConnectionManager.h">
+      <Filter>Header Files\Update</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\Code\KGM\Update\CUpdateManager.h">
+      <Filter>Header Files\Update</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\Code\KGM\Update\CUpdateConnection.h">
+      <Filter>Header Files\Update</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\Code\KGM\File Format\LST\CLSTManager.h">
+      <Filter>Header Files\File Format\LST</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\Code\KGM\File Format\LST\CLSTEntry.h">
+      <Filter>Header Files\File Format\LST</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\Code\KGM\File Format\DB\CDBManager.h">
+      <Filter>Header Files\File Format\DB</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\Code\KGM\File Format\DB\CDBEntry.h">
+      <Filter>Header Files\File Format\DB</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\Code\KGM\File Format\DB\CDBFormat.h">
+      <Filter>Header Files\File Format\DB</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\Code\KGM\File Format\LST\CLSTFormat.h">
+      <Filter>Header Files\File Format\LST</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\Code\KGM\File Format\LST\CLSTSection.h">
+      <Filter>Header Files\File Format\LST</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\Code\KGM\CKGM.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\Code\KGM\Window\Window Controls\CWindowControl.h">
+      <Filter>Header Files\Window\Window Controls</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\Code\KGM\Window\Window Controls\eWindowControlType.h">
+      <Filter>Header Files\Window\Window Controls</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\Code\KGM\Window\Window Controls\Components\CWindowControlComponent_Text.h">
+      <Filter>Header Files\Window\Window Controls\Components</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\Code\KGM\Window\Window Controls\Entries\CWindowControlEntry_List.h">
+      <Filter>Header Files\Window\Window Controls\Entries</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\Code\KGM\Window\Window Controls\Entries\CWindowControlEntry_Menu.h">
+      <Filter>Header Files\Window\Window Controls\Entries</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\Code\KGM\Window\Window Controls\Controls\CWindowControl_Progress.h">
+      <Filter>Header Files\Window\Window Controls\Controls</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\Code\KGM\Window\Window Controls\Controls\CWindowControl_Radio.h">
+      <Filter>Header Files\Window\Window Controls\Controls</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\Code\KGM\Window\Window Controls\Controls\CWindowControl_Scroll.h">
+      <Filter>Header Files\Window\Window Controls\Controls</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\Code\KGM\Window\Window Controls\Controls\CWindowControl_Text.h">
+      <Filter>Header Files\Window\Window Controls\Controls</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\Code\KGM\Window\Window Controls\Controls\CWindowControl_Button.h">
+      <Filter>Header Files\Window\Window Controls\Controls</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\Code\KGM\Window\Window Controls\Controls\CWindowControl_Check.h">
+      <Filter>Header Files\Window\Window Controls\Controls</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\Code\KGM\Window\Window Controls\Controls\CWindowControl_Drop.h">
+      <Filter>Header Files\Window\Window Controls\Controls</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\Code\KGM\Window\Window Controls\Controls\CWindowControl_Edit.h">
+      <Filter>Header Files\Window\Window Controls\Controls</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\Code\KGM\Window\Window Controls\Controls\CWindowControl_List.h">
+      <Filter>Header Files\Window\Window Controls\Controls</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\Code\KGM\Window\Window Controls\Controls\CWindowControl_Menu.h">
+      <Filter>Header Files\Window\Window Controls\Controls</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\Code\KGM\Window\Window Types\CEntryListWindow.h">
+      <Filter>Header Files\Window\Window Types</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\Code\KGM\Window\Window Types\CButtonsWindow.h">
+      <Filter>Header Files\Window\Window Types</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\Code\KGM\Window\Window Types\CEntryEditorWindow.h">
+      <Filter>Header Files\Window\Window Types</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\Code\KGM\Window\CWindowManager.h">
+      <Filter>Header Files\Window</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\Code\KGM\Window\CWindowTab.h">
+      <Filter>Header Files\Window</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\Code\KGM\Window\CWindow.h">
+      <Filter>Header Files\Window</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\Code\KGM\Window\Window Controls\Components\CWindowControlComponent_Rectangle.h">
+      <Filter>Header Files\Window\Window Controls\Components</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\Code\KGM\Window\Window Controls\Entries\CWindowControlEntry_Drop.h">
+      <Filter>Header Files\Window\Window Controls\Entries</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\Code\KGM\Window\Window Controls\Components\eWindowControlOrientation.h">
+      <Filter>Header Files\Window\Window Controls\Components</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\Code\KGM\Window\Window Controls\CWindowScrollPool.h">
+      <Filter>Header Files\Window\Window Controls</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\Code\KGM\Window\Main Window\CMainWindow.h">
+      <Filter>Header Files\Window\Main Window</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\Code\KGM\Window\Window Types\Tabs\CEntryListWindowTab.h">
+      <Filter>Header Files\Window\Window Types\Tabs</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\Code\KGM\Window\CTabbedWindow.h">
+      <Filter>Header Files\Window</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\Code\KGM\CLastUsedValueManager.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\Code\KGM\Task\CTaskManager.h">
+      <Filter>Header Files\Task</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\Code\KGM\Task\CTaskDispatchManager.h">
+      <Filter>Header Files\Task</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\Code\KGM\WindowControlIds.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\Code\KGM\CBuildMeta.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\Code\KGM\CInstallationMeta.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+  </ItemGroup>
+</Project>

@@ -1,0 +1,242 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project DefaultTargets="Build" ToolsVersion="12.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup Label="ProjectConfigurations">
+    <ProjectConfiguration Include="Debug|Win32">
+      <Configuration>Debug</Configuration>
+      <Platform>Win32</Platform>
+    </ProjectConfiguration>
+    <ProjectConfiguration Include="Release|Win32">
+      <Configuration>Release</Configuration>
+      <Platform>Win32</Platform>
+    </ProjectConfiguration>
+  </ItemGroup>
+  <PropertyGroup Label="Globals">
+    <ProjectGuid>{8685C4C3-46F7-439E-A520-9A3210A8C643}</ProjectGuid>
+    <RootNamespace>IMGFactory</RootNamespace>
+    <ProjectName>KGM</ProjectName>
+  </PropertyGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" Label="Configuration">
+    <ConfigurationType>Application</ConfigurationType>
+    <UseDebugLibraries>true</UseDebugLibraries>
+    <PlatformToolset>v120</PlatformToolset>
+    <CharacterSet>Unicode</CharacterSet>
+    <UseOfMfc>false</UseOfMfc>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'" Label="Configuration">
+    <ConfigurationType>Application</ConfigurationType>
+    <UseDebugLibraries>false</UseDebugLibraries>
+    <PlatformToolset>v120</PlatformToolset>
+    <WholeProgramOptimization>true</WholeProgramOptimization>
+    <CharacterSet>Unicode</CharacterSet>
+    <UseOfMfc>false</UseOfMfc>
+  </PropertyGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.props" />
+  <ImportGroup Label="ExtensionSettings">
+  </ImportGroup>
+  <ImportGroup Label="PropertySheets" Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+  </ImportGroup>
+  <ImportGroup Label="PropertySheets" Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+  </ImportGroup>
+  <PropertyGroup Label="UserMacros" />
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
+    <OutDir>C:\C++\Output\Executable\KGM\$(Configuration)\</OutDir>
+    <IntDir>C:\C++\Output\Intermediate\KGM\$(Configuration)\</IntDir>
+    <IncludePath>C:\C++\Code\KGM;C:\C++\Code\KGM\File Format;C:\C++\Code\Ultra Core;C:\C++\Code\Core;C:\C++\Code\Utility;C:\C++\Code\General;C:\C++\Code\General\File Format;C:\C++\Code\Rockstar Games;C:\C++\Code\Rockstar Games\File Format;C:\C++\Code\Rockstar Games\File Format\Base;C:\C++\Code\Rockstar Games\File Format\Custom;C:\C++\Code\Rockstar Games\File Format\Intermediate;C:\C++\Code\Rockstar Games\File Format\Normal;C:\C++\Code\Rockstar Games\File Format\Raw;C:\C++\Code\Third Party\HappyHTTP;C:\C++\Code\Third Party\GLEW;C:\C++\Code\Third Party\Freetype\include;C:\C++\Code\Third Party\GLFW;C:\C++\Code\Third Party\freetype-gl;C:\C++\Code\Third Party;C:\C++\Code\Third Party\Bitmap;C:\C++\Code\Ultra Core\Vector\Layer 3;C:\C++\Code\Ultra Core\Vector\Layer 4;$(IncludePath)</IncludePath>
+    <LibraryPath>C:\C++\Output\Library\Ultra Core\$(Configuration)\;C:\C++\Output\Library\Core\$(Configuration)\;C:\C++\Output\Library\Utility\$(Configuration)\;C:\C++\Output\Library\General\$(Configuration)\;C:\C++\Output\Library\Rockstar Games\$(Configuration)\;C:\C++\Output\Library\Third Party\Compiled\$(Configuration)\;$(LibraryPath)</LibraryPath>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
+    <OutDir>C:\C++\Output\Executable\KGM\$(Configuration)\</OutDir>
+    <IntDir>C:\C++\Output\Intermediate\KGM\$(Configuration)\</IntDir>
+    <IncludePath>C:\C++\Code\KGM;C:\C++\Code\KGM\File Format;C:\C++\Code\Ultra Core;C:\C++\Code\Core;C:\C++\Code\Utility;C:\C++\Code\General;C:\C++\Code\General\File Format;C:\C++\Code\Rockstar Games;C:\C++\Code\Rockstar Games\File Format;C:\C++\Code\Rockstar Games\File Format\Base;C:\C++\Code\Rockstar Games\File Format\Custom;C:\C++\Code\Rockstar Games\File Format\Intermediate;C:\C++\Code\Rockstar Games\File Format\Normal;C:\C++\Code\Rockstar Games\File Format\Raw;C:\C++\Code\Third Party\HappyHTTP;C:\C++\Code\Third Party\GLEW;C:\C++\Code\Third Party\Freetype\include;C:\C++\Code\Third Party\GLFW;C:\C++\Code\Third Party\freetype-gl;C:\C++\Code\Third Party;C:\C++\Code\Third Party\Bitmap;C:\C++\Code\Ultra Core\Vector\Layer 3;C:\C++\Code\Ultra Core\Vector\Layer 4;$(IncludePath)</IncludePath>
+    <LibraryPath>C:\C++\Output\Library\Ultra Core\$(Configuration)\;C:\C++\Output\Library\Core\$(Configuration)\;C:\C++\Output\Library\Utility\$(Configuration)\;C:\C++\Output\Library\General\$(Configuration)\;C:\C++\Output\Library\Rockstar Games\$(Configuration)\;C:\C++\Output\Library\Third Party\Compiled\$(Configuration)\;$(LibraryPath)</LibraryPath>
+  </PropertyGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
+    <ClCompile>
+      <WarningLevel>Level3</WarningLevel>
+      <Optimization>Disabled</Optimization>
+      <SDLCheck>true</SDLCheck>
+      <RuntimeLibrary>MultiThreadedDebugDLL</RuntimeLibrary>
+      <PreprocessorDefinitions>_AFXDLL;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <ShowIncludes>false</ShowIncludes>
+    </ClCompile>
+    <Link>
+      <GenerateDebugInformation>true</GenerateDebugInformation>
+      <AdditionalDependencies>Ultra Core.lib;Core.lib;Utility.lib;General.lib;Rockstar Games.lib;HappyHTTP.lib;GLEW.lib;GLFW.lib;freetype-gl.lib;glm.lib;Bitmap.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <IgnoreSpecificDefaultLibraries>
+      </IgnoreSpecificDefaultLibraries>
+    </Link>
+    <PreBuildEvent>
+      <Command>"C:\C++\Visual Studio\Events\BuildNumber.exe"</Command>
+    </PreBuildEvent>
+    <PreBuildEvent>
+      <Message>Build Number</Message>
+    </PreBuildEvent>
+  </ItemDefinitionGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
+    <ClCompile>
+      <WarningLevel>Level3</WarningLevel>
+      <Optimization>MaxSpeed</Optimization>
+      <FunctionLevelLinking>true</FunctionLevelLinking>
+      <IntrinsicFunctions>true</IntrinsicFunctions>
+      <SDLCheck>true</SDLCheck>
+      <ShowIncludes>false</ShowIncludes>
+      <RuntimeLibrary>MultiThreaded</RuntimeLibrary>
+    </ClCompile>
+    <Link>
+      <GenerateDebugInformation>true</GenerateDebugInformation>
+      <EnableCOMDATFolding>true</EnableCOMDATFolding>
+      <OptimizeReferences>true</OptimizeReferences>
+      <AdditionalDependencies>Ultra Core.lib;Core.lib;Utility.lib;General.lib;Rockstar Games.lib;HappyHTTP.lib;GLEW.lib;GLFW.lib;freetype-gl.lib;glm.lib;Bitmap.lib;Uafxcw.lib;Libcmt.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <IgnoreSpecificDefaultLibraries>Uafxcw.lib;Libcmt.lib;%(IgnoreSpecificDefaultLibraries)</IgnoreSpecificDefaultLibraries>
+    </Link>
+    <PreBuildEvent>
+      <Command>"C:\C++\Visual Studio\Events\BuildNumber.exe"</Command>
+    </PreBuildEvent>
+    <PreBuildEvent>
+      <Message>Build Number</Message>
+    </PreBuildEvent>
+  </ItemDefinitionGroup>
+  <ItemGroup>
+    <ClCompile Include="..\..\..\Code\KGM\CDumpManager.cpp" />
+    <ClCompile Include="..\..\..\Code\KGM\CGUIManager.cpp" />
+    <ClCompile Include="..\..\..\Code\KGM\CHTTPManager.cpp" />
+    <ClCompile Include="..\..\..\Code\KGM\CInstallationMeta.cpp" />
+    <ClCompile Include="..\..\..\Code\KGM\CKGM.cpp" />
+    <ClCompile Include="..\..\..\Code\KGM\CLastUsedValueManager.cpp" />
+    <ClCompile Include="..\..\..\Code\KGM\CLSTProcessingManager.cpp" />
+    <ClCompile Include="..\..\..\Code\KGM\CSettingsManager.cpp" />
+    <ClCompile Include="..\..\..\Code\KGM\CSocketUtility.cpp" />
+    <ClCompile Include="..\..\..\Code\KGM\Drag Drop\CDragListCtrl.cpp" />
+    <ClCompile Include="..\..\..\Code\KGM\Drag Drop\CDropSource.cpp" />
+    <ClCompile Include="..\..\..\Code\KGM\Drag Drop\CDropTarget.cpp" />
+    <ClCompile Include="..\..\..\Code\KGM\Entry Viewer\CCollisionViewer.cpp" />
+    <ClCompile Include="..\..\..\Code\KGM\Entry Viewer\CEntryViewer.cpp" />
+    <ClCompile Include="..\..\..\Code\KGM\Entry Viewer\CEntryViewerManager.cpp" />
+    <ClCompile Include="..\..\..\Code\KGM\Entry Viewer\CTextureViewer.cpp" />
+    <ClCompile Include="..\..\..\Code\KGM\File Format\DB\CDBEntry.cpp" />
+    <ClCompile Include="..\..\..\Code\KGM\File Format\DB\CDBFormat.cpp" />
+    <ClCompile Include="..\..\..\Code\KGM\File Format\DB\CDBManager.cpp" />
+    <ClCompile Include="..\..\..\Code\KGM\File Format\LST\CLSTEntry.cpp" />
+    <ClCompile Include="..\..\..\Code\KGM\File Format\LST\CLSTFormat.cpp" />
+    <ClCompile Include="..\..\..\Code\KGM\File Format\LST\CLSTSection.cpp" />
+    <ClCompile Include="..\..\..\Code\KGM\File Format\LST\CLSTManager.cpp" />
+    <ClCompile Include="..\..\..\Code\KGM\Globals.cpp" />
+    <ClCompile Include="..\..\..\Code\KGM\Language\CLanguageManager.cpp" />
+    <ClCompile Include="..\..\..\Code\KGM\Main.cpp" />
+    <ClCompile Include="..\..\..\Code\KGM\Task\CTaskDispatchManager.cpp" />
+    <ClCompile Include="..\..\..\Code\KGM\Task\CTaskManager.cpp" />
+    <ClCompile Include="..\..\..\Code\KGM\Window\CTabbedWindow.cpp" />
+    <ClCompile Include="..\..\..\Code\KGM\Window\CWindow.cpp" />
+    <ClCompile Include="..\..\..\Code\KGM\Window\CWindowManager.cpp" />
+    <ClCompile Include="..\..\..\Code\KGM\Window\CWindowTab.cpp" />
+    <ClCompile Include="..\..\..\Code\KGM\Window\Main Window\CMainWindow.cpp" />
+    <ClCompile Include="..\..\..\Code\KGM\Window\Window Controls\Controls\CWindowControl_Button.cpp" />
+    <ClCompile Include="..\..\..\Code\KGM\Window\Window Controls\Controls\CWindowControl_Check.cpp" />
+    <ClCompile Include="..\..\..\Code\KGM\Window\Window Controls\Controls\CWindowControl_Drop.cpp" />
+    <ClCompile Include="..\..\..\Code\KGM\Window\Window Controls\Controls\CWindowControl_Edit.cpp" />
+    <ClCompile Include="..\..\..\Code\KGM\Window\Window Controls\Controls\CWindowControl_List.cpp" />
+    <ClCompile Include="..\..\..\Code\KGM\Window\Window Controls\Controls\CWindowControl_Menu.cpp" />
+    <ClCompile Include="..\..\..\Code\KGM\Window\Window Controls\Controls\CWindowControl_Progress.cpp" />
+    <ClCompile Include="..\..\..\Code\KGM\Window\Window Controls\Controls\CWindowControl_Radio.cpp" />
+    <ClCompile Include="..\..\..\Code\KGM\Window\Window Controls\Controls\CWindowControl_Scroll.cpp" />
+    <ClCompile Include="..\..\..\Code\KGM\Window\Window Controls\Controls\CWindowControl_Text.cpp" />
+    <ClCompile Include="..\..\..\Code\KGM\Window\Window Controls\CWindowControl.cpp" />
+    <ClCompile Include="..\..\..\Code\KGM\Window\Window Types\CEntryListWindow.cpp" />
+    <ClCompile Include="..\..\..\Code\KGM\Window\Window Types\Tabs\CEntryListWindowTab.cpp" />
+    <ClCompile Include="..\..\..\Code\KGM\Recently Open\CRecentlyOpenEntry.cpp" />
+    <ClCompile Include="..\..\..\Code\KGM\Recently Open\CRecentlyOpenManager.cpp" />
+    <ClCompile Include="..\..\..\Code\KGM\Session\CSession.cpp" />
+    <ClCompile Include="..\..\..\Code\KGM\Session\CSessionManager.cpp" />
+    <ClCompile Include="..\..\..\Code\KGM\Sort\CSortManager.cpp" />
+    <ClCompile Include="..\..\..\Code\KGM\Sort\CSortType.cpp" />
+    <ClCompile Include="..\..\..\Code\KGM\Update\CUpdateConnectionManager.cpp" />
+    <ClCompile Include="..\..\..\Code\KGM\Update\CUpdateManager.cpp" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="..\..\..\Code\KGM\buildnumber.h" />
+    <ClInclude Include="..\..\..\Code\KGM\CBuildMeta.h" />
+    <ClInclude Include="..\..\..\Code\KGM\CDumpManager.h" />
+    <ClInclude Include="..\..\..\Code\KGM\CFilterOptions.h" />
+    <ClInclude Include="..\..\..\Code\KGM\CGUIManager.h" />
+    <ClInclude Include="..\..\..\Code\KGM\CHTTPManager.h" />
+    <ClInclude Include="..\..\..\Code\KGM\CInstallationMeta.h" />
+    <ClInclude Include="..\..\..\Code\KGM\CKGM.h" />
+    <ClInclude Include="..\..\..\Code\KGM\CLastUsedValueManager.h" />
+    <ClInclude Include="..\..\..\Code\KGM\CLSTProcessingManager.h" />
+    <ClInclude Include="..\..\..\Code\KGM\CRenamedIMGEntry.h" />
+    <ClInclude Include="..\..\..\Code\KGM\CSearchEntry.h" />
+    <ClInclude Include="..\..\..\Code\KGM\CSettingsManager.h" />
+    <ClInclude Include="..\..\..\Code\KGM\CSocketUtility.h" />
+    <ClInclude Include="..\..\..\Code\KGM\Drag Drop\CDragListCtrl.h" />
+    <ClInclude Include="..\..\..\Code\KGM\Drag Drop\CDropSource.h" />
+    <ClInclude Include="..\..\..\Code\KGM\Drag Drop\CDropTarget.h" />
+    <ClInclude Include="..\..\..\Code\KGM\Entry Viewer\CCollisionViewer.h" />
+    <ClInclude Include="..\..\..\Code\KGM\Entry Viewer\CEntryViewer.h" />
+    <ClInclude Include="..\..\..\Code\KGM\Entry Viewer\CEntryViewerManager.h" />
+    <ClInclude Include="..\..\..\Code\KGM\Entry Viewer\CTextureViewer.h" />
+    <ClInclude Include="..\..\..\Code\KGM\Entry Viewer\CTextureViewerTextureData.h" />
+    <ClInclude Include="..\..\..\Code\KGM\Entry Viewer\eEntryViewerDisplayType.h" />
+    <ClInclude Include="..\..\..\Code\KGM\File Format\DB\CDBEntry.h" />
+    <ClInclude Include="..\..\..\Code\KGM\File Format\DB\CDBFormat.h" />
+    <ClInclude Include="..\..\..\Code\KGM\File Format\DB\CDBManager.h" />
+    <ClInclude Include="..\..\..\Code\KGM\File Format\LST\CLSTEntry.h" />
+    <ClInclude Include="..\..\..\Code\KGM\File Format\LST\CLSTFormat.h" />
+    <ClInclude Include="..\..\..\Code\KGM\File Format\LST\CLSTSection.h" />
+    <ClInclude Include="..\..\..\Code\KGM\File Format\LST\CLSTManager.h" />
+    <ClInclude Include="..\..\..\Code\KGM\Globals.h" />
+    <ClInclude Include="..\..\..\Code\KGM\Language\CLanguage.h" />
+    <ClInclude Include="..\..\..\Code\KGM\Language\CLanguageManager.h" />
+    <ClInclude Include="..\..\..\Code\KGM\Task\CTaskDispatchManager.h" />
+    <ClInclude Include="..\..\..\Code\KGM\Task\CTaskManager.h" />
+    <ClInclude Include="..\..\..\Code\KGM\WindowControlIds.h" />
+    <ClInclude Include="..\..\..\Code\KGM\Window\CTabbedWindow.h" />
+    <ClInclude Include="..\..\..\Code\KGM\Window\CWindow.h" />
+    <ClInclude Include="..\..\..\Code\KGM\Window\CWindowManager.h" />
+    <ClInclude Include="..\..\..\Code\KGM\Window\CWindowTab.h" />
+    <ClInclude Include="..\..\..\Code\KGM\Window\Main Window\CMainWindow.h" />
+    <ClInclude Include="..\..\..\Code\KGM\Window\Window Controls\Components\CWindowControlComponent_Rectangle.h" />
+    <ClInclude Include="..\..\..\Code\KGM\Window\Window Controls\Components\CWindowControlComponent_Text.h" />
+    <ClInclude Include="..\..\..\Code\KGM\Window\Window Controls\Components\eWindowControlOrientation.h" />
+    <ClInclude Include="..\..\..\Code\KGM\Window\Window Controls\Controls\CWindowControl_Button.h" />
+    <ClInclude Include="..\..\..\Code\KGM\Window\Window Controls\Controls\CWindowControl_Check.h" />
+    <ClInclude Include="..\..\..\Code\KGM\Window\Window Controls\Controls\CWindowControl_Drop.h" />
+    <ClInclude Include="..\..\..\Code\KGM\Window\Window Controls\Controls\CWindowControl_Edit.h" />
+    <ClInclude Include="..\..\..\Code\KGM\Window\Window Controls\Controls\CWindowControl_List.h" />
+    <ClInclude Include="..\..\..\Code\KGM\Window\Window Controls\Controls\CWindowControl_Menu.h" />
+    <ClInclude Include="..\..\..\Code\KGM\Window\Window Controls\Controls\CWindowControl_Progress.h" />
+    <ClInclude Include="..\..\..\Code\KGM\Window\Window Controls\Controls\CWindowControl_Radio.h" />
+    <ClInclude Include="..\..\..\Code\KGM\Window\Window Controls\Controls\CWindowControl_Scroll.h" />
+    <ClInclude Include="..\..\..\Code\KGM\Window\Window Controls\Controls\CWindowControl_Text.h" />
+    <ClInclude Include="..\..\..\Code\KGM\Window\Window Controls\CWindowControl.h" />
+    <ClInclude Include="..\..\..\Code\KGM\Window\Window Controls\CWindowScrollPool.h" />
+    <ClInclude Include="..\..\..\Code\KGM\Window\Window Controls\Entries\CWindowControlEntry_Drop.h" />
+    <ClInclude Include="..\..\..\Code\KGM\Window\Window Controls\Entries\CWindowControlEntry_List.h" />
+    <ClInclude Include="..\..\..\Code\KGM\Window\Window Controls\Entries\CWindowControlEntry_Menu.h" />
+    <ClInclude Include="..\..\..\Code\KGM\Window\Window Controls\eWindowControlType.h" />
+    <ClInclude Include="..\..\..\Code\KGM\Window\Window Types\CButtonsWindow.h" />
+    <ClInclude Include="..\..\..\Code\KGM\Window\Window Types\CEntryEditorWindow.h" />
+    <ClInclude Include="..\..\..\Code\KGM\Window\Window Types\CEntryListWindow.h" />
+    <ClInclude Include="..\..\..\Code\KGM\Window\Window Types\Tabs\CEntryListWindowTab.h" />
+    <ClInclude Include="..\..\..\Code\KGM\Recently Open\CRecentlyOpenEntry.h" />
+    <ClInclude Include="..\..\..\Code\KGM\Recently Open\CRecentlyOpenManager.h" />
+    <ClInclude Include="..\..\..\Code\KGM\Session\CSession.h" />
+    <ClInclude Include="..\..\..\Code\KGM\Session\CSessionManager.h" />
+    <ClInclude Include="..\..\..\Code\KGM\Sort\CSortManager.h" />
+    <ClInclude Include="..\..\..\Code\KGM\Sort\CSortMenuItem.h" />
+    <ClInclude Include="..\..\..\Code\KGM\Sort\CSortMenuItems.h" />
+    <ClInclude Include="..\..\..\Code\KGM\Sort\CSortPriorities.h" />
+    <ClInclude Include="..\..\..\Code\KGM\Sort\CSortPriority.h" />
+    <ClInclude Include="..\..\..\Code\KGM\Sort\CSortType.h" />
+    <ClInclude Include="..\..\..\Code\KGM\Sort\CSortTypes.h" />
+    <ClInclude Include="..\..\..\Code\KGM\Sort\eSortType.h" />
+    <ClInclude Include="..\..\..\Code\KGM\Update\CUpdateConnection.h" />
+    <ClInclude Include="..\..\..\Code\KGM\Update\CUpdateConnectionManager.h" />
+    <ClInclude Include="..\..\..\Code\KGM\Update\CUpdateManager.h" />
+  </ItemGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
+  <ImportGroup Label="ExtensionTargets">
+  </ImportGroup>
+</Project>

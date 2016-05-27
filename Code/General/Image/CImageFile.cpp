@@ -1,0 +1,2 @@
+#include "CImageFile.h"
+

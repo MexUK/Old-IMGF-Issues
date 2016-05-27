@@ -1,0 +1,165 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <Filter Include="Source Files">
+      <UniqueIdentifier>{4FC737F1-C7A5-4376-A066-2A32D752A2FF}</UniqueIdentifier>
+      <Extensions>cpp;c;cc;cxx;def;odl;idl;hpj;bat;asm;asmx</Extensions>
+    </Filter>
+    <Filter Include="Header Files">
+      <UniqueIdentifier>{93995380-89BD-4b04-88EB-625FBE52EBFB}</UniqueIdentifier>
+      <Extensions>h;hh;hpp;hxx;hm;inl;inc;xsd</Extensions>
+    </Filter>
+    <Filter Include="Resource Files">
+      <UniqueIdentifier>{67DA6AB6-F800-4c08-8B7A-83BB121AAD01}</UniqueIdentifier>
+      <Extensions>rc;ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe;resx;tiff;tif;png;wav;mfcribbon-ms</Extensions>
+    </Filter>
+    <Filter Include="Header Files\Game">
+      <UniqueIdentifier>{bf5bf06c-19f0-4cac-96af-ab9a8446bf31}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\Platform">
+      <UniqueIdentifier>{1ca0a787-6f55-439d-b64b-a2c0671332f1}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\Image">
+      <UniqueIdentifier>{8e03604b-f306-4176-8c8a-d29724b79418}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\Game">
+      <UniqueIdentifier>{91e43c69-c7b4-43e7-9857-21ec1c294cca}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\Platform">
+      <UniqueIdentifier>{4f3955e1-2e7c-4af4-abb6-934a492c9a75}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\Image">
+      <UniqueIdentifier>{4e1bef2e-f5d7-40e4-8842-59be5d8059cd}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\File Format">
+      <UniqueIdentifier>{6d37c502-5206-4fe1-8684-355566587a8a}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\File Format\DDS">
+      <UniqueIdentifier>{55a48f68-0272-4733-a9cf-82efd3b22d78}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\File Format\BMP">
+      <UniqueIdentifier>{7b1b2078-479e-4ef7-84df-c2a565f3ff13}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\File Format">
+      <UniqueIdentifier>{58e4c9cb-058c-4ffa-b6dd-876a7a897be7}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\File Format\BMP">
+      <UniqueIdentifier>{a1315844-cc9e-44f9-b998-c9a4a26d8d20}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\File Format\DDS">
+      <UniqueIdentifier>{48cf9cf3-635c-444f-af94-6a36681e2f4a}</UniqueIdentifier>
+    </Filter>
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="..\..\..\Code\General\Image\CRasterDataFormatManager.cpp">
+      <Filter>Source Files\Image</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\Code\General\Image\CImageFile.cpp">
+      <Filter>Source Files\Image</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\Code\General\Image\CImageManager.cpp">
+      <Filter>Source Files\Image</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\Code\General\Image\CRasterDataFormat.cpp">
+      <Filter>Source Files\Image</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\Code\General\Platform\CPlatformManager.cpp">
+      <Filter>Source Files\Platform</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\Code\General\Game\CGameManager.cpp">
+      <Filter>Source Files\Game</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\Code\General\File Format\BMP\CBMPManager.cpp">
+      <Filter>Source Files\File Format\BMP</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\Code\General\File Format\DDS\CDDSFormat.cpp">
+      <Filter>Source Files\File Format\DDS</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\Code\General\File Format\BMP\CBMPFormat.cpp">
+      <Filter>Source Files\File Format\BMP</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\Code\General\File Format\DDS\CDDSManager.cpp">
+      <Filter>Source Files\File Format\DDS</Filter>
+    </ClCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="..\..\..\Code\General\Image\CImageFile.h">
+      <Filter>Header Files\Image</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\Code\General\Image\CImageManager.h">
+      <Filter>Header Files\Image</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\Code\General\Image\CRasterDataFormat.h">
+      <Filter>Header Files\Image</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\Code\General\Image\CRasterDataFormatManager.h">
+      <Filter>Header Files\Image</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\Code\General\eFileStatus.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\Code\General\Platform\CPlatform.h">
+      <Filter>Header Files\Platform</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\Code\General\Platform\CPlatformManager.h">
+      <Filter>Header Files\Platform</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\Code\General\Platform\ePlatform.h">
+      <Filter>Header Files\Platform</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\Code\General\Game\CGame.h">
+      <Filter>Header Files\Game</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\Code\General\Game\CGameManager.h">
+      <Filter>Header Files\Game</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\Code\General\Game\eGame.h">
+      <Filter>Header Files\Game</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\Code\General\Game\ePlatformedGame.h">
+      <Filter>Header Files\Game</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\Code\General\File Format\BMP\CBMPManager.h">
+      <Filter>Header Files\File Format\BMP</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\Code\General\File Format\DDS\CDDSFormat.h">
+      <Filter>Header Files\File Format\DDS</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\Code\General\File Format\BMP\CBMPFormat.h">
+      <Filter>Header Files\File Format\BMP</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\Code\General\File Format\BMP\CBMPFormat_Header1.h">
+      <Filter>Header Files\File Format\BMP</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\Code\General\File Format\DDS\CDDSFormat_Header_DDS_HEADER_DXT10.h">
+      <Filter>Header Files\File Format\DDS</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\Code\General\File Format\DDS\CDDSFormat_Header_DDS_HEADER.h">
+      <Filter>Header Files\File Format\DDS</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\Code\General\File Format\DDS\CDDSFormat_Header_DDS_PIXELFORMAT_Part1.h">
+      <Filter>Header Files\File Format\DDS</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\Code\General\File Format\DDS\CDDSFormat_Header_DDS_PIXELFORMAT_Part2.h">
+      <Filter>Header Files\File Format\DDS</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\Code\General\Game\eGameFlag.h">
+      <Filter>Header Files\Game</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\Code\General\File Format\BMP\CBMPFormat_Header2_Version2.h">
+      <Filter>Header Files\File Format\BMP</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\Code\General\File Format\BMP\CBMPFormat_Header2_Version3.h">
+      <Filter>Header Files\File Format\BMP</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\Code\General\File Format\BMP\CBMPFormat_Header2_Version4.h">
+      <Filter>Header Files\File Format\BMP</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\Code\General\File Format\DDS\CDDSManager.h">
+      <Filter>Header Files\File Format\DDS</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\Code\General\eCompressionAlgorithm.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+  </ItemGroup>
+</Project>

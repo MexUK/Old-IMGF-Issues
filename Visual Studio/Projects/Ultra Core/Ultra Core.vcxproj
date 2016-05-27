@@ -1,0 +1,127 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project DefaultTargets="Build" ToolsVersion="12.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup Label="ProjectConfigurations">
+    <ProjectConfiguration Include="Debug|Win32">
+      <Configuration>Debug</Configuration>
+      <Platform>Win32</Platform>
+    </ProjectConfiguration>
+    <ProjectConfiguration Include="Release|Win32">
+      <Configuration>Release</Configuration>
+      <Platform>Win32</Platform>
+    </ProjectConfiguration>
+  </ItemGroup>
+  <PropertyGroup Label="Globals">
+    <ProjectGuid>{B550EEFF-E81C-4BAF-81B5-8A50A9E452BE}</ProjectGuid>
+    <RootNamespace>UltraCore</RootNamespace>
+  </PropertyGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" Label="Configuration">
+    <ConfigurationType>StaticLibrary</ConfigurationType>
+    <UseDebugLibraries>true</UseDebugLibraries>
+    <PlatformToolset>v120</PlatformToolset>
+    <CharacterSet>MultiByte</CharacterSet>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'" Label="Configuration">
+    <ConfigurationType>StaticLibrary</ConfigurationType>
+    <UseDebugLibraries>false</UseDebugLibraries>
+    <PlatformToolset>v120</PlatformToolset>
+    <WholeProgramOptimization>true</WholeProgramOptimization>
+    <CharacterSet>MultiByte</CharacterSet>
+  </PropertyGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.props" />
+  <ImportGroup Label="ExtensionSettings">
+  </ImportGroup>
+  <ImportGroup Label="PropertySheets" Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+  </ImportGroup>
+  <ImportGroup Label="PropertySheets" Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+  </ImportGroup>
+  <PropertyGroup Label="UserMacros" />
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
+    <OutDir>C:\C++\Output\Library\Ultra Core\$(Configuration)\</OutDir>
+    <IntDir>C:\C++\Output\Intermediate\Ultra Core\$(Configuration)\</IntDir>
+    <IncludePath>C:\C++\Code\Ultra Core;C:\C++\Code\Ultra Core\Vector\Layer 3;C:\C++\Code\Ultra Core\Vector\Layer 4;$(IncludePath)</IncludePath>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
+    <OutDir>C:\C++\Output\Library\Ultra Core\$(Configuration)\</OutDir>
+    <IntDir>C:\C++\Output\Intermediate\Ultra Core\$(Configuration)\</IntDir>
+    <IncludePath>C:\C++\Code\Ultra Core;C:\C++\Code\Ultra Core\Vector\Layer 3;C:\C++\Code\Ultra Core\Vector\Layer 4;$(IncludePath)</IncludePath>
+  </PropertyGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
+    <ClCompile>
+      <WarningLevel>Level3</WarningLevel>
+      <Optimization>Disabled</Optimization>
+      <SDLCheck>true</SDLCheck>
+    </ClCompile>
+    <Link>
+      <GenerateDebugInformation>true</GenerateDebugInformation>
+    </Link>
+  </ItemDefinitionGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
+    <ClCompile>
+      <WarningLevel>Level3</WarningLevel>
+      <Optimization>MaxSpeed</Optimization>
+      <FunctionLevelLinking>true</FunctionLevelLinking>
+      <IntrinsicFunctions>true</IntrinsicFunctions>
+      <SDLCheck>true</SDLCheck>
+      <RuntimeLibrary>MultiThreaded</RuntimeLibrary>
+    </ClCompile>
+    <Link>
+      <GenerateDebugInformation>true</GenerateDebugInformation>
+      <EnableCOMDATFolding>true</EnableCOMDATFolding>
+      <OptimizeReferences>true</OptimizeReferences>
+    </Link>
+  </ItemDefinitionGroup>
+  <ItemGroup>
+    <ClInclude Include="..\..\..\Code\Ultra Core\Types.h" />
+    <ClInclude Include="..\..\..\Code\Ultra Core\Vector\Layer 1\CVector.h" />
+    <ClInclude Include="..\..\..\Code\Ultra Core\Vector\Layer 2\CVector2.h" />
+    <ClInclude Include="..\..\..\Code\Ultra Core\Vector\Layer 2\CVector3.h" />
+    <ClInclude Include="..\..\..\Code\Ultra Core\Vector\Layer 2\CVector4.h" />
+    <ClInclude Include="..\..\..\Code\Ultra Core\Vector\Layer 3\CVector2f32.h" />
+    <ClInclude Include="..\..\..\Code\Ultra Core\Vector\Layer 3\CVector2f64.h" />
+    <ClInclude Include="..\..\..\Code\Ultra Core\Vector\Layer 3\CVector2f80.h" />
+    <ClInclude Include="..\..\..\Code\Ultra Core\Vector\Layer 3\CVector2i16.h" />
+    <ClInclude Include="..\..\..\Code\Ultra Core\Vector\Layer 3\CVector2i32.h" />
+    <ClInclude Include="..\..\..\Code\Ultra Core\Vector\Layer 3\CVector2i64.h" />
+    <ClInclude Include="..\..\..\Code\Ultra Core\Vector\Layer 3\CVector2i8.h" />
+    <ClInclude Include="..\..\..\Code\Ultra Core\Vector\Layer 3\CVector2ui16.h" />
+    <ClInclude Include="..\..\..\Code\Ultra Core\Vector\Layer 3\CVector2ui32.h" />
+    <ClInclude Include="..\..\..\Code\Ultra Core\Vector\Layer 3\CVector2ui64.h" />
+    <ClInclude Include="..\..\..\Code\Ultra Core\Vector\Layer 3\CVector2ui8.h" />
+    <ClInclude Include="..\..\..\Code\Ultra Core\Vector\Layer 3\CVector3f32.h" />
+    <ClInclude Include="..\..\..\Code\Ultra Core\Vector\Layer 3\CVector3f64.h" />
+    <ClInclude Include="..\..\..\Code\Ultra Core\Vector\Layer 3\CVector3f80.h" />
+    <ClInclude Include="..\..\..\Code\Ultra Core\Vector\Layer 3\CVector3i16.h" />
+    <ClInclude Include="..\..\..\Code\Ultra Core\Vector\Layer 3\CVector3i32.h" />
+    <ClInclude Include="..\..\..\Code\Ultra Core\Vector\Layer 3\CVector3i64.h" />
+    <ClInclude Include="..\..\..\Code\Ultra Core\Vector\Layer 3\CVector3i8.h" />
+    <ClInclude Include="..\..\..\Code\Ultra Core\Vector\Layer 3\CVector3ui16.h" />
+    <ClInclude Include="..\..\..\Code\Ultra Core\Vector\Layer 3\CVector3ui32.h" />
+    <ClInclude Include="..\..\..\Code\Ultra Core\Vector\Layer 3\CVector3ui64.h" />
+    <ClInclude Include="..\..\..\Code\Ultra Core\Vector\Layer 3\CVector3ui8.h" />
+    <ClInclude Include="..\..\..\Code\Ultra Core\Vector\Layer 3\CVector4f32.h" />
+    <ClInclude Include="..\..\..\Code\Ultra Core\Vector\Layer 3\CVector4f64.h" />
+    <ClInclude Include="..\..\..\Code\Ultra Core\Vector\Layer 3\CVector4f80.h" />
+    <ClInclude Include="..\..\..\Code\Ultra Core\Vector\Layer 3\CVector4i16.h" />
+    <ClInclude Include="..\..\..\Code\Ultra Core\Vector\Layer 3\CVector4i32.h" />
+    <ClInclude Include="..\..\..\Code\Ultra Core\Vector\Layer 3\CVector4i64.h" />
+    <ClInclude Include="..\..\..\Code\Ultra Core\Vector\Layer 3\CVector4i8.h" />
+    <ClInclude Include="..\..\..\Code\Ultra Core\Vector\Layer 3\CVector4ui16.h" />
+    <ClInclude Include="..\..\..\Code\Ultra Core\Vector\Layer 3\CVector4ui32.h" />
+    <ClInclude Include="..\..\..\Code\Ultra Core\Vector\Layer 3\CVector4ui64.h" />
+    <ClInclude Include="..\..\..\Code\Ultra Core\Vector\Layer 3\CVector4ui8.h" />
+    <ClInclude Include="..\..\..\Code\Ultra Core\Vector\Layer 4\CVector2D.h" />
+    <ClInclude Include="..\..\..\Code\Ultra Core\Vector\Layer 4\CVector3D.h" />
+    <ClInclude Include="..\..\..\Code\Ultra Core\Vector\Layer 4\CVector4D.h" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="..\..\..\Code\Ultra Core\Vector\Layer 4\CVector2D.cpp" />
+    <ClCompile Include="..\..\..\Code\Ultra Core\Vector\Layer 4\CVector3D.cpp" />
+    <ClCompile Include="..\..\..\Code\Ultra Core\Vector\Layer 4\CVector4D.cpp" />
+  </ItemGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
+  <ImportGroup Label="ExtensionTargets">
+  </ImportGroup>
+</Project>

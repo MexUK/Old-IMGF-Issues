@@ -1,0 +1,25 @@
+#ifndef CDropSource_H
+#define CDropSource_H
+
+#include <afxole.h>
+#include <string>
+#include <vector>
+
+struct CDraggableFile;
+
+class CDropSource : protected COleDataSource
+{
+public:
+	void							StartDragging(void);
+	void							setDraggableFiles(std::vector<CDraggableFile*> vecDraggableFiles) { m_vecDraggableFiles = vecDraggableFiles; }
+	void							clearDraggableFiles(void);
+
+protected:
+	virtual void					CompleteMove() {};
+	virtual BOOL					OnRenderFileData(LPFORMATETC lpFormatEtc, CFile* pFile);
+
+private:
+	std::vector<CDraggableFile*>	m_vecDraggableFiles;
+};
+
+#endif

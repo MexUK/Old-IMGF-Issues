@@ -1,0 +1,1248 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <Filter Include="Source Files">
+      <UniqueIdentifier>{4FC737F1-C7A5-4376-A066-2A32D752A2FF}</UniqueIdentifier>
+      <Extensions>cpp;c;cc;cxx;def;odl;idl;hpj;bat;asm;asmx</Extensions>
+    </Filter>
+    <Filter Include="Header Files">
+      <UniqueIdentifier>{93995380-89BD-4b04-88EB-625FBE52EBFB}</UniqueIdentifier>
+      <Extensions>h;hh;hpp;hxx;hm;inl;inc;xsd</Extensions>
+    </Filter>
+    <Filter Include="Resource Files">
+      <UniqueIdentifier>{67DA6AB6-F800-4c08-8B7A-83BB121AAD01}</UniqueIdentifier>
+      <Extensions>rc;ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe;resx;tiff;tif;png;wav;mfcribbon-ms</Extensions>
+    </Filter>
+    <Filter Include="Header Files\Engine">
+      <UniqueIdentifier>{b2f00699-65f2-4342-8f8d-86d8c14bac56}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\Engine">
+      <UniqueIdentifier>{9e32412a-3cd4-4c72-b8d8-6ab6f60e3d4c}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\Engine\RAGE">
+      <UniqueIdentifier>{bb77acfd-3b69-47c7-abd3-22a3b481614d}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\Engine\RW">
+      <UniqueIdentifier>{e35e517d-b8c6-4ca8-8758-bc1af7d5ecbb}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\Engine\RW">
+      <UniqueIdentifier>{bfd1709a-3a21-4b26-982f-20d66a49f157}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\Engine\RAGE">
+      <UniqueIdentifier>{099111c1-a981-47f7-b8d5-9d0366922406}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\File Format">
+      <UniqueIdentifier>{48d04e96-26a9-4caf-8a18-053571ed4edf}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\File Format">
+      <UniqueIdentifier>{9e41ec90-3388-414a-b1e2-0a2978409a60}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\File Format\Base">
+      <UniqueIdentifier>{57a7b462-c5ed-4fdc-b879-8e99ae1c2a40}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\File Format\Normal">
+      <UniqueIdentifier>{7616f3cc-f3cc-448b-9e2a-d9466babe1a6}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\File Format\Normal\WTD">
+      <UniqueIdentifier>{62d85f68-1588-4ff2-82db-32ec9ef99b00}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\File Format\Normal\WDR">
+      <UniqueIdentifier>{646d8749-8f87-4be4-a17d-72063d333dd0}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\File Format\Normal\TXD">
+      <UniqueIdentifier>{f7a64494-6360-42fc-95e9-77855f997c73}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\File Format\Normal\IPL">
+      <UniqueIdentifier>{465693a2-52a9-4f32-b07d-e6925f14aa1f}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\File Format\Normal\IPL\Entry">
+      <UniqueIdentifier>{62f4ef23-e0cb-4841-ad4b-8f099c02d391}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\File Format\Normal\IPL\Entry\Data Entry">
+      <UniqueIdentifier>{8bb64c4b-4f51-417e-9f3c-9ba941f54089}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\File Format\Normal\IPL\Entry\Data Entry\PATH">
+      <UniqueIdentifier>{49415682-63c5-4c4a-bf08-8d141047099e}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\File Format\Normal\IMG">
+      <UniqueIdentifier>{d05ef21e-9e0b-47e6-b913-f02068893090}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\File Format\Normal\IDE">
+      <UniqueIdentifier>{0fce0824-9168-4f4b-b748-62b4d76dc7a8}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\File Format\Normal\IDE\Entry">
+      <UniqueIdentifier>{cba79031-2f5f-40fd-a8ee-1d9db4224fbb}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\File Format\Normal\IDE\Entry\Data Entry">
+      <UniqueIdentifier>{fb325007-85a1-47fd-9d80-fb0a5b79351b}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\File Format\Normal\IDE\Entry\Data Entry\2DFX">
+      <UniqueIdentifier>{ba395a49-fd65-4da0-b24d-2fe0258e92a3}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\File Format\Normal\IDE\Entry\Data Entry\PATH">
+      <UniqueIdentifier>{57876bd9-234e-4e60-88ec-9c810791243e}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\File Format\Normal\DFF">
+      <UniqueIdentifier>{447e72de-5461-4b15-b5b5-401aaf78b57a}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\File Format\Normal\COL">
+      <UniqueIdentifier>{912029d3-e843-49e5-9db9-47de398c6531}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\File Format\Normal\DAT">
+      <UniqueIdentifier>{acf1d214-4366-478d-8105-c7e4ae71849e}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\File Format\Intermediate">
+      <UniqueIdentifier>{3862f2e5-2fa4-469e-ba54-e01a1a9c8338}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\File Format\Raw">
+      <UniqueIdentifier>{370feb9b-a3b8-46dd-bbdb-4cad2067f46b}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\File Format\Raw">
+      <UniqueIdentifier>{31909bd5-0af8-45b6-a554-742c5929c2e3}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\File Format\Normal">
+      <UniqueIdentifier>{09795583-c4c6-4908-8e8c-786f90b85c6b}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\File Format\Normal\IPL">
+      <UniqueIdentifier>{5685e6a4-a427-402a-a9a6-75e3f986a8bb}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\File Format\Normal\IPL\Entry">
+      <UniqueIdentifier>{0018095a-722f-4684-ad89-0ea4b5553fae}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\File Format\Normal\IPL\Entry\Data Entry">
+      <UniqueIdentifier>{26a780a1-6e46-46d3-8738-b23980b1629e}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\File Format\Normal\IPL\Entry\Data Entry\PATH">
+      <UniqueIdentifier>{816aff21-f007-4584-b166-451b5ddfc4bd}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\File Format\Normal\COL">
+      <UniqueIdentifier>{f35305cd-493f-40e9-a717-50ae5b5c4d31}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\File Format\Normal\DAT">
+      <UniqueIdentifier>{92764c25-838d-4749-9a35-bcad06c82261}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\File Format\Normal\DFF">
+      <UniqueIdentifier>{0cb953ef-eb17-4cc7-aed8-7756db0e2396}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\File Format\Normal\IDE">
+      <UniqueIdentifier>{b5c828c7-bda6-48aa-866c-143d13b546f0}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\File Format\Normal\IDE\Entry">
+      <UniqueIdentifier>{f057aa14-12fb-4e25-b019-2c0debadb0e4}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\File Format\Normal\IDE\Entry\Data Entry">
+      <UniqueIdentifier>{d854b733-3d6d-4f7e-b2b1-93d5bf2ac486}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\File Format\Normal\IDE\Entry\Data Entry\2DFX">
+      <UniqueIdentifier>{e93cc38e-da25-4ccf-a52c-db66543dd848}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\File Format\Normal\IDE\Entry\Data Entry\PATH">
+      <UniqueIdentifier>{7313d52f-ae7a-4894-bebc-40d30e0a3338}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\File Format\Normal\IMG">
+      <UniqueIdentifier>{f3299896-03f9-4d5f-94db-9b783456eff8}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\File Format\Normal\TXD">
+      <UniqueIdentifier>{c0930863-09d5-4f9a-a928-085faf39b90f}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\File Format\Normal\WDR">
+      <UniqueIdentifier>{fa2f4b6f-fbf5-4f45-970a-28e3516532cc}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\File Format\Normal\WTD">
+      <UniqueIdentifier>{ab11b697-663a-412d-8081-a124044aaeee}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\File Format\Intermediate">
+      <UniqueIdentifier>{fd438705-46ef-4122-919b-f960acad4d6c}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\File Format\Base">
+      <UniqueIdentifier>{804b778f-2dc4-45f1-8b55-f5a8fa1111bb}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\File Format\Intermediate\Model">
+      <UniqueIdentifier>{3a5d8dc5-62fe-40d9-8326-16a8d5bbcadd}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\File Format\Intermediate\Texture">
+      <UniqueIdentifier>{5e9c6f79-dd65-4646-b194-94a029062311}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\File Format\Intermediate\Model">
+      <UniqueIdentifier>{9d44fc14-9fe2-4a37-a3bb-f47a9a25938a}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\File Format\Intermediate\Texture">
+      <UniqueIdentifier>{f4a1419f-405c-43c8-9aef-b11b095918c5}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\File Format\Raw\IMG">
+      <UniqueIdentifier>{574031c0-1442-44b5-a0e6-9a496d1b1cd2}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\File Format\Raw\WTD">
+      <UniqueIdentifier>{a9d53298-c794-49f0-9a0a-71b419a10aae}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\File Format\Base\Section Lines">
+      <UniqueIdentifier>{46019cdf-6916-47e0-9641-c7917d2f3a78}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\File Format\Base\Section Lines\Entry">
+      <UniqueIdentifier>{2a986b8c-d0c7-49a0-9be1-d7f43e50f5db}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\File Format\Base\Section Lines">
+      <UniqueIdentifier>{7eff804b-b9a1-413d-b001-bebb2301fc24}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\File Format\Base\Section Lines\Entry">
+      <UniqueIdentifier>{f09c5287-a3cc-40c0-87d3-c383112aa50a}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\File Format\Normal\DAT\Path">
+      <UniqueIdentifier>{580aa16e-d12e-4607-b325-ea62f37cba76}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\File Format\Normal\DAT\Path">
+      <UniqueIdentifier>{ff5f7f46-676e-40f6-9cef-04a47c46d7da}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\File Format\Normal\DAT\Loader">
+      <UniqueIdentifier>{4282d50e-8e22-429d-8afa-c3d4598d1b66}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\File Format\Normal\DAT\Loader">
+      <UniqueIdentifier>{f939d1cf-76e0-4535-9313-4429ac5d8d77}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\File Format\Base\RW">
+      <UniqueIdentifier>{bea65be5-c193-45c1-9dd8-eb58d3cb1988}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\File Format\Base\RW">
+      <UniqueIdentifier>{619ffa35-29af-42fd-af69-dce7725961d5}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\File Format\Base\RW\Sections">
+      <UniqueIdentifier>{dad14957-1186-465c-a62c-b9c029b8bb63}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\File Format\Base\RW\Sections">
+      <UniqueIdentifier>{630daa48-d750-4798-935e-8e4f40d243c5}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\File Format\Base\RW\Pools">
+      <UniqueIdentifier>{44b642d3-347f-4a1f-820f-33dcd41e0491}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\File Format\Base\RW\Entries">
+      <UniqueIdentifier>{ad0fd0fa-89bf-4827-9d50-dda528043a92}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\File Format\Base\RW\Entries\2d Effects">
+      <UniqueIdentifier>{a025669d-5fe9-4376-85af-c396a99e822e}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\File Format\Base\RW\Entries">
+      <UniqueIdentifier>{047d051f-0d63-4575-bebb-f28eb0e53511}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\File Format\Base\RW\Entries\2d Effects">
+      <UniqueIdentifier>{1fa33da6-75c6-4fce-8e6b-4666d9dda678}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\File Format\Base\RW\Sections\Partial">
+      <UniqueIdentifier>{5b0b66db-7870-4ee5-9612-bdfe62f3f14a}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\File Format\Intermediate\Model\Data">
+      <UniqueIdentifier>{64b0ad77-dad1-45fc-9422-c662310ad2b5}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\File Format\Intermediate\Texture\Data">
+      <UniqueIdentifier>{e531c81e-2983-4e7b-8006-d1717b3af9ef}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\File Format\Custom">
+      <UniqueIdentifier>{09a9b683-ff99-40af-8dda-f0efc7bebe3c}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\File Format\Custom\IMG">
+      <UniqueIdentifier>{6abeadd7-97f1-403b-bb6f-97c2a85cc10d}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\File Format\Custom">
+      <UniqueIdentifier>{fa2b8797-0c23-49fc-a57b-992086cc01d9}</UniqueIdentifier>
+    </Filter>
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="..\..\..\Code\Rockstar Games\Engine\RAGE\CRageResourceType.cpp">
+      <Filter>Source Files\Engine\RAGE</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\Code\Rockstar Games\Engine\RAGE\CRageResourceTypeManager.cpp">
+      <Filter>Source Files\Engine\RAGE</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\Code\Rockstar Games\Engine\RAGE\CRageManager.cpp">
+      <Filter>Source Files\Engine\RAGE</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\Code\Rockstar Games\Engine\RW\CRWVersion.cpp">
+      <Filter>Source Files\Engine\RW</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\Code\Rockstar Games\Engine\RW\CRWVersionManager.cpp">
+      <Filter>Source Files\Engine\RW</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\Code\Rockstar Games\Engine\RW\CRWManager.cpp">
+      <Filter>Source Files\Engine\RW</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\Code\Rockstar Games\File Format\Base\Section Lines\CSectionLinesEntry.cpp">
+      <Filter>Source Files\File Format\Base\Section Lines</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\Code\Rockstar Games\File Format\Base\Section Lines\CSectionLinesFormat.cpp">
+      <Filter>Source Files\File Format\Base\Section Lines</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\Code\Rockstar Games\File Format\Base\Section Lines\Entry\CSectionLinesEntry_Data.cpp">
+      <Filter>Source Files\File Format\Base\Section Lines\Entry</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\Code\Rockstar Games\File Format\Base\Section Lines\Entry\CSectionLinesEntry_Other.cpp">
+      <Filter>Source Files\File Format\Base\Section Lines\Entry</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\Code\Rockstar Games\File Format\Normal\COL\CCOLVersionManager.cpp">
+      <Filter>Source Files\File Format\Normal\COL</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\Code\Rockstar Games\File Format\Normal\COL\CCOLEntry.cpp">
+      <Filter>Source Files\File Format\Normal\COL</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\Code\Rockstar Games\File Format\Normal\COL\CCOLFormat.cpp">
+      <Filter>Source Files\File Format\Normal\COL</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\Code\Rockstar Games\File Format\Normal\COL\CCOLManager.cpp">
+      <Filter>Source Files\File Format\Normal\COL</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\Code\Rockstar Games\File Format\Normal\DFF\CDFFFormat.cpp">
+      <Filter>Source Files\File Format\Normal\DFF</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\Code\Rockstar Games\File Format\Normal\DFF\CDFFManager.cpp">
+      <Filter>Source Files\File Format\Normal\DFF</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\Code\Rockstar Games\File Format\Normal\IDE\CIDEFormat.cpp">
+      <Filter>Source Files\File Format\Normal\IDE</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\Code\Rockstar Games\File Format\Normal\IDE\CIDEManager.cpp">
+      <Filter>Source Files\File Format\Normal\IDE</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\Code\Rockstar Games\File Format\Normal\IDE\CIDEEntry.cpp">
+      <Filter>Source Files\File Format\Normal\IDE</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\Code\Rockstar Games\File Format\Normal\IDE\Entry\CIDEEntry_Other.cpp">
+      <Filter>Source Files\File Format\Normal\IDE\Entry</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\Code\Rockstar Games\File Format\Normal\IDE\Entry\CIDEEntry_Section.cpp">
+      <Filter>Source Files\File Format\Normal\IDE\Entry</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\Code\Rockstar Games\File Format\Normal\IDE\Entry\Data Entry\CIDEEntry_TXDP.cpp">
+      <Filter>Source Files\File Format\Normal\IDE\Entry\Data Entry</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\Code\Rockstar Games\File Format\Normal\IDE\Entry\Data Entry\CIDEEntry_UnknownSection.cpp">
+      <Filter>Source Files\File Format\Normal\IDE\Entry\Data Entry</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\Code\Rockstar Games\File Format\Normal\IDE\Entry\Data Entry\CIDEEntry_VNOD.cpp">
+      <Filter>Source Files\File Format\Normal\IDE\Entry\Data Entry</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\Code\Rockstar Games\File Format\Normal\IDE\Entry\Data Entry\CIDEEntry_WEAP.cpp">
+      <Filter>Source Files\File Format\Normal\IDE\Entry\Data Entry</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\Code\Rockstar Games\File Format\Normal\IDE\Entry\Data Entry\CIDEEntry_2DFX.cpp">
+      <Filter>Source Files\File Format\Normal\IDE\Entry\Data Entry</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\Code\Rockstar Games\File Format\Normal\IDE\Entry\Data Entry\CIDEEntry_AGRPS.cpp">
+      <Filter>Source Files\File Format\Normal\IDE\Entry\Data Entry</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\Code\Rockstar Games\File Format\Normal\IDE\Entry\Data Entry\CIDEEntry_AMAT.cpp">
+      <Filter>Source Files\File Format\Normal\IDE\Entry\Data Entry</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\Code\Rockstar Games\File Format\Normal\IDE\Entry\Data Entry\CIDEEntry_ANIM.cpp">
+      <Filter>Source Files\File Format\Normal\IDE\Entry\Data Entry</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\Code\Rockstar Games\File Format\Normal\IDE\Entry\Data Entry\CIDEEntry_CARS.cpp">
+      <Filter>Source Files\File Format\Normal\IDE\Entry\Data Entry</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\Code\Rockstar Games\File Format\Normal\IDE\Entry\Data Entry\CIDEEntry_HAND.cpp">
+      <Filter>Source Files\File Format\Normal\IDE\Entry\Data Entry</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\Code\Rockstar Games\File Format\Normal\IDE\Entry\Data Entry\CIDEEntry_HIER.cpp">
+      <Filter>Source Files\File Format\Normal\IDE\Entry\Data Entry</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\Code\Rockstar Games\File Format\Normal\IDE\Entry\Data Entry\CIDEEntry_LINK.cpp">
+      <Filter>Source Files\File Format\Normal\IDE\Entry\Data Entry</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\Code\Rockstar Games\File Format\Normal\IDE\Entry\Data Entry\CIDEEntry_LODM.cpp">
+      <Filter>Source Files\File Format\Normal\IDE\Entry\Data Entry</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\Code\Rockstar Games\File Format\Normal\IDE\Entry\Data Entry\CIDEEntry_MLO.cpp">
+      <Filter>Source Files\File Format\Normal\IDE\Entry\Data Entry</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\Code\Rockstar Games\File Format\Normal\IDE\Entry\Data Entry\CIDEEntry_OBJS.cpp">
+      <Filter>Source Files\File Format\Normal\IDE\Entry\Data Entry</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\Code\Rockstar Games\File Format\Normal\IDE\Entry\Data Entry\CIDEEntry_PATH.cpp">
+      <Filter>Source Files\File Format\Normal\IDE\Entry\Data Entry</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\Code\Rockstar Games\File Format\Normal\IDE\Entry\Data Entry\CIDEEntry_PEDS.cpp">
+      <Filter>Source Files\File Format\Normal\IDE\Entry\Data Entry</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\Code\Rockstar Games\File Format\Normal\IDE\Entry\Data Entry\CIDEEntry_TANM.cpp">
+      <Filter>Source Files\File Format\Normal\IDE\Entry\Data Entry</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\Code\Rockstar Games\File Format\Normal\IDE\Entry\Data Entry\CIDEEntry_TOBJ.cpp">
+      <Filter>Source Files\File Format\Normal\IDE\Entry\Data Entry</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\Code\Rockstar Games\File Format\Normal\IDE\Entry\Data Entry\CIDEEntry_TREE.cpp">
+      <Filter>Source Files\File Format\Normal\IDE\Entry\Data Entry</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\Code\Rockstar Games\File Format\Normal\IDE\Entry\Data Entry\2DFX\CIDEEntry_2DFX_SwayableAttr.cpp">
+      <Filter>Source Files\File Format\Normal\IDE\Entry\Data Entry\2DFX</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\Code\Rockstar Games\File Format\Normal\IDE\Entry\Data Entry\2DFX\CIDEEntry_2DFX_Unknown1.cpp">
+      <Filter>Source Files\File Format\Normal\IDE\Entry\Data Entry\2DFX</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\Code\Rockstar Games\File Format\Normal\IDE\Entry\Data Entry\2DFX\CIDEEntry_2DFX_WalkDontWalkAttr.cpp">
+      <Filter>Source Files\File Format\Normal\IDE\Entry\Data Entry\2DFX</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\Code\Rockstar Games\File Format\Normal\IDE\Entry\Data Entry\2DFX\CIDEEntry_2DFX_WorldPoint.cpp">
+      <Filter>Source Files\File Format\Normal\IDE\Entry\Data Entry\2DFX</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\Code\Rockstar Games\File Format\Normal\IDE\Entry\Data Entry\2DFX\CIDEEntry_2DFX_Audio.cpp">
+      <Filter>Source Files\File Format\Normal\IDE\Entry\Data Entry\2DFX</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\Code\Rockstar Games\File Format\Normal\IDE\Entry\Data Entry\2DFX\CIDEEntry_2DFX_BouyancyAttr.cpp">
+      <Filter>Source Files\File Format\Normal\IDE\Entry\Data Entry\2DFX</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\Code\Rockstar Games\File Format\Normal\IDE\Entry\Data Entry\2DFX\CIDEEntry_2DFX_Escalator.cpp">
+      <Filter>Source Files\File Format\Normal\IDE\Entry\Data Entry\2DFX</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\Code\Rockstar Games\File Format\Normal\IDE\Entry\Data Entry\2DFX\CIDEEntry_2DFX_Explosion.cpp">
+      <Filter>Source Files\File Format\Normal\IDE\Entry\Data Entry\2DFX</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\Code\Rockstar Games\File Format\Normal\IDE\Entry\Data Entry\2DFX\CIDEEntry_2DFX_Ladder.cpp">
+      <Filter>Source Files\File Format\Normal\IDE\Entry\Data Entry\2DFX</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\Code\Rockstar Games\File Format\Normal\IDE\Entry\Data Entry\2DFX\CIDEEntry_2DFX_Light.cpp">
+      <Filter>Source Files\File Format\Normal\IDE\Entry\Data Entry\2DFX</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\Code\Rockstar Games\File Format\Normal\IDE\Entry\Data Entry\2DFX\CIDEEntry_2DFX_LightShaft.cpp">
+      <Filter>Source Files\File Format\Normal\IDE\Entry\Data Entry\2DFX</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\Code\Rockstar Games\File Format\Normal\IDE\Entry\Data Entry\2DFX\CIDEEntry_2DFX_Particle.cpp">
+      <Filter>Source Files\File Format\Normal\IDE\Entry\Data Entry\2DFX</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\Code\Rockstar Games\File Format\Normal\IDE\Entry\Data Entry\2DFX\CIDEEntry_2DFX_Ped.cpp">
+      <Filter>Source Files\File Format\Normal\IDE\Entry\Data Entry\2DFX</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\Code\Rockstar Games\File Format\Normal\IDE\Entry\Data Entry\2DFX\CIDEEntry_2DFX_ProcObject.cpp">
+      <Filter>Source Files\File Format\Normal\IDE\Entry\Data Entry\2DFX</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\Code\Rockstar Games\File Format\Normal\IDE\Entry\Data Entry\2DFX\CIDEEntry_2DFX_ScrollBar.cpp">
+      <Filter>Source Files\File Format\Normal\IDE\Entry\Data Entry\2DFX</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\Code\Rockstar Games\File Format\Normal\IDE\Entry\Data Entry\2DFX\CIDEEntry_2DFX_SpawnPoint.cpp">
+      <Filter>Source Files\File Format\Normal\IDE\Entry\Data Entry\2DFX</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\Code\Rockstar Games\File Format\Normal\IDE\Entry\Data Entry\2DFX\CIDEEntry_2DFX_SunReflection.cpp">
+      <Filter>Source Files\File Format\Normal\IDE\Entry\Data Entry\2DFX</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\Code\Rockstar Games\File Format\Normal\IDE\Entry\Data Entry\PATH\CIDEEntry_PATH_Group.cpp">
+      <Filter>Source Files\File Format\Normal\IDE\Entry\Data Entry\PATH</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\Code\Rockstar Games\File Format\Normal\IDE\Entry\Data Entry\PATH\CIDEEntry_PATH_Node.cpp">
+      <Filter>Source Files\File Format\Normal\IDE\Entry\Data Entry\PATH</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\Code\Rockstar Games\File Format\Normal\IMG\CIMGManager.cpp">
+      <Filter>Source Files\File Format\Normal\IMG</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\Code\Rockstar Games\File Format\Normal\IMG\CIMGPeekData.cpp">
+      <Filter>Source Files\File Format\Normal\IMG</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\Code\Rockstar Games\File Format\Normal\IMG\CIMGEntry.cpp">
+      <Filter>Source Files\File Format\Normal\IMG</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\Code\Rockstar Games\File Format\Normal\IMG\CIMGFormat.cpp">
+      <Filter>Source Files\File Format\Normal\IMG</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\Code\Rockstar Games\File Format\Normal\IPL\CIPLManager.cpp">
+      <Filter>Source Files\File Format\Normal\IPL</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\Code\Rockstar Games\File Format\Normal\IPL\CIPLEntry.cpp">
+      <Filter>Source Files\File Format\Normal\IPL</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\Code\Rockstar Games\File Format\Normal\IPL\CIPLFormat.cpp">
+      <Filter>Source Files\File Format\Normal\IPL</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\Code\Rockstar Games\File Format\Normal\IPL\Entry\CIPLEntry_Other.cpp">
+      <Filter>Source Files\File Format\Normal\IPL\Entry</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\Code\Rockstar Games\File Format\Normal\IPL\Entry\CIPLEntry_Section.cpp">
+      <Filter>Source Files\File Format\Normal\IPL\Entry</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\Code\Rockstar Games\File Format\Normal\IPL\Entry\Data Entry\CIPLEntry_UnknownSection.cpp">
+      <Filter>Source Files\File Format\Normal\IPL\Entry\Data Entry</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\Code\Rockstar Games\File Format\Normal\IPL\Entry\Data Entry\CIPLEntry_VNOD.cpp">
+      <Filter>Source Files\File Format\Normal\IPL\Entry\Data Entry</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\Code\Rockstar Games\File Format\Normal\IPL\Entry\Data Entry\CIPLEntry_ZONE.cpp">
+      <Filter>Source Files\File Format\Normal\IPL\Entry\Data Entry</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\Code\Rockstar Games\File Format\Normal\IPL\Entry\Data Entry\CIPLEntry_2DFX.cpp">
+      <Filter>Source Files\File Format\Normal\IPL\Entry\Data Entry</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\Code\Rockstar Games\File Format\Normal\IPL\Entry\Data Entry\CIPLEntry_AUZO.cpp">
+      <Filter>Source Files\File Format\Normal\IPL\Entry\Data Entry</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\Code\Rockstar Games\File Format\Normal\IPL\Entry\Data Entry\CIPLEntry_BLOK.cpp">
+      <Filter>Source Files\File Format\Normal\IPL\Entry\Data Entry</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\Code\Rockstar Games\File Format\Normal\IPL\Entry\Data Entry\CIPLEntry_CARS.cpp">
+      <Filter>Source Files\File Format\Normal\IPL\Entry\Data Entry</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\Code\Rockstar Games\File Format\Normal\IPL\Entry\Data Entry\CIPLEntry_CULL.cpp">
+      <Filter>Source Files\File Format\Normal\IPL\Entry\Data Entry</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\Code\Rockstar Games\File Format\Normal\IPL\Entry\Data Entry\CIPLEntry_ENEX.cpp">
+      <Filter>Source Files\File Format\Normal\IPL\Entry\Data Entry</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\Code\Rockstar Games\File Format\Normal\IPL\Entry\Data Entry\CIPLEntry_GRGE.cpp">
+      <Filter>Source Files\File Format\Normal\IPL\Entry\Data Entry</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\Code\Rockstar Games\File Format\Normal\IPL\Entry\Data Entry\CIPLEntry_INST.cpp">
+      <Filter>Source Files\File Format\Normal\IPL\Entry\Data Entry</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\Code\Rockstar Games\File Format\Normal\IPL\Entry\Data Entry\CIPLEntry_JUMP.cpp">
+      <Filter>Source Files\File Format\Normal\IPL\Entry\Data Entry</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\Code\Rockstar Games\File Format\Normal\IPL\Entry\Data Entry\CIPLEntry_LINK.cpp">
+      <Filter>Source Files\File Format\Normal\IPL\Entry\Data Entry</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\Code\Rockstar Games\File Format\Normal\IPL\Entry\Data Entry\CIPLEntry_LODM.cpp">
+      <Filter>Source Files\File Format\Normal\IPL\Entry\Data Entry</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\Code\Rockstar Games\File Format\Normal\IPL\Entry\Data Entry\CIPLEntry_MLOPLUS.cpp">
+      <Filter>Source Files\File Format\Normal\IPL\Entry\Data Entry</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\Code\Rockstar Games\File Format\Normal\IPL\Entry\Data Entry\CIPLEntry_MULT.cpp">
+      <Filter>Source Files\File Format\Normal\IPL\Entry\Data Entry</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\Code\Rockstar Games\File Format\Normal\IPL\Entry\Data Entry\CIPLEntry_MZON.cpp">
+      <Filter>Source Files\File Format\Normal\IPL\Entry\Data Entry</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\Code\Rockstar Games\File Format\Normal\IPL\Entry\Data Entry\CIPLEntry_OCCL.cpp">
+      <Filter>Source Files\File Format\Normal\IPL\Entry\Data Entry</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\Code\Rockstar Games\File Format\Normal\IPL\Entry\Data Entry\CIPLEntry_PATH.cpp">
+      <Filter>Source Files\File Format\Normal\IPL\Entry\Data Entry</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\Code\Rockstar Games\File Format\Normal\IPL\Entry\Data Entry\CIPLEntry_PICK.cpp">
+      <Filter>Source Files\File Format\Normal\IPL\Entry\Data Entry</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\Code\Rockstar Games\File Format\Normal\IPL\Entry\Data Entry\CIPLEntry_RTFX.cpp">
+      <Filter>Source Files\File Format\Normal\IPL\Entry\Data Entry</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\Code\Rockstar Games\File Format\Normal\IPL\Entry\Data Entry\CIPLEntry_SLOW.cpp">
+      <Filter>Source Files\File Format\Normal\IPL\Entry\Data Entry</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\Code\Rockstar Games\File Format\Normal\IPL\Entry\Data Entry\CIPLEntry_TCYC.cpp">
+      <Filter>Source Files\File Format\Normal\IPL\Entry\Data Entry</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\Code\Rockstar Games\File Format\Normal\IPL\Entry\Data Entry\PATH\CIPLEntry_PATH_Group.cpp">
+      <Filter>Source Files\File Format\Normal\IPL\Entry\Data Entry\PATH</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\Code\Rockstar Games\File Format\Normal\IPL\Entry\Data Entry\PATH\CIPLEntry_PATH_Node.cpp">
+      <Filter>Source Files\File Format\Normal\IPL\Entry\Data Entry\PATH</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\Code\Rockstar Games\File Format\Normal\TXD\CTXDManager.cpp">
+      <Filter>Source Files\File Format\Normal\TXD</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\Code\Rockstar Games\File Format\Normal\TXD\CTXDFormat.cpp">
+      <Filter>Source Files\File Format\Normal\TXD</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\Code\Rockstar Games\File Format\Normal\WDR\CWDRManager.cpp">
+      <Filter>Source Files\File Format\Normal\WDR</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\Code\Rockstar Games\File Format\Normal\WDR\CWDRFormat.cpp">
+      <Filter>Source Files\File Format\Normal\WDR</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\Code\Rockstar Games\File Format\Normal\WTD\CWTDManager.cpp">
+      <Filter>Source Files\File Format\Normal\WTD</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\Code\Rockstar Games\File Format\Normal\WTD\CWTDMipmap.cpp">
+      <Filter>Source Files\File Format\Normal\WTD</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\Code\Rockstar Games\File Format\Normal\WTD\CWTDEntry.cpp">
+      <Filter>Source Files\File Format\Normal\WTD</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\Code\Rockstar Games\File Format\Normal\WTD\CWTDFormat.cpp">
+      <Filter>Source Files\File Format\Normal\WTD</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\Code\Rockstar Games\File Format\Normal\DAT\Loader\CDATLoaderFormat.cpp">
+      <Filter>Source Files\File Format\Normal\DAT\Loader</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\Code\Rockstar Games\File Format\Normal\DAT\Loader\CDATLoaderManager.cpp">
+      <Filter>Source Files\File Format\Normal\DAT\Loader</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\Code\Rockstar Games\File Format\Normal\DAT\Path\CDATPathFormat.cpp">
+      <Filter>Source Files\File Format\Normal\DAT\Path</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\Code\Rockstar Games\File Format\Normal\DAT\Path\CDATPathManager.cpp">
+      <Filter>Source Files\File Format\Normal\DAT\Path</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\Code\Rockstar Games\File Format\Base\RW\CRWFormat.cpp">
+      <Filter>Source Files\File Format\Base\RW</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\Code\Rockstar Games\File Format\Base\RW\CRWSection.cpp">
+      <Filter>Source Files\File Format\Base\RW</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\Code\Rockstar Games\File Format\Base\RW\Sections\CRWSection_String.cpp">
+      <Filter>Source Files\File Format\Base\RW\Sections</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\Code\Rockstar Games\File Format\Base\RW\Sections\CRWSection_Texture.cpp">
+      <Filter>Source Files\File Format\Base\RW\Sections</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\Code\Rockstar Games\File Format\Base\RW\Sections\CRWSection_UnknownSection.cpp">
+      <Filter>Source Files\File Format\Base\RW\Sections</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\Code\Rockstar Games\File Format\Base\RW\Sections\CRWSection_2dEffect.cpp">
+      <Filter>Source Files\File Format\Base\RW\Sections</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\Code\Rockstar Games\File Format\Base\RW\Sections\CRWSection_Atomic.cpp">
+      <Filter>Source Files\File Format\Base\RW\Sections</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\Code\Rockstar Games\File Format\Base\RW\Sections\CRWSection_BinMeshPLG.cpp">
+      <Filter>Source Files\File Format\Base\RW\Sections</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\Code\Rockstar Games\File Format\Base\RW\Sections\CRWSection_Clump.cpp">
+      <Filter>Source Files\File Format\Base\RW\Sections</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\Code\Rockstar Games\File Format\Base\RW\Sections\CRWSection_Extension.cpp">
+      <Filter>Source Files\File Format\Base\RW\Sections</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\Code\Rockstar Games\File Format\Base\RW\Sections\CRWSection_ExtraVertColour.cpp">
+      <Filter>Source Files\File Format\Base\RW\Sections</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\Code\Rockstar Games\File Format\Base\RW\Sections\CRWSection_Frame.cpp">
+      <Filter>Source Files\File Format\Base\RW\Sections</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\Code\Rockstar Games\File Format\Base\RW\Sections\CRWSection_FrameList.cpp">
+      <Filter>Source Files\File Format\Base\RW\Sections</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\Code\Rockstar Games\File Format\Base\RW\Sections\CRWSection_Geometry.cpp">
+      <Filter>Source Files\File Format\Base\RW\Sections</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\Code\Rockstar Games\File Format\Base\RW\Sections\CRWSection_GeometryList.cpp">
+      <Filter>Source Files\File Format\Base\RW\Sections</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\Code\Rockstar Games\File Format\Base\RW\Sections\CRWSection_Light.cpp">
+      <Filter>Source Files\File Format\Base\RW\Sections</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\Code\Rockstar Games\File Format\Base\RW\Sections\CRWSection_Material.cpp">
+      <Filter>Source Files\File Format\Base\RW\Sections</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\Code\Rockstar Games\File Format\Base\RW\Sections\CRWSection_MaterialList.cpp">
+      <Filter>Source Files\File Format\Base\RW\Sections</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\Code\Rockstar Games\File Format\Base\RW\CRWSectionContainer.cpp">
+      <Filter>Source Files\File Format\Base\RW</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\Code\Rockstar Games\File Format\Base\RW\Entries\2d Effects\CRWEntry_2dEffect_StreetSign.cpp">
+      <Filter>Source Files\File Format\Base\RW\Entries\2d Effects</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\Code\Rockstar Games\File Format\Base\RW\Entries\2d Effects\CRWEntry_2dEffect_SunGlare.cpp">
+      <Filter>Source Files\File Format\Base\RW\Entries\2d Effects</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\Code\Rockstar Games\File Format\Base\RW\Entries\2d Effects\CRWEntry_2dEffect_CoverPoint.cpp">
+      <Filter>Source Files\File Format\Base\RW\Entries\2d Effects</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\Code\Rockstar Games\File Format\Base\RW\Entries\2d Effects\CRWEntry_2dEffect_EnterExit.cpp">
+      <Filter>Source Files\File Format\Base\RW\Entries\2d Effects</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\Code\Rockstar Games\File Format\Base\RW\Entries\2d Effects\CRWEntry_2dEffect_Escalator.cpp">
+      <Filter>Source Files\File Format\Base\RW\Entries\2d Effects</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\Code\Rockstar Games\File Format\Base\RW\Entries\2d Effects\CRWEntry_2dEffect_Light.cpp">
+      <Filter>Source Files\File Format\Base\RW\Entries\2d Effects</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\Code\Rockstar Games\File Format\Base\RW\Entries\2d Effects\CRWEntry_2dEffect_ParticleEffect.cpp">
+      <Filter>Source Files\File Format\Base\RW\Entries\2d Effects</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\Code\Rockstar Games\File Format\Base\RW\Entries\2d Effects\CRWEntry_2dEffect_PedAttractor.cpp">
+      <Filter>Source Files\File Format\Base\RW\Entries\2d Effects</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\Code\Rockstar Games\File Format\Base\RW\Entries\2d Effects\CRWEntry_2dEffect_SlotmachineWheel.cpp">
+      <Filter>Source Files\File Format\Base\RW\Entries\2d Effects</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\Code\Rockstar Games\File Format\Base\RW\Entries\C2dEffect.cpp">
+      <Filter>Source Files\File Format\Base\RW\Entries</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\Code\Rockstar Games\File Format\Base\RW\Sections\CRWSection_TextureDictionary.cpp">
+      <Filter>Source Files\File Format\Base\RW\Sections</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\Code\Rockstar Games\File Format\Base\RW\Sections\CRWSection_TextureNative.cpp">
+      <Filter>Source Files\File Format\Base\RW\Sections</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\Code\Rockstar Games\File Format\Base\RW\Entries\CRWEntry_TextureNative_MipMap.cpp">
+      <Filter>Source Files\File Format\Base\RW\Entries</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\Code\Rockstar Games\File Format\Intermediate\Texture\CIntermediateTextureFormat.cpp">
+      <Filter>Source Files\File Format\Intermediate\Texture</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\Code\Rockstar Games\File Format\Intermediate\Model\CIntermediateModelFormat.cpp">
+      <Filter>Source Files\File Format\Intermediate\Model</Filter>
+    </ClCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="..\..\..\Code\Rockstar Games\Engine\RAGE\CRageResourceTypeManager.h">
+      <Filter>Header Files\Engine\RAGE</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\Code\Rockstar Games\Engine\RAGE\eRageResourceType.h">
+      <Filter>Header Files\Engine\RAGE</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\Code\Rockstar Games\Engine\RAGE\CRageManager.h">
+      <Filter>Header Files\Engine\RAGE</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\Code\Rockstar Games\Engine\RAGE\CRageResourceType.h">
+      <Filter>Header Files\Engine\RAGE</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\Code\Rockstar Games\Engine\RW\eRWVersionType.h">
+      <Filter>Header Files\Engine\RW</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\Code\Rockstar Games\Engine\RW\CRWManager.h">
+      <Filter>Header Files\Engine\RW</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\Code\Rockstar Games\Engine\RW\CRWVersion.h">
+      <Filter>Header Files\Engine\RW</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\Code\Rockstar Games\Engine\RW\CRWVersionManager.h">
+      <Filter>Header Files\Engine\RW</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\Code\Rockstar Games\Engine\RW\eRWSection.h">
+      <Filter>Header Files\Engine\RW</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\Code\Rockstar Games\Engine\RW\eRWVersion.h">
+      <Filter>Header Files\Engine\RW</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\Code\Rockstar Games\Namespace.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\Code\Rockstar Games\File Format\e2DFXType.h">
+      <Filter>Header Files\File Format</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\Code\Rockstar Games\File Format\Base\Section Lines\CSectionLinesFormat.h">
+      <Filter>Header Files\File Format\Base\Section Lines</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\Code\Rockstar Games\File Format\Base\Section Lines\CSectionLinesEntry.h">
+      <Filter>Header Files\File Format\Base\Section Lines</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\Code\Rockstar Games\File Format\Base\Section Lines\Entry\CSectionLinesEntry_Data.h">
+      <Filter>Header Files\File Format\Base\Section Lines\Entry</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\Code\Rockstar Games\File Format\Base\Section Lines\Entry\CSectionLinesEntry_Other.h">
+      <Filter>Header Files\File Format\Base\Section Lines\Entry</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\Code\Rockstar Games\File Format\Raw\WTD\CWTDFormat_Header1.h">
+      <Filter>Header Files\File Format\Raw\WTD</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\Code\Rockstar Games\File Format\Raw\WTD\CWTDFormat_Header2.h">
+      <Filter>Header Files\File Format\Raw\WTD</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\Code\Rockstar Games\File Format\Raw\WTD\CWTDEntry.h">
+      <Filter>Header Files\File Format\Raw\WTD</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\Code\Rockstar Games\File Format\Normal\COL\CCOLVersion.h">
+      <Filter>Header Files\File Format\Normal\COL</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\Code\Rockstar Games\File Format\Normal\COL\CCOLVersionManager.h">
+      <Filter>Header Files\File Format\Normal\COL</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\Code\Rockstar Games\File Format\Normal\COL\eCOLVersion.h">
+      <Filter>Header Files\File Format\Normal\COL</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\Code\Rockstar Games\File Format\Normal\COL\TShapes.h">
+      <Filter>Header Files\File Format\Normal\COL</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\Code\Rockstar Games\File Format\Normal\COL\CCOLEntry.h">
+      <Filter>Header Files\File Format\Normal\COL</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\Code\Rockstar Games\File Format\Normal\COL\CCOLFormat.h">
+      <Filter>Header Files\File Format\Normal\COL</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\Code\Rockstar Games\File Format\Normal\COL\CCOLManager.h">
+      <Filter>Header Files\File Format\Normal\COL</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\Code\Rockstar Games\File Format\Normal\DFF\CDFFFormat.h">
+      <Filter>Header Files\File Format\Normal\DFF</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\Code\Rockstar Games\File Format\Normal\DFF\CDFFManager.h">
+      <Filter>Header Files\File Format\Normal\DFF</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\Code\Rockstar Games\File Format\Normal\IDE\eIDEPathType.h">
+      <Filter>Header Files\File Format\Normal\IDE</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\Code\Rockstar Games\File Format\Normal\IDE\eIDESection.h">
+      <Filter>Header Files\File Format\Normal\IDE</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\Code\Rockstar Games\File Format\Normal\IDE\CIDEEntry.h">
+      <Filter>Header Files\File Format\Normal\IDE</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\Code\Rockstar Games\File Format\Normal\IDE\CIDEFormat.h">
+      <Filter>Header Files\File Format\Normal\IDE</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\Code\Rockstar Games\File Format\Normal\IDE\CIDEManager.h">
+      <Filter>Header Files\File Format\Normal\IDE</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\Code\Rockstar Games\File Format\Normal\IDE\Entry\CIDEEntry_Section.h">
+      <Filter>Header Files\File Format\Normal\IDE\Entry</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\Code\Rockstar Games\File Format\Normal\IDE\Entry\CIDEEntry_Data.h">
+      <Filter>Header Files\File Format\Normal\IDE\Entry</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\Code\Rockstar Games\File Format\Normal\IDE\Entry\CIDEEntry_Other.h">
+      <Filter>Header Files\File Format\Normal\IDE\Entry</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\Code\Rockstar Games\File Format\Normal\IDE\Entry\Data Entry\CIDEEntry_PEDS.h">
+      <Filter>Header Files\File Format\Normal\IDE\Entry\Data Entry</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\Code\Rockstar Games\File Format\Normal\IDE\Entry\Data Entry\CIDEEntry_TANM.h">
+      <Filter>Header Files\File Format\Normal\IDE\Entry\Data Entry</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\Code\Rockstar Games\File Format\Normal\IDE\Entry\Data Entry\CIDEEntry_TOBJ.h">
+      <Filter>Header Files\File Format\Normal\IDE\Entry\Data Entry</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\Code\Rockstar Games\File Format\Normal\IDE\Entry\Data Entry\CIDEEntry_TREE.h">
+      <Filter>Header Files\File Format\Normal\IDE\Entry\Data Entry</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\Code\Rockstar Games\File Format\Normal\IDE\Entry\Data Entry\CIDEEntry_TXDP.h">
+      <Filter>Header Files\File Format\Normal\IDE\Entry\Data Entry</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\Code\Rockstar Games\File Format\Normal\IDE\Entry\Data Entry\CIDEEntry_UnknownSection.h">
+      <Filter>Header Files\File Format\Normal\IDE\Entry\Data Entry</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\Code\Rockstar Games\File Format\Normal\IDE\Entry\Data Entry\CIDEEntry_VNOD.h">
+      <Filter>Header Files\File Format\Normal\IDE\Entry\Data Entry</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\Code\Rockstar Games\File Format\Normal\IDE\Entry\Data Entry\CIDEEntry_WEAP.h">
+      <Filter>Header Files\File Format\Normal\IDE\Entry\Data Entry</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\Code\Rockstar Games\File Format\Normal\IDE\Entry\Data Entry\CIDEEntry_2DFX.h">
+      <Filter>Header Files\File Format\Normal\IDE\Entry\Data Entry</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\Code\Rockstar Games\File Format\Normal\IDE\Entry\Data Entry\CIDEEntry_AGRPS.h">
+      <Filter>Header Files\File Format\Normal\IDE\Entry\Data Entry</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\Code\Rockstar Games\File Format\Normal\IDE\Entry\Data Entry\CIDEEntry_AMAT.h">
+      <Filter>Header Files\File Format\Normal\IDE\Entry\Data Entry</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\Code\Rockstar Games\File Format\Normal\IDE\Entry\Data Entry\CIDEEntry_ANIM.h">
+      <Filter>Header Files\File Format\Normal\IDE\Entry\Data Entry</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\Code\Rockstar Games\File Format\Normal\IDE\Entry\Data Entry\CIDEEntry_CARS.h">
+      <Filter>Header Files\File Format\Normal\IDE\Entry\Data Entry</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\Code\Rockstar Games\File Format\Normal\IDE\Entry\Data Entry\CIDEEntry_HAND.h">
+      <Filter>Header Files\File Format\Normal\IDE\Entry\Data Entry</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\Code\Rockstar Games\File Format\Normal\IDE\Entry\Data Entry\CIDEEntry_HIER.h">
+      <Filter>Header Files\File Format\Normal\IDE\Entry\Data Entry</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\Code\Rockstar Games\File Format\Normal\IDE\Entry\Data Entry\CIDEEntry_LINK.h">
+      <Filter>Header Files\File Format\Normal\IDE\Entry\Data Entry</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\Code\Rockstar Games\File Format\Normal\IDE\Entry\Data Entry\CIDEEntry_LODM.h">
+      <Filter>Header Files\File Format\Normal\IDE\Entry\Data Entry</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\Code\Rockstar Games\File Format\Normal\IDE\Entry\Data Entry\CIDEEntry_MLO.h">
+      <Filter>Header Files\File Format\Normal\IDE\Entry\Data Entry</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\Code\Rockstar Games\File Format\Normal\IDE\Entry\Data Entry\CIDEEntry_OBJS.h">
+      <Filter>Header Files\File Format\Normal\IDE\Entry\Data Entry</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\Code\Rockstar Games\File Format\Normal\IDE\Entry\Data Entry\CIDEEntry_PATH.h">
+      <Filter>Header Files\File Format\Normal\IDE\Entry\Data Entry</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\Code\Rockstar Games\File Format\Normal\IDE\Entry\Data Entry\2DFX\CIDEEntry_2DFX_SunReflection.h">
+      <Filter>Header Files\File Format\Normal\IDE\Entry\Data Entry\2DFX</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\Code\Rockstar Games\File Format\Normal\IDE\Entry\Data Entry\2DFX\CIDEEntry_2DFX_SwayableAttr.h">
+      <Filter>Header Files\File Format\Normal\IDE\Entry\Data Entry\2DFX</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\Code\Rockstar Games\File Format\Normal\IDE\Entry\Data Entry\2DFX\CIDEEntry_2DFX_Unknown1.h">
+      <Filter>Header Files\File Format\Normal\IDE\Entry\Data Entry\2DFX</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\Code\Rockstar Games\File Format\Normal\IDE\Entry\Data Entry\2DFX\CIDEEntry_2DFX_WalkDontWalkAttr.h">
+      <Filter>Header Files\File Format\Normal\IDE\Entry\Data Entry\2DFX</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\Code\Rockstar Games\File Format\Normal\IDE\Entry\Data Entry\2DFX\CIDEEntry_2DFX_WorldPoint.h">
+      <Filter>Header Files\File Format\Normal\IDE\Entry\Data Entry\2DFX</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\Code\Rockstar Games\File Format\Normal\IDE\Entry\Data Entry\2DFX\CIDEEntry_2DFX_Audio.h">
+      <Filter>Header Files\File Format\Normal\IDE\Entry\Data Entry\2DFX</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\Code\Rockstar Games\File Format\Normal\IDE\Entry\Data Entry\2DFX\CIDEEntry_2DFX_BouyancyAttr.h">
+      <Filter>Header Files\File Format\Normal\IDE\Entry\Data Entry\2DFX</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\Code\Rockstar Games\File Format\Normal\IDE\Entry\Data Entry\2DFX\CIDEEntry_2DFX_Escalator.h">
+      <Filter>Header Files\File Format\Normal\IDE\Entry\Data Entry\2DFX</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\Code\Rockstar Games\File Format\Normal\IDE\Entry\Data Entry\2DFX\CIDEEntry_2DFX_Explosion.h">
+      <Filter>Header Files\File Format\Normal\IDE\Entry\Data Entry\2DFX</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\Code\Rockstar Games\File Format\Normal\IDE\Entry\Data Entry\2DFX\CIDEEntry_2DFX_Ladder.h">
+      <Filter>Header Files\File Format\Normal\IDE\Entry\Data Entry\2DFX</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\Code\Rockstar Games\File Format\Normal\IDE\Entry\Data Entry\2DFX\CIDEEntry_2DFX_Light.h">
+      <Filter>Header Files\File Format\Normal\IDE\Entry\Data Entry\2DFX</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\Code\Rockstar Games\File Format\Normal\IDE\Entry\Data Entry\2DFX\CIDEEntry_2DFX_LightShaft.h">
+      <Filter>Header Files\File Format\Normal\IDE\Entry\Data Entry\2DFX</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\Code\Rockstar Games\File Format\Normal\IDE\Entry\Data Entry\2DFX\CIDEEntry_2DFX_Particle.h">
+      <Filter>Header Files\File Format\Normal\IDE\Entry\Data Entry\2DFX</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\Code\Rockstar Games\File Format\Normal\IDE\Entry\Data Entry\2DFX\CIDEEntry_2DFX_Ped.h">
+      <Filter>Header Files\File Format\Normal\IDE\Entry\Data Entry\2DFX</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\Code\Rockstar Games\File Format\Normal\IDE\Entry\Data Entry\2DFX\CIDEEntry_2DFX_ProcObject.h">
+      <Filter>Header Files\File Format\Normal\IDE\Entry\Data Entry\2DFX</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\Code\Rockstar Games\File Format\Normal\IDE\Entry\Data Entry\2DFX\CIDEEntry_2DFX_ScrollBar.h">
+      <Filter>Header Files\File Format\Normal\IDE\Entry\Data Entry\2DFX</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\Code\Rockstar Games\File Format\Normal\IDE\Entry\Data Entry\2DFX\CIDEEntry_2DFX_SpawnPoint.h">
+      <Filter>Header Files\File Format\Normal\IDE\Entry\Data Entry\2DFX</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\Code\Rockstar Games\File Format\Normal\IDE\Entry\Data Entry\PATH\CIDEEntry_PATH_Node.h">
+      <Filter>Header Files\File Format\Normal\IDE\Entry\Data Entry\PATH</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\Code\Rockstar Games\File Format\Normal\IDE\Entry\Data Entry\PATH\CIDEEntry_PATH_Group.h">
+      <Filter>Header Files\File Format\Normal\IDE\Entry\Data Entry\PATH</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\Code\Rockstar Games\File Format\Normal\IMG\eIMGVersion.h">
+      <Filter>Header Files\File Format\Normal\IMG</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\Code\Rockstar Games\File Format\Normal\IMG\CIMGEntry.h">
+      <Filter>Header Files\File Format\Normal\IMG</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\Code\Rockstar Games\File Format\Normal\IMG\CIMGFormat.h">
+      <Filter>Header Files\File Format\Normal\IMG</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\Code\Rockstar Games\File Format\Normal\IMG\CIMGManager.h">
+      <Filter>Header Files\File Format\Normal\IMG</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\Code\Rockstar Games\File Format\Normal\IMG\CIMGPeekData.h">
+      <Filter>Header Files\File Format\Normal\IMG</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\Code\Rockstar Games\File Format\Normal\IMG\eIMGEntryProperty.h">
+      <Filter>Header Files\File Format\Normal\IMG</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\Code\Rockstar Games\File Format\Normal\IPL\CIPLFormat.h">
+      <Filter>Header Files\File Format\Normal\IPL</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\Code\Rockstar Games\File Format\Normal\IPL\CIPLManager.h">
+      <Filter>Header Files\File Format\Normal\IPL</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\Code\Rockstar Games\File Format\Normal\IPL\eIPLPathType.h">
+      <Filter>Header Files\File Format\Normal\IPL</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\Code\Rockstar Games\File Format\Normal\IPL\eIPLSection.h">
+      <Filter>Header Files\File Format\Normal\IPL</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\Code\Rockstar Games\File Format\Normal\IPL\CIPLEntry.h">
+      <Filter>Header Files\File Format\Normal\IPL</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\Code\Rockstar Games\File Format\Normal\IPL\Entry\CIPLEntry_Section.h">
+      <Filter>Header Files\File Format\Normal\IPL\Entry</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\Code\Rockstar Games\File Format\Normal\IPL\Entry\CIPLEntry_Data.h">
+      <Filter>Header Files\File Format\Normal\IPL\Entry</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\Code\Rockstar Games\File Format\Normal\IPL\Entry\CIPLEntry_Other.h">
+      <Filter>Header Files\File Format\Normal\IPL\Entry</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\Code\Rockstar Games\File Format\Normal\IPL\Entry\Data Entry\CIPLEntry_RTFX.h">
+      <Filter>Header Files\File Format\Normal\IPL\Entry\Data Entry</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\Code\Rockstar Games\File Format\Normal\IPL\Entry\Data Entry\CIPLEntry_SLOW.h">
+      <Filter>Header Files\File Format\Normal\IPL\Entry\Data Entry</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\Code\Rockstar Games\File Format\Normal\IPL\Entry\Data Entry\CIPLEntry_TCYC.h">
+      <Filter>Header Files\File Format\Normal\IPL\Entry\Data Entry</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\Code\Rockstar Games\File Format\Normal\IPL\Entry\Data Entry\CIPLEntry_UnknownSection.h">
+      <Filter>Header Files\File Format\Normal\IPL\Entry\Data Entry</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\Code\Rockstar Games\File Format\Normal\IPL\Entry\Data Entry\CIPLEntry_VNOD.h">
+      <Filter>Header Files\File Format\Normal\IPL\Entry\Data Entry</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\Code\Rockstar Games\File Format\Normal\IPL\Entry\Data Entry\CIPLEntry_ZONE.h">
+      <Filter>Header Files\File Format\Normal\IPL\Entry\Data Entry</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\Code\Rockstar Games\File Format\Normal\IPL\Entry\Data Entry\CIPLEntry_2DFX.h">
+      <Filter>Header Files\File Format\Normal\IPL\Entry\Data Entry</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\Code\Rockstar Games\File Format\Normal\IPL\Entry\Data Entry\CIPLEntry_AUZO.h">
+      <Filter>Header Files\File Format\Normal\IPL\Entry\Data Entry</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\Code\Rockstar Games\File Format\Normal\IPL\Entry\Data Entry\CIPLEntry_BLOK.h">
+      <Filter>Header Files\File Format\Normal\IPL\Entry\Data Entry</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\Code\Rockstar Games\File Format\Normal\IPL\Entry\Data Entry\CIPLEntry_CARS.h">
+      <Filter>Header Files\File Format\Normal\IPL\Entry\Data Entry</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\Code\Rockstar Games\File Format\Normal\IPL\Entry\Data Entry\CIPLEntry_CULL.h">
+      <Filter>Header Files\File Format\Normal\IPL\Entry\Data Entry</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\Code\Rockstar Games\File Format\Normal\IPL\Entry\Data Entry\CIPLEntry_ENEX.h">
+      <Filter>Header Files\File Format\Normal\IPL\Entry\Data Entry</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\Code\Rockstar Games\File Format\Normal\IPL\Entry\Data Entry\CIPLEntry_GRGE.h">
+      <Filter>Header Files\File Format\Normal\IPL\Entry\Data Entry</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\Code\Rockstar Games\File Format\Normal\IPL\Entry\Data Entry\CIPLEntry_INST.h">
+      <Filter>Header Files\File Format\Normal\IPL\Entry\Data Entry</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\Code\Rockstar Games\File Format\Normal\IPL\Entry\Data Entry\CIPLEntry_JUMP.h">
+      <Filter>Header Files\File Format\Normal\IPL\Entry\Data Entry</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\Code\Rockstar Games\File Format\Normal\IPL\Entry\Data Entry\CIPLEntry_LINK.h">
+      <Filter>Header Files\File Format\Normal\IPL\Entry\Data Entry</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\Code\Rockstar Games\File Format\Normal\IPL\Entry\Data Entry\CIPLEntry_LODM.h">
+      <Filter>Header Files\File Format\Normal\IPL\Entry\Data Entry</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\Code\Rockstar Games\File Format\Normal\IPL\Entry\Data Entry\CIPLEntry_MLOPLUS.h">
+      <Filter>Header Files\File Format\Normal\IPL\Entry\Data Entry</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\Code\Rockstar Games\File Format\Normal\IPL\Entry\Data Entry\CIPLEntry_MULT.h">
+      <Filter>Header Files\File Format\Normal\IPL\Entry\Data Entry</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\Code\Rockstar Games\File Format\Normal\IPL\Entry\Data Entry\CIPLEntry_MZON.h">
+      <Filter>Header Files\File Format\Normal\IPL\Entry\Data Entry</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\Code\Rockstar Games\File Format\Normal\IPL\Entry\Data Entry\CIPLEntry_OCCL.h">
+      <Filter>Header Files\File Format\Normal\IPL\Entry\Data Entry</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\Code\Rockstar Games\File Format\Normal\IPL\Entry\Data Entry\CIPLEntry_PATH.h">
+      <Filter>Header Files\File Format\Normal\IPL\Entry\Data Entry</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\Code\Rockstar Games\File Format\Normal\IPL\Entry\Data Entry\CIPLEntry_PICK.h">
+      <Filter>Header Files\File Format\Normal\IPL\Entry\Data Entry</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\Code\Rockstar Games\File Format\Normal\IPL\Entry\Data Entry\PATH\CIPLEntry_PATH_Group.h">
+      <Filter>Header Files\File Format\Normal\IPL\Entry\Data Entry\PATH</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\Code\Rockstar Games\File Format\Normal\IPL\Entry\Data Entry\PATH\CIPLEntry_PATH_Node.h">
+      <Filter>Header Files\File Format\Normal\IPL\Entry\Data Entry\PATH</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\Code\Rockstar Games\File Format\Normal\TXD\eTXDRasterDataFormat.h">
+      <Filter>Header Files\File Format\Normal\TXD</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\Code\Rockstar Games\File Format\Normal\TXD\CTXDFormat.h">
+      <Filter>Header Files\File Format\Normal\TXD</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\Code\Rockstar Games\File Format\Normal\TXD\CTXDManager.h">
+      <Filter>Header Files\File Format\Normal\TXD</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\Code\Rockstar Games\File Format\Normal\WDR\CWDRFormat.h">
+      <Filter>Header Files\File Format\Normal\WDR</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\Code\Rockstar Games\File Format\Normal\WDR\CWDRManager.h">
+      <Filter>Header Files\File Format\Normal\WDR</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\Code\Rockstar Games\File Format\Normal\WDR\CWDRBlock_Geometry.h">
+      <Filter>Header Files\File Format\Normal\WDR</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\Code\Rockstar Games\File Format\Normal\WDR\CWDRBlock_IndexData.h">
+      <Filter>Header Files\File Format\Normal\WDR</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\Code\Rockstar Games\File Format\Normal\WDR\CWDRBlock_Model.h">
+      <Filter>Header Files\File Format\Normal\WDR</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\Code\Rockstar Games\File Format\Normal\WDR\CWDRBlock_VertexData.h">
+      <Filter>Header Files\File Format\Normal\WDR</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\Code\Rockstar Games\File Format\Normal\WDR\CWDRBoundingObject.h">
+      <Filter>Header Files\File Format\Normal\WDR</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\Code\Rockstar Games\File Format\Normal\WTD\CWTDMipmap.h">
+      <Filter>Header Files\File Format\Normal\WTD</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\Code\Rockstar Games\File Format\Normal\WTD\CWTDEntry.h">
+      <Filter>Header Files\File Format\Normal\WTD</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\Code\Rockstar Games\File Format\Normal\WTD\CWTDFormat.h">
+      <Filter>Header Files\File Format\Normal\WTD</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\Code\Rockstar Games\File Format\Normal\WTD\CWTDManager.h">
+      <Filter>Header Files\File Format\Normal\WTD</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\Code\Rockstar Games\File Format\Base\Section Lines\eSectionLinesEntryType.h">
+      <Filter>Header Files\File Format\Base\Section Lines</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\Code\Rockstar Games\File Format\Normal\DAT\Loader\CDATLoaderManager.h">
+      <Filter>Header Files\File Format\Normal\DAT\Loader</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\Code\Rockstar Games\File Format\Normal\DAT\Loader\eDATLoaderEntryType.h">
+      <Filter>Header Files\File Format\Normal\DAT\Loader</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\Code\Rockstar Games\File Format\Normal\DAT\Loader\CDATLoaderEntry.h">
+      <Filter>Header Files\File Format\Normal\DAT\Loader</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\Code\Rockstar Games\File Format\Normal\DAT\Loader\CDATLoaderFormat.h">
+      <Filter>Header Files\File Format\Normal\DAT\Loader</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\Code\Rockstar Games\File Format\Normal\DAT\Path\eDATPathFormat.h">
+      <Filter>Header Files\File Format\Normal\DAT\Path</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\Code\Rockstar Games\File Format\Normal\DAT\Path\CDATPathEntry.h">
+      <Filter>Header Files\File Format\Normal\DAT\Path</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\Code\Rockstar Games\File Format\Normal\DAT\Path\CDATPathFormat.h">
+      <Filter>Header Files\File Format\Normal\DAT\Path</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\Code\Rockstar Games\File Format\Normal\DAT\Path\CDATPathManager.h">
+      <Filter>Header Files\File Format\Normal\DAT\Path</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\Code\Rockstar Games\File Format\Raw\IMG\CIMGEntry_Version1Or2.h">
+      <Filter>Header Files\File Format\Raw\IMG</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\Code\Rockstar Games\File Format\Raw\IMG\CIMGEntry_Version3.h">
+      <Filter>Header Files\File Format\Raw\IMG</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\Code\Rockstar Games\File Format\Raw\IMG\CIMGFormat_Version2_Header1.h">
+      <Filter>Header Files\File Format\Raw\IMG</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\Code\Rockstar Games\File Format\Raw\IMG\CIMGFormat_Version3_Header1.h">
+      <Filter>Header Files\File Format\Raw\IMG</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\Code\Rockstar Games\File Format\Base\RW\CRWSection.h">
+      <Filter>Header Files\File Format\Base\RW</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\Code\Rockstar Games\File Format\Base\RW\CRWFormat.h">
+      <Filter>Header Files\File Format\Base\RW</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\Code\Rockstar Games\File Format\Base\RW\CRWSectionDepthData.h">
+      <Filter>Header Files\File Format\Base\RW</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\Code\Rockstar Games\File Format\Base\RW\Sections\CRWSection_Clump.h">
+      <Filter>Header Files\File Format\Base\RW\Sections</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\Code\Rockstar Games\File Format\Base\RW\Sections\CRWSection_BinMeshPLG.h">
+      <Filter>Header Files\File Format\Base\RW\Sections</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\Code\Rockstar Games\File Format\Base\RW\Sections\CRWSection_Atomic.h">
+      <Filter>Header Files\File Format\Base\RW\Sections</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\Code\Rockstar Games\File Format\Base\RW\Sections\CRWSection_2dEffect.h">
+      <Filter>Header Files\File Format\Base\RW\Sections</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\Code\Rockstar Games\File Format\Base\RW\Sections\CRWSection_UnknownSection.h">
+      <Filter>Header Files\File Format\Base\RW\Sections</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\Code\Rockstar Games\File Format\Base\RW\Sections\CRWSection_Texture.h">
+      <Filter>Header Files\File Format\Base\RW\Sections</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\Code\Rockstar Games\File Format\Base\RW\Sections\CRWSection_String.h">
+      <Filter>Header Files\File Format\Base\RW\Sections</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\Code\Rockstar Games\File Format\Base\RW\Sections\CRWSection_MaterialList.h">
+      <Filter>Header Files\File Format\Base\RW\Sections</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\Code\Rockstar Games\File Format\Base\RW\Sections\CRWSection_Material.h">
+      <Filter>Header Files\File Format\Base\RW\Sections</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\Code\Rockstar Games\File Format\Base\RW\Sections\CRWSection_Light.h">
+      <Filter>Header Files\File Format\Base\RW\Sections</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\Code\Rockstar Games\File Format\Base\RW\Sections\CRWSection_GeometryList.h">
+      <Filter>Header Files\File Format\Base\RW\Sections</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\Code\Rockstar Games\File Format\Base\RW\Sections\CRWSection_Geometry.h">
+      <Filter>Header Files\File Format\Base\RW\Sections</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\Code\Rockstar Games\File Format\Base\RW\Sections\CRWSection_FrameList.h">
+      <Filter>Header Files\File Format\Base\RW\Sections</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\Code\Rockstar Games\File Format\Base\RW\Sections\CRWSection_Frame.h">
+      <Filter>Header Files\File Format\Base\RW\Sections</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\Code\Rockstar Games\File Format\Base\RW\Sections\CRWSection_ExtraVertColour.h">
+      <Filter>Header Files\File Format\Base\RW\Sections</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\Code\Rockstar Games\File Format\Base\RW\Sections\CRWSection_Extension.h">
+      <Filter>Header Files\File Format\Base\RW\Sections</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\Code\Rockstar Games\File Format\Base\RW\CRWSectionContainer.h">
+      <Filter>Header Files\File Format\Base\RW</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\Code\Rockstar Games\File Format\Base\RW\Pools\C2dEffectsPool.h">
+      <Filter>Header Files\File Format\Base\RW\Pools</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\Code\Rockstar Games\File Format\Base\RW\Entries\CRWEntry_BinMeshPLG_Mesh.h">
+      <Filter>Header Files\File Format\Base\RW\Entries</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\Code\Rockstar Games\File Format\Base\RW\Entries\2d Effects\CRWEntry_2dEffect_SlotmachineWheel.h">
+      <Filter>Header Files\File Format\Base\RW\Entries\2d Effects</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\Code\Rockstar Games\File Format\Base\RW\Entries\2d Effects\CRWEntry_2dEffect_StreetSign.h">
+      <Filter>Header Files\File Format\Base\RW\Entries\2d Effects</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\Code\Rockstar Games\File Format\Base\RW\Entries\2d Effects\CRWEntry_2dEffect_SunGlare.h">
+      <Filter>Header Files\File Format\Base\RW\Entries\2d Effects</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\Code\Rockstar Games\File Format\Base\RW\Entries\2d Effects\CRWEntry_2dEffect_CoverPoint.h">
+      <Filter>Header Files\File Format\Base\RW\Entries\2d Effects</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\Code\Rockstar Games\File Format\Base\RW\Entries\2d Effects\CRWEntry_2dEffect_EnterExit.h">
+      <Filter>Header Files\File Format\Base\RW\Entries\2d Effects</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\Code\Rockstar Games\File Format\Base\RW\Entries\2d Effects\CRWEntry_2dEffect_Escalator.h">
+      <Filter>Header Files\File Format\Base\RW\Entries\2d Effects</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\Code\Rockstar Games\File Format\Base\RW\Entries\2d Effects\CRWEntry_2dEffect_Light.h">
+      <Filter>Header Files\File Format\Base\RW\Entries\2d Effects</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\Code\Rockstar Games\File Format\Base\RW\Entries\2d Effects\CRWEntry_2dEffect_ParticleEffect.h">
+      <Filter>Header Files\File Format\Base\RW\Entries\2d Effects</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\Code\Rockstar Games\File Format\Base\RW\Entries\2d Effects\CRWEntry_2dEffect_PedAttractor.h">
+      <Filter>Header Files\File Format\Base\RW\Entries\2d Effects</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\Code\Rockstar Games\File Format\Base\RW\Entries\C2dEffect.h">
+      <Filter>Header Files\File Format\Base\RW\Entries</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\Code\Rockstar Games\File Format\Base\RW\Sections\Partial\CRWGeometryBoundingInfo.h">
+      <Filter>Header Files\File Format\Base\RW\Sections\Partial</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\Code\Rockstar Games\File Format\Base\RW\CTextureEntry.h">
+      <Filter>Header Files\File Format\Base\RW</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\Code\Rockstar Games\File Format\Base\RW\Sections\CRWSection_TextureDictionary.h">
+      <Filter>Header Files\File Format\Base\RW\Sections</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\Code\Rockstar Games\File Format\Base\RW\Sections\CRWSection_TextureNative.h">
+      <Filter>Header Files\File Format\Base\RW\Sections</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\Code\Rockstar Games\File Format\Base\RW\Entries\CRWEntry_TextureNative_MipMap.h">
+      <Filter>Header Files\File Format\Base\RW\Entries</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\Code\Rockstar Games\File Format\Intermediate\Texture\CIntermediateTextureFormat.h">
+      <Filter>Header Files\File Format\Intermediate\Texture</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\Code\Rockstar Games\File Format\Intermediate\Texture\CIntermediateTexture.h">
+      <Filter>Header Files\File Format\Intermediate\Texture</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\Code\Rockstar Games\File Format\Intermediate\Model\CIntermediateModelFormat.h">
+      <Filter>Header Files\File Format\Intermediate\Model</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\Code\Rockstar Games\File Format\Intermediate\Model\CIntermediateModel.h">
+      <Filter>Header Files\File Format\Intermediate\Model</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\Code\Rockstar Games\File Format\Intermediate\Texture\Data\CIntermediateTextureMipmap.h">
+      <Filter>Header Files\File Format\Intermediate\Texture\Data</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\Code\Rockstar Games\File Format\Intermediate\Model\Data\CIntermediateVertexData.h">
+      <Filter>Header Files\File Format\Intermediate\Model\Data</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\Code\Rockstar Games\File Format\Intermediate\Model\Data\eIntermediateBoundingObjectType.h">
+      <Filter>Header Files\File Format\Intermediate\Model\Data</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\Code\Rockstar Games\File Format\Intermediate\Model\Data\CIntermediateBoundingObject.h">
+      <Filter>Header Files\File Format\Intermediate\Model\Data</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\Code\Rockstar Games\File Format\Intermediate\Model\Data\CIntermediateGeometry.h">
+      <Filter>Header Files\File Format\Intermediate\Model\Data</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\Code\Rockstar Games\File Format\Intermediate\Model\Data\CIntermediateIndexData.h">
+      <Filter>Header Files\File Format\Intermediate\Model\Data</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\Code\Rockstar Games\File Format\Custom\IMG\CIMGFormat_VersionFastman92_Header1.h">
+      <Filter>Header Files\File Format\Custom\IMG</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\Code\Rockstar Games\File Format\Custom\IMG\CIMGFormat_VersionFastman92_Header2.h">
+      <Filter>Header Files\File Format\Custom\IMG</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\Code\Rockstar Games\File Format\Custom\IMG\eIMGVersionFastman92CompressionAlgorithm.h">
+      <Filter>Header Files\File Format\Custom\IMG</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\Code\Rockstar Games\File Format\Custom\IMG\CIMGEntry_Fastman92.h">
+      <Filter>Header Files\File Format\Custom\IMG</Filter>
+    </ClInclude>
+  </ItemGroup>
+</Project>
