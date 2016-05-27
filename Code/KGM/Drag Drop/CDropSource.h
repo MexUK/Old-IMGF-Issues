@@ -1,13 +1,14 @@
 #ifndef CDropSource_H
 #define CDropSource_H
 
-#include <afxole.h>
+#include <ObjIdl.h>
 #include <string>
 #include <vector>
 
 struct CDraggableFile;
+class CFile;
 
-class CDropSource : protected COleDataSource
+class CDropSource // todo : protected COleDataSource
 {
 public:
 	void							StartDragging(void);

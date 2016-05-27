@@ -53,7 +53,7 @@ This file has been modified by Mex to work with build numbers higher than 9999
 
 int main(int argc, char* argv[])
 {
-	char *pPath = "C:/C++/Code/KGM/buildnumber.h";
+	char *pPath = "C:/C++/KGM/Code/KGM/buildnumber.h";
   FILE *file;
   int i = 0;
   char line[80];

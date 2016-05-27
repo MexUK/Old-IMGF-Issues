@@ -39,11 +39,11 @@ CWDRFormat*					CWDRManager::convertIntermediateModelFileToWDRFile(CIntermediate
 	if (pGeneralModelFile->getEntryCount() > 0 && pGeneralModelFile->getEntryByIndex(0)->getEntryCount() > 0)
 	{
 		// bounding object
-		CIntermediateBoundingObject& boundingObject = pGeneralModelFile->getEntryByIndex(0)->getEntryByIndex(0)->getBoundingObject();
-		if (boundingObject.getBoundingObjectType() == BOUNDING_OBJECT_TYPE_SPHERE)
+		CIntermediateBoundingObject *pBoundingObject = pGeneralModelFile->getEntryByIndex(0)->getEntryByIndex(0)->getBoundingObject();
+		if (pBoundingObject->getBoundingObjectType() == BOUNDING_OBJECT_TYPE_SPHERE)
 		{
-			CVector3D vecMin = CMathUtility::getBoundingCuboidMinFromSphere(boundingObject.getCenter(), boundingObject.getRadius());
-			CVector3D vecMax = CMathUtility::getBoundingCuboidMinFromSphere(boundingObject.getCenter(), boundingObject.getRadius());
+			CVector3D vecMin = CMathUtility::getBoundingCuboidMinFromSphere(pBoundingObject->getCenter(), pBoundingObject->getRadius());
+			CVector3D vecMax = CMathUtility::getBoundingCuboidMinFromSphere(pBoundingObject->getCenter(), pBoundingObject->getRadius());
 			pWDRFile->m_boundingObject.m_fMin[0] = vecMin.m_x;
 			pWDRFile->m_boundingObject.m_fMin[1] = vecMin.m_y;
 			pWDRFile->m_boundingObject.m_fMin[2] = vecMin.m_z;
@@ -54,16 +54,16 @@ CWDRFormat*					CWDRManager::convertIntermediateModelFileToWDRFile(CIntermediate
 			pWDRFile->m_boundingObject.m_fMax[3] = 1.0f;
 			// todo - this takes 4 floats so is probably in a different format
 		}
-		else if (boundingObject.getBoundingObjectType() == BOUNDING_OBJECT_TYPE_CUBOID)
+		else if (pBoundingObject->getBoundingObjectType() == BOUNDING_OBJECT_TYPE_CUBOID)
 		{
-			pWDRFile->m_boundingObject.m_fMin[0] = boundingObject.getMin().m_x;
-			pWDRFile->m_boundingObject.m_fMin[1] = boundingObject.getMin().m_y;
-			pWDRFile->m_boundingObject.m_fMin[2] = boundingObject.getMin().m_z;
-			pWDRFile->m_boundingObject.m_fMin[3] = boundingObject.getMin().m_w;
-			pWDRFile->m_boundingObject.m_fMax[0] = boundingObject.getMax().m_x;
-			pWDRFile->m_boundingObject.m_fMax[1] = boundingObject.getMax().m_y;
-			pWDRFile->m_boundingObject.m_fMax[2] = boundingObject.getMax().m_z;
-			pWDRFile->m_boundingObject.m_fMax[3] = boundingObject.getMax().m_w;
+			pWDRFile->m_boundingObject.m_fMin[0] = pBoundingObject->getMin().m_x;
+			pWDRFile->m_boundingObject.m_fMin[1] = pBoundingObject->getMin().m_y;
+			pWDRFile->m_boundingObject.m_fMin[2] = pBoundingObject->getMin().m_z;
+			pWDRFile->m_boundingObject.m_fMin[3] = pBoundingObject->getMin().m_w;
+			pWDRFile->m_boundingObject.m_fMax[0] = pBoundingObject->getMax().m_x;
+			pWDRFile->m_boundingObject.m_fMax[1] = pBoundingObject->getMax().m_y;
+			pWDRFile->m_boundingObject.m_fMax[2] = pBoundingObject->getMax().m_z;
+			pWDRFile->m_boundingObject.m_fMax[3] = pBoundingObject->getMax().m_w;
 		}
 	}
 

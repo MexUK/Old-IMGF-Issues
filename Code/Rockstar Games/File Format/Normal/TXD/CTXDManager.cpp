@@ -1,3 +1,7 @@
+#include <Windows.h>
+#include <d3d11_1.h>
+#include <d2d1.h>
+#include <DXGIFormat.h>
 #include "CTXDManager.h"
 #include "CTXDFormat.h"
 #include "RW/Sections/CRWSection_TextureNative.h"

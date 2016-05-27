@@ -10,7 +10,7 @@ public:
 	CIDEEntry_2DFX_WorldPoint(CIDEFormat *pIDEFormat) :
 		CIDEEntry_2DFX(pIDEFormat, _2DFX_WORLD_POINT)
 	{
-	};
+	}
 
 	void						unserialize(void);
 	void						serialize(void);

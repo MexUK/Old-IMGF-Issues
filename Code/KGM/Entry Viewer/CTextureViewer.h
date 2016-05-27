@@ -49,13 +49,13 @@ public:
 	HMENU						getDisplayTypeMenu(void) { return m_hDisplayTypeMenu; }
 
 	void						setWindowScrollbarMaxRange(uint32 uiWindowScrollbarMaxRange) { m_uiWindowScrollbarMaxRange = uiWindowScrollbarMaxRange; }
-	uint32				getWindowScrollbarMaxRange(void) { return m_uiWindowScrollbarMaxRange; }
+	uint32						getWindowScrollbarMaxRange(void) { return m_uiWindowScrollbarMaxRange; }
 
 	void						setSingleDisplayTypeTopScrollbarHwnd(HWND hWnd) { m_hSingleDisplayTypeTopScrollbarHwnd = hWnd; }
 	HWND						getSingleDisplayTypeTopScrollbarHwnd(void) { return m_hSingleDisplayTypeTopScrollbarHwnd; }
 
 	void						setSingleDisplayTypeTopScrollbarMaxXPosition(uint32 uiMaxXPosition) { m_uiSingleDisplayTypeTopScrollbarMaxXPosition = uiMaxXPosition; }
-	uint32				getSingleDisplayTypeTopScrollbarMaxXPosition(void) { return m_uiSingleDisplayTypeTopScrollbarMaxXPosition; }
+	uint32						getSingleDisplayTypeTopScrollbarMaxXPosition(void) { return m_uiSingleDisplayTypeTopScrollbarMaxXPosition; }
 
 	void						loadThreadAndWindow(void);
 	void						unloadThreadAndWindow(void);
@@ -84,11 +84,11 @@ private:
 	eEntryViewerDisplayType		m_eEntryViewerDisplayType;
 	HMENU						m_hViewMenu;
 	HMENU						m_hDisplayTypeMenu;
-	uint32				m_uiWindowScrollbarMaxRange;
+	uint32						m_uiWindowScrollbarMaxRange;
 	HWND						m_hSingleDisplayTypeTopScrollbarHwnd;
-	uint32				m_uiSingleDisplayTypeTopScrollbarMaxXPosition;
+	uint32						m_uiSingleDisplayTypeTopScrollbarMaxXPosition;
 	ULONG_PTR					m_gdiplusToken;
-	uint8				m_bTexturePreviewIsEnabled : 1;
+	uint8						m_bTexturePreviewIsEnabled : 1;
 };
 
 #endif

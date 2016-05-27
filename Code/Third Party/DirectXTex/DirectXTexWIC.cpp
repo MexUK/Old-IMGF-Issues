@@ -13,6 +13,10 @@
 // http://go.microsoft.com/fwlink/?LinkId=248926
 //-------------------------------------------------------------------------------------
 
+#include <Windows.h>
+#include <d3d11_1.h>
+#include <d2d1.h>
+#include <DXGIFormat.h>
 #include "directxtexp.h"
 
 using Microsoft::WRL::ComPtr;

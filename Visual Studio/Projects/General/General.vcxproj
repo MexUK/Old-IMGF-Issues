@@ -1,5 +1,5 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
-<Project DefaultTargets="Build" ToolsVersion="12.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+<Project DefaultTargets="Build" ToolsVersion="14.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <ItemGroup Label="ProjectConfigurations">
     <ProjectConfiguration Include="Debug|Win32">
       <Configuration>Debug</Configuration>
@@ -18,13 +18,13 @@
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" Label="Configuration">
     <ConfigurationType>StaticLibrary</ConfigurationType>
     <UseDebugLibraries>true</UseDebugLibraries>
-    <PlatformToolset>v120</PlatformToolset>
+    <PlatformToolset>v140</PlatformToolset>
     <CharacterSet>MultiByte</CharacterSet>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'" Label="Configuration">
     <ConfigurationType>StaticLibrary</ConfigurationType>
     <UseDebugLibraries>false</UseDebugLibraries>
-    <PlatformToolset>v120</PlatformToolset>
+    <PlatformToolset>v140</PlatformToolset>
     <WholeProgramOptimization>true</WholeProgramOptimization>
     <CharacterSet>MultiByte</CharacterSet>
   </PropertyGroup>
@@ -39,16 +39,16 @@
   </ImportGroup>
   <PropertyGroup Label="UserMacros" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
-    <OutDir>C:\C++\Output\Library\General\$(Configuration)\</OutDir>
-    <IntDir>C:\C++\Output\Intermediate\General\$(Configuration)\</IntDir>
-    <LibraryPath>C:\C++\Output\Library\Ultra Core\$(Configuration)\;C:\C++\Output\Library\Core\$(Configuration)\;C:\C++\Output\Library\Utility\$(Configuration)\;C:\C++\Output\Library\Third Party\Compiled\$(Configuration)\;$(LibraryPath)</LibraryPath>
-    <IncludePath>C:\C++\Code\Ultra Core;C:\C++\Code\Ultra Core\Vector\Layer 3;C:\C++\Code\Ultra Core\Vector\Layer 4;C:\C++\Code\General;C:\C++\Code\General\File Format;C:\C++\Code\Core;C:\C++\Code\Utility;C:\C++\Code\Third Party\STB;$(IncludePath)</IncludePath>
+    <OutDir>C:\C++\KGM\Output\Library\General\$(Configuration)\</OutDir>
+    <IntDir>C:\C++\KGM\Output\Intermediate\General\$(Configuration)\</IntDir>
+    <LibraryPath>C:\C++\KGM\Output\Library\Ultra Core\$(Configuration)\;C:\C++\KGM\Output\Library\Core\$(Configuration)\;C:\C++\KGM\Output\Library\Utility\$(Configuration)\;C:\C++\KGM\Output\Library\Third Party\Compiled\$(Configuration)\;$(LibraryPath)</LibraryPath>
+    <IncludePath>C:\C++\KGM\Code\Ultra Core;C:\C++\KGM\Code\Ultra Core\Vector\Layer 3;C:\C++\KGM\Code\Ultra Core\Vector\Layer 4;C:\C++\KGM\Code\General;C:\C++\KGM\Code\General\File Format;C:\C++\KGM\Code\Core;C:\C++\KGM\Code\Utility;C:\C++\KGM\Code\Third Party\STB;$(IncludePath)</IncludePath>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
-    <OutDir>C:\C++\Output\Library\General\$(Configuration)\</OutDir>
-    <IntDir>C:\C++\Output\Intermediate\General\$(Configuration)\</IntDir>
-    <LibraryPath>C:\C++\Output\Library\Ultra Core\$(Configuration)\;C:\C++\Output\Library\Core\$(Configuration)\;C:\C++\Output\Library\Utility\$(Configuration)\;C:\C++\Output\Library\Third Party\Compiled\$(Configuration)\;$(LibraryPath)</LibraryPath>
-    <IncludePath>C:\C++\Code\Ultra Core;C:\C++\Code\Ultra Core\Vector\Layer 3;C:\C++\Code\Ultra Core\Vector\Layer 4;C:\C++\Code\General;C:\C++\Code\General\File Format;C:\C++\Code\Core;C:\C++\Code\Utility;C:\C++\Code\Third Party\STB;$(IncludePath)</IncludePath>
+    <OutDir>C:\C++\KGM\Output\Library\General\$(Configuration)\</OutDir>
+    <IntDir>C:\C++\KGM\Output\Intermediate\General\$(Configuration)\</IntDir>
+    <LibraryPath>C:\C++\KGM\Output\Library\Ultra Core\$(Configuration)\;C:\C++\KGM\Output\Library\Core\$(Configuration)\;C:\C++\KGM\Output\Library\Utility\$(Configuration)\;C:\C++\KGM\Output\Library\Third Party\Compiled\$(Configuration)\;$(LibraryPath)</LibraryPath>
+    <IncludePath>C:\C++\KGM\Code\Ultra Core;C:\C++\KGM\Code\Ultra Core\Vector\Layer 3;C:\C++\KGM\Code\Ultra Core\Vector\Layer 4;C:\C++\KGM\Code\General;C:\C++\KGM\Code\General\File Format;C:\C++\KGM\Code\Core;C:\C++\KGM\Code\Utility;C:\C++\KGM\Code\Third Party\STB;$(IncludePath)</IncludePath>
   </PropertyGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <ClCompile>

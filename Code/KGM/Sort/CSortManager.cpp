@@ -1,6 +1,5 @@
 #pragma warning(disable : 4005)
 
-#include <afxcmn.h>
 #include "CSortManager.h"
 #include "CKGM.h"
 #include "Globals.h"
@@ -364,7 +363,7 @@ void		CSortManager::onClickMenuItem(uint16 usMenuHandle)
 		pSortPriority->setEnabled(true);
 		pSortPriority->setType(pSortMenuItem->m_pType);
 
-		CMenu *pSortMenu = nullptr; // todo CMenu::FromHandle(getKGM()->m_hMenu_Entry_Sort);
+		// todo CMenu *pSortMenu = nullptr; // todo CMenu::FromHandle(getKGM()->m_hMenu_Entry_Sort);
 
 		if (pSortMenuItem->m_pType->getType() == SORT_IDE_FILE)
 		{
@@ -386,7 +385,7 @@ void		CSortManager::onClickMenuItem(uint16 usMenuHandle)
 					pSortPriority->setData(vecEntryNames);
 					pSortPriority->setStrData(CPathUtility::getFileName(pIDEFile->getFilePath()));
 
-					pSortMenu->ModifyMenuW(usMenuHandle, 0, usMenuHandle, CLocalizationManager::getInstance()->getTranslatedFormattedTextW("Sort_ByText_WithFilename", pSortMenuItem->m_pType->getTextForMenu().c_str(), CPathUtility::getFileName(pIDEFile->getFilePath()).c_str()).c_str());
+					// todo pSortMenu->ModifyMenuW(usMenuHandle, 0, usMenuHandle, CLocalizationManager::getInstance()->getTranslatedFormattedTextW("Sort_ByText_WithFilename", pSortMenuItem->m_pType->getTextForMenu().c_str(), CPathUtility::getFileName(pIDEFile->getFilePath()).c_str()).c_str());
 				}
 				pIDEFile->unload();
 				delete pIDEFile;
@@ -410,7 +409,7 @@ void		CSortManager::onClickMenuItem(uint16 usMenuHandle)
 					pSortPriority->setData(vecEntryNames);
 					pSortPriority->setStrData(CPathUtility::getFileName(pCOLFile->getFilePath()));
 
-					pSortMenu->ModifyMenuW(usMenuHandle, 0, usMenuHandle, CLocalizationManager::getInstance()->getTranslatedFormattedTextW("Sort_ByText_WithFilename", pSortMenuItem->m_pType->getTextForMenu().c_str(), CPathUtility::getFileName(pCOLFile->getFilePath()).c_str()).c_str());
+					// todo pSortMenu->ModifyMenuW(usMenuHandle, 0, usMenuHandle, CLocalizationManager::getInstance()->getTranslatedFormattedTextW("Sort_ByText_WithFilename", pSortMenuItem->m_pType->getTextForMenu().c_str(), CPathUtility::getFileName(pCOLFile->getFilePath()).c_str()).c_str());
 				}
 				pCOLFile->unload();
 				delete pCOLFile;
@@ -436,7 +435,7 @@ void		CSortManager::onClickMenuItem(uint16 usMenuHandle)
 				}
 				pSortPriority->setData(vecFileExtensions);
 				pSortPriority->setStrData(CStringUtility::join(vecFileExtensions, ", "));
-				pSortMenu->ModifyMenuW(usMenuHandle, 0, usMenuHandle, CLocalizationManager::getInstance()->getTranslatedFormattedTextW("Sort_ByText_WithFilename", pSortMenuItem->m_pType->getTextForMenu().c_str(), CStringUtility::join(vecFileExtensions, ", ").c_str()).c_str());
+				// todo pSortMenu->ModifyMenuW(usMenuHandle, 0, usMenuHandle, CLocalizationManager::getInstance()->getTranslatedFormattedTextW("Sort_ByText_WithFilename", pSortMenuItem->m_pType->getTextForMenu().c_str(), CStringUtility::join(vecFileExtensions, ", ").c_str()).c_str());
 			}
 		}
 

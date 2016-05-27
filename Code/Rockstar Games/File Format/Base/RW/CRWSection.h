@@ -1,6 +1,7 @@
 #ifndef CRWSection_H
 #define CRWSection_H
 
+#include <d2d1.h>
 #include "CRWSectionContainer.h"
 #include "Engine/RW/eRWSection.h"
 #include "Engine/RW/eRWVersion.h"

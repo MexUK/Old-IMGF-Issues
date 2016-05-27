@@ -11,26 +11,28 @@ class CIntermediateGeometry
 {
 public:
 	CIntermediateGeometry(void) :
+		m_pBoundingObject(nullptr),
 		m_bHasVertexColours(false),
 		m_bHasUVTextureCoordinates(false),
 		m_bHasPositions(false),
 		m_bHasNormals(false)
 	{
-		m_boundingObject.setBoundingObjectType(BOUNDING_OBJECT_TYPE_SPHERE);
 		CVector3D vecCenter;
 		vecCenter.m_x = 0.0f;
 		vecCenter.m_y = 0.0f;
 		vecCenter.m_z = 0.0f;
-		m_boundingObject.setCenter(vecCenter);
-		m_boundingObject.setRadius(0.0f);
-		m_boundingObject.setHasPositions(false);
-		m_boundingObject.setHasNormals(false);
-	};
+		m_pBoundingObject = new CIntermediateBoundingObject;
+		m_pBoundingObject->setBoundingObjectType(BOUNDING_OBJECT_TYPE_SPHERE);
+		m_pBoundingObject->setCenter(vecCenter);
+		m_pBoundingObject->setRadius(0.0f);
+		m_pBoundingObject->setHasPositions(false);
+		m_pBoundingObject->setHasNormals(false);
+	}
 
 	void									unload(void) {};
 
-	void									setBoundingObject(CIntermediateBoundingObject& boundingObject) { m_boundingObject = boundingObject; }
-	CIntermediateBoundingObject&			getBoundingObject(void) { return m_boundingObject; }
+	void									setBoundingObject(CIntermediateBoundingObject *pBoundingObject) { m_pBoundingObject = pBoundingObject; }
+	CIntermediateBoundingObject*			getBoundingObject(void) { return m_pBoundingObject; }
 
 	void									setHasVertexColours(bool bHasVertexColours) { m_bHasVertexColours = bHasVertexColours; }
 	bool									doesHaveVertexColours(void) { return m_bHasVertexColours; }
@@ -49,7 +51,7 @@ public:
 	std::vector<CIntermediateIndexData>&	getTriangles(void) { return m_vecTriangles; }
 
 private:
-	CIntermediateBoundingObject				m_boundingObject;
+	CIntermediateBoundingObject*			m_pBoundingObject;
 	uint8									m_bHasVertexColours : 1;
 	uint8									m_bHasUVTextureCoordinates : 1;
 	uint8									m_bHasPositions : 1;

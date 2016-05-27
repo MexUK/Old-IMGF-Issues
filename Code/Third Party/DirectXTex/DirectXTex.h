@@ -15,6 +15,11 @@
 
 #pragma once
 
+#include <Windows.h>
+#include <d3d11_1.h>
+#include <d2d1.h>
+#include <DXGIFormat.h>
+
 #if defined(WINAPI_FAMILY) && (WINAPI_FAMILY == WINAPI_FAMILY_PHONE_APP) && (_WIN32_WINNT <= _WIN32_WINNT_WIN8)
 #error WIC is not supported on Windows Phone 8.0
 #endif

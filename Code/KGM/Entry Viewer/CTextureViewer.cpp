@@ -1,4 +1,3 @@
-#include <afxcmn.h>
 #include "CTextureViewer.h"
 #include "Globals.h"
 #include "CKGM.h"
@@ -515,6 +514,9 @@ void				CTextureViewer::closeWindow(void)
 
 void				CTextureViewer::repositionWindow(void)
 {
+	/*
+	todo
+
 	RECT rect;
 	GetWindowRect(getKGM()->getDialog()->GetSafeHwnd(), &rect);
 
@@ -522,9 +524,11 @@ void				CTextureViewer::repositionWindow(void)
 	uint32 uiEntryViewerWindowY = rect.top;
 
 	SetWindowPos(getWindowHwnd(), HWND_TOP, uiEntryViewerWindowX, uiEntryViewerWindowY, 0, 0, SWP_NOZORDER | SWP_NOSIZE);
+	*/
 }
 
-///*
+/*
+todo
 LRESULT CALLBACK WndProc_ComboBox(
 	HWND      hWnd,
 	UINT      uMsg,
@@ -543,7 +547,8 @@ LRESULT CALLBACK WndProc_ComboBox(
 
 	return DefSubclassProc(hWnd, uMsg, wParam, lParam);
 }
-//*/
+*/
+
 /*
 WNDPROC prevWndProc;
 
@@ -582,6 +587,8 @@ void				CTextureViewer::initDisplayType(void)
 {
 	if (getDisplayType() == DISPLAYTYPE_SINGLE)
 	{
+		/*
+		todo
 		int xpos = g_uiLeftPanelWidth + 50; // Horizontal position of the window.
 		int ypos = 7;            // Vertical position of the window.
 		int nwidth = 200;          // Width of the window
@@ -600,6 +607,7 @@ void				CTextureViewer::initDisplayType(void)
 			((CComboBox*)CWnd::FromHandle(hWndComboBox))->InsertString(i, CStringUtility::convertStdStringToStdWString(CStringUtility::toString(uiZoomLevels[i]) + "%").c_str());
 		}
 		((CComboBox*)CWnd::FromHandle(hWndComboBox))->SetCurSel(3);
+		*/
 
 		/*
 		return;
@@ -805,12 +813,15 @@ LRESULT CALLBACK	WndProc_EntryViewer(HWND hwnd, UINT msg, WPARAM wParam, LPARAM 
 	}
 	case WM_SIZE:
 	{
+		/*
+		todo
 		if (pTextureViewer->isRenderDataReady())
 		{
 			CWnd *pWnd = CWnd::FromHandle(pTextureViewer->getWindowHwnd());
 			pWnd->Invalidate(true);
 			UpdateWindow(pTextureViewer->getWindowHwnd());
 		}
+		*/
 
 		// apply scroll range
 		int xNewSize = LOWORD(lParam);
@@ -1306,6 +1317,8 @@ void				CTextureViewer::clearWindowBackground(HDC hdc)
 		uint32 uiWidth = clientRect.right - clientRect.left;
 		uint32 uiHeight = clientRect.bottom - clientRect.top;
 
+		/*
+		todo
 		CDC *pDC = CDC::FromHandle(hdc);
 		for (int i = 0; i<uiHeight; i++)
 		{
@@ -1324,6 +1337,7 @@ void				CTextureViewer::clearWindowBackground(HDC hdc)
 		HBRUSH bkgBrush = CreateSolidBrush(RGB(229, 234, 245));
 		FillRect(hdc, &leftPanelRect, bkgBrush);
 		DeleteObject(bkgBrush);
+		*/
 	}
 	else if (getDisplayType() == DISPLAYTYPE_FLOAT)
 	{

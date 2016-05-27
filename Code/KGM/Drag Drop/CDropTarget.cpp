@@ -1,6 +1,5 @@
 #pragma warning(disable : 4005)
 
-#include <afxole.h>
 #include "CDropTarget.h"
 #include "String/CStringUtility.h"
 #include "Globals.h"

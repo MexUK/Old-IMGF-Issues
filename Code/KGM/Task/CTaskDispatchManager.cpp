@@ -1,6 +1,5 @@
 #pragma warning(disable : 4005)
 
-#include <afxcmn.h>
 #include "CTaskDispatchManager.h"
 #include "CTaskManager.h"
 #include "CKGM.h"
@@ -296,6 +295,8 @@ void		CTaskDispatchManager::onRequestImportViaFiles(void)
 }
 void		CTaskDispatchManager::onRequestRemoveSelected(void)
 {
+	/*
+	todo
 	getKGM()->getTaskManager()->onTaskBegin("onRequestRemoveSelected");
 	if (getKGM()->getEntryListTab() == nullptr)
 	{
@@ -343,9 +344,12 @@ void		CTaskDispatchManager::onRequestRemoveSelected(void)
 		getKGM()->getEntryListTab()->setIMGModifiedSinceRebuild(true);
 	}
 	getKGM()->getTaskManager()->onTaskEnd("onRequestRemoveSelected");
+	*/
 }
 void		CTaskDispatchManager::onRequestRenameEntry(void)
 {
+	/*
+	todo
 	getKGM()->getTaskManager()->onTaskBegin("onRequestRenameEntry");
 	if (getKGM()->getEntryListTab() == nullptr)
 	{
@@ -403,9 +407,12 @@ void		CTaskDispatchManager::onRequestRenameEntry(void)
 
 	getKGM()->getEntryListTab()->setIMGModifiedSinceRebuild(true);
 	getKGM()->getTaskManager()->onTaskEnd("onRequestRenameEntry");
+	*/
 }
 void		CTaskDispatchManager::onRequestSelectAll(void)
 {
+	/*
+	todo
 	getKGM()->getTaskManager()->onTaskBegin("onRequestSelectAll");
 	if (getKGM()->getEntryListTab() == nullptr)
 	{
@@ -445,9 +452,12 @@ void		CTaskDispatchManager::onRequestSelectAll(void)
 		getKGM()->getEntryListTab()->log(CLocalizationManager::getInstance()->getTranslatedFormattedText("Log_57", pListControl->GetItemCount()));
 	}
 	getKGM()->getTaskManager()->onTaskEnd("onRequestSelectAll");
+	*/
 }
 void		CTaskDispatchManager::onRequestSelectInverse(void)
 {
+	/*
+	todo
 	getKGM()->getTaskManager()->onTaskBegin("onRequestSelectInverse");
 	if (getKGM()->getEntryListTab() == nullptr)
 	{
@@ -477,6 +487,7 @@ void		CTaskDispatchManager::onRequestSelectInverse(void)
 	pListControl->SetFocus();
 	getKGM()->getEntryListTab()->log(CLocalizationManager::getInstance()->getTranslatedFormattedText("Log_58", uiSelectedEntryCount, pListControl->GetItemCount()));
 	getKGM()->getTaskManager()->onTaskEnd("onRequestSelectInverse");
+	*/
 }
 void		CTaskDispatchManager::onRequestRebuild(void)
 {
@@ -1198,6 +1209,8 @@ void		CTaskDispatchManager::onRequestSplitViaTextLines(void)
 }
 void		CTaskDispatchManager::onRequestReplace(void)
 {
+	/*
+	todo
 	getKGM()->getTaskManager()->onTaskBegin("onRequestReplace");
 	if (getKGM()->getEntryListTab() == nullptr)
 	{
@@ -1316,9 +1329,12 @@ void		CTaskDispatchManager::onRequestReplace(void)
 
 	getKGM()->getEntryListWindow()->refreshActiveTab();
 	getKGM()->getTaskManager()->onTaskEnd("onRequestReplace");
+	*/
 }
 void		CTaskDispatchManager::onRequestExportSelected(void)
 {
+	/*
+	todo
 	getKGM()->getTaskManager()->onTaskBegin("onRequestExportSelected");
 	if (getKGM()->getEntryListTab() == nullptr)
 	{
@@ -1364,9 +1380,12 @@ void		CTaskDispatchManager::onRequestExportSelected(void)
 	getKGM()->getEntryListTab()->log(CLocalizationManager::getInstance()->getTranslatedText("Log_77"), true);
 	getKGM()->getEntryListTab()->log(CStringUtility::join(vecExportedEntryNames, "\n"), true);
 	getKGM()->getTaskManager()->onTaskEnd("onRequestExportSelected");
+	*/
 }
 void		CTaskDispatchManager::onRequestSearchText(void) // from search box
 {
+	/*
+	todo
 	getKGM()->getTaskManager()->onTaskBegin("onRequestSearchText");
 	if (getKGM()->getEntryListTab() == nullptr)
 	{
@@ -1409,9 +1428,12 @@ void		CTaskDispatchManager::onRequestSearchText(void) // from search box
 		getKGM()->getEntryListTab()->log(CLocalizationManager::getInstance()->getTranslatedFormattedText("LogAllTabs_3", getKGM()->getEntryListWindow()->getSearchHitCount(), getKGM()->getEntryListWindow()->getSearchFileCount()), true);
 	}
 	getKGM()->getTaskManager()->onTaskEnd("onRequestSearchText");
+	*/
 }
 void		CTaskDispatchManager::onRequestSearchSelection(void)
 {
+	/*
+	todo
 	getKGM()->getTaskManager()->onTaskBegin("onRequestSearchSelection");
 	if (getKGM()->getEntryListTab() == nullptr)
 	{
@@ -1455,6 +1477,7 @@ void		CTaskDispatchManager::onRequestSearchSelection(void)
 		pListControlMain->Scroll(CSize(0, (nItem2 - uiCurrentScroll) * uiHeight));
 	}
 	getKGM()->getTaskManager()->onTaskEnd("onRequestSearchSelection");
+	*/
 }
 void		CTaskDispatchManager::onRequestFilter(void)
 {
@@ -1479,6 +1502,8 @@ void		CTaskDispatchManager::onRequestFilter(void)
 }
 void		CTaskDispatchManager::onRequestFind(bool bFindInAllOpenedFiles) // from menu
 {
+	/*
+	todo
 	getKGM()->getTaskManager()->onTaskBegin("onRequestFind");
 	if (getKGM()->getEntryListTab() == nullptr)
 	{
@@ -1510,6 +1535,7 @@ void		CTaskDispatchManager::onRequestFind(bool bFindInAllOpenedFiles) // from me
 	getKGM()->getEntryListTab()->setSearchText(strSearchText);
 	getKGM()->getEntryListTab()->searchText();
 	getKGM()->getTaskManager()->onTaskEnd("onRequestFind");
+	*/
 }
 void		CTaskDispatchManager::onRequestExportViaButton(void)
 {
@@ -1705,7 +1731,7 @@ void		CTaskDispatchManager::onRequestSortButton(void)
 		}
 
 		uint32 uiPriority = i;
-		CMenu *pSortMenu = nullptr; // todo CMenu::FromHandle(getKGM()->m_hMenu_Entry_Sort);
+		// todo CMenu *pSortMenu = nullptr; // todo CMenu::FromHandle(getKGM()->m_hMenu_Entry_Sort);
 		uint32 wp = 1200 + (20 * i) + vecSortOptions[i];
 
 		if (vecSortOptions[i] == 6) // sort by IDE file
@@ -1729,7 +1755,7 @@ void		CTaskDispatchManager::onRequestSortButton(void)
 					vector<string> vecEntryNames = CVectorUtility::toUpperCase(CVectorUtility::combineVectors(vecModelNames, vecTextureNames));
 					getKGM()->getSortManager()->getSortPriorities()->getEntryByIndex((uint16)uiPriority)->setData(vecEntryNames);
 
-					pSortMenu->ModifyMenuW(LOWORD(wp), 0, LOWORD(wp), CLocalizationManager::getInstance()->getTranslatedFormattedTextW("Sort_ByText_WithFilename", "IDE file", CPathUtility::getFileName(pIDEFile->getFilePath()).c_str()).c_str());
+					// todo pSortMenu->ModifyMenuW(LOWORD(wp), 0, LOWORD(wp), CLocalizationManager::getInstance()->getTranslatedFormattedTextW("Sort_ByText_WithFilename", "IDE file", CPathUtility::getFileName(pIDEFile->getFilePath()).c_str()).c_str());
 				}
 				pIDEFile->unload();
 				delete pIDEFile;
@@ -1754,7 +1780,7 @@ void		CTaskDispatchManager::onRequestSortButton(void)
 					vector<string> vecEntryNames = CVectorUtility::toUpperCase(pCOLFile->getModelNames());
 					getKGM()->getSortManager()->getSortPriorities()->getEntryByIndex((uint16)uiPriority)->setData(vecEntryNames);
 
-					pSortMenu->ModifyMenuW(LOWORD(wp), 0, LOWORD(wp), CLocalizationManager::getInstance()->getTranslatedFormattedTextW("Sort_ByText_WithFilename", "COL file", CPathUtility::getFileName(pCOLFile->getFilePath()).c_str()).c_str());
+					// todo pSortMenu->ModifyMenuW(LOWORD(wp), 0, LOWORD(wp), CLocalizationManager::getInstance()->getTranslatedFormattedTextW("Sort_ByText_WithFilename", "COL file", CPathUtility::getFileName(pCOLFile->getFilePath()).c_str()).c_str());
 				}
 				pCOLFile->unload();
 				delete pCOLFile;
@@ -1781,7 +1807,7 @@ void		CTaskDispatchManager::onRequestSortButton(void)
 					}
 				}
 				getKGM()->getSortManager()->getSortPriorities()->getEntryByIndex((uint16)uiPriority)->setData(vecFileExtensions);
-				pSortMenu->ModifyMenuW(LOWORD(wp), 0, LOWORD(wp), CLocalizationManager::getInstance()->getTranslatedFormattedTextW("Sort_ByText_WithFilename", CLocalizationManager::getInstance()->getTranslatedTextW("Sort_Extensions").c_str(), CStringUtility::join(vecFileExtensions, ", ").c_str()).c_str());
+				// todo pSortMenu->ModifyMenuW(LOWORD(wp), 0, LOWORD(wp), CLocalizationManager::getInstance()->getTranslatedFormattedTextW("Sort_ByText_WithFilename", CLocalizationManager::getInstance()->getTranslatedTextW("Sort_Extensions").c_str(), CStringUtility::join(vecFileExtensions, ", ").c_str()).c_str());
 			}
 		}
 
@@ -1802,6 +1828,8 @@ void		CTaskDispatchManager::onRequestSortButton(void)
 }
 void		CTaskDispatchManager::onRequestRemoveViaIDEFile(void)
 {
+	/*
+	todo
 	getKGM()->getTaskManager()->onTaskBegin("onRequestRemoveViaIDEFile");
 	if (getKGM()->getEntryListTab() == nullptr)
 	{
@@ -1864,9 +1892,12 @@ void		CTaskDispatchManager::onRequestRemoveViaIDEFile(void)
 		getKGM()->getEntryListTab()->setIMGModifiedSinceRebuild(true);
 	}
 	getKGM()->getTaskManager()->onTaskEnd("onRequestRemoveViaIDEFile");
+	*/
 }
 void		CTaskDispatchManager::onRequestRemoveViaTextLines(void)
 {
+	/*
+	todo
 	getKGM()->getTaskManager()->onTaskBegin("onRequestRemoveViaTextLines");
 	if (getKGM()->getEntryListTab() == nullptr)
 	{
@@ -1936,6 +1967,7 @@ void		CTaskDispatchManager::onRequestRemoveViaTextLines(void)
 		getKGM()->getEntryListTab()->setIMGModifiedSinceRebuild(true);
 	}
 	getKGM()->getTaskManager()->onTaskEnd("onRequestRemoveViaTextLines");
+	*/
 }
 void		CTaskDispatchManager::onRequestRemoveViaButton(void)
 {
@@ -2248,6 +2280,8 @@ void		CTaskDispatchManager::onRequestStats(void)
 }
 void		CTaskDispatchManager::onRequestNameCase(uint8 ucCaseType, uint8 ucFilenameType)
 {
+	/*
+	todo
 	getKGM()->getLastUsedValueManager()->setLastUsedValue_NameCase_CaseType(ucCaseType);
 	getKGM()->getLastUsedValueManager()->setLastUsedValue_NameCase_FilenameType(ucFilenameType);
 	getKGM()->getTaskManager()->onTaskBegin("onRequestNameCase");
@@ -2326,9 +2360,12 @@ void		CTaskDispatchManager::onRequestNameCase(uint8 ucCaseType, uint8 ucFilename
 
 	getKGM()->getEntryListTab()->setIMGModifiedSinceRebuild(true);
 	getKGM()->getTaskManager()->onTaskEnd("onRequestNameCase");
+	*/
 }
 void		CTaskDispatchManager::onRequestCopyEntryData(eIMGEntryProperty eIMGEntryProperty)
 {
+	/*
+	todo
 	getKGM()->getLastUsedValueManager()->setLastUsedValue_Copy_IMGEntryProperty(eIMGEntryProperty);
 	getKGM()->getTaskManager()->onTaskBegin("onRequestCopyEntryData");
 	if (getKGM()->getEntryListTab() == nullptr)
@@ -2382,9 +2419,12 @@ void		CTaskDispatchManager::onRequestCopyEntryData(eIMGEntryProperty eIMGEntryPr
 
 	CStringUtility::setClipboardText(CStringUtility::join(vecCopyLines, "\r\n"));
 	getKGM()->getTaskManager()->onTaskEnd("onRequestCopyEntryData");
+	*/
 }
 void		CTaskDispatchManager::onRequestShift(uint8 ucDirection)
 {
+	/*
+	todo
 	getKGM()->getLastUsedValueManager()->setLastUsedValue_Shift_Direction(ucDirection);
 	getKGM()->getTaskManager()->onTaskBegin("onRequestShift");
 	if (getKGM()->getEntryListTab() == nullptr)
@@ -2456,9 +2496,12 @@ void		CTaskDispatchManager::onRequestShift(uint8 ucDirection)
 
 	getKGM()->getEntryListTab()->setIMGModifiedSinceRebuild(true);
 	getKGM()->getTaskManager()->onTaskEnd("onRequestShift");
+	*/
 }
 void		CTaskDispatchManager::onRequestQuickExport(void)
 {
+	/*
+	todo
 	getKGM()->getTaskManager()->onTaskBegin("onRequestQuickExport");
 	if (getKGM()->getEntryListTab() == nullptr)
 	{
@@ -2515,9 +2558,12 @@ void		CTaskDispatchManager::onRequestQuickExport(void)
 	getKGM()->getEntryListTab()->log(CLocalizationManager::getInstance()->getTranslatedText("Log_88"), true);
 	getKGM()->getEntryListTab()->log(CStringUtility::join(vecExportedEntryNames, "\n"), true);
 	getKGM()->getTaskManager()->onTaskEnd("onRequestQuickExport");
+	*/
 }
 void		CTaskDispatchManager::onRequestSelectViaFileExtension(void)
 {
+	/*
+	todo
 	getKGM()->getTaskManager()->onTaskBegin("onRequestSelectViaFileExtension");
 	if (getKGM()->getEntryListTab() == nullptr)
 	{
@@ -2563,9 +2609,12 @@ void		CTaskDispatchManager::onRequestSelectViaFileExtension(void)
 
 	pListControl->SetFocus();
 	getKGM()->getTaskManager()->onTaskEnd("onRequestSelectViaFileExtension");
+	*/
 }
 void		CTaskDispatchManager::onRequestSelectViaRWVersion(CRWVersion *pRWVersion)
 {
+	/*
+	todo
 	getKGM()->getLastUsedValueManager()->setLastUsedValue_Select_RWVersion(pRWVersion);
 	getKGM()->getTaskManager()->onTaskBegin("onRequestSelectViaRWVersion");
 	if (getKGM()->getEntryListTab() == nullptr)
@@ -2594,6 +2643,7 @@ void		CTaskDispatchManager::onRequestSelectViaRWVersion(CRWVersion *pRWVersion)
 
 	pListControl->SetFocus();
 	getKGM()->getTaskManager()->onTaskEnd("onRequestSelectViaRWVersion");
+	*/
 }
 void		CTaskDispatchManager::onRequestVersion(void)
 {
@@ -2603,6 +2653,8 @@ void		CTaskDispatchManager::onRequestVersion(void)
 }
 void		CTaskDispatchManager::onRequestTextureList(void)
 {
+	/*
+	todo
 	getKGM()->getTaskManager()->onTaskBegin("onRequestTextureList");
 	if (getKGM()->getEntryListTab() == nullptr)
 	{
@@ -2704,6 +2756,7 @@ void		CTaskDispatchManager::onRequestTextureList(void)
 	}
 	delete pTextureListDialogData;
 	getKGM()->getTaskManager()->onTaskEnd("onRequestTextureList");
+	*/
 }
 void		CTaskDispatchManager::onRequestAssociateIMGExtension(void)
 {
@@ -2771,6 +2824,8 @@ string		CTaskDispatchManager::onRequestSaveLog(bool bActiveTab, bool bNormalForm
 }
 void		CTaskDispatchManager::onRequestSaveSession(void)
 {
+	/*
+	todo
 	getKGM()->getTaskManager()->onTaskBegin("onRequestSaveSession");
 	if (getKGM()->getEntryListWindow()->getEntryCount() == 0)
 	{
@@ -2813,6 +2868,7 @@ void		CTaskDispatchManager::onRequestSaveSession(void)
 	getKGM()->getEntryListWindow()->logAllTabs(CLocalizationManager::getInstance()->getTranslatedText("LogAllTabs_5"), true);
 	getKGM()->getEntryListWindow()->logAllTabs(CStringUtility::join(vecPaths, "\n"), true);
 	getKGM()->getTaskManager()->onTaskEnd("onRequestSaveSession");
+	*/
 }
 void		CTaskDispatchManager::onRequestOrphanDFFEntriesNotInCOL(void)
 {
@@ -2835,7 +2891,11 @@ void		CTaskDispatchManager::onRequestOrphanDFFEntriesNotInCOL(void)
 	}
 	getKGM()->setLastUsedDirectory("ORPHAN_DFF_COL__DFF", CPathUtility::getDirectory(vecDFFPaths[0]));
 	*/
+
+
 	vector<string> vecDFFEntryNamesWithoutExtension;
+	/*
+	todo
 	CListCtrl *pListControl = ((CListCtrl*)getKGM()->getDialog()->GetDlgItem(37));
 	for (uint32 i = 0, j = pListControl->GetItemCount(); i < j; i++)
 	{
@@ -2846,6 +2906,7 @@ void		CTaskDispatchManager::onRequestOrphanDFFEntriesNotInCOL(void)
 			vecDFFEntryNamesWithoutExtension.push_back(CPathUtility::removeFileExtension(pIMGEntry->getEntryName()));
 		}
 	}
+	*/
 
 	// choose COL files
 	getKGM()->getTaskManager()->onTaskPause();
@@ -3140,6 +3201,8 @@ void		CTaskDispatchManager::onRequestOrphanCOLEntriesNotInIDE(void)
 }
 void		CTaskDispatchManager::onRequestOrphanIMGEntriesNotInIDE(void)
 {
+	/*
+	todo
 	getKGM()->getTaskManager()->onTaskBegin("onRequestOrphanIMGEntriesNotInIDE");
 	if (getKGM()->getEntryListTab() == nullptr)
 	{
@@ -3200,6 +3263,7 @@ void		CTaskDispatchManager::onRequestOrphanIMGEntriesNotInIDE(void)
 		getKGM()->getEntryListTab()->searchText();
 	}
 	getKGM()->getTaskManager()->onTaskEnd("onRequestOrphanIMGEntriesNotInIDE");
+	*/
 }
 void		CTaskDispatchManager::onRequestOrphanIPLEntriesNotInIDE(void)
 {
@@ -3461,6 +3525,8 @@ void		CTaskDispatchManager::onRequestReopen(void)
 }
 void		CTaskDispatchManager::onRequestConvertDFFToRWVersion(CRWVersion *pRWVersion)
 {
+	/*
+	todo
 	getKGM()->getLastUsedValueManager()->setLastUsedValue_ConvertDFF_RWVersion(pRWVersion);
 	getKGM()->getTaskManager()->onTaskBegin("onRequestConvertDFFToRWVersion");
 	if (getKGM()->getEntryListTab() == nullptr)
@@ -3493,7 +3559,8 @@ void		CTaskDispatchManager::onRequestConvertDFFToRWVersion(CRWVersion *pRWVersio
 		return;
 	}
 	CIMGEntry *pIMGEntry = nullptr;
-	/*
+
+	////////////////
 	while (pos)
 	{
 		int nItem = pListControl->GetNextSelectedItem(pos);
@@ -3510,7 +3577,7 @@ void		CTaskDispatchManager::onRequestConvertDFFToRWVersion(CRWVersion *pRWVersio
 			break;
 		}
 	}
-	*/
+	//////////
 
 	if (bSelectedDFFsContainIIIOrVC && pRWVersion->doesGameUseVersion(PLATFORMED_GAME_PC_GTA_SA))
 	{
@@ -3937,9 +4004,12 @@ void		CTaskDispatchManager::onRequestConvertDFFToRWVersion(CRWVersion *pRWVersio
 		delete pIDEFile;
 	}
 	getKGM()->getTaskManager()->onTaskEnd("onRequestConvertDFFToRWVersion");
+	*/
 }
 void		CTaskDispatchManager::onRequestMissingTextures(void)
 {
+	/*
+	todo
 	getKGM()->getTaskManager()->onTaskBegin("onRequestMissingTextures");
 	if (getKGM()->getEntryListTab() == nullptr)
 	{
@@ -4067,6 +4137,7 @@ void		CTaskDispatchManager::onRequestMissingTextures(void)
 	getKGM()->getGUIManager()->showListViewDialog("Missing Textures", "Textures missing:", "Texture Name", vecDFFTexturesMissingFromTXD, CLocalizationManager::getInstance()->getTranslatedFormattedText("SaveFilePopup_4_InitialFilename", CPathUtility::replaceFileExtension(CPathUtility::getFileName(getKGM()->getEntryListTab()->getIMGFile()->getFilePath()), "txt").c_str()), "MISSINGTEXTURES");
 	getKGM()->getTaskManager()->onTaskUnpause();
 	getKGM()->getTaskManager()->onTaskEnd("onRequestMissingTextures");
+	*/
 }
 bool		CTaskDispatchManager::onRequestClose2(bool bCloseAll)
 {
@@ -4714,6 +4785,8 @@ void		CTaskDispatchManager::onRequestOpenLast(void)
 }
 void		CTaskDispatchManager::onRequestConvertTXDToGame(ePlatformedGame ePlatformedGame)
 {
+	/*
+	todo
 	getKGM()->getLastUsedValueManager()->setLastUsedValue_ConvertTXD_Game(ePlatformedGame);
 	getKGM()->getTaskManager()->onTaskBegin("onRequestConvertTXDToGame");
 	if (getKGM()->getEntryListTab() == nullptr)
@@ -4785,9 +4858,12 @@ void		CTaskDispatchManager::onRequestConvertTXDToGame(ePlatformedGame ePlatforme
 		getKGM()->getEntryListTab()->setIMGModifiedSinceRebuild(true);
 	}
 	getKGM()->getTaskManager()->onTaskEnd("onRequestConvertTXDToGame");
+	*/
 }
 void		CTaskDispatchManager::onRequestConvertTXDToRWVersion(CRWVersion *pRWVersion)
 {
+	/*
+	todo
 	getKGM()->getLastUsedValueManager()->setLastUsedValue_ConvertTXD_RWVersion(pRWVersion);
 	getKGM()->getTaskManager()->onTaskBegin("onRequestConvertTXDToRWVersion");
 	if (getKGM()->getEntryListTab() == nullptr)
@@ -4850,6 +4926,7 @@ void		CTaskDispatchManager::onRequestConvertTXDToRWVersion(CRWVersion *pRWVersio
 		getKGM()->getEntryListTab()->setIMGModifiedSinceRebuild(true);
 	}
 	getKGM()->getTaskManager()->onTaskEnd("onRequestConvertTXDToRWVersion");
+	*/
 }
 void		CTaskDispatchManager::onRequestDump(void)
 {
@@ -4986,6 +5063,8 @@ void		CTaskDispatchManager::onRequestProcessLSTFile(void)
 }
 void		CTaskDispatchManager::onRequestSelectViaIDE(void)
 {
+	/*
+	todo
 	getKGM()->getTaskManager()->onTaskBegin("onRequestSelectViaIDE");
 	if (getKGM()->getEntryListTab() == nullptr)
 	{
@@ -5037,6 +5116,7 @@ void		CTaskDispatchManager::onRequestSelectViaIDE(void)
 
 	pListControl->SetFocus();
 	getKGM()->getTaskManager()->onTaskEnd("onRequestSelectViaIDE");
+	*/
 }
 void		CTaskDispatchManager::onRequestExportViaIPLFile(void)
 {
@@ -5108,6 +5188,8 @@ void		CTaskDispatchManager::onRequestExportViaIPLFile(void)
 }
 void		CTaskDispatchManager::onRequestRenameIMG(void)
 {
+	/*
+	todo
 	getKGM()->getTaskManager()->onTaskBegin("onRequestRenameIMG");
 	if (getKGM()->getEntryListTab() == nullptr)
 	{
@@ -5154,6 +5236,7 @@ void		CTaskDispatchManager::onRequestRenameIMG(void)
 
 	getKGM()->getEntryListTab()->log(CLocalizationManager::getInstance()->getTranslatedFormattedText("Log_111", strCurrentIMGFileName.c_str(), strNewIMGFileName.c_str()));
 	getKGM()->getTaskManager()->onTaskEnd("onRequestRenameIMG");
+	*/
 }
 void		CTaskDispatchManager::onRequestUpdate(void)
 {
@@ -5629,6 +5712,8 @@ void		CTaskDispatchManager::onRequestCompareIMG(void)
 
 void			CTaskDispatchManager::onRequestConvertTXDToTextureFormat(CRasterDataFormat *pRasterDataFormat)
 {
+	/*
+	todo
 	getKGM()->getLastUsedValueManager()->setLastUsedValue_ConvertTXD_TextureFormat(pRasterDataFormat);
 	getKGM()->getTaskManager()->onTaskBegin("onRequestConvertTXDToTextureFormat");
 	if (getKGM()->getEntryListTab() == nullptr)
@@ -5695,6 +5780,7 @@ void			CTaskDispatchManager::onRequestConvertTXDToTextureFormat(CRasterDataForma
 		getKGM()->getEntryListTab()->setIMGModifiedSinceRebuild(true);
 	}
 	getKGM()->getTaskManager()->onTaskEnd("onRequestConvertTXDToTextureFormat");
+	*/
 }
 
 void			CTaskDispatchManager::onRequestClearLogs(bool bAllTabs)
@@ -5845,6 +5931,8 @@ void			CTaskDispatchManager::onRequestCredits(void)
 
 void			CTaskDispatchManager::onRequestEntryViewer(bool bDontOpenWindow)
 {
+	/*
+	todo
 	getKGM()->getTaskManager()->onTaskBegin("onRequestEntryViewer");
 	if (getKGM()->getEntryListTab() == nullptr)
 	{
@@ -5903,6 +5991,10 @@ void			CTaskDispatchManager::onRequestEntryViewer(bool bDontOpenWindow)
 
 		pTextureViewer->forceRender();
 	}
+	*/
+
+
+
 	/*
 	else if (pIMGEntry->isCOLFile())
 	{
@@ -5962,6 +6054,10 @@ void			CTaskDispatchManager::onRequestEntryViewer(bool bDontOpenWindow)
 		}
 	}
 	*/
+
+
+	/*
+	todo
 	else if (pIMGEntry->isModelFile())
 	{
 	}
@@ -5973,6 +6069,7 @@ void			CTaskDispatchManager::onRequestEntryViewer(bool bDontOpenWindow)
 	}
 
 	getKGM()->getTaskManager()->onTaskEnd("onRequestEntryViewer");
+	*/
 }
 
 void			CTaskDispatchManager::onRequestRenamer(void)
@@ -7186,6 +7283,8 @@ void		CTaskDispatchManager::onRequestLastFeatureUsed(void)
 
 void		CTaskDispatchManager::onRequestConvertCOLtoCOLVersion(CCOLVersion *pCOLVersion)
 {
+	/*
+	todo
 	getKGM()->getLastUsedValueManager()->setLastUsedValue_ConvertCOL_COLVersion(pCOLVersion);
 	getKGM()->getTaskManager()->onTaskBegin("onRequestConvertCOLtoCOLVersion");
 	if (getKGM()->getEntryListTab() == nullptr)
@@ -7247,6 +7346,7 @@ void		CTaskDispatchManager::onRequestConvertCOLtoCOLVersion(CCOLVersion *pCOLVer
 	getKGM()->getEntryListTab()->setIMGModifiedSinceRebuild(true);
 
 	getKGM()->getTaskManager()->onTaskEnd("onRequestConvertCOLtoCOLVersion");
+	*/
 }
 
 void			CTaskDispatchManager::onRequestReportIssueOrIdea(void)
@@ -7261,25 +7361,14 @@ bool bSortDirectionIsAscending = true;
 
 int CALLBACK		CTaskDispatchManager::sortMainListView(LPARAM lParam1, LPARAM lParam2, LPARAM lParamSort)
 {
+	/*
+	todo
 	int nRetVal = 0;
 
 	CListCtrl *pListCtrl = (CListCtrl*)getKGM()->getDialog()->GetDlgItem(37);
 
 	CIMGEntry *pIMGEntry1 = (CIMGEntry*)lParam1;
 	CIMGEntry *pIMGEntry2 = (CIMGEntry*)lParam2;
-
-	/*
-	LV_FINDINFO FindInfo;
-	FindInfo.flags = LVFI_PARAM | LVFI_WRAP;
-	FindInfo.lParam = lParam1;
-	int iRow1 = pListCtrl->FindItem(&FindInfo);
-
-	FindInfo.lParam = lParam2;
-	int iRow2 = pListCtrl->FindItem(&FindInfo, iRow1);
-
-	CServer *pServer1 = getClientLauncher()->getServerListManager()->getServerById(pListCtrl->GetItemData(iRow1));
-	CServer *pServer2 = getClientLauncher()->getServerListManager()->getServerById(pListCtrl->GetItemData(iRow2));
-	*/
 
 	switch (lParamSort)
 	{
@@ -7315,6 +7404,8 @@ int CALLBACK		CTaskDispatchManager::sortMainListView(LPARAM lParam1, LPARAM lPar
 	}
 
 	return nRetVal;
+	*/
+	return 0;
 }
 
 bool sortViaColumn_Type(CIMGEntry *pIMGEntry1, CIMGEntry *pIMGEntry2)
@@ -7370,6 +7461,8 @@ bool sortViaColumn_ExtraInfo(CIMGEntry *pIMGEntry1, CIMGEntry *pIMGEntry2)
 
 void			CTaskDispatchManager::onRequestSortViaColumn(uint32 uiColumnIndex)
 {
+	/*
+	todo
 	getKGM()->getTaskManager()->onTaskBegin("onRequestSortViaColumn");
 	if (uiColumnIndex == uiSortPreviousColumnIndex)
 	{
@@ -7402,10 +7495,13 @@ void			CTaskDispatchManager::onRequestSortViaColumn(uint32 uiColumnIndex)
 	uiSortPreviousColumnIndex = uiColumnIndex;
 	getKGM()->getEntryListTab()->setIMGModifiedSinceRebuild(true);
 	getKGM()->getTaskManager()->onTaskEnd("onRequestSortViaColumn");
+	*/
 }
 
 void			CTaskDispatchManager::onRequestCenterCOLCollisionMeshes(void)
 {
+	/*
+	todo
 	getKGM()->getTaskManager()->onTaskBegin("onRequestCenterCOLCollisionMeshes");
 	if (getKGM()->getEntryListTab() == nullptr)
 	{
@@ -7473,6 +7569,7 @@ void			CTaskDispatchManager::onRequestCenterCOLCollisionMeshes(void)
 	getKGM()->getEntryListTab()->setIMGModifiedSinceRebuild(true);
 
 	getKGM()->getTaskManager()->onTaskEnd("onRequestCenterCOLCollisionMeshes");
+	*/
 }
 
 void			CTaskDispatchManager::onRequestAlignCOLCollisionMeshesToDFFMesh(void)
@@ -7598,6 +7695,8 @@ void			CTaskDispatchManager::onRequestAlignCOLCollisionMeshesToDFFMesh(void)
 
 void			CTaskDispatchManager::onRequestConvertDFFFileToWDRFile(void)
 {
+	/*
+	todo
 	getKGM()->getTaskManager()->onTaskBegin("onRequestConvertDFFFileToWDRFile");
 	if (getKGM()->getEntryListTab() == nullptr)
 	{
@@ -7661,10 +7760,13 @@ void			CTaskDispatchManager::onRequestConvertDFFFileToWDRFile(void)
 
 	getKGM()->getEntryListTab()->setIMGModifiedSinceRebuild(true);
 	getKGM()->getTaskManager()->onTaskEnd("onRequestConvertDFFFileToWDRFile");
+	*/
 }
 
 void				CTaskDispatchManager::onRequestTXDOrganizer(void)
 {
+	/*
+	todo
 	getKGM()->getTaskManager()->onTaskBegin("onRequestTXDOrganizer");
 	if (getKGM()->getEntryListTab() == nullptr)
 	{
@@ -7851,10 +7953,13 @@ void				CTaskDispatchManager::onRequestTXDOrganizer(void)
 	// clean up
 	delete pTXDOrganizerDialogData;
 	getKGM()->getTaskManager()->onTaskEnd("onRequestTXDOrganizer");
+	*/
 }
 
 void			CTaskDispatchManager::onRequestConvertWTDFileToTXDFile(void)
 {
+	/*
+	todo
 	getKGM()->getTaskManager()->onTaskBegin("onRequestConvertWTDFileToTXDFile");
 	if (getKGM()->getEntryListTab() == nullptr)
 	{
@@ -7918,6 +8023,7 @@ void			CTaskDispatchManager::onRequestConvertWTDFileToTXDFile(void)
 
 	getKGM()->getEntryListTab()->setIMGModifiedSinceRebuild(true);
 	getKGM()->getTaskManager()->onTaskEnd("onRequestConvertWTDFileToTXDFile");
+	*/
 }
 
 bool			sortDATFiles(CDATPathFormat *pDATFile_Paths1, CDATPathFormat *pDATFile_Paths2)

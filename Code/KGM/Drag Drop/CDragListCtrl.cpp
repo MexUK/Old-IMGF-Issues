@@ -1,6 +1,5 @@
 #pragma warning(disable : 4005)
 
-#include <afxdialogex.h>
 #include "CDragListCtrl.h"
 #include "IMG/CIMGEntry.h"
 #include "String/CStringUtility.h"
@@ -11,6 +10,9 @@
 #include <string>
 
 using namespace std;
+
+/*
+todo
 
 BEGIN_MESSAGE_MAP(CDragListCtrl, CListCtrl)
 	ON_WM_LBUTTONDOWN()
@@ -58,3 +60,4 @@ void		CDragListCtrl::OnBeginDrag(void)
 	m_dropSource.setDraggableFiles(m_vecDraggableFiles);
 	m_dropSource.StartDragging();
 }
+*/

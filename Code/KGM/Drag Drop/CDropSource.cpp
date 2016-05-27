@@ -14,6 +14,9 @@ using namespace std;
 
 void		CDropSource::StartDragging(void)
 {
+	/*
+	todo
+
 	UINT uFileCount = m_vecDraggableFiles.size();
 	INT uBuffSize = sizeof(FILEGROUPDESCRIPTOR) + (uFileCount * sizeof(FILEDESCRIPTOR));
 	HGLOBAL hFileDescriptor = GlobalAlloc(GHND | GMEM_SHARE, uBuffSize);
@@ -58,10 +61,14 @@ void		CDropSource::StartDragging(void)
 	DelayRenderFileData(RegisterClipboardFormat(CFSTR_FILECONTENTS), &etcContents);
 
 	DROPEFFECT dwEffect = DoDragDrop(DROPEFFECT_COPY | DROPEFFECT_MOVE);
+	*/
 }
 
 BOOL CDropSource::OnRenderFileData(LPFORMATETC lpFormatEtc, CFile* pFile)
 {
+	/*
+	todo
+
 	if (lpFormatEtc->cfFormat == RegisterClipboardFormat(CFSTR_FILECONTENTS))
 	{
 		if (lpFormatEtc->lindex == -1)
@@ -77,6 +84,7 @@ BOOL CDropSource::OnRenderFileData(LPFORMATETC lpFormatEtc, CFile* pFile)
 			getKGM()->getEntryListTab()->log(CLocalizationManager::getInstance()->getTranslatedFormattedText("Log_1", m_vecDraggableFiles[lpFormatEtc->lindex]->m_strFileName.c_str()));
 		}
 	}
+	*/
 
 	return TRUE;
 }

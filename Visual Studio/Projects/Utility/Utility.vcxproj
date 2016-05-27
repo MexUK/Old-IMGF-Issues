@@ -1,5 +1,5 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
-<Project DefaultTargets="Build" ToolsVersion="12.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+<Project DefaultTargets="Build" ToolsVersion="14.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <ItemGroup Label="ProjectConfigurations">
     <ProjectConfiguration Include="Debug|Win32">
       <Configuration>Debug</Configuration>
@@ -18,13 +18,13 @@
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" Label="Configuration">
     <ConfigurationType>StaticLibrary</ConfigurationType>
     <UseDebugLibraries>true</UseDebugLibraries>
-    <PlatformToolset>v120</PlatformToolset>
+    <PlatformToolset>v140</PlatformToolset>
     <CharacterSet>Unicode</CharacterSet>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'" Label="Configuration">
     <ConfigurationType>StaticLibrary</ConfigurationType>
     <UseDebugLibraries>false</UseDebugLibraries>
-    <PlatformToolset>v120</PlatformToolset>
+    <PlatformToolset>v140</PlatformToolset>
     <WholeProgramOptimization>true</WholeProgramOptimization>
     <CharacterSet>Unicode</CharacterSet>
   </PropertyGroup>
@@ -39,16 +39,16 @@
   </ImportGroup>
   <PropertyGroup Label="UserMacros" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
-    <OutDir>C:\C++\Output\Library\Utility\$(Configuration)\</OutDir>
-    <IntDir>C:\C++\Output\Intermediate\Utility\$(Configuration)\</IntDir>
-    <LibraryPath>C:\C++\Output\Library\Third Party\Compiled\$(Configuration)\;$(LibraryPath)</LibraryPath>
-    <IncludePath>C:\C++\Code\Third Party\INI;C:\C++\Code\Third Party\ZLib;C:\C++\Code\Third Party\LZO Compression\include;C:\C++\Code\Third Party\LZ4 Compression;C:\C++\Code\Third Party\Squish;C:\C++\Code\Third Party\CRC;C:\C++\Code\Utility;C:\C++\Code\Ultra Core;C:\C++\Code\Ultra Core\Vector\Layer 3;C:\C++\Code\Ultra Core\Vector\Layer 4;$(IncludePath)</IncludePath>
+    <OutDir>C:\C++\KGM\Output\Library\Utility\$(Configuration)\</OutDir>
+    <IntDir>C:\C++\KGM\Output\Intermediate\Utility\$(Configuration)\</IntDir>
+    <LibraryPath>C:\C++\KGM\Output\Library\Third Party\Compiled\$(Configuration)\;$(LibraryPath)</LibraryPath>
+    <IncludePath>C:\C++\KGM\Code\Third Party\INI;C:\C++\KGM\Code\Third Party\ZLib;C:\C++\KGM\Code\Third Party\LZO Compression\include;C:\C++\KGM\Code\Third Party\LZ4 Compression;C:\C++\KGM\Code\Third Party\Squish;C:\C++\KGM\Code\Third Party\CRC;C:\C++\KGM\Code\Utility;C:\C++\KGM\Code\Ultra Core;C:\C++\KGM\Code\Ultra Core\Vector\Layer 3;C:\C++\KGM\Code\Ultra Core\Vector\Layer 4;$(IncludePath)</IncludePath>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
-    <OutDir>C:\C++\Output\Library\Utility\$(Configuration)\</OutDir>
-    <IntDir>C:\C++\Output\Intermediate\Utility\$(Configuration)\</IntDir>
-    <LibraryPath>C:\C++\Output\Library\Third Party\Compiled\$(Configuration)\;$(LibraryPath)</LibraryPath>
-    <IncludePath>C:\C++\Code\Third Party\INI;C:\C++\Code\Third Party\ZLib;C:\C++\Code\Third Party\LZO Compression\include;C:\C++\Code\Third Party\LZ4 Compression;C:\C++\Code\Third Party\Squish;C:\C++\Code\Third Party\CRC;C:\C++\Code\Utility;C:\C++\Code\Ultra Core;C:\C++\Code\Ultra Core\Vector\Layer 3;C:\C++\Code\Ultra Core\Vector\Layer 4;$(IncludePath)</IncludePath>
+    <OutDir>C:\C++\KGM\Output\Library\Utility\$(Configuration)\</OutDir>
+    <IntDir>C:\C++\KGM\Output\Intermediate\Utility\$(Configuration)\</IntDir>
+    <LibraryPath>C:\C++\KGM\Output\Library\Third Party\Compiled\$(Configuration)\;$(LibraryPath)</LibraryPath>
+    <IncludePath>C:\C++\KGM\Code\Third Party\INI;C:\C++\KGM\Code\Third Party\ZLib;C:\C++\KGM\Code\Third Party\LZO Compression\include;C:\C++\KGM\Code\Third Party\LZ4 Compression;C:\C++\KGM\Code\Third Party\Squish;C:\C++\KGM\Code\Third Party\CRC;C:\C++\KGM\Code\Utility;C:\C++\KGM\Code\Ultra Core;C:\C++\KGM\Code\Ultra Core\Vector\Layer 3;C:\C++\KGM\Code\Ultra Core\Vector\Layer 4;$(IncludePath)</IncludePath>
   </PropertyGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <ClCompile>

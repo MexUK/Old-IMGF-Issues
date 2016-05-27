@@ -1,4 +1,3 @@
-#include <afxcmn.h>
 #include "CEntryListWindow.h"
 #include "Globals.h"
 #include "CKGM.h"
@@ -156,6 +155,8 @@ void				CEntryListWindow::setActiveTab(CEntryListWindowTab *pWindowTab)
 
 	if (pWindowTab == nullptr)
 	{
+		/*
+		todo
 		getKGM()->getTaskManager()->setTaskMaxProgressTickCount(((CListCtrl*)getKGM()->getDialog()->GetDlgItem(37))->GetItemCount());
 
 		// disable buttons
@@ -204,9 +205,12 @@ void				CEntryListWindow::setActiveTab(CEntryListWindowTab *pWindowTab)
 			pMainListCtrl->DeleteItem((j - 1) - i);
 			getKGM()->getTaskManager()->onTaskProgressTick();
 		}
+		*/
 	}
 	else
 	{
+		/*
+		todo
 		// enable buttons
 		for (uint16 usButtonId : vecButtonIds)
 		{
@@ -250,6 +254,7 @@ void				CEntryListWindow::setActiveTab(CEntryListWindowTab *pWindowTab)
 
 		// IMG entries
 		pWindowTab->readdAllEntriesToMainListView();
+		*/
 	}
 }
 
@@ -260,6 +265,8 @@ void					CEntryListWindow::readdColumnsToMainListView(eIMGVersion eIMGVersionVal
 }
 void					CEntryListWindow::addColumnsToMainListView(eIMGVersion eIMGVersionValue)
 {
+	/*
+	todo
 	CListCtrl *pListCtrl = (CListCtrl*)getKGM()->getDialog()->GetDlgItem(37);
 	pListCtrl->SendMessage(LVM_SETEXTENDEDLISTVIEWSTYLE, 0, LVS_EX_FULLROWSELECT);
 	pListCtrl->InsertColumn(0, CLocalizationManager::getInstance()->getTranslatedTextW("Window_Main_ListView_ColumnTitle_ID").c_str(), LVCFMT_LEFT, 45);
@@ -284,16 +291,22 @@ void					CEntryListWindow::addColumnsToMainListView(eIMGVersion eIMGVersionValue
 		pListCtrl->InsertColumn(7, CLocalizationManager::getInstance()->getTranslatedTextW("Encryption").c_str(), LVCFMT_LEFT, 125);
 		break;
 	}
+	*/
 }
 void					CEntryListWindow::removeColumnsFromMainListView(void)
 {
+	/*
+	todo
 	CListCtrl *pListCtrl = (CListCtrl*)getKGM()->getDialog()->GetDlgItem(37);
 	while (pListCtrl->DeleteColumn(0) != 0)
 	{
 	}
+	*/
 }
 int						CEntryListWindow::getMainListControlItemByEntry(CIMGEntry *pIMGEntry)
 {
+	/*
+	todo
 	CListCtrl *pListControlMain = (CListCtrl*)getKGM()->getDialog()->GetDlgItem(37);
 	for (uint32 i = 0, j = pListControlMain->GetItemCount(); i < j; i++)
 	{
@@ -302,6 +315,7 @@ int						CEntryListWindow::getMainListControlItemByEntry(CIMGEntry *pIMGEntry)
 			return i;
 		}
 	}
+	*/
 	return 0;
 }
 
@@ -787,6 +801,8 @@ void					CEntryListWindow::initMenu(void) // todo - move menu stuff to like CMen
 
 void					CEntryListWindow::loadRightClickMenu(int xPos, int yPos)
 {
+	/*
+	todo
 	CListCtrl *pListCtrl = (CListCtrl*)getKGM()->getDialog()->GetDlgItem(37);
 
 	RECT rect;
@@ -946,4 +962,5 @@ void					CEntryListWindow::loadRightClickMenu(int xPos, int yPos)
 
 	// clean up
 	//DestroyMenu(hMenu);
+	*/
 }

@@ -1,8 +1,6 @@
 #ifndef CDragListCtrl_H
 #define CDragListCtrl_H
 
-#include <afxcmn.h>
-#include <afxole.h>
 #include "CDropSource.h"
 //#include <Windows.h>
 #include <string>
@@ -19,12 +17,14 @@ struct CDraggableFile
 
 struct CDraggableFile;
 
-class CDragListCtrl : public CListCtrl
+class CDragListCtrl // todo : public CListCtrl
 {
 public:
-	afx_msg void OnLButtonDown(UINT nFlags, CPoint point);
-	afx_msg void OnBeginDrag(void);
-	DECLARE_MESSAGE_MAP()
+	/*
+	todo
+	void OnLButtonDown(UINT nFlags, CPoint point);
+	void OnBeginDrag(void);
+	*/
 
 private:
 	CDropSource						m_dropSource;

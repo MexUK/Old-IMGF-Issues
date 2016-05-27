@@ -1,4 +1,3 @@
-#include <afxwin.h>
 #include "CMainWindow.h"
 #include "CKGM.h"
 #include "Task/CTaskManager.h"

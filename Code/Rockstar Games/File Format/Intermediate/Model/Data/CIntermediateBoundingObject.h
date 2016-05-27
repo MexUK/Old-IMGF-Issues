@@ -27,7 +27,7 @@ public:
 		m_vecCenter.m_x = 0.0f;
 		m_vecCenter.m_y = 0.0f;
 		m_vecCenter.m_z = 0.0f;
-	};
+	}
 
 	void								setBoundingObjectType(eIntermediateBoundingObjectType eIntermediateBoundingObjectTypeValue) { m_eBoundingObjectType = eIntermediateBoundingObjectTypeValue; }
 	eIntermediateBoundingObjectType		getBoundingObjectType(void) { return m_eBoundingObjectType; }

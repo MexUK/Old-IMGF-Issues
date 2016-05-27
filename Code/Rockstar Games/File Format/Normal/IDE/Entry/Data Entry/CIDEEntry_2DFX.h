@@ -24,7 +24,10 @@ public:
 		m_vecColour.m_x = 0;
 		m_vecColour.m_y = 0;
 		m_vecColour.m_z = 0;
-	};
+	}
+	~CIDEEntry_2DFX(void)
+	{
+	}
 
 	virtual void				unserialize(void);
 	virtual void				serialize(void);

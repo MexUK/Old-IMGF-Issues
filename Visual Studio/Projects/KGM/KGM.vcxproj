@@ -1,5 +1,5 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
-<Project DefaultTargets="Build" ToolsVersion="12.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+<Project DefaultTargets="Build" ToolsVersion="14.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <ItemGroup Label="ProjectConfigurations">
     <ProjectConfiguration Include="Debug|Win32">
       <Configuration>Debug</Configuration>
@@ -19,14 +19,14 @@
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" Label="Configuration">
     <ConfigurationType>Application</ConfigurationType>
     <UseDebugLibraries>true</UseDebugLibraries>
-    <PlatformToolset>v120</PlatformToolset>
+    <PlatformToolset>v140</PlatformToolset>
     <CharacterSet>Unicode</CharacterSet>
     <UseOfMfc>false</UseOfMfc>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'" Label="Configuration">
     <ConfigurationType>Application</ConfigurationType>
     <UseDebugLibraries>false</UseDebugLibraries>
-    <PlatformToolset>v120</PlatformToolset>
+    <PlatformToolset>v140</PlatformToolset>
     <WholeProgramOptimization>true</WholeProgramOptimization>
     <CharacterSet>Unicode</CharacterSet>
     <UseOfMfc>false</UseOfMfc>
@@ -42,16 +42,16 @@
   </ImportGroup>
   <PropertyGroup Label="UserMacros" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
-    <OutDir>C:\C++\Output\Executable\KGM\$(Configuration)\</OutDir>
-    <IntDir>C:\C++\Output\Intermediate\KGM\$(Configuration)\</IntDir>
-    <IncludePath>C:\C++\Code\KGM;C:\C++\Code\KGM\File Format;C:\C++\Code\Ultra Core;C:\C++\Code\Core;C:\C++\Code\Utility;C:\C++\Code\General;C:\C++\Code\General\File Format;C:\C++\Code\Rockstar Games;C:\C++\Code\Rockstar Games\File Format;C:\C++\Code\Rockstar Games\File Format\Base;C:\C++\Code\Rockstar Games\File Format\Custom;C:\C++\Code\Rockstar Games\File Format\Intermediate;C:\C++\Code\Rockstar Games\File Format\Normal;C:\C++\Code\Rockstar Games\File Format\Raw;C:\C++\Code\Third Party\HappyHTTP;C:\C++\Code\Third Party\GLEW;C:\C++\Code\Third Party\Freetype\include;C:\C++\Code\Third Party\GLFW;C:\C++\Code\Third Party\freetype-gl;C:\C++\Code\Third Party;C:\C++\Code\Third Party\Bitmap;C:\C++\Code\Ultra Core\Vector\Layer 3;C:\C++\Code\Ultra Core\Vector\Layer 4;$(IncludePath)</IncludePath>
-    <LibraryPath>C:\C++\Output\Library\Ultra Core\$(Configuration)\;C:\C++\Output\Library\Core\$(Configuration)\;C:\C++\Output\Library\Utility\$(Configuration)\;C:\C++\Output\Library\General\$(Configuration)\;C:\C++\Output\Library\Rockstar Games\$(Configuration)\;C:\C++\Output\Library\Third Party\Compiled\$(Configuration)\;$(LibraryPath)</LibraryPath>
+    <OutDir>C:\C++\KGM\Output\Executable\KGM\$(Configuration)\</OutDir>
+    <IntDir>C:\C++\KGM\Output\Intermediate\KGM\$(Configuration)\</IntDir>
+    <IncludePath>C:\C++\KGM\Code\KGM;C:\C++\KGM\Code\KGM\File Format;C:\C++\KGM\Code\Ultra Core;C:\C++\KGM\Code\Core;C:\C++\KGM\Code\Utility;C:\C++\KGM\Code\General;C:\C++\KGM\Code\General\File Format;C:\C++\KGM\Code\Rockstar Games;C:\C++\KGM\Code\Rockstar Games\File Format;C:\C++\KGM\Code\Rockstar Games\File Format\Base;C:\C++\KGM\Code\Rockstar Games\File Format\Custom;C:\C++\KGM\Code\Rockstar Games\File Format\Intermediate;C:\C++\KGM\Code\Rockstar Games\File Format\Normal;C:\C++\KGM\Code\Rockstar Games\File Format\Raw;C:\C++\KGM\Code\Third Party\HappyHTTP;C:\C++\KGM\Code\Third Party\GLEW;C:\C++\KGM\Code\Third Party\Freetype\include;C:\C++\KGM\Code\Third Party\GLFW;C:\C++\KGM\Code\Third Party\freetype-gl;C:\C++\KGM\Code\Third Party;C:\C++\KGM\Code\Third Party\Bitmap;C:\C++\KGM\Code\Ultra Core\Vector\Layer 3;C:\C++\KGM\Code\Ultra Core\Vector\Layer 4;$(IncludePath)</IncludePath>
+    <LibraryPath>C:\C++\KGM\Output\Library\Ultra Core\$(Configuration)\;C:\C++\KGM\Output\Library\Core\$(Configuration)\;C:\C++\KGM\Output\Library\Utility\$(Configuration)\;C:\C++\KGM\Output\Library\General\$(Configuration)\;C:\C++\KGM\Output\Library\Rockstar Games\$(Configuration)\;C:\C++\KGM\Output\Library\Third Party\Compiled\$(Configuration)\;$(LibraryPath)</LibraryPath>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
-    <OutDir>C:\C++\Output\Executable\KGM\$(Configuration)\</OutDir>
-    <IntDir>C:\C++\Output\Intermediate\KGM\$(Configuration)\</IntDir>
-    <IncludePath>C:\C++\Code\KGM;C:\C++\Code\KGM\File Format;C:\C++\Code\Ultra Core;C:\C++\Code\Core;C:\C++\Code\Utility;C:\C++\Code\General;C:\C++\Code\General\File Format;C:\C++\Code\Rockstar Games;C:\C++\Code\Rockstar Games\File Format;C:\C++\Code\Rockstar Games\File Format\Base;C:\C++\Code\Rockstar Games\File Format\Custom;C:\C++\Code\Rockstar Games\File Format\Intermediate;C:\C++\Code\Rockstar Games\File Format\Normal;C:\C++\Code\Rockstar Games\File Format\Raw;C:\C++\Code\Third Party\HappyHTTP;C:\C++\Code\Third Party\GLEW;C:\C++\Code\Third Party\Freetype\include;C:\C++\Code\Third Party\GLFW;C:\C++\Code\Third Party\freetype-gl;C:\C++\Code\Third Party;C:\C++\Code\Third Party\Bitmap;C:\C++\Code\Ultra Core\Vector\Layer 3;C:\C++\Code\Ultra Core\Vector\Layer 4;$(IncludePath)</IncludePath>
-    <LibraryPath>C:\C++\Output\Library\Ultra Core\$(Configuration)\;C:\C++\Output\Library\Core\$(Configuration)\;C:\C++\Output\Library\Utility\$(Configuration)\;C:\C++\Output\Library\General\$(Configuration)\;C:\C++\Output\Library\Rockstar Games\$(Configuration)\;C:\C++\Output\Library\Third Party\Compiled\$(Configuration)\;$(LibraryPath)</LibraryPath>
+    <OutDir>C:\C++\KGM\Output\Executable\KGM\$(Configuration)\</OutDir>
+    <IntDir>C:\C++\KGM\Output\Intermediate\KGM\$(Configuration)\</IntDir>
+    <IncludePath>C:\C++\KGM\Code\KGM;C:\C++\KGM\Code\KGM\File Format;C:\C++\KGM\Code\Ultra Core;C:\C++\KGM\Code\Core;C:\C++\KGM\Code\Utility;C:\C++\KGM\Code\General;C:\C++\KGM\Code\General\File Format;C:\C++\KGM\Code\Rockstar Games;C:\C++\KGM\Code\Rockstar Games\File Format;C:\C++\KGM\Code\Rockstar Games\File Format\Base;C:\C++\KGM\Code\Rockstar Games\File Format\Custom;C:\C++\KGM\Code\Rockstar Games\File Format\Intermediate;C:\C++\KGM\Code\Rockstar Games\File Format\Normal;C:\C++\KGM\Code\Rockstar Games\File Format\Raw;C:\C++\KGM\Code\Third Party\HappyHTTP;C:\C++\KGM\Code\Third Party\GLEW;C:\C++\KGM\Code\Third Party\Freetype\include;C:\C++\KGM\Code\Third Party\GLFW;C:\C++\KGM\Code\Third Party\freetype-gl;C:\C++\KGM\Code\Third Party;C:\C++\KGM\Code\Third Party\Bitmap;C:\C++\KGM\Code\Ultra Core\Vector\Layer 3;C:\C++\KGM\Code\Ultra Core\Vector\Layer 4;$(IncludePath)</IncludePath>
+    <LibraryPath>C:\C++\KGM\Output\Library\Ultra Core\$(Configuration)\;C:\C++\KGM\Output\Library\Core\$(Configuration)\;C:\C++\KGM\Output\Library\Utility\$(Configuration)\;C:\C++\KGM\Output\Library\General\$(Configuration)\;C:\C++\KGM\Output\Library\Rockstar Games\$(Configuration)\;C:\C++\KGM\Output\Library\Third Party\Compiled\$(Configuration)\;$(LibraryPath)</LibraryPath>
   </PropertyGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <ClCompile>
@@ -64,12 +64,12 @@
     </ClCompile>
     <Link>
       <GenerateDebugInformation>true</GenerateDebugInformation>
-      <AdditionalDependencies>Ultra Core.lib;Core.lib;Utility.lib;General.lib;Rockstar Games.lib;HappyHTTP.lib;GLEW.lib;GLFW.lib;freetype-gl.lib;glm.lib;Bitmap.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalDependencies>MSIMG32.LIB;Ws2_32.lib;legacy_stdio_definitions.lib;Ultra Core.lib;Core.lib;Utility.lib;General.lib;Rockstar Games.lib;HappyHTTP.lib;GLEW.lib;GLFW.lib;freetype-gl.lib;glm.lib;Bitmap.lib;%(AdditionalDependencies)</AdditionalDependencies>
       <IgnoreSpecificDefaultLibraries>
       </IgnoreSpecificDefaultLibraries>
     </Link>
     <PreBuildEvent>
-      <Command>"C:\C++\Visual Studio\Events\BuildNumber.exe"</Command>
+      <Command>"C:\C++\KGM\Visual Studio\Events\BuildNumber.exe"</Command>
     </PreBuildEvent>
     <PreBuildEvent>
       <Message>Build Number</Message>
@@ -89,11 +89,11 @@
       <GenerateDebugInformation>true</GenerateDebugInformation>
       <EnableCOMDATFolding>true</EnableCOMDATFolding>
       <OptimizeReferences>true</OptimizeReferences>
-      <AdditionalDependencies>Ultra Core.lib;Core.lib;Utility.lib;General.lib;Rockstar Games.lib;HappyHTTP.lib;GLEW.lib;GLFW.lib;freetype-gl.lib;glm.lib;Bitmap.lib;Uafxcw.lib;Libcmt.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalDependencies>MSIMG32.LIB;Ws2_32.lib;legacy_stdio_definitions.lib;Ultra Core.lib;Core.lib;Utility.lib;General.lib;Rockstar Games.lib;HappyHTTP.lib;GLEW.lib;GLFW.lib;freetype-gl.lib;glm.lib;Bitmap.lib;Uafxcw.lib;Libcmt.lib;%(AdditionalDependencies)</AdditionalDependencies>
       <IgnoreSpecificDefaultLibraries>Uafxcw.lib;Libcmt.lib;%(IgnoreSpecificDefaultLibraries)</IgnoreSpecificDefaultLibraries>
     </Link>
     <PreBuildEvent>
-      <Command>"C:\C++\Visual Studio\Events\BuildNumber.exe"</Command>
+      <Command>"C:\C++\KGM\Visual Studio\Events\BuildNumber.exe"</Command>
     </PreBuildEvent>
     <PreBuildEvent>
       <Message>Build Number</Message>

@@ -197,9 +197,9 @@ CIntermediateGeometry*			CRWSection_Geometry::convertToIntermediateGeometry(void
 	vecCenter.m_z = m_boundingInfo.getCenter().m_z;
 
 
-	pGeneralGeometry->getBoundingObject().setBoundingObjectType(BOUNDING_OBJECT_TYPE_SPHERE);
-	pGeneralGeometry->getBoundingObject().setCenter(vecCenter);
-	pGeneralGeometry->getBoundingObject().setRadius(m_boundingInfo.getCenterRadius());
+	pGeneralGeometry->getBoundingObject()->setBoundingObjectType(BOUNDING_OBJECT_TYPE_SPHERE);
+	pGeneralGeometry->getBoundingObject()->setCenter(vecCenter);
+	pGeneralGeometry->getBoundingObject()->setRadius(m_boundingInfo.getCenterRadius());
 
 	vector<CVector3D> vecVertexPositions = getVertexPositions();
 	vector<CVector3D> vecVertexNormals = getVertexNormals();

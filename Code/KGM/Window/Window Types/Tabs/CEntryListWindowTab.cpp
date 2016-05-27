@@ -1,6 +1,5 @@
 #pragma warning(disable : 4005)
 
-#include <afxcmn.h>
 #include "CEntryListWindowTab.h"
 #include "CKGM.h"
 #include "Globals.h"
@@ -100,7 +99,7 @@ void					CEntryListWindowTab::initTab(void)
 	//((CTabCtrl*)getKGM()->getDialog()->GetDlgItem(1))->SetCurSel(getIndex());
 
 	// store tab data
-	setListViewHwnd(GetDlgItem(getKGM()->getDialog()->GetSafeHwnd(), 37));
+	// todo setListViewHwnd(GetDlgItem(getKGM()->getDialog()->GetSafeHwnd(), 37));
 
 	// add to recently open
 	getKGM()->getRecentlyOpenManager()->addRecentlyOpenEntry(getIMGFile()->getFilePath());
@@ -217,9 +216,12 @@ void					CEntryListWindowTab::log(string strText, bool bExtendedModeOnly)
 
 	if (getKGM()->getActiveTab() == this)
 	{
+		/*
+		todo
 		CEdit *pEdit = ((CEdit*)getKGM()->getDialog()->GetDlgItem(14));
 		pEdit->SetWindowTextW(CStringUtility::convertStdStringToStdWString(CStringUtility::join(m_vecLogLinesGUI, "\r\n")).c_str());
 		pEdit->LineScroll(pEdit->GetLineCount());
+		*/
 	}
 }
 
@@ -229,9 +231,12 @@ void					CEntryListWindowTab::clearLogs(void)
 	getLogLinesBasic().clear();
 	getLogLinesExtended().clear();
 
+	/*
+	todo
 	CEdit *pEdit = ((CEdit*)getKGM()->getDialog()->GetDlgItem(14));
 	pEdit->SetWindowTextW(L"");
 	pEdit->LineScroll(0);
+	*/
 }
 
 void					CEntryListWindowTab::checkToApplyCompression(CIMGEntry *pIMGEntry)
@@ -708,6 +713,8 @@ void					CEntryListWindowTab::addEntryToMainListView(CIMGEntry *pIMGEntry)
 }
 void					CEntryListWindowTab::updateEntryInMainListView(CIMGEntry *pIMGEntry)
 {
+	/*
+	todo
 	uint32 uiEntryIndex = getMainListViewItemIndexByItemData(pIMGEntry);
 	if (uiEntryIndex == -1)
 	{
@@ -726,9 +733,12 @@ void					CEntryListWindowTab::updateEntryInMainListView(CIMGEntry *pIMGEntry)
 		getListView()->SetItem(uiEntryIndex, 6, LVIF_TEXT, CStringUtility::convertStdStringToStdWString(CIMGManager::getCompressionTypeText(pIMGEntry->getCompressionAlgorithmId())).c_str(), 0, 0, 0, 0);
 		getListView()->SetItem(uiEntryIndex, 7, LVIF_TEXT, CStringUtility::convertStdStringToStdWString(CIMGManager::getEncryptionText(pIMGEntry->isEncrypted())).c_str(), 0, 0, 0, 0);
 	}
+	*/
 }
 uint32			CEntryListWindowTab::getMainListViewItemIndexByItemData(CIMGEntry *pIMGEntry)
 {
+	/*
+	todo
 	for (uint32 i = 0, j = getListView()->GetItemCount(); i < j; i++)
 	{
 		if ((CIMGEntry*)getListView()->GetItemData(i) == pIMGEntry)
@@ -736,10 +746,13 @@ uint32			CEntryListWindowTab::getMainListViewItemIndexByItemData(CIMGEntry *pIMG
 			return i;
 		}
 	}
+	*/
 	return -1;
 }
 void					CEntryListWindowTab::updateEntryCountText(void)
 {
+	/*
+	todo
 	uint32
 		uiFilteredEntryCount = getListView()->GetItemCount(),
 		uiEntryCount = getIMGFile()->getEntryCount();
@@ -751,9 +764,12 @@ void					CEntryListWindowTab::updateEntryCountText(void)
 	{
 		((CStatic*)getKGM()->getDialog()->GetDlgItem(20))->SetWindowTextW(CLocalizationManager::getInstance()->getTranslatedFormattedTextW("Window_Main_Text_EntryCount", uiEntryCount).c_str());
 	}
+	*/
 }
 void					CEntryListWindowTab::updateIMGText(void)
 {
+	/*
+	todo
 	string strPlatformName = CPlatformManager::getInstance()->getPlatformName(getIMGFile()->getPlatform());
 
 	if (getIMGFile()->getIMGVersion() == IMG_FASTMAN92)
@@ -779,6 +795,7 @@ void					CEntryListWindowTab::updateIMGText(void)
 	{
 		((CStatic*)getKGM()->getDialog()->GetDlgItem(19))->SetWindowTextW(CLocalizationManager::getInstance()->getTranslatedFormattedTextW("IMGVersion", CIMGManager::getIMGVersionName(getIMGFile()->getIMGVersion(), getIMGFile()->isEncrypted()).c_str(), strPlatformName.c_str(), CIMGManager::getIMGVersionGames(getIMGFile()->getIMGVersion()).c_str()).c_str());
 	}
+	*/
 }
 CIMGEntry*				CEntryListWindowTab::getEntryByName(string strEntryName)
 {
@@ -808,6 +825,8 @@ uint32			CEntryListWindowTab::merge(string strPath, vector<string>& vecImportedE
 }
 void					CEntryListWindowTab::splitSelectedEntries(string strPath, eIMGVersion eIMGVersion, bool bDeleteFromSource, vector<string>& vecSplitEntryNames)
 {
+	/*
+	todo
 	vector<CIMGEntry*> vecIMGEntries;
 	CListCtrl *pListControl = ((CListCtrl*)getKGM()->getDialog()->GetDlgItem(37));
 	POSITION pos = pListControl->GetFirstSelectedItemPosition();
@@ -849,6 +868,7 @@ void					CEntryListWindowTab::splitSelectedEntries(string strPath, eIMGVersion e
 	}
 
 	log(CLocalizationManager::getInstance()->getTranslatedFormattedText("Log_128", vecIMGEntries.size(), CPathUtility::getFileName(strPath).c_str()));
+	*/
 }
 void					CEntryListWindowTab::replace(vector<string>& vecPaths, vector<string>& vecReplacedEntryNames)
 {
@@ -866,6 +886,9 @@ bool					sortStdVectorAzCaseInsensitive(CSearchEntry *pSearchEntry1, CSearchEntr
 }
 void					CEntryListWindowTab::searchText(void)
 {
+	/*
+	todo
+
 	CListCtrl
 		*pListControl = (CListCtrl*)getKGM()->getDialog()->GetDlgItem(22),
 		*pListControlMain = (CListCtrl*)getKGM()->getDialog()->GetDlgItem(37);
@@ -1018,10 +1041,13 @@ void					CEntryListWindowTab::searchText(void)
 
 	getKGM()->getEntryListWindow()->setSearchHitCount(uiMatchCount);
 	getKGM()->getEntryListWindow()->setSearchFileCount(uiFileCountWithMatches);
+	*/
 }
 
 void					CEntryListWindowTab::storeFilterOptions(void)
 {
+	/*
+	todo
 	CComboBox *pComboBox1 = (CComboBox*)getKGM()->getDialog()->GetDlgItem(54);
 	CComboBox *pComboBox2 = (CComboBox*)getKGM()->getDialog()->GetDlgItem(5);
 	::CString cstr1, cstr2;
@@ -1029,9 +1055,12 @@ void					CEntryListWindowTab::storeFilterOptions(void)
 	pComboBox2->GetWindowTextW(cstr2);
 	setActiveFilter("type", CStringUtility::convertCStringToStdString(cstr1));
 	setActiveFilter("version", CStringUtility::convertCStringToStdString(cstr2));
+	*/
 }
 void					CEntryListWindowTab::restoreFilterOptions(void)
 {
+	/*
+	todo
 	m_bRestoringFilterOptions = true;
 	((CButton*)getKGM()->getDialog()->GetDlgItem(44))->SetCheck(m_filterOptions.m_bCheckboxes[0] ? BST_CHECKED : BST_UNCHECKED);
 	((CButton*)getKGM()->getDialog()->GetDlgItem(3))->SetCheck(m_filterOptions.m_bCheckboxes[1] ? BST_CHECKED : BST_UNCHECKED);
@@ -1044,10 +1073,12 @@ void					CEntryListWindowTab::restoreFilterOptions(void)
 	((CEdit*)getKGM()->getDialog()->GetDlgItem(8))->SetWindowTextW(CStringUtility::convertStdStringToStdWString(m_filterOptions.m_strEditBoxes[1]).c_str());
 	((CEdit*)getKGM()->getDialog()->GetDlgItem(48))->SetWindowTextW(CStringUtility::convertStdStringToStdWString(m_filterOptions.m_strEditBoxes[2]).c_str());
 	m_bRestoringFilterOptions = false;
+	*/
 }
 bool					CEntryListWindowTab::isFilterActive(void)
 {
 	/*
+	todo
 	bool bFilterCheckBox_Offset = ((CButton*)getKGM()->getDialog()->GetDlgItem(44))->GetCheck() == BST_CHECKED;
 	bool bFilterCheckBox_Size = ((CButton*)getKGM()->getDialog()->GetDlgItem(3))->GetCheck() == BST_CHECKED;
 	bool bFilterCheckBox_RWVersion = ((CButton*)getKGM()->getDialog()->GetDlgItem(4))->GetCheck() == BST_CHECKED;
@@ -1055,9 +1086,13 @@ bool					CEntryListWindowTab::isFilterActive(void)
 	
 	return bFilterCheckBox_Offset || bFilterCheckBox_Size || bFilterCheckBox_RWVersion || bFilterCheckBox_Extensions;
 	*/
+	/*
+	todo
 	return
 		((CComboBox*)getKGM()->getDialog()->GetDlgItem(54))->GetCurSel() != 0
 		|| ((CComboBox*)getKGM()->getDialog()->GetDlgItem(5))->GetCurSel() != 0;
+		*/
+	return true;
 }
 
 void					CEntryListWindowTab::sortEntries(void)
@@ -1124,6 +1159,8 @@ void				CEntryListWindowTab::loadProtectedEntryStates(void)
 
 void				CEntryListWindowTab::loadFilter_Type(void)
 {
+	/*
+	todo
 	CComboBox *pComboBox = (CComboBox*)getKGM()->getDialog()->GetDlgItem(54);
 	unloadFilter_Type();
 	vector<string> vecExtensions = getIMGFile()->getEntryExtensions();
@@ -1141,19 +1178,19 @@ void				CEntryListWindowTab::loadFilter_Type(void)
 		i++;
 	}
 	pComboBox->SetCurSel(uiCurSel);
+	*/
 }
 void				CEntryListWindowTab::loadFilter_Version(void)
 {
+	/*
+	todo
 	CComboBox *pComboBox = (CComboBox*)getKGM()->getDialog()->GetDlgItem(5);
 	unloadFilter_Version();
 
-	/*
 	todo
-
-	getKGM()->m_umapFilterMapping_COLVersion.clear();
-	getKGM()->m_umapFilterMapping_RWVersion.clear();
-	getKGM()->m_iFilterMapping_UnknownVersion = 0;
-	*/
+	//getKGM()->m_umapFilterMapping_COLVersion.clear();
+	//getKGM()->m_umapFilterMapping_RWVersion.clear();
+	//getKGM()->m_iFilterMapping_UnknownVersion = 0;
 
 	vector<eCOLVersion> vecCOLVersions;
 	vector<eRWVersion> vecRWVersions;
@@ -1169,8 +1206,7 @@ void				CEntryListWindowTab::loadFilter_Version(void)
 		{
 			uiCurSel = i;
 		}
-		
-		/*
+
 		todo
 		if(strVersionText == strUnknownVersionText)
 		{
@@ -1184,14 +1220,17 @@ void				CEntryListWindowTab::loadFilter_Version(void)
 		{
 			getKGM()->m_umapFilterMapping_RWVersion[i] = vecRWVersions[(i - 1) - vecCOLVersions.size()];
 		}
-		*/
+
 		i++;
 	}
 	pComboBox->SetCurSel(uiCurSel);
+	*/
 }
 
 void				CEntryListWindowTab::unloadFilter_Type(void)
 {
+	/*
+	todo
 	CComboBox *pComboBox = (CComboBox*)getKGM()->getDialog()->GetDlgItem(54);
 
 	for (uint32 i = 0, j = pComboBox->GetCount(); i < j; i++)
@@ -1202,9 +1241,12 @@ void				CEntryListWindowTab::unloadFilter_Type(void)
 	pComboBox->InsertString(0, CLocalizationManager::getInstance()->getTranslatedTextW("AllTypes").c_str());
 
 	pComboBox->SetCurSel(0);
+	*/
 }
 void				CEntryListWindowTab::unloadFilter_Version(void)
 {
+	/*
+	todo
 	CComboBox *pComboBox = (CComboBox*)getKGM()->getDialog()->GetDlgItem(5);
 
 	for (uint32 i = 0, j = pComboBox->GetCount(); i < j; i++)
@@ -1215,19 +1257,25 @@ void				CEntryListWindowTab::unloadFilter_Version(void)
 	pComboBox->InsertString(0, CLocalizationManager::getInstance()->getTranslatedTextW("AllVersions").c_str());
 
 	pComboBox->SetCurSel(0);
+	*/
 }
 
 void				CEntryListWindowTab::reassignEntryIds(void)
 {
+	/*
+	todo
 	CListCtrl *pListControl = (CListCtrl*)getKGM()->getDialog()->GetDlgItem(37);
 	for (uint32 i = 0, j = pListControl->GetItemCount(); i < j; i++)
 	{
 		pListControl->SetItem(i, 0, LVIF_TEXT, CStringUtility::convertStdStringToStdWString(CStringUtility::toString(i + 1)).c_str(), 0, 0, 0, 0);
 	}
+	*/
 }
 
 vector<CIMGEntry*>	CEntryListWindowTab::getSelectedEntries(void)
 {
+	/*
+	todo
 	vector<CIMGEntry*> vecIMGEntries;
 
 	CListCtrl *pListControl = ((CListCtrl*)getKGM()->getDialog()->GetDlgItem(37));
@@ -1246,5 +1294,8 @@ vector<CIMGEntry*>	CEntryListWindowTab::getSelectedEntries(void)
 		vecIMGEntries.push_back(pIMGEntry);
 	}
 
+	return vecIMGEntries;
+	*/
+	vector<CIMGEntry*> vecIMGEntries;
 	return vecIMGEntries;
 }

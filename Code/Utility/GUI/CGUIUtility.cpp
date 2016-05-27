@@ -1,6 +1,5 @@
 #pragma warning(disable : 4005)
 
-#include <afxdlgs.h>
 #include "CGUIUtility.h"
 #include "String/CStringUtility.h"
 #include "Path/CPathUtility.h"
@@ -164,6 +163,10 @@ vector<string>		CGUIUtility::openFileDialog(string strInitialDir, string strExte
 
 string				CGUIUtility::saveFileDialog(string strInitialDir, string strExtensionFilters, string strDefaultFileName)
 {
+	return "";
+	/*
+	todo
+
 	wchar_t szInitialDirBuffer[_MAX_PATH];
 	wchar_t szDefaultFileNameBuffer[_MAX_FNAME + _MAX_EXT];
 	wchar_t szDefaultExtensionBuffer[256];
@@ -209,6 +212,7 @@ string				CGUIUtility::saveFileDialog(string strInitialDir, string strExtensionF
 		}
 	}
 	return "";
+	*/
 }
 
 string				CGUIUtility::chooseFolderDialog(string strTitle, string strInitialDir)
@@ -278,7 +282,10 @@ void				CGUIUtility::setMenuText(HMENU hMenu, uint32 uiControlIndex, string strT
 
 string				CGUIUtility::getEditText(uint32 uiControlIndex)
 {
+	return ""; // todo
+	/*
 	CString cstr;
 	((CEdit*)GetDlgItem(getParentWindowHwnd(), uiControlIndex))->GetWindowTextW(cstr);
 	return CStringUtility::convertCStringToStdString(cstr);
+	*/
 }

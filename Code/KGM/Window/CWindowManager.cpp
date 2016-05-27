@@ -1,4 +1,3 @@
-#include <afxcmn.h>
 #include "CWindowManager.h"
 #include "Globals.h"
 #include "CKGM.h"
@@ -929,9 +928,9 @@ LRESULT					WindowProc(UINT msg, WPARAM wp, LPARAM lp)
 			else if (((LPNMHDR)lp)->code == NM_CUSTOMDRAW) // main list view item background and text colours
 			{
 				LPNMLVCUSTOMDRAW  lplvcd = (LPNMLVCUSTOMDRAW)lp;
-				CListCtrl *pListControl = ((CListCtrl*)getKGM()->getDialog()->GetDlgItem(37));
-				if (lplvcd->nmcd.hdr.hwndFrom != pListControl->GetSafeHwnd())
-					return CDRF_DODEFAULT;
+				// todo CListCtrl *pListControl = ((CListCtrl*)getKGM()->getDialog()->GetDlgItem(37));
+				// todo if (lplvcd->nmcd.hdr.hwndFrom != pListControl->GetSafeHwnd())
+				// todo 	return CDRF_DODEFAULT;
 				CIMGEntry *pIMGEntry;
 				DWORD uiTextColour;
 				switch (lplvcd->nmcd.dwDrawStage) {
@@ -940,6 +939,8 @@ LRESULT					WindowProc(UINT msg, WPARAM wp, LPARAM lp)
 				case CDDS_ITEMPREPAINT:
 					return CDRF_NOTIFYSUBITEMDRAW;
 				case CDDS_SUBITEM:
+					/*
+					todo
 					pIMGEntry = (CIMGEntry*)pListControl->GetItemData(lplvcd->nmcd.dwItemSpec);
 
 					uiTextColour = RGB(0, 0, 0);
@@ -965,6 +966,7 @@ LRESULT					WindowProc(UINT msg, WPARAM wp, LPARAM lp)
 					{
 						lplvcd->clrTextBk = RGB(235, 235, 235); // grey
 					}
+					*/
 					return CDRF_NEWFONT;
 				default:
 					return CDRF_DODEFAULT;
