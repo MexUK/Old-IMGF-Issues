@@ -48,7 +48,7 @@ public:
 	bool										isEventHogged(void) { return m_bEventHogged; }
 
 private:
-	uint32										getInsertionIndexFromZIndex(CEventBoundFunction *pEventBoundFunction);
+	uint32										getInsertionIndexForEventBoundFunction(CEventBoundFunction *pEventBoundFunction);
 	CEventBoundFunction*						createEventBoundFunctionObject(uint32 uiEventTypeId, uint32 uiEventTypeIndex, uint32 uiEventId, int32 iZIndex);
 
 private:

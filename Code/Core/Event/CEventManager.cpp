@@ -35,7 +35,7 @@ CEventBoundFunction*						CEventManager::bindEvent(uint32 uiEventTypeId, uint32 
 	CEventBoundFunction *pEventBoundFunction = createEventBoundFunctionObject(uiEventTypeId, uiEventTypeIndex, uiEventId, iZIndex);
 	pEventBoundFunction->setEventFunctionType(EVENT_FUNCTION_TYPE_1_ARG);
 	pEventBoundFunction->setFunction(fEventFunction);
-	m_umapEventFunctions[uiEventTypeId][uiEventTypeIndex][uiEventId].insert(m_umapEventFunctions[uiEventTypeId][uiEventTypeIndex][uiEventId].begin() + getInsertionIndexFromZIndex(pEventBoundFunction), pEventBoundFunction);
+	m_umapEventFunctions[uiEventTypeId][uiEventTypeIndex][uiEventId].insert(m_umapEventFunctions[uiEventTypeId][uiEventTypeIndex][uiEventId].begin() + getInsertionIndexForEventBoundFunction(pEventBoundFunction), pEventBoundFunction);
 	return pEventBoundFunction;
 }
 
@@ -44,7 +44,7 @@ CEventBoundFunction*						CEventManager::bindEvent(uint32 uiEventTypeId, uint32 
 	CEventBoundFunction *pEventBoundFunction = createEventBoundFunctionObject(uiEventTypeId, uiEventTypeIndex, uiEventId, iZIndex);
 	pEventBoundFunction->setEventFunctionType(EVENT_FUNCTION_TYPE_2_ARGS);
 	pEventBoundFunction->setFunction(fEventFunction);
-	m_umapEventFunctions[uiEventTypeId][uiEventTypeIndex][uiEventId].insert(m_umapEventFunctions[uiEventTypeId][uiEventTypeIndex][uiEventId].begin() + getInsertionIndexFromZIndex(pEventBoundFunction), pEventBoundFunction);
+	m_umapEventFunctions[uiEventTypeId][uiEventTypeIndex][uiEventId].insert(m_umapEventFunctions[uiEventTypeId][uiEventTypeIndex][uiEventId].begin() + getInsertionIndexForEventBoundFunction(pEventBoundFunction), pEventBoundFunction);
 	return pEventBoundFunction;
 }
 
@@ -107,7 +107,7 @@ CEventBoundFunction*						CEventManager::createEventBoundFunctionObject(uint32 u
 	return pEventBoundFunction;
 }
 
-uint32										CEventManager::getInsertionIndexFromZIndex(CEventBoundFunction *pEventBoundFunction)
+uint32										CEventManager::getInsertionIndexForEventBoundFunction(CEventBoundFunction *pEventBoundFunction)
 {
 	uint32 uiEventBoundFunctionInsertionIndex = 0;
 
