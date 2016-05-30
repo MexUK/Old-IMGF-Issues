@@ -19,7 +19,7 @@ void			CLocalizationFormat::serialize(void)
 {
 	CDataWriter *pDataWriter = CDataWriter::getInstance();
 
-	// todo
+	// todo - serialize localization format
 }
 
 void			CLocalizationFormat::unserializeLine(void)

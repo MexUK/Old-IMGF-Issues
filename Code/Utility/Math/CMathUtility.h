@@ -46,7 +46,7 @@ public:
 	static CVector4ui8			createVector4ui8(uint8 ucByte1, uint8 ucByte2, uint8 ucByte3, uint8 ucByte4);
 	static CVector4ui16			createVector4ui16(uint16 usWord1, uint16 usWord2, uint16 usWord3, uint16 usWord4);
 	static bool					isPointInRectangle(CVector2ui32& vecPoint, CVector2ui32& vecPosition, CVector2ui32& vecSize);
-	static CVector4ui32			getRectangleFromSphere(CVector2ui32 vecCenterPosition, float32 fRadius); // todo - rename to Circle not Sphere
+	static CVector4ui32			getRectangleFromCircle(CVector2ui32 vecCenterPosition, float32 fRadius);
 	static uint32				getRowIndex(CVector2ui32& vecPoint, CVector2ui32& vecMinPosition, float32 fRowHeight, uint32 uiRowCount);
 	static uint32				getRectangleResizeEdges(CVector2ui32& vecPoint, CVector2ui32& vecSize, uint32 uiEdgeDistance); // Edges: Left=1,Top=2,Right=4,Bottom=8
 };

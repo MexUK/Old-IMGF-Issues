@@ -135,6 +135,11 @@ string				CStringUtility::replace(string& strString, string strFind, string strR
 	return strString;
 }
 
+string				CStringUtility::packUint64(uint64 uiULongLong, bool bBigEndian)
+{
+	return packUint32((uiULongLong >> 32) & 0xFFFFFFFF, bBigEndian) + packUint32(uiULongLong & 0xFFFFFFFF, bBigEndian);
+}
+
 string				CStringUtility::packUint32(uint32 uiULong, bool bBigEndian)
 {
 	char szULong[4];
@@ -179,6 +184,11 @@ string				CStringUtility::packUint8(uint8 ucUChar)
 	szUChar[0] = (uint8)ucUChar;
 	string strUChar(szUChar, 1);
 	return strUChar;
+}
+
+string				CStringUtility::packInt64(int64 iLongLong, bool bBigEndian)
+{
+	return packInt32((iLongLong >> 32) & 0xFFFFFFFF, bBigEndian) + packInt32(iLongLong & 0xFFFFFFFF, bBigEndian);
 }
 
 string				CStringUtility::packInt32(int32 iLong, bool bBigEndian)
@@ -230,6 +240,48 @@ string				CStringUtility::packInt8(int8 iChar)
 string				CStringUtility::packFloat32(float32 fValue, bool bBigEndian)
 {
 	return packUint32((uint32)pack754_32(fValue), bBigEndian);
+}
+
+string				CStringUtility::packFloat64(float64 fValue, bool bBigEndian)
+{
+	return packUint64((uint64) pack754_64(fValue), bBigEndian);
+}
+
+string				CStringUtility::packVector2D(CVector2D& vecVector, bool bBigEndian)
+{
+	return CStringUtility::packFloat32(vecVector.m_x, bBigEndian)
+		 + CStringUtility::packFloat32(vecVector.m_y, bBigEndian);
+}
+
+string				CStringUtility::packVector3D(CVector3D& vecVector, bool bBigEndian)
+{
+	return CStringUtility::packFloat32(vecVector.m_x, bBigEndian)
+		 + CStringUtility::packFloat32(vecVector.m_y, bBigEndian)
+		 + CStringUtility::packFloat32(vecVector.m_z, bBigEndian);
+}
+
+string				CStringUtility::packVector4D(CVector4D& vecVector, bool bBigEndian)
+{
+	return CStringUtility::packFloat32(vecVector.m_x, bBigEndian)
+		 + CStringUtility::packFloat32(vecVector.m_y, bBigEndian)
+		 + CStringUtility::packFloat32(vecVector.m_z, bBigEndian)
+		 + CStringUtility::packFloat32(vecVector.m_w, bBigEndian);
+}
+
+string				CStringUtility::packVector4ui8(CVector4ui8& vecVector)
+{
+	return CStringUtility::packUint8(vecVector.m_x)
+		+ CStringUtility::packUint8(vecVector.m_y)
+		+ CStringUtility::packUint8(vecVector.m_z)
+		+ CStringUtility::packUint8(vecVector.m_w);
+}
+
+string				CStringUtility::packVector4ui16(CVector4ui16& vecVector, bool bBigEndian)
+{
+	return CStringUtility::packUint16(vecVector.m_x, bBigEndian)
+		+ CStringUtility::packUint16(vecVector.m_y, bBigEndian)
+		+ CStringUtility::packUint16(vecVector.m_z, bBigEndian)
+		+ CStringUtility::packUint16(vecVector.m_w, bBigEndian);
 }
 
 uint32		CStringUtility::unpackUint32(string& strData, bool bBigEndian)
@@ -325,6 +377,33 @@ int8			CStringUtility::unpackInt8(string& strData)
 float32				CStringUtility::unpackFloat32(string& strData, bool bBigEndian)
 {
 	return (float32)unpack754_32(unpackUint32(strData, bBigEndian));
+}
+
+CVector2D			CStringUtility::unpackVector2D(std::string& strData, bool bBigEndian)
+{
+	return CVector2D(
+		unpackFloat32(strData.substr(0, 4), bBigEndian),
+		unpackFloat32(strData.substr(4, 4), bBigEndian)
+	);
+}
+
+CVector3D			CStringUtility::unpackVector3D(std::string& strData, bool bBigEndian)
+{
+	return CVector3D(
+		unpackFloat32(strData.substr(0, 4), bBigEndian),
+		unpackFloat32(strData.substr(4, 4), bBigEndian),
+		unpackFloat32(strData.substr(8, 4), bBigEndian)
+	);
+}
+
+CVector4D			CStringUtility::unpackVector4D(std::string& strData, bool bBigEndian)
+{
+	return CVector4D(
+		unpackFloat32(strData.substr(0, 4), bBigEndian),
+		unpackFloat32(strData.substr(4, 4), bBigEndian),
+		unpackFloat32(strData.substr(8, 4), bBigEndian),
+		unpackFloat32(strData.substr(12, 4), bBigEndian)
+	);
 }
 
 string				CStringUtility::toString(int iNumber)

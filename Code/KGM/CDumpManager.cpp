@@ -21,6 +21,10 @@
 #include "RW/Sections/CRWSection_TextureNative.h"
 #include "BMP/CBMPManager.h"
 #include "BMP/CBMPFormat.h"
+#include "CUR/CCURManager.h"
+#include "CUR/CCURFormat.h"
+#include "ICO/CICOManager.h"
+#include "ICO/CICOFormat.h"
 #include "Bitmap.h"
 #include "Testing/CDebugger.h"
 #include "Vector/CVectorUtility.h"
@@ -462,22 +466,10 @@ void		CDumpManager::process(void)
 										}
 										strICOFilePath = CPathUtility::getNextFileName(strICOFilePath, uiMipmapIndex, "-Mipmap");
 
-										string strICOHeaderData = "";
-										strICOHeaderData += CStringUtility::packUint16(0, false);
-										strICOHeaderData += CStringUtility::packUint16(1, false); // 1 for icon, 2 for cursor
-										strICOHeaderData += CStringUtility::packUint16(1, false); // image count
-										strICOHeaderData += CStringUtility::packUint8((uint8)pBMPFile->getWidth());
-										strICOHeaderData += CStringUtility::packUint8((uint8)pBMPFile->getHeight());
-										strICOHeaderData += CStringUtility::packUint8(0); // palette colour count
-										strICOHeaderData += CStringUtility::packUint8(0); // reserved
-										strICOHeaderData += CStringUtility::packUint16(0, false); // colour planes
-										strICOHeaderData += CStringUtility::packUint16(32, false); // BPP
-										strICOHeaderData += CStringUtility::packUint32((pBMPFile->getWidth() * pBMPFile->getHeight()) * (32 / 8), false); // BPP
-										strICOHeaderData += CStringUtility::packUint32(22, false); // offset to BMP data from beginning of file
-										
-										pBMPFile->setSkipBMPFHForSerialize(true);
-										pBMPFile->setBMPVersion(3);
-										CFileUtility::storeFile(strICOFilePath, strICOHeaderData + pBMPFile->serializeViaMemory(), false, true);
+										CICOFormat *pICOFormat = CICOManager::getInstance()->createFormatFromBMP(pBMPFile);
+										pICOFormat->serializeViaFile(strICOFilePath);
+										pICOFormat->unload();
+										delete pICOFormat;
 									}
 									else if (strImageType == "CUR")
 									{
@@ -491,23 +483,11 @@ void		CDumpManager::process(void)
 											strCURFilePath = pDumpDialogData->m_strDumpDestinationFolderPath + "Texture Images/" + pTexture->getDiffuseName() + ".CUR";
 										}
 										strCURFilePath = CPathUtility::getNextFileName(strCURFilePath, uiMipmapIndex, "-Mipmap");
-
-										string strCURHeaderData = ""; // todo - make CCURManager and CICOManager or something
-										strCURHeaderData += CStringUtility::packUint16(0, false);
-										strCURHeaderData += CStringUtility::packUint16(2, false); // 1 for icon, 2 for cursor
-										strCURHeaderData += CStringUtility::packUint16(1, false); // image count
-										strCURHeaderData += CStringUtility::packUint8((uint8)pBMPFile->getWidth());
-										strCURHeaderData += CStringUtility::packUint8((uint8)pBMPFile->getHeight());
-										strCURHeaderData += CStringUtility::packUint8(0); // palette colour count
-										strCURHeaderData += CStringUtility::packUint8(0); // reserved
-										strCURHeaderData += CStringUtility::packUint16((uint8)pBMPFile->getWidth() / 2, false); // x hotspot
-										strCURHeaderData += CStringUtility::packUint16((uint8)pBMPFile->getHeight() / 2, false); // y hotspot
-										strCURHeaderData += CStringUtility::packUint32((pBMPFile->getWidth() * pBMPFile->getHeight()) * (32 / 8), false); // BPP
-										strCURHeaderData += CStringUtility::packUint32(22, false); // offset to BMP data from beginning of file
 										
-										pBMPFile->setSkipBMPFHForSerialize(true);
-										pBMPFile->setBMPVersion(3);
-										CFileUtility::storeFile(strCURFilePath, strCURHeaderData + pBMPFile->serializeViaMemory(), false, true);
+										CCURFormat *pCURFormat = CCURManager::getInstance()->createFormatFromBMP(pBMPFile);
+										pCURFormat->serializeViaFile(strCURFilePath);
+										pCURFormat->unload();
+										delete pCURFormat;
 									}
 									else if (strImageType == "DDS")
 									{
@@ -707,7 +687,7 @@ void		CDumpManager::process(void)
 										strICOHeaderData += CStringUtility::packUint32((pBMPFile->getWidth() * pBMPFile->getHeight()) * (32 / 8), false); // BPP
 										strICOHeaderData += CStringUtility::packUint32(22, false); // offset to BMP data from beginning of file
 										
-										pBMPFile->setSkipBMPFHForSerialize(true);
+										pBMPFile->setSkipBMPFileHeaderForSerialize(true);
 										pBMPFile->setBMPVersion(3);
 										CFileUtility::storeFile(strICOFilePath, strICOHeaderData + pBMPFile->serializeViaMemory(), false, true);
 									}
@@ -737,7 +717,7 @@ void		CDumpManager::process(void)
 										strCURHeaderData += CStringUtility::packUint32((pBMPFile->getWidth() * pBMPFile->getHeight()) * (32 / 8), false); // BPP
 										strCURHeaderData += CStringUtility::packUint32(22, false); // offset to BMP data from beginning of file
 										
-										pBMPFile->setSkipBMPFHForSerialize(true);
+										pBMPFile->setSkipBMPFileHeaderForSerialize(true);
 										pBMPFile->setBMPVersion(3);
 										CFileUtility::storeFile(strCURFilePath, strCURHeaderData + pBMPFile->serializeViaMemory(), false, true);
 									}

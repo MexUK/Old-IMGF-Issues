@@ -49,6 +49,18 @@
     <Filter Include="Source Files\File Format\DDS">
       <UniqueIdentifier>{48cf9cf3-635c-444f-af94-6a36681e2f4a}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Header Files\File Format\CUR">
+      <UniqueIdentifier>{e7e23039-487d-4530-96ce-1bdf57cfe0b5}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\File Format\ICO">
+      <UniqueIdentifier>{c1bda2ef-3af1-4c11-ac50-a3d59d81826d}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\File Format\CUR">
+      <UniqueIdentifier>{2fe0a276-cd9c-4c52-98fb-19dad12ead0a}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\File Format\ICO">
+      <UniqueIdentifier>{6d3e17e2-396a-465b-983b-4f3058e4b7ca}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\..\..\Code\General\Image\CRasterDataFormatManager.cpp">
@@ -80,6 +92,18 @@
     </ClCompile>
     <ClCompile Include="..\..\..\Code\General\File Format\DDS\CDDSManager.cpp">
       <Filter>Source Files\File Format\DDS</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\Code\General\File Format\CUR\CCURFormat.cpp">
+      <Filter>Source Files\File Format\CUR</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\Code\General\File Format\CUR\CCURManager.cpp">
+      <Filter>Source Files\File Format\CUR</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\Code\General\File Format\ICO\CICOFormat.cpp">
+      <Filter>Source Files\File Format\ICO</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\Code\General\File Format\ICO\CICOManager.cpp">
+      <Filter>Source Files\File Format\ICO</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -160,6 +184,18 @@
     </ClInclude>
     <ClInclude Include="..\..\..\Code\General\eCompressionAlgorithm.h">
       <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\Code\General\File Format\CUR\CCURFormat.h">
+      <Filter>Header Files\File Format\CUR</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\Code\General\File Format\CUR\CCURManager.h">
+      <Filter>Header Files\File Format\CUR</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\Code\General\File Format\ICO\CICOFormat.h">
+      <Filter>Header Files\File Format\ICO</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\Code\General\File Format\ICO\CICOManager.h">
+      <Filter>Header Files\File Format\ICO</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

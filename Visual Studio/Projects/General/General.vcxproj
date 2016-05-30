@@ -84,8 +84,12 @@
   <ItemGroup>
     <ClCompile Include="..\..\..\Code\General\File Format\BMP\CBMPFormat.cpp" />
     <ClCompile Include="..\..\..\Code\General\File Format\BMP\CBMPManager.cpp" />
+    <ClCompile Include="..\..\..\Code\General\File Format\CUR\CCURFormat.cpp" />
+    <ClCompile Include="..\..\..\Code\General\File Format\CUR\CCURManager.cpp" />
     <ClCompile Include="..\..\..\Code\General\File Format\DDS\CDDSFormat.cpp" />
     <ClCompile Include="..\..\..\Code\General\File Format\DDS\CDDSManager.cpp" />
+    <ClCompile Include="..\..\..\Code\General\File Format\ICO\CICOFormat.cpp" />
+    <ClCompile Include="..\..\..\Code\General\File Format\ICO\CICOManager.cpp" />
     <ClCompile Include="..\..\..\Code\General\Game\CGameManager.cpp" />
     <ClCompile Include="..\..\..\Code\General\Image\CImageFile.cpp" />
     <ClCompile Include="..\..\..\Code\General\Image\CImageManager.cpp" />
@@ -102,12 +106,16 @@
     <ClInclude Include="..\..\..\Code\General\File Format\BMP\CBMPFormat_Header2_Version4.h" />
     <ClInclude Include="..\..\..\Code\General\File Format\BMP\CBMPFormat.h" />
     <ClInclude Include="..\..\..\Code\General\File Format\BMP\CBMPManager.h" />
+    <ClInclude Include="..\..\..\Code\General\File Format\CUR\CCURFormat.h" />
+    <ClInclude Include="..\..\..\Code\General\File Format\CUR\CCURManager.h" />
     <ClInclude Include="..\..\..\Code\General\File Format\DDS\CDDSFormat.h" />
     <ClInclude Include="..\..\..\Code\General\File Format\DDS\CDDSFormat_Header_DDS_HEADER.h" />
     <ClInclude Include="..\..\..\Code\General\File Format\DDS\CDDSFormat_Header_DDS_HEADER_DXT10.h" />
     <ClInclude Include="..\..\..\Code\General\File Format\DDS\CDDSFormat_Header_DDS_PIXELFORMAT_Part1.h" />
     <ClInclude Include="..\..\..\Code\General\File Format\DDS\CDDSFormat_Header_DDS_PIXELFORMAT_Part2.h" />
     <ClInclude Include="..\..\..\Code\General\File Format\DDS\CDDSManager.h" />
+    <ClInclude Include="..\..\..\Code\General\File Format\ICO\CICOFormat.h" />
+    <ClInclude Include="..\..\..\Code\General\File Format\ICO\CICOManager.h" />
     <ClInclude Include="..\..\..\Code\General\Game\CGame.h" />
     <ClInclude Include="..\..\..\Code\General\Game\CGameManager.h" />
     <ClInclude Include="..\..\..\Code\General\Game\eGame.h" />

@@ -11,6 +11,7 @@
 #include "CVector4D.h"
 #include "CVector4ui8.h"
 #include "CVector4ui16.h"
+#include "Pool/CVectorPool.h"
 #include <string>
 #include <vector>
 #include <fstream>
@@ -67,14 +68,20 @@ public:
 	CVector3D				readTokenVector3D(void);
 	CVector4D				readTokenVector4D(void);
 
+	// read line tokens (text mode)
+	template <class DerivedFormatClass>
+	void					readLineEntries(CVectorPool<DerivedFormatClass> *pPool);
+	template <typename LineTypeEnum, class SectionClass, class EntryClass>
+	void					readSectionLineEntries(CVectorPool<SectionClass> *pPool);
+
 	// read struct
-	template<class T>
+	template <class T>
 	T*						readStruct(void)
 	{
 		return (T*) readCString(sizeof(T));
 	};
 	
-	template<class T>
+	template <class T>
 	T*						readStructMultiple(uint32 uiObjectCount)
 	{
 		T *pObjects = new T[uiObjectCount];
@@ -155,5 +162,59 @@ private:
 	uint32						m_uiLineTokenCount;	// only used for byte interpretation type: text
 	uint32						m_uiActiveLineTokenIndex;	// only used for byte interpretation type: text
 };
+
+template <class DerivedFormatClass>
+void						CDataReader::readLineEntries(CVectorPool<DerivedFormatClass> *pPool)
+{
+	CDataReader *pDataReader = CDataReader::getInstance();
+
+	pDataReader->readAndStoreLines();
+	while (pDataReader->iterateLines())
+	{
+		DerivedFormatClass *pEntry = new DerivedFormatClass;
+		pEntry->setFormat(this);
+		pEntry->unserialize();
+		pPool->addEntry(pEntry);
+	}
+}
+
+template <typename LineTypeEnum, class SectionClass, class EntryClass>
+void					CDataReader::readSectionLineEntries(CVectorPool<SectionClass> *pPool)
+{
+	CDataReader *pDataReader = CDataReader::getInstance();
+
+	SectionClass *pSection = nullptr;
+	EntryClass *pEntry = nullptr;
+
+	pDataReader->readAndStoreLines();
+	while (pDataReader->iterateLines())
+	{
+		LineTypeEnum eLineType = detectLineType();
+		switch (eLineType)
+		{
+		case FORMAT_LINE_TYPE_SECTION:
+			pSection = new SectionClass;
+			pSection->setFormat(this);
+			pSection->unserialize();
+			pPool->addEntry(pSection);
+			break;
+		case FORMAT_LINE_TYPE_ENTRY:
+			if (pSection == nullptr)
+			{
+				throw ERROR_INVALID_DATA_FORMAT;
+			}
+			pEntry = new EntryClass;
+			pEntry->setSection(pSection);
+			pEntry->unserialize();
+			pSection->addEntry(pEntry);
+			break;
+		case FORMAT_LINE_TYPE_END:
+		case FORMAT_LINE_TYPE_COMMENT:
+		case FORMAT_LINE_TYPE_BLANK:
+			continue;
+			break;
+		}
+	}
+}
 
 #endif

@@ -114,7 +114,10 @@ void					CDataWriter::write(char *pData, uint32 uiByteCount)
 		break;
 	case DATA_STREAM_FILE:
 		m_file.write(pData, uiByteCount);
-		// todo - check for errors
+		if (m_file.fail())
+		{
+			throw EXCEPTION_FILE_WRITE_FAIL;
+		}
 		break;
 	default:
 		throw EXCEPTION_UNKNOWN_DATA_STREAM_TYPE;
@@ -185,8 +188,7 @@ void					CDataWriter::write(vector<CVector2D>& vecVectors)
 	string strData = "";
 	for (CVector2D& vecVector : vecVectors)
 	{
-		strData += CStringUtility::packFloat32(vecVector.m_x, m_eEndian == BIG_ENDIAN); // todo - change to CStringUtility::packVector2D and 3D
-		strData += CStringUtility::packFloat32(vecVector.m_y, m_eEndian == BIG_ENDIAN); // todo - change to CStringUtility::packVector2D and 3D
+		strData += CStringUtility::packVector2D(vecVector, m_eEndian == BIG_ENDIAN);
 	}
 	write(strData);
 }
@@ -196,9 +198,7 @@ void					CDataWriter::write(vector<CVector3D>& vecVectors)
 	string strData = "";
 	for (CVector3D& vecVector : vecVectors)
 	{
-		strData += CStringUtility::packFloat32(vecVector.m_x, m_eEndian == BIG_ENDIAN); // todo - change to CStringUtility::packVector2D and 3D
-		strData += CStringUtility::packFloat32(vecVector.m_y, m_eEndian == BIG_ENDIAN); // todo - change to CStringUtility::packVector2D and 3D
-		strData += CStringUtility::packFloat32(vecVector.m_z, m_eEndian == BIG_ENDIAN); // todo - change to CStringUtility::packVector2D and 3D
+		strData += CStringUtility::packVector3D(vecVector, m_eEndian == BIG_ENDIAN);
 	}
 	write(strData);
 }
@@ -208,10 +208,7 @@ void					CDataWriter::write(vector<CVector4ui8>& vecVectors)
 	string strData = "";
 	for (CVector4ui8& vecVector : vecVectors)
 	{
-		strData += CStringUtility::packUint8(vecVector.m_x); // todo - change to CStringUtility::packVector4ui8
-		strData += CStringUtility::packUint8(vecVector.m_y); // todo - change to CStringUtility::packVector4ui8
-		strData += CStringUtility::packUint8(vecVector.m_z); // todo - change to CStringUtility::packVector4ui8
-		strData += CStringUtility::packUint8(vecVector.m_w); // todo - change to CStringUtility::packVector4ui8
+		strData += CStringUtility::packVector4ui8(vecVector);
 	}
 	write(strData);
 }
@@ -221,10 +218,7 @@ void					CDataWriter::write(vector<CVector4ui16>& vecVectors)
 	string strData = "";
 	for (CVector4ui16& vecVector : vecVectors)
 	{
-		strData += CStringUtility::packUint16(vecVector.m_x, m_eEndian == BIG_ENDIAN); // todo - change to CStringUtility::packVector4ui16
-		strData += CStringUtility::packUint16(vecVector.m_y, m_eEndian == BIG_ENDIAN); // todo - change to CStringUtility::packVector4ui16
-		strData += CStringUtility::packUint16(vecVector.m_z, m_eEndian == BIG_ENDIAN); // todo - change to CStringUtility::packVector4ui16
-		strData += CStringUtility::packUint16(vecVector.m_w, m_eEndian == BIG_ENDIAN); // todo - change to CStringUtility::packVector4ui16
+		strData += CStringUtility::packVector4ui16(vecVector, m_eEndian == BIG_ENDIAN);
 	}
 	write(strData);
 }
@@ -236,11 +230,7 @@ void					CDataWriter::write(float32 fFloat)
 }
 void					CDataWriter::write(float64 fFloat)
 {
-	//write(CStringUtility::packFloat64(fFloat, m_eEndian == BIG_ENDIAN));
-}
-void					CDataWriter::write(float80 fFloat)
-{
-	//write(CStringUtility::packFloat80(fFloat, m_eEndian == BIG_ENDIAN));
+	write(CStringUtility::packFloat64(fFloat, m_eEndian == BIG_ENDIAN));
 }
 void					CDataWriter::write(CVector2D& vecVector)
 {
@@ -318,6 +308,8 @@ void					CDataWriter::setSeek(uint64 uiByteIndex)
 			throw EXCEPTION_CANT_SEEK_TO;
 		}
 		break;
+	default:
+		throw EXCEPTION_UNKNOWN_DATA_STREAM_TYPE;
 	}
 }
 
@@ -329,6 +321,8 @@ uint64					CDataWriter::getSeek(void)
 		return getSeek_Memory();
 	case DATA_STREAM_FILE:
 		return m_file.tellp();
+	default:
+		throw EXCEPTION_UNKNOWN_DATA_STREAM_TYPE;
 	}
 	return 0;
 }

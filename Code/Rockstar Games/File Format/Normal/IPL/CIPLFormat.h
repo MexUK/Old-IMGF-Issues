@@ -3,7 +3,6 @@
 
 #include "CFormat.h"
 #include "Section Lines/CSectionLinesFormat.h"
-#include "eDataType.h" // todo - no idea why this include is needed - it makes eIPLSection underlined when not here
 #include "eIPLSection.h"
 #include "eIPLPathType.h"
 #include "Entry/CIPLEntry_Other.h"

@@ -233,7 +233,7 @@ bool						CMathUtility::isPointInRectangle(CVector2ui32& vecPoint, CVector2ui32&
 		&& vecPoint.m_y <= (vecPosition.m_y + vecSize.m_y);
 }
 
-CVector4ui32				CMathUtility::getRectangleFromSphere(CVector2ui32 vecCenterPosition, float32 fRadius)
+CVector4ui32				CMathUtility::getRectangleFromCircle(CVector2ui32 vecCenterPosition, float32 fRadius)
 {
 	CVector4ui32 vecRect;
 	vecRect.m_x = vecCenterPosition.m_x - fRadius;

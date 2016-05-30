@@ -61,7 +61,6 @@ void		CDataReader::readCString(uint8* pDestination, uint32 uiByteCount)
 		break;
 	case DATA_STREAM_FILE:
 		m_file.read((char*)pDestination, uiByteCount);
-		//if (!m_file.good())
 		if (m_file.fail()) // http://www.cplusplus.com/reference/ios/ios/good/
 		{
 			delete[] pDestination;
@@ -74,7 +73,8 @@ void		CDataReader::readCString(uint8* pDestination, uint32 uiByteCount)
 			throw EXCEPTION_FILE_READ_INSUFFICIENT_BYTES;
 		}
 		break;
-		// todo - throw exception on unknown stream type
+	default:
+		throw EXCEPTION_UNKNOWN_DATA_STREAM_TYPE;
 	}
 	restoreSeekForPeek(uiByteCount);
 }
@@ -182,7 +182,7 @@ vector<uint32>	CDataReader::readUint32ArrayAsStdVector(uint32 uiValueCount)
 	{
 		for (uint32& uiInt : vecInts)
 		{
-			//uiInt = CStringUtility::swapEndian(uiInt, 4); // todo
+			uiInt = CStringUtility::swapEndian(uiInt);
 		}
 	}
 	restoreSeekForPeek(uiByteCount);
@@ -342,6 +342,8 @@ void		CDataReader::setSeek(uint64 uiByteIndex)
 			throw EXCEPTION_CANT_SEEK_TO;
 		}
 		break;
+	default:
+		throw EXCEPTION_UNKNOWN_DATA_STREAM_TYPE;
 	}
 }
 
@@ -353,6 +355,8 @@ uint64		CDataReader::getSeek(void)
 		return getSeek_Memory();
 	case DATA_STREAM_FILE:
 		return m_file.tellg();
+	default:
+		throw EXCEPTION_UNKNOWN_DATA_STREAM_TYPE;
 	}
 	return 0;
 }
@@ -387,6 +391,8 @@ uint64		CDataReader::getDataLength(void)
 		m_file.seekg(uiSeekBefore, ios::beg);
 		return uiDataLength;
 	}
+	default:
+		throw EXCEPTION_UNKNOWN_DATA_STREAM_TYPE;
 	}
 	return 0;
 }

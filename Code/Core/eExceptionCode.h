@@ -1,7 +1,7 @@
 #ifndef CExceptionCode_H
 #define CExceptionCode_H
 
-enum eExceptionCode
+enum eExceptionCode // Note: When adding an enum entry here, also add the string equivalent in CFormat::getErrorReason.
 {
 	EXCEPTION_INVALID_DATA_SIZE_MULTIPLE,
 	EXCEPTION_UNSUPPORTED_FORMAT_VERSION,
@@ -15,6 +15,7 @@ enum eExceptionCode
 	EXCEPTION_CANT_RESTORE_PEEK,
 	EXCEPTION_UNKNOWN_FORMAT,
 	EXCEPTION_FILE_READ_FAIL,
+	EXCEPTION_FILE_WRITE_FAIL,
 	EXCEPTION_UNKNOWN_FORMAT_TYPE,
 	EXCEPTION_UNSERIALIZE_INSUFFICIENT_DATA,
 	EXCEPTION_INVALID_DATA_ORDER,

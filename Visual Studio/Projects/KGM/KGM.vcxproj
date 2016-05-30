@@ -166,7 +166,6 @@
     <ClInclude Include="..\..\..\Code\KGM\CKGM.h" />
     <ClInclude Include="..\..\..\Code\KGM\CLastUsedValueManager.h" />
     <ClInclude Include="..\..\..\Code\KGM\CLSTProcessingManager.h" />
-    <ClInclude Include="..\..\..\Code\KGM\CRenamedIMGEntry.h" />
     <ClInclude Include="..\..\..\Code\KGM\CSearchEntry.h" />
     <ClInclude Include="..\..\..\Code\KGM\CSettingsManager.h" />
     <ClInclude Include="..\..\..\Code\KGM\CSocketUtility.h" />
@@ -191,6 +190,7 @@
     <ClInclude Include="..\..\..\Code\KGM\Language\CLanguageManager.h" />
     <ClInclude Include="..\..\..\Code\KGM\Task\CTaskDispatchManager.h" />
     <ClInclude Include="..\..\..\Code\KGM\Task\CTaskManager.h" />
+    <ClInclude Include="..\..\..\Code\KGM\Task\Tasks\Renamer\CRenamedIMGEntry.h" />
     <ClInclude Include="..\..\..\Code\KGM\WindowControlIds.h" />
     <ClInclude Include="..\..\..\Code\KGM\Window\CTabbedWindow.h" />
     <ClInclude Include="..\..\..\Code\KGM\Window\CWindow.h" />

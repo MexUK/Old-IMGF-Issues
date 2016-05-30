@@ -164,7 +164,7 @@ void									CGDIPlusUtility::drawCircleFill(CVector2ui32& vecCenterPoint, float
 		ucAlpha = uiFillColour & 0xFF
 		;
 
-	CVector4ui32 vecRect = CMathUtility::getRectangleFromSphere(vecCenterPoint, fRadius);
+	CVector4ui32 vecRect = CMathUtility::getRectangleFromCircle(vecCenterPoint, fRadius);
 	Rect rect;
 	rect.X = vecRect.m_x;
 	rect.Y = vecRect.m_y;
@@ -187,7 +187,7 @@ void									CGDIPlusUtility::drawCircleBorder(CVector2ui32& vecCenterPoint, flo
 		ucAlpha = uiLineColour & 0xFF
 		;
 
-	CVector4ui32 vecRect = CMathUtility::getRectangleFromSphere(vecCenterPoint, fRadius);
+	CVector4ui32 vecRect = CMathUtility::getRectangleFromCircle(vecCenterPoint, fRadius);
 	Rect rect;
 	rect.X = vecRect.m_x;
 	rect.Y = vecRect.m_y;

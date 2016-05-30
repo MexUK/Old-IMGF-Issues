@@ -83,7 +83,7 @@ void						CLSTFormat::unserializeLine(void)
 
 void						CLSTFormat::serialize(void)
 {
-	// todo
+	// todo - serialize LST format
 }
 
 CLSTSection*				CLSTFormat::getEntryByName(string strName)

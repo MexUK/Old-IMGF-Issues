@@ -14,7 +14,7 @@ using namespace std;
 
 CBMPFormat::CBMPFormat(void) :
 	CFormat(true, LITTLE_ENDIAN),
-	m_bSkipBMPFHForSerialize(false),
+	m_bSkipBMPFileHeaderForSerialize(false),
 	m_bHasPalette(false),
 	m_uiBMPVersion(0),
 	m_usFileType(0),
@@ -90,6 +90,7 @@ void			CBMPFormat::swapRows(void)
 
 void			CBMPFormat::setRasterDataBGRA32(string& strRasterDataBGRA32)
 {
+	// todo
 }
 string			CBMPFormat::getRasterDataBGRA32(void)
 {
@@ -239,7 +240,7 @@ void			CBMPFormat::serializeVersion2(void)
 {
 	CDataWriter *pDataWriter = CDataWriter::getInstance();
 
-	if (!getSkipBMPFHForSerialize())
+	if (!getSkipBMPFileHeaderForSerialize())
 	{
 		uint32 uiFileSize = 14 + 16 + (m_bHasPalette ? m_strPaletteData.length() : 0) + m_strRasterData.length();
 
@@ -252,7 +253,7 @@ void			CBMPFormat::serializeVersion2(void)
 
 	pDataWriter->write((uint32)12);
 	pDataWriter->write(m_uiWidth);
-	pDataWriter->write(m_uiHeight); // todo - add support for set/getters for all BMP properties to CBMPFormat
+	pDataWriter->write(m_uiHeight);
 	pDataWriter->write((uint16)1); // plane count
 	pDataWriter->write(m_usBPP);
 
@@ -268,7 +269,7 @@ void			CBMPFormat::serializeVersion3(void)
 {
 	CDataWriter *pDataWriter = CDataWriter::getInstance();
 
-	if (!getSkipBMPFHForSerialize())
+	if (!getSkipBMPFileHeaderForSerialize())
 	{
 		uint32 uiFileSize = 14 + 40 + (m_bHasPalette ? m_strPaletteData.length() : 0) + m_strRasterData.length();
 
@@ -303,7 +304,7 @@ void			CBMPFormat::serializeVersion4(void)
 {
 	CDataWriter *pDataWriter = CDataWriter::getInstance();
 
-	if (!getSkipBMPFHForSerialize())
+	if (!getSkipBMPFileHeaderForSerialize())
 	{
 		uint32 uiFileSize = 14 + 108 + (m_bHasPalette ? m_strPaletteData.length() : 0) + m_strRasterData.length();
 

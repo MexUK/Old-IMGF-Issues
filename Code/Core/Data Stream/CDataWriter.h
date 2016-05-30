@@ -11,13 +11,14 @@
 #include "CVector4D.h"
 #include "CVector4ui8.h"
 #include "CVector4ui16.h"
+#include "Pool/CVectorPool.h"
 #include <string>
 #include <vector>
 #include <fstream>
 
 class CDataWriter;
 
-class CDataWriter : public CDataStream // todo - remove singleton line here?, public CSingleton<CDataWriter>
+class CDataWriter : public CDataStream // todo - move to singleton like before and how CDataReader is, and remove static-instance methods and update it to how the CDataReader works by using something like getIndexedInstance().
 {
 public:
 	CDataWriter(void);
@@ -62,7 +63,6 @@ public:
 	// write float
 	void					write(float32 fFloat);
 	void					write(float64 fFloat);
-	void					write(float80 fFloat);
 	void					write(CVector2D& vecVector);
 	void					write(CVector3D& vecVector);
 	void					write(CVector4D& vecVector);
@@ -76,12 +76,17 @@ public:
 	void					writeToken(CVector3D& vecVector);
 	void					writeToken(CVector4D& vecVector);
 
+	template <class DerivedFormatClass>
+	void					writeLineEntries(CVectorPool<DerivedFormatClass> *pPool);
+	template <class SectionClass, class EntryClass>
+	void					writeSectionLineEntries(CVectorPool<SectionClass> *pPool);
+
 	// write raw struct
-	template<class T>
+	template <class T>
 	void					writeStruct(T& object)
 	{
 		write(&object, sizeof(T));
-	};
+	}
 	
 	// seek
 	void					setSeek(uint64 uiByteIndex);
@@ -100,5 +105,37 @@ private:
 	std::ofstream			m_file;
 	std::string				m_strTemporaryFilePath;
 };
+
+template<class DerivedFormatClass>
+void						CDataWriter::writeLineEntries(CVectorPool<DerivedFormatClass> *pPool)
+{
+	CDataWriter *pDataWriter = CDataWriter::getInstance();
+
+	for (DerivedFormatClass *pEntry : pPool->getEntries())
+	{
+		pEntry->serialize();
+		pDataWriter->write("\n", 1);
+	}
+}
+
+template <class SectionClass, class EntryClass>
+void					CDataWriter::writeSectionLineEntries(CVectorPool<SectionClass> *pPool)
+{
+	CDataWriter *pDataWriter = CDataWriter::getInstance();
+
+	for (SectionClass *pSection : pPool->getEntries())
+	{
+		pSection->serialize();
+		pDataWriter->write("\n");
+
+		for (EntryClass *pEntry : pSection->getEntries())
+		{
+			pEntry->serialize();
+			pDataWriter->write("\n");
+		}
+
+		pDataWriter->write("end\n");
+	}
+}
 
 #endif

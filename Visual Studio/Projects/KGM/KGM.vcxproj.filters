@@ -121,6 +121,12 @@
     <Filter Include="Header Files\Task">
       <UniqueIdentifier>{befc1e00-668e-48a0-8882-4c1d1ea436fe}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Header Files\Task\Tasks">
+      <UniqueIdentifier>{99c715cc-064b-48b2-a226-24145895d91a}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\Task\Tasks\Renamer">
+      <UniqueIdentifier>{06b42a44-c4fe-45e5-9d42-75bab9b326d5}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\..\..\Code\KGM\CDumpManager.cpp">
@@ -306,9 +312,6 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="..\..\..\Code\KGM\CLSTProcessingManager.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\..\Code\KGM\CRenamedIMGEntry.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="..\..\..\Code\KGM\CSearchEntry.h">
@@ -523,6 +526,9 @@
     </ClInclude>
     <ClInclude Include="..\..\..\Code\KGM\CInstallationMeta.h">
       <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\Code\KGM\Task\Tasks\Renamer\CRenamedIMGEntry.h">
+      <Filter>Header Files\Task\Tasks\Renamer</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

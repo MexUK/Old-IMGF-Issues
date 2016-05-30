@@ -13,8 +13,8 @@ public:
 
 	void							unload(void) {};
 
-	void							setSkipBMPFHForSerialize(bool bSkipBMPFHForSerialize) { m_bSkipBMPFHForSerialize = bSkipBMPFHForSerialize; }	// struct name BMPFH = BITMAPFILEHEADER
-	bool							getSkipBMPFHForSerialize(void) { return m_bSkipBMPFHForSerialize; }												// struct name BMPFH = BITMAPFILEHEADER
+	void							setSkipBMPFileHeaderForSerialize(bool bSkipBMPFileHeaderForSerialize) { m_bSkipBMPFileHeaderForSerialize = bSkipBMPFileHeaderForSerialize; }
+	bool							getSkipBMPFileHeaderForSerialize(void) { return m_bSkipBMPFileHeaderForSerialize; }
 
 	void							setBMPVersion(uint8 uiBMPVersion) { m_uiBMPVersion = uiBMPVersion; }
 	uint8							getBMPVersion(void) { return m_uiBMPVersion; }
@@ -52,8 +52,8 @@ public:
 	uint16							getBPP(void) { return m_usBPP; }
 
 private:
-	void							unserialize(void);
-	void							serialize(void);
+	virtual void					unserialize(void);
+	virtual void					serialize(void);
 
 	void							unserializeVersion1(void);
 	void							unserializeVersion2(void);
@@ -68,8 +68,8 @@ private:
 	uint8							detectBMPVersion(void);
 
 private:
-	uint8							m_bSkipBMPFHForSerialize	: 1;
-	uint8							m_bHasPalette				: 1;
+	uint8							m_bSkipBMPFileHeaderForSerialize	: 1;
+	uint8							m_bHasPalette						: 1;
 	uint8							m_uiBMPVersion;
 	uint16							m_usFileType;
 	uint16							m_usFileSize;

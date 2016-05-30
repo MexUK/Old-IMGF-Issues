@@ -25,7 +25,7 @@ public:
 	uint8						getErrorCode(void) { return m_ucErrorCode; }
 	bool						doesHaveError(void) { return m_ucErrorCode != 0; }
 
-	std::string					getErrorReason(uint8 uiErrorCode = -1) { return "todo"; }
+	std::string					getErrorReason(uint8 uiErrorCode = -1);
 
 	void						setFormatUsesBinaryData(bool bState) { m_bFormatUsesBinaryData = bState; }
 	bool						doesFormatUseBinaryData(void) { return m_bFormatUsesBinaryData; }
@@ -35,13 +35,14 @@ public:
 	std::string&				getFilePath(void) { return m_strFilePath; }
 
 private:
-	void						_unserialize(void);					// wraps the pure virtual unserialize(), with a try catch, applying error code.
-	void						_unserializeWithOpenClose(void);	// wraps the pure virtual unserialize(), with a try catch, applying error code.
-	void						_serialize(void);					// wraps the pure virtual serialize(),   with a try catch, applying error code.
-
+	void						_unserialize(void);					// wraps the pure virtual unserialize(),                          with a try catch, applying error code.
+	void						_unserializeWithOpenClose(void);	// wraps the pure virtual unserialize() and file IO open & close, with a try catch, applying error code.
+	void						_serialize(void);					// wraps the pure virtual serialize(),                            with a try catch, applying error code.
+	void						_serializeWithOpenClose(void);		// wraps the pure virtual serialize() and file IO open & close,   with a try catch, applying error code.
+	
 	virtual void				unserialize(void) = 0;				// overridden by derived CFormat
 	virtual void				serialize(void) = 0;				// overridden by derived CFormat
-
+	
 private:
 	uint8						m_ucErrorCode;
 	eEndian						m_eEndian;							// only used for byte interpretation type: binary

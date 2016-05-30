@@ -28,7 +28,7 @@
 #include "DFF/CDFFFormat.h"
 #include "RW/CTextureEntry.h"
 #include "DAT/Loader/CDATLoaderManager.h"
-#include "DAT/Path/CDATPathManager.h" // todo - needed?
+#include "DAT/Path/CDATPathManager.h"
 #include "DAT/Loader/CDATLoaderFormat.h"
 #include "DAT/Loader/CDATLoaderEntry.h"
 #include "BMP/CBMPManager.h"
@@ -119,7 +119,7 @@
 #include "Sort/CSortPriorities.h"
 #include "Entry Viewer/CTextureViewer.h"
 #include "Entry Viewer/CCollisionViewer.h"
-#include "CRenamedIMGEntry.h"
+#include "Task/Tasks/Renamer/CRenamedIMGEntry.h"
 #include "RW/CTextureEntry.h"
 #include "Game/eGame.h"
 #include "CLastUsedValueManager.h"
