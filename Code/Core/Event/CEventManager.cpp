@@ -33,6 +33,7 @@ bool										CEventManager::triggerEvent(uint32 uiEventId, void *pFunctionArgum
 CEventBoundFunction*						CEventManager::bindEvent(uint32 uiEventTypeId, uint32 uiEventTypeIndex, uint32 uiEventId, void(*fEventFunction)(void*), int32 iZIndex)
 {
 	CEventBoundFunction *pEventBoundFunction = createEventBoundFunctionObject(uiEventTypeId, uiEventTypeIndex, uiEventId, iZIndex);
+	pEventBoundFunction->setEventFunctionType(EVENT_FUNCTION_TYPE_1_ARG);
 	pEventBoundFunction->setFunction(fEventFunction);
 	m_umapEventFunctions[uiEventTypeId][uiEventTypeIndex][uiEventId].insert(m_umapEventFunctions[uiEventTypeId][uiEventTypeIndex][uiEventId].begin() + getInsertionIndexFromZIndex(pEventBoundFunction), pEventBoundFunction);
 	return pEventBoundFunction;
@@ -41,6 +42,7 @@ CEventBoundFunction*						CEventManager::bindEvent(uint32 uiEventTypeId, uint32 
 CEventBoundFunction*						CEventManager::bindEvent(uint32 uiEventTypeId, uint32 uiEventTypeIndex, uint32 uiEventId, void(*fEventFunction)(void*, void*), int32 iZIndex)
 {
 	CEventBoundFunction *pEventBoundFunction = createEventBoundFunctionObject(uiEventTypeId, uiEventTypeIndex, uiEventId, iZIndex);
+	pEventBoundFunction->setEventFunctionType(EVENT_FUNCTION_TYPE_2_ARGS);
 	pEventBoundFunction->setFunction(fEventFunction);
 	m_umapEventFunctions[uiEventTypeId][uiEventTypeIndex][uiEventId].insert(m_umapEventFunctions[uiEventTypeId][uiEventTypeIndex][uiEventId].begin() + getInsertionIndexFromZIndex(pEventBoundFunction), pEventBoundFunction);
 	return pEventBoundFunction;
