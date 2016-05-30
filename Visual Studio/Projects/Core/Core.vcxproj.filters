@@ -102,6 +102,18 @@
     <ClInclude Include="..\..\..\Code\Core\Event\CEventManager.h">
       <Filter>Header Files\Event</Filter>
     </ClInclude>
+    <ClInclude Include="..\..\..\Code\Core\Event\CEventBoundFunction.h">
+      <Filter>Header Files\Event</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\Code\Core\Event\eEventType.h">
+      <Filter>Header Files\Event</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\Code\Core\Event\eEventFunctionType.h">
+      <Filter>Header Files\Event</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\Code\Core\Event\eEvent.h">
+      <Filter>Header Files\Event</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\..\..\Code\Core\Pool\CVectorPool.cpp">
@@ -138,6 +150,9 @@
       <Filter>Source Files\Localization</Filter>
     </ClCompile>
     <ClCompile Include="..\..\..\Code\Core\Event\CEventManager.cpp">
+      <Filter>Source Files\Event</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\Code\Core\Event\CEventBoundFunction.cpp">
       <Filter>Source Files\Event</Filter>
     </ClCompile>
   </ItemGroup>

@@ -2,6 +2,7 @@
 #include "Math/CMathUtility.h"
 #include "GDIPlus/CGDIPlusUtility.h"
 #include "Event/CEventManager.h"
+#include "Event/eEvent.h"
 
 // input
 void		CWindowControl_Button::onMouseDown(CVector2ui32& vecCursorPosition)
@@ -16,7 +17,7 @@ void		CWindowControl_Button::onMouseUp(CVector2ui32& vecCursorPosition)
 {
 	if (isPointInControl(vecCursorPosition))
 	{
-		CEventManager::getInstance()->triggerEvent("onPressButton", this);
+		CEventManager::getInstance()->triggerEvent(EVENT_onPressButton, this);
 	}
 }
 

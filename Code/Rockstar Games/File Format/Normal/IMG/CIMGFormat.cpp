@@ -20,6 +20,7 @@
 #include "IMG/CIMGFormat_VersionFastman92_Header2.h"
 #include "IMG/CIMGEntry_Fastman92.h"
 #include "Event/CEventManager.h"
+#include "Event/eEvent.h"
 #include "Engine/RAGE/CRageManager.h"
 #include "Engine/RAGE/CRageResourceTypeManager.h"
 #include "File/CFileUtility.h"
@@ -168,7 +169,7 @@ void		CIMGFormat::unserializeVersion1(void)
 		pIMGEntry->setIMGFile(this);
 		pIMGEntry->unserializeVersion1Or2(pRGIMGActiveEntry++);
 		pIMGEntry->setEntryExtension(CStringUtility::toUpperCase(CPathUtility::getFileExtension(pIMGEntry->getEntryName())));
-		CEventManager::getInstance()->triggerEvent("onParseEntry", this); // todo - rename event to onParseIMGEntry
+		CEventManager::getInstance()->triggerEvent(EVENT_onParseEntry, this); // todo - rename event to onParseIMGEntry
 	}
 
 	// clean up
@@ -201,7 +202,7 @@ void		CIMGFormat::unserializeVersion2(void)
 		pIMGEntry->setIMGFile(this);
 		pIMGEntry->unserializeVersion1Or2(pRGIMGActiveEntry++);
 		pIMGEntry->setEntryExtension(CStringUtility::toUpperCase(CPathUtility::getFileExtension(pIMGEntry->getEntryName())));
-		CEventManager::getInstance()->triggerEvent("onParseEntry", this);
+		CEventManager::getInstance()->triggerEvent(EVENT_onParseEntry, this);
 	}
 
 	// clean up
@@ -256,7 +257,7 @@ void		CIMGFormat::unserializeVersion3_Encrypted(void)
 		pIMGEntry->setIMGFile(this);
 		pIMGEntry->unserializeVersion3(pRGIMGActiveEntry++);
 		pIMGEntry->setEntryExtension(CStringUtility::toUpperCase(CPathUtility::getFileExtension(pIMGEntry->getEntryName())));
-		CEventManager::getInstance()->triggerEvent("onParseEntry", this);
+		CEventManager::getInstance()->triggerEvent(EVENT_onParseEntry, this);
 	}
 	
 	// read IMG entry names
@@ -265,7 +266,7 @@ void		CIMGFormat::unserializeVersion3_Encrypted(void)
 	for (uint32 i = 0; i < uiEntryCount; i++)
 	{
 		rvecIMGEntries[i]->setEntryName(pDataReader->readStringUntilZero());
-		CEventManager::getInstance()->triggerEvent("onParseEntry", this);
+		CEventManager::getInstance()->triggerEvent(EVENT_onParseEntry, this);
 	}
 	
 	// restore
@@ -298,14 +299,14 @@ void		CIMGFormat::unserializeVersion3_Unencrypted(void)
 		pIMGEntry->setIMGFile(this);
 		pIMGEntry->unserializeVersion3(pRGIMGActiveEntry++);
 		pIMGEntry->setEntryExtension(CStringUtility::toUpperCase(CPathUtility::getFileExtension(pIMGEntry->getEntryName())));
-		CEventManager::getInstance()->triggerEvent("onParseEntry", this);
+		CEventManager::getInstance()->triggerEvent(EVENT_onParseEntry, this);
 	}
 
 	// read IMG entry names
 	for (uint32 i = 0; i < uiEntryCount; i++)
 	{
 		rvecIMGEntries[i]->setEntryName(pDataReader->readStringUntilZero());
-		CEventManager::getInstance()->triggerEvent("onParseEntry", this);
+		CEventManager::getInstance()->triggerEvent(EVENT_onParseEntry, this);
 	}
 
 	// clean up
@@ -369,7 +370,7 @@ void		CIMGFormat::unserializeVersionFastman92(void)
 		pIMGEntry->setIMGFile(this);
 		pIMGEntry->unserializeVersionFastman92(pRawIMGActiveEntry++);
 		pIMGEntry->setEntryExtension(CStringUtility::toUpperCase(CPathUtility::getFileExtension(pIMGEntry->getEntryName())));
-		CEventManager::getInstance()->triggerEvent("onParseEntry", this);
+		CEventManager::getInstance()->triggerEvent(EVENT_onParseEntry, this);
 	}
 
 	// clean up
@@ -431,7 +432,7 @@ void		CIMGFormat::unserializeRWVersions(void)
 			}
 		}
 
-		CEventManager::getInstance()->triggerEvent("onParseEntry", this);
+		CEventManager::getInstance()->triggerEvent(EVENT_onParseEntry, this);
 	}
 }
 void		CIMGFormat::unserializeResourceTypes(void)
@@ -489,7 +490,7 @@ void					CIMGFormat::serializeVersion1(void)
 		pIMGEntry->setEntryOffsetInSectors(uiSeek);
 		uiSeek += uiEntryByteCountPadded;
 
-		CEventManager::getInstance()->triggerEvent("onRebuildSerializeEntry", this);
+		CEventManager::getInstance()->triggerEvent(EVENT_onRebuildSerializeEntry, this);
 	}
 
 	if (pDataReader->getStreamType() == DATA_STREAM_FILE && pDataWriter->getStreamType() == DATA_STREAM_FILE) // todo make it work for DATA_STREAM_MEMORY too
@@ -517,7 +518,7 @@ void					CIMGFormat::serializeVersion1(void)
 		pDataWriter->write(pIMGEntry->getEntrySizeInSectors());
 		pDataWriter->write(pIMGEntry->getEntryName(), 24);
 
-		CEventManager::getInstance()->triggerEvent("onRebuildSerializeEntry", this);
+		CEventManager::getInstance()->triggerEvent(EVENT_onRebuildSerializeEntry, this);
 	}
 
 	// finalize DIR data reading/writing
@@ -567,7 +568,7 @@ void					CIMGFormat::serializeVersion2(void)
 		pDataWriter->write((uint16)0);
 		pDataWriter->write(pIMGEntry->getEntryName(), 24);
 
-		CEventManager::getInstance()->triggerEvent("onRebuildSerializeEntry", this);
+		CEventManager::getInstance()->triggerEvent(EVENT_onRebuildSerializeEntry, this);
 	}
 
 	if ((uiBodyStart % 2048) != 0)
@@ -585,7 +586,7 @@ void					CIMGFormat::serializeVersion2(void)
 
 		pIMGEntry->setEntryOffsetInSectors(vecNewEntryPositions[i++]);
 
-		CEventManager::getInstance()->triggerEvent("onRebuildSerializeEntry", this);
+		CEventManager::getInstance()->triggerEvent(EVENT_onRebuildSerializeEntry, this);
 	}
 
 	// finalize IMG data reading/writing
@@ -675,7 +676,7 @@ void					CIMGFormat::serializeVersionFastman92(void)
 			pDataWriter->write(pIMGEntry->getEntryName(), 40);
 			pDataWriter->write(CStringUtility::zeroPad(8));
 
-			CEventManager::getInstance()->triggerEvent("onRebuildSerializeEntry", this);
+			CEventManager::getInstance()->triggerEvent(EVENT_onRebuildSerializeEntry, this);
 		}
 
 		if ((uiBodyStart % 2048) != 0)
@@ -693,7 +694,7 @@ void					CIMGFormat::serializeVersionFastman92(void)
 
 			pIMGEntry->setEntryOffsetInSectors(vecNewEntryPositions[i++]);
 
-			CEventManager::getInstance()->triggerEvent("onRebuildSerializeEntry", this);
+			CEventManager::getInstance()->triggerEvent(EVENT_onRebuildSerializeEntry, this);
 		}
 	}
 
@@ -755,7 +756,7 @@ void					CIMGFormat::serializeVersion3_Encrypted(void)
 		uint32 uiRemainder = pIMGEntry->getEntrySize() % 2048;
 		pDataWriter->write((uint16)(pIMGEntry->getFlags() | ((uint16)(uiRemainder == 0 ? 0 : (2048 - uiRemainder)))));
 
-		CEventManager::getInstance()->triggerEvent("onRebuildSerializeEntry", this);
+		CEventManager::getInstance()->triggerEvent(EVENT_onRebuildSerializeEntry, this);
 	}
 
 	string strEntryName;
@@ -793,7 +794,7 @@ void					CIMGFormat::serializeVersion3_Encrypted(void)
 
 		pIMGEntry->setEntryOffsetInSectors(vecNewEntryPositions[i++]);
 
-		CEventManager::getInstance()->triggerEvent("onRebuildSerializeEntry", this);
+		CEventManager::getInstance()->triggerEvent(EVENT_onRebuildSerializeEntry, this);
 	}
 
 	// finalize IMG data reading/writing
@@ -851,7 +852,7 @@ void					CIMGFormat::serializeVersion3_Unencrypted(void)
 		uint32 uiRemainder = pIMGEntry->getEntrySize() % 2048;
 		pDataWriter->write((uint16)(pIMGEntry->getFlags() | ((uint16)(uiRemainder == 0 ? 0 : (2048 - uiRemainder)))));
 
-		CEventManager::getInstance()->triggerEvent("onRebuildSerializeEntry", this);
+		CEventManager::getInstance()->triggerEvent(EVENT_onRebuildSerializeEntry, this);
 	}
 
 	string strEntryName;
@@ -877,7 +878,7 @@ void					CIMGFormat::serializeVersion3_Unencrypted(void)
 
 		pIMGEntry->setEntryOffsetInSectors(vecNewEntryPositions[i++]);
 
-		CEventManager::getInstance()->triggerEvent("onRebuildSerializeEntry", this);
+		CEventManager::getInstance()->triggerEvent(EVENT_onRebuildSerializeEntry, this);
 	}
 
 	// finalize IMG data reading/writing
@@ -1063,13 +1064,13 @@ void					CIMGFormat::addEntry(CIMGEntry *pIMGEntry)
 {
 	CVectorPool::addEntry(pIMGEntry);
 
-	CEventManager::getInstance()->triggerEvent("onAddEntry", pIMGEntry);
+	CEventManager::getInstance()->triggerEvent(EVENT_onAddEntry, pIMGEntry);
 
 	string strEntryExtension = CPathUtility::getFileExtension(pIMGEntry->getEntryName());
 	addEntryExtensionCount(strEntryExtension);
 	if (getEntryExtensionCount(strEntryExtension) == 1)
 	{
-		CEventManager::getInstance()->triggerEvent("onAddEntryExtension", pIMGEntry);
+		CEventManager::getInstance()->triggerEvent(EVENT_onAddEntryExtension, pIMGEntry);
 	}
 }
 
@@ -1096,10 +1097,10 @@ void								CIMGFormat::removeEntry(CIMGEntry *pIMGEntry)
 	removeEntryExtensionCount(strEntryExtension);
 	if (getEntryExtensionCount(strEntryExtension) == 0)
 	{
-		CEventManager::getInstance()->triggerEvent("onRemoveEntryExtension", pIMGEntry);
+		CEventManager::getInstance()->triggerEvent(EVENT_onRemoveEntryExtension, pIMGEntry);
 	}
 
-	CEventManager::getInstance()->triggerEvent("onRemoveEntry", pIMGEntry);
+	CEventManager::getInstance()->triggerEvent(EVENT_onRemoveEntry, pIMGEntry);
 
 	CVectorPool::removeEntry(pIMGEntry);
 }
@@ -1138,7 +1139,7 @@ uint32						CIMGFormat::replaceEntries(vector<string>& vecPaths, vector<string>&
 		CIMGEntry *pIMGEntry = getEntryByName(strNewEntryName);
 		if (!pIMGEntry)
 		{
-			CEventManager::getInstance()->triggerEvent("onProgressTick", this);
+			CEventManager::getInstance()->triggerEvent(EVENT_onProgressTick, this);
 			continue;
 		}
 
@@ -1163,7 +1164,7 @@ uint32						CIMGFormat::replaceEntries(vector<string>& vecPaths, vector<string>&
 		vecReplacedEntryNames.push_back(strNewEntryName);
 		vecReplacedEntries.push_back(pIMGEntry);
 
-		CEventManager::getInstance()->triggerEvent("onProgressTick", this);
+		CEventManager::getInstance()->triggerEvent(EVENT_onProgressTick, this);
 	}
 
 	return uiReplaceCount;
@@ -1372,7 +1373,7 @@ uint32			CIMGFormat::merge(string& strSecondIMGPath, vector<string>& vecImported
 
 			vecImportedEntryNames.push_back(pOutEntry->getEntryName());
 
-			CEventManager::getInstance()->triggerEvent("onProgressTick", this);
+			CEventManager::getInstance()->triggerEvent(EVENT_onProgressTick, this);
 		}
 
 		// finalize
@@ -1415,7 +1416,7 @@ void					CIMGFormat::split(vector<CIMGEntry*>& vecIMGEntries, string& strOutPath
 			pIMGEntry2->setRWVersion(pIMGEntry->getRWVersion());
 		}
 
-		CEventManager::getInstance()->triggerEvent("onProgressTick", this);
+		CEventManager::getInstance()->triggerEvent(EVENT_onProgressTick, this);
 	}
 
 	pIMGFile->serializeViaFile(strOutPath);
@@ -1457,7 +1458,7 @@ void					CIMGFormat::exportMultiple(vector<CIMGEntry*>& vecIMGEntries, string st
 			string strFileContent = pDataReader->readString(pIMGEntry->getEntrySize());
 			CFileUtility::storeFile(strFolderPath + pIMGEntry->getEntryName(), strFileContent, false, true);
 
-			CEventManager::getInstance()->triggerEvent("onProgressTick", this);
+			CEventManager::getInstance()->triggerEvent(EVENT_onProgressTick, this);
 		}
 
 		pDataReader->close();

@@ -7,6 +7,7 @@
 #include "GDIPlus/CGDIPlusUtility.h"
 #include "GUI/CGUIUtility.h"
 #include "Event/CEventManager.h"
+#include "Event/eEvent.h"
 #include "Recently Open/CRecentlyOpenManager.h"
 #include "Localization/CLocalizationManager.h"
 #include "Window/CWindowManager.h"
@@ -86,7 +87,7 @@ void									CWindow::onMouseMove(CVector2ui32& vecCursorPosition)
 			if (!pWindowControl->isPointMarkedAsInControl())
 			{
 				pWindowControl->setPointMarkedAsInControl(true);
-				CEventManager::getInstance()->triggerEvent("onCursorEnterControl", pWindowControl);
+				CEventManager::getInstance()->triggerEvent(EVENT_onCursorEnterControl, pWindowControl);
 			}
 		}
 		else
@@ -94,7 +95,7 @@ void									CWindow::onMouseMove(CVector2ui32& vecCursorPosition)
 			if (pWindowControl->isPointMarkedAsInControl())
 			{
 				pWindowControl->setPointMarkedAsInControl(false);
-				CEventManager::getInstance()->triggerEvent("onCursorExitControl", pWindowControl);
+				CEventManager::getInstance()->triggerEvent(EVENT_onCursorExitControl, pWindowControl);
 			}
 		}
 	}

@@ -2,6 +2,7 @@
 #include "Math/CMathUtility.h"
 #include "GDIPlus/CGDIPlusUtility.h"
 #include "Event/CEventManager.h"
+#include "Event/eEvent.h"
 #include "Window/CWindow.h"
 #include "GDIPlus/CGDIPlusUtility.h"
 
@@ -21,7 +22,7 @@ void		CWindowControl_Drop::onMouseUp(CVector2ui32& vecCursorPosition)
 		}
 		else
 		{
-			if (CEventManager::getInstance()->triggerEvent("onHideDropList", this))
+			if (CEventManager::getInstance()->triggerEvent(EVENT_onHideDropList, this))
 			{
 				m_bSelectionListOpen = false;
 				m_uiSelectedIndex = uiRowIndex;
@@ -31,7 +32,7 @@ void		CWindowControl_Drop::onMouseUp(CVector2ui32& vecCursorPosition)
 	}
 	else if (CMathUtility::isPointInRectangle(vecCursorPosition, getPosition(), getSize()))
 	{
-		if (CEventManager::getInstance()->triggerEvent("onShowDropList", this))
+		if (CEventManager::getInstance()->triggerEvent(EVENT_onShowDropList, this))
 		{
 			m_bSelectionListOpen = true;
 			getWindow()->setMarkedToRedraw(true);

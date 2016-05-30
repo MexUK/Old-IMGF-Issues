@@ -5,6 +5,7 @@
 #include "GDIPlus/CGDIPlusUtility.h"
 #include "String/CStringUtility.h"
 #include "Event/CEventManager.h"
+#include "Event/eEvent.h"
 #include "Window Types/CEntryListWindow.h"
 #include "Window Controls/Controls/CWindowControl_Button.h"
 #include "Window Controls/Controls/CWindowControl_List.h"
@@ -113,7 +114,7 @@ CMainWindow*				CWindowManager::addMainWindow(void)
 	pEntryListWindow->setEntryListControl(pList);
 	pEntryListWindow->getControls().addEntry(pList);
 
-	CEventManager::getInstance()->bindEvent("onPressButton", [](void *pData)
+	CEventManager::getInstance()->bindEvent(EVENT_onPressButton, [](void *pData)
 	{
 		CWindowControl_Button *pButton = (CWindowControl_Button*) pData;
 		if (pButton->getControlId() == 1)

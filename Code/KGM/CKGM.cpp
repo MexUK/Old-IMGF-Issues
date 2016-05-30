@@ -14,6 +14,7 @@
 #include "Sort/CSortManager.h"
 #include "IMG/CIMGManager.h"
 #include "Event/CEventManager.h"
+#include "Event/eEvent.h"
 #include "Window/CTabbedWindow.h"
 #include "Window/Window Controls/Controls/CWindowControl_Text.h"
 #include "Window/Window Controls/Controls/CWindowControl_List.h"
@@ -239,13 +240,13 @@ void		CKGM::initEventBinding(void)
 		}
 	};
 
-	CEventManager::getInstance()->bindEvent("onProgressTick",			[](void *pData) { getKGM()->getTaskManager()->onTaskProgressTick(); });
-	CEventManager::getInstance()->bindEvent("onParseEntry",				[](void *pData) { getKGM()->getTaskManager()->onTaskProgressTick(); });
-	CEventManager::getInstance()->bindEvent("onAddEntryExtension",		fOnEntriesExtensionChange);
-	CEventManager::getInstance()->bindEvent("onRemoveEntryExtension",	fOnEntriesExtensionChange);
-	CEventManager::getInstance()->bindEvent("onRebuildSerializeEntry",	[](void *pData) { getKGM()->getTaskManager()->onTaskProgressTick(); });
-	CEventManager::getInstance()->bindEvent("onLoadRWVersion",			[](void *pData) { getKGM()->getTaskManager()->onTaskProgressTick(); });
-	CEventManager::getInstance()->bindEvent("onLoadResourceType",		[](void *pData) { getKGM()->getTaskManager()->onTaskProgressTick(); });
+	CEventManager::getInstance()->bindEvent(EVENT_onProgressTick,			[](void *pData) { getKGM()->getTaskManager()->onTaskProgressTick(); });
+	CEventManager::getInstance()->bindEvent(EVENT_onParseEntry,				[](void *pData) { getKGM()->getTaskManager()->onTaskProgressTick(); });
+	CEventManager::getInstance()->bindEvent(EVENT_onAddEntryExtension,		fOnEntriesExtensionChange);
+	CEventManager::getInstance()->bindEvent(EVENT_onRemoveEntryExtension,	fOnEntriesExtensionChange);
+	CEventManager::getInstance()->bindEvent(EVENT_onRebuildSerializeEntry,	[](void *pData) { getKGM()->getTaskManager()->onTaskProgressTick(); });
+	CEventManager::getInstance()->bindEvent(EVENT_onLoadRWVersion,			[](void *pData) { getKGM()->getTaskManager()->onTaskProgressTick(); });
+	CEventManager::getInstance()->bindEvent(EVENT_onLoadResourceType,		[](void *pData) { getKGM()->getTaskManager()->onTaskProgressTick(); });
 }
 
 void		CKGM::initSettings(void)

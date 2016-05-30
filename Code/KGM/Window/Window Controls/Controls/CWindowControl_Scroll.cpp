@@ -1,5 +1,6 @@
 #include "CWindowControl_Scroll.h"
 #include "Event/CEventManager.h"
+#include "Event/eEvent.h"
 #include "Math/CMathUtility.h"
 #include "GDIPlus/CGDIPlusUtility.h"
 #include "Window/CWindow.h"
@@ -9,7 +10,7 @@ void		CWindowControl_Scroll::onMouseDown(CVector2ui32& vecCursorPosition)
 {
 	if (CMathUtility::isPointInRectangle(vecCursorPosition, getSeekBarPosition(), getSeekBarSize()))
 	{
-		if (CEventManager::getInstance()->triggerEvent("onStartMovingSeekBar", this))
+		if (CEventManager::getInstance()->triggerEvent(EVENT_onStartMovingSeekBar, this))
 		{
 			m_bSeekBarIsMoving = true;
 		}
@@ -20,7 +21,7 @@ void		CWindowControl_Scroll::onMouseUp(CVector2ui32& vecCursorPosition)
 {
 	if (m_bSeekBarIsMoving)
 	{
-		if (CEventManager::getInstance()->triggerEvent("onStopMovingSeekBar", this))
+		if (CEventManager::getInstance()->triggerEvent(EVENT_onStopMovingSeekBar, this))
 		{
 			m_bSeekBarIsMoving = false;
 		}
@@ -31,7 +32,7 @@ void		CWindowControl_Scroll::onMouseMove(CVector2ui32& vecCursorPosition)
 {
 	if (m_bSeekBarIsMoving)
 	{
-		if (CEventManager::getInstance()->triggerEvent("onMoveSeekBar", this))
+		if (CEventManager::getInstance()->triggerEvent(EVENT_onMoveSeekBar, this))
 		{
 			int32 iYDifference = vecCursorPosition.m_y - CEventManager::getInstance()->getLastCursorPosition().m_y;
 			float32 fProgressPerPixel = 1.0f / ((float32)(getSize().m_y - getSeekBarHeight()));

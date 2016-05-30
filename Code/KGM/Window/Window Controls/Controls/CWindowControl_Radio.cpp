@@ -2,6 +2,7 @@
 #include "Math/CMathUtility.h"
 #include "GDIPlus/CGDIPlusUtility.h"
 #include "Event/CEventManager.h"
+#include "Event/eEvent.h"
 #include "Window/CWindow.h"
 
 // input
@@ -9,7 +10,7 @@ void		CWindowControl_Radio::onMouseUp(CVector2ui32& vecCursorPosition)
 {
 	if (CMathUtility::isPointInRectangle(vecCursorPosition, getPosition() - CVector2ui32(getSize().m_x / 2, getSize().m_y / 2), getSize() + CVector2ui32(getTextWidth(), 0)))
 	{
-		if (CEventManager::getInstance()->triggerEvent("onCheckRadio", this))
+		if (CEventManager::getInstance()->triggerEvent(EVENT_onCheckRadio, this))
 		{
 			getWindow()->uncheckRadios(this);
 			m_bChecked = true;
