@@ -166,13 +166,13 @@ CVector3D			CMathUtility::getBoundingCuboidMaxFromSphere(CVector3D& vecPosition,
 }
 float32				CMathUtility::cap(float32 fValue, float32 fMin, float32 fMax)
 {
-	if (fValue < 0.0f)
+	if (fValue < fMin)
 	{
-		fValue = 0.0f;
+		fValue = fMin;
 	}
-	else if (fValue > 1.0f)
+	else if (fValue > fMax)
 	{
-		fValue = 1.0f;
+		fValue = fMax;
 	}
 	return fValue;
 }
