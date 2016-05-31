@@ -21,6 +21,13 @@ public:
 	static void								setMenuText(HMENU hMenu, uint32 uiControlIndex, std::string strText);
 	static std::string						getEditText(uint32 uiControlIndex);
 
+	static bool								isControlKeyDown(void);
+	static bool								isShiftKeyDown(void);
+	static bool								isAltKeyDown(void);
+	static bool								isCapsLockOn(void);
+	static bool								isTextInputUppercase(void);
+	static std::string						getTextInInputCase(std::string& strText);
+
 	static HWND								m_hParentWindowHwnd;
 };
 

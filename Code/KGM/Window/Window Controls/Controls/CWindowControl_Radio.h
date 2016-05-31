@@ -24,8 +24,16 @@ public:
 
 	bool									isPointInControl(CVector2ui32& vecPoint);
 
-	void									setIconRightMargin(uint32 uiIconRightMargin) { m_uiIconRightMargin = uiIconRightMargin; }
-	uint32									getIconRightMargin(void) { return m_uiIconRightMargin; }
+	CVector2ui32							getIconCenterPosition(void);
+
+	CVector2ui32							getSizeWithText(void);
+	uint32									getIconRadius(void);
+
+	CVector2ui32							getTextPosition(void);
+	CVector2ui32							getTextSize(void);
+
+	void									setIconRightMargin(uint32 uiIconRightMargin) { m_uiIconRightMargin = uiIconRightMargin; }	// in pixels
+	uint32									getIconRightMargin(void) { return m_uiIconRightMargin; }									// in pixels
 	
 	void									setChecked(bool bChecked) { m_bChecked = bChecked; }
 	bool									isChecked(void) { return m_bChecked; }
@@ -34,7 +42,7 @@ public:
 	uint32									getGroupId(void) { return m_uiGroupId; }
 	
 private:
-	uint32									m_uiIconRightMargin; // in pixels
+	uint32									m_uiIconRightMargin;	// in pixels
 	uint32									m_uiGroupId;
 	uint8									m_bChecked			: 1;
 };

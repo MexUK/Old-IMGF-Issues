@@ -36,6 +36,7 @@ public:
 	static CVector3D			getPolygonCenter(std::vector<CVector3D>& vecPoints);
 	static CVector3D			getBoundingCuboidMinFromSphere(CVector3D& vecPosition, float32 fRadius);
 	static CVector3D			getBoundingCuboidMaxFromSphere(CVector3D& vecPosition, float32 fRadius);
+	static float32				cap(float32 fValue, float32 fMin, float32 fMax);
 	inline static uint32		convertSectorsToBytes(uint32 uiSectorCount);
 	inline static uint32		convertBytesToSectors(uint32 uiByteCount);
 
@@ -49,6 +50,8 @@ public:
 	static CVector4ui32			getRectangleFromCircle(CVector2ui32 vecCenterPosition, float32 fRadius);
 	static uint32				getRowIndex(CVector2ui32& vecPoint, CVector2ui32& vecMinPosition, float32 fRowHeight, uint32 uiRowCount);
 	static uint32				getRectangleResizeEdges(CVector2ui32& vecPoint, CVector2ui32& vecSize, uint32 uiEdgeDistance); // Edges: Left=1,Top=2,Right=4,Bottom=8
+	static CVector2ui32			getEllipseFromRectangle(CVector2ui32& vecPoint, CVector2ui32& vecSize);
+	static uint32				convertDiameterToRadius(uint32 uiDiameter);
 };
 
 uint32				CMathUtility::convertSectorsToBytes(uint32 uiSectorCount)

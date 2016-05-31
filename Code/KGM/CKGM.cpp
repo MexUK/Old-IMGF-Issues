@@ -52,8 +52,10 @@
 #include "Localization/CLocalizationManager.h"
 #include "Language/CLanguageManager.h"
 #include "BMP/CBMPManager.h"
+#include "CUR/CCURManager.h"
 #include "DFF/CDFFManager.h"
 #include "DB/CDBManager.h"
+#include "ICO/CICOManager.h"
 #include "IDE/CIDEManager.h"
 #include "Image/CImageManager.h"
 #include "IPL/CIPLManager.h"
@@ -207,11 +209,13 @@ void		CKGM::initSingletonObjects(void)
 	// initialize singleton objects
 	CBMPManager::getInstance()->init();
 	CCOLManager::getInstance()->init();
+	CCURManager::getInstance()->init();
 	CDATLoaderManager::getInstance()->init();
 	CDATPathManager::getInstance()->init();
 	CDBManager::getInstance()->init();
 	CDFFManager::getInstance()->init();
 	CGameManager::getInstance()->init();
+	CICOManager::getInstance()->init();
 	CIDEManager::getInstance()->init();
 	CImageManager::getInstance()->init();
 	CIMGManager::getInstance()->init();
@@ -419,7 +423,7 @@ void		CKGM::initTempStuff(void)
 	pScroll->setFillColour(0xFF0000FF);
 	pScroll->setLineColour(0x00AA00FF);
 	pScroll->setScrollOrientation(WINDOW_CONTROL_ORIENTATION_VERTICAL);
-	pScroll->setSeekBarHeight(50);
+	pScroll->setSeekBarLength(50);
 	pScroll->setSeekBarLineColour(0x352800FF);
 	pScroll->setSeekBarFillColour(0x008800FF);
 	pScroll->setProgress(0.0f);

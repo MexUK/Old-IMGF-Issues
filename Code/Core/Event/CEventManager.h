@@ -40,6 +40,7 @@ public:
 	// CEventManager continued
 	void										setLastCursorPosition(CVector2ui32& vecLastCursorPosition) { m_vecLastCursorPosition = vecLastCursorPosition; }
 	CVector2ui32&								getLastCursorPosition(void) { return m_vecLastCursorPosition; }
+	CVector2ui32								getCursorMovedSize(CVector2ui32& vecCursorPositionNow);
 
 	void										setDefaultActionPrevented(bool bDefaultActionPrevented) { m_bDefaultActionPrevented = bDefaultActionPrevented; }
 	bool										isDefaultActionPrevented(void) { return m_bDefaultActionPrevented; }

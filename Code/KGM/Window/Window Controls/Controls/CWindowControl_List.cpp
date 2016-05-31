@@ -5,7 +5,7 @@
 using namespace std;
 
 // input
-void		CWindowControl_List::onMouseDown(CVector2ui32& vecCursorPosition)
+void					CWindowControl_List::onMouseDown(CVector2ui32& vecCursorPosition)
 {
 	if (isPointInControl(vecCursorPosition))
 	{
@@ -14,38 +14,64 @@ void		CWindowControl_List::onMouseDown(CVector2ui32& vecCursorPosition)
 }
 
 // render
-void		CWindowControl_List::render(void)
+void					CWindowControl_List::render(void)
 {
 	if (doesHaveFill())
 	{
 		CGDIPlusUtility::drawRectangleFill(getPosition(), getSize(), getFillColour());
 	}
 
-	uint32 i = 0;
+	uint32
+		uiRowIndex = 0,
+		uiTextRowIndex,
+		uiColumnIndex;
 	for(auto pListEntry : getEntries())
 	{
-		uint32 uiRowBackgroundColour = (i % 2) == 0 ? getRowBackgroundColour1() : getRowBackgroundColour2();
-		CGDIPlusUtility::drawRectangleFill(getPosition() + CVector2ui32(0, i*getRowHeight()), CVector2ui32(getSize().m_x, getRowHeight()), uiRowBackgroundColour);
+		uint32 uiRowBackgroundColour = (uiRowIndex % 2) == 0 ? getRowBackgroundColour1() : getRowBackgroundColour2();
+		CGDIPlusUtility::drawRectangleFill(getRowPosition(uiRowIndex), getRowSize(), uiRowBackgroundColour);
 
-		uint32 i3 = 0;
+		uiTextRowIndex = 0;
 		for(vector<string>& vecText : pListEntry->getText())
 		{
-			uint32 i2 = 0;
+			uiColumnIndex = 0;
 			for(string& strText : vecText)
 			{
-				CGDIPlusUtility::drawText(getPosition() + CVector2ui32(i2 * getColumnWidth(), (i*getRowHeight()) + (i3*getRowTextHeight())), getSize() + CVector2ui32(i2 * getColumnWidth(), (i*getRowHeight()) + ((i3 + 1)*getRowTextHeight())), strText, getTextColour(), getFontSize(), isBold());
-				i2++;
+				CGDIPlusUtility::drawText(getCellTextPosition(uiRowIndex, uiTextRowIndex, uiColumnIndex), getCellTextSize(uiRowIndex, uiTextRowIndex, uiColumnIndex), strText, getTextColour(), getFontSize(), isBold());
+				uiColumnIndex++;
 			}
-			i3++;
+
+			uiTextRowIndex++;
 		}
 		
-		if (i == 10) break; // temp
+		if (uiRowIndex == 10) break; // todo - temp
 
-		i++;
+		uiRowIndex++;
 	}
 
 	if (doesHaveBorder())
 	{
 		CGDIPlusUtility::drawRectangleBorder(getPosition(), getSize(), getLineColour());
 	}
+}
+
+// row
+CVector2ui32					CWindowControl_List::getRowPosition(uint32 uiRowIndex)
+{
+	return getPosition() + CVector2ui32(0, uiRowIndex * getRowHeight());
+}
+
+CVector2ui32					CWindowControl_List::getRowSize(void)
+{
+	return CVector2ui32(getSize().m_x, getRowHeight());
+}
+
+// row text
+CVector2ui32					CWindowControl_List::getCellTextPosition(uint32 uiRowIndex, uint32 uiTextRowIndex, uint32 uiColumnIndex)
+{
+	return getPosition() + CVector2ui32(uiColumnIndex * getColumnWidth(), (uiRowIndex * getRowHeight()) + (uiTextRowIndex * getRowTextHeight()));
+}
+
+CVector2ui32					CWindowControl_List::getCellTextSize(uint32 uiRowIndex, uint32 uiTextRowIndex, uint32 uiColumnIndex)
+{
+	return getSize() + CVector2ui32(uiColumnIndex * getColumnWidth(), (uiRowIndex * getRowHeight()) + ((uiTextRowIndex + 1) * getRowTextHeight()));
 }

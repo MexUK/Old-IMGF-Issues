@@ -19,14 +19,19 @@ public:
 	
 	void									render(void);
 	
+	float32									getProgress(void);
+	std::string								getProgressPercentText(void);
+	CVector2ui32							getProgressPosition(void);
+	uint32									getProgressPositionX(void);
+
 	void									setMaxTicks(uint32 uiMaxTicks) { m_uiMaxTicks = uiMaxTicks; }
 	uint32									getMaxTicks(void) { return m_uiMaxTicks; }
 	
 	void									setCurrentTicks(uint32 uiCurrentTicks) { m_uiCurrentTicks = uiCurrentTicks; }
 	uint32									getCurrentTicks(void) { return m_uiCurrentTicks; }
 	
-	void									setProgressFillColour(uint32 uiProgressFillColour) { m_uiProgressFillColour = uiProgressFillColour; }
-	uint32									getProgressFillColour(void) { return m_uiProgressFillColour; }
+	void									setProgressFillColour(uint32 uiProgressFillColour) { m_uiProgressFillColour = uiProgressFillColour; }	// RGBA
+	uint32									getProgressFillColour(void) { return m_uiProgressFillColour; }											// RGBA
 
 	void									setCompletionPercentageShown(bool bCompletionPercentageShown) { m_bCompletionPercentageShown = bCompletionPercentageShown; }
 	bool									isCompletionPercentageShown(void) { return m_bCompletionPercentageShown; }
@@ -34,8 +39,8 @@ public:
 private:
 	uint32									m_uiMaxTicks;
 	uint32									m_uiCurrentTicks;
-	uint32									m_uiProgressFillColour;
-	uint8									m_bCompletionPercentageShown			: 1;
+	uint32									m_uiProgressFillColour;		// RGBA
+	uint8									m_bCompletionPercentageShown	: 1;
 };
 
 #endif

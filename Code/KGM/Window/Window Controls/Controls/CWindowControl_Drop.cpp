@@ -13,19 +13,20 @@ void		CWindowControl_Drop::onMouseUp(CVector2ui32& vecCursorPosition)
 {
 	if (isSelectionListOpen())
 	{
-		CVector2ui32 vecListPosition = CVector2ui32(getPosition().m_x, getPosition().m_y + getSize().m_y);
-		uint32 uiRowIndex = CMathUtility::getRowIndex(vecCursorPosition, vecListPosition, getListRowHeight(), getEntryCount());
-		if (uiRowIndex == -1)
+		uint32 uiEntryIndex = getSelectionListEntryFromPoint(vecCursorPosition);
+		if (uiEntryIndex == -1)
 		{
-			m_bSelectionListOpen = false;
+			// no entry is selected
+			setSelectionListOpen(false);
 			getWindow()->setMarkedToRedraw(true);
 		}
 		else
 		{
+			// entry is selected
 			if (CEventManager::getInstance()->triggerEvent(EVENT_onHideDropList, this))
 			{
-				m_bSelectionListOpen = false;
-				m_uiSelectedIndex = uiRowIndex;
+				setSelectionListOpen(false);
+				setSelectedIndex(uiEntryIndex);
 				getWindow()->setMarkedToRedraw(true);
 			}
 		}
@@ -34,7 +35,7 @@ void		CWindowControl_Drop::onMouseUp(CVector2ui32& vecCursorPosition)
 	{
 		if (CEventManager::getInstance()->triggerEvent(EVENT_onShowDropList, this))
 		{
-			m_bSelectionListOpen = true;
+			setSelectionListOpen(true);
 			getWindow()->setMarkedToRedraw(true);
 		}
 	}
@@ -45,16 +46,12 @@ void		CWindowControl_Drop::render(void)
 {
 	if(isSelectionListOpen())
 	{
-		CVector2ui32 vecListSize = CVector2ui32(getListWidth(), getEntryCount() * getListRowHeight());
-		CVector2ui32 vecListMin = CVector2ui32(getPosition().m_x, getPosition().m_y + getSize().m_y);
-		CVector2ui32 vecListMax = CVector2ui32(getPosition().m_x + vecListSize.m_x, getPosition().m_y + getSize().m_y + vecListSize.m_y);
-		
-		CGDIPlusUtility::drawRectangleFill(vecListMin, vecListSize, getFillColour());
-		CGDIPlusUtility::drawRectangleBorder(vecListMin, vecListSize, getLineColour());
+		CGDIPlusUtility::drawRectangleFill(getSelectionListPosition(), getSelectionListSize(), getFillColour());
+		CGDIPlusUtility::drawRectangleBorder(getSelectionListPosition(), getSelectionListSize(), getLineColour());
 		uint32 i = 0;
 		for(auto pDropEntry : getEntries())
 		{
-			CGDIPlusUtility::drawText(CVector2ui32(vecListMin.m_x, vecListMin.m_y + (i * getListRowHeight())), CVector2ui32(vecListSize.m_x, getListRowHeight()), pDropEntry->getText(), getTextColour(), getFontSize(), isBold());
+			CGDIPlusUtility::drawText(getSelectionListEntryPosition(i), getSelectionListEntrySize(), pDropEntry->getText(), getTextColour(), getFontSize(), isBold());
 			i++;
 		}
 	}
@@ -65,16 +62,47 @@ void		CWindowControl_Drop::render(void)
 	//CGDIPlusUtility::drawTriangle(aaaaaaaaaaaaaaaaaaaaaaaaa); // todo
 }
 
+// cursor
 bool		CWindowControl_Drop::isPointInControl(CVector2ui32& vecPoint)
 {
 	if (isSelectionListOpen())
 	{
-		CVector2ui32 vecListSize = CVector2ui32(getListWidth(), getEntryCount() * getListRowHeight());
-		CVector2ui32 vecListMin = CVector2ui32(getPosition().m_x, getPosition().m_y + getSize().m_y);
-		return CMathUtility::isPointInRectangle(vecPoint, vecListMin, vecListSize);
+		return isPointInSelectionList(vecPoint);
 	}
 	else
 	{
 		return CWindowControl::isPointInControl(vecPoint);
 	}
+}
+
+bool		CWindowControl_Drop::isPointInSelectionList(CVector2ui32& vecPoint)
+{
+	return CMathUtility::isPointInRectangle(vecPoint, getSelectionListPosition(), getSelectionListSize());
+}
+
+// selection list
+CVector2ui32		CWindowControl_Drop::getSelectionListPosition(void)
+{
+	return CVector2ui32(getPosition().m_x, getPosition().m_y + getSize().m_y);
+}
+
+CVector2ui32		CWindowControl_Drop::getSelectionListSize(void)
+{
+	return CVector2ui32(getListWidth(), getEntryCount() * getListRowHeight());
+}
+
+CVector2ui32		CWindowControl_Drop::getSelectionListEntryPosition(uint32 uiEntryIndex)
+{
+	CVector2ui32 vecPosition = getSelectionListPosition();
+	return CVector2ui32(vecPosition.m_x, vecPosition.m_y + (uiEntryIndex * getListRowHeight()));
+}
+
+CVector2ui32		CWindowControl_Drop::getSelectionListEntrySize(void)
+{
+	return CVector2ui32(getSelectionListSize().m_x, getListRowHeight());
+}
+
+uint32				CWindowControl_Drop::getSelectionListEntryFromPoint(CVector2ui32& vecCursorPosition)
+{
+	return CMathUtility::getRowIndex(vecCursorPosition, getSelectionListPosition(), getListRowHeight(), getEntryCount());
 }

@@ -127,3 +127,9 @@ uint32										CEventManager::getInsertionIndexForEventBoundFunction(CEventBoun
 	}
 	return uiEventBoundFunctionInsertionIndex;
 }
+
+// cursor
+CVector2ui32								CEventManager::getCursorMovedSize(CVector2ui32& vecCursorPositionNow)
+{
+	return vecCursorPositionNow - getLastCursorPosition();
+}

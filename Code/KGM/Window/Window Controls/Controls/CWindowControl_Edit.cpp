@@ -2,6 +2,8 @@
 #include "Window/CWindow.h"
 #include "String/CStringUtility.h"
 #include "GDIPlus/CGDIPlusUtility.h"
+#include "GUI/CGUIUtility.h"
+#include "Math/CMathUtility.h"
 
 using namespace std;
 
@@ -27,31 +29,22 @@ void		CWindowControl_Edit::onKeyDown(uint8 uiCharCode)
 // render
 void		CWindowControl_Edit::render(void)
 {
-	CVector2ui32
-		vecMinPosition = getPosition(),
-		vecSize = getSize(),
-		vecMaxPosition = vecMinPosition + vecSize,
-		vecTextPosition = vecMinPosition;
-
 	// fill and border
-	CGDIPlusUtility::drawRectangleFill(vecMinPosition, vecSize, getFillColour());
-	CGDIPlusUtility::drawRectangleBorder(vecMinPosition, vecSize, getLineColour());
+	CGDIPlusUtility::drawRectangleFill(getPosition(), getSize(), getFillColour());
+	CGDIPlusUtility::drawRectangleBorder(getPosition(), getSize(), getLineColour());
 
-	// cursor
+	// caret
 	if (!isReadOnly())
 	{
-		CGDIPlusUtility::drawLine(vecMinPosition + CVector2ui32(getCursorPosition().m_x * 10, getCursorPosition().m_y * getFontSize()), vecMinPosition + CVector2ui32(getCursorPosition().m_x * 10, (getCursorPosition().m_y * getFontSize()) + getFontSize()), getCursorColour());
+		CGDIPlusUtility::drawLine(getCaretRenderStartPosition(), getCaretRenderEndPosition(), getCaretColour());
 	}
 
 	// text lines
-	uint32
-		i = 0,
-		uiFontSize = getFontSize();
+	uint32 uiLineIndex = 0;
 	for (string& strTextLine : getTextLines())
 	{
-		CGDIPlusUtility::drawText(vecTextPosition, vecSize, strTextLine, getTextColour(), getFontSize(), isBold());
-		vecTextPosition.m_y += uiFontSize;
-		i++;
+		CGDIPlusUtility::drawText(getTextLinePosition(uiLineIndex), getSize(), strTextLine, getTextColour(), getFontSize(), isBold());
+		uiLineIndex++;
 	}
 }
 
@@ -75,22 +68,22 @@ void		CWindowControl_Edit::processKey(uint32 uiCharCode)
 		removeCharacterToRight();
 		break;
 	case VK_UP:
-		moveCursor(CVector2ui32(0, -1));
+		moveCaret(CVector2i32(0, -1));
 		break;
 	case VK_DOWN:
-		moveCursor(CVector2ui32(0, 1));
+		moveCaret(CVector2i32(0, 1));
 		break;
 	case VK_LEFT:
-		moveCursor(CVector2ui32(-1, 0));
+		moveCaret(CVector2i32(-1, 0));
 		break;
 	case VK_RIGHT:
-		moveCursor(CVector2ui32(1, 0));
+		moveCaret(CVector2i32(1, 0));
 		break;
 	case VK_PRIOR:
-		moveCursor(CVector2ui32(0, -20));
+		moveCaret(CVector2i32(0, -20));
 		break;
 	case VK_NEXT:
-		moveCursor(CVector2ui32(0, 20));
+		moveCaret(CVector2i32(0, 20));
 		break;
 	}
 }
@@ -98,125 +91,172 @@ void		CWindowControl_Edit::processKey(uint32 uiCharCode)
 // lines
 void		CWindowControl_Edit::addLine(void)
 {
-	if (m_vecCursorPosition.m_x == m_vecTextLines[m_vecCursorPosition.m_y].length() && m_vecCursorPosition.m_y == (m_vecTextLines.size() - 1))
+	if (isCaretAtFarRight() && isCaretAtFarBottom())
 	{
 		m_vecTextLines.push_back(string());
-		m_vecCursorPosition.m_x = 0;
-		m_vecCursorPosition.m_y++;
+		setCaretPositionX(0);
+		moveCaretY(1);
 	}
 	else
 	{
-		splitLine(m_vecCursorPosition);
+		splitLine(getCaretPosition());
 	}
 }
 
-void		CWindowControl_Edit::mergeLines(CVector2ui32& vecLineIncdices)
+void		CWindowControl_Edit::addLine(uint32 uiLineIndex, string& strText)
 {
-	m_vecTextLines[vecLineIncdices.m_x] += m_vecTextLines[vecLineIncdices.m_y];
-	m_vecTextLines.erase(std::find(m_vecTextLines.begin(), m_vecTextLines.end(), m_vecTextLines[vecLineIncdices.m_y]));
+	m_vecTextLines.insert(m_vecTextLines.begin() + uiLineIndex, strText);
+}
+
+void		CWindowControl_Edit::removeLine(uint32 uiLineIndex)
+{
+	m_vecTextLines.erase(m_vecTextLines.begin() + uiLineIndex);
+}
+
+void		CWindowControl_Edit::mergeLines(uint32 uiRowIndex1, uint32 uiRowIndex2)
+{
+	uiRowIndex1 = min(uiRowIndex1, uiRowIndex2);
+	uiRowIndex2 = max(uiRowIndex1, uiRowIndex2);
+
+	addTextToLine(uiRowIndex1, getLineText(uiRowIndex2));
+	removeLine(uiRowIndex2);
 }
 
 void		CWindowControl_Edit::splitLine(CVector2ui32& vecCharacterPosition)
 {
-	m_vecTextLines.insert(m_vecTextLines.begin() + vecCharacterPosition.m_y + 1, m_vecTextLines[vecCharacterPosition.m_y].substr(vecCharacterPosition.m_x));
-	m_vecTextLines[vecCharacterPosition.m_y] = m_vecTextLines[vecCharacterPosition.m_y].substr(0, vecCharacterPosition.m_x);
+	addLine(vecCharacterPosition.m_y + 1, getLinePartialText(vecCharacterPosition.m_y, vecCharacterPosition.m_x));
+	setLineText(vecCharacterPosition.m_y, getLinePartialText(vecCharacterPosition.m_y, 0, vecCharacterPosition.m_x));
 }
 
 // characters
 void		CWindowControl_Edit::addCharacter(uint32 uiCharCode)
 {
-	if (uiCharCode < 32 || uiCharCode > 126)
+	if(!CStringUtility::isAsciiCharacterDisplayable(uiCharCode))
 	{
 		return;
 	}
 
-	string strChar = string(1, uiCharCode);
-	bool
-		bCapsLockIsOn = (GetKeyState(VK_CAPITAL) & 0x0001) != 0,
-		bhiftIsDown = (GetKeyState(VK_SHIFT) & 0x8000) == 0x8000,
-		bIsUpperCase = (bCapsLockIsOn && !bhiftIsDown) || (!bCapsLockIsOn && bhiftIsDown);
-	if (bIsUpperCase)
-	{
-		strChar = CStringUtility::toUpperCase(strChar);
-	}
-	else
-	{
-		strChar = CStringUtility::toLowerCase(strChar);
-	}
+	string strChar = CGUIUtility::getTextInInputCase(CStringUtility::createCharString(uiCharCode));
 
-	if (m_vecTextLines.size() == 0)
+	if (isCaretAtFarRight())
 	{
-		m_vecTextLines.push_back(strChar);
-		m_vecCursorPosition.m_x++;
-	}
-	else if (m_vecCursorPosition.m_x == m_vecTextLines[m_vecCursorPosition.m_y].length())
-	{
-		m_vecTextLines[m_vecCursorPosition.m_y] += strChar;
-		m_vecCursorPosition.m_x++;
+		addTextToLine(getCaretPosition().m_y, strChar);
+		moveCaretX(1);
 	}
 	else
 	{
 		// todo
-		// m_vecTextLines[m_vecCursorPosition.m_y] (getText() + string(1, uiCharCode));
+		// m_vecTextLines[getCaretPosition().m_y] (getText() + string(1, uiCharCode));
 	}
 }
 
 void		CWindowControl_Edit::removeCharacterToLeft(void)
 {
-	if (m_vecCursorPosition.m_x != 0)
+	if (!isCaretAtFarLeft())
 	{
-		removeCharacter(CVector2ui32(m_vecCursorPosition.m_x - 1, m_vecCursorPosition.m_y));
-		m_vecCursorPosition.m_x--;
+		removeCharacter(CVector2ui32(getCaretPosition().m_x - 1, getCaretPosition().m_y));
+		moveCaretX(-1);
 	}
-	else if (m_vecCursorPosition.m_y != 0)
+	else if (!isCaretAtFarTop())
 	{
-		mergeLines(CVector2ui32(m_vecCursorPosition.m_y - 1, m_vecCursorPosition.m_y));
-		m_vecCursorPosition.m_y--;
-		m_vecCursorPosition.m_x = m_vecTextLines[m_vecCursorPosition.m_y].length();
+		mergeLines(getCaretPosition().m_y - 1, getCaretPosition().m_y);
+		moveCaretY(-1);
+		setCaretPositionX(getLineLength(getCaretPosition().m_y));
 	}
 }
 
 void		CWindowControl_Edit::removeCharacterToRight(void)
 {
-	if (m_vecCursorPosition.m_x != m_vecTextLines[m_vecCursorPosition.m_y].length())
+	if (!isCaretAtFarRight())
 	{
-		removeCharacter(CVector2ui32(m_vecCursorPosition.m_x, m_vecCursorPosition.m_y));
+		removeCharacter(getCaretPosition());
 	}
-	else if (m_vecCursorPosition.m_y != (m_vecTextLines.size() - 1))
+	else if (!isCaretAtFarBottom())
 	{
-		mergeLines(CVector2ui32(m_vecCursorPosition.m_y, m_vecCursorPosition.m_y + 1));
+		mergeLines(getCaretPosition().m_y, getCaretPosition().m_y + 1);
 	}
 }
 
 void		CWindowControl_Edit::removeCharacter(CVector2ui32& vecCharacterPosition)
 {
-	m_vecTextLines[vecCharacterPosition.m_y] = m_vecTextLines[vecCharacterPosition.m_y].substr(0, vecCharacterPosition.m_x) + m_vecTextLines[vecCharacterPosition.m_y].substr(vecCharacterPosition.m_x + 1);
+	setLineText(vecCharacterPosition.m_y,
+		  getLinePartialText(vecCharacterPosition.m_y, 0, vecCharacterPosition.m_x)
+		+ getLinePartialText(vecCharacterPosition.m_y, vecCharacterPosition.m_x + 1)
+	);
 }
 
-// cursor
-void		CWindowControl_Edit::moveCursor(CVector2ui32& vecCursorPositionToMove)
+// caret character position
+void		CWindowControl_Edit::moveCaret(CVector2i32& vecCharacterPositionIncrease)
 {
-	int32
-		iNewLineIndex = m_vecCursorPosition.m_y + vecCursorPositionToMove.m_y,
-		iNewCharIndex = m_vecCursorPosition.m_x + vecCursorPositionToMove.m_x;
-	uint32
-		uiMaxLineIndex = m_vecTextLines.size() - 1,
-		uiMaxCharIndex = m_vecTextLines[m_vecCursorPosition.m_y].length();
-	if (iNewLineIndex < 0)
-	{
-		iNewLineIndex = 0;
-	}
-	else if (iNewLineIndex > uiMaxLineIndex) // todo - use CMathUtility::capNumber(n, min, max)
-	{
-		iNewLineIndex = uiMaxLineIndex;
-	}
-	if (iNewCharIndex < 0)
-	{
-		iNewCharIndex = 0;
-	}
-	else if (iNewCharIndex > uiMaxCharIndex) // todo - use CMathUtility::capNumber(n, min, max)
-	{
-		iNewCharIndex = uiMaxCharIndex;
-	}
-	m_vecCursorPosition = CVector2ui32(iNewCharIndex, iNewLineIndex);
+	CVector2ui32 vecNewCaretPosition = getCaretPosition() + vecCharacterPositionIncrease;
+	vecNewCaretPosition.m_y = CMathUtility::cap(vecNewCaretPosition.m_y, 0, getLineCount() - 1);
+	vecNewCaretPosition.m_x = CMathUtility::cap(vecNewCaretPosition.m_x, 0, getLineLength(vecNewCaretPosition.m_y));
+	setCaretPosition(vecNewCaretPosition);
+}
+
+bool		CWindowControl_Edit::isCaretAtFarLeft(void)
+{
+	return getCaretPosition().m_x == 0;
+}
+
+bool		CWindowControl_Edit::isCaretAtFarRight(void)
+{
+	return getCaretPosition().m_x == getLineLength(getCaretPosition().m_y);
+}
+
+bool		CWindowControl_Edit::isCaretAtFarTop(void)
+{
+	return getCaretPosition().m_y == 0;
+}
+
+bool		CWindowControl_Edit::isCaretAtFarBottom(void)
+{
+	return getCaretPosition().m_y == getLineCount() - 1;
+}
+
+// caret render position
+CVector2ui32		CWindowControl_Edit::getCaretRenderStartPosition(void)
+{
+	return getPosition() + CVector2ui32(getCaretPosition().m_x * 10, getCaretPosition().m_y * getFontSize());
+}
+
+CVector2ui32		CWindowControl_Edit::getCaretRenderEndPosition(void)
+{
+	return getPosition() + CVector2ui32(getCaretPosition().m_x * 10, ((getCaretPosition().m_y + 1) * getFontSize()));
+}
+
+// text
+CVector2ui32		CWindowControl_Edit::getTextLinePosition(uint32 uiLineIndex)
+{
+	return getPosition() + (uiLineIndex * getFontSize());
+}
+
+void				CWindowControl_Edit::setLineText(uint32 uiLineIndex, string& strText)
+{
+	m_vecTextLines[uiLineIndex] = strText;
+}
+
+string&				CWindowControl_Edit::getLineText(uint32 uiLineIndex)
+{
+	return m_vecTextLines[uiLineIndex];
+}
+
+void				CWindowControl_Edit::addTextToLine(uint32 uiLineIndex, string& strText)
+{
+	m_vecTextLines[uiLineIndex] += strText;
+}
+
+string				CWindowControl_Edit::getLinePartialText(uint32 uiLineIndex, uint32 uiCharStartIndex, uint32 uiCharReadLength)
+{
+	return m_vecTextLines[uiLineIndex].substr(uiCharStartIndex, uiCharReadLength);
+}
+
+uint32				CWindowControl_Edit::getLineLength(uint32 uiLineIndex)
+{
+	return m_vecTextLines[uiLineIndex].length();
+}
+
+uint32				CWindowControl_Edit::getLineCount(void)
+{
+	return m_vecTextLines.size();
 }

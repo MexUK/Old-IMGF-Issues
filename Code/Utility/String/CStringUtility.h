@@ -97,6 +97,8 @@ public:
 	static std::string						addNumberGrouping(std::string& strNumber);
 	static std::string						fixEOLs(std::string& strData, std::string strEOLCharsToUse);
 	static uint32							swapEndian(uint32 uiValue);
+	static bool								isAsciiCharacterDisplayable(uint8 uiCharCode, bool bIncludeSpace = true, bool bIncludeTab = true);
+	static std::string						createCharString(uint8 uiCharCode);
 	static std::string						convertCStringToStdString(CString str)
 	{
 		CT2CA pszConvertedAnsiString(str);

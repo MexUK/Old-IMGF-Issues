@@ -62,6 +62,7 @@ bool			CMathUtility::isPointInPolygon(CVector2D& vecPoint, vector<CVector2D>& ve
 	}
 	return c;
 }
+
 int				CMathUtility::getFactorial(int iValue)
 {
 	int iOutValue = 1;
@@ -162,6 +163,18 @@ CVector3D			CMathUtility::getBoundingCuboidMinFromSphere(CVector3D& vecPosition,
 CVector3D			CMathUtility::getBoundingCuboidMaxFromSphere(CVector3D& vecPosition, float32 fRadius)
 {
 	return vecPosition + fRadius;
+}
+float32				CMathUtility::cap(float32 fValue, float32 fMin, float32 fMax)
+{
+	if (fValue < 0.0f)
+	{
+		fValue = 0.0f;
+	}
+	else if (fValue > 1.0f)
+	{
+		fValue = 1.0f;
+	}
+	return fValue;
 }
 vector<CVector3D>	CMathUtility::getCuboidFaceVerticesAsQuads(CVector3D& vecMinPosition, CVector3D& vecMaxPosition)
 {
@@ -273,4 +286,14 @@ uint32						CMathUtility::getRectangleResizeEdges(CVector2ui32& vecPoint, CVecto
 	else if (bIsNearBottomEdge)	uiResult |= 8;
 
 	return uiResult;
+}
+
+CVector2ui32				CMathUtility::getEllipseFromRectangle(CVector2ui32& vecPoint, CVector2ui32& vecSize)
+{
+	return vecPoint + (vecSize / 2);
+}
+
+uint32						CMathUtility::convertDiameterToRadius(uint32 uiDiameter)
+{
+	return uiDiameter / 2;
 }

@@ -12,7 +12,7 @@ void		CWindowControl_Check::onMouseUp(CVector2ui32& vecCursorPosition)
 	{
 		if (CEventManager::getInstance()->triggerEvent(EVENT_onCheckCheck, this))
 		{
-			m_bChecked = !m_bChecked;
+			setChecked(!isChecked());
 			getWindow()->setMarkedToRedraw(true);
 		}
 	}
@@ -30,8 +30,14 @@ void		CWindowControl_Check::render(void)
 	CGDIPlusUtility::drawText(CVector2ui32(getPosition().m_x + getSize().m_x + getIconRightMargin(), getPosition().m_y), getSize(), getText(), getTextColour(), getFontSize(), isBold());
 }
 
-// input procressing
+// cursor
 bool		CWindowControl_Check::isPointInControl(CVector2ui32& vecPoint)
 {
-	return CMathUtility::isPointInRectangle(vecPoint, getPosition(), getSize() + CVector2ui32(getTextWidth(), 0));
+	return CMathUtility::isPointInRectangle(vecPoint, getPosition(), getSizeWithText());
+}
+
+// size
+CVector2ui32	CWindowControl_Check::getSizeWithText(void)
+{
+	return getSize() + CVector2ui32(getTextWidth(), 0);
 }

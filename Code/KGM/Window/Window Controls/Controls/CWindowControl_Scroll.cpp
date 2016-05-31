@@ -8,44 +8,33 @@
 // input
 void		CWindowControl_Scroll::onMouseDown(CVector2ui32& vecCursorPosition)
 {
-	if (CMathUtility::isPointInRectangle(vecCursorPosition, getSeekBarPosition(), getSeekBarSize()))
+	if (isPointInSeekBar(vecCursorPosition))
 	{
 		if (CEventManager::getInstance()->triggerEvent(EVENT_onStartMovingSeekBar, this))
 		{
-			m_bSeekBarIsMoving = true;
+			setSeekBarMoving(true);
 		}
 	}
 }
 
 void		CWindowControl_Scroll::onMouseUp(CVector2ui32& vecCursorPosition)
 {
-	if (m_bSeekBarIsMoving)
+	if (isSeekBarMoving())
 	{
 		if (CEventManager::getInstance()->triggerEvent(EVENT_onStopMovingSeekBar, this))
 		{
-			m_bSeekBarIsMoving = false;
+			setSeekBarMoving(false);
 		}
 	}
 }
 
 void		CWindowControl_Scroll::onMouseMove(CVector2ui32& vecCursorPosition)
 {
-	if (m_bSeekBarIsMoving)
+	if (isSeekBarMoving())
 	{
 		if (CEventManager::getInstance()->triggerEvent(EVENT_onMoveSeekBar, this))
 		{
-			int32 iYDifference = vecCursorPosition.m_y - CEventManager::getInstance()->getLastCursorPosition().m_y;
-			float32 fProgressPerPixel = 1.0f / ((float32)(getSize().m_y - getSeekBarHeight()));
-			float32 fNewProgress = getProgress() + (fProgressPerPixel * ((float32)iYDifference));
-			if (fNewProgress < 0.0f)
-			{
-				fNewProgress = 0.0f;
-			}
-			else if (fNewProgress > 1.0f)
-			{
-				fNewProgress = 1.0f;
-			}
-			setProgress(fNewProgress);
+			increaseProgress(getProgressIncreaseForLength(CEventManager::getInstance()->getCursorMovedSize(vecCursorPosition).m_y));
 			getWindow()->setMarkedToRedraw(true);
 		}
 	}
@@ -63,13 +52,44 @@ void		CWindowControl_Scroll::render(void)
 	CGDIPlusUtility::drawRectangleBorder(getSeekBarPosition(), getSeekBarSize(), getSeekBarLineColour());
 }
 
-// math
+// seek bar
 CVector2ui32							CWindowControl_Scroll::getSeekBarPosition(void)
 {
-	uint32 uiPixelSeekY = ((float32)(getSize().m_y - getSeekBarHeight())) * getProgress();
-	return getPosition() + CVector2ui32(0, uiPixelSeekY);
+	return getPosition() + CVector2ui32(0, getSeekBarPositionOffset());
 }
+
+uint32								CWindowControl_Scroll::getSeekBarPositionOffset(void)
+{
+	return ((float32) (getSize().m_y - getSeekBarLength())) * getProgress();
+}
+
 CVector2ui32							CWindowControl_Scroll::getSeekBarSize(void)
 {
-	return CVector2ui32(getSize().m_x, getSeekBarHeight());
+	return CVector2ui32(getSize().m_x, getSeekBarLength());
+}
+
+bool									CWindowControl_Scroll::isPointInSeekBar(CVector2ui32& vecPoint)
+{
+	return CMathUtility::isPointInRectangle(vecPoint, getSeekBarPosition(), getSeekBarSize());
+}
+
+// progress
+float32									CWindowControl_Scroll::getProgressFor1px(void)
+{
+	return 1.0f / ((float32) getAvailableScrollLength());
+}
+
+uint32									CWindowControl_Scroll::getAvailableScrollLength(void)
+{
+	return getSize().m_y - getSeekBarLength();
+}
+
+void									CWindowControl_Scroll::increaseProgress(float32 fProgressIncrease)
+{
+	setProgress(CMathUtility::cap(getProgress() + fProgressIncrease, 0.0f, 1.0f));
+}
+
+float32									CWindowControl_Scroll::getProgressIncreaseForLength(uint32 uiLength)
+{
+	return getProgressFor1px() * ((float32) uiLength);
 }

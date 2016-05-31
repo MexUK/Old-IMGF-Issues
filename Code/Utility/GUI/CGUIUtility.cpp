@@ -289,3 +289,43 @@ string				CGUIUtility::getEditText(uint32 uiControlIndex)
 	return CStringUtility::convertCStringToStdString(cstr);
 	*/
 }
+
+bool				CGUIUtility::isControlKeyDown(void)
+{
+	return (GetKeyState(VK_CONTROL) & 0x8000) == 0x8000;
+}
+
+bool				CGUIUtility::isShiftKeyDown(void)
+{
+	return (GetKeyState(VK_SHIFT) & 0x8000) == 0x8000;
+}
+
+bool				CGUIUtility::isAltKeyDown(void)
+{
+	return (GetKeyState(VK_MENU) & 0x8000) == 0x8000;
+}
+
+bool				CGUIUtility::isCapsLockOn(void)
+{
+	return (GetKeyState(VK_CAPITAL) & 0x0001) != 0;
+}
+
+bool				CGUIUtility::isTextInputUppercase(void)
+{
+	bool
+		bCapsLockIsOn = isCapsLockOn(),
+		bShiftIsDown = isShiftKeyDown();
+	return (bCapsLockIsOn && !bShiftIsDown) || (!bCapsLockIsOn && bShiftIsDown);
+}
+
+string				CGUIUtility::getTextInInputCase(string& strText)
+{
+	if (CGUIUtility::isTextInputUppercase())
+	{
+		return CStringUtility::toUpperCase(strText);
+	}
+	else
+	{
+		return CStringUtility::toLowerCase(strText);
+	}
+}

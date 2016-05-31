@@ -901,3 +901,15 @@ uint32				CStringUtility::swapEndian(uint32 uiValue)
 		((uiValue & 0xFF) << 24)
 	;
 }
+
+bool				CStringUtility::isAsciiCharacterDisplayable(uint8 uiCharCode, bool bIncludeSpace, bool bIncludeTab)
+{
+	return (uiCharCode > 32 && uiCharCode < 127)
+		|| (bIncludeSpace && uiCharCode == 32)
+		|| (bIncludeTab && uiCharCode == 9);
+}
+
+string				CStringUtility::createCharString(uint8 uiCharCode)
+{
+	return string(1, uiCharCode);
+}
