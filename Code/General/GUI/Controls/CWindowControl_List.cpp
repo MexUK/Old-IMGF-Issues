@@ -6,7 +6,7 @@
 
 using namespace std;
 
-auto pOnMouseDown_List		= [](void *pControl, void *pTriggerArg) { ((CWindowControl_List*) pControl)->onMouseDown(*(CVector2ui32*) pTriggerArg); };
+auto pOnMouseDown_List		= [](void *pControl, void *pTriggerArg) { ((CWindowControl_List*) pControl)->onMouseDown(*(CVector2i32*) pTriggerArg); };
 auto pOnRender_List			= [](void *pControl) { ((CWindowControl_List*) pControl)->render(); };
 
 // event binding
@@ -17,7 +17,7 @@ void					CWindowControl_List::bindEvents(void)
 }
 
 // input
-void					CWindowControl_List::onMouseDown(CVector2ui32& vecCursorPosition)
+void					CWindowControl_List::onMouseDown(CVector2i32& vecCursorPosition)
 {
 	if (isPointInControl(vecCursorPosition))
 	{
@@ -67,9 +67,9 @@ void					CWindowControl_List::render(void)
 }
 
 // row
-CVector2ui32					CWindowControl_List::getRowPosition(uint32 uiRowIndex)
+CVector2i32						CWindowControl_List::getRowPosition(uint32 uiRowIndex)
 {
-	return getPosition() + CVector2ui32(0, uiRowIndex * getRowHeight());
+	return getPosition() + CVector2i32(0, uiRowIndex * getRowHeight());
 }
 
 CVector2ui32					CWindowControl_List::getRowSize(void)
@@ -78,9 +78,9 @@ CVector2ui32					CWindowControl_List::getRowSize(void)
 }
 
 // row text
-CVector2ui32					CWindowControl_List::getCellTextPosition(uint32 uiRowIndex, uint32 uiTextRowIndex, uint32 uiColumnIndex)
+CVector2i32						CWindowControl_List::getCellTextPosition(uint32 uiRowIndex, uint32 uiTextRowIndex, uint32 uiColumnIndex)
 {
-	return getPosition() + CVector2ui32(uiColumnIndex * getColumnWidth(), (uiRowIndex * getRowHeight()) + (uiTextRowIndex * getRowTextHeight()));
+	return getPosition() + CVector2i32(uiColumnIndex * getColumnWidth(), (uiRowIndex * getRowHeight()) + (uiTextRowIndex * getRowTextHeight()));
 }
 
 CVector2ui32					CWindowControl_List::getCellTextSize(uint32 uiRowIndex, uint32 uiTextRowIndex, uint32 uiColumnIndex)

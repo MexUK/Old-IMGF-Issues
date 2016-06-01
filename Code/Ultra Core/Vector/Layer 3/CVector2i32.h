@@ -13,6 +13,22 @@ public:
 		m_x = fX;
 		m_y = fY;
 	}
+
+	CVector2i32	operator+(const CVector2i32& vecVector2)
+	{
+		CVector2i32 vecVector1;
+		vecVector1.m_x = m_x + vecVector2.m_x;
+		vecVector1.m_y = m_y + vecVector2.m_y;
+		return vecVector1;
+	}
+
+	CVector2i32	operator-(const CVector2i32& vecVector2)
+	{
+		CVector2i32 vecVector1;
+		vecVector1.m_x = m_x - vecVector2.m_x;
+		vecVector1.m_y = m_y - vecVector2.m_y;
+		return vecVector1;
+	}
 };
 
 #endif

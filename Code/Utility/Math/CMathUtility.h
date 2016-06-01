@@ -46,11 +46,11 @@ public:
 	// vector related
 	static CVector4ui8			createVector4ui8(uint8 ucByte1, uint8 ucByte2, uint8 ucByte3, uint8 ucByte4);
 	static CVector4ui16			createVector4ui16(uint16 usWord1, uint16 usWord2, uint16 usWord3, uint16 usWord4);
-	static bool					isPointInRectangle(CVector2ui32& vecPoint, CVector2ui32& vecPosition, CVector2ui32& vecSize);
-	static CVector4ui32			getRectangleFromCircle(CVector2ui32 vecCenterPosition, float32 fRadius);
-	static uint32				getRowIndex(CVector2ui32& vecPoint, CVector2ui32& vecMinPosition, float32 fRowHeight, uint32 uiRowCount);
-	static uint32				getRectangleResizeEdges(CVector2ui32& vecPoint, CVector2ui32& vecSize, uint32 uiEdgeDistance); // Edges: Left=1,Top=2,Right=4,Bottom=8
-	static CVector2ui32			getEllipseFromRectangle(CVector2ui32& vecPoint, CVector2ui32& vecSize);
+	static bool					isPointInRectangle(CVector2i32& vecPoint, CVector2i32& vecPosition, CVector2ui32& vecSize);
+	static CVector4ui32			getRectangleFromCircle(CVector2i32 vecCenterPosition, float32 fRadius);
+	static uint32				getRowIndex(CVector2i32& vecPoint, CVector2i32& vecMinPosition, float32 fRowHeight, uint32 uiRowCount);
+	static uint32				getRectangleResizeEdges(CVector2i32& vecPoint, CVector2ui32& vecSize, uint32 uiEdgeDistance); // [return] Edges: Left=1,Top=2,Right=4,Bottom=8
+	static CVector2i32			getEllipseFromRectangle(CVector2i32& vecPoint, CVector2ui32& vecSize);
 	static uint32				convertDiameterToRadius(uint32 uiDiameter);
 };
 

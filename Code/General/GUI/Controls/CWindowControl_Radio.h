@@ -20,18 +20,18 @@ public:
 
 	void									bindEvents(void);
 
-	void									onMouseUp(CVector2ui32& vecCursorPosition);
+	void									onMouseUp(CVector2i32& vecCursorPosition);
 
 	void									render(void);
 
-	bool									isPointInControl(CVector2ui32& vecPoint);
+	bool									isPointInControl(CVector2i32& vecPoint);
 
-	CVector2ui32							getIconCenterPosition(void);
+	CVector2i32								getIconCenterPosition(void);
 
 	CVector2ui32							getSizeWithText(void);
 	uint32									getIconRadius(void);
 
-	CVector2ui32							getTextPosition(void);
+	CVector2i32								getTextPosition(void);
 	CVector2ui32							getTextSize(void);
 
 	void									setIconRightMargin(uint32 uiIconRightMargin) { m_uiIconRightMargin = uiIconRightMargin; }	// in pixels

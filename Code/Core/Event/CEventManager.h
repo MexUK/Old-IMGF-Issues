@@ -4,7 +4,7 @@
 #include "Types.h"
 #include "CSingleton.h"
 #include "eEventType.h"
-#include "CVector2ui32.h"
+#include "CVector2i32.h"
 #include <string>
 #include <vector>
 #include <unordered_map>
@@ -38,9 +38,9 @@ public:
 	bool										triggerEvent(uint32 uiEventTypeId, uint32 uiEventTypeIndex, uint32 uiEventId, void *pFunctionArgument = nullptr);
 
 	// CEventManager continued
-	void										setLastCursorPosition(CVector2ui32& vecLastCursorPosition) { m_vecLastCursorPosition = vecLastCursorPosition; }
-	CVector2ui32&								getLastCursorPosition(void) { return m_vecLastCursorPosition; }
-	CVector2ui32								getCursorMovedSize(CVector2ui32& vecCursorPositionNow);
+	void										setLastCursorPosition(CVector2i32& vecLastCursorPosition) { m_vecLastCursorPosition = vecLastCursorPosition; }
+	CVector2i32&								getLastCursorPosition(void) { return m_vecLastCursorPosition; }
+	CVector2i32									getCursorMovedSize(CVector2i32& vecCursorPositionNow);
 
 	void										setDefaultActionPrevented(bool bDefaultActionPrevented) { m_bDefaultActionPrevented = bDefaultActionPrevented; }
 	bool										isDefaultActionPrevented(void) { return m_bDefaultActionPrevented; }
@@ -56,7 +56,7 @@ private:
 private:
 	uint8															m_bDefaultActionPrevented	: 1;
 	uint8															m_bEventHogged				: 1;
-	CVector2ui32													m_vecLastCursorPosition;
+	CVector2i32														m_vecLastCursorPosition;
 	std::unordered_map<
 		uint32,
 		std::unordered_map<

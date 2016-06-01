@@ -9,7 +9,7 @@ using namespace std;
 auto pOnRender_Progress		= [](void *pControl) { ((CWindowControl_Progress*) pControl)->render(); };
 
 // event binding
-void					CWindowControl_Progress::bindEvents(void)
+void			CWindowControl_Progress::bindEvents(void)
 {
 	storeEventBoundFunction(getWindow()->bindEvent(EVENT_onRender, pOnRender_Progress, this));
 }
@@ -17,8 +17,9 @@ void					CWindowControl_Progress::bindEvents(void)
 // render
 void			CWindowControl_Progress::render(void)
 {
+	CVector2i32 vecProgressPosition = getProgressPosition(); // todo
 	CGDIPlusUtility::drawRectangleFill(getPosition(), getSize(), getFillColour());
-	CGDIPlusUtility::drawRectangleFill(getPosition(), getProgressPosition(), getProgressFillColour());
+	CGDIPlusUtility::drawRectangleFill(getPosition(), CVector2ui32(vecProgressPosition.m_x, vecProgressPosition.m_y), getProgressFillColour());
 	CGDIPlusUtility::drawRectangleBorder(getPosition(), getSize(), getLineColour());
 	CGDIPlusUtility::drawText(getPosition(), getSize(), getProgressPercentText(), getTextColour(), getFontSize(), isBold());
 }
@@ -30,18 +31,18 @@ float32			CWindowControl_Progress::getProgress(void)
 }
 
 // text
-string		CWindowControl_Progress::getProgressPercentText(void)
+string			CWindowControl_Progress::getProgressPercentText(void)
 {
 	return CStringUtility::toString(getProgress() * 100.0f) + "%";
 }
 
 // position
-CVector2ui32	CWindowControl_Progress::getProgressPosition(void)
+CVector2i32		CWindowControl_Progress::getProgressPosition(void)
 {
-	return CVector2ui32(getProgressPositionX(), getSize().m_y);
+	return CVector2i32(getProgressPositionX(), getSize().m_y);
 }
 
-uint32			CWindowControl_Progress::getProgressPositionX(void)
+int32			CWindowControl_Progress::getProgressPositionX(void)
 {
 	return ((float32) getSize().m_x) * getProgress();
 }

@@ -17,11 +17,11 @@ public:
 
 	void									bindEvents(void);
 
-	void									onMouseUp(CVector2ui32& vecCursorPosition);
+	void									onMouseUp(CVector2i32& vecCursorPosition);
 
 	void									render(void);
 	
-	bool									isPointInControl(CVector2ui32& vecPoint);
+	bool									isPointInControl(CVector2i32& vecPoint);
 
 	CVector2ui32							getSizeWithText(void);
 

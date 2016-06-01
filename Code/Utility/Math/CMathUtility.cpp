@@ -238,7 +238,7 @@ CVector4ui16				CMathUtility::createVector4ui16(uint16 usWord1, uint16 usWord2, 
 	return vecVector;
 }
 
-bool						CMathUtility::isPointInRectangle(CVector2ui32& vecPoint, CVector2ui32& vecPosition, CVector2ui32& vecSize)
+bool						CMathUtility::isPointInRectangle(CVector2i32& vecPoint, CVector2i32& vecPosition, CVector2ui32& vecSize)
 {
 	return vecPoint.m_x >= vecPosition.m_x
 		&& vecPoint.m_y >= vecPosition.m_y
@@ -246,7 +246,7 @@ bool						CMathUtility::isPointInRectangle(CVector2ui32& vecPoint, CVector2ui32&
 		&& vecPoint.m_y <= (vecPosition.m_y + vecSize.m_y);
 }
 
-CVector4ui32				CMathUtility::getRectangleFromCircle(CVector2ui32 vecCenterPosition, float32 fRadius)
+CVector4ui32				CMathUtility::getRectangleFromCircle(CVector2i32 vecCenterPosition, float32 fRadius)
 {
 	CVector4ui32 vecRect;
 	vecRect.m_x = vecCenterPosition.m_x - fRadius;
@@ -256,7 +256,7 @@ CVector4ui32				CMathUtility::getRectangleFromCircle(CVector2ui32 vecCenterPosit
 	return vecRect;
 }
 
-uint32						CMathUtility::getRowIndex(CVector2ui32& vecPoint, CVector2ui32& vecMinPosition, float32 fRowHeight, uint32 uiRowCount)
+uint32						CMathUtility::getRowIndex(CVector2i32& vecPoint, CVector2i32& vecMinPosition, float32 fRowHeight, uint32 uiRowCount)
 {
 	float32 fPointYRelative = vecPoint.m_y - vecMinPosition.m_y;
 	int32 iRowIndex = floor(fPointYRelative / fRowHeight);
@@ -270,7 +270,7 @@ uint32						CMathUtility::getRowIndex(CVector2ui32& vecPoint, CVector2ui32& vecM
 	}
 }
 
-uint32						CMathUtility::getRectangleResizeEdges(CVector2ui32& vecPoint, CVector2ui32& vecSize, uint32 uiEdgeDistance)
+uint32						CMathUtility::getRectangleResizeEdges(CVector2i32& vecPoint, CVector2ui32& vecSize, uint32 uiEdgeDistance)
 {
 	uint32
 		uiResult = 0;
@@ -288,9 +288,10 @@ uint32						CMathUtility::getRectangleResizeEdges(CVector2ui32& vecPoint, CVecto
 	return uiResult;
 }
 
-CVector2ui32				CMathUtility::getEllipseFromRectangle(CVector2ui32& vecPoint, CVector2ui32& vecSize)
+CVector2i32					CMathUtility::getEllipseFromRectangle(CVector2i32& vecPoint, CVector2ui32& vecSize)
 {
-	return vecPoint + (vecSize / 2);
+	CVector2i32 vecSizeSigned = CVector2i32(vecSize.m_x / 2, vecSize.m_x / 2); // todo
+	return vecPoint + vecSizeSigned;
 }
 
 uint32						CMathUtility::convertDiameterToRadius(uint32 uiDiameter)

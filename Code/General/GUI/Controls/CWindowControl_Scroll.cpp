@@ -5,13 +5,13 @@
 #include "Math/CMathUtility.h"
 #include "GDIPlus/CGDIPlusUtility.h"
 
-auto pOnMouseDown_Scroll	= [](void *pControl, void *pTriggerArg) { ((CWindowControl_Scroll*) pControl)->onMouseDown(*(CVector2ui32*) pTriggerArg); };
-auto pOnMouseUp_Scroll		= [](void *pControl, void *pTriggerArg) { ((CWindowControl_Scroll*) pControl)->onMouseUp(*(CVector2ui32*) pTriggerArg); };
-auto pOnMouseMove_Scroll	= [](void *pControl, void *pTriggerArg) { ((CWindowControl_Scroll*) pControl)->onMouseMove(*(CVector2ui32*) pTriggerArg); };
+auto pOnMouseDown_Scroll	= [](void *pControl, void *pTriggerArg) { ((CWindowControl_Scroll*) pControl)->onMouseDown(*(CVector2i32*) pTriggerArg); };
+auto pOnMouseUp_Scroll		= [](void *pControl, void *pTriggerArg) { ((CWindowControl_Scroll*) pControl)->onMouseUp(*(CVector2i32*) pTriggerArg); };
+auto pOnMouseMove_Scroll	= [](void *pControl, void *pTriggerArg) { ((CWindowControl_Scroll*) pControl)->onMouseMove(*(CVector2i32*) pTriggerArg); };
 auto pOnRender_Scroll		= [](void *pControl) { ((CWindowControl_Scroll*) pControl)->render(); };
 
 // event binding
-void					CWindowControl_Scroll::bindEvents(void)
+void									CWindowControl_Scroll::bindEvents(void)
 {
 	storeEventBoundFunction(getWindow()->bindEvent(EVENT_onLeftMouseDown, pOnMouseDown_Scroll, this));
 	storeEventBoundFunction(getWindow()->bindEvent(EVENT_onLeftMouseUp, pOnMouseUp_Scroll, this));
@@ -20,7 +20,7 @@ void					CWindowControl_Scroll::bindEvents(void)
 }
 
 // input
-void		CWindowControl_Scroll::onMouseDown(CVector2ui32& vecCursorPosition)
+void									CWindowControl_Scroll::onMouseDown(CVector2i32& vecCursorPosition)
 {
 	if (isPointInSeekBar(vecCursorPosition))
 	{
@@ -31,7 +31,7 @@ void		CWindowControl_Scroll::onMouseDown(CVector2ui32& vecCursorPosition)
 	}
 }
 
-void		CWindowControl_Scroll::onMouseUp(CVector2ui32& vecCursorPosition)
+void									CWindowControl_Scroll::onMouseUp(CVector2i32& vecCursorPosition)
 {
 	if (isSeekBarMoving())
 	{
@@ -42,7 +42,7 @@ void		CWindowControl_Scroll::onMouseUp(CVector2ui32& vecCursorPosition)
 	}
 }
 
-void		CWindowControl_Scroll::onMouseMove(CVector2ui32& vecCursorPosition)
+void									CWindowControl_Scroll::onMouseMove(CVector2i32& vecCursorPosition)
 {
 	if (isSeekBarMoving())
 	{
@@ -55,7 +55,7 @@ void		CWindowControl_Scroll::onMouseMove(CVector2ui32& vecCursorPosition)
 }
 
 // render
-void		CWindowControl_Scroll::render(void)
+void									CWindowControl_Scroll::render(void)
 {
 	// background bar
 	CGDIPlusUtility::drawRectangleFill(getPosition(), getSize(), getFillColour());
@@ -67,12 +67,12 @@ void		CWindowControl_Scroll::render(void)
 }
 
 // seek bar
-CVector2ui32							CWindowControl_Scroll::getSeekBarPosition(void)
+CVector2i32								CWindowControl_Scroll::getSeekBarPosition(void)
 {
-	return getPosition() + CVector2ui32(0, getSeekBarPositionOffset());
+	return getPosition() + CVector2i32(0, getSeekBarPositionOffset());
 }
 
-uint32								CWindowControl_Scroll::getSeekBarPositionOffset(void)
+uint32									CWindowControl_Scroll::getSeekBarPositionOffset(void)
 {
 	return ((float32) (getSize().m_y - getSeekBarLength())) * getProgress();
 }
@@ -82,7 +82,7 @@ CVector2ui32							CWindowControl_Scroll::getSeekBarSize(void)
 	return CVector2ui32(getSize().m_x, getSeekBarLength());
 }
 
-bool									CWindowControl_Scroll::isPointInSeekBar(CVector2ui32& vecPoint)
+bool									CWindowControl_Scroll::isPointInSeekBar(CVector2i32& vecPoint)
 {
 	return CMathUtility::isPointInRectangle(vecPoint, getSeekBarPosition(), getSeekBarSize());
 }

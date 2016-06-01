@@ -12,7 +12,7 @@ using namespace std;
 
 bool g_bWindowRenderHasOccurred = false; // temp
 
-auto pOnMouseMove_GUIManager		= [](void *pGUIManager, void *pTriggerArg) { ((CGUIManager*) pGUIManager)->onMouseMove(*(CVector2ui32*) pTriggerArg); };
+auto pOnMouseMove_GUIManager		= [](void *pGUIManager, void *pTriggerArg) { ((CGUIManager*) pGUIManager)->onMouseMove(*(CVector2i32*) pTriggerArg); };
 
 CGUIManager::CGUIManager(void) :
 	m_pActiveWindow(nullptr)
@@ -41,8 +41,8 @@ CWindow*					CGUIManager::addWindow(CVector2i32& vecWindowPosition, CVector2ui32
 	/*
 	todo
 	CWindow *pWindow = new CWindow;
-	pWindow->setPosition(CVector2ui32(150, 150));
-	pWindow->setSize(CVector2ui32(1025, 698));
+	pWindow->setPosition(vecWindowPosition);
+	pWindow->setSize(vecWindowSize);
 	pWindow->setTitleBarHeight(35);
 	addEntry(pWindow);
 	if (!createWindow(pWindow))
@@ -58,7 +58,7 @@ CWindow*					CGUIManager::addWindow(CVector2i32& vecWindowPosition, CVector2ui32
 CTabbedWindow*				CGUIManager::addTabbedWindow(CVector2i32& vecWindowPosition, CVector2ui32& vecWindowSize)
 {
 	CTabbedWindow *pTabbedWindow = new CTabbedWindow;
-	pTabbedWindow->setPosition(CVector2ui32(vecWindowPosition.m_x, vecWindowPosition.m_y)); // todo - send directly
+	pTabbedWindow->setPosition(vecWindowPosition);
 	pTabbedWindow->setSize(vecWindowSize);
 	pTabbedWindow->setTitleBarHeight(35);
 	if (!createWindow(pTabbedWindow))
@@ -192,7 +192,7 @@ LRESULT CALLBACK			WndProc_Window(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lPa
 	return DefWindowProc(hwnd, msg, wParam, lParam);
 }
 
-void					CGUIManager::onMouseMove(CVector2ui32& vecCursorPosition)
+void					CGUIManager::onMouseMove(CVector2i32& vecCursorPosition)
 {
 	CEventManager::getInstance()->setLastCursorPosition(vecCursorPosition);
 }

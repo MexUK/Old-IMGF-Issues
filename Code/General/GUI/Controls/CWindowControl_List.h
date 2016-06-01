@@ -7,7 +7,7 @@
 #include "GUI/Controls/Components/CWindowControlComponent_Rectangle.h"
 #include "GUI/Controls/Components/CWindowControlComponent_Text.h"
 #include "Pool/CVectorPool.h"
-#include "CVector2ui32.h"
+#include "CVector2i32.h"
 #include <string>
 #include <vector>
 
@@ -28,14 +28,14 @@ public:
 
 	void									bindEvents(void);
 
-	void									onMouseDown(CVector2ui32& vecCursorPosition);
+	void									onMouseDown(CVector2i32& vecCursorPosition);
 
 	void									render(void);
 
-	CVector2ui32							getRowPosition(uint32 uiRowIndex);	// in pixels
+	CVector2i32								getRowPosition(uint32 uiRowIndex);	// in pixels
 	CVector2ui32							getRowSize(void);					// in pixels
 
-	CVector2ui32							getCellTextPosition(uint32 uiRowIndex, uint32 uiTextRowIndex, uint32 uiColumnIndex);	// in pixels
+	CVector2i32								getCellTextPosition(uint32 uiRowIndex, uint32 uiTextRowIndex, uint32 uiColumnIndex);	// in pixels
 	CVector2ui32							getCellTextSize(uint32 uiRowIndex, uint32 uiTextRowIndex, uint32 uiColumnIndex);		// in pixels
 
 	void									setRowHeight(uint32 uiRowHeight) { m_uiRowHeight = uiRowHeight; }	// in pixels

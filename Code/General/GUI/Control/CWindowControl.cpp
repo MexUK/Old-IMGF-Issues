@@ -21,7 +21,7 @@ CWindowControl::~CWindowControl(void)
 }
 
 // point testing
-bool									CWindowControl::isPointInControl(CVector2ui32& vecPoint)
+bool									CWindowControl::isPointInControl(CVector2i32& vecPoint)
 {
 	return CMathUtility::isPointInRectangle(vecPoint, getPosition(), getSize());
 }

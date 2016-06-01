@@ -39,8 +39,8 @@ public:
 
 	void									render(void);
 	
-	CVector2ui32							getCaretRenderStartPosition(void);	// in pixels
-	CVector2ui32							getCaretRenderEndPosition(void);	// in pixels
+	CVector2i32								getCaretRenderStartPosition(void);	// in pixels
+	CVector2i32								getCaretRenderEndPosition(void);	// in pixels
 
 	bool									isCaretAtFarLeft(void);
 	bool									isCaretAtFarRight(void);
@@ -54,11 +54,11 @@ public:
 	uint32									getCaretPositionX(void) { return m_vecCaretPosition.m_x; }										// return    is character x position
 	uint32									getCaretPositionY(void) { return m_vecCaretPosition.m_y; }										// return    is character y position
 
-	void									moveCaret(CVector2i32& vecCharacterPositionIncrease);							// parameter is character position offset
+	void									moveCaret(CVector2i32& vecCharacterPositionIncrease);						// parameter is character position offset
 	void									moveCaretX(int32 iCaretMoveX) { moveCaret(CVector2i32(iCaretMoveX, 0)); }	// parameter is character x position offset
 	void									moveCaretY(int32 iCaretMoveY) { moveCaret(CVector2i32(0, iCaretMoveY)); }	// parameter is character x position offset
 
-	CVector2ui32							getTextLinePosition(uint32 uiLineIndex);	// in pixels
+	CVector2i32								getTextLinePosition(uint32 uiLineIndex);	// in pixels
 	void									setLineText(uint32 uiLineIndex, std::string& strText);
 	std::string&							getLineText(uint32 uiLineIndex);
 	void									addTextToLine(uint32 uiLineIndex, std::string& strText);

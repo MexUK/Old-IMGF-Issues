@@ -26,10 +26,10 @@ public:
 	void									bindAllEvents(void);
 	void									unbindAllEvents(void);
 
-	void									onMouseDown(CVector2ui32& vecCursorPosition);
-	void									onMouseUp(CVector2ui32& vecCursorPosition);
-	void									onMouseMove(CVector2ui32& vecCursorPosition);
-	void									onDoubleLeftClick(CVector2ui32& vecCursorPosition);
+	void									onMouseDown(CVector2i32& vecCursorPosition);
+	void									onMouseUp(CVector2i32& vecCursorPosition);
+	void									onMouseMove(CVector2i32& vecCursorPosition);
+	void									onDoubleLeftClick(CVector2i32& vecCursorPosition);
 
 	virtual void							render(void);
 	void									onRenderFromWMPaint(void);
@@ -54,8 +54,8 @@ public:
 	void									setBackgroundColour(uint32 uiBackgroundColour) { m_uiBackgroundColour = uiBackgroundColour; }
 	uint32									getBackgroundColour(void) { return m_uiBackgroundColour; }
 
-	void									setPosition(CVector2ui32& vecPosition) { m_vecPosition = vecPosition; m_vecPreviousPosition = vecPosition; }
-	CVector2ui32&							getPosition(void) { return m_vecPosition; }
+	void									setPosition(CVector2i32& vecPosition) { m_vecPosition = vecPosition; m_vecPreviousPosition = vecPosition; }
+	CVector2i32&							getPosition(void) { return m_vecPosition; }
 
 	void									setSize(CVector2ui32& vecSize) { m_vecSize = vecSize; }
 	CVector2ui32&							getSize(void) { return m_vecSize; }
@@ -78,8 +78,8 @@ public:
 	void									setMaximized(bool bMaximized);
 	bool									isMaximized(void) { return m_bMaximized; }
 
-	void									setPreviousPosition(CVector2ui32& vecPreviousPosition) { m_vecPreviousPosition = vecPreviousPosition; }
-	CVector2ui32&							getPreviousPosition(void) { return m_vecPreviousPosition; }
+	void									setPreviousPosition(CVector2i32& vecPreviousPosition) { m_vecPreviousPosition = vecPreviousPosition; }
+	CVector2i32&							getPreviousPosition(void) { return m_vecPreviousPosition; }
 
 	CVectorPool<CWindowControl*>&			getControls(void) { return m_vecControls; }
 	
@@ -88,7 +88,7 @@ private:
 	HDC										m_hdc;
 	CWindow*								m_pParentWindow;
 	CWindowControl*							m_pFocusedControl;
-	CVector2ui32							m_vecPosition;
+	CVector2i32								m_vecPosition;
 	CVector2ui32							m_vecSize;
 	uint32									m_uiBackgroundColour;
 	uint32									m_uiWindowResizeEdges;
@@ -98,7 +98,7 @@ private:
 	uint8									m_bResizingWindow		: 1;
 	uint8									m_bMarkedToRedraw		: 1;
 	uint8									m_bMaximized			: 1;
-	CVector2ui32							m_vecPreviousPosition;
+	CVector2i32								m_vecPreviousPosition;
 	CVectorPool<CWindowControl*>			m_vecControls;
 
 	/*

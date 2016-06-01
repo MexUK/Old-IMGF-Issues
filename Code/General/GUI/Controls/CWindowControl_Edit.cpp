@@ -233,20 +233,20 @@ bool		CWindowControl_Edit::isCaretAtFarBottom(void)
 }
 
 // caret render position
-CVector2ui32		CWindowControl_Edit::getCaretRenderStartPosition(void)
+CVector2i32			CWindowControl_Edit::getCaretRenderStartPosition(void)
 {
-	return getPosition() + CVector2ui32(getCaretPosition().m_x * 10, getCaretPosition().m_y * getFontSize());
+	return getPosition() + CVector2i32(getCaretPosition().m_x * 10, getCaretPosition().m_y * getFontSize());
 }
 
-CVector2ui32		CWindowControl_Edit::getCaretRenderEndPosition(void)
+CVector2i32			CWindowControl_Edit::getCaretRenderEndPosition(void)
 {
-	return getPosition() + CVector2ui32(getCaretPosition().m_x * 10, ((getCaretPosition().m_y + 1) * getFontSize()));
+	return getPosition() + CVector2i32(getCaretPosition().m_x * 10, ((getCaretPosition().m_y + 1) * getFontSize()));
 }
 
 // text
-CVector2ui32		CWindowControl_Edit::getTextLinePosition(uint32 uiLineIndex)
+CVector2i32			CWindowControl_Edit::getTextLinePosition(uint32 uiLineIndex)
 {
-	return getPosition() + (uiLineIndex * getFontSize());
+	return getPosition() + CVector2i32(0, uiLineIndex * getFontSize());
 }
 
 void				CWindowControl_Edit::setLineText(uint32 uiLineIndex, string& strText)

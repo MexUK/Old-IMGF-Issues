@@ -8,7 +8,7 @@ using namespace Gdiplus;
 
 HDC CGDIPlusUtility::m_hdc = nullptr;
 
-void									CGDIPlusUtility::drawLine(CVector2ui32& vecPoint1, CVector2ui32& vecPoint2, uint32 uiLineColour)
+void									CGDIPlusUtility::drawLine(CVector2i32& vecPoint1, CVector2i32& vecPoint2, uint32 uiLineColour)
 {
 	uint8
 		ucRed = (uiLineColour >> 24) & 0xFF,
@@ -22,7 +22,7 @@ void									CGDIPlusUtility::drawLine(CVector2ui32& vecPoint1, CVector2ui32& ve
 	g.DrawLine(&pen, (INT)vecPoint1.m_x, (INT)vecPoint1.m_y, (INT)vecPoint2.m_x, (INT)vecPoint2.m_y);
 }
 
-void									CGDIPlusUtility::drawText(CVector2ui32& vecMinPoint, CVector2ui32& vecSize, string& strText, uint32 uiTextColour, uint32 uiFontSize, bool bIsBold)
+void									CGDIPlusUtility::drawText(CVector2i32& vecMinPoint, CVector2ui32& vecSize, string& strText, uint32 uiTextColour, uint32 uiFontSize, bool bIsBold)
 {
 	HDC hdc = getHDC();
 	HFONT hFont = CreateFont(uiFontSize, 0, 0, 0, bIsBold ? FW_BOLD : FW_DONTCARE, FALSE, FALSE, FALSE, DEFAULT_CHARSET, OUT_OUTLINE_PRECIS, CLIP_DEFAULT_PRECIS, CLEARTYPE_QUALITY, VARIABLE_PITCH, TEXT("Verdana"));
@@ -49,7 +49,7 @@ void									CGDIPlusUtility::drawText(CVector2ui32& vecMinPoint, CVector2ui32& 
 	DeleteObject(hFont);
 }
 
-void									CGDIPlusUtility::drawRectangleFill(CVector2ui32& vecMinPoint, CVector2ui32& vecSize, uint32 uiFillColour)
+void									CGDIPlusUtility::drawRectangleFill(CVector2i32& vecMinPoint, CVector2ui32& vecSize, uint32 uiFillColour)
 {
 	RECT rect;
 	rect.left = vecMinPoint.m_x;
@@ -67,18 +67,18 @@ void									CGDIPlusUtility::drawRectangleFill(CVector2ui32& vecMinPoint, CVect
 	DeleteObject(hBrush);
 }
 
-void									CGDIPlusUtility::drawRectangleBorder(CVector2ui32& vecMinPoint, CVector2ui32& vecSize, uint32 uiLineColour)
+void									CGDIPlusUtility::drawRectangleBorder(CVector2i32& vecMinPoint, CVector2ui32& vecSize, uint32 uiLineColour)
 {
 	// todo use polygon point rendering instead of lines
 
-	CVector2ui32 vecMaxPoint = vecMinPoint + vecSize;
-	drawLine(vecMinPoint, CVector2ui32(vecMaxPoint.m_x, vecMinPoint.m_y), uiLineColour);
-	drawLine(vecMinPoint, CVector2ui32(vecMinPoint.m_x, vecMaxPoint.m_y), uiLineColour);
-	drawLine(vecMaxPoint, CVector2ui32(vecMinPoint.m_x, vecMaxPoint.m_y), uiLineColour);
-	drawLine(vecMaxPoint, CVector2ui32(vecMaxPoint.m_x, vecMinPoint.m_y), uiLineColour);
+	CVector2i32 vecMaxPoint = CVector2i32(vecMinPoint.m_x + vecSize.m_x, vecMinPoint.m_y + vecSize.m_y);
+	drawLine(vecMinPoint, CVector2i32(vecMaxPoint.m_x, vecMinPoint.m_y), uiLineColour);
+	drawLine(vecMinPoint, CVector2i32(vecMinPoint.m_x, vecMaxPoint.m_y), uiLineColour);
+	drawLine(vecMaxPoint, CVector2i32(vecMinPoint.m_x, vecMaxPoint.m_y), uiLineColour);
+	drawLine(vecMaxPoint, CVector2i32(vecMaxPoint.m_x, vecMinPoint.m_y), uiLineColour);
 }
 
-void									CGDIPlusUtility::drawRectangleWithBorderRadius(CVector2ui32& vecMinPoint, CVector2ui32& vecSize, uint32 uiCornerRadius, uint32 uiFillColour, uint32 uiLineColour)
+void									CGDIPlusUtility::drawRectangleWithBorderRadius(CVector2i32& vecMinPoint, CVector2ui32& vecSize, uint32 uiCornerRadius, uint32 uiFillColour, uint32 uiLineColour)
 {
 	// http://stackoverflow.com/questions/628261/how-to-draw-rounded-rectangle-with-variable-width-border-inside-of-specific-boun
 
@@ -119,7 +119,7 @@ void									CGDIPlusUtility::drawRectangleWithBorderRadius(CVector2ui32& vecMin
 	g.DrawPath(&pen, gfxPath);
 }
 
-void									CGDIPlusUtility::drawRectangleFillWithGradient(CVector2ui32& vecMinPoint, CVector2ui32& vecSize, uint32 uiFillColourStart, uint32 uiFillColourStop)
+void									CGDIPlusUtility::drawRectangleFillWithGradient(CVector2i32& vecMinPoint, CVector2ui32& vecSize, uint32 uiFillColourStart, uint32 uiFillColourStop)
 {
 	uint8
 		ucRed1 = (uiFillColourStart >> 24) & 0xFF,
@@ -155,7 +155,7 @@ void									CGDIPlusUtility::drawRectangleFillWithGradient(CVector2ui32& vecMin
 	delete pBrush;
 }
 
-void									CGDIPlusUtility::drawCircleFill(CVector2ui32& vecCenterPoint, float32 fRadius, uint32 uiFillColour)
+void									CGDIPlusUtility::drawCircleFill(CVector2i32& vecCenterPoint, float32 fRadius, uint32 uiFillColour)
 {
 	uint8
 		ucRed = (uiFillColour >> 24) & 0xFF,
@@ -178,7 +178,7 @@ void									CGDIPlusUtility::drawCircleFill(CVector2ui32& vecCenterPoint, float
 	delete pBrush;
 }
 
-void									CGDIPlusUtility::drawCircleBorder(CVector2ui32& vecCenterPoint, float32 fRadius, uint32 uiLineColour)
+void									CGDIPlusUtility::drawCircleBorder(CVector2i32& vecCenterPoint, float32 fRadius, uint32 uiLineColour)
 {
 	uint8
 		ucRed = (uiLineColour >> 24) & 0xFF,

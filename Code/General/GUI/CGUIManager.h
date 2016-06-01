@@ -29,7 +29,7 @@ public:
 
 	void						processWindows(void);
 
-	void						onMouseMove(CVector2ui32& vecCursorPosition);
+	void						onMouseMove(CVector2i32& vecCursorPosition);
 
 	void						render(void);
 	void						clearBackground(void);
@@ -50,7 +50,7 @@ template <class WindowClass>
 WindowClass*					CGUIManager::addTemplatedTabbedWindow(CVector2i32& vecWindowPosition, CVector2ui32& vecWindowSize)
 {
 	WindowClass *pWindow = new WindowClass;
-	pWindow->setPosition(CVector2ui32(vecWindowPosition.m_x, vecWindowPosition.m_y)); // todo - send directly
+	pWindow->setPosition(CVector2i32(vecWindowPosition.m_x, vecWindowPosition.m_y)); // todo - send directly
 	pWindow->setSize(vecWindowSize);
 	pWindow->setTitleBarHeight(35);
 	if (!createWindow(pWindow))

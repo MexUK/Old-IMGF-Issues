@@ -23,13 +23,13 @@ public:
 
 	void									bindEvents(void);
 
-	void									onMouseDown(CVector2ui32& vecCursorPosition);
-	void									onMouseUp(CVector2ui32& vecCursorPosition);
-	void									onMouseMove(CVector2ui32& vecCursorPosition);
+	void									onMouseDown(CVector2i32& vecCursorPosition);
+	void									onMouseUp(CVector2i32& vecCursorPosition);
+	void									onMouseMove(CVector2i32& vecCursorPosition);
 
 	void									render(void);
 
-	bool									isPointInSeekBar(CVector2ui32& vecPoint);
+	bool									isPointInSeekBar(CVector2i32& vecPoint);
 	uint32									getSeekBarPositionOffset(void);
 
 	float32									getProgressFor1px(void);						// returns 0.0 to 1.0
@@ -56,7 +56,7 @@ public:
 	void									setSeekBarMoving(bool bSeekBarIsMoving) { m_bSeekBarIsMoving = bSeekBarIsMoving; }
 	bool									isSeekBarMoving(void) { return m_bSeekBarIsMoving; }
 
-	CVector2ui32							getSeekBarPosition(void);
+	CVector2i32								getSeekBarPosition(void);
 	CVector2ui32							getSeekBarSize(void);
 
 private:

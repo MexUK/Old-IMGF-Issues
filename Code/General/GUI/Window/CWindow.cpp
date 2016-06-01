@@ -12,10 +12,10 @@
 
 using namespace std;
 
-auto pOnMouseDown_Window		= [](void *pWindow, void *pTriggerArg) { ((CWindow*) pWindow)->onMouseDown(*(CVector2ui32*) pTriggerArg); };
-auto pOnMouseUp_Window			= [](void *pWindow, void *pTriggerArg) { ((CWindow*) pWindow)->onMouseUp(*(CVector2ui32*) pTriggerArg); };
-auto pOnMouseMove_Window		= [](void *pWindow, void *pTriggerArg) { ((CWindow*) pWindow)->onMouseMove(*(CVector2ui32*) pTriggerArg); };
-auto pOnDoubleLeftClick_Window	= [](void *pWindow, void *pTriggerArg) { ((CWindow*) pWindow)->onDoubleLeftClick(*(CVector2ui32*) pTriggerArg); };
+auto pOnMouseDown_Window		= [](void *pWindow, void *pTriggerArg) { ((CWindow*) pWindow)->onMouseDown(*(CVector2i32*) pTriggerArg); };
+auto pOnMouseUp_Window			= [](void *pWindow, void *pTriggerArg) { ((CWindow*) pWindow)->onMouseUp(*(CVector2i32*) pTriggerArg); };
+auto pOnMouseMove_Window		= [](void *pWindow, void *pTriggerArg) { ((CWindow*) pWindow)->onMouseMove(*(CVector2i32*) pTriggerArg); };
+auto pOnDoubleLeftClick_Window	= [](void *pWindow, void *pTriggerArg) { ((CWindow*) pWindow)->onDoubleLeftClick(*(CVector2i32*) pTriggerArg); };
 
 CWindow::CWindow(void) :
 	CEventType(EVENT_TYPE_WINDOW),
@@ -76,7 +76,7 @@ void									CWindow::unbindAllEvents(void)
 }
 
 // input
-void									CWindow::onMouseDown(CVector2ui32& vecCursorPosition)
+void									CWindow::onMouseDown(CVector2i32& vecCursorPosition)
 {
 	if (CEventManager::getInstance()->isEventHogged())
 	{
@@ -131,10 +131,10 @@ void									CWindow::onMouseDown(CVector2ui32& vecCursorPosition)
 	// store cursor position
 	POINT point;
 	GetCursorPos(&point);
-	CEventManager::getInstance()->setLastCursorPosition(CVector2ui32(point.x, point.y));
+	CEventManager::getInstance()->setLastCursorPosition(CVector2i32(point.x, point.y));
 }
 
-void									CWindow::onMouseUp(CVector2ui32& vecCursorPosition)
+void									CWindow::onMouseUp(CVector2i32& vecCursorPosition)
 {
 	if (isMovingWindow())
 	{
@@ -151,7 +151,7 @@ void									CWindow::onMouseUp(CVector2ui32& vecCursorPosition)
 	}
 }
 
-void									CWindow::onMouseMove(CVector2ui32& vecCursorPosition)
+void									CWindow::onMouseMove(CVector2i32& vecCursorPosition)
 {
 	for (CWindowControl *pWindowControl : getControls().getEntries())
 	{
@@ -177,14 +177,13 @@ void									CWindow::onMouseMove(CVector2ui32& vecCursorPosition)
 	{
 		POINT point;
 		GetCursorPos(&point);
-		vecCursorPosition = CVector2ui32(point.x, point.y);
+		vecCursorPosition = CVector2i32(point.x, point.y);
 
 		RECT rect;
 		GetWindowRect(getWindowHandle(), &rect);
 
-		CVector2ui32
-			vecPreviousCursorPosition = CEventManager::getInstance()->getLastCursorPosition();
 		CVector2i32
+			vecPreviousCursorPosition = CEventManager::getInstance()->getLastCursorPosition(),
 			vecCursorDiff;
 
 		vecCursorDiff.m_x = ((int32) vecCursorPosition.m_x) - ((int32) vecPreviousCursorPosition.m_x);
@@ -194,7 +193,7 @@ void									CWindow::onMouseMove(CVector2ui32& vecCursorPosition)
 		rect.top += vecCursorDiff.m_y;
 
 		SetWindowPos(getWindowHandle(), NULL, rect.left, rect.top, 0, 0, SWP_NOSIZE | SWP_NOZORDER);
-		setPosition(CVector2ui32(rect.left, rect.top));
+		setPosition(CVector2i32(rect.left, rect.top));
 		//MoveWindow(hwndWindow, rect.left, rect.top, rect.right, rect.bottom, false);
 		//InvalidateRect(hwndWindow, &rect, false);
 
@@ -205,14 +204,13 @@ void									CWindow::onMouseMove(CVector2ui32& vecCursorPosition)
 	{
 		POINT point;
 		GetCursorPos(&point);
-		vecCursorPosition = CVector2ui32(point.x, point.y);
+		vecCursorPosition = CVector2i32(point.x, point.y);
 
 		RECT rect;
 		GetWindowRect(getWindowHandle(), &rect);
 
-		CVector2ui32
-			vecPreviousCursorPosition = CEventManager::getInstance()->getLastCursorPosition();
 		CVector2i32
+			vecPreviousCursorPosition = CEventManager::getInstance()->getLastCursorPosition(),
 			vecCursorDiff;
 
 		vecCursorDiff.m_x = ((int32) vecCursorPosition.m_x) - ((int32) vecPreviousCursorPosition.m_x);
@@ -244,13 +242,13 @@ void									CWindow::onMouseMove(CVector2ui32& vecCursorPosition)
 	}
 }
 
-void									CWindow::onDoubleLeftClick(CVector2ui32& vecCursorPosition)
+void									CWindow::onDoubleLeftClick(CVector2i32& vecCursorPosition)
 {
 	RECT rect;
 	GetWindowRect(getWindowHandle(), &rect);
 	CVector2ui32 vecMainWindowTitleBarSize(rect.right - rect.left, 35);
 
-	if (CMathUtility::isPointInRectangle(vecCursorPosition, CVector2ui32(0, 0), vecMainWindowTitleBarSize))
+	if (CMathUtility::isPointInRectangle(vecCursorPosition, CVector2i32(0, 0), vecMainWindowTitleBarSize))
 	{
 		setMaximized(!isMaximized());
 	}

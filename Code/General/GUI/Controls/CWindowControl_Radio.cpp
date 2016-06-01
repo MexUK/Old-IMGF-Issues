@@ -5,18 +5,18 @@
 #include "Event/eEvent.h"
 #include "GUI/Window/CWindow.h"
 
-auto pOnMouseUp_Radio		= [](void *pControl, void *pTriggerArg) { ((CWindowControl_Radio*) pControl)->onMouseUp(*(CVector2ui32*) pTriggerArg); };
+auto pOnMouseUp_Radio		= [](void *pControl, void *pTriggerArg) { ((CWindowControl_Radio*) pControl)->onMouseUp(*(CVector2i32*) pTriggerArg); };
 auto pOnRender_Radio		= [](void *pControl) { ((CWindowControl_Radio*) pControl)->render(); };
 
 // event binding
-void					CWindowControl_Radio::bindEvents(void)
+void		CWindowControl_Radio::bindEvents(void)
 {
 	storeEventBoundFunction(getWindow()->bindEvent(EVENT_onLeftMouseUp, pOnMouseUp_Radio, this));
 	storeEventBoundFunction(getWindow()->bindEvent(EVENT_onRender, pOnRender_Radio, this));
 }
 
 // input
-void		CWindowControl_Radio::onMouseUp(CVector2ui32& vecCursorPosition)
+void		CWindowControl_Radio::onMouseUp(CVector2i32& vecCursorPosition)
 {
 	if (isPointInControl(vecCursorPosition))
 	{
@@ -33,7 +33,7 @@ void		CWindowControl_Radio::onMouseUp(CVector2ui32& vecCursorPosition)
 void		CWindowControl_Radio::render(void)
 {
 	float32 fRadius = getIconRadius();
-	CVector2ui32 vecCircleCenterPosition = getIconCenterPosition();
+	CVector2i32 vecCircleCenterPosition = getIconCenterPosition();
 	if (isChecked())
 	{
 		CGDIPlusUtility::drawCircleFill(vecCircleCenterPosition, fRadius, 0x0000FFFF);
@@ -47,15 +47,15 @@ void		CWindowControl_Radio::render(void)
 }
 
 // cursor
-bool		CWindowControl_Radio::isPointInControl(CVector2ui32& vecPoint)
+bool			CWindowControl_Radio::isPointInControl(CVector2i32& vecPoint)
 {
 	return CMathUtility::isPointInRectangle(vecPoint, getPosition(), getSizeWithText());
 }
 
 // position
-CVector2ui32	CWindowControl_Radio::getIconCenterPosition(void)
+CVector2i32		CWindowControl_Radio::getIconCenterPosition(void)
 {
-	return CVector2ui32(CMathUtility::getEllipseFromRectangle(getPosition(), getSize()));
+	return CMathUtility::getEllipseFromRectangle(getPosition(), getSize());
 }
 
 // size
@@ -70,9 +70,9 @@ uint32			CWindowControl_Radio::getIconRadius(void)
 }
 
 // text
-CVector2ui32	CWindowControl_Radio::getTextPosition(void)
+CVector2i32		CWindowControl_Radio::getTextPosition(void)
 {
-	return CVector2ui32(getPosition().m_x + getSize().m_x + getIconRightMargin(), getPosition().m_y);
+	return CVector2i32(getPosition().m_x + getSize().m_x + getIconRightMargin(), getPosition().m_y);
 }
 
 CVector2ui32	CWindowControl_Radio::getTextSize(void)

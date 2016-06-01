@@ -24,18 +24,18 @@ public:
 
 	void									bindEvents(void);
 
-	void									onMouseUp(CVector2ui32& vecCursorPosition);
+	void									onMouseUp(CVector2i32& vecCursorPosition);
 
 	void									render(void);
 
-	bool									isPointInControl(CVector2ui32& vecPoint);
-	bool									isPointInSelectionList(CVector2ui32& vecPoint);
+	bool									isPointInControl(CVector2i32& vecPoint);
+	bool									isPointInSelectionList(CVector2i32& vecPoint);
 
-	CVector2ui32							getSelectionListPosition(void);
+	CVector2i32								getSelectionListPosition(void);
 	CVector2ui32							getSelectionListSize(void);
-	CVector2ui32							getSelectionListEntryPosition(uint32 uiEntryIndex);
+	CVector2i32								getSelectionListEntryPosition(uint32 uiEntryIndex);
 	CVector2ui32							getSelectionListEntrySize(void);
-	uint32									getSelectionListEntryFromPoint(CVector2ui32& vecCursorPosition);
+	uint32									getSelectionListEntryFromPoint(CVector2i32& vecCursorPosition);
 
 	void									setSelectedIndex(uint32 uiSelectedIndex) { m_uiSelectedIndex = uiSelectedIndex; }
 	uint32									getSelectedIndex(void) { return m_uiSelectedIndex; }

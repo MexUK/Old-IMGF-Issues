@@ -11,6 +11,12 @@ public:
 	CVector2ui32(void) : CVector2() {};
 	CVector2ui32(uint32 x, uint32 y) : CVector2(x, y) {};
 
+	CVector2ui32(const CVector2& vecVector2)
+	{
+		m_x = vecVector2.m_x;
+		m_y = vecVector2.m_y;
+	}
+
 	CVector2ui32	operator+(const CVector2& vecVector2)
 	{
 		CVector2ui32 vecVector1;
