@@ -122,12 +122,6 @@ void					CKGMWindow::onRender(void)
 		CGDIPlusUtility::drawRectangleFill(CVector2ui32(38, uiButtonY), CVector2ui32(172, 40), uiFillColour);
 		uiButtonY += 40;
 	}
-
-	// render controls
-	for (CWindowControl *pWindowControl : getControls().getEntries())
-	{
-		pWindowControl->render();
-	}
 }
 
 // input processing
