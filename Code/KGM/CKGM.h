@@ -13,12 +13,12 @@ uint32 WINAPI		onInitializationThreadStart(void *pThreadParameter);
 class CMainWindow;
 class CWindow;
 class CWindowTab;
-class CEntryListWindow;
-class CEntryListWindowTab;
+class CIMGScreen;
+class CIMGScreenTab;
 
 class CSessionManager;
 class CRecentlyOpenManager;
-class CGUIManager;
+class CPopupGUIManager;
 class CTaskManager;
 class CLSTProcessingManager;
 class CLocalizationManager;
@@ -44,21 +44,20 @@ public:
 
 	void						_init(void);
 
-	void						openMainWindow(void);
+	void						openWindow(void);
 	void						processWindows(void);
 	
 	CBuildMeta&					getBuildMeta(void) { return m_buildMeta; }
 	CInstallationMeta&			getInstallationMeta(void) { return m_installationMeta; }
-	
-	CMainWindow*				getMainWindow(void);
+
 	CWindow*					getActiveWindow(void);
 	CWindowTab*					getActiveTab(void);
-	CEntryListWindow*			getEntryListWindow(void);
-	CEntryListWindowTab*		getEntryListTab(void);
+	CIMGScreen*			getIMGScreen(void);
+	CIMGScreenTab*		getEntryListTab(void);
 	
 	CDumpManager*				getDumpManager(void) { return m_pDumpManager; }
 	CEntryViewerManager*		getEntryViewerManager(void) { return m_pEntryViewerManager; }
-	CGUIManager*				getGUIManager(void) { return m_pGUIManager; }
+	CPopupGUIManager*			getPopupGUIManager(void) { return m_pPopupGUIManager; }
 	CLanguageManager*			getLanguageManager(void) { return m_pLanguageManager; }
 	CLSTProcessingManager*		getLSTProcessingManager(void) { return m_pLSTProcessingManager; }
 	CWindowManager*				getWindowManager(void) { return m_pWindowManager; }
@@ -98,7 +97,7 @@ private:
 
 	CDumpManager*				m_pDumpManager;
 	CEntryViewerManager*		m_pEntryViewerManager;
-	CGUIManager*				m_pGUIManager;
+	CPopupGUIManager*			m_pPopupGUIManager;
 	CLanguageManager*			m_pLanguageManager;
 	CLSTProcessingManager*		m_pLSTProcessingManager;
 	CWindowManager*				m_pWindowManager;

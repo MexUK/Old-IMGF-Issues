@@ -12,14 +12,14 @@ public:
 		m_pIMGEntry(nullptr)
 	{};
 
-	void						setWindowTab(CEntryListWindowTab* pWindowTab) { m_pWindowTab = pWindowTab; }
-	CEntryListWindowTab*		getWindowTab(void) { return m_pWindowTab; }
+	void						setWindowTab(CIMGScreenTab* pWindowTab) { m_pWindowTab = pWindowTab; }
+	CIMGScreenTab*		getWindowTab(void) { return m_pWindowTab; }
 
 	void						setIMGEntry(CIMGEntry* pIMGEntry) { m_pIMGEntry = pIMGEntry; }
 	CIMGEntry*					getIMGEntry(void) { return m_pIMGEntry; }
 
 private:
-	CEntryListWindowTab*		m_pWindowTab;
+	CIMGScreenTab*		m_pWindowTab;
 	CIMGEntry*					m_pIMGEntry;
 };
 

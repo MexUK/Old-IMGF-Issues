@@ -3,9 +3,9 @@
 #include "CDumpManager.h"
 #include "CKGM.h"
 #include "Globals.h"
-#include "Window/Window Types/CEntryListWindow.h"
-#include "Window/Window Types/Tabs/CEntryListWindowTab.h"
-#include "CGUIManager.h"
+#include "GUI/Screens/CIMGScreen.h"
+#include "GUI/ScreenTabs/CIMGScreenTab.h"
+#include "CPopupGUIManager.h"
 #include "IMG/CIMGFormat.h"
 #include "GUI/CGUIUtility.h"
 #include "Path/CPathUtility.h"
@@ -80,7 +80,7 @@ int GetEncoderClsid(const WCHAR* format, CLSID* pClsid)
 void		CDumpManager::process(void)
 {
 	getKGM()->getTaskManager()->onTaskPause();
-	CDumpDialogData *pDumpDialogData = getKGM()->getGUIManager()->showDumpDialog(getKGM()->getLastUsedDirectory("DUMP__DAT"), getKGM()->getLastUsedDirectory("DUMP__Destination"));
+	CDumpDialogData *pDumpDialogData = getKGM()->getPopupGUIManager()->showDumpDialog(getKGM()->getLastUsedDirectory("DUMP__DAT"), getKGM()->getLastUsedDirectory("DUMP__Destination"));
 	getKGM()->getTaskManager()->onTaskUnpause();
 	if (!pDumpDialogData->m_bResult)
 	{
@@ -120,7 +120,7 @@ void		CDumpManager::process(void)
 	}
 	else if (pDumpDialogData->m_uiDumpType == 1) // All entries in all tabs
 	{
-		veCIMGFormats = getKGM()->getEntryListWindow()->getAllMainWindowTabsIMGFiles();
+		veCIMGFormats = getKGM()->getIMGScreen()->getAllMainWindowTabsIMGFiles();
 	}
 	else if (pDumpDialogData->m_uiDumpType == 2) // DAT file
 	{
@@ -884,31 +884,31 @@ void		CDumpManager::process(void)
 		uint32 uiIMGFileCount = veCIMGFormats.size();
 		if (pDumpDialogData->m_uiDumpType == 2)
 		{
-			getKGM()->getEntryListWindow()->logWithNoTabsOpen(CLocalizationManager::getInstance()->getTranslatedFormattedText("Log_10", uiDumpedFileCount, uiIMGFileCount));
+			getKGM()->getIMGScreen()->logWithNoTabsOpen(CLocalizationManager::getInstance()->getTranslatedFormattedText("Log_10", uiDumpedFileCount, uiIMGFileCount));
 		}
 		else
 		{
-			getKGM()->getEntryListWindow()->logWithNoTabsOpen(CLocalizationManager::getInstance()->getTranslatedFormattedText("Log_11", uiDumpedFileCount, uiIMGFileCount));
+			getKGM()->getIMGScreen()->logWithNoTabsOpen(CLocalizationManager::getInstance()->getTranslatedFormattedText("Log_11", uiDumpedFileCount, uiIMGFileCount));
 		}
-		getKGM()->getEntryListWindow()->logWithNoTabsOpen(CLocalizationManager::getInstance()->getTranslatedText("Log_12"), true);
-		getKGM()->getEntryListWindow()->logWithNoTabsOpen(CLocalizationManager::getInstance()->getTranslatedFormattedText("Log_13", vecDumpedEntryNames.size()), true);
-		getKGM()->getEntryListWindow()->logWithNoTabsOpen(CLocalizationManager::getInstance()->getTranslatedFormattedText("Log_14", uiDumpedTextureCount), true);
-		getKGM()->getEntryListWindow()->logWithNoTabsOpen(CLocalizationManager::getInstance()->getTranslatedText("Log_15"), true);
-		getKGM()->getEntryListWindow()->logWithNoTabsOpen(CStringUtility::join(vecCorruptTXDs, "\n"), true);
-		getKGM()->getEntryListWindow()->logWithNoTabsOpen(CLocalizationManager::getInstance()->getTranslatedText("Log_16"), true);
-		getKGM()->getEntryListWindow()->logWithNoTabsOpen(CStringUtility::join(vecTooLargeTXDs, "\n"), true);
-		getKGM()->getEntryListWindow()->logWithNoTabsOpen(CLocalizationManager::getInstance()->getTranslatedText("Log_17"), true);
-		getKGM()->getEntryListWindow()->logWithNoTabsOpen(CStringUtility::join(vecTXDsContainingTooManyTextures, "\n"), true);
-		getKGM()->getEntryListWindow()->logWithNoTabsOpen(CLocalizationManager::getInstance()->getTranslatedText("Log_18"), true);
-		getKGM()->getEntryListWindow()->logWithNoTabsOpen(CStringUtility::join(vecInvalidResolutionTXDs, "\n"), true);
-		getKGM()->getEntryListWindow()->logWithNoTabsOpen(CLocalizationManager::getInstance()->getTranslatedText("Log_19"), true);
-		getKGM()->getEntryListWindow()->logWithNoTabsOpen(CStringUtility::join(vecInvalidTextureNames, "\n"), true);
-		getKGM()->getEntryListWindow()->logWithNoTabsOpen(CLocalizationManager::getInstance()->getTranslatedText("Log_20"), true);
-		getKGM()->getEntryListWindow()->logWithNoTabsOpen(CStringUtility::join(vecDumpedEntryNames, "\n"), true);
-		getKGM()->getEntryListWindow()->logWithNoTabsOpen(CLocalizationManager::getInstance()->getTranslatedText("Log_21"), true);
-		getKGM()->getEntryListWindow()->logWithNoTabsOpen(CStringUtility::join(vecTextureNames, "\n"), true);
-		getKGM()->getEntryListWindow()->logWithNoTabsOpen(CLocalizationManager::getInstance()->getTranslatedText("Log_22"), true);
-		getKGM()->getEntryListWindow()->logWithNoTabsOpen(CStringUtility::join(vecMipmapSkippedEntries, "\n"), true);
+		getKGM()->getIMGScreen()->logWithNoTabsOpen(CLocalizationManager::getInstance()->getTranslatedText("Log_12"), true);
+		getKGM()->getIMGScreen()->logWithNoTabsOpen(CLocalizationManager::getInstance()->getTranslatedFormattedText("Log_13", vecDumpedEntryNames.size()), true);
+		getKGM()->getIMGScreen()->logWithNoTabsOpen(CLocalizationManager::getInstance()->getTranslatedFormattedText("Log_14", uiDumpedTextureCount), true);
+		getKGM()->getIMGScreen()->logWithNoTabsOpen(CLocalizationManager::getInstance()->getTranslatedText("Log_15"), true);
+		getKGM()->getIMGScreen()->logWithNoTabsOpen(CStringUtility::join(vecCorruptTXDs, "\n"), true);
+		getKGM()->getIMGScreen()->logWithNoTabsOpen(CLocalizationManager::getInstance()->getTranslatedText("Log_16"), true);
+		getKGM()->getIMGScreen()->logWithNoTabsOpen(CStringUtility::join(vecTooLargeTXDs, "\n"), true);
+		getKGM()->getIMGScreen()->logWithNoTabsOpen(CLocalizationManager::getInstance()->getTranslatedText("Log_17"), true);
+		getKGM()->getIMGScreen()->logWithNoTabsOpen(CStringUtility::join(vecTXDsContainingTooManyTextures, "\n"), true);
+		getKGM()->getIMGScreen()->logWithNoTabsOpen(CLocalizationManager::getInstance()->getTranslatedText("Log_18"), true);
+		getKGM()->getIMGScreen()->logWithNoTabsOpen(CStringUtility::join(vecInvalidResolutionTXDs, "\n"), true);
+		getKGM()->getIMGScreen()->logWithNoTabsOpen(CLocalizationManager::getInstance()->getTranslatedText("Log_19"), true);
+		getKGM()->getIMGScreen()->logWithNoTabsOpen(CStringUtility::join(vecInvalidTextureNames, "\n"), true);
+		getKGM()->getIMGScreen()->logWithNoTabsOpen(CLocalizationManager::getInstance()->getTranslatedText("Log_20"), true);
+		getKGM()->getIMGScreen()->logWithNoTabsOpen(CStringUtility::join(vecDumpedEntryNames, "\n"), true);
+		getKGM()->getIMGScreen()->logWithNoTabsOpen(CLocalizationManager::getInstance()->getTranslatedText("Log_21"), true);
+		getKGM()->getIMGScreen()->logWithNoTabsOpen(CStringUtility::join(vecTextureNames, "\n"), true);
+		getKGM()->getIMGScreen()->logWithNoTabsOpen(CLocalizationManager::getInstance()->getTranslatedText("Log_22"), true);
+		getKGM()->getIMGScreen()->logWithNoTabsOpen(CStringUtility::join(vecMipmapSkippedEntries, "\n"), true);
 	}
 
 	// results popup
@@ -935,7 +935,7 @@ void		CDumpManager::process(void)
 		pDumpResultsDialogData->m_uiTXDCountExceededTextureCountLimit = vecTXDsContainingTooManyTextures.size();
 		pDumpResultsDialogData->m_uiMipmapSkippedCount = vecMipmapSkippedEntries.size();
 		getKGM()->getTaskManager()->onTaskPause();
-		getKGM()->getGUIManager()->showDumpResultsDialog(pDumpResultsDialogData);
+		getKGM()->getPopupGUIManager()->showDumpResultsDialog(pDumpResultsDialogData);
 		getKGM()->getTaskManager()->onTaskUnpause();
 
 		if (pDumpResultsDialogData->m_bOpenAdvancedLog)

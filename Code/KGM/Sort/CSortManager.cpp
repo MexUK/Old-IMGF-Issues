@@ -14,7 +14,7 @@
 #include "CSortType.h"
 #include "eSortType.h"
 #include "GUI/CGUIUtility.h"
-#include "CGUIManager.h"
+#include "CPopupGUIManager.h"
 #include "IDE/CIDEManager.h"
 #include "IDE/CIDEFormat.h"
 #include "COL/CCOLManager.h"
@@ -417,7 +417,7 @@ void		CSortManager::onClickMenuItem(uint16 usMenuHandle)
 		}
 		else if (pSortMenuItem->m_pType->getType() == SORT_FILE_EXTENSIONS)
 		{
-			string strText = getKGM()->getGUIManager()->showTextInputDialog(CLocalizationManager::getInstance()->getTranslatedFormattedText("Sort_ByText", CLocalizationManager::getInstance()->getTranslatedTextW("Sort_Extensions").c_str()), CLocalizationManager::getInstance()->getTranslatedText("Window_TextInput_4_Message"));
+			string strText = getKGM()->getPopupGUIManager()->showTextInputDialog(CLocalizationManager::getInstance()->getTranslatedFormattedText("Sort_ByText", CLocalizationManager::getInstance()->getTranslatedTextW("Sort_Extensions").c_str()), CLocalizationManager::getInstance()->getTranslatedText("Window_TextInput_4_Message"));
 			if (strText == "")
 			{
 				bCancel = true;

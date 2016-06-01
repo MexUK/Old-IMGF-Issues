@@ -11,8 +11,8 @@
 #include "Path/CPathUtility.h"
 #include "Task/CTaskManager.h"
 #include "Task/CTaskDispatchManager.h"
-#include "Window/Window Types/CEntryListWindow.h"
-#include "Window/Window Types/Tabs/CEntryListWindowTab.h"
+#include "GUI/Screens/CIMGScreen.h"
+#include "GUI/ScreenTabs/CIMGScreenTab.h"
 #include "COL/CCOLManager.h"
 #include "COL/CCOLFormat.h"
 #include "COL/CCOLEntry.h"
@@ -124,7 +124,7 @@ void		CLSTProcessingManager::process(CLSTFormat *pLSTFile)
 			else if (strCommandUpper == "REBUILD")
 			{
 				getKGM()->getEntryListTab()->rebuild();
-				getKGM()->getEntryListWindow()->refreshActiveTab();
+				getKGM()->getIMGScreen()->refreshActiveTab();
 				getKGM()->getEntryListTab()->log(CLocalizationManager::getInstance()->getTranslatedText("Log_36"));
 			}
 		}

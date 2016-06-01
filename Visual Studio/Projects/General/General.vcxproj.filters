@@ -61,6 +61,48 @@
     <Filter Include="Source Files\File Format\ICO">
       <UniqueIdentifier>{6d3e17e2-396a-465b-983b-4f3058e4b7ca}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Header Files\GUI">
+      <UniqueIdentifier>{5e72218f-ae6a-49f9-841a-30aecf9a0a8f}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\GUI">
+      <UniqueIdentifier>{26ffa4f1-c749-46bb-96db-c17fe039243d}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\GUI\Control">
+      <UniqueIdentifier>{358f6f45-df96-4970-9b08-66721886a568}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\GUI\Controls">
+      <UniqueIdentifier>{4b03550f-4c7a-4c7d-9a32-888fb6f71dfa}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\GUI\Tab">
+      <UniqueIdentifier>{15bc353d-21a3-411b-9226-d8313c874402}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\GUI\Window">
+      <UniqueIdentifier>{e018a109-b6a9-4ab9-92a4-8c6d9cc42fe5}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\GUI\Control">
+      <UniqueIdentifier>{0bf7f9da-5891-4397-9d3c-4d61f1dcbc2f}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\GUI\Controls">
+      <UniqueIdentifier>{e457ab54-76cc-4d53-86cf-a6915abeca99}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\GUI\Tab">
+      <UniqueIdentifier>{613da06c-2f3b-415c-8982-c4c306d3b8b5}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\GUI\Window">
+      <UniqueIdentifier>{3a3fd0cf-daaa-4d82-af6f-0c359f7735f7}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\GUI\Controls\Components">
+      <UniqueIdentifier>{4274bd65-dfc6-445c-9023-3998ace5aeab}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\GUI\Controls\Entries">
+      <UniqueIdentifier>{bfb4c94c-ecba-4170-ad5c-729a402fe965}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\GUI\Controls\Components">
+      <UniqueIdentifier>{48d2a535-3d41-446c-bc6e-c7b64e9759dc}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\GUI\Controls\Entries">
+      <UniqueIdentifier>{d9052526-fbaa-4ad8-8e89-96c004f7d6bb}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\..\..\Code\General\Image\CRasterDataFormatManager.cpp">
@@ -104,6 +146,51 @@
     </ClCompile>
     <ClCompile Include="..\..\..\Code\General\File Format\ICO\CICOManager.cpp">
       <Filter>Source Files\File Format\ICO</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\Code\General\GUI\CGUIManager.cpp">
+      <Filter>Source Files\GUI</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\Code\General\GUI\Control\CWindowControl.cpp">
+      <Filter>Source Files\GUI\Control</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\Code\General\GUI\Tab\CWindowTab.cpp">
+      <Filter>Source Files\GUI\Tab</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\Code\General\GUI\Window\CWindow.cpp">
+      <Filter>Source Files\GUI\Window</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\Code\General\GUI\Window\CTabbedWindow.cpp">
+      <Filter>Source Files\GUI\Window</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\Code\General\GUI\Controls\CWindowControl_Progress.cpp">
+      <Filter>Source Files\GUI\Controls</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\Code\General\GUI\Controls\CWindowControl_Radio.cpp">
+      <Filter>Source Files\GUI\Controls</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\Code\General\GUI\Controls\CWindowControl_Scroll.cpp">
+      <Filter>Source Files\GUI\Controls</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\Code\General\GUI\Controls\CWindowControl_Text.cpp">
+      <Filter>Source Files\GUI\Controls</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\Code\General\GUI\Controls\CWindowControl_Button.cpp">
+      <Filter>Source Files\GUI\Controls</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\Code\General\GUI\Controls\CWindowControl_Check.cpp">
+      <Filter>Source Files\GUI\Controls</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\Code\General\GUI\Controls\CWindowControl_Drop.cpp">
+      <Filter>Source Files\GUI\Controls</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\Code\General\GUI\Controls\CWindowControl_Edit.cpp">
+      <Filter>Source Files\GUI\Controls</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\Code\General\GUI\Controls\CWindowControl_List.cpp">
+      <Filter>Source Files\GUI\Controls</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\Code\General\GUI\Controls\CWindowControl_Menu.cpp">
+      <Filter>Source Files\GUI\Controls</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -196,6 +283,75 @@
     </ClInclude>
     <ClInclude Include="..\..\..\Code\General\File Format\ICO\CICOManager.h">
       <Filter>Header Files\File Format\ICO</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\Code\General\GUI\CGUIManager.h">
+      <Filter>Header Files\GUI</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\Code\General\GUI\Control\CWindowScrollPool.h">
+      <Filter>Header Files\GUI\Control</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\Code\General\GUI\Control\eWindowControlType.h">
+      <Filter>Header Files\GUI\Control</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\Code\General\GUI\Control\CWindowControl.h">
+      <Filter>Header Files\GUI\Control</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\Code\General\GUI\Tab\CWindowTab.h">
+      <Filter>Header Files\GUI\Tab</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\Code\General\GUI\Window\CTabbedWindow.h">
+      <Filter>Header Files\GUI\Window</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\Code\General\GUI\Window\CWindow.h">
+      <Filter>Header Files\GUI\Window</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\Code\General\GUI\Controls\CWindowControl_Progress.h">
+      <Filter>Header Files\GUI\Controls</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\Code\General\GUI\Controls\CWindowControl_Radio.h">
+      <Filter>Header Files\GUI\Controls</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\Code\General\GUI\Controls\CWindowControl_Scroll.h">
+      <Filter>Header Files\GUI\Controls</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\Code\General\GUI\Controls\CWindowControl_Text.h">
+      <Filter>Header Files\GUI\Controls</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\Code\General\GUI\Controls\CWindowControl_Button.h">
+      <Filter>Header Files\GUI\Controls</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\Code\General\GUI\Controls\CWindowControl_Check.h">
+      <Filter>Header Files\GUI\Controls</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\Code\General\GUI\Controls\CWindowControl_Drop.h">
+      <Filter>Header Files\GUI\Controls</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\Code\General\GUI\Controls\CWindowControl_Edit.h">
+      <Filter>Header Files\GUI\Controls</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\Code\General\GUI\Controls\CWindowControl_List.h">
+      <Filter>Header Files\GUI\Controls</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\Code\General\GUI\Controls\CWindowControl_Menu.h">
+      <Filter>Header Files\GUI\Controls</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\Code\General\GUI\Controls\Components\CWindowControlComponent_Text.h">
+      <Filter>Header Files\GUI\Controls\Components</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\Code\General\GUI\Controls\Components\eWindowControlOrientation.h">
+      <Filter>Header Files\GUI\Controls\Components</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\Code\General\GUI\Controls\Components\CWindowControlComponent_Rectangle.h">
+      <Filter>Header Files\GUI\Controls\Components</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\Code\General\GUI\Controls\Entries\CWindowControlEntry_Drop.h">
+      <Filter>Header Files\GUI\Controls\Entries</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\Code\General\GUI\Controls\Entries\CWindowControlEntry_List.h">
+      <Filter>Header Files\GUI\Controls\Entries</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\Code\General\GUI\Controls\Entries\CWindowControlEntry_Menu.h">
+      <Filter>Header Files\GUI\Controls\Entries</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

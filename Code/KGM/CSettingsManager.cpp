@@ -3,7 +3,7 @@
 #include "CSettingsManager.h"
 #include "CKGM.h"
 #include "Globals.h"
-#include "CGUIManager.h"
+#include "CPopupGUIManager.h"
 #include "Registry/CRegistryUtility.h"
 #include "IMG/CIMGEntry.h"
 #include "INI/CINIUtility.h"

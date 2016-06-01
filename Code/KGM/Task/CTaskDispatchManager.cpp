@@ -10,8 +10,8 @@
 #include "Path/CPathUtility.h"
 #include "File/CFileUtility.h"
 #include "Registry/CRegistryUtility.h"
-#include "Window/Window Types/CEntryListWindow.h"
-#include "Window/Window Types/Tabs/CEntryListWindowTab.h"
+#include "GUI/Screens/CIMGScreen.h"
+#include "GUI/ScreenTabs/CIMGScreenTab.h"
 #include "IMG/CIMGManager.h"
 #include "IMG/CIMGFormat.h"
 #include "IMG/CIMGEntry.h"
@@ -44,7 +44,7 @@
 #include "Engine/RW/CRWManager.h"
 #include "Recently Open/CRecentlyOpenManager.h"
 #include "Session/CSessionManager.h"
-#include "CGUIManager.h"
+#include "CPopupGUIManager.h"
 #include "CLSTProcessingManager.h"
 #include "CDumpManager.h"
 #include "CSettingsManager.h"
@@ -198,13 +198,13 @@ void		CTaskDispatchManager::onRequestOpen2(string strPath)
 		}
 	}
 
-	getKGM()->getEntryListWindow()->addTab(strPath, eIMGVersionValue);
+	getKGM()->getIMGScreen()->addTab(strPath, eIMGVersionValue);
 	getKGM()->getTaskManager()->onTaskEnd("onRequestOpen2");
 }
 void		CTaskDispatchManager::onRequestClose(void)
 {
 	getKGM()->getTaskManager()->onTaskBegin("onRequestClose");
-	CEntryListWindowTab *pWindowTab = getKGM()->getEntryListTab();
+	CIMGScreenTab *pWindowTab = getKGM()->getEntryListTab();
 	if (!pWindowTab)
 	{
 		return;
@@ -222,7 +222,7 @@ void		CTaskDispatchManager::onRequestClose(void)
 		getKGM()->getTaskManager()->onTaskUnpause();
 	}
 
-	getKGM()->getEntryListWindow()->removeTab(pWindowTab);
+	getKGM()->getIMGScreen()->removeTab(pWindowTab);
 
 	getKGM()->getTaskManager()->onTaskEnd("onRequestClose");
 }
@@ -241,12 +241,12 @@ void		CTaskDispatchManager::onRequestCloseAll(void)
 		getKGM()->getTaskManager()->onTaskUnpause();
 	}
 
-	while (getKGM()->getEntryListWindow()->getEntryCount() > 0) // todo - change to removeAllEntries or something assuming all stuff in removeTab() still gets ran somewhere
+	while (getKGM()->getIMGScreen()->getEntryCount() > 0) // todo - change to removeAllEntries or something assuming all stuff in removeTab() still gets ran somewhere
 	{
-		getKGM()->getEntryListWindow()->removeTab(getKGM()->getEntryListWindow()->getEntryByIndex(0));
+		getKGM()->getIMGScreen()->removeTab(getKGM()->getIMGScreen()->getEntryByIndex(0));
 	}
 
-	getKGM()->getEntryListWindow()->setActiveTab(nullptr);
+	getKGM()->getIMGScreen()->setActiveTab(nullptr);
 	getKGM()->getTaskManager()->onTaskEnd("onRequestCloseAll");
 }
 void		CTaskDispatchManager::onRequestExitTool(void)
@@ -380,7 +380,7 @@ void		CTaskDispatchManager::onRequestRenameEntry(void)
 	bool bMultipleEntries = pListControl->GetSelectedCount() > 1;
 	string strOldName = pIMGEntry->getEntryName();
 	getKGM()->getTaskManager()->onTaskPause();
-	string strNewName = getKGM()->getGUIManager()->showTextInputDialog(CLocalizationManager::getInstance()->getTranslatedText("Window_TextInput_1_Title"), CLocalizationManager::getInstance()->getTranslatedFormattedText("Window_TextInput_1_Message", pListControl->GetSelectedCount()), pIMGEntry->getEntryName());
+	string strNewName = getKGM()->getPopupGUIManager()->showTextInputDialog(CLocalizationManager::getInstance()->getTranslatedText("Window_TextInput_1_Title"), CLocalizationManager::getInstance()->getTranslatedFormattedText("Window_TextInput_1_Message", pListControl->GetSelectedCount()), pIMGEntry->getEntryName());
 	getKGM()->getTaskManager()->onTaskUnpause();
 	if (strNewName == "")
 	{
@@ -499,7 +499,7 @@ void		CTaskDispatchManager::onRequestRebuild(void)
 	}
 
 	getKGM()->getEntryListTab()->rebuild();
-	getKGM()->getEntryListWindow()->refreshActiveTab();
+	getKGM()->getIMGScreen()->refreshActiveTab();
 
 	getKGM()->getEntryListTab()->checkForUnknownRWVersionEntries();
 	getKGM()->getTaskManager()->onTaskEnd("onRequestRebuild");
@@ -525,7 +525,7 @@ void		CTaskDispatchManager::onRequestRebuildAs(void)
 
 	getKGM()->getEntryListTab()->rebuild(strIMGPath, false);
 	getKGM()->getEntryListTab()->log(CLocalizationManager::getInstance()->getTranslatedFormattedText("Log_59", CPathUtility::getFileName(strIMGPath).c_str()));
-	getKGM()->getEntryListWindow()->refreshActiveTab();
+	getKGM()->getIMGScreen()->refreshActiveTab();
 
 	getKGM()->getEntryListTab()->checkForUnknownRWVersionEntries();
 	getKGM()->getTaskManager()->onTaskEnd("onRequestRebuildAs");
@@ -540,16 +540,16 @@ void		CTaskDispatchManager::onRequestRebuildAll(void)
 	}
 
 	vector<string> vecIMGPaths;
-	for (auto pWindowTab : getKGM()->getEntryListWindow()->getEntries())
+	for (auto pWindowTab : getKGM()->getIMGScreen()->getEntries())
 	{
-		vecIMGPaths.push_back(((CEntryListWindowTab*)pWindowTab)->getIMGFile()->getFilePath());
-		((CEntryListWindowTab*)pWindowTab)->rebuild("", false);
+		vecIMGPaths.push_back(((CIMGScreenTab*)pWindowTab)->getIMGFile()->getFilePath());
+		((CIMGScreenTab*)pWindowTab)->rebuild("", false);
 	}
-	getKGM()->getEntryListWindow()->logAllTabs(CLocalizationManager::getInstance()->getTranslatedFormattedText("LogAllTabs_1", getKGM()->getEntryListWindow()->getEntryCount()));
-	getKGM()->getEntryListWindow()->logAllTabs(CLocalizationManager::getInstance()->getTranslatedText("LogAllTabs_2"), true);
-	getKGM()->getEntryListWindow()->logAllTabs(CStringUtility::join(vecIMGPaths, "\n"), true);
+	getKGM()->getIMGScreen()->logAllTabs(CLocalizationManager::getInstance()->getTranslatedFormattedText("LogAllTabs_1", getKGM()->getIMGScreen()->getEntryCount()));
+	getKGM()->getIMGScreen()->logAllTabs(CLocalizationManager::getInstance()->getTranslatedText("LogAllTabs_2"), true);
+	getKGM()->getIMGScreen()->logAllTabs(CStringUtility::join(vecIMGPaths, "\n"), true);
 
-	getKGM()->getEntryListWindow()->refreshActiveTab();
+	getKGM()->getIMGScreen()->refreshActiveTab();
 
 	getKGM()->getEntryListTab()->checkForUnknownRWVersionEntries();
 	getKGM()->getTaskManager()->onTaskEnd("onRequestRebuildAll");
@@ -573,7 +573,7 @@ void		CTaskDispatchManager::onRequestConvertIMGVersion(eIMGVersion eIMGVersionVa
 	bool bConvertEntries = false;
 	if (ePreviousIMGVersion != IMG_FASTMAN92 && eIMGVersionValue != IMG_FASTMAN92)
 	{
-		bConvertEntries = getKGM()->getGUIManager()->showConfirmDialog("Also convert entries to appropriate game version?", "Convert Entries?");
+		bConvertEntries = getKGM()->getPopupGUIManager()->showConfirmDialog("Also convert entries to appropriate game version?", "Convert Entries?");
 	}
 
 	// calculate progress bar tick count
@@ -792,7 +792,7 @@ void		CTaskDispatchManager::onRequestConvertIMGVersion(eIMGVersion eIMGVersionVa
 	}
 
 	// render
-	getKGM()->getEntryListWindow()->refreshActiveTab();
+	getKGM()->getIMGScreen()->refreshActiveTab();
 
 	// other
 	getKGM()->getEntryListTab()->setIMGModifiedSinceRebuild(true);
@@ -810,7 +810,7 @@ void		CTaskDispatchManager::onRequestConvertIMGVersionViaButton(void)
 	}
 
 	getKGM()->getTaskManager()->onTaskPause();
-	uint32 uiRadioButtonIndex = getKGM()->getGUIManager()->showConvertDialog("Convert IMG Version", CLocalizationManager::getInstance()->getTranslatedText("Convert"));
+	uint32 uiRadioButtonIndex = getKGM()->getPopupGUIManager()->showConvertDialog("Convert IMG Version", CLocalizationManager::getInstance()->getTranslatedText("Convert"));
 	getKGM()->getTaskManager()->onTaskUnpause(); 
 	if (uiRadioButtonIndex == 0xFFFFFFFF)
 	{
@@ -870,7 +870,7 @@ void		CTaskDispatchManager::onRequestMerge(void)
 	getKGM()->getEntryListTab()->log(CLocalizationManager::getInstance()->getTranslatedText("Log_63"), true);
 	getKGM()->getEntryListTab()->log(strExtendedLog, true);
 
-	getKGM()->getEntryListWindow()->refreshActiveTab();
+	getKGM()->getIMGScreen()->refreshActiveTab();
 
 	getKGM()->getEntryListTab()->setIMGModifiedSinceRebuild(true);
 	getKGM()->getTaskManager()->onTaskEnd("onRequestMerge");
@@ -885,7 +885,7 @@ void		CTaskDispatchManager::onRequestSplitViaButton(void)
 	}
 
 	getKGM()->getTaskManager()->onTaskPause();
-	uint32 uiRadioButtonIndex = getKGM()->getGUIManager()->showSplitViaDialog();
+	uint32 uiRadioButtonIndex = getKGM()->getPopupGUIManager()->showSplitViaDialog();
 	getKGM()->getTaskManager()->onTaskUnpause();
 	if (uiRadioButtonIndex == 0xFFFFFFFF)
 	{
@@ -916,7 +916,7 @@ void		CTaskDispatchManager::onRequestSplitSelectedEntries(void)
 		return;
 	}
 
-	if (getKGM()->getEntryListWindow()->getSelectedEntryCount() == 0)
+	if (getKGM()->getIMGScreen()->getSelectedEntryCount() == 0)
 	{
 		getKGM()->getTaskManager()->onTaskEnd("onRequestSplitSelectedEntries", true);
 		return;
@@ -933,7 +933,7 @@ void		CTaskDispatchManager::onRequestSplitSelectedEntries(void)
 	getKGM()->setLastUsedDirectory("SPLIT_SELECTED", strPath);
 
 	getKGM()->getTaskManager()->onTaskPause();
-	uint32 uiRadioButtonIndex = getKGM()->getGUIManager()->showConvertDialog("New IMG Version", CLocalizationManager::getInstance()->getTranslatedText("Save"));
+	uint32 uiRadioButtonIndex = getKGM()->getPopupGUIManager()->showConvertDialog("New IMG Version", CLocalizationManager::getInstance()->getTranslatedText("Save"));
 	getKGM()->getTaskManager()->onTaskUnpause();
 	if (uiRadioButtonIndex == 0xFFFFFFFF)
 	{
@@ -942,7 +942,7 @@ void		CTaskDispatchManager::onRequestSplitSelectedEntries(void)
 	}
 
 	getKGM()->getTaskManager()->onTaskPause();
-	bool bDeleteFromSource = getKGM()->getGUIManager()->showConfirmDialog(CLocalizationManager::getInstance()->getTranslatedText("Window_Confirm_1_Message"), CLocalizationManager::getInstance()->getTranslatedText("Window_Confirm_1_Title"));
+	bool bDeleteFromSource = getKGM()->getPopupGUIManager()->showConfirmDialog(CLocalizationManager::getInstance()->getTranslatedText("Window_Confirm_1_Message"), CLocalizationManager::getInstance()->getTranslatedText("Window_Confirm_1_Title"));
 	getKGM()->getTaskManager()->onTaskUnpause();
 
 	eIMGVersion eIMGVersionValue = IMG_UNKNOWN;
@@ -969,11 +969,11 @@ void		CTaskDispatchManager::onRequestSplitSelectedEntries(void)
 	getKGM()->getEntryListTab()->splitSelectedEntries(strPath, eIMGVersionValue, bDeleteFromSource, vecSplitEntryNames);
 	if(bDeleteFromSource)
 	{
-		getKGM()->getEntryListTab()->log(CLocalizationManager::getInstance()->getTranslatedFormattedText("Log_66", getKGM()->getEntryListWindow()->getSelectedEntryCount(), CPathUtility::getFileName(strPath).c_str(), CIMGManager::getIMGVersionNameWithGames(eIMGVersionValue, bIsEncrypted).c_str(), CPathUtility::getFileName(getKGM()->getEntryListTab()->getIMGFile()->getFilePath()).c_str()));
+		getKGM()->getEntryListTab()->log(CLocalizationManager::getInstance()->getTranslatedFormattedText("Log_66", getKGM()->getIMGScreen()->getSelectedEntryCount(), CPathUtility::getFileName(strPath).c_str(), CIMGManager::getIMGVersionNameWithGames(eIMGVersionValue, bIsEncrypted).c_str(), CPathUtility::getFileName(getKGM()->getEntryListTab()->getIMGFile()->getFilePath()).c_str()));
 	}
 	else
 	{
-		getKGM()->getEntryListTab()->log(CLocalizationManager::getInstance()->getTranslatedFormattedText("Log_65", getKGM()->getEntryListWindow()->getSelectedEntryCount(), CPathUtility::getFileName(strPath).c_str(), CIMGManager::getIMGVersionNameWithGames(eIMGVersionValue, bIsEncrypted).c_str(), CPathUtility::getFileName(getKGM()->getEntryListTab()->getIMGFile()->getFilePath()).c_str()));
+		getKGM()->getEntryListTab()->log(CLocalizationManager::getInstance()->getTranslatedFormattedText("Log_65", getKGM()->getIMGScreen()->getSelectedEntryCount(), CPathUtility::getFileName(strPath).c_str(), CIMGManager::getIMGVersionNameWithGames(eIMGVersionValue, bIsEncrypted).c_str(), CPathUtility::getFileName(getKGM()->getEntryListTab()->getIMGFile()->getFilePath()).c_str()));
 	}
 	getKGM()->getEntryListTab()->log(CLocalizationManager::getInstance()->getTranslatedText("Log_67"), true);
 	getKGM()->getEntryListTab()->log(CStringUtility::join(vecSplitEntryNames, "\n"), true);
@@ -1006,7 +1006,7 @@ void		CTaskDispatchManager::onRequestSplitViaIDEFile(void)
 	getKGM()->setLastUsedDirectory("SPLIT_IDE", strPath);
 
 	getKGM()->getTaskManager()->onTaskPause();
-	uint32 uiRadioButtonIndex = getKGM()->getGUIManager()->showConvertDialog("New IMG Version", CLocalizationManager::getInstance()->getTranslatedText("Save"));
+	uint32 uiRadioButtonIndex = getKGM()->getPopupGUIManager()->showConvertDialog("New IMG Version", CLocalizationManager::getInstance()->getTranslatedText("Save"));
 	getKGM()->getTaskManager()->onTaskUnpause();
 	if (uiRadioButtonIndex == 0xFFFFFFFF)
 	{
@@ -1025,7 +1025,7 @@ void		CTaskDispatchManager::onRequestSplitViaIDEFile(void)
 	getKGM()->setLastUsedDirectory("SPLIT_IDE", CPathUtility::getDirectory(vecPaths[0]));
 
 	getKGM()->getTaskManager()->onTaskPause();
-	bool bDeleteFromSource = getKGM()->getGUIManager()->showConfirmDialog(CLocalizationManager::getInstance()->getTranslatedText("Window_Confirm_1_Message"), CLocalizationManager::getInstance()->getTranslatedText("Window_Confirm_1_Title"));
+	bool bDeleteFromSource = getKGM()->getPopupGUIManager()->showConfirmDialog(CLocalizationManager::getInstance()->getTranslatedText("Window_Confirm_1_Message"), CLocalizationManager::getInstance()->getTranslatedText("Window_Confirm_1_Title"));
 	getKGM()->getTaskManager()->onTaskUnpause();
 	vector<string> vecEntryNamesWithoutExtension = CIDEManager::getIDEEntryNamesWithoutExtension(vecPaths);
 	vecEntryNamesWithoutExtension = CVectorUtility::toUpperCase(vecEntryNamesWithoutExtension);
@@ -1111,7 +1111,7 @@ void		CTaskDispatchManager::onRequestSplitViaTextLines(void)
 	getKGM()->setLastUsedDirectory("SPLIT_TEXTLINES", strPath);
 
 	getKGM()->getTaskManager()->onTaskPause();
-	uint32 uiRadioButtonIndex = getKGM()->getGUIManager()->showConvertDialog("New IMG Version", CLocalizationManager::getInstance()->getTranslatedText("Save"));
+	uint32 uiRadioButtonIndex = getKGM()->getPopupGUIManager()->showConvertDialog("New IMG Version", CLocalizationManager::getInstance()->getTranslatedText("Save"));
 	getKGM()->getTaskManager()->onTaskUnpause();
 	if (uiRadioButtonIndex == 0xFFFFFFFF)
 	{
@@ -1120,7 +1120,7 @@ void		CTaskDispatchManager::onRequestSplitViaTextLines(void)
 	}
 
 	getKGM()->getTaskManager()->onTaskPause();
-	string strData = getKGM()->getGUIManager()->showTextAreaDialog(CLocalizationManager::getInstance()->getTranslatedText("Window_TextArea_3_Title"), CLocalizationManager::getInstance()->getTranslatedText("Window_TextArea_3_Message"));
+	string strData = getKGM()->getPopupGUIManager()->showTextAreaDialog(CLocalizationManager::getInstance()->getTranslatedText("Window_TextArea_3_Title"), CLocalizationManager::getInstance()->getTranslatedText("Window_TextArea_3_Message"));
 	getKGM()->getTaskManager()->onTaskUnpause();
 	if (strData == "")
 	{
@@ -1129,7 +1129,7 @@ void		CTaskDispatchManager::onRequestSplitViaTextLines(void)
 	}
 
 	getKGM()->getTaskManager()->onTaskPause();
-	bool bDeleteFromSource = getKGM()->getGUIManager()->showConfirmDialog(CLocalizationManager::getInstance()->getTranslatedText("Window_Confirm_1_Message"), CLocalizationManager::getInstance()->getTranslatedText("Window_Confirm_1_Title"));
+	bool bDeleteFromSource = getKGM()->getPopupGUIManager()->showConfirmDialog(CLocalizationManager::getInstance()->getTranslatedText("Window_Confirm_1_Message"), CLocalizationManager::getInstance()->getTranslatedText("Window_Confirm_1_Title"));
 	getKGM()->getTaskManager()->onTaskUnpause();
 
 	vector<string> vecEntryNames;
@@ -1246,7 +1246,7 @@ void		CTaskDispatchManager::onRequestReplace(void)
 	if (getKGM()->getSettingsManager()->getSettingBool("AskBeforeOverwritingFiles"))
 	{
 		getKGM()->getTaskManager()->onTaskPause();
-		bOverwriteFiles = getKGM()->getGUIManager()->showConfirmDialog("Replace " + CStringUtility::toString(uiReplaceEntryCount) + " entr" + (uiReplaceEntryCount == 1 ? "y" : "ies") + "?", CLocalizationManager::getInstance()->getTranslatedText("Window_Confirm_2_Title"));
+		bOverwriteFiles = getKGM()->getPopupGUIManager()->showConfirmDialog("Replace " + CStringUtility::toString(uiReplaceEntryCount) + " entr" + (uiReplaceEntryCount == 1 ? "y" : "ies") + "?", CLocalizationManager::getInstance()->getTranslatedText("Window_Confirm_2_Title"));
 		getKGM()->getTaskManager()->onTaskUnpause();
 
 		if (!bOverwriteFiles)
@@ -1327,7 +1327,7 @@ void		CTaskDispatchManager::onRequestReplace(void)
 	getKGM()->getEntryListTab()->log(CLocalizationManager::getInstance()->getTranslatedText("EntriesForReplace"), true);
 	getKGM()->getEntryListTab()->log(CStringUtility::join(vecReplacedEntryNames, "\n"), true);
 
-	getKGM()->getEntryListWindow()->refreshActiveTab();
+	getKGM()->getIMGScreen()->refreshActiveTab();
 	getKGM()->getTaskManager()->onTaskEnd("onRequestReplace");
 	*/
 }
@@ -1421,11 +1421,11 @@ void		CTaskDispatchManager::onRequestSearchText(void) // from search box
 
 	if (bSearchInAllTabs)
 	{
-		getKGM()->getEntryListWindow()->logAllTabs(CLocalizationManager::getInstance()->getTranslatedFormattedText("LogAllTabs_3", getKGM()->getEntryListWindow()->getSearchHitCount(), getKGM()->getEntryListWindow()->getSearchFileCount()), true);
+		getKGM()->getIMGScreen()->logAllTabs(CLocalizationManager::getInstance()->getTranslatedFormattedText("LogAllTabs_3", getKGM()->getIMGScreen()->getSearchHitCount(), getKGM()->getIMGScreen()->getSearchFileCount()), true);
 	}
 	else
 	{
-		getKGM()->getEntryListTab()->log(CLocalizationManager::getInstance()->getTranslatedFormattedText("LogAllTabs_3", getKGM()->getEntryListWindow()->getSearchHitCount(), getKGM()->getEntryListWindow()->getSearchFileCount()), true);
+		getKGM()->getEntryListTab()->log(CLocalizationManager::getInstance()->getTranslatedFormattedText("LogAllTabs_3", getKGM()->getIMGScreen()->getSearchHitCount(), getKGM()->getIMGScreen()->getSearchFileCount()), true);
 	}
 	getKGM()->getTaskManager()->onTaskEnd("onRequestSearchText");
 	*/
@@ -1458,9 +1458,9 @@ void		CTaskDispatchManager::onRequestSearchSelection(void)
 
 		if (pSearchEntry->getWindowTab() != getKGM()->getEntryListTab())
 		{
-			getKGM()->getEntryListWindow()->setActiveTab(pSearchEntry->getWindowTab());
+			getKGM()->getIMGScreen()->setActiveTab(pSearchEntry->getWindowTab());
 		}
-		nItem2 = getKGM()->getEntryListWindow()->getMainListControlItemByEntry(pSearchEntry->getIMGEntry());
+		nItem2 = getKGM()->getIMGScreen()->getMainListControlItemByEntry(pSearchEntry->getIMGEntry());
 		pListControlMain->SetItemState(nItem2, LVIS_SELECTED, LVIS_SELECTED);
 		pListControlMain->SetSelectionMark(nItem2);
 	}
@@ -1512,7 +1512,7 @@ void		CTaskDispatchManager::onRequestFind(bool bFindInAllOpenedFiles) // from me
 	}
 
 	getKGM()->getTaskManager()->onTaskPause();
-	string strSearchText = getKGM()->getGUIManager()->showTextInputDialog(CLocalizationManager::getInstance()->getTranslatedText("Window_TextInput_2_Title"), CLocalizationManager::getInstance()->getTranslatedText("Window_TextInput_2_Message"));
+	string strSearchText = getKGM()->getPopupGUIManager()->showTextInputDialog(CLocalizationManager::getInstance()->getTranslatedText("Window_TextInput_2_Title"), CLocalizationManager::getInstance()->getTranslatedText("Window_TextInput_2_Message"));
 	getKGM()->getTaskManager()->onTaskUnpause();
 	
 	if (strSearchText == "")
@@ -1547,7 +1547,7 @@ void		CTaskDispatchManager::onRequestExportViaButton(void)
 	}
 
 	getKGM()->getTaskManager()->onTaskPause();
-	uint32 uiRadioButtonIndex = getKGM()->getGUIManager()->showExportViaDialog();
+	uint32 uiRadioButtonIndex = getKGM()->getPopupGUIManager()->showExportViaDialog();
 	getKGM()->getTaskManager()->onTaskUnpause();
 	if (uiRadioButtonIndex == 0xFFFFFFFF)
 	{
@@ -1635,7 +1635,7 @@ void		CTaskDispatchManager::onRequestExportViaTextLines(void)
 	}
 
 	getKGM()->getTaskManager()->onTaskPause();
-	string strData = getKGM()->getGUIManager()->showTextAreaDialog(CLocalizationManager::getInstance()->getTranslatedText("Window_TextArea_3_Title"), CLocalizationManager::getInstance()->getTranslatedText("Window_TextArea_3_Message"));
+	string strData = getKGM()->getPopupGUIManager()->showTextAreaDialog(CLocalizationManager::getInstance()->getTranslatedText("Window_TextArea_3_Title"), CLocalizationManager::getInstance()->getTranslatedText("Window_TextArea_3_Message"));
 	getKGM()->getTaskManager()->onTaskUnpause();
 	if (strData == "")
 	{
@@ -1710,7 +1710,7 @@ void		CTaskDispatchManager::onRequestSortButton(void)
 	}
 
 	getKGM()->getTaskManager()->onTaskPause();
-	vector<int> vecSortOptions = getKGM()->getGUIManager()->showSortOptionsDialog();
+	vector<int> vecSortOptions = getKGM()->getPopupGUIManager()->showSortOptionsDialog();
 	getKGM()->getTaskManager()->onTaskUnpause();
 	if (vecSortOptions[10] == -1)
 	{
@@ -1789,7 +1789,7 @@ void		CTaskDispatchManager::onRequestSortButton(void)
 		else if (vecSortOptions[i] == 8) // sort by file extensions
 		{
 			getKGM()->getTaskManager()->onTaskPause();
-			string strText = getKGM()->getGUIManager()->showTextInputDialog(CLocalizationManager::getInstance()->getTranslatedText("Window_TextInput_3_Title"), CLocalizationManager::getInstance()->getTranslatedText("Window_TextInput_4_Message"));
+			string strText = getKGM()->getPopupGUIManager()->showTextInputDialog(CLocalizationManager::getInstance()->getTranslatedText("Window_TextInput_3_Title"), CLocalizationManager::getInstance()->getTranslatedText("Window_TextInput_4_Message"));
 			getKGM()->getTaskManager()->onTaskUnpause();
 			if (strText == "")
 			{
@@ -1906,7 +1906,7 @@ void		CTaskDispatchManager::onRequestRemoveViaTextLines(void)
 	}
 
 	getKGM()->getTaskManager()->onTaskPause();
-	string strData = getKGM()->getGUIManager()->showTextAreaDialog(CLocalizationManager::getInstance()->getTranslatedText("Window_TextArea_4_Title"), CLocalizationManager::getInstance()->getTranslatedText("Window_TextArea_3_Message"));
+	string strData = getKGM()->getPopupGUIManager()->showTextAreaDialog(CLocalizationManager::getInstance()->getTranslatedText("Window_TextArea_4_Title"), CLocalizationManager::getInstance()->getTranslatedText("Window_TextArea_3_Message"));
 	getKGM()->getTaskManager()->onTaskUnpause();
 	if (strData == "")
 	{
@@ -1979,7 +1979,7 @@ void		CTaskDispatchManager::onRequestRemoveViaButton(void)
 	}
 
 	getKGM()->getTaskManager()->onTaskPause();
-	uint32 uiRadioButtonIndex = getKGM()->getGUIManager()->showRemoveViaDialog();
+	uint32 uiRadioButtonIndex = getKGM()->getPopupGUIManager()->showRemoveViaDialog();
 	getKGM()->getTaskManager()->onTaskUnpause();
 	if (uiRadioButtonIndex == 0xFFFFFFFF)
 	{
@@ -2011,7 +2011,7 @@ void		CTaskDispatchManager::onRequestImportViaButton(void)
 	}
 
 	getKGM()->getTaskManager()->onTaskPause();
-	uint32 uiRadioButtonIndex = getKGM()->getGUIManager()->showImportViaDialog();
+	uint32 uiRadioButtonIndex = getKGM()->getPopupGUIManager()->showImportViaDialog();
 	getKGM()->getTaskManager()->onTaskUnpause();
 	if (uiRadioButtonIndex == 0xFFFFFFFF)
 	{
@@ -2130,7 +2130,7 @@ void		CTaskDispatchManager::onRequestImportViaTextLines(void)
 	}
 
 	getKGM()->getTaskManager()->onTaskPause();
-	string strData = getKGM()->getGUIManager()->showTextAreaDialog(CLocalizationManager::getInstance()->getTranslatedText("Window_TextArea_5_Title"), CLocalizationManager::getInstance()->getTranslatedText("Window_TextArea_3_Message"));
+	string strData = getKGM()->getPopupGUIManager()->showTextAreaDialog(CLocalizationManager::getInstance()->getTranslatedText("Window_TextArea_5_Title"), CLocalizationManager::getInstance()->getTranslatedText("Window_TextArea_3_Message"));
 	getKGM()->getTaskManager()->onTaskUnpause();
 	if (strData == "")
 	{
@@ -2215,7 +2215,7 @@ void		CTaskDispatchManager::onRequestNew(eIMGVersion eIMGVersion)
 	strFilePath = CFileUtility::getNextIncrementingFileName(strFilePath);
 	CFileUtility::createFoldersForPath(strFilePath);
 	strFilePath = CStringUtility::replace(strFilePath, "/", "\\");
-	getKGM()->getEntryListWindow()->addBlankTab(strFilePath, eIMGVersion);
+	getKGM()->getIMGScreen()->addBlankTab(strFilePath, eIMGVersion);
 	getKGM()->getTaskManager()->onTaskEnd("onRequestNew");
 }
 void		CTaskDispatchManager::onRequestStats(void)
@@ -2274,7 +2274,7 @@ void		CTaskDispatchManager::onRequestStats(void)
 	}
 	
 	getKGM()->getTaskManager()->onTaskPause();
-	getKGM()->getGUIManager()->showStatsDialog(umapStatsRWVersions, umapStatsExtensions, umapVersionNames2);
+	getKGM()->getPopupGUIManager()->showStatsDialog(umapStatsRWVersions, umapStatsExtensions, umapVersionNames2);
 	getKGM()->getTaskManager()->onTaskUnpause();
 	getKGM()->getTaskManager()->onTaskEnd("onRequestStats");
 }
@@ -2572,7 +2572,7 @@ void		CTaskDispatchManager::onRequestSelectViaFileExtension(void)
 	}
 
 	getKGM()->getTaskManager()->onTaskPause();
-	string strText = getKGM()->getGUIManager()->showTextInputDialog(CLocalizationManager::getInstance()->getTranslatedText("Window_TextInput_4_Title"), CLocalizationManager::getInstance()->getTranslatedText("Window_TextInput_4_Message"));
+	string strText = getKGM()->getPopupGUIManager()->showTextInputDialog(CLocalizationManager::getInstance()->getTranslatedText("Window_TextInput_4_Title"), CLocalizationManager::getInstance()->getTranslatedText("Window_TextInput_4_Message"));
 	getKGM()->getTaskManager()->onTaskUnpause();
 	if (strText == "")
 	{
@@ -2728,7 +2728,7 @@ void		CTaskDispatchManager::onRequestTextureList(void)
 	}
 
 	getKGM()->getTaskManager()->onTaskPause();
-	CTextureListDialogData *pTextureListDialogData = getKGM()->getGUIManager()->showTextureListDialog("Texture List", "Showing " + CStringUtility::toString(vecTextureNames.size()) + " texture name" + (vecTextureNames.size() == 1 ? "" : "s") + " for " + CStringUtility::toString(uiEntryCount) + " IMG entr" + (uiEntryCount == 1 ? "y" : "ies") + ".", "Texture Name", vecTextureNames);
+	CTextureListDialogData *pTextureListDialogData = getKGM()->getPopupGUIManager()->showTextureListDialog("Texture List", "Showing " + CStringUtility::toString(vecTextureNames.size()) + " texture name" + (vecTextureNames.size() == 1 ? "" : "s") + " for " + CStringUtility::toString(uiEntryCount) + " IMG entr" + (uiEntryCount == 1 ? "y" : "ies") + ".", "Texture Name", vecTextureNames);
 	getKGM()->getTaskManager()->onTaskUnpause();
 	if (pTextureListDialogData->m_bSaveTexturesFormat2)
 	{
@@ -2804,16 +2804,16 @@ string		CTaskDispatchManager::onRequestSaveLog(bool bActiveTab, bool bNormalForm
 		string strLogData = "";
 		if (bNormalFormat)
 		{
-			for (auto pWindowTab : getKGM()->getEntryListWindow()->getEntries())
+			for (auto pWindowTab : getKGM()->getIMGScreen()->getEntries())
 			{
-				strLogData += "[[" + ((CEntryListWindowTab*)pWindowTab)->getIMGFile()->getFilePath() + "]]\n" + CStringUtility::join(((CEntryListWindowTab*)pWindowTab)->getLogLinesBasic(), "\n") + "\n\n";
+				strLogData += "[[" + ((CIMGScreenTab*)pWindowTab)->getIMGFile()->getFilePath() + "]]\n" + CStringUtility::join(((CIMGScreenTab*)pWindowTab)->getLogLinesBasic(), "\n") + "\n\n";
 			}
 		}
 		else
 		{
-			for (auto pWindowTab : getKGM()->getEntryListWindow()->getEntries())
+			for (auto pWindowTab : getKGM()->getIMGScreen()->getEntries())
 			{
-				strLogData += "[[" + ((CEntryListWindowTab*)pWindowTab)->getIMGFile()->getFilePath() + "]]\n" + CStringUtility::join(((CEntryListWindowTab*)pWindowTab)->getLogLinesExtended(), "\n") + "\n\n";
+				strLogData += "[[" + ((CIMGScreenTab*)pWindowTab)->getIMGFile()->getFilePath() + "]]\n" + CStringUtility::join(((CIMGScreenTab*)pWindowTab)->getLogLinesExtended(), "\n") + "\n\n";
 			}
 		}
 		CFileUtility::storeFile(strSaveFilePath, strLogData, false, false);
@@ -2827,7 +2827,7 @@ void		CTaskDispatchManager::onRequestSaveSession(void)
 	/*
 	todo
 	getKGM()->getTaskManager()->onTaskBegin("onRequestSaveSession");
-	if (getKGM()->getEntryListWindow()->getEntryCount() == 0)
+	if (getKGM()->getIMGScreen()->getEntryCount() == 0)
 	{
 		getKGM()->getTaskManager()->onTaskEnd("onRequestSaveSession", true);
 		return;
@@ -2838,7 +2838,7 @@ void		CTaskDispatchManager::onRequestSaveSession(void)
 	do
 	{
 		getKGM()->getTaskManager()->onTaskPause();
-		strSessionName = getKGM()->getGUIManager()->showTextInputDialog(CLocalizationManager::getInstance()->getTranslatedText("SessionName"), CLocalizationManager::getInstance()->getTranslatedFormattedText("Window_TextInput_5_Message", getKGM()->getEntryListWindow()->getEntryCount()));
+		strSessionName = getKGM()->getPopupGUIManager()->showTextInputDialog(CLocalizationManager::getInstance()->getTranslatedText("SessionName"), CLocalizationManager::getInstance()->getTranslatedFormattedText("Window_TextInput_5_Message", getKGM()->getIMGScreen()->getEntryCount()));
 		getKGM()->getTaskManager()->onTaskUnpause();
 		if (strSessionName == "")
 		{
@@ -2856,17 +2856,17 @@ void		CTaskDispatchManager::onRequestSaveSession(void)
 	} while (bSemiColonFound);
 
 	vector<string> vecPaths;
-	for (auto pWindowTab : getKGM()->getEntryListWindow()->getEntries())
+	for (auto pWindowTab : getKGM()->getIMGScreen()->getEntries())
 	{
-		vecPaths.push_back(((CEntryListWindowTab*)pWindowTab)->getIMGFile()->getFilePath());
+		vecPaths.push_back(((CIMGScreenTab*)pWindowTab)->getIMGFile()->getFilePath());
 	}
 
 	getKGM()->getSessionManager()->addSession(strSessionName, vecPaths);
 	getKGM()->getSessionManager()->loadSessions();
 
-	getKGM()->getEntryListWindow()->logAllTabs(CLocalizationManager::getInstance()->getTranslatedFormattedText("LogAllTabs_4", getKGM()->getEntryListWindow()->getEntryCount(), strSessionName));
-	getKGM()->getEntryListWindow()->logAllTabs(CLocalizationManager::getInstance()->getTranslatedText("LogAllTabs_5"), true);
-	getKGM()->getEntryListWindow()->logAllTabs(CStringUtility::join(vecPaths, "\n"), true);
+	getKGM()->getIMGScreen()->logAllTabs(CLocalizationManager::getInstance()->getTranslatedFormattedText("LogAllTabs_4", getKGM()->getIMGScreen()->getEntryCount(), strSessionName));
+	getKGM()->getIMGScreen()->logAllTabs(CLocalizationManager::getInstance()->getTranslatedText("LogAllTabs_5"), true);
+	getKGM()->getIMGScreen()->logAllTabs(CStringUtility::join(vecPaths, "\n"), true);
 	getKGM()->getTaskManager()->onTaskEnd("onRequestSaveSession");
 	*/
 }
@@ -2948,7 +2948,7 @@ void		CTaskDispatchManager::onRequestOrphanDFFEntriesNotInCOL(void)
 		getKGM()->getTaskManager()->onTaskProgressTick();
 	}
 
-	if (getKGM()->getEntryListWindow()->getEntryCount() > 0)
+	if (getKGM()->getIMGScreen()->getEntryCount() > 0)
 	{
 		getKGM()->getEntryListTab()->log(CLocalizationManager::getInstance()->getTranslatedFormattedText("Log_125", vecEntryNamesMissingFromCOL.size()));
 		getKGM()->getEntryListTab()->log(CLocalizationManager::getInstance()->getTranslatedText("Log_93"), true);
@@ -2956,13 +2956,13 @@ void		CTaskDispatchManager::onRequestOrphanDFFEntriesNotInCOL(void)
 	}
 	else
 	{
-		getKGM()->getEntryListWindow()->logWithNoTabsOpen(CLocalizationManager::getInstance()->getTranslatedFormattedText("Log_125", vecEntryNamesMissingFromCOL.size()));
-		getKGM()->getEntryListWindow()->logWithNoTabsOpen(CLocalizationManager::getInstance()->getTranslatedText("Log_93"), true);
-		getKGM()->getEntryListWindow()->logWithNoTabsOpen(CStringUtility::join(vecEntryNamesMissingFromCOL, "\n"), true);
+		getKGM()->getIMGScreen()->logWithNoTabsOpen(CLocalizationManager::getInstance()->getTranslatedFormattedText("Log_125", vecEntryNamesMissingFromCOL.size()));
+		getKGM()->getIMGScreen()->logWithNoTabsOpen(CLocalizationManager::getInstance()->getTranslatedText("Log_93"), true);
+		getKGM()->getIMGScreen()->logWithNoTabsOpen(CStringUtility::join(vecEntryNamesMissingFromCOL, "\n"), true);
 	}
 
 	getKGM()->getTaskManager()->onTaskPause();
-	getKGM()->getGUIManager()->showOrphanEntriesDialog(vecEntryNamesMissingFromCOL, "DFF Entries missing from COL:");
+	getKGM()->getPopupGUIManager()->showOrphanEntriesDialog(vecEntryNamesMissingFromCOL, "DFF Entries missing from COL:");
 	getKGM()->getTaskManager()->onTaskUnpause();
 
 	getKGM()->getTaskManager()->onTaskEnd("onRequestOrphanDFFEntriesNotInCOL");
@@ -3032,7 +3032,7 @@ void		CTaskDispatchManager::onRequestOrphanIDEEntriesNotInCOL(void)
 	getKGM()->getEntryListTab()->log(CStringUtility::join(vecEntryNamesMissingFromCOL, "\n"), true);
 
 	getKGM()->getTaskManager()->onTaskPause();
-	bool bImportEntries = getKGM()->getGUIManager()->showOrphanEntriesDialog(vecEntryNamesMissingFromCOL, "IDE Entries missing from COL:", "Import into IMG");
+	bool bImportEntries = getKGM()->getPopupGUIManager()->showOrphanEntriesDialog(vecEntryNamesMissingFromCOL, "IDE Entries missing from COL:", "Import into IMG");
 	getKGM()->getTaskManager()->onTaskUnpause();
 	if (bImportEntries)
 	{
@@ -3129,7 +3129,7 @@ void		CTaskDispatchManager::onRequestOrphanDFFEntriesNotInIDE(void)
 	getKGM()->getEntryListTab()->log(CStringUtility::join(vecEntryNamesMissingFromIDE, "\n"), true);
 
 	getKGM()->getTaskManager()->onTaskPause();
-	getKGM()->getGUIManager()->showOrphanEntriesDialog(vecEntryNamesMissingFromIDE, "DFF Entries missing from IDE:");
+	getKGM()->getPopupGUIManager()->showOrphanEntriesDialog(vecEntryNamesMissingFromIDE, "DFF Entries missing from IDE:");
 	getKGM()->getTaskManager()->onTaskUnpause();
 	getKGM()->getTaskManager()->onTaskEnd("onRequestOrphanDFFEntriesNotInIDE");
 }
@@ -3195,7 +3195,7 @@ void		CTaskDispatchManager::onRequestOrphanCOLEntriesNotInIDE(void)
 	getKGM()->getEntryListTab()->log(CStringUtility::join(vecEntryNamesMissingFromIDE, "\n"), true);
 
 	getKGM()->getTaskManager()->onTaskPause();
-	getKGM()->getGUIManager()->showOrphanEntriesDialog(vecEntryNamesMissingFromIDE, "COL Entries missing from IDE:");
+	getKGM()->getPopupGUIManager()->showOrphanEntriesDialog(vecEntryNamesMissingFromIDE, "COL Entries missing from IDE:");
 	getKGM()->getTaskManager()->onTaskUnpause();
 	getKGM()->getTaskManager()->onTaskEnd("onRequestOrphanCOLEntriesNotInIDE");
 }
@@ -3239,7 +3239,7 @@ void		CTaskDispatchManager::onRequestOrphanIMGEntriesNotInIDE(void)
 	getKGM()->getEntryListTab()->log(CStringUtility::join(vecEntryNamesMissingFromIDE, "\n"), true);
 
 	getKGM()->getTaskManager()->onTaskPause();
-	bool bRemoveEntries = getKGM()->getGUIManager()->showOrphanEntriesDialog(vecEntryNamesMissingFromIDE, "IMG Entries missing from IDE:", "Remove from IMG");
+	bool bRemoveEntries = getKGM()->getPopupGUIManager()->showOrphanEntriesDialog(vecEntryNamesMissingFromIDE, "IMG Entries missing from IDE:", "Remove from IMG");
 	getKGM()->getTaskManager()->onTaskUnpause();
 	if (bRemoveEntries)
 	{
@@ -3337,7 +3337,7 @@ void		CTaskDispatchManager::onRequestOrphanIPLEntriesNotInIDE(void)
 
 	// popup
 	getKGM()->getTaskManager()->onTaskPause();
-	getKGM()->getGUIManager()->showOrphanEntriesDialog(vecEntryNamesMissingFromIDE, "IPL Entries missing from IDE:");
+	getKGM()->getPopupGUIManager()->showOrphanEntriesDialog(vecEntryNamesMissingFromIDE, "IPL Entries missing from IDE:");
 	getKGM()->getTaskManager()->onTaskUnpause();
 
 	// end
@@ -3405,7 +3405,7 @@ void		CTaskDispatchManager::onRequestOrphanTXDEntriesNotInIDE(void)
 	getKGM()->getEntryListTab()->log(CStringUtility::join(vecEntryNamesMissingFromIDE, "\n"), true);
 
 	getKGM()->getTaskManager()->onTaskPause();
-	getKGM()->getGUIManager()->showOrphanEntriesDialog(vecEntryNamesMissingFromIDE, "TXD Entries missing from IDE:");
+	getKGM()->getPopupGUIManager()->showOrphanEntriesDialog(vecEntryNamesMissingFromIDE, "TXD Entries missing from IDE:");
 	getKGM()->getTaskManager()->onTaskUnpause();
 	getKGM()->getTaskManager()->onTaskEnd("onRequestOrphanTXDEntriesNotInIDE");
 }
@@ -3448,7 +3448,7 @@ void		CTaskDispatchManager::onRequestOrphanIDEEntriesNotInIMG(void)
 	getKGM()->getEntryListTab()->log(CStringUtility::join(vecEntryNamesMissingFromIMG, "\n"), true);
 
 	getKGM()->getTaskManager()->onTaskPause();
-	bool bImportEntries = getKGM()->getGUIManager()->showOrphanEntriesDialog(vecEntryNamesMissingFromIMG, "IDE Entries missing from IMG:", "Import into IMG");
+	bool bImportEntries = getKGM()->getPopupGUIManager()->showOrphanEntriesDialog(vecEntryNamesMissingFromIMG, "IDE Entries missing from IMG:", "Import into IMG");
 	getKGM()->getTaskManager()->onTaskUnpause();
 	if (bImportEntries)
 	{
@@ -3487,7 +3487,7 @@ void		CTaskDispatchManager::onRequestSettings(void)
 {
 	getKGM()->getTaskManager()->onTaskBegin("onRequestSettings");
 	getKGM()->getTaskManager()->onTaskPause();
-	bool bSave = getKGM()->getGUIManager()->showSettingsDialog();
+	bool bSave = getKGM()->getPopupGUIManager()->showSettingsDialog();
 	getKGM()->getTaskManager()->onTaskUnpause();
 	if (!bSave)
 	{
@@ -3519,7 +3519,7 @@ void		CTaskDispatchManager::onRequestReopen(void)
 		getKGM()->getTaskManager()->onTaskEnd("onRequestReopen", true);
 		return;
 	}
-	getKGM()->getEntryListWindow()->removeTab(getKGM()->getEntryListTab());
+	getKGM()->getIMGScreen()->removeTab(getKGM()->getEntryListTab());
 	onRequestOpen2(strIMGPath);
 	getKGM()->getTaskManager()->onTaskEnd("onRequestReopen");
 }
@@ -3536,7 +3536,7 @@ void		CTaskDispatchManager::onRequestConvertDFFToRWVersion(CRWVersion *pRWVersio
 	}
 
 	getKGM()->getTaskManager()->onTaskPause();
-	CDFFConversionDialogData *pDFFConversionDialogData = getKGM()->getGUIManager()->showDFFConversionDialog();
+	CDFFConversionDialogData *pDFFConversionDialogData = getKGM()->getPopupGUIManager()->showDFFConversionDialog();
 	getKGM()->getTaskManager()->onTaskUnpause();
 	if (!pDFFConversionDialogData->m_bConvert) // cancel button
 	{
@@ -3584,7 +3584,7 @@ void		CTaskDispatchManager::onRequestConvertDFFToRWVersion(CRWVersion *pRWVersio
 		// The selected DFFs in the active IMG tab contains at least 1 DFF IMG entry with a RW version of III or VC, and the target RW version to convert to is SA.
 		vector<uint32> vecExtendedLogLines_MissingObjectIds;
 		bool bDidCancel = false;
-		bConvert2DFXFromIIIOrVCToSA = getKGM()->getGUIManager()->showConfirmDialog("Do you want to also convert 2DFX sections in DFF files from GTA III/VC format to GTA SA format? (Requires IDE input)", "Convert 2DFX Too?", bDidCancel);
+		bConvert2DFXFromIIIOrVCToSA = getKGM()->getPopupGUIManager()->showConfirmDialog("Do you want to also convert 2DFX sections in DFF files from GTA III/VC format to GTA SA format? (Requires IDE input)", "Convert 2DFX Too?", bDidCancel);
 		if (bDidCancel)
 		{
 			getKGM()->getTaskManager()->onTaskEnd("onRequestConvertDFFToRWVersion", true);
@@ -4134,7 +4134,7 @@ void		CTaskDispatchManager::onRequestMissingTextures(void)
 	getKGM()->getEntryListTab()->log(CStringUtility::join(vecDFFTexturesMissingFromTXD, "\n"), true);
 
 	getKGM()->getTaskManager()->onTaskPause();
-	getKGM()->getGUIManager()->showListViewDialog("Missing Textures", "Textures missing:", "Texture Name", vecDFFTexturesMissingFromTXD, CLocalizationManager::getInstance()->getTranslatedFormattedText("SaveFilePopup_4_InitialFilename", CPathUtility::replaceFileExtension(CPathUtility::getFileName(getKGM()->getEntryListTab()->getIMGFile()->getFilePath()), "txt").c_str()), "MISSINGTEXTURES");
+	getKGM()->getPopupGUIManager()->showListViewDialog("Missing Textures", "Textures missing:", "Texture Name", vecDFFTexturesMissingFromTXD, CLocalizationManager::getInstance()->getTranslatedFormattedText("SaveFilePopup_4_InitialFilename", CPathUtility::replaceFileExtension(CPathUtility::getFileName(getKGM()->getEntryListTab()->getIMGFile()->getFilePath()), "txt").c_str()), "MISSINGTEXTURES");
 	getKGM()->getTaskManager()->onTaskUnpause();
 	getKGM()->getTaskManager()->onTaskEnd("onRequestMissingTextures");
 	*/
@@ -4147,9 +4147,9 @@ bool		CTaskDispatchManager::onRequestClose2(bool bCloseAll)
 	if (bCloseAll)
 	{
 		uint32 uiModifiedSinceRebuildCount = 0;
-		for (auto pWindowTab : getKGM()->getEntryListWindow()->getEntries())
+		for (auto pWindowTab : getKGM()->getIMGScreen()->getEntries())
 		{
-			if (((CEntryListWindowTab*)pWindowTab)->getIMGModifiedSinceRebuild())
+			if (((CIMGScreenTab*)pWindowTab)->getIMGModifiedSinceRebuild())
 			{
 				uiModifiedSinceRebuildCount++;
 			}
@@ -4175,7 +4175,7 @@ bool		CTaskDispatchManager::onRequestClose2(bool bCloseAll)
 
 	bool bDidCancel = false;
 	getKGM()->getTaskManager()->onTaskPause();
-	bool bResult = getKGM()->getGUIManager()->showConfirmDialog(strText, CLocalizationManager::getInstance()->getTranslatedText("Window_Confirm_3_Title"), bDidCancel);
+	bool bResult = getKGM()->getPopupGUIManager()->showConfirmDialog(strText, CLocalizationManager::getInstance()->getTranslatedText("Window_Confirm_3_Title"), bDidCancel);
 	getKGM()->getTaskManager()->onTaskUnpause();
 	if (bDidCancel)
 	{
@@ -4190,11 +4190,11 @@ bool		CTaskDispatchManager::onRequestClose2(bool bCloseAll)
 
 	if (bCloseAll)
 	{
-		for (auto pWindowTab : getKGM()->getEntryListWindow()->getEntries())
+		for (auto pWindowTab : getKGM()->getIMGScreen()->getEntries())
 		{
-			if (((CEntryListWindowTab*)pWindowTab)->getIMGModifiedSinceRebuild())
+			if (((CIMGScreenTab*)pWindowTab)->getIMGModifiedSinceRebuild())
 			{
-				((CEntryListWindowTab*)pWindowTab)->rebuild();
+				((CIMGScreenTab*)pWindowTab)->rebuild();
 			}
 		}
 	}
@@ -4240,7 +4240,7 @@ void		CTaskDispatchManager::onRequestReplaceAllFromFolder(void)
 	if (getKGM()->getSettingsManager()->getSettingBool("AskBeforeOverwritingFiles"))
 	{
 		getKGM()->getTaskManager()->onTaskPause();
-		bOverwriteFiles = getKGM()->getGUIManager()->showConfirmDialog(CLocalizationManager::getInstance()->getTranslatedFormattedText("Window_Confirm_2_Message", uiReplaceEntryCount), CLocalizationManager::getInstance()->getTranslatedText("Window_Confirm_2_Title"));
+		bOverwriteFiles = getKGM()->getPopupGUIManager()->showConfirmDialog(CLocalizationManager::getInstance()->getTranslatedFormattedText("Window_Confirm_2_Message", uiReplaceEntryCount), CLocalizationManager::getInstance()->getTranslatedText("Window_Confirm_2_Title"));
 		getKGM()->getTaskManager()->onTaskUnpause();
 
 		if (!bOverwriteFiles)
@@ -4342,24 +4342,24 @@ void		CTaskDispatchManager::onRequestExportAllEntriesFromAllTabs(void)
 	getKGM()->setLastUsedDirectory("EXPORT_ALL_ALL", strPath);
 
 	uint32 uiTotalEntryCount = 0;
-	for (auto pWindowTab : getKGM()->getEntryListWindow()->getEntries())
+	for (auto pWindowTab : getKGM()->getIMGScreen()->getEntries())
 	{
-		uiTotalEntryCount += ((CEntryListWindowTab*)pWindowTab)->getIMGFile()->getEntryCount();
+		uiTotalEntryCount += ((CIMGScreenTab*)pWindowTab)->getIMGFile()->getEntryCount();
 	}
 	getKGM()->getTaskManager()->setTaskMaxProgressTickCount(uiTotalEntryCount);
 
 	vector<string> vecIMGPaths;
-	for (auto pWindowTab : getKGM()->getEntryListWindow()->getEntries())
+	for (auto pWindowTab : getKGM()->getIMGScreen()->getEntries())
 	{
-		vecIMGPaths.push_back(((CEntryListWindowTab*)pWindowTab)->getIMGFile()->getFilePath());
+		vecIMGPaths.push_back(((CIMGScreenTab*)pWindowTab)->getIMGFile()->getFilePath());
 
-		((CEntryListWindowTab*)pWindowTab)->getIMGFile()->exportMultiple(((CEntryListWindowTab*)pWindowTab)->getIMGFile()->getEntries(), strPath);
+		((CIMGScreenTab*)pWindowTab)->getIMGFile()->exportMultiple(((CIMGScreenTab*)pWindowTab)->getIMGFile()->getEntries(), strPath);
 		//pWindowTab->log("Exported all " + CStringUtility::toString(pWindowTab->getIMGFile()->m_vecEntries.size()) + " entr" + (pWindowTab->getIMGFile()->m_vecEntries.size() == 1 ? "y" : "ies") + ".");
 	}
 
-	getKGM()->getEntryListWindow()->logAllTabs(CLocalizationManager::getInstance()->getTranslatedFormattedText("LogAllTabs_6", uiTotalEntryCount, getKGM()->getEntryListWindow()->getEntryCount()));
-	getKGM()->getEntryListWindow()->logAllTabs(CLocalizationManager::getInstance()->getTranslatedText("LogAllTabs_7"), true);
-	getKGM()->getEntryListWindow()->logAllTabs(CStringUtility::join(vecIMGPaths, "\n"), true);
+	getKGM()->getIMGScreen()->logAllTabs(CLocalizationManager::getInstance()->getTranslatedFormattedText("LogAllTabs_6", uiTotalEntryCount, getKGM()->getIMGScreen()->getEntryCount()));
+	getKGM()->getIMGScreen()->logAllTabs(CLocalizationManager::getInstance()->getTranslatedText("LogAllTabs_7"), true);
+	getKGM()->getIMGScreen()->logAllTabs(CStringUtility::join(vecIMGPaths, "\n"), true);
 	getKGM()->getTaskManager()->onTaskEnd("onRequestExportAllEntriesFromAllTabs");
 }
 void		CTaskDispatchManager::onRequestExportEntriesViaIDEFileFromAllTabs(void)
@@ -4396,20 +4396,20 @@ void		CTaskDispatchManager::onRequestExportEntriesViaIDEFileFromAllTabs(void)
 	vecEntryNamesWithoutExtension = CVectorUtility::toUpperCase(vecEntryNamesWithoutExtension);
 	
 	uint32 uiTotalEntryCount = 0;
-	for (auto pWindowTab : getKGM()->getEntryListWindow()->getEntries())
+	for (auto pWindowTab : getKGM()->getIMGScreen()->getEntries())
 	{
-		uiTotalEntryCount += ((CEntryListWindowTab*)pWindowTab)->getIMGFile()->getEntryCount();
+		uiTotalEntryCount += ((CIMGScreenTab*)pWindowTab)->getIMGFile()->getEntryCount();
 	}
 	getKGM()->getTaskManager()->setTaskMaxProgressTickCount(uiTotalEntryCount);
 
 	uint32 uiTotalEntryExportedCount = 0;
 	vector<string> vecIMGPaths;
-	for (auto pWindowTab : getKGM()->getEntryListWindow()->getEntries())
+	for (auto pWindowTab : getKGM()->getIMGScreen()->getEntries())
 	{
-		vecIMGPaths.push_back(((CEntryListWindowTab*)pWindowTab)->getIMGFile()->getFilePath());
+		vecIMGPaths.push_back(((CIMGScreenTab*)pWindowTab)->getIMGFile()->getFilePath());
 
 		vector<CIMGEntry*> vecIMGEntries;
-		for (auto pIMGEntry : ((CEntryListWindowTab*)pWindowTab)->getIMGFile()->getEntries())
+		for (auto pIMGEntry : ((CIMGScreenTab*)pWindowTab)->getIMGFile()->getEntries())
 		{
 			string strEntryNameWithoutExtension = CStringUtility::toUpperCase(CPathUtility::removeFileExtension(pIMGEntry->getEntryName()));
 			auto it = std::find(vecEntryNamesWithoutExtension.begin(), vecEntryNamesWithoutExtension.end(), strEntryNameWithoutExtension);
@@ -4422,12 +4422,12 @@ void		CTaskDispatchManager::onRequestExportEntriesViaIDEFileFromAllTabs(void)
 			getKGM()->getTaskManager()->onTaskProgressTick();
 		}
 
-		((CEntryListWindowTab*)pWindowTab)->getIMGFile()->exportMultiple(vecIMGEntries, strPath);
+		((CIMGScreenTab*)pWindowTab)->getIMGFile()->exportMultiple(vecIMGEntries, strPath);
 	}
 
-	getKGM()->getEntryListWindow()->logAllTabs(CLocalizationManager::getInstance()->getTranslatedFormattedText("Log_108", uiTotalEntryExportedCount, getKGM()->getEntryListWindow()->getEntryCount()));
-	getKGM()->getEntryListWindow()->logAllTabs(CLocalizationManager::getInstance()->getTranslatedText("LogAllTabs_7"), true);
-	getKGM()->getEntryListWindow()->logAllTabs(CStringUtility::join(vecIMGPaths, "\n"), true);
+	getKGM()->getIMGScreen()->logAllTabs(CLocalizationManager::getInstance()->getTranslatedFormattedText("Log_108", uiTotalEntryExportedCount, getKGM()->getIMGScreen()->getEntryCount()));
+	getKGM()->getIMGScreen()->logAllTabs(CLocalizationManager::getInstance()->getTranslatedText("LogAllTabs_7"), true);
+	getKGM()->getIMGScreen()->logAllTabs(CStringUtility::join(vecIMGPaths, "\n"), true);
 	getKGM()->getTaskManager()->onTaskEnd("onRequestExportEntriesViaIDEFileFromAllTabs");
 }
 void		CTaskDispatchManager::onRequestExportEntriesViaTextLinesFromAllTabs(void)
@@ -4440,7 +4440,7 @@ void		CTaskDispatchManager::onRequestExportEntriesViaTextLinesFromAllTabs(void)
 	}
 
 	getKGM()->getTaskManager()->onTaskPause();
-	string strData = getKGM()->getGUIManager()->showTextAreaDialog(CLocalizationManager::getInstance()->getTranslatedText("Window_TextArea_3_Title"), CLocalizationManager::getInstance()->getTranslatedText("Window_TextArea_3_Message"));
+	string strData = getKGM()->getPopupGUIManager()->showTextAreaDialog(CLocalizationManager::getInstance()->getTranslatedText("Window_TextArea_3_Title"), CLocalizationManager::getInstance()->getTranslatedText("Window_TextArea_3_Message"));
 	getKGM()->getTaskManager()->onTaskUnpause();
 	if (strData == "")
 	{
@@ -4474,20 +4474,20 @@ void		CTaskDispatchManager::onRequestExportEntriesViaTextLinesFromAllTabs(void)
 	vecEntryNames = CVectorUtility::toUpperCase(vecEntryNames);
 
 	uint32 uiTotalEntryCount = 0;
-	for (auto pWindowTab : getKGM()->getEntryListWindow()->getEntries())
+	for (auto pWindowTab : getKGM()->getIMGScreen()->getEntries())
 	{
-		uiTotalEntryCount += ((CEntryListWindowTab*)pWindowTab)->getIMGFile()->getEntryCount();
+		uiTotalEntryCount += ((CIMGScreenTab*)pWindowTab)->getIMGFile()->getEntryCount();
 	}
 	getKGM()->getTaskManager()->setTaskMaxProgressTickCount(uiTotalEntryCount);
 
 	uint32 uiTotalEntryExportedCount = 0;
 	vector<string> vecIMGPaths;
-	for (auto pWindowTab : getKGM()->getEntryListWindow()->getEntries())
+	for (auto pWindowTab : getKGM()->getIMGScreen()->getEntries())
 	{
-		vecIMGPaths.push_back(((CEntryListWindowTab*)pWindowTab)->getIMGFile()->getFilePath());
+		vecIMGPaths.push_back(((CIMGScreenTab*)pWindowTab)->getIMGFile()->getFilePath());
 
 		vector<CIMGEntry*> vecIMGEntries;
-		for (auto pIMGEntry : ((CEntryListWindowTab*)pWindowTab)->getIMGFile()->getEntries())
+		for (auto pIMGEntry : ((CIMGScreenTab*)pWindowTab)->getIMGFile()->getEntries())
 		{
 			string strEntryNameWithoutExtension = CStringUtility::toUpperCase(CPathUtility::removeFileExtension(pIMGEntry->getEntryName()));
 			auto it = std::find(vecEntryNames.begin(), vecEntryNames.end(), strEntryNameWithoutExtension);
@@ -4500,12 +4500,12 @@ void		CTaskDispatchManager::onRequestExportEntriesViaTextLinesFromAllTabs(void)
 			getKGM()->getTaskManager()->onTaskProgressTick();
 		}
 
-		((CEntryListWindowTab*)pWindowTab)->getIMGFile()->exportMultiple(vecIMGEntries, strPath);
+		((CIMGScreenTab*)pWindowTab)->getIMGFile()->exportMultiple(vecIMGEntries, strPath);
 	}
 
-	getKGM()->getEntryListWindow()->logAllTabs(CLocalizationManager::getInstance()->getTranslatedFormattedText("LogAllTabs_8", uiTotalEntryExportedCount, getKGM()->getEntryListWindow()->getEntryCount()));
-	getKGM()->getEntryListWindow()->logAllTabs(CLocalizationManager::getInstance()->getTranslatedText("LogAllTabs_7"), true);
-	getKGM()->getEntryListWindow()->logAllTabs(CStringUtility::join(vecIMGPaths, "\n"), true);
+	getKGM()->getIMGScreen()->logAllTabs(CLocalizationManager::getInstance()->getTranslatedFormattedText("LogAllTabs_8", uiTotalEntryExportedCount, getKGM()->getIMGScreen()->getEntryCount()));
+	getKGM()->getIMGScreen()->logAllTabs(CLocalizationManager::getInstance()->getTranslatedText("LogAllTabs_7"), true);
+	getKGM()->getIMGScreen()->logAllTabs(CStringUtility::join(vecIMGPaths, "\n"), true);
 	getKGM()->getTaskManager()->onTaskEnd("onRequestExportEntriesViaTextLinesFromAllTabs");
 }
 void		CTaskDispatchManager::onRequestImportViaFolder(void)
@@ -4554,7 +4554,7 @@ void		CTaskDispatchManager::onRequestDuplicateEntries(void)
 
 	// show window
 	getKGM()->getTaskManager()->onTaskPause();
-	CDuplicateEntriesDialogData *pDuplicateEntriesDialogData = getKGM()->getGUIManager()->showDuplicateEntriesDialog();
+	CDuplicateEntriesDialogData *pDuplicateEntriesDialogData = getKGM()->getPopupGUIManager()->showDuplicateEntriesDialog();
 	getKGM()->getTaskManager()->onTaskUnpause();
 	if (!pDuplicateEntriesDialogData->m_bCheck)
 	{
@@ -4592,7 +4592,7 @@ void		CTaskDispatchManager::onRequestDuplicateEntries(void)
 			return;
 		}
 
-		veCIMGFormats = getKGM()->getEntryListWindow()->getAllMainWindowTabsIMGFiles();
+		veCIMGFormats = getKGM()->getIMGScreen()->getAllMainWindowTabsIMGFiles();
 	}
 	else if (pDuplicateEntriesDialogData->m_ucEntriesType == 3) // DAT file
 	{
@@ -4716,7 +4716,7 @@ void		CTaskDispatchManager::onRequestDuplicateEntries(void)
 		strSaveFileName = CLocalizationManager::getInstance()->getTranslatedFormattedText("SaveFilePopup_6_InitialFilename", CPathUtility::replaceFileExtension(CPathUtility::getFileName(getKGM()->getEntryListTab()->getIMGFile()->getFilePath()), "txt").c_str());
 	}
 	getKGM()->getTaskManager()->onTaskPause();
-	getKGM()->getGUIManager()->showListViewDialog(CLocalizationManager::getInstance()->getTranslatedText("DuplicateEntries"), "Showing " + CStringUtility::toString(vecEntryDuplicateNames.size()) + " duplicate entr" + (vecEntryDuplicateNames.size() == 1 ? "y" : "ies") + ".", CLocalizationManager::getInstance()->getTranslatedText("Window_OrphanEntries_EntryName"), vecEntryDuplicateNames, strSaveFileName, "DUPLICATEENTRIES");
+	getKGM()->getPopupGUIManager()->showListViewDialog(CLocalizationManager::getInstance()->getTranslatedText("DuplicateEntries"), "Showing " + CStringUtility::toString(vecEntryDuplicateNames.size()) + " duplicate entr" + (vecEntryDuplicateNames.size() == 1 ? "y" : "ies") + ".", CLocalizationManager::getInstance()->getTranslatedText("Window_OrphanEntries_EntryName"), vecEntryDuplicateNames, strSaveFileName, "DUPLICATEENTRIES");
 	getKGM()->getTaskManager()->onTaskUnpause();
 
 	// clean up
@@ -4753,23 +4753,23 @@ void		CTaskDispatchManager::onRequestExportAllEntriesFromAllTabsIntoMultipleFold
 	getKGM()->setLastUsedDirectory("EXPORT_ALL_FOLDERS", strPath);
 
 	uint32 uiTotalEntryCount = 0;
-	for (auto pWindowTab : getKGM()->getEntryListWindow()->getEntries())
+	for (auto pWindowTab : getKGM()->getIMGScreen()->getEntries())
 	{
-		uiTotalEntryCount += ((CEntryListWindowTab*)pWindowTab)->getIMGFile()->getEntryCount();
+		uiTotalEntryCount += ((CIMGScreenTab*)pWindowTab)->getIMGFile()->getEntryCount();
 	}
 	getKGM()->getTaskManager()->setTaskMaxProgressTickCount(uiTotalEntryCount);
 
 	vector<string> vecIMGPaths;
-	for (auto pWindowTab : getKGM()->getEntryListWindow()->getEntries())
+	for (auto pWindowTab : getKGM()->getIMGScreen()->getEntries())
 	{
-		vecIMGPaths.push_back(((CEntryListWindowTab*)pWindowTab)->getIMGFile()->getFilePath());
+		vecIMGPaths.push_back(((CIMGScreenTab*)pWindowTab)->getIMGFile()->getFilePath());
 
-		((CEntryListWindowTab*)pWindowTab)->getIMGFile()->exportMultiple(((CEntryListWindowTab*)pWindowTab)->getIMGFile()->getEntries(), strPath + CPathUtility::getFileName(((CEntryListWindowTab*)pWindowTab)->getIMGFile()->getFilePath()) + "/");
+		((CIMGScreenTab*)pWindowTab)->getIMGFile()->exportMultiple(((CIMGScreenTab*)pWindowTab)->getIMGFile()->getEntries(), strPath + CPathUtility::getFileName(((CIMGScreenTab*)pWindowTab)->getIMGFile()->getFilePath()) + "/");
 	}
 
-	getKGM()->getEntryListWindow()->logAllTabs(CLocalizationManager::getInstance()->getTranslatedFormattedText("LogAllTabs_9", uiTotalEntryCount, getKGM()->getEntryListWindow()->getEntries()));
-	getKGM()->getEntryListWindow()->logAllTabs(CLocalizationManager::getInstance()->getTranslatedText("LogAllTabs_7"), true);
-	getKGM()->getEntryListWindow()->logAllTabs(CStringUtility::join(vecIMGPaths, "\n"), true);
+	getKGM()->getIMGScreen()->logAllTabs(CLocalizationManager::getInstance()->getTranslatedFormattedText("LogAllTabs_9", uiTotalEntryCount, getKGM()->getIMGScreen()->getEntries()));
+	getKGM()->getIMGScreen()->logAllTabs(CLocalizationManager::getInstance()->getTranslatedText("LogAllTabs_7"), true);
+	getKGM()->getIMGScreen()->logAllTabs(CStringUtility::join(vecIMGPaths, "\n"), true);
 	getKGM()->getTaskManager()->onTaskEnd("onRequestExportAllEntriesFromAllTabsIntoMultipleFolders");
 }
 void		CTaskDispatchManager::onRequestOpenLast(void)
@@ -4950,7 +4950,7 @@ void		CTaskDispatchManager::onRequestSessionManager(void)
 		}
 
 		getKGM()->getTaskManager()->onTaskPause();
-		pSessionManagerDialogData = getKGM()->getGUIManager()->showSessionManagerDialog(vecSessionsData);
+		pSessionManagerDialogData = getKGM()->getPopupGUIManager()->showSessionManagerDialog(vecSessionsData);
 		getKGM()->getTaskManager()->onTaskUnpause();
 		bReopenWindow = pSessionManagerDialogData->m_vecSessionsToRemove.size() > 0 || pSessionManagerDialogData->m_vecSessionsToAdd.size() > 0 || pSessionManagerDialogData->m_strSessionNameToUpdate != "";
 
@@ -5199,7 +5199,7 @@ void		CTaskDispatchManager::onRequestRenameIMG(void)
 
 	string strCurrentIMGFileName = CPathUtility::getFileName(getKGM()->getEntryListTab()->getIMGFile()->getFilePath());
 	getKGM()->getTaskManager()->onTaskPause();
-	string strNewIMGFileName = getKGM()->getGUIManager()->showTextInputDialog("Rename IMG", CLocalizationManager::getInstance()->getTranslatedText("Window_TextInput_6_Message"), strCurrentIMGFileName);
+	string strNewIMGFileName = getKGM()->getPopupGUIManager()->showTextInputDialog("Rename IMG", CLocalizationManager::getInstance()->getTranslatedText("Window_TextInput_6_Message"), strCurrentIMGFileName);
 	getKGM()->getTaskManager()->onTaskUnpause();
 	if (strNewIMGFileName == "")
 	{
@@ -5693,7 +5693,7 @@ void		CTaskDispatchManager::onRequestCompareIMG(void)
 	vecEntriesInBothFiles.clear();
 
 	getKGM()->getTaskManager()->onTaskPause();
-	getKGM()->getGUIManager()->showListViewDialog(
+	getKGM()->getPopupGUIManager()->showListViewDialog(
 		"Compare IMG",
 		CStringUtility::toString(uiEntryCountInFile1NotInFile2) + " entr" + (uiEntryCountInFile1NotInFile2 == 1 ? "y" : "ies") + " not in " + CPathUtility::getFileName(pIMGFile2->getFilePath()) + ", "
 		+ CStringUtility::toString(uiEntryCountInFile2NotInFile1) + " entr" + (uiEntryCountInFile2NotInFile1 == 1 ? "y" : "ies") + " not in " + CPathUtility::getFileName(pIMGFile1->getFilePath()) + ", "
@@ -5787,20 +5787,20 @@ void			CTaskDispatchManager::onRequestClearLogs(bool bAllTabs)
 {
 	getKGM()->getLastUsedValueManager()->setLastUsedValue_ClearLogs_AllTabs(bAllTabs);
 	getKGM()->getTaskManager()->onTaskBegin("onRequestClearLogs");
-	vector<CEntryListWindowTab*> vecEntryListWindowTabs;
+	vector<CIMGScreenTab*> veCIMGScreenTabs;
 	if (bAllTabs)
 	{
-		for (auto pEntryListWindowTab : getKGM()->getEntryListWindow()->getEntries())
+		for (auto pEntryListWindowTab : getKGM()->getIMGScreen()->getEntries())
 		{
-			vecEntryListWindowTabs.push_back((CEntryListWindowTab*)pEntryListWindowTab);
+			veCIMGScreenTabs.push_back((CIMGScreenTab*)pEntryListWindowTab);
 		}
 	}
 	else
 	{
-		vecEntryListWindowTabs.push_back(getKGM()->getEntryListTab());
+		veCIMGScreenTabs.push_back(getKGM()->getEntryListTab());
 	}
 
-	for (auto pWindowTab : vecEntryListWindowTabs)
+	for (auto pWindowTab : veCIMGScreenTabs)
 	{
 		pWindowTab->clearLogs();
 	}
@@ -5840,7 +5840,7 @@ void			CTaskDispatchManager::onRequestValidateAllDFFInActiveTab(void)
 	else
 	{
 		getKGM()->getTaskManager()->onTaskPause();
-		getKGM()->getGUIManager()->showTextAreaDialog(CLocalizationManager::getInstance()->getTranslatedText("DFFValidationComplete"), CLocalizationManager::getInstance()->getTranslatedFormattedText("Window_TextArea_6_Message", vecCorruptDFFEntryLines.size()), CStringUtility::join(vecCorruptDFFEntryLines, "\n"));
+		getKGM()->getPopupGUIManager()->showTextAreaDialog(CLocalizationManager::getInstance()->getTranslatedText("DFFValidationComplete"), CLocalizationManager::getInstance()->getTranslatedFormattedText("Window_TextArea_6_Message", vecCorruptDFFEntryLines.size()), CStringUtility::join(vecCorruptDFFEntryLines, "\n"));
 		getKGM()->getTaskManager()->onTaskUnpause();
 	}
 	getKGM()->getTaskManager()->onTaskEnd("onRequestValidateAllDFFInActiveTab");
@@ -5914,7 +5914,7 @@ void			CTaskDispatchManager::onRequestValidateAllTXDInActiveTab(void)
 	else
 	{
 		getKGM()->getTaskManager()->onTaskPause();
-		getKGM()->getGUIManager()->showTextAreaDialog(CLocalizationManager::getInstance()->getTranslatedText("TXDValidationComplete"), CLocalizationManager::getInstance()->getTranslatedFormattedText("Window_TextArea_7_Message", vecCorruptTXDEntryLines.size()), CStringUtility::join(vecCorruptTXDEntryLines, "\n"));
+		getKGM()->getPopupGUIManager()->showTextAreaDialog(CLocalizationManager::getInstance()->getTranslatedText("TXDValidationComplete"), CLocalizationManager::getInstance()->getTranslatedFormattedText("Window_TextArea_7_Message", vecCorruptTXDEntryLines.size()), CStringUtility::join(vecCorruptTXDEntryLines, "\n"));
 		getKGM()->getTaskManager()->onTaskUnpause();
 	}
 	getKGM()->getTaskManager()->onTaskEnd("onRequestValidateAllTXDInActiveTab");
@@ -5924,7 +5924,7 @@ void			CTaskDispatchManager::onRequestCredits(void)
 {
 	getKGM()->getTaskManager()->onTaskBegin("onRequestCredits");
 	getKGM()->getTaskManager()->onTaskPause();
-	getKGM()->getGUIManager()->showCreditsDialog();
+	getKGM()->getPopupGUIManager()->showCreditsDialog();
 	getKGM()->getTaskManager()->onTaskUnpause();
 	getKGM()->getTaskManager()->onTaskEnd("onRequestCredits");
 }
@@ -6076,7 +6076,7 @@ void			CTaskDispatchManager::onRequestRenamer(void)
 {
 	getKGM()->getTaskManager()->onTaskBegin("onRequestRenamer");
 	getKGM()->getTaskManager()->onTaskPause();
-	CRenamerDialogData *pRenamerDialogData = getKGM()->getGUIManager()->showRenamerDialog();
+	CRenamerDialogData *pRenamerDialogData = getKGM()->getPopupGUIManager()->showRenamerDialog();
 	getKGM()->getTaskManager()->onTaskUnpause();
 
 	if (!pRenamerDialogData->m_bRename)
@@ -6477,7 +6477,7 @@ void			CTaskDispatchManager::onRequestRenamer(void)
 	getKGM()->getEntryListTab()->setIMGModifiedSinceRebuild(true);
 
 	// refresh tab's main list view
-	getKGM()->getEntryListWindow()->refreshActiveTab();
+	getKGM()->getIMGScreen()->refreshActiveTab();
 
 	// clean up
 	for (auto pRenamedIMGEntry : vecIMGEntriesWithNewNames)
@@ -6501,7 +6501,7 @@ void		CTaskDispatchManager::onRequestBuildTXD(void)
 	getKGM()->getTaskManager()->onTaskBegin("onRequestBuildTXD");
 
 	getKGM()->getTaskManager()->onTaskPause();
-	CBuildTXDDialogData *pBuildTXDDialogData = getKGM()->getGUIManager()->showBuildTXDDialog();
+	CBuildTXDDialogData *pBuildTXDDialogData = getKGM()->getPopupGUIManager()->showBuildTXDDialog();
 	getKGM()->getTaskManager()->onTaskUnpause();
 
 	if (!pBuildTXDDialogData->m_bBuild) // cancel
@@ -6564,10 +6564,10 @@ void		CTaskDispatchManager::onRequestBuildTXD(void)
 			return;
 		}
 
-		for (auto pWindowTab : getKGM()->getEntryListWindow()->getEntries())
+		for (auto pWindowTab : getKGM()->getIMGScreen()->getEntries())
 		{
-			vector<CIMGEntry*> vecIMGEntries = ((CEntryListWindowTab*)pWindowTab)->getIMGFile()->getEntriesByExtension("DFF");
-			vector<CIMGEntry*> vecIMGEntries_BSP = ((CEntryListWindowTab*)pWindowTab)->getIMGFile()->getEntriesByExtension("BSP");
+			vector<CIMGEntry*> vecIMGEntries = ((CIMGScreenTab*)pWindowTab)->getIMGFile()->getEntriesByExtension("DFF");
+			vector<CIMGEntry*> vecIMGEntries_BSP = ((CIMGScreenTab*)pWindowTab)->getIMGFile()->getEntriesByExtension("BSP");
 			for (auto pIMGEntry : vecIMGEntries_BSP)
 			{
 				vecIMGEntries.push_back(pIMGEntry);
@@ -6734,7 +6734,7 @@ void		CTaskDispatchManager::onRequestIMGVersionSettings(void)
 
 	// show IMG Version Settings window
 	getKGM()->getTaskManager()->onTaskPause();
-	CIMGVersionSettingsDialogData *pIMGVersionSettingsDialogData = getKGM()->getGUIManager()->showIMGVersionSettingsDialog();
+	CIMGVersionSettingsDialogData *pIMGVersionSettingsDialogData = getKGM()->getPopupGUIManager()->showIMGVersionSettingsDialog();
 	getKGM()->getTaskManager()->onTaskUnpause();
 
 	if (!pIMGVersionSettingsDialogData->m_bSave)
@@ -7681,13 +7681,13 @@ void			CTaskDispatchManager::onRequestAlignCOLCollisionMeshesToDFFMesh(void)
 	}
 	
 	string strLogText = CLocalizationManager::getInstance()->getTranslatedFormattedText("Log_AlignMeshes_COL_DFF", vecFilePaths_COL.size());
-	if (getKGM()->getEntryListWindow()->getEntryCount() > 0)
+	if (getKGM()->getIMGScreen()->getEntryCount() > 0)
 	{
 		getKGM()->getEntryListTab()->log(strLogText);
 	}
 	else
 	{
-		getKGM()->getEntryListWindow()->logWithNoTabsOpen(strLogText);
+		getKGM()->getIMGScreen()->logWithNoTabsOpen(strLogText);
 	}
 
 	getKGM()->getTaskManager()->onTaskEnd("onRequestAlignCOLCollisionMeshesToDFFMesh");
@@ -7774,7 +7774,7 @@ void				CTaskDispatchManager::onRequestTXDOrganizer(void)
 		return;
 	}
 
-	CTXDOrganizerDialogData *pTXDOrganizerDialogData = getKGM()->getGUIManager()->showTXDOrganizerDialog();
+	CTXDOrganizerDialogData *pTXDOrganizerDialogData = getKGM()->getPopupGUIManager()->showTXDOrganizerDialog();
 
 	if (!pTXDOrganizerDialogData->m_bOrganize)
 	{
@@ -8047,7 +8047,7 @@ void			CTaskDispatchManager::onRequestDATPathsMover(void)
 	getKGM()->getTaskManager()->onTaskBegin("onRequestDATPathsMover");
 	
 	getKGM()->getTaskManager()->onTaskPause();
-	CDATPathsMoverDialogData *pDATPathsMoverDialogData = getKGM()->getGUIManager()->showDATPathsMoverDialogData();
+	CDATPathsMoverDialogData *pDATPathsMoverDialogData = getKGM()->getPopupGUIManager()->showDATPathsMoverDialogData();
 	getKGM()->getTaskManager()->onTaskUnpause();
 
 	if (!pDATPathsMoverDialogData->m_bMove)
@@ -8339,7 +8339,7 @@ void			CTaskDispatchManager::onRequestExportViaDATFile(void)
 
 	// choose input IDE files to export entries from
 	getKGM()->getTaskManager()->onTaskPause();
-	string strData = getKGM()->getGUIManager()->showTextAreaDialog(CLocalizationManager::getInstance()->getTranslatedText("Window_TextArea_8_Title"), CLocalizationManager::getInstance()->getTranslatedText("Window_TextArea_8_Message"), CStringUtility::join(vecIDEPaths, "\r\n"));
+	string strData = getKGM()->getPopupGUIManager()->showTextAreaDialog(CLocalizationManager::getInstance()->getTranslatedText("Window_TextArea_8_Title"), CLocalizationManager::getInstance()->getTranslatedText("Window_TextArea_8_Message"), CStringUtility::join(vecIDEPaths, "\r\n"));
 	if (strData == "")
 	{
 		getKGM()->getTaskManager()->onTaskEnd("onRequestExportViaDATFile", true);
@@ -8423,7 +8423,7 @@ void						CTaskDispatchManager::onRequestMapMoverAndIDShifter(void)
 {
 	getKGM()->getTaskManager()->onTaskBegin("onRequestMapMoverAndIDShifter");
 
-	CMapMoverAndIDShifterDialogData *pMapMoverAndIDShifterDialogData = getKGM()->getGUIManager()->showMapMoverAndIDShifterDialog();
+	CMapMoverAndIDShifterDialogData *pMapMoverAndIDShifterDialogData = getKGM()->getPopupGUIManager()->showMapMoverAndIDShifterDialog();
 	if (!pMapMoverAndIDShifterDialogData->m_bGo)
 	{
 		getKGM()->getTaskManager()->onTaskEnd("onRequestMapMoverAndIDShifter", true);
@@ -8706,7 +8706,7 @@ void						CTaskDispatchManager::onRequestMapMoverAndIDShifter(void)
 
 	if (getKGM()->getEntryListTab() == nullptr)
 	{
-		getKGM()->getEntryListWindow()->logWithNoTabsOpen("Moved and ID shifted " + CStringUtility::toString(vecIDEPaths.size()) + " IDE files and " + CStringUtility::toString(vecIPLPaths.size()) + " IPL files (" + CStringUtility::toString(uiIPLCount_Text) + " text, " + CStringUtility::toString(uiIPLCount_Binary) + " binary) in " + CPathUtility::getFileName(pMapMoverAndIDShifterDialogData->m_strDATFilePath));
+		getKGM()->getIMGScreen()->logWithNoTabsOpen("Moved and ID shifted " + CStringUtility::toString(vecIDEPaths.size()) + " IDE files and " + CStringUtility::toString(vecIPLPaths.size()) + " IPL files (" + CStringUtility::toString(uiIPLCount_Text) + " text, " + CStringUtility::toString(uiIPLCount_Binary) + " binary) in " + CPathUtility::getFileName(pMapMoverAndIDShifterDialogData->m_strDATFilePath));
 	}
 	else
 	{
@@ -8721,7 +8721,7 @@ void						CTaskDispatchManager::onRequestDATModelList(void)
 {
 	getKGM()->getTaskManager()->onTaskBegin("onRequestModelListFromDAT");
 
-	CDATModelListDialogData *pDATModelListDialogData = getKGM()->getGUIManager()->showDATModelListDialog();
+	CDATModelListDialogData *pDATModelListDialogData = getKGM()->getPopupGUIManager()->showDATModelListDialog();
 	if (!pDATModelListDialogData->m_bFetch)
 	{
 		getKGM()->getTaskManager()->onTaskEnd("onRequestModelListFromDAT", true);
@@ -8779,7 +8779,7 @@ void						CTaskDispatchManager::onRequestDATModelList(void)
 
 	if (getKGM()->getEntryListTab() == nullptr)
 	{
-		getKGM()->getEntryListWindow()->logWithNoTabsOpen("Found " + CStringUtility::toString(vecModelNames.size()) + " unique model names in IDE/IPL files in " + CPathUtility::getFileName(pDATModelListDialogData->m_strDATFilePath));
+		getKGM()->getIMGScreen()->logWithNoTabsOpen("Found " + CStringUtility::toString(vecModelNames.size()) + " unique model names in IDE/IPL files in " + CPathUtility::getFileName(pDATModelListDialogData->m_strDATFilePath));
 	}
 	else
 	{
@@ -8859,7 +8859,7 @@ void						CTaskDispatchManager::onRequestFindTXDMissingFromIMGFoundInIDE(void)
 	string strInitialFilename = CLocalizationManager::getInstance()->getTranslatedFormattedText("SaveFilePopup_9_InitialFilename", CPathUtility::replaceFileExtension(CPathUtility::getFileName(getKGM()->getEntryListTab()->getIMGFile()->getFilePath()), "txt").c_str());
 	string strTitle = CLocalizationManager::getInstance()->getTranslatedFormattedText("Log_132", vecTXDNamesWithoutExtensionMissingFromIMG.size(), strIMGFileName.c_str());
 	getKGM()->getTaskManager()->onTaskPause();
-	getKGM()->getGUIManager()->showListViewDialog("Missing Entries", strTitle, "TXD Name", vecTXDNamesWithoutExtensionMissingFromIMG, strInitialFilename, "MISSINGENTRIES");
+	getKGM()->getPopupGUIManager()->showListViewDialog("Missing Entries", strTitle, "TXD Name", vecTXDNamesWithoutExtensionMissingFromIMG, strInitialFilename, "MISSINGENTRIES");
 	getKGM()->getTaskManager()->onTaskUnpause();
 	getKGM()->getTaskManager()->onTaskEnd("onRequestFindTXDMissingFromIMGFoundInIDE");
 }
@@ -8937,7 +8937,7 @@ void						CTaskDispatchManager::onRequestFindCOLMissingFromCOLFoundInIDE(void)
 	string strInitialFilename = CLocalizationManager::getInstance()->getTranslatedFormattedText("SaveFilePopup_9_InitialFilename", CPathUtility::replaceFileExtension(CPathUtility::getFileName(getKGM()->getEntryListTab()->getIMGFile()->getFilePath()), "txt").c_str());
 	string strTitle = CLocalizationManager::getInstance()->getTranslatedFormattedText("Log_133", vecCOLNamesWithoutExtensionMissingFromIMG.size(), strIMGFileName.c_str());
 	getKGM()->getTaskManager()->onTaskPause();
-	getKGM()->getGUIManager()->showListViewDialog("Missing Entries", strTitle, "TXD Name", vecCOLNamesWithoutExtensionMissingFromIMG, strInitialFilename, "MISSINGENTRIES");
+	getKGM()->getPopupGUIManager()->showListViewDialog("Missing Entries", strTitle, "TXD Name", vecCOLNamesWithoutExtensionMissingFromIMG, strInitialFilename, "MISSINGENTRIES");
 	getKGM()->getTaskManager()->onTaskUnpause();
 	getKGM()->getTaskManager()->onTaskEnd("onRequestFindCOLMissingFromCOLFoundInIDE");
 }
@@ -8998,7 +8998,7 @@ void						CTaskDispatchManager::onRequestFindDFFMissingFromIMGFoundInIDE(void)
 	string strInitialFilename = CLocalizationManager::getInstance()->getTranslatedFormattedText("SaveFilePopup_9_InitialFilename", CPathUtility::replaceFileExtension(CPathUtility::getFileName(getKGM()->getEntryListTab()->getIMGFile()->getFilePath()), "txt").c_str());
 	string strTitle = CLocalizationManager::getInstance()->getTranslatedFormattedText("Log_134", vecDFFNamesWithoutExtensionMissingFromIMG.size(), strIMGFileName.c_str());
 	getKGM()->getTaskManager()->onTaskPause();
-	getKGM()->getGUIManager()->showListViewDialog("Missing Entries", strTitle, "TXD Name", vecDFFNamesWithoutExtensionMissingFromIMG, strInitialFilename, "MISSINGENTRIES");
+	getKGM()->getPopupGUIManager()->showListViewDialog("Missing Entries", strTitle, "TXD Name", vecDFFNamesWithoutExtensionMissingFromIMG, strInitialFilename, "MISSINGENTRIES");
 	getKGM()->getTaskManager()->onTaskUnpause();
 	
 	getKGM()->getTaskManager()->onTaskEnd("onRequestFindDFFMissingFromIMGFoundInIDE");
@@ -9027,8 +9027,8 @@ void						CTaskDispatchManager::onRequestCloneIMG(void)
 
 	getKGM()->getTaskManager()->setTaskMaxProgressTickCount(pIMGFile->getEntryCount() * 3);
 
-	CEntryListWindowTab *pNewTab = getKGM()->getEntryListWindow()->addTab(strClonedIMGPath, pIMGFile->getIMGVersion());
-	getKGM()->getEntryListWindow()->setActiveTab(pNewTab);
+	CIMGScreenTab *pNewTab = getKGM()->getIMGScreen()->addTab(strClonedIMGPath, pIMGFile->getIMGVersion());
+	getKGM()->getIMGScreen()->setActiveTab(pNewTab);
 
 	getKGM()->getTaskManager()->onTaskEnd("onRequestCloneIMG");
 }
@@ -9280,16 +9280,16 @@ void						CTaskDispatchManager::onRequestFindDFFMissingFromIDEFoundInIPL(void)
 	}
 	else
 	{
-		getKGM()->getEntryListWindow()->logWithNoTabsOpen(CLocalizationManager::getInstance()->getTranslatedFormattedText("Log_136", vecDFFNamesWithoutExtensionMissingFromIDE.size()));
-		getKGM()->getEntryListWindow()->logWithNoTabsOpen(CLocalizationManager::getInstance()->getTranslatedText("Log_135"), true);
-		getKGM()->getEntryListWindow()->logWithNoTabsOpen(CStringUtility::join(vecDFFNamesWithoutExtensionMissingFromIDE, "\n"), true);
+		getKGM()->getIMGScreen()->logWithNoTabsOpen(CLocalizationManager::getInstance()->getTranslatedFormattedText("Log_136", vecDFFNamesWithoutExtensionMissingFromIDE.size()));
+		getKGM()->getIMGScreen()->logWithNoTabsOpen(CLocalizationManager::getInstance()->getTranslatedText("Log_135"), true);
+		getKGM()->getIMGScreen()->logWithNoTabsOpen(CStringUtility::join(vecDFFNamesWithoutExtensionMissingFromIDE, "\n"), true);
 	}
 
 	// popup
 	string strInitialFilename = CLocalizationManager::getInstance()->getTranslatedFormattedText("SaveFilePopup_9_InitialFilename", "DFF not in IDE found in IPL");
 	string strTitle = CLocalizationManager::getInstance()->getTranslatedFormattedText("Log_136", vecDFFNamesWithoutExtensionMissingFromIDE.size());
 	getKGM()->getTaskManager()->onTaskPause();
-	getKGM()->getGUIManager()->showListViewDialog("Missing Entries", strTitle, "TXD Name", vecDFFNamesWithoutExtensionMissingFromIDE, strInitialFilename, "MISSINGENTRIES");
+	getKGM()->getPopupGUIManager()->showListViewDialog("Missing Entries", strTitle, "TXD Name", vecDFFNamesWithoutExtensionMissingFromIDE, strInitialFilename, "MISSINGENTRIES");
 	getKGM()->getTaskManager()->onTaskUnpause();
 
 	getKGM()->getTaskManager()->onTaskEnd("onRequestFindDFFMissingFromIDEFoundInIPL");
@@ -9385,7 +9385,7 @@ void				CTaskDispatchManager::onRequestSortIDEAndIPLFilesByObjectId(void)
 	}
 	else
 	{
-		getKGM()->getEntryListWindow()->logWithNoTabsOpen(CLocalizationManager::getInstance()->getTranslatedFormattedText("Log_137", veCIDEFormats.size(), veCIPLFormats.size(), CPathUtility::getFileName(strDATFilePath).c_str()));
+		getKGM()->getIMGScreen()->logWithNoTabsOpen(CLocalizationManager::getInstance()->getTranslatedFormattedText("Log_137", veCIDEFormats.size(), veCIPLFormats.size(), CPathUtility::getFileName(strDATFilePath).c_str()));
 	}
 
 	getKGM()->getTaskManager()->onTaskEnd("onRequestSortIDEAndIPLFilesByObjectId");
@@ -9397,7 +9397,7 @@ void				CTaskDispatchManager::onRequestExtractDVCAndNVCColoursIntoDFFs(void)
 	getKGM()->getTaskManager()->onTaskBegin("onRequestExtractDVCAndNVCColoursIntoDFFs");
 
 	// choose DVC, NVC, or both
-	uint32 uiUpdateType = getKGM()->getGUIManager()->show3ButtonDialog("DVC / NVC Action", "Extract DVC, NVC, or both?", "DVC", "NVC", "Both");
+	uint32 uiUpdateType = getKGM()->getPopupGUIManager()->show3ButtonDialog("DVC / NVC Action", "Extract DVC, NVC, or both?", "DVC", "NVC", "Both");
 	if (uiUpdateType == 0)
 	{
 		// user pressed cancel
@@ -9530,7 +9530,7 @@ void				CTaskDispatchManager::onRequestExtractDVCAndNVCColoursIntoDFFs(void)
 	}
 	else
 	{
-		getKGM()->getEntryListWindow()->logWithNoTabsOpen(CLocalizationManager::getInstance()->getTranslatedFormattedText("Log_138", uiDFFUpdatedFileCount));
+		getKGM()->getIMGScreen()->logWithNoTabsOpen(CLocalizationManager::getInstance()->getTranslatedFormattedText("Log_138", uiDFFUpdatedFileCount));
 	}
 
 	// end
@@ -9641,7 +9641,7 @@ void				CTaskDispatchManager::onRequestExtract2DFXIntoDFFs(void)
 	}
 	else
 	{
-		getKGM()->getEntryListWindow()->logWithNoTabsOpen(CLocalizationManager::getInstance()->getTranslatedFormattedText("Log_139", uiDFFUpdatedFileCount));
+		getKGM()->getIMGScreen()->logWithNoTabsOpen(CLocalizationManager::getInstance()->getTranslatedFormattedText("Log_139", uiDFFUpdatedFileCount));
 	}
 
 	// end

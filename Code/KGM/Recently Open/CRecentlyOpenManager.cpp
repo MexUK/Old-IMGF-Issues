@@ -8,7 +8,7 @@
 #include "Testing/CDebugger.h"
 #include "IMG/CIMGEntry.h"
 #include "Localization/CLocalizationManager.h"
-#include "Window/CWindow.h"
+#include "GUI/Window/CWindow.h"
 
 using namespace std;
 

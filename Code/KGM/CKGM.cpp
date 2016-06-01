@@ -6,7 +6,7 @@
 #include "Engine/RAGE/CRageManager.h"
 #include "Recently Open/CRecentlyOpenManager.h"
 #include "Session/CSessionManager.h"
-#include "CGUIManager.h"
+#include "CPopupGUIManager.h"
 #include "CLSTProcessingManager.h"
 #include "Task/CTaskManager.h"
 #include "Task/CTaskDispatchManager.h"
@@ -15,18 +15,20 @@
 #include "IMG/CIMGManager.h"
 #include "Event/CEventManager.h"
 #include "Event/eEvent.h"
-#include "Window/CTabbedWindow.h"
-#include "Window/Window Controls/Controls/CWindowControl_Text.h"
-#include "Window/Window Controls/Controls/CWindowControl_List.h"
-#include "Window/Window Controls/Controls/CWindowControl_Button.h"
-#include "Window/Window Controls/Controls/CWindowControl_Check.h"
-#include "Window/Window Controls/Controls/CWindowControl_Drop.h"
-#include "Window/Window Controls/Controls/CWindowControl_Scroll.h"
-#include "Window/Window Controls/Controls/CWindowControl_Progress.h"
-#include "Window/Window Controls/Controls/CWindowControl_Radio.h"
-#include "Window/Window Controls/Controls/CWindowControl_Edit.h"
-#include "Window/Window Types/CEntryListWindow.h"
-#include "Window/CWindowManager.h"
+#include "GUI/CGUIManager.h"
+#include "GUI/Window/CTabbedWindow.h"
+#include "GUI/Controls/CWindowControl_Text.h"
+#include "GUI/Controls/CWindowControl_List.h"
+#include "GUI/Controls/CWindowControl_Button.h"
+#include "GUI/Controls/CWindowControl_Check.h"
+#include "GUI/Controls/CWindowControl_Drop.h"
+#include "GUI/Controls/CWindowControl_Scroll.h"
+#include "GUI/Controls/CWindowControl_Progress.h"
+#include "GUI/Controls/CWindowControl_Radio.h"
+#include "GUI/Controls/CWindowControl_Edit.h"
+#include "GUI/CWindowManager.h"
+#include "GUI/Screens/CIMGScreen.h"
+#include "GUI/ScreenTabs/CIMGScreenTab.h"
 #include "String/CStringUtility.h"
 #include "File/CFileUtility.h"
 #include "Path/CPathUtility.h"
@@ -55,6 +57,7 @@
 #include "CUR/CCURManager.h"
 #include "DFF/CDFFManager.h"
 #include "DB/CDBManager.h"
+#include "GUI/CGUIManager.h"
 #include "ICO/CICOManager.h"
 #include "IDE/CIDEManager.h"
 #include "Image/CImageManager.h"
@@ -78,7 +81,7 @@ CKGM::CKGM(void)
 {
 	// construct objects stored by CKGM
 	m_pEntryViewerManager	= new CEntryViewerManager;
-	m_pGUIManager			= new CGUIManager;
+	m_pPopupGUIManager		= new CPopupGUIManager;
 	m_pLanguageManager		= new CLanguageManager;
 	m_pLSTProcessingManager	= new CLSTProcessingManager;
 	m_pRecentlyOpenManager	= new CRecentlyOpenManager;
@@ -94,7 +97,7 @@ CKGM::~CKGM(void)
 {
 	// destruct objects stored by CKGM
 	delete m_pEntryViewerManager;
-	delete m_pGUIManager;
+	delete m_pPopupGUIManager;
 	delete m_pLanguageManager;
 	delete m_pLSTProcessingManager;
 	delete m_pRecentlyOpenManager;
@@ -194,7 +197,7 @@ void		CKGM::initStoredObjects(void)
 	// initialize objects stored by CKGM
 	// Excludes: CWindowManager and CSortManager
 	m_pEntryViewerManager->init();
-	m_pGUIManager->init();
+	m_pPopupGUIManager->init();
 	m_pLanguageManager->init();
 	m_pLSTProcessingManager->init();
 	m_pRecentlyOpenManager->init();
@@ -215,6 +218,7 @@ void		CKGM::initSingletonObjects(void)
 	CDBManager::getInstance()->init();
 	CDFFManager::getInstance()->init();
 	CGameManager::getInstance()->init();
+	CGUIManager::getInstance()->init();
 	CICOManager::getInstance()->init();
 	CIDEManager::getInstance()->init();
 	CImageManager::getInstance()->init();
@@ -324,7 +328,7 @@ void		CKGM::initAutoUpdateCheck(void)
 {
 	/*
 	todo
-	This currently calls a onRequestBlah which eventualls calls CTaskManager::onFeatureEnd which can crash before the CEntryListWindow object has been created.
+	This currently calls a onRequestBlah which eventualls calls CTaskManager::onFeatureEnd which can crash before the CIMGScreen object has been created.
 	So move this to like lambda: onWindowOpen()
 	getKGM()->getTaskManager()->getDispatch()->onRequestAutoUpdate();
 	*/
@@ -332,225 +336,40 @@ void		CKGM::initAutoUpdateCheck(void)
 
 void		CKGM::initTempStuff(void)
 {
-	return;
-
-	CMainWindow *pWindow = getWindowManager()->addMainWindow();
-	getWindowManager()->setMainWindow(pWindow);
-
-	//CWindow *pWindow = nullptr;
-
-	CWindowControl_List *pList = new CWindowControl_List;
-	pWindow->getControls().addEntry(pList);
-	pList->setWindow(pWindow);
-	pList->setPosition(CVector2ui32(0,0));
-	pList->setSize(CVector2ui32(640,850));
-	pList->setRowHeight(50);
-	pList->setFontSize(13);
-	pList->setRowBackgroundColour1(0xFFFFFFFF);
-	pList->setRowBackgroundColour2(0xDDDDDDFF);
-	pList->setColumnWidth(100);
-	pList->setHasVerticalScrollBar(true);
-
-	CWindowControlEntry_List *pListEntry = new CWindowControlEntry_List[10];
-	pList->getEntries().resize(10);
-	for (int i = 0; i < 10; i++)
-	{
-		pListEntry->setList(pList);
-		pList->getEntries()[i] = pListEntry;
-
-		for (uint32 i2 = 0; i2 < 2; i2++)
-		{
-			vector<string> vecText;
-			for (uint32 i3 = 0; i3 < 2; i3++)
-			{
-				vecText.push_back("sehufihrsiufhd");
-			}
-			pListEntry[i].getText().push_back(vecText);
-		}
-	}
-
-	CWindowControl_Text *pText = new CWindowControl_Text;
-	pText->setWindow(pWindow);
-	pWindow->getControls().addEntry(pText);
-	string strText = "sdiogfhrsui uihesuifhsiufd esfsuinfesiunqawuidnsdziunfsdjxckfn jsdinfiusejdkz";
-	pText->setText(strText);
-	pText->setTextColour(0xFF8800FF);
-	pText->setPosition(CVector2ui32(100, 200));
-	pText->setSize(CVector2ui32(800, 20));
-	pText->setFontSize(13);
-	pText->setBold(true);
-
-	/*
-	CWindowControl_Button *pButton = new CWindowControl_Button;
-	pButton->setWindow(pWindow);
-	pWindow->getControls().addEntry(pButton);
-	pButton->setText("test1");
-	*/
-
-	CWindowControl_Check *pCheck = new CWindowControl_Check;
-	pCheck->setWindow(pWindow);
-	pWindow->getControls().addEntry(pCheck);
-	strText = "test1";
-	pCheck->setText(strText);
-	pCheck->setPosition(CVector2ui32(400, 400));
-	pCheck->setSize(CVector2ui32(20, 20));
-	pCheck->setFillColour(0xFFFFFF00);
-	pCheck->setChecked(true);
-
-	CWindowControl_Drop *pDrop = new CWindowControl_Drop;
-	pDrop->setWindow(pWindow);
-	pWindow->getControls().addEntry(pDrop);
-	strText = "test2";
-	pDrop->setText(strText);
-	pDrop->setPosition(CVector2ui32(600, 200));
-	pDrop->setSize(CVector2ui32(100, 30));
-	pDrop->setFillColour(0xFFFFFF00);
-	pDrop->setLineColour(0xAA0000FF);
-	pDrop->setSelectionListOpen(false);
-
-	for (int i8 = 0; i8 < 10; i8++)
-	{
-		CWindowControlEntry_Drop *pDropEntry = new CWindowControlEntry_Drop;
-		pDrop->addEntry(pDropEntry);
-		pDropEntry->setText("drop entry " + CStringUtility::toString(i8));
-	}
-
-	CWindowControl_Scroll *pScroll = new CWindowControl_Scroll;
-	pScroll->setWindow(pWindow);
-	pWindow->getControls().addEntry(pScroll);
-	pScroll->setPosition(CVector2ui32(720, 200));
-	pScroll->setSize(CVector2ui32(20, 500));
-	pScroll->setFillColour(0xFF0000FF);
-	pScroll->setLineColour(0x00AA00FF);
-	pScroll->setScrollOrientation(WINDOW_CONTROL_ORIENTATION_VERTICAL);
-	pScroll->setSeekBarLength(50);
-	pScroll->setSeekBarLineColour(0x352800FF);
-	pScroll->setSeekBarFillColour(0x008800FF);
-	pScroll->setProgress(0.0f);
-
-	CWindowControl_Button *pButton = new CWindowControl_Button;
-	pButton->setWindow(pWindow);
-	pWindow->getControls().addEntry(pButton);
-	pButton->setPosition(CVector2ui32(780, 200));
-	pButton->setSize(CVector2ui32(100, 30));
-	strText = "zzzzzzzzzzzz";
-	pButton->setText(strText);
-	pButton->setFillColour(0x0000DFFF);
-	pButton->setLineColour(0x000088FF);
-
-	CWindowControl_Progress *pProgress = new CWindowControl_Progress;
-	pProgress->setWindow(pWindow);
-	pWindow->getControls().addEntry(pProgress);
-	pProgress->setPosition(CVector2ui32(800, 500));
-	pProgress->setSize(CVector2ui32(150, 20));
-	pProgress->setFillColour(0xBA0000FF);
-	pProgress->setLineColour(0x000000FF);
-	pProgress->setProgressFillColour(0x0000baff);
-	pProgress->setCurrentTicks(50);
-	pProgress->setMaxTicks(80);
-
-	for (int aa = 0; aa < 2; aa++)
-	{
-		for (int bb = 0; bb < 4; bb++)
-		{
-			CWindowControl_Radio *pRadio = new CWindowControl_Radio;
-			pRadio->setWindow(pWindow);
-			pWindow->getControls().addEntry(pRadio);
-			pRadio->setGroupId(aa);
-			pRadio->setPosition(CVector2ui32(1000 + 150*aa, 250 + 30*bb));
-			pRadio->setSize(CVector2ui32(20, 20));
-			pRadio->setFillColour(0xBA0000FF);
-			pRadio->setLineColour(0x000000FF);
-			strText = "radio text";
-			pRadio->setText(strText);
-		}
-	}
-
-	CWindowControl_Edit *pEdit = new CWindowControl_Edit;
-	pEdit->setWindow(pWindow);
-	pWindow->getControls().addEntry(pEdit);
-	pEdit->setPosition(CVector2ui32(1150, 750));
-	pEdit->setSize(CVector2ui32(200, 200));
-	pEdit->setFillColour(0xBA0000FF);
-	pEdit->setLineColour(0x000000FF);
-	strText = "edit text";
-	pEdit->setText(strText);
-
-	vector<CWindowControl*> vecWindowControls = pWindow->getControls().getEntries();
-	for (CWindowControl *pWindowControl : vecWindowControls)
-	{
-		if (pWindowControl->getControlType() != WINDOW_CONTROL_EDIT)
-		{
-			//pWindow->getControls().removeEntry(pWindowControl);
-		}
-	}
-
-	pWindow->render();
-
-	return;
-	string strWTDFilePath = "C:\\Users\\James\\Desktop\\Original Files\\WTD\\loadingscreens.wtd";
-	//string strIMGFilePath = "C:\\Users\\James\\Desktop\\Original Files\\IMG\\VC\\gta3.dir";
-	//string strIMGFilePath = "C:\\Users\\James\\Desktop\\Original Files\\IMG\\SA\\gta3.img";
-	//string strIMGFilePath = "C:\\Users\\James\\Desktop\\IMG.img";
-	for (uint32 i = 0; i < 10; i++)
-	{
-		///*
-		CTiming::getInstance()->start("parse wtd");
-		CWTDFormat *pWTDFormat = CWTDManager::getInstance()->parseViaFile(strWTDFilePath);
-		CTiming::getInstance()->stop();
-		delete pWTDFormat;
-		//*/
-
-		/*
-		CTiming::getInstance()->start("parse img");
-		CIMGFormat *pIMGFormat = CIMGManager::getInstance()->parseViaFile(strIMGFilePath);
-		CTiming::getInstance()->stop();
-		delete pIMGFormat;
-		*/
-	}
-
-	string strTimingsFilePath = "C:\\Users\\James\\Desktop\\Timings.txt";
-	CFileUtility::removeFile(strTimingsFilePath);
-	for (auto it : CTiming::getInstance()->getTimings())
-	{
-		CFileUtility::storeFile(strTimingsFilePath, it.first + " " + CTiming::getInstance()->joinTimings(it.second) + "\n", true, false);
-	}
 }
 
 // windows/tabs
-void		CKGM::openMainWindow(void)
+void		CKGM::openWindow(void)
 {
-	CMainWindow *pMainWindow = getWindowManager()->addMainWindow();
-	getWindowManager()->setMainWindow(pMainWindow);
-	pMainWindow->setBackgroundColour(0x214E67FF);
-	pMainWindow->setSize(CVector2ui32(1025, 698));
+	getWindowManager()->openWindow();
 }
 
 void		CKGM::processWindows(void)
 {
-	getWindowManager()->getMainWindow()->processWindow();
-	// todo - also process windows for vector of CWindow*s
-}
-
-CMainWindow*				CKGM::getMainWindow(void)
-{
-	return m_pWindowManager->getMainWindow();
+	getWindowManager()->processWindows();
 }
 
 CWindow*					CKGM::getActiveWindow(void)
 {
-	return m_pWindowManager->getActiveWindow();
+	return CGUIManager::getInstance()->getActiveWindow();
 }
 
 CWindowTab*					CKGM::getActiveTab(void)
 {
-	return m_pWindowManager->getActiveWindow() == nullptr ? nullptr : m_pWindowManager->getActiveWindow()->getActiveTab();
+	if (getActiveWindow() == nullptr)
+	{
+		return nullptr;
+	}
+	else
+	{
+		return ((CTabbedWindow*) getActiveWindow())->getActiveTab();
+	}
 	/*
 	todo
 	CWindow *pWindow = m_pWindowManager->getActiveWindow();
 	switch (pWindow->getWindowType())
 	{
-	case WINDOW_TYPE_ENTRY_LIST:	return ((CTabbedWindow<CEntryListWindow*>*)pWindow)->getActiveTab();
+	case WINDOW_TYPE_ENTRY_LIST:	return ((CTabbedWindow<CIMGScreen*>*)pWindow)->getActiveTab();
 	case WINDOW_TYPE_ENTRY_EDITOR:	return ((CTabbedWindow<CEntryEditorWindow*>*)pWindow)->getActiveTab();
 	default:						return nullptr;
 	}
@@ -558,16 +377,24 @@ CWindowTab*					CKGM::getActiveTab(void)
 	return nullptr;
 }
 
-CEntryListWindow*			CKGM::getEntryListWindow(void)
+CIMGScreen*			CKGM::getIMGScreen(void)
 {
 	// todo
-	return getMainWindow() == nullptr ? nullptr : ((CEntryListWindow*)getWindowManager()->getEntryByIndex(0));
+	if (CGUIManager::getInstance()->getEntryCount() == 0)
+	{
+		return nullptr;
+	}
+	return (CIMGScreen*) CGUIManager::getInstance()->getEntryByIndex(0);
 }
 
-CEntryListWindowTab*		CKGM::getEntryListTab(void)
+CIMGScreenTab*		CKGM::getEntryListTab(void)
 {
 	// todo
-	return getActiveTab() == nullptr ? nullptr : ((CEntryListWindowTab*)getWindowManager()->getEntryByIndex(0)->getEntryByIndex(0));
+	if (getActiveTab() == nullptr)
+	{
+		return nullptr;
+	}
+	return ((CIMGScreenTab*) CGUIManager::getInstance()->getEntryByIndex(0)->getEntryByIndex(0));
 }
 
 // last used directory

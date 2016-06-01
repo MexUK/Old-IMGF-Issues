@@ -6,7 +6,7 @@ int WINAPI					WinMain(HINSTANCE hInstance, HINSTANCE hPreviousInstance, LPSTR p
 {
 	g_pKGM = new CKGM;
 	g_pKGM->init();
-	g_pKGM->openMainWindow();
+	g_pKGM->openWindow();
 	g_pKGM->processWindows();
 	g_pKGM->uninit();
 	return 0;

@@ -5,7 +5,7 @@
 #include "String/CStringUtility.h"
 #include "Globals.h"
 #include "CKGM.h"
-#include "Window/Window Types/Tabs/CEntryListWindowTab.h"
+#include "GUI/ScreenTabs/CIMGScreenTab.h"
 #include "Testing/CDebugger.h"
 #include "IMG/CIMGEntry.h"
 #include "Localization/CLocalizationManager.h"

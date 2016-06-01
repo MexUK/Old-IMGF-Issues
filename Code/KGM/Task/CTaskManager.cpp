@@ -7,7 +7,7 @@
 #include "File/CFileUtility.h"
 #include "Vector/CVectorUtility.h"
 #include "INI/CINIUtility.h"
-#include "Window/Window Types/CEntryListWindow.h"
+#include "GUI/Screens/CIMGScreen.h"
 #include "CSettingsManager.h"
 
 using namespace std;
@@ -109,7 +109,7 @@ void							CTaskManager::onTaskEnd(string strFeatureName, bool bFeatureAborted)
 	/*
 	todo
 
-	if (getKGM()->getEntryListWindow()->getEntryCount() > 0)
+	if (getKGM()->getIMGScreen()->getEntryCount() > 0)
 	{
 		getKGM()->getEntryListTab()->resetOverwriteEntryOption();
 	}
