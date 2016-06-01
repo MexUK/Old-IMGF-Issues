@@ -240,21 +240,24 @@ void		CKGM::initStaticData(void)
 
 void		CKGM::initEventBinding(void)
 {
-	auto fOnEntriesExtensionChange = [](void *pData)
+	auto pOnEntriesExtensionChange = [](void *pData)
 	{
 		if (getKGM()->getEntryListTab() != nullptr) // When opening an IMG parseIMG() will call addEntry() which will trigger this callback, but the active view instance won't be set yet.
 		{
 			getKGM()->getEntryListTab()->loadFilter_Type();
 		}
 	};
-
-	CEventManager::getInstance()->bindEvent(EVENT_onProgressTick,			[](void *pData) { getKGM()->getTaskManager()->onTaskProgressTick(); });
-	CEventManager::getInstance()->bindEvent(EVENT_onParseEntry,				[](void *pData) { getKGM()->getTaskManager()->onTaskProgressTick(); });
-	CEventManager::getInstance()->bindEvent(EVENT_onAddEntryExtension,		fOnEntriesExtensionChange);
-	CEventManager::getInstance()->bindEvent(EVENT_onRemoveEntryExtension,	fOnEntriesExtensionChange);
-	CEventManager::getInstance()->bindEvent(EVENT_onRebuildSerializeEntry,	[](void *pData) { getKGM()->getTaskManager()->onTaskProgressTick(); });
-	CEventManager::getInstance()->bindEvent(EVENT_onLoadRWVersion,			[](void *pData) { getKGM()->getTaskManager()->onTaskProgressTick(); });
-	CEventManager::getInstance()->bindEvent(EVENT_onLoadResourceType,		[](void *pData) { getKGM()->getTaskManager()->onTaskProgressTick(); });
+	
+	auto pOnTaskProgress = [](void *pData)
+	{
+		getKGM()->getTaskManager()->onTaskProgressTick();
+	};
+	
+	CEventManager::getInstance()->bindEvent(EVENT_onTaskProgress,				pOnTaskProgress);
+	CEventManager::getInstance()->bindEvent(EVENT_onParseIMGEntry,		pOnTaskProgress);
+	CEventManager::getInstance()->bindEvent(EVENT_onStoreIMGEntry,		pOnTaskProgress);
+	CEventManager::getInstance()->bindEvent(EVENT_onAddIMGEntryExtension,		pOnEntriesExtensionChange);
+	CEventManager::getInstance()->bindEvent(EVENT_onRemoveIMGEntryExtension,	pOnEntriesExtensionChange);
 }
 
 void		CKGM::initSettings(void)

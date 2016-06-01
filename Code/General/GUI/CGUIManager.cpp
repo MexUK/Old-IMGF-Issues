@@ -150,11 +150,11 @@ LRESULT CALLBACK			WndProc_Window(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lPa
 	switch (msg)
 	{
 	case WM_LBUTTONDOWN:
-		pWindow->triggerEvent(EVENT_onMouseDown, &CVector2ui32(GET_X_LPARAM(lParam), GET_Y_LPARAM(lParam)));
+		pWindow->triggerEvent(EVENT_onLeftMouseDown, &CVector2ui32(GET_X_LPARAM(lParam), GET_Y_LPARAM(lParam)));
 		pWindow->render();
 		break;
 	case WM_LBUTTONUP:
-		pWindow->triggerEvent(EVENT_onMouseUp, &CVector2ui32(GET_X_LPARAM(lParam), GET_Y_LPARAM(lParam)));
+		pWindow->triggerEvent(EVENT_onLeftMouseUp, &CVector2ui32(GET_X_LPARAM(lParam), GET_Y_LPARAM(lParam)));
 		pWindow->render();
 		break;
 	case WM_MOUSEMOVE:
@@ -162,7 +162,7 @@ LRESULT CALLBACK			WndProc_Window(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lPa
 		pWindow->render();
 		break;
 	case WM_LBUTTONDBLCLK:
-		pWindow->triggerEvent(EVENT_onDoubleLeftDown, &CVector2ui32(GET_X_LPARAM(lParam), GET_Y_LPARAM(lParam)));
+		pWindow->triggerEvent(EVENT_onLeftMouseDoubleClick, &CVector2ui32(GET_X_LPARAM(lParam), GET_Y_LPARAM(lParam)));
 		pWindow->render();
 		break;
 	case WM_KEYDOWN:
@@ -174,7 +174,7 @@ LRESULT CALLBACK			WndProc_Window(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lPa
 		pWindow->render();
 		break;
 	case WM_CHAR:
-		pWindow->triggerEvent(EVENT_onCharDown, &wParam);
+		pWindow->triggerEvent(EVENT_onCharacterDown, &wParam);
 		pWindow->render();
 		break;
 	case WM_PAINT:

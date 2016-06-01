@@ -96,7 +96,7 @@ void					CKGMWindow::onRender(void)
 	// render background
 	CGDIPlusUtility::drawRectangleFill(vecDrawStartPosition, getSize(), getBackgroundColour());
 
-	// render window inner backgrounds
+	// render window backgrounds
 	string strTabText = "Opened.IMG";
 	string strTotalEntriesText = "Total Entries: 0";
 

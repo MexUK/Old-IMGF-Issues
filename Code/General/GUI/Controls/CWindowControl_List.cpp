@@ -12,7 +12,7 @@ auto pOnRender_List			= [](void *pControl) { ((CWindowControl_List*) pControl)->
 // event binding
 void					CWindowControl_List::bindEvents(void)
 {
-	storeEventBoundFunction(getWindow()->bindEvent(EVENT_onMouseDown, pOnMouseDown_List, this));
+	storeEventBoundFunction(getWindow()->bindEvent(EVENT_onLeftMouseDown, pOnMouseDown_List, this));
 	storeEventBoundFunction(getWindow()->bindEvent(EVENT_onRender, pOnRender_List, this));
 }
 

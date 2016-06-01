@@ -11,7 +11,7 @@ auto pOnRender_Radio		= [](void *pControl) { ((CWindowControl_Radio*) pControl)-
 // event binding
 void					CWindowControl_Radio::bindEvents(void)
 {
-	storeEventBoundFunction(getWindow()->bindEvent(EVENT_onMouseUp, pOnMouseUp_Radio, this));
+	storeEventBoundFunction(getWindow()->bindEvent(EVENT_onLeftMouseUp, pOnMouseUp_Radio, this));
 	storeEventBoundFunction(getWindow()->bindEvent(EVENT_onRender, pOnRender_Radio, this));
 }
 
@@ -20,7 +20,7 @@ void		CWindowControl_Radio::onMouseUp(CVector2ui32& vecCursorPosition)
 {
 	if (isPointInControl(vecCursorPosition))
 	{
-		if (getWindow()->triggerEvent(EVENT_onCheckRadio, this))
+		if (getWindow()->triggerEvent(EVENT_onMarkRadio, this))
 		{
 			getWindow()->uncheckRadios(this);
 			setChecked(true);

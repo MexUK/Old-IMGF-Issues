@@ -14,7 +14,7 @@ auto pOnRender_Drop			= [](void *pControl) { ((CWindowControl_Drop*) pControl)->
 // event binding
 void					CWindowControl_Drop::bindEvents(void)
 {
-	storeEventBoundFunction(getWindow()->bindEvent(EVENT_onMouseUp, pOnMouseUp_Drop, this));
+	storeEventBoundFunction(getWindow()->bindEvent(EVENT_onLeftMouseUp, pOnMouseUp_Drop, this));
 	storeEventBoundFunction(getWindow()->bindEvent(EVENT_onRender, pOnRender_Drop, this));
 }
 

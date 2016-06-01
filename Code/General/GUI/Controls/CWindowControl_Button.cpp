@@ -12,8 +12,8 @@ auto pOnRender_Button		= [](void *pControl) { ((CWindowControl_Button*) pControl
 // event binding
 void					CWindowControl_Button::bindEvents(void)
 {
-	storeEventBoundFunction(getWindow()->bindEvent(EVENT_onMouseDown, pOnMouseDown_Button, this));
-	storeEventBoundFunction(getWindow()->bindEvent(EVENT_onMouseUp, pOnMouseUp_Button, this));
+	storeEventBoundFunction(getWindow()->bindEvent(EVENT_onLeftMouseDown, pOnMouseDown_Button, this));
+	storeEventBoundFunction(getWindow()->bindEvent(EVENT_onLeftMouseUp, pOnMouseUp_Button, this));
 	storeEventBoundFunction(getWindow()->bindEvent(EVENT_onRender, pOnRender_Button, this));
 }
 

@@ -13,8 +13,8 @@ auto pOnRender_Scroll		= [](void *pControl) { ((CWindowControl_Scroll*) pControl
 // event binding
 void					CWindowControl_Scroll::bindEvents(void)
 {
-	storeEventBoundFunction(getWindow()->bindEvent(EVENT_onMouseDown, pOnMouseDown_Scroll, this));
-	storeEventBoundFunction(getWindow()->bindEvent(EVENT_onMouseUp, pOnMouseUp_Scroll, this));
+	storeEventBoundFunction(getWindow()->bindEvent(EVENT_onLeftMouseDown, pOnMouseDown_Scroll, this));
+	storeEventBoundFunction(getWindow()->bindEvent(EVENT_onLeftMouseUp, pOnMouseUp_Scroll, this));
 	storeEventBoundFunction(getWindow()->bindEvent(EVENT_onMouseMove, pOnMouseMove_Scroll, this));
 	storeEventBoundFunction(getWindow()->bindEvent(EVENT_onRender, pOnRender_Scroll, this));
 }

@@ -16,7 +16,7 @@ auto pOnRender_Edit			= [](void *pControl) { ((CWindowControl_Edit*) pControl)->
 void					CWindowControl_Edit::bindEvents(void)
 {
 	storeEventBoundFunction(getWindow()->bindEvent(EVENT_onKeyDown, pOnKeyDown_Edit, this));
-	storeEventBoundFunction(getWindow()->bindEvent(EVENT_onCharDown, pOnCharDown_Edit, this));
+	storeEventBoundFunction(getWindow()->bindEvent(EVENT_onCharacterDown, pOnCharDown_Edit, this));
 	storeEventBoundFunction(getWindow()->bindEvent(EVENT_onRender, pOnRender_Edit, this));
 }
 

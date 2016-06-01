@@ -11,7 +11,7 @@ auto pOnRender_Check		= [](void *pControl) { ((CWindowControl_Check*) pControl)-
 // event binding
 void					CWindowControl_Check::bindEvents(void)
 {
-	storeEventBoundFunction(getWindow()->bindEvent(EVENT_onMouseUp, pOnMouseUp_Check, this));
+	storeEventBoundFunction(getWindow()->bindEvent(EVENT_onLeftMouseUp, pOnMouseUp_Check, this));
 	storeEventBoundFunction(getWindow()->bindEvent(EVENT_onRender, pOnRender_Check, this));
 }
 
@@ -20,7 +20,7 @@ void		CWindowControl_Check::onMouseUp(CVector2ui32& vecCursorPosition)
 {
 	if (CMathUtility::isPointInRectangle(vecCursorPosition, getPosition(), getSize() + CVector2ui32(getTextWidth(), 0)))
 	{
-		if (getWindow()->triggerEvent(EVENT_onCheckCheck, this))
+		if (getWindow()->triggerEvent(EVENT_onMarkCheck, this))
 		{
 			setChecked(!isChecked());
 			getWindow()->setMarkedToRedraw(true);

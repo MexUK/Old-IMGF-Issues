@@ -51,10 +51,10 @@ void									CWindow::unload(void)
 // event binding
 void									CWindow::bindEvents(void)
 {
-	storeEventBoundFunction(bindEvent(EVENT_onMouseDown, pOnMouseDown_Window, this));
-	storeEventBoundFunction(bindEvent(EVENT_onMouseUp, pOnMouseUp_Window, this));
+	storeEventBoundFunction(bindEvent(EVENT_onLeftMouseDown, pOnMouseDown_Window, this));
+	storeEventBoundFunction(bindEvent(EVENT_onLeftMouseUp, pOnMouseUp_Window, this));
 	storeEventBoundFunction(bindEvent(EVENT_onMouseMove, pOnMouseMove_Window, this));
-	storeEventBoundFunction(bindEvent(EVENT_onDoubleLeftDown, pOnDoubleLeftClick_Window, this));
+	storeEventBoundFunction(bindEvent(EVENT_onLeftMouseDoubleClick, pOnDoubleLeftClick_Window, this));
 }
 
 void									CWindow::bindAllEvents(void)
@@ -93,7 +93,7 @@ void									CWindow::onMouseDown(CVector2ui32& vecCursorPosition)
 			m_pFocusedControl = pWindowControl;
 			if (bGainedFocus)
 			{
-				pWindowControl->getWindow()->triggerEvent(EVENT_onGainFocus, pWindowControl);
+				pWindowControl->getWindow()->triggerEvent(EVENT_onControlGainFocus, pWindowControl);
 				bGainedFocusOverall = true;
 			}
 		}
@@ -168,7 +168,7 @@ void									CWindow::onMouseMove(CVector2ui32& vecCursorPosition)
 			if (pWindowControl->isPointMarkedAsInControl())
 			{
 				pWindowControl->setPointMarkedAsInControl(false);
-				triggerEvent(EVENT_onCursorExitControl, pWindowControl);
+				triggerEvent(EVENT_onCursorLeaveControl, pWindowControl);
 			}
 		}
 	}
@@ -314,7 +314,7 @@ void									CWindow::setMaximized(bool bMaximized)
 	if (m_bMaximized)
 	{
 		// Don't use ShowWindow() because it does full screen rather than maximized. (It excludes and overlaps the bottom app bar)
-		//ShowWindow(getWindowHandle(), SW_MAXIMIZE);
+		// todo ShowWindow(getWindowHandle(), SW_MAXIMIZE);
 
 		RECT rectWorkArea;
 		SystemParametersInfo(SPI_GETWORKAREA, 0, &rectWorkArea, 0);
@@ -322,7 +322,7 @@ void									CWindow::setMaximized(bool bMaximized)
 	}
 	else
 	{
-		//ShowWindow(getWindowHandle(), SW_RESTORE);
+		// todo ShowWindow(getWindowHandle(), SW_RESTORE);
 
 		RECT rectWorkArea;
 		rectWorkArea.left = getPreviousPosition().m_x;
@@ -331,6 +331,8 @@ void									CWindow::setMaximized(bool bMaximized)
 		rectWorkArea.bottom = 698;
 		SetWindowPos(getWindowHandle(), NULL, rectWorkArea.left, rectWorkArea.top, rectWorkArea.right, rectWorkArea.bottom, NULL);
 	}
+
+	render();
 }
 
 // other
