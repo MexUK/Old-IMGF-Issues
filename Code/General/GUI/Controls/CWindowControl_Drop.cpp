@@ -8,6 +8,16 @@
 
 using namespace std;
 
+auto pOnMouseUp_Drop		= [](void *pControl, void *pTriggerArg) { ((CWindowControl_Drop*) pControl)->onMouseUp(*(CVector2ui32*) pTriggerArg); };
+auto pOnRender_Drop			= [](void *pControl) { ((CWindowControl_Drop*) pControl)->render(); };
+
+// event binding
+void					CWindowControl_Drop::bindEvents(void)
+{
+	storeEventBoundFunction(getWindow()->bindEvent(EVENT_onMouseUp, pOnMouseUp_Drop, this));
+	storeEventBoundFunction(getWindow()->bindEvent(EVENT_onRender, pOnRender_Drop, this));
+}
+
 // input
 void		CWindowControl_Drop::onMouseUp(CVector2ui32& vecCursorPosition)
 {
@@ -23,7 +33,7 @@ void		CWindowControl_Drop::onMouseUp(CVector2ui32& vecCursorPosition)
 		else
 		{
 			// entry is selected
-			if (CEventManager::getInstance()->triggerEvent(EVENT_onHideDropList, this))
+			if (getWindow()->triggerEvent(EVENT_onHideDropList, this))
 			{
 				setSelectionListOpen(false);
 				setSelectedIndex(uiEntryIndex);
@@ -33,7 +43,7 @@ void		CWindowControl_Drop::onMouseUp(CVector2ui32& vecCursorPosition)
 	}
 	else if (CMathUtility::isPointInRectangle(vecCursorPosition, getPosition(), getSize()))
 	{
-		if (CEventManager::getInstance()->triggerEvent(EVENT_onShowDropList, this))
+		if (getWindow()->triggerEvent(EVENT_onShowDropList, this))
 		{
 			setSelectionListOpen(true);
 			getWindow()->setMarkedToRedraw(true);
@@ -91,6 +101,7 @@ CVector2ui32		CWindowControl_Drop::getSelectionListSize(void)
 	return CVector2ui32(getListWidth(), getEntryCount() * getListRowHeight());
 }
 
+// selection list entry
 CVector2ui32		CWindowControl_Drop::getSelectionListEntryPosition(uint32 uiEntryIndex)
 {
 	CVector2ui32 vecPosition = getSelectionListPosition();

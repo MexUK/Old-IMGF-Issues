@@ -32,8 +32,10 @@ public:
 		getScrolls()->removeAllEntries();
 	}
 
-	void									onCharDown(uint8 uiCharCode);
+	void									bindEvents(void);
+
 	void									onKeyDown(uint8 uiCharCode);
+	void									onCharDown(uint8 uiCharCode);
 
 	void									render(void);
 	
@@ -82,8 +84,8 @@ public:
 	std::vector<std::string>&				getTextLines(void) { return m_vecTextLines; }
 
 private:
-	void									processChar(uint32 uiCharCode);
 	void									processKey(uint32 uiCharCode);
+	void									processChar(uint32 uiCharCode);
 
 	void									addLine(void);
 	void									addLine(uint32 uiLineIndex, std::string& strText);

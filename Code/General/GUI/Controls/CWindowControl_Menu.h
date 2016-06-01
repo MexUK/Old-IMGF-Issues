@@ -14,7 +14,9 @@ public:
 	CWindowControl_Menu(void) :
 		CWindowControl(WINDOW_CONTROL_MENU)
 	{};
-	
+
+	void									bindEvents(void);
+
 	void									render(void);
 
 	bool									isPointInControl(CVector2ui32& vecPoint) { return false; }

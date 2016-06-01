@@ -21,7 +21,9 @@ public:
 		m_uiListRowHeight(30),
 		m_bSelectionListOpen(false)
 	{};
-	
+
+	void									bindEvents(void);
+
 	void									onMouseUp(CVector2ui32& vecCursorPosition);
 
 	void									render(void);

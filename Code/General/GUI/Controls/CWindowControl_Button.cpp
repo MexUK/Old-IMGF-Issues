@@ -3,6 +3,19 @@
 #include "GDIPlus/CGDIPlusUtility.h"
 #include "Event/CEventManager.h"
 #include "Event/eEvent.h"
+#include "GUI/Window/CWindow.h"
+
+auto pOnMouseDown_Button	= [](void *pControl, void *pTriggerArg) { ((CWindowControl_Button*) pControl)->onMouseDown(*(CVector2ui32*) pTriggerArg); };
+auto pOnMouseUp_Button		= [](void *pControl, void *pTriggerArg) { ((CWindowControl_Button*) pControl)->onMouseUp(*(CVector2ui32*) pTriggerArg); };
+auto pOnRender_Button		= [](void *pControl) { ((CWindowControl_Button*) pControl)->render(); };
+
+// event binding
+void					CWindowControl_Button::bindEvents(void)
+{
+	storeEventBoundFunction(getWindow()->bindEvent(EVENT_onMouseDown, pOnMouseDown_Button, this));
+	storeEventBoundFunction(getWindow()->bindEvent(EVENT_onMouseUp, pOnMouseUp_Button, this));
+	storeEventBoundFunction(getWindow()->bindEvent(EVENT_onRender, pOnRender_Button, this));
+}
 
 // input
 void		CWindowControl_Button::onMouseDown(CVector2ui32& vecCursorPosition)
@@ -17,7 +30,7 @@ void		CWindowControl_Button::onMouseUp(CVector2ui32& vecCursorPosition)
 {
 	if (isPointInControl(vecCursorPosition))
 	{
-		CEventManager::getInstance()->triggerEvent(EVENT_onPressButton, this);
+		getWindow()->triggerEvent(EVENT_onPressButton, this);
 	}
 }
 

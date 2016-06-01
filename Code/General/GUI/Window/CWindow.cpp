@@ -12,6 +12,11 @@
 
 using namespace std;
 
+auto pOnMouseDown_Window		= [](void *pWindow, void *pTriggerArg) { ((CWindow*) pWindow)->onMouseDown(*(CVector2ui32*) pTriggerArg); };
+auto pOnMouseUp_Window			= [](void *pWindow, void *pTriggerArg) { ((CWindow*) pWindow)->onMouseUp(*(CVector2ui32*) pTriggerArg); };
+auto pOnMouseMove_Window		= [](void *pWindow, void *pTriggerArg) { ((CWindow*) pWindow)->onMouseMove(*(CVector2ui32*) pTriggerArg); };
+auto pOnDoubleLeftClick_Window	= [](void *pWindow, void *pTriggerArg) { ((CWindow*) pWindow)->onDoubleLeftClick(*(CVector2ui32*) pTriggerArg); };
+
 CWindow::CWindow(void) :
 	CEventType(EVENT_TYPE_WINDOW),
 	m_hwndWindow(nullptr),
@@ -43,6 +48,33 @@ void									CWindow::unload(void)
 {
 }
 
+// event binding
+void									CWindow::bindEvents(void)
+{
+	storeEventBoundFunction(bindEvent(EVENT_onMouseDown, pOnMouseDown_Window, this));
+	storeEventBoundFunction(bindEvent(EVENT_onMouseUp, pOnMouseUp_Window, this));
+	storeEventBoundFunction(bindEvent(EVENT_onMouseMove, pOnMouseMove_Window, this));
+	storeEventBoundFunction(bindEvent(EVENT_onDoubleLeftDown, pOnDoubleLeftClick_Window, this));
+}
+
+void									CWindow::bindAllEvents(void)
+{
+	bindEvents();
+	for (CWindowControl *pWindowControl : getControls().getEntries())
+	{
+		pWindowControl->bindEvents();
+	}
+}
+
+void									CWindow::unbindAllEvents(void)
+{
+	for (CWindowControl *pWindowControl : getControls().getEntries())
+	{
+		pWindowControl->bindEvents();
+	}
+	unbindEvents();
+}
+
 // input
 void									CWindow::onMouseDown(CVector2ui32& vecCursorPosition)
 {
@@ -51,7 +83,7 @@ void									CWindow::onMouseDown(CVector2ui32& vecCursorPosition)
 		return;
 	}
 
-	// cursor enter/leave control?
+	// cursor enter/leave control and focused control
 	bool bGainedFocusOverall = false;
 	for (CWindowControl *pWindowControl : getControls().getEntries())
 	{
@@ -61,18 +93,17 @@ void									CWindow::onMouseDown(CVector2ui32& vecCursorPosition)
 			m_pFocusedControl = pWindowControl;
 			if (bGainedFocus)
 			{
-				pWindowControl->onGainFocus();
+				pWindowControl->getWindow()->triggerEvent(EVENT_onGainFocus, pWindowControl);
 				bGainedFocusOverall = true;
 			}
 		}
-		pWindowControl->onMouseDown(vecCursorPosition);
 	}
 	if (!bGainedFocusOverall)
 	{
 		m_pFocusedControl = nullptr;
 	}
 
-	// move/resize window?
+	// move/resize window
 	if (isMaximized())
 	{
 		return;
@@ -105,11 +136,6 @@ void									CWindow::onMouseDown(CVector2ui32& vecCursorPosition)
 
 void									CWindow::onMouseUp(CVector2ui32& vecCursorPosition)
 {
-	for (CWindowControl *pWindowControl : getControls().getEntries())
-	{
-		pWindowControl->onMouseUp(vecCursorPosition);
-	}
-
 	if (isMovingWindow())
 	{
 		setMovingWindow(false);
@@ -129,14 +155,12 @@ void									CWindow::onMouseMove(CVector2ui32& vecCursorPosition)
 {
 	for (CWindowControl *pWindowControl : getControls().getEntries())
 	{
-		pWindowControl->onMouseMove(vecCursorPosition);
-
 		if (pWindowControl->isPointInControl(vecCursorPosition))
 		{
 			if (!pWindowControl->isPointMarkedAsInControl())
 			{
 				pWindowControl->setPointMarkedAsInControl(true);
-				CEventManager::getInstance()->triggerEvent(EVENT_onCursorEnterControl, pWindowControl);
+				triggerEvent(EVENT_onCursorEnterControl, pWindowControl);
 			}
 		}
 		else
@@ -144,7 +168,7 @@ void									CWindow::onMouseMove(CVector2ui32& vecCursorPosition)
 			if (pWindowControl->isPointMarkedAsInControl())
 			{
 				pWindowControl->setPointMarkedAsInControl(false);
-				CEventManager::getInstance()->triggerEvent(EVENT_onCursorExitControl, pWindowControl);
+				triggerEvent(EVENT_onCursorExitControl, pWindowControl);
 			}
 		}
 	}
@@ -232,85 +256,54 @@ void									CWindow::onDoubleLeftClick(CVector2ui32& vecCursorPosition)
 	}
 }
 
-void									CWindow::onCharDown(uint8 uiCharCode)
-{
-	for (CWindowControl *pWindowControl : getControls().getEntries())
-	{
-		pWindowControl->onCharDown(uiCharCode);
-	}
-}
-
-void									CWindow::onKeyDown(uint8 uiCharCode)
-{
-	for (CWindowControl *pWindowControl : getControls().getEntries())
-	{
-		pWindowControl->onKeyDown(uiCharCode);
-	}
-}
-
-void									CWindow::onKeyUp(void)
-{
-}
-
 // render
 void									CWindow::render(void)
 {
-	CVector2ui32 vecDrawStartPosition = CVector2ui32(0, getTitleBarHeight());
-
-
-
-	// render background
-	CGDIPlusUtility::drawRectangleFill(vecDrawStartPosition, getSize(), getBackgroundColour());
-
-	// render window inner backgrounds
-	string strTabText = "Opened.IMG";
-	string strTotalEntriesText = "Total Entries: 0";
-
-	uint32 uiTabTextFontSize = 14;
-	uint32 uiTabTextY = vecDrawStartPosition.m_y + 66;
-	uint32 uiTabTextWidth = CGDIPlusUtility::getTextWidth(strTabText, uiTabTextFontSize);
-	uint32 uiTabPaddingX = 17;
-	uint32 uiTabWidth = uiTabTextWidth + (2 * uiTabPaddingX);
-	uint32 uiTabTextX = vecDrawStartPosition.m_x + 252 + uiTabPaddingX;
-
-	CGDIPlusUtility::drawRectangleFill(CVector2ui32(vecDrawStartPosition.m_x + 213, vecDrawStartPosition.m_y), CVector2ui32(805, 38), 0x739BB2FF);
-	CGDIPlusUtility::drawRectangleFill(CVector2ui32(vecDrawStartPosition.m_x + 213, vecDrawStartPosition.m_y + 38), CVector2ui32(805, 586), 0x2B6381FF);
-	CGDIPlusUtility::drawRectangleWithBorderRadius(CVector2ui32(vecDrawStartPosition.m_x + 226, vecDrawStartPosition.m_y + 57), CVector2ui32(777, 528), 20, 0x2B6381FF, 0xFDFEFEFF);
-	//CGDIPlusUtility::drawRectangleFill(CVector2ui32(vecDrawStartPosition.m_x + 252, vecDrawStartPosition.m_y + 87), CVector2ui32(732, 480), 0xECF3FDFF);
-	CGDIPlusUtility::drawRectangleFillWithGradient(CVector2ui32(vecDrawStartPosition.m_x + 252, vecDrawStartPosition.m_y + 61), CVector2ui32(uiTabWidth, 26), 0x5489A7FF, 0x316988FF);
-	CGDIPlusUtility::drawText(CVector2ui32(vecDrawStartPosition.m_x + uiTabTextX, uiTabTextY), CVector2ui32(uiTabWidth, 26), strTabText, 0xE1E6EFFF, uiTabTextFontSize, false);
-	CGDIPlusUtility::drawText(CVector2ui32(vecDrawStartPosition.m_x + 252, vecDrawStartPosition.m_y + 597), CVector2ui32(200, 20), strTotalEntriesText, 0xE1E6EFFF, 13, false);
-
-	uint32 uiButtonY = vecDrawStartPosition.m_y + 38 + 40;
-	for (uint32 i = 1; i < 14; i++)
+	if (!isMarkedToRedraw())
 	{
-		uint32 uiFillColour = (i % 2) == 0 ? 0x1A3C4EFF : 0x214E67FF;
-		CGDIPlusUtility::drawRectangleFill(CVector2ui32(38, uiButtonY), CVector2ui32(172, 40), uiFillColour);
-		uiButtonY += 40;
+		return;
 	}
 
-	// render controls
-	for (CWindowControl *pWindowControl : m_vecControls.getEntries())
-	{
-		pWindowControl->render();
-	}
+	RedrawWindow(getWindowHandle(), nullptr, nullptr, RDW_UPDATENOW);
 }
 
-// process
-void									CWindow::processWindow(void)
+void									CWindow::onRenderFromWMPaint(void)
 {
-	/*
-	todo
-	MSG msg;
+	// prepare
+	RECT rect;
+	GetClientRect(getWindowHandle(), &rect);
 
-	PeekMessage(&msg, 0, WM_USER, WM_USER, PM_NOREMOVE);
+	PAINTSTRUCT ps;
+	HDC hdc = BeginPaint(getWindowHandle(), &ps);
 
-	while (GetMessage(&msg, getWindowHandle(), 0, 0))
-	{
-		TranslateMessage(&msg);
-		DispatchMessage(&msg);
-	}
-	*/
+	HDC hdcMem = CreateCompatibleDC(hdc);
+	HBITMAP hbmMem = CreateCompatibleBitmap(hdc, rect.right, rect.bottom);
+
+	HANDLE hOld = SelectObject(hdcMem, hbmMem);
+
+	// store hdc
+	setHDC(hdcMem);
+	CGDIPlusUtility::setHDC(hdcMem);
+
+	// clear background
+	//clearBackground(); // todo - move to like CGDIPlusUtility::clearRect(CVector4ui32(x,y,w,h), CVector3ui8(r,g,b));
+
+	// render to memory
+	triggerEvent(EVENT_onRenderBefore);
+	triggerEvent(EVENT_onRender);
+	triggerEvent(EVENT_onRenderAfter);
+
+	// render to screen
+	BitBlt(hdc, 0, 0, rect.right, rect.bottom, hdcMem, 0, 0, SRCCOPY);
+
+	// finalize
+	SelectObject(hdcMem, hOld);
+	DeleteObject(hbmMem);
+	DeleteDC(hdcMem);
+
+	EndPaint(getWindowHandle(), &ps);
+
+	setMarkedToRedraw(false);
 }
 
 // maximized

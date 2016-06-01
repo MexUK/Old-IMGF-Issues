@@ -8,11 +8,13 @@
 #include "Pool/CVectorPool.h"
 #include "GUI/Control/CWindowControl.h"
 #include "Event/CEventType.h"
+#include "Event/CEventBoundFunction.h"
+#include "Event/CEventBinder.h"
 
 class CWindowControl_Radio;
 class CDropTarget;
 
-class CWindow : public CEventType
+class CWindow : public CEventType, public CEventBinder
 {
 public:
 	CWindow(void);
@@ -20,20 +22,20 @@ public:
 	
 	void									unload(void);
 
+	void									bindEvents(void);
+	void									bindAllEvents(void);
+	void									unbindAllEvents(void);
+
 	void									onMouseDown(CVector2ui32& vecCursorPosition);
 	void									onMouseUp(CVector2ui32& vecCursorPosition);
 	void									onMouseMove(CVector2ui32& vecCursorPosition);
 	void									onDoubleLeftClick(CVector2ui32& vecCursorPosition);
-	void									onCharDown(uint8 uiCharCode);
-	void									onKeyDown(uint8 uiCharCode);
-	void									onKeyUp(void);
 
 	virtual void							render(void);
-
-	void									processWindow(void);
+	void									onRenderFromWMPaint(void);
 
 	void									uncheckRadios(CWindowControl_Radio *pRadio);
-	
+
 	void									setOpenLastFilename(std::string strFileName);
 	void									clearOpenLastFilename(void);
 

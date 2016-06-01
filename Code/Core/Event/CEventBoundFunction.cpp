@@ -17,7 +17,7 @@ void					CEventBoundFunction::onEventTriggered(void *pFunctionArgument)
 	switch (m_eEventFunctionType)
 	{
 	case EVENT_FUNCTION_TYPE_1_ARG:
-		m_pFunction_1Arg(pFunctionArgument);
+		m_pFunction_1Arg(m_pFunctionArgument);
 		break;
 	case EVENT_FUNCTION_TYPE_2_ARGS:
 		m_pFunction_2Args(m_pFunctionArgument, pFunctionArgument);

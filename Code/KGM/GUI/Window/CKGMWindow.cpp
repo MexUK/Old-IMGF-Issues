@@ -24,13 +24,12 @@ CKGMWindow::CKGMWindow(void)
 // event binding
 void					CKGMWindow::bindEvents(void)
 {
-	/*
-	todo
-	bindEvent(EVENT_onRender, [](void *pData)
+	bindEvent(EVENT_onRender, [](void *pWindow)
 	{
-		((CKGMWindow*) pData)->renderTitleBar();
-	});
-	*/
+		((CKGMWindow*) pWindow)->onRender();
+	}, this);
+
+	CTabbedWindow::bindEvents();
 }
 
 // window initialization
@@ -75,7 +74,7 @@ void					CKGMWindow::initTabs(void)
 }
 
 // render
-void					CKGMWindow::renderTitleBar(void)
+void					CKGMWindow::onRender(void)
 {
 	// render background
 	CGDIPlusUtility::drawRectangleFill(CVector2ui32(0, 0), getSize(), getBackgroundColour());
@@ -88,6 +87,47 @@ void					CKGMWindow::renderTitleBar(void)
 
 	CGDIPlusUtility::drawRectangleFill(CVector2ui32(0, 0), CVector2ui32(getSize().m_x, getTitleBarHeight()), 0x387EA3FF);
 	CGDIPlusUtility::drawText(CVector2ui32(uiTitleBarTextX, 1), CVector2ui32(uiTitleBarTextWidth, getTitleBarHeight()), strTitleBarText, 0xE1E6EFFF, uiTitleBarTextFontSize, false);
+
+
+
+
+	CVector2ui32 vecDrawStartPosition = CVector2ui32(0, getTitleBarHeight());
+
+	// render background
+	CGDIPlusUtility::drawRectangleFill(vecDrawStartPosition, getSize(), getBackgroundColour());
+
+	// render window inner backgrounds
+	string strTabText = "Opened.IMG";
+	string strTotalEntriesText = "Total Entries: 0";
+
+	uint32 uiTabTextFontSize = 14;
+	uint32 uiTabTextY = vecDrawStartPosition.m_y + 66;
+	uint32 uiTabTextWidth = CGDIPlusUtility::getTextWidth(strTabText, uiTabTextFontSize);
+	uint32 uiTabPaddingX = 17;
+	uint32 uiTabWidth = uiTabTextWidth + (2 * uiTabPaddingX);
+	uint32 uiTabTextX = vecDrawStartPosition.m_x + 252 + uiTabPaddingX;
+
+	CGDIPlusUtility::drawRectangleFill(CVector2ui32(vecDrawStartPosition.m_x + 213, vecDrawStartPosition.m_y), CVector2ui32(805, 38), 0x739BB2FF);
+	CGDIPlusUtility::drawRectangleFill(CVector2ui32(vecDrawStartPosition.m_x + 213, vecDrawStartPosition.m_y + 38), CVector2ui32(805, 586), 0x2B6381FF);
+	CGDIPlusUtility::drawRectangleWithBorderRadius(CVector2ui32(vecDrawStartPosition.m_x + 226, vecDrawStartPosition.m_y + 57), CVector2ui32(777, 528), 20, 0x2B6381FF, 0xFDFEFEFF);
+	// todo CGDIPlusUtility::drawRectangleFill(CVector2ui32(vecDrawStartPosition.m_x + 252, vecDrawStartPosition.m_y + 87), CVector2ui32(732, 480), 0xECF3FDFF);
+	CGDIPlusUtility::drawRectangleFillWithGradient(CVector2ui32(vecDrawStartPosition.m_x + 252, vecDrawStartPosition.m_y + 61), CVector2ui32(uiTabWidth, 26), 0x5489A7FF, 0x316988FF);
+	CGDIPlusUtility::drawText(CVector2ui32(vecDrawStartPosition.m_x + uiTabTextX, uiTabTextY), CVector2ui32(uiTabWidth, 26), strTabText, 0xE1E6EFFF, uiTabTextFontSize, false);
+	CGDIPlusUtility::drawText(CVector2ui32(vecDrawStartPosition.m_x + 252, vecDrawStartPosition.m_y + 597), CVector2ui32(200, 20), strTotalEntriesText, 0xE1E6EFFF, 13, false);
+
+	uint32 uiButtonY = vecDrawStartPosition.m_y + 38 + 40;
+	for (uint32 i = 1; i < 14; i++)
+	{
+		uint32 uiFillColour = (i % 2) == 0 ? 0x1A3C4EFF : 0x214E67FF;
+		CGDIPlusUtility::drawRectangleFill(CVector2ui32(38, uiButtonY), CVector2ui32(172, 40), uiFillColour);
+		uiButtonY += 40;
+	}
+
+	// render controls
+	for (CWindowControl *pWindowControl : getControls().getEntries())
+	{
+		pWindowControl->render();
+	}
 }
 
 // input processing

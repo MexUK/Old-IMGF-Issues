@@ -12,6 +12,8 @@ using namespace std;
 
 bool g_bWindowRenderHasOccurred = false; // temp
 
+auto pOnMouseMove_GUIManager		= [](void *pGUIManager, void *pTriggerArg) { ((CGUIManager*) pGUIManager)->onMouseMove(*(CVector2ui32*) pTriggerArg); };
+
 CGUIManager::CGUIManager(void) :
 	m_pActiveWindow(nullptr)
 {
@@ -19,10 +21,18 @@ CGUIManager::CGUIManager(void) :
 
 void						CGUIManager::init(void)
 {
+	bindEvents();
 }
 
 void						CGUIManager::uninit(void)
 {
+	unbindEvents();
+}
+
+// event binding
+void						CGUIManager::bindEvents(void)
+{
+	storeEventBoundFunction(CEventManager::getInstance()->bindEvent(EVENT_onMouseMove, pOnMouseMove_GUIManager, this, 1000));
 }
 
 // add window
@@ -39,6 +49,7 @@ CWindow*					CGUIManager::addWindow(CVector2i32& vecWindowPosition, CVector2ui32
 	{
 		return nullptr;
 	}
+	pWindow->bindAllEvents();
 	return pWindow;
 	*/
 	return nullptr;
@@ -54,6 +65,7 @@ CTabbedWindow*				CGUIManager::addTabbedWindow(CVector2i32& vecWindowPosition, C
 	{
 		return nullptr;
 	}
+	pTabbedWindow->bindAllEvents();
 	addEntry(pTabbedWindow);
 	return pTabbedWindow;
 }
@@ -129,218 +141,72 @@ void					CGUIManager::processWindows(void)
 LRESULT CALLBACK			WndProc_Window(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lParam)
 {
 	CGUIManager *pGUIManager = CGUIManager::getInstance();
-	// todo CWindow *pWindow = getWindowByHwnd(hwnd);
-	CWindow *pWindow = pGUIManager->getEntryByIndex(0);
+	CWindow *pWindow = pGUIManager->getWindowByHwnd(hwnd);
 	if (!pWindow)
 	{
 		return DefWindowProc(hwnd, msg, wParam, lParam);
 	}
+
 	switch (msg)
 	{
 	case WM_LBUTTONDOWN:
-		pGUIManager->onMouseDown(CVector2ui32(GET_X_LPARAM(lParam), GET_Y_LPARAM(lParam)));
+		pWindow->triggerEvent(EVENT_onMouseDown, &CVector2ui32(GET_X_LPARAM(lParam), GET_Y_LPARAM(lParam)));
+		pWindow->render();
 		break;
 	case WM_LBUTTONUP:
-		pGUIManager->onMouseUp(CVector2ui32(GET_X_LPARAM(lParam), GET_Y_LPARAM(lParam)));
+		pWindow->triggerEvent(EVENT_onMouseUp, &CVector2ui32(GET_X_LPARAM(lParam), GET_Y_LPARAM(lParam)));
+		pWindow->render();
 		break;
 	case WM_MOUSEMOVE:
-		pGUIManager->onMouseMove(CVector2ui32(GET_X_LPARAM(lParam), GET_Y_LPARAM(lParam)));
+		pWindow->triggerEvent(EVENT_onMouseMove, &CVector2ui32(GET_X_LPARAM(lParam), GET_Y_LPARAM(lParam)));
+		pWindow->render();
 		break;
 	case WM_LBUTTONDBLCLK:
-		pGUIManager->onDoubleLeftClick(CVector2ui32(GET_X_LPARAM(lParam), GET_Y_LPARAM(lParam)));
+		pWindow->triggerEvent(EVENT_onDoubleLeftDown, &CVector2ui32(GET_X_LPARAM(lParam), GET_Y_LPARAM(lParam)));
+		pWindow->render();
 		break;
 	case WM_KEYDOWN:
-		pGUIManager->onKeyDown(wParam);
+		pWindow->triggerEvent(EVENT_onKeyDown, &wParam);
+		pWindow->render();
 		break;
 	case WM_KEYUP:
-		pGUIManager->onKeyUp();
+		pWindow->triggerEvent(EVENT_onKeyUp, &wParam);
+		pWindow->render();
 		break;
 	case WM_CHAR:
-		pGUIManager->onCharDown(wParam);
+		pWindow->triggerEvent(EVENT_onCharDown, &wParam);
+		pWindow->render();
 		break;
 	case WM_PAINT:
-		// todo if (pGUIManager->getMainWindow() != nullptr)
-		//{
-			pGUIManager->onRender();
-		//}
+		pWindow->onRenderFromWMPaint();
 		break;
-	case WM_SIZE:
-		/*
-		todo
-		if (pGUIManager->getMainWindow() != nullptr)
-		{
-			pGUIManager->getMainWindow()->setSize(CVector2ui32(LOWORD(lParam), HIWORD(lParam)));
-			pGUIManager->getMainWindow()->setMarkedToRedraw(true);
-			pGUIManager->render();
-		}
-		*/
-		break;
-	case WM_NCCALCSIZE:
-	{
-		/*
-		if (wParam == FALSE)
-		{
-		RECT *pRect = (RECT*)lParam;
-		pRect->left = vecMainWindowNextPosition.m_x;
-		pRect->top = vecMainWindowNextPosition.m_y;
-		return WVR_REDRAW;
-		}
-		break;
-		*/
-	}
-	case WM_ERASEBKGND:
-		if (pGUIManager->getEntryCount() > 0) // todo
-		{
-			//pMainWindowManager->clearBackground();
-		}
+	case WM_ERASEBKGND: // todo - needed?
 		return 1;
 	case WM_CLOSE:
 		PostQuitMessage(0);
 		break;
-	default:
-		return DefWindowProc(hwnd, msg, wParam, lParam);
-	}
-	return 0;
-}
-
-void					CGUIManager::onMouseDown(CVector2ui32& vecCursorPosition)
-{
-	for (CWindow *pWindow : getEntries())
-	{
-		pWindow->onMouseDown(vecCursorPosition);
 	}
 
 	CEventManager::getInstance()->setEventHogged(false);
 
-	render();
-}
-
-void					CGUIManager::onMouseUp(CVector2ui32& vecCursorPosition)
-{
-	for (CWindow *pWindow : getEntries())
-	{
-		pWindow->onMouseUp(vecCursorPosition);
-	}
-
-	CEventManager::getInstance()->setEventHogged(false);
-
-	render();
+	return DefWindowProc(hwnd, msg, wParam, lParam);
 }
 
 void					CGUIManager::onMouseMove(CVector2ui32& vecCursorPosition)
 {
-	for (CWindow *pWindow : getEntries())
-	{
-		pWindow->onMouseMove(vecCursorPosition);
-	}
-
-	render();
-
-	CEventManager::getInstance()->setEventHogged(false);
 	CEventManager::getInstance()->setLastCursorPosition(vecCursorPosition);
-}
-
-void					CGUIManager::onDoubleLeftClick(CVector2ui32& vecCursorPosition)
-{
-	CEventManager::getInstance()->setEventHogged(false);
-}
-
-void					CGUIManager::onCharDown(uint8 uiCharCode)
-{
-	for (CWindow *pWindow : getEntries())
-	{
-		pWindow->onCharDown(uiCharCode);
-	}
-
-	render();
-
-	CEventManager::getInstance()->setEventHogged(false);
-}
-
-void					CGUIManager::onKeyDown(uint8 uiCharCode)
-{
-	for (CWindow *pWindow : getEntries())
-	{
-		pWindow->onKeyDown(uiCharCode);
-	}
-
-	render();
-
-	CEventManager::getInstance()->setEventHogged(false);
-}
-
-void					CGUIManager::onKeyUp(void)
-{
-	CEventManager::getInstance()->setEventHogged(false);
 }
 
 // window render
 void					CGUIManager::render(void)
 {
-	bool bMarkedToRedraw = getEntryByIndex(0)->isMarkedToRedraw();
-
-	if (bMarkedToRedraw)
-	{
-		//UpdateWindow(m_pMainWindow->getWindowHandle());
-		//RedrawWindow(m_pMainWindow->getWindowHandle(), NULL, NULL, RDW_INVALIDATE | RDW_INTERNALPAINT);
-
-		RedrawWindow(getEntryByIndex(0)->getWindowHandle(), NULL, NULL, RDW_INVALIDATE);
-
-		/*
-		RECT rect;
-		rect.left = 0;
-		rect.top = 0;
-		rect.right = 1025;
-		rect.bottom = 698;
-		RedrawWindow(m_pMainWindow->getWindowHandle(), &rect, NULL, RDW_INVALIDATE);
-		*/
-	}
-
-	onRender();
-}
-
-void					CGUIManager::onRender(void)
-{
-	// prepare
-	RECT rect;
-	GetClientRect(getEntryByIndex(0)->getWindowHandle(), &rect);
-
-	PAINTSTRUCT ps;
-	HDC hdc = BeginPaint(getEntryByIndex(0)->getWindowHandle(), &ps);
-
-	HDC hdcMem = CreateCompatibleDC(hdc);
-	HBITMAP hbmMem = CreateCompatibleBitmap(hdc, rect.right, rect.bottom);
-
-	HANDLE hOld = SelectObject(hdcMem, hbmMem);
-
-	// store hdc
-	// todo m_pMainWindow->setHDC(hdcMem);
 	for (CWindow *pWindow : getEntries())
 	{
-		pWindow->setHDC(hdcMem);
+		if (pWindow->isMarkedToRedraw())
+		{
+			pWindow->render();
+		}
 	}
-	CGDIPlusUtility::setHDC(hdcMem);
-
-	// clear background
-	clearBackground(); // todo - move to like CGDIPlusUtility::clearRect(CVector4ui32(x,y,w,h), CVector3ui8(r,g,b));
-
-	// render to memory
-	for (CWindow *pWindow : getEntries())
-	{
-		pWindow->render();
-	}
-
-	// render to screen
-	BitBlt(hdc, 0, 0, rect.right, rect.bottom, hdcMem, 0, 0, SRCCOPY);
-
-	// finalize
-	SelectObject(hdcMem, hOld);
-	DeleteObject(hbmMem);
-	DeleteDC(hdcMem);
-
-	EndPaint(getEntryByIndex(0)->getWindowHandle(), &ps);
-
-	getEntryByIndex(0)->setMarkedToRedraw(false);
 }
 
 void					CGUIManager::clearBackground(void)
@@ -353,6 +219,18 @@ void					CGUIManager::clearBackground(void)
 }
 
 // utility
+CWindow*					CGUIManager::getWindowByHwnd(HWND hWnd)
+{
+	for (CWindow *pWindow : getEntries())
+	{
+		if (hWnd == pWindow->getWindowHandle())
+		{
+			return pWindow;
+		}
+	}
+	return nullptr;
+}
+
 HBRUSH					createSolidBrush2(COLORREF colour, LPNMCUSTOMDRAW item) // todo - move to CGDIPlusUtility?
 {
 	HBRUSH Brush = NULL;

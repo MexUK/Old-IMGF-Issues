@@ -4,24 +4,37 @@
 #include "GDIPlus/CGDIPlusUtility.h"
 #include "GUI/CGUIUtility.h"
 #include "Math/CMathUtility.h"
+#include "Event/eEvent.h"
 
 using namespace std;
 
-// input
-void		CWindowControl_Edit::onCharDown(uint8 uiCharCode)
+auto pOnKeyDown_Edit		= [](void *pControl, void *pTriggerArg) { ((CWindowControl_Edit*) pControl)->onKeyDown(*(uint8*) pTriggerArg); };
+auto pOnCharDown_Edit		= [](void *pControl, void *pTriggerArg) { ((CWindowControl_Edit*) pControl)->onCharDown(*(uint8*) pTriggerArg); };
+auto pOnRender_Edit			= [](void *pControl) { ((CWindowControl_Edit*) pControl)->render(); };
+
+// event binding
+void					CWindowControl_Edit::bindEvents(void)
 {
-	if (doesControlHaveFocus())
-	{
-		processChar(uiCharCode);
-		getWindow()->setMarkedToRedraw(true);
-	}
+	storeEventBoundFunction(getWindow()->bindEvent(EVENT_onKeyDown, pOnKeyDown_Edit, this));
+	storeEventBoundFunction(getWindow()->bindEvent(EVENT_onCharDown, pOnCharDown_Edit, this));
+	storeEventBoundFunction(getWindow()->bindEvent(EVENT_onRender, pOnRender_Edit, this));
 }
 
+// input
 void		CWindowControl_Edit::onKeyDown(uint8 uiCharCode)
 {
 	if (doesControlHaveFocus())
 	{
 		processKey(uiCharCode);
+		getWindow()->setMarkedToRedraw(true);
+	}
+}
+
+void		CWindowControl_Edit::onCharDown(uint8 uiCharCode)
+{
+	if (doesControlHaveFocus())
+	{
+		processChar(uiCharCode);
 		getWindow()->setMarkedToRedraw(true);
 	}
 }
@@ -89,7 +102,12 @@ void		CWindowControl_Edit::processKey(uint32 uiCharCode)
 }
 
 // lines
-void		CWindowControl_Edit::addLine(void)
+uint32				CWindowControl_Edit::getLineCount(void)
+{
+	return m_vecTextLines.size();
+}
+
+void				CWindowControl_Edit::addLine(void)
 {
 	if (isCaretAtFarRight() && isCaretAtFarBottom())
 	{
@@ -103,7 +121,7 @@ void		CWindowControl_Edit::addLine(void)
 	}
 }
 
-void		CWindowControl_Edit::addLine(uint32 uiLineIndex, string& strText)
+void				CWindowControl_Edit::addLine(uint32 uiLineIndex, string& strText)
 {
 	m_vecTextLines.insert(m_vecTextLines.begin() + uiLineIndex, strText);
 }
@@ -254,9 +272,4 @@ string				CWindowControl_Edit::getLinePartialText(uint32 uiLineIndex, uint32 uiC
 uint32				CWindowControl_Edit::getLineLength(uint32 uiLineIndex)
 {
 	return m_vecTextLines[uiLineIndex].length();
-}
-
-uint32				CWindowControl_Edit::getLineCount(void)
-{
-	return m_vecTextLines.size();
 }

@@ -13,9 +13,8 @@ public:
 	void					initTabs(void);
 
 	void					bindEvents(void);
-	void					unbindEvents(void);
 
-	void					renderTitleBar(void);
+	void					onRender(void);
 
 	void					onDropFiles(std::vector<std::string>& vecPaths);
 };

@@ -1,8 +1,20 @@
 #include "CWindowControl_List.h"
+#include "GUI/Window/CWindow.h"
 #include "GDIPlus/CGDIPlusUtility.h"
 #include "Event/CEventManager.h"
+#include "Event/eEvent.h"
 
 using namespace std;
+
+auto pOnMouseDown_List		= [](void *pControl, void *pTriggerArg) { ((CWindowControl_List*) pControl)->onMouseDown(*(CVector2ui32*) pTriggerArg); };
+auto pOnRender_List			= [](void *pControl) { ((CWindowControl_List*) pControl)->render(); };
+
+// event binding
+void					CWindowControl_List::bindEvents(void)
+{
+	storeEventBoundFunction(getWindow()->bindEvent(EVENT_onMouseDown, pOnMouseDown_List, this));
+	storeEventBoundFunction(getWindow()->bindEvent(EVENT_onRender, pOnRender_List, this));
+}
 
 // input
 void					CWindowControl_List::onMouseDown(CVector2ui32& vecCursorPosition)

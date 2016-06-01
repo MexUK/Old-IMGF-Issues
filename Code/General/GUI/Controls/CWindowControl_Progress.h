@@ -16,7 +16,9 @@ public:
 		m_uiProgressFillColour(0),
 		m_bCompletionPercentageShown(false)
 	{};
-	
+
+	void									bindEvents(void);
+
 	void									render(void);
 	
 	float32									getProgress(void);

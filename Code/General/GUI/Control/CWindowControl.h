@@ -5,13 +5,15 @@
 #include "CVector2ui32.h"
 #include "eWindowControlType.h"
 #include "Pool/CVectorPool.h"
+#include "Event/CEventBoundFunction.h"
+#include "Event/CEventBinder.h"
 #include <string>
 #include <vector>
 
 class CWindow;
 class CWindowScrollPool;
 
-class CWindowControl
+class CWindowControl : public CEventBinder
 {
 public:
 	CWindowControl(eWindowControlType eControlType);
@@ -19,18 +21,12 @@ public:
 
 	void									unload(void) {};
 
-	virtual void							onMouseDown(CVector2ui32& vecCursorPosition) {};
-	virtual void							onMouseUp(CVector2ui32& vecCursorPosition) {};
-	virtual void							onMouseMove(CVector2ui32& vecCursorPosition) {};
-	virtual void							onCharDown(uint8 uiCharCode) {};
-	virtual void							onKeyDown(uint8 uiCharCode) {};
-	virtual void							onKeyUp(uint8 uiCharCode) {};
-	virtual void							onGainFocus(void) {};
-	virtual void							onLooseFocus(void) {};
-
+	virtual void							bindEvents(void) = 0;
 	virtual void							render(void) = 0;
 	virtual bool							isPointInControl(CVector2ui32& vecPoint);
 
+	bool									doesControlHaveFocus(void);
+	
 	void									setControlType(eWindowControlType eControlType) { m_eControlType = eControlType; }
 	eWindowControlType						getControlType(void) { return m_eControlType; }
 	
@@ -50,8 +46,6 @@ public:
 	bool									isPointMarkedAsInControl(void) { return m_bPointMarkedAsInControl; }
 
 	CWindowScrollPool*						getScrolls(void) { return m_pScrolls; }
-
-	bool									doesControlHaveFocus(void);
 
 private:
 	eWindowControlType						m_eControlType;

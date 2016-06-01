@@ -5,12 +5,22 @@
 #include "Event/eEvent.h"
 #include "GUI/Window/CWindow.h"
 
+auto pOnMouseUp_Radio		= [](void *pControl, void *pTriggerArg) { ((CWindowControl_Radio*) pControl)->onMouseUp(*(CVector2ui32*) pTriggerArg); };
+auto pOnRender_Radio		= [](void *pControl) { ((CWindowControl_Radio*) pControl)->render(); };
+
+// event binding
+void					CWindowControl_Radio::bindEvents(void)
+{
+	storeEventBoundFunction(getWindow()->bindEvent(EVENT_onMouseUp, pOnMouseUp_Radio, this));
+	storeEventBoundFunction(getWindow()->bindEvent(EVENT_onRender, pOnRender_Radio, this));
+}
+
 // input
 void		CWindowControl_Radio::onMouseUp(CVector2ui32& vecCursorPosition)
 {
 	if (isPointInControl(vecCursorPosition))
 	{
-		if (CEventManager::getInstance()->triggerEvent(EVENT_onCheckRadio, this))
+		if (getWindow()->triggerEvent(EVENT_onCheckRadio, this))
 		{
 			getWindow()->uncheckRadios(this);
 			setChecked(true);

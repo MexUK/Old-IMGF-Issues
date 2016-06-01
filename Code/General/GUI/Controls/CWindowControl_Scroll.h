@@ -20,7 +20,9 @@ public:
 		m_fProgress(0.0f),
 		m_bSeekBarIsMoving(false)
 	{};
-	
+
+	void									bindEvents(void);
+
 	void									onMouseDown(CVector2ui32& vecCursorPosition);
 	void									onMouseUp(CVector2ui32& vecCursorPosition);
 	void									onMouseMove(CVector2ui32& vecCursorPosition);
@@ -31,9 +33,10 @@ public:
 	uint32									getSeekBarPositionOffset(void);
 
 	float32									getProgressFor1px(void);						// returns 0.0 to 1.0
-	uint32									getAvailableScrollLength(void);					// returns in pixels
 	void									increaseProgress(float32 fProgressIncrease);	// parameter 0.0 to 1.0
 	float32									getProgressIncreaseForLength(uint32 uiLength);	// parameter in pixels, return 0.0 to 1.0
+
+	uint32									getAvailableScrollLength(void);					// returns in pixels
 
 	void									setScrollOrientation(eWindowControlOrientation eScrollOrientation) { m_eScrollOrientation = eScrollOrientation; }
 	eWindowControlOrientation				getScrollOrientation(void) { return m_eScrollOrientation; }

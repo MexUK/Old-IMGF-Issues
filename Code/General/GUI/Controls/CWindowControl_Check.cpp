@@ -5,12 +5,22 @@
 #include "Event/eEvent.h"
 #include "GUI/Window/CWindow.h"
 
+auto pOnMouseUp_Check		= [](void *pControl, void *pTriggerArg) { ((CWindowControl_Check*) pControl)->onMouseUp(*(CVector2ui32*) pTriggerArg); };
+auto pOnRender_Check		= [](void *pControl) { ((CWindowControl_Check*) pControl)->render(); };
+
+// event binding
+void					CWindowControl_Check::bindEvents(void)
+{
+	storeEventBoundFunction(getWindow()->bindEvent(EVENT_onMouseUp, pOnMouseUp_Check, this));
+	storeEventBoundFunction(getWindow()->bindEvent(EVENT_onRender, pOnRender_Check, this));
+}
+
 // input
 void		CWindowControl_Check::onMouseUp(CVector2ui32& vecCursorPosition)
 {
 	if (CMathUtility::isPointInRectangle(vecCursorPosition, getPosition(), getSize() + CVector2ui32(getTextWidth(), 0)))
 	{
-		if (CEventManager::getInstance()->triggerEvent(EVENT_onCheckCheck, this))
+		if (getWindow()->triggerEvent(EVENT_onCheckCheck, this))
 		{
 			setChecked(!isChecked());
 			getWindow()->setMarkedToRedraw(true);

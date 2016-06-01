@@ -15,6 +15,8 @@ public:
 		m_bChecked(false)
 	{};
 
+	void									bindEvents(void);
+
 	void									onMouseUp(CVector2ui32& vecCursorPosition);
 
 	void									render(void);

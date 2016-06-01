@@ -12,7 +12,9 @@ public:
 	CWindowControl_Text(void) :
 		CWindowControl(WINDOW_CONTROL_TEXT)
 	{};
-	
+
+	void									bindEvents(void);
+
 	void									render(void);
 };
 

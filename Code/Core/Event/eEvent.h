@@ -19,10 +19,22 @@ enum eEvent
 	EVENT_onPressButton,
 	EVENT_onCheckCheck,
 	EVENT_onCheckRadio,
+	EVENT_onShowDropList,
+	EVENT_onHideDropList,
+
+	EVENT_onGainFocus,
 	EVENT_onCursorEnterControl,
 	EVENT_onCursorExitControl,
-	EVENT_onShowDropList,
-	EVENT_onHideDropList
+	EVENT_onMouseDown,
+	EVENT_onMouseUp,
+	EVENT_onMouseMove,
+	EVENT_onDoubleLeftDown,
+	EVENT_onKeyDown,
+	EVENT_onKeyUp,
+	EVENT_onCharDown,
+	EVENT_onRender,
+	EVENT_onRenderBefore,
+	EVENT_onRenderAfter
 };
 
 #endif

@@ -20,12 +20,14 @@ CWindowControl::~CWindowControl(void)
 	delete m_pScrolls;
 }
 
-bool									CWindowControl::doesControlHaveFocus(void)
-{
-	return getWindow()->getFocusedControl() == this;
-}
-
+// point testing
 bool									CWindowControl::isPointInControl(CVector2ui32& vecPoint)
 {
 	return CMathUtility::isPointInRectangle(vecPoint, getPosition(), getSize());
+}
+
+// focus
+bool									CWindowControl::doesControlHaveFocus(void)
+{
+	return getWindow()->getFocusedControl() == this;
 }

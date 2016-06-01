@@ -1,9 +1,20 @@
 #include "CWindowControl_Progress.h"
+#include "GUI/Window/CWindow.h"
 #include "String/CStringUtility.h"
 #include "GDIPlus/CGDIPlusUtility.h"
+#include "Event/eEvent.h"
 
 using namespace std;
 
+auto pOnRender_Progress		= [](void *pControl) { ((CWindowControl_Progress*) pControl)->render(); };
+
+// event binding
+void					CWindowControl_Progress::bindEvents(void)
+{
+	storeEventBoundFunction(getWindow()->bindEvent(EVENT_onRender, pOnRender_Progress, this));
+}
+
+// render
 void			CWindowControl_Progress::render(void)
 {
 	CGDIPlusUtility::drawRectangleFill(getPosition(), getSize(), getFillColour());
@@ -12,16 +23,19 @@ void			CWindowControl_Progress::render(void)
 	CGDIPlusUtility::drawText(getPosition(), getSize(), getProgressPercentText(), getTextColour(), getFontSize(), isBold());
 }
 
-string		CWindowControl_Progress::getProgressPercentText(void)
-{
-	return CStringUtility::toString(getProgress() * 100.0f) + "%";
-}
-
+// ratio
 float32			CWindowControl_Progress::getProgress(void)
 {
 	return ((float32) getCurrentTicks()) / ((float32) getMaxTicks());
 }
 
+// text
+string		CWindowControl_Progress::getProgressPercentText(void)
+{
+	return CStringUtility::toString(getProgress() * 100.0f) + "%";
+}
+
+// position
 CVector2ui32	CWindowControl_Progress::getProgressPosition(void)
 {
 	return CVector2ui32(getProgressPositionX(), getSize().m_y);

@@ -26,6 +26,8 @@ public:
 		m_bHasVerticalScrollBar(true)
 	{};
 
+	void									bindEvents(void);
+
 	void									onMouseDown(CVector2ui32& vecCursorPosition);
 
 	void									render(void);

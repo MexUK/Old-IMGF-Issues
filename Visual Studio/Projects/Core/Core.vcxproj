@@ -95,6 +95,7 @@
     <ClInclude Include="..\..\..\Code\Core\eDataType.h" />
     <ClInclude Include="..\..\..\Code\Core\eEndian.h" />
     <ClInclude Include="..\..\..\Code\Core\eExceptionCode.h" />
+    <ClInclude Include="..\..\..\Code\Core\Event\CEventBinder.h" />
     <ClInclude Include="..\..\..\Code\Core\Event\CEventBoundFunction.h" />
     <ClInclude Include="..\..\..\Code\Core\Event\CEventManager.h" />
     <ClInclude Include="..\..\..\Code\Core\Event\CEventType.h" />
@@ -115,6 +116,7 @@
     <ClCompile Include="..\..\..\Code\Core\Data Stream\CDataReader.cpp" />
     <ClCompile Include="..\..\..\Code\Core\Data Stream\CDataStream.cpp" />
     <ClCompile Include="..\..\..\Code\Core\Data Stream\CDataWriter.cpp" />
+    <ClCompile Include="..\..\..\Code\Core\Event\CEventBinder.cpp" />
     <ClCompile Include="..\..\..\Code\Core\Event\CEventBoundFunction.cpp" />
     <ClCompile Include="..\..\..\Code\Core\Event\CEventManager.cpp" />
     <ClCompile Include="..\..\..\Code\Core\Event\CEventType.cpp" />

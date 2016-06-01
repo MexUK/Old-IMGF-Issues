@@ -9,6 +9,8 @@ class CEventBoundFunction
 public:
 	CEventBoundFunction(void);
 
+	void					unload(void) {}
+
 	void					onEventTriggered(void *pFunctionArgument);
 
 	void					setEventTypeId(uint32 uiEventTypeId) { m_uiEventTypeId = uiEventTypeId; }

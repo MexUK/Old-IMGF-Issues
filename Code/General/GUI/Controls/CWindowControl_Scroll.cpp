@@ -1,16 +1,30 @@
 #include "CWindowControl_Scroll.h"
+#include "GUI/Window/CWindow.h"
 #include "Event/CEventManager.h"
 #include "Event/eEvent.h"
 #include "Math/CMathUtility.h"
 #include "GDIPlus/CGDIPlusUtility.h"
-#include "GUI/Window/CWindow.h"
+
+auto pOnMouseDown_Scroll	= [](void *pControl, void *pTriggerArg) { ((CWindowControl_Scroll*) pControl)->onMouseDown(*(CVector2ui32*) pTriggerArg); };
+auto pOnMouseUp_Scroll		= [](void *pControl, void *pTriggerArg) { ((CWindowControl_Scroll*) pControl)->onMouseUp(*(CVector2ui32*) pTriggerArg); };
+auto pOnMouseMove_Scroll	= [](void *pControl, void *pTriggerArg) { ((CWindowControl_Scroll*) pControl)->onMouseMove(*(CVector2ui32*) pTriggerArg); };
+auto pOnRender_Scroll		= [](void *pControl) { ((CWindowControl_Scroll*) pControl)->render(); };
+
+// event binding
+void					CWindowControl_Scroll::bindEvents(void)
+{
+	storeEventBoundFunction(getWindow()->bindEvent(EVENT_onMouseDown, pOnMouseDown_Scroll, this));
+	storeEventBoundFunction(getWindow()->bindEvent(EVENT_onMouseUp, pOnMouseUp_Scroll, this));
+	storeEventBoundFunction(getWindow()->bindEvent(EVENT_onMouseMove, pOnMouseMove_Scroll, this));
+	storeEventBoundFunction(getWindow()->bindEvent(EVENT_onRender, pOnRender_Scroll, this));
+}
 
 // input
 void		CWindowControl_Scroll::onMouseDown(CVector2ui32& vecCursorPosition)
 {
 	if (isPointInSeekBar(vecCursorPosition))
 	{
-		if (CEventManager::getInstance()->triggerEvent(EVENT_onStartMovingSeekBar, this))
+		if (getWindow()->triggerEvent(EVENT_onStartMovingSeekBar, this))
 		{
 			setSeekBarMoving(true);
 		}
@@ -21,7 +35,7 @@ void		CWindowControl_Scroll::onMouseUp(CVector2ui32& vecCursorPosition)
 {
 	if (isSeekBarMoving())
 	{
-		if (CEventManager::getInstance()->triggerEvent(EVENT_onStopMovingSeekBar, this))
+		if (getWindow()->triggerEvent(EVENT_onStopMovingSeekBar, this))
 		{
 			setSeekBarMoving(false);
 		}
@@ -32,7 +46,7 @@ void		CWindowControl_Scroll::onMouseMove(CVector2ui32& vecCursorPosition)
 {
 	if (isSeekBarMoving())
 	{
-		if (CEventManager::getInstance()->triggerEvent(EVENT_onMoveSeekBar, this))
+		if (getWindow()->triggerEvent(EVENT_onMoveSeekBar, this))
 		{
 			increaseProgress(getProgressIncreaseForLength(CEventManager::getInstance()->getCursorMovedSize(vecCursorPosition).m_y));
 			getWindow()->setMarkedToRedraw(true);
@@ -79,11 +93,6 @@ float32									CWindowControl_Scroll::getProgressFor1px(void)
 	return 1.0f / ((float32) getAvailableScrollLength());
 }
 
-uint32									CWindowControl_Scroll::getAvailableScrollLength(void)
-{
-	return getSize().m_y - getSeekBarLength();
-}
-
 void									CWindowControl_Scroll::increaseProgress(float32 fProgressIncrease)
 {
 	setProgress(CMathUtility::cap(getProgress() + fProgressIncrease, 0.0f, 1.0f));
@@ -92,4 +101,10 @@ void									CWindowControl_Scroll::increaseProgress(float32 fProgressIncrease)
 float32									CWindowControl_Scroll::getProgressIncreaseForLength(uint32 uiLength)
 {
 	return getProgressFor1px() * ((float32) uiLength);
+}
+
+// scroll length
+uint32									CWindowControl_Scroll::getAvailableScrollLength(void)
+{
+	return getSize().m_y - getSeekBarLength();
 }

@@ -15,6 +15,8 @@ public:
 		CWindowControl(WINDOW_CONTROL_BUTTON)
 	{};
 	
+	void									bindEvents(void);
+
 	void									onMouseDown(CVector2ui32& vecCursorPosition);
 	void									onMouseUp(CVector2ui32& vecCursorPosition);
 
