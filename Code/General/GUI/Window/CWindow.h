@@ -4,14 +4,15 @@
 #include <Windows.h>
 #include <gdiplus.h>
 #include "Types.h"
+#include "CVector2ui32.h"
 #include "Pool/CVectorPool.h"
 #include "GUI/Control/CWindowControl.h"
-#include "CVector2ui32.h"
+#include "Event/CEventType.h"
 
 class CWindowControl_Radio;
 class CDropTarget;
 
-class CWindow
+class CWindow : public CEventType
 {
 public:
 	CWindow(void);
@@ -22,6 +23,7 @@ public:
 	void									onMouseDown(CVector2ui32& vecCursorPosition);
 	void									onMouseUp(CVector2ui32& vecCursorPosition);
 	void									onMouseMove(CVector2ui32& vecCursorPosition);
+	void									onDoubleLeftClick(CVector2ui32& vecCursorPosition);
 	void									onCharDown(uint8 uiCharCode);
 	void									onKeyDown(uint8 uiCharCode);
 	void									onKeyUp(void);

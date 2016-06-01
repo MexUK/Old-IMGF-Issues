@@ -7,11 +7,13 @@
 #include "GUI/CGUIUtility.h"
 #include "Event/CEventManager.h"
 #include "Event/eEvent.h"
+#include "Event/eEventType.h"
 #include "Localization/CLocalizationManager.h"
 
 using namespace std;
 
 CWindow::CWindow(void) :
+	CEventType(EVENT_TYPE_WINDOW),
 	m_hwndWindow(nullptr),
 	m_hdc(nullptr),
 	m_pFocusedControl(nullptr),
@@ -44,6 +46,12 @@ void									CWindow::unload(void)
 // input
 void									CWindow::onMouseDown(CVector2ui32& vecCursorPosition)
 {
+	if (CEventManager::getInstance()->isEventHogged())
+	{
+		return;
+	}
+
+	// cursor enter/leave control?
 	bool bGainedFocusOverall = false;
 	for (CWindowControl *pWindowControl : getControls().getEntries())
 	{
@@ -63,6 +71,36 @@ void									CWindow::onMouseDown(CVector2ui32& vecCursorPosition)
 	{
 		m_pFocusedControl = nullptr;
 	}
+
+	// move/resize window?
+	if (isMaximized())
+	{
+		return;
+	}
+
+	RECT rect;
+	GetWindowRect(getWindowHandle(), &rect);
+	CVector2ui32 vecMainWindowSize(rect.right - rect.left, rect.bottom - rect.top);
+
+	setWindowResizeEdges(CMathUtility::getRectangleResizeEdges(vecCursorPosition, vecMainWindowSize, 10));
+	if (getWindowResizeEdges() == 0)
+	{
+		// move window
+		setMovingWindow(true);
+	}
+	else
+	{
+		// resize window
+		setResizingWindow(true);
+	}
+
+	// enable capture
+	SetCapture(getWindowHandle());
+
+	// store cursor position
+	POINT point;
+	GetCursorPos(&point);
+	CEventManager::getInstance()->setLastCursorPosition(CVector2ui32(point.x, point.y));
 }
 
 void									CWindow::onMouseUp(CVector2ui32& vecCursorPosition)
@@ -70,6 +108,20 @@ void									CWindow::onMouseUp(CVector2ui32& vecCursorPosition)
 	for (CWindowControl *pWindowControl : getControls().getEntries())
 	{
 		pWindowControl->onMouseUp(vecCursorPosition);
+	}
+
+	if (isMovingWindow())
+	{
+		setMovingWindow(false);
+		ReleaseCapture();
+		return;
+	}
+	else if (isResizingWindow())
+	{
+		setResizingWindow(false);
+		setWindowResizeEdges(0);
+		ReleaseCapture();
+		return;
 	}
 }
 
@@ -95,6 +147,88 @@ void									CWindow::onMouseMove(CVector2ui32& vecCursorPosition)
 				CEventManager::getInstance()->triggerEvent(EVENT_onCursorExitControl, pWindowControl);
 			}
 		}
+	}
+
+	if (isMovingWindow())
+	{
+		POINT point;
+		GetCursorPos(&point);
+		vecCursorPosition = CVector2ui32(point.x, point.y);
+
+		RECT rect;
+		GetWindowRect(getWindowHandle(), &rect);
+
+		CVector2ui32
+			vecPreviousCursorPosition = CEventManager::getInstance()->getLastCursorPosition();
+		CVector2i32
+			vecCursorDiff;
+
+		vecCursorDiff.m_x = ((int32) vecCursorPosition.m_x) - ((int32) vecPreviousCursorPosition.m_x);
+		vecCursorDiff.m_y = ((int32) vecCursorPosition.m_y) - ((int32) vecPreviousCursorPosition.m_y);
+
+		rect.left += vecCursorDiff.m_x;
+		rect.top += vecCursorDiff.m_y;
+
+		SetWindowPos(getWindowHandle(), NULL, rect.left, rect.top, 0, 0, SWP_NOSIZE | SWP_NOZORDER);
+		setPosition(CVector2ui32(rect.left, rect.top));
+		//MoveWindow(hwndWindow, rect.left, rect.top, rect.right, rect.bottom, false);
+		//InvalidateRect(hwndWindow, &rect, false);
+
+		CEventManager::getInstance()->setLastCursorPosition(vecCursorPosition);
+		return;
+	}
+	else if (isResizingWindow())
+	{
+		POINT point;
+		GetCursorPos(&point);
+		vecCursorPosition = CVector2ui32(point.x, point.y);
+
+		RECT rect;
+		GetWindowRect(getWindowHandle(), &rect);
+
+		CVector2ui32
+			vecPreviousCursorPosition = CEventManager::getInstance()->getLastCursorPosition();
+		CVector2i32
+			vecCursorDiff;
+
+		vecCursorDiff.m_x = ((int32) vecCursorPosition.m_x) - ((int32) vecPreviousCursorPosition.m_x);
+		vecCursorDiff.m_y = ((int32) vecCursorPosition.m_y) - ((int32) vecPreviousCursorPosition.m_y);
+
+		uint32 uiMainWindowResizeEdges = getWindowResizeEdges();
+		if (uiMainWindowResizeEdges & 1) // left edge
+		{
+			rect.left += vecCursorDiff.m_x;
+		}
+		else if (uiMainWindowResizeEdges & 4) // right edge
+		{
+			rect.right += vecCursorDiff.m_x;
+		}
+
+		if (uiMainWindowResizeEdges & 2) // top edge
+		{
+			rect.top += vecCursorDiff.m_y;
+		}
+		else if (uiMainWindowResizeEdges & 8) // bottom edge
+		{
+			rect.bottom += vecCursorDiff.m_y;
+		}
+
+		SetWindowPos(getWindowHandle(), NULL, rect.left, rect.top, rect.right - rect.left, rect.bottom - rect.top, SWP_NOZORDER);
+
+		CEventManager::getInstance()->setLastCursorPosition(vecCursorPosition);
+		return;
+	}
+}
+
+void									CWindow::onDoubleLeftClick(CVector2ui32& vecCursorPosition)
+{
+	RECT rect;
+	GetWindowRect(getWindowHandle(), &rect);
+	CVector2ui32 vecMainWindowTitleBarSize(rect.right - rect.left, 35);
+
+	if (CMathUtility::isPointInRectangle(vecCursorPosition, CVector2ui32(0, 0), vecMainWindowTitleBarSize))
+	{
+		setMaximized(!isMaximized());
 	}
 }
 

@@ -23,15 +23,15 @@ public:
 	}
 
 	// EVENT_TYPE_GENERAL, 0
-	CEventBoundFunction*						bindEvent(uint32 uiEventId, void(*fEventFunction)(void*), int32 iZIndex = 0);		// negative z-index's trigger before positive ones
-	CEventBoundFunction*						bindEvent(uint32 uiEventId, void(*fEventFunction)(void*,void*), int32 iZIndex = 0);	// negative z-index's trigger before positive ones
+	CEventBoundFunction*						bindEvent(uint32 uiEventId, void(*fEventFunction)(void*),		void *pFunctionArgument = nullptr, int32 iZIndex = 0);	// negative z-index's trigger before positive ones
+	CEventBoundFunction*						bindEvent(uint32 uiEventId, void(*fEventFunction)(void*,void*), void *pFunctionArgument = nullptr, int32 iZIndex = 0);	// negative z-index's trigger before positive ones
 	bool										doesEventExist(uint32 uiEventId);
 	uint32										getBoundFunctionCount(uint32 uiEventId);
 	bool										triggerEvent(uint32 uiEventId, void *pFunctionArgument = nullptr);
 
 	// EVENT_TYPE_*, *
-	CEventBoundFunction*						bindEvent(uint32 uiEventTypeId, uint32 uiEventTypeIndex, uint32 uiEventId, void(*fEventFunction)(void*), int32 iZIndex = 0);		// negative z-index's trigger before positive ones
-	CEventBoundFunction*						bindEvent(uint32 uiEventTypeId, uint32 uiEventTypeIndex, uint32 uiEventId, void(*fEventFunction)(void*,void*), int32 iZIndex = 0);	// negative z-index's trigger before positive ones
+	CEventBoundFunction*						bindEvent(uint32 uiEventTypeId, uint32 uiEventTypeIndex, uint32 uiEventId, void(*fEventFunction)(void*),		void *pFunctionArgument = nullptr, int32 iZIndex = 0);	// negative z-index's trigger before positive ones
+	CEventBoundFunction*						bindEvent(uint32 uiEventTypeId, uint32 uiEventTypeIndex, uint32 uiEventId, void(*fEventFunction)(void*,void*),	void *pFunctionArgument = nullptr, int32 iZIndex = 0);	// negative z-index's trigger before positive ones
 	bool										unbindEvent(CEventBoundFunction *pEventBoundFunction);
 	bool										doesEventExist(uint32 uiEventTypeId, uint32 uiEventTypeIndex, uint32 uiEventId);
 	uint32										getBoundFunctionCount(uint32 uiEventTypeId, uint32 uiEventTypeIndex, uint32 uiEventId);
@@ -49,8 +49,9 @@ public:
 	bool										isEventHogged(void) { return m_bEventHogged; }
 
 private:
+	CEventBoundFunction*						createEventBoundFunctionObject(uint32 uiEventTypeId, uint32 uiEventTypeIndex, uint32 uiEventId, void *pFunctionArgument, int32 iZIndex);
+
 	uint32										getInsertionIndexForEventBoundFunction(CEventBoundFunction *pEventBoundFunction);
-	CEventBoundFunction*						createEventBoundFunctionObject(uint32 uiEventTypeId, uint32 uiEventTypeIndex, uint32 uiEventId, int32 iZIndex);
 
 private:
 	uint8															m_bDefaultActionPrevented	: 1;

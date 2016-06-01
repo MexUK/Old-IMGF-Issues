@@ -4,14 +4,14 @@
 using namespace std;
 
 // EVENT_TYPE_GENERAL, 0
-CEventBoundFunction*						CEventManager::bindEvent(uint32 uiEventId, void(*fEventFunction)(void*), int32 iZIndex)
+CEventBoundFunction*						CEventManager::bindEvent(uint32 uiEventId, void(*fEventFunction)(void*), void *pFunctionArgument, int32 iZIndex)
 {
-	return bindEvent(EVENT_TYPE_GENERAL, 0, uiEventId, fEventFunction, iZIndex);
+	return bindEvent(EVENT_TYPE_GENERAL, 0, uiEventId, fEventFunction, pFunctionArgument, iZIndex);
 }
 
-CEventBoundFunction*						CEventManager::bindEvent(uint32 uiEventId, void(*fEventFunction)(void*,void*), int32 iZIndex)
+CEventBoundFunction*						CEventManager::bindEvent(uint32 uiEventId, void(*fEventFunction)(void*,void*), void *pFunctionArgument, int32 iZIndex)
 {
-	return bindEvent(EVENT_TYPE_GENERAL, 0, uiEventId, fEventFunction, iZIndex);
+	return bindEvent(EVENT_TYPE_GENERAL, 0, uiEventId, fEventFunction, pFunctionArgument, iZIndex);
 }
 
 bool										CEventManager::doesEventExist(uint32 uiEventId)
@@ -30,18 +30,18 @@ bool										CEventManager::triggerEvent(uint32 uiEventId, void *pFunctionArgum
 }
 
 // EVENT_TYPE_*, *
-CEventBoundFunction*						CEventManager::bindEvent(uint32 uiEventTypeId, uint32 uiEventTypeIndex, uint32 uiEventId, void(*fEventFunction)(void*), int32 iZIndex)
+CEventBoundFunction*						CEventManager::bindEvent(uint32 uiEventTypeId, uint32 uiEventTypeIndex, uint32 uiEventId, void(*fEventFunction)(void*), void *pFunctionArgument, int32 iZIndex)
 {
-	CEventBoundFunction *pEventBoundFunction = createEventBoundFunctionObject(uiEventTypeId, uiEventTypeIndex, uiEventId, iZIndex);
+	CEventBoundFunction *pEventBoundFunction = createEventBoundFunctionObject(uiEventTypeId, uiEventTypeIndex, uiEventId, pFunctionArgument, iZIndex);
 	pEventBoundFunction->setEventFunctionType(EVENT_FUNCTION_TYPE_1_ARG);
 	pEventBoundFunction->setFunction(fEventFunction);
 	m_umapEventFunctions[uiEventTypeId][uiEventTypeIndex][uiEventId].insert(m_umapEventFunctions[uiEventTypeId][uiEventTypeIndex][uiEventId].begin() + getInsertionIndexForEventBoundFunction(pEventBoundFunction), pEventBoundFunction);
 	return pEventBoundFunction;
 }
 
-CEventBoundFunction*						CEventManager::bindEvent(uint32 uiEventTypeId, uint32 uiEventTypeIndex, uint32 uiEventId, void(*fEventFunction)(void*, void*), int32 iZIndex)
+CEventBoundFunction*						CEventManager::bindEvent(uint32 uiEventTypeId, uint32 uiEventTypeIndex, uint32 uiEventId, void(*fEventFunction)(void*, void*), void *pFunctionArgument, int32 iZIndex)
 {
-	CEventBoundFunction *pEventBoundFunction = createEventBoundFunctionObject(uiEventTypeId, uiEventTypeIndex, uiEventId, iZIndex);
+	CEventBoundFunction *pEventBoundFunction = createEventBoundFunctionObject(uiEventTypeId, uiEventTypeIndex, uiEventId, pFunctionArgument, iZIndex);
 	pEventBoundFunction->setEventFunctionType(EVENT_FUNCTION_TYPE_2_ARGS);
 	pEventBoundFunction->setFunction(fEventFunction);
 	m_umapEventFunctions[uiEventTypeId][uiEventTypeIndex][uiEventId].insert(m_umapEventFunctions[uiEventTypeId][uiEventTypeIndex][uiEventId].begin() + getInsertionIndexForEventBoundFunction(pEventBoundFunction), pEventBoundFunction);
@@ -97,12 +97,13 @@ bool										CEventManager::triggerEvent(uint32 uiEventTypeId, uint32 uiEventTy
 }
 
 // CEventManager continued
-CEventBoundFunction*						CEventManager::createEventBoundFunctionObject(uint32 uiEventTypeId, uint32 uiEventTypeIndex, uint32 uiEventId, int32 iZIndex)
+CEventBoundFunction*						CEventManager::createEventBoundFunctionObject(uint32 uiEventTypeId, uint32 uiEventTypeIndex, uint32 uiEventId, void *pFunctionArgument, int32 iZIndex)
 {
 	CEventBoundFunction *pEventBoundFunction = new CEventBoundFunction;
 	pEventBoundFunction->setEventTypeId(uiEventTypeId);
 	pEventBoundFunction->setEventTypeIndex(uiEventTypeIndex);
 	pEventBoundFunction->setEventId(uiEventId);
+	pEventBoundFunction->setFunctionArgument(pFunctionArgument);
 	pEventBoundFunction->setZIndex(iZIndex);
 	return pEventBoundFunction;
 }

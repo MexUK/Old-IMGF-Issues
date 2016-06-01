@@ -2,6 +2,8 @@
 #define CKGMWindow_H
 
 #include "GUI/Window/CTabbedWindow.h"
+#include <string>
+#include <vector>
 
 class CKGMWindow : public CTabbedWindow
 {
@@ -14,6 +16,8 @@ public:
 	void					unbindEvents(void);
 
 	void					renderTitleBar(void);
+
+	void					onDropFiles(std::vector<std::string>& vecPaths);
 };
 
 #endif

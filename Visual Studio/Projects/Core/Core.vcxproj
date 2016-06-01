@@ -97,6 +97,7 @@
     <ClInclude Include="..\..\..\Code\Core\eExceptionCode.h" />
     <ClInclude Include="..\..\..\Code\Core\Event\CEventBoundFunction.h" />
     <ClInclude Include="..\..\..\Code\Core\Event\CEventManager.h" />
+    <ClInclude Include="..\..\..\Code\Core\Event\CEventType.h" />
     <ClInclude Include="..\..\..\Code\Core\Event\eEvent.h" />
     <ClInclude Include="..\..\..\Code\Core\Event\eEventFunctionType.h" />
     <ClInclude Include="..\..\..\Code\Core\Event\eEventType.h" />
@@ -116,6 +117,7 @@
     <ClCompile Include="..\..\..\Code\Core\Data Stream\CDataWriter.cpp" />
     <ClCompile Include="..\..\..\Code\Core\Event\CEventBoundFunction.cpp" />
     <ClCompile Include="..\..\..\Code\Core\Event\CEventManager.cpp" />
+    <ClCompile Include="..\..\..\Code\Core\Event\CEventType.cpp" />
     <ClCompile Include="..\..\..\Code\Core\Localization\CLocalizationFormat.cpp" />
     <ClCompile Include="..\..\..\Code\Core\Localization\CLocalizationManager.cpp" />
     <ClCompile Include="..\..\..\Code\Core\Pool\CVectorPool.cpp" />

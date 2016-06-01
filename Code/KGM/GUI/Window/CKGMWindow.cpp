@@ -10,6 +10,9 @@
 #include "Task/CTaskManager.h"
 #include "Task/CTaskDispatchManager.h"
 #include "GDIPlus/CGDIPlusUtility.h"
+#include "File/CFileUtility.h"
+#include "Path/CPathUtility.h"
+#include "String/CStringUtility.h"
 
 using namespace std;
 
@@ -18,6 +21,7 @@ CKGMWindow::CKGMWindow(void)
 	initTabs();
 }
 
+// event binding
 void					CKGMWindow::bindEvents(void)
 {
 	/*
@@ -29,6 +33,7 @@ void					CKGMWindow::bindEvents(void)
 	*/
 }
 
+// window initialization
 void					CKGMWindow::initTabs(void)
 {
 	// add inner window
@@ -69,6 +74,7 @@ void					CKGMWindow::initTabs(void)
 	});
 }
 
+// render
 void					CKGMWindow::renderTitleBar(void)
 {
 	// render background
@@ -82,4 +88,60 @@ void					CKGMWindow::renderTitleBar(void)
 
 	CGDIPlusUtility::drawRectangleFill(CVector2ui32(0, 0), CVector2ui32(getSize().m_x, getTitleBarHeight()), 0x387EA3FF);
 	CGDIPlusUtility::drawText(CVector2ui32(uiTitleBarTextX, 1), CVector2ui32(uiTitleBarTextWidth, getTitleBarHeight()), strTitleBarText, 0xE1E6EFFF, uiTitleBarTextFontSize, false);
+}
+
+// input processing
+void					CKGMWindow::onDropFiles(vector<string>& vecPaths)
+{
+	vector<string>
+		vecOpenPaths,
+		vecEntryPaths;
+	for (uint32 i = 0; i < vecPaths.size(); i++)
+	{
+		string strPath = vecPaths[i];
+
+		// folder
+		if (CFileUtility::doesFolderExist(strPath))
+		{
+			strPath = CPathUtility::addSlashToEnd(strPath);
+			vector<string> vecFileNames = CFileUtility::getFileNames(strPath);
+			for (auto strFileName : vecFileNames)
+			{
+				vecPaths.push_back(strPath + strFileName);
+			}
+			continue;
+		}
+
+		string strExtension = CStringUtility::toUpperCase(CPathUtility::getFileExtension(strPath));
+		if (strExtension == "IMG" || strExtension == "DIR")
+		{
+			// open IMG
+			vecOpenPaths.push_back(strPath);
+		}
+		else
+		{
+			if (getKGM()->getActiveTab() == nullptr)
+			{
+				return;
+			}
+
+			vecEntryPaths.push_back(strPath);
+		}
+	}
+
+	if (vecEntryPaths.size() > 0)
+	{
+		for (auto strPath : vecEntryPaths)
+		{
+			getKGM()->getEntryListTab()->addOrReplaceEntryViaFileAndSettings(strPath);
+		}
+		//getKGM()->getEntryListTab()->log(CLocalizationManager::getInstance()->getTranslatedFormattedText("Log_23", vecImportPaths.size()));
+
+		getKGM()->getEntryListTab()->setIMGModifiedSinceRebuild(true);
+	}
+
+	for (auto strPath : vecOpenPaths)
+	{
+		getKGM()->getTaskManager()->getDispatch()->onRequestOpen2(strPath);
+	}
 }
