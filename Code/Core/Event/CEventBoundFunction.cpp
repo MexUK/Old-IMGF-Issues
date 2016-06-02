@@ -8,19 +8,19 @@ CEventBoundFunction::CEventBoundFunction(void) :
 	m_eEventFunctionType(EVENT_FUNCTION_TYPE_1_ARG),
 	m_pFunction_1Arg(nullptr),
 	m_pFunction_2Args(nullptr),
-	m_pFunctionArgument(nullptr)
+	m_pFunctionBoundArgument(nullptr)
 {
 }
 
-void					CEventBoundFunction::onEventTriggered(void *pFunctionArgument)
+void					CEventBoundFunction::onEventTriggered(void *pTriggerArgument)
 {
 	switch (m_eEventFunctionType)
 	{
 	case EVENT_FUNCTION_TYPE_1_ARG:
-		m_pFunction_1Arg(m_pFunctionArgument);
+		m_pFunction_1Arg(m_pFunctionBoundArgument);
 		break;
 	case EVENT_FUNCTION_TYPE_2_ARGS:
-		m_pFunction_2Args(m_pFunctionArgument, pFunctionArgument);
+		m_pFunction_2Args(m_pFunctionBoundArgument, pTriggerArgument);
 		break;
 	}
 }

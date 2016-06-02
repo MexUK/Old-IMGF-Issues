@@ -23,19 +23,19 @@ public:
 	}
 
 	// EVENT_TYPE_GENERAL, 0
-	CEventBoundFunction*						bindEvent(uint32 uiEventId, void(*fEventFunction)(void*),		void *pFunctionArgument = nullptr, int32 iZIndex = 0);	// negative z-index's trigger before positive ones
-	CEventBoundFunction*						bindEvent(uint32 uiEventId, void(*fEventFunction)(void*,void*), void *pFunctionArgument = nullptr, int32 iZIndex = 0);	// negative z-index's trigger before positive ones
+	CEventBoundFunction*						bindEvent(uint32 uiEventId, void(*fEventFunction)(void*),		void *pBoundArgument = nullptr, int32 iZIndex = 0);	// negative z-index's trigger before positive ones
+	CEventBoundFunction*						bindEvent(uint32 uiEventId, void(*fEventFunction)(void*,void*), void *pBoundArgument = nullptr, int32 iZIndex = 0);	// negative z-index's trigger before positive ones
 	bool										doesEventExist(uint32 uiEventId);
 	uint32										getBoundFunctionCount(uint32 uiEventId);
-	bool										triggerEvent(uint32 uiEventId, void *pFunctionArgument = nullptr);
+	bool										triggerEvent(uint32 uiEventId, void *pTriggerArgument = nullptr);
 
 	// EVENT_TYPE_*, *
-	CEventBoundFunction*						bindEvent(uint32 uiEventTypeId, uint32 uiEventTypeIndex, uint32 uiEventId, void(*fEventFunction)(void*),		void *pFunctionArgument = nullptr, int32 iZIndex = 0);	// negative z-index's trigger before positive ones
-	CEventBoundFunction*						bindEvent(uint32 uiEventTypeId, uint32 uiEventTypeIndex, uint32 uiEventId, void(*fEventFunction)(void*,void*),	void *pFunctionArgument = nullptr, int32 iZIndex = 0);	// negative z-index's trigger before positive ones
+	CEventBoundFunction*						bindEvent(uint32 uiEventTypeId, uint32 uiEventTypeIndex, uint32 uiEventId, void(*fEventFunction)(void*),		void *pBoundArgument = nullptr, int32 iZIndex = 0);	// negative z-index's trigger before positive ones
+	CEventBoundFunction*						bindEvent(uint32 uiEventTypeId, uint32 uiEventTypeIndex, uint32 uiEventId, void(*fEventFunction)(void*,void*),	void *pBoundArgument = nullptr, int32 iZIndex = 0);	// negative z-index's trigger before positive ones
 	bool										unbindEvent(CEventBoundFunction *pEventBoundFunction);
 	bool										doesEventExist(uint32 uiEventTypeId, uint32 uiEventTypeIndex, uint32 uiEventId);
 	uint32										getBoundFunctionCount(uint32 uiEventTypeId, uint32 uiEventTypeIndex, uint32 uiEventId);
-	bool										triggerEvent(uint32 uiEventTypeId, uint32 uiEventTypeIndex, uint32 uiEventId, void *pFunctionArgument = nullptr);
+	bool										triggerEvent(uint32 uiEventTypeId, uint32 uiEventTypeIndex, uint32 uiEventId, void *pTriggerArgument = nullptr);
 
 	// CEventManager continued
 	void										setLastCursorPosition(CVector2i32& vecLastCursorPosition) { m_vecLastCursorPosition = vecLastCursorPosition; }
@@ -49,7 +49,7 @@ public:
 	bool										isEventHogged(void) { return m_bEventHogged; }
 
 private:
-	CEventBoundFunction*						createEventBoundFunctionObject(uint32 uiEventTypeId, uint32 uiEventTypeIndex, uint32 uiEventId, void *pFunctionArgument, int32 iZIndex);
+	CEventBoundFunction*						createEventBoundFunctionObject(uint32 uiEventTypeId, uint32 uiEventTypeIndex, uint32 uiEventId, void *pBoundArgument, int32 iZIndex);
 
 	uint32										getInsertionIndexForEventBoundFunction(CEventBoundFunction *pEventBoundFunction);
 

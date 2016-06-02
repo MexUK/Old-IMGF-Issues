@@ -10,8 +10,9 @@
 #include "Path/CPathUtility.h"
 #include "File/CFileUtility.h"
 #include "Registry/CRegistryUtility.h"
-#include "GUI/Screens/CIMGScreen.h"
-#include "GUI/ScreenTabs/CIMGScreenTab.h"
+#include "GUI/Window/CWindow.h"
+#include "GUI/Editors/CIMGEditor.h"
+#include "GUI/Editors/Tab/CIMGEditorTab.h"
 #include "IMG/CIMGManager.h"
 #include "IMG/CIMGFormat.h"
 #include "IMG/CIMGEntry.h"
@@ -198,14 +199,14 @@ void		CTaskDispatchManager::onRequestOpen2(string strPath)
 		}
 	}
 
-	getKGM()->getIMGScreen()->addTab(strPath, eIMGVersionValue);
+	getKGM()->getIMGEditor()->addTab(strPath, eIMGVersionValue);
 	getKGM()->getTaskManager()->onTaskEnd("onRequestOpen2");
 }
 void		CTaskDispatchManager::onRequestClose(void)
 {
 	getKGM()->getTaskManager()->onTaskBegin("onRequestClose");
-	CIMGScreenTab *pWindowTab = getKGM()->getEntryListTab();
-	if (!pWindowTab)
+	CIMGEditorTab *pEditorTab = getKGM()->getEntryListTab();
+	if (!pEditorTab)
 	{
 		return;
 	}
@@ -222,7 +223,7 @@ void		CTaskDispatchManager::onRequestClose(void)
 		getKGM()->getTaskManager()->onTaskUnpause();
 	}
 
-	getKGM()->getIMGScreen()->removeTab(pWindowTab);
+	getKGM()->getIMGEditor()->removeTab(pEditorTab);
 
 	getKGM()->getTaskManager()->onTaskEnd("onRequestClose");
 }
@@ -241,12 +242,12 @@ void		CTaskDispatchManager::onRequestCloseAll(void)
 		getKGM()->getTaskManager()->onTaskUnpause();
 	}
 
-	while (getKGM()->getIMGScreen()->getEntryCount() > 0) // todo - change to removeAllEntries or something assuming all stuff in removeTab() still gets ran somewhere
+	while (getKGM()->getIMGEditor()->getTabs().getEntryCount() > 0) // todo - change to removeAllEntries or something assuming all stuff in removeTab() still gets ran somewhere
 	{
-		getKGM()->getIMGScreen()->removeTab(getKGM()->getIMGScreen()->getEntryByIndex(0));
+		getKGM()->getIMGEditor()->removeTab(getKGM()->getIMGEditor()->getTabs().getEntryByIndex(0));
 	}
 
-	getKGM()->getIMGScreen()->setActiveTab(nullptr);
+	getKGM()->getIMGEditor()->setActiveTab(nullptr);
 	getKGM()->getTaskManager()->onTaskEnd("onRequestCloseAll");
 }
 void		CTaskDispatchManager::onRequestExitTool(void)
@@ -499,7 +500,7 @@ void		CTaskDispatchManager::onRequestRebuild(void)
 	}
 
 	getKGM()->getEntryListTab()->rebuild();
-	getKGM()->getIMGScreen()->refreshActiveTab();
+	getKGM()->getIMGEditor()->refreshActiveTab();
 
 	getKGM()->getEntryListTab()->checkForUnknownRWVersionEntries();
 	getKGM()->getTaskManager()->onTaskEnd("onRequestRebuild");
@@ -525,7 +526,7 @@ void		CTaskDispatchManager::onRequestRebuildAs(void)
 
 	getKGM()->getEntryListTab()->rebuild(strIMGPath, false);
 	getKGM()->getEntryListTab()->log(CLocalizationManager::getInstance()->getTranslatedFormattedText("Log_59", CPathUtility::getFileName(strIMGPath).c_str()));
-	getKGM()->getIMGScreen()->refreshActiveTab();
+	getKGM()->getIMGEditor()->refreshActiveTab();
 
 	getKGM()->getEntryListTab()->checkForUnknownRWVersionEntries();
 	getKGM()->getTaskManager()->onTaskEnd("onRequestRebuildAs");
@@ -540,16 +541,16 @@ void		CTaskDispatchManager::onRequestRebuildAll(void)
 	}
 
 	vector<string> vecIMGPaths;
-	for (auto pWindowTab : getKGM()->getIMGScreen()->getEntries())
+	for (auto pEditorTab : getKGM()->getIMGEditor()->getEntries())
 	{
-		vecIMGPaths.push_back(((CIMGScreenTab*)pWindowTab)->getIMGFile()->getFilePath());
-		((CIMGScreenTab*)pWindowTab)->rebuild("", false);
+		vecIMGPaths.push_back(((CIMGEditorTab*)pEditorTab)->getIMGFile()->getFilePath());
+		((CIMGEditorTab*)pEditorTab)->rebuild("", false);
 	}
-	getKGM()->getIMGScreen()->logAllTabs(CLocalizationManager::getInstance()->getTranslatedFormattedText("LogAllTabs_1", getKGM()->getIMGScreen()->getEntryCount()));
-	getKGM()->getIMGScreen()->logAllTabs(CLocalizationManager::getInstance()->getTranslatedText("LogAllTabs_2"), true);
-	getKGM()->getIMGScreen()->logAllTabs(CStringUtility::join(vecIMGPaths, "\n"), true);
+	getKGM()->getIMGEditor()->logAllTabs(CLocalizationManager::getInstance()->getTranslatedFormattedText("LogAllTabs_1", getKGM()->getIMGEditor()->getEntryCount()));
+	getKGM()->getIMGEditor()->logAllTabs(CLocalizationManager::getInstance()->getTranslatedText("LogAllTabs_2"), true);
+	getKGM()->getIMGEditor()->logAllTabs(CStringUtility::join(vecIMGPaths, "\n"), true);
 
-	getKGM()->getIMGScreen()->refreshActiveTab();
+	getKGM()->getIMGEditor()->refreshActiveTab();
 
 	getKGM()->getEntryListTab()->checkForUnknownRWVersionEntries();
 	getKGM()->getTaskManager()->onTaskEnd("onRequestRebuildAll");
@@ -792,7 +793,7 @@ void		CTaskDispatchManager::onRequestConvertIMGVersion(eIMGVersion eIMGVersionVa
 	}
 
 	// render
-	getKGM()->getIMGScreen()->refreshActiveTab();
+	getKGM()->getIMGEditor()->refreshActiveTab();
 
 	// other
 	getKGM()->getEntryListTab()->setIMGModifiedSinceRebuild(true);
@@ -870,7 +871,7 @@ void		CTaskDispatchManager::onRequestMerge(void)
 	getKGM()->getEntryListTab()->log(CLocalizationManager::getInstance()->getTranslatedText("Log_63"), true);
 	getKGM()->getEntryListTab()->log(strExtendedLog, true);
 
-	getKGM()->getIMGScreen()->refreshActiveTab();
+	getKGM()->getIMGEditor()->refreshActiveTab();
 
 	getKGM()->getEntryListTab()->setIMGModifiedSinceRebuild(true);
 	getKGM()->getTaskManager()->onTaskEnd("onRequestMerge");
@@ -916,7 +917,7 @@ void		CTaskDispatchManager::onRequestSplitSelectedEntries(void)
 		return;
 	}
 
-	if (getKGM()->getIMGScreen()->getSelectedEntryCount() == 0)
+	if (getKGM()->getIMGEditor()->getSelectedEntryCount() == 0)
 	{
 		getKGM()->getTaskManager()->onTaskEnd("onRequestSplitSelectedEntries", true);
 		return;
@@ -969,11 +970,11 @@ void		CTaskDispatchManager::onRequestSplitSelectedEntries(void)
 	getKGM()->getEntryListTab()->splitSelectedEntries(strPath, eIMGVersionValue, bDeleteFromSource, vecSplitEntryNames);
 	if(bDeleteFromSource)
 	{
-		getKGM()->getEntryListTab()->log(CLocalizationManager::getInstance()->getTranslatedFormattedText("Log_66", getKGM()->getIMGScreen()->getSelectedEntryCount(), CPathUtility::getFileName(strPath).c_str(), CIMGManager::getIMGVersionNameWithGames(eIMGVersionValue, bIsEncrypted).c_str(), CPathUtility::getFileName(getKGM()->getEntryListTab()->getIMGFile()->getFilePath()).c_str()));
+		getKGM()->getEntryListTab()->log(CLocalizationManager::getInstance()->getTranslatedFormattedText("Log_66", getKGM()->getIMGEditor()->getSelectedEntryCount(), CPathUtility::getFileName(strPath).c_str(), CIMGManager::getIMGVersionNameWithGames(eIMGVersionValue, bIsEncrypted).c_str(), CPathUtility::getFileName(getKGM()->getEntryListTab()->getIMGFile()->getFilePath()).c_str()));
 	}
 	else
 	{
-		getKGM()->getEntryListTab()->log(CLocalizationManager::getInstance()->getTranslatedFormattedText("Log_65", getKGM()->getIMGScreen()->getSelectedEntryCount(), CPathUtility::getFileName(strPath).c_str(), CIMGManager::getIMGVersionNameWithGames(eIMGVersionValue, bIsEncrypted).c_str(), CPathUtility::getFileName(getKGM()->getEntryListTab()->getIMGFile()->getFilePath()).c_str()));
+		getKGM()->getEntryListTab()->log(CLocalizationManager::getInstance()->getTranslatedFormattedText("Log_65", getKGM()->getIMGEditor()->getSelectedEntryCount(), CPathUtility::getFileName(strPath).c_str(), CIMGManager::getIMGVersionNameWithGames(eIMGVersionValue, bIsEncrypted).c_str(), CPathUtility::getFileName(getKGM()->getEntryListTab()->getIMGFile()->getFilePath()).c_str()));
 	}
 	getKGM()->getEntryListTab()->log(CLocalizationManager::getInstance()->getTranslatedText("Log_67"), true);
 	getKGM()->getEntryListTab()->log(CStringUtility::join(vecSplitEntryNames, "\n"), true);
@@ -1327,7 +1328,7 @@ void		CTaskDispatchManager::onRequestReplace(void)
 	getKGM()->getEntryListTab()->log(CLocalizationManager::getInstance()->getTranslatedText("EntriesForReplace"), true);
 	getKGM()->getEntryListTab()->log(CStringUtility::join(vecReplacedEntryNames, "\n"), true);
 
-	getKGM()->getIMGScreen()->refreshActiveTab();
+	getKGM()->getIMGEditor()->refreshActiveTab();
 	getKGM()->getTaskManager()->onTaskEnd("onRequestReplace");
 	*/
 }
@@ -1421,11 +1422,11 @@ void		CTaskDispatchManager::onRequestSearchText(void) // from search box
 
 	if (bSearchInAllTabs)
 	{
-		getKGM()->getIMGScreen()->logAllTabs(CLocalizationManager::getInstance()->getTranslatedFormattedText("LogAllTabs_3", getKGM()->getIMGScreen()->getSearchHitCount(), getKGM()->getIMGScreen()->getSearchFileCount()), true);
+		getKGM()->getIMGEditor()->logAllTabs(CLocalizationManager::getInstance()->getTranslatedFormattedText("LogAllTabs_3", getKGM()->getIMGEditor()->getSearchHitCount(), getKGM()->getIMGEditor()->getSearchFileCount()), true);
 	}
 	else
 	{
-		getKGM()->getEntryListTab()->log(CLocalizationManager::getInstance()->getTranslatedFormattedText("LogAllTabs_3", getKGM()->getIMGScreen()->getSearchHitCount(), getKGM()->getIMGScreen()->getSearchFileCount()), true);
+		getKGM()->getEntryListTab()->log(CLocalizationManager::getInstance()->getTranslatedFormattedText("LogAllTabs_3", getKGM()->getIMGEditor()->getSearchHitCount(), getKGM()->getIMGEditor()->getSearchFileCount()), true);
 	}
 	getKGM()->getTaskManager()->onTaskEnd("onRequestSearchText");
 	*/
@@ -1458,9 +1459,9 @@ void		CTaskDispatchManager::onRequestSearchSelection(void)
 
 		if (pSearchEntry->getWindowTab() != getKGM()->getEntryListTab())
 		{
-			getKGM()->getIMGScreen()->setActiveTab(pSearchEntry->getWindowTab());
+			getKGM()->getIMGEditor()->setActiveTab(pSearchEntry->getWindowTab());
 		}
-		nItem2 = getKGM()->getIMGScreen()->getMainListControlItemByEntry(pSearchEntry->getIMGEntry());
+		nItem2 = getKGM()->getIMGEditor()->getMainListControlItemByEntry(pSearchEntry->getIMGEntry());
 		pListControlMain->SetItemState(nItem2, LVIS_SELECTED, LVIS_SELECTED);
 		pListControlMain->SetSelectionMark(nItem2);
 	}
@@ -2215,7 +2216,7 @@ void		CTaskDispatchManager::onRequestNew(eIMGVersion eIMGVersion)
 	strFilePath = CFileUtility::getNextIncrementingFileName(strFilePath);
 	CFileUtility::createFoldersForPath(strFilePath);
 	strFilePath = CStringUtility::replace(strFilePath, "/", "\\");
-	getKGM()->getIMGScreen()->addBlankTab(strFilePath, eIMGVersion);
+	getKGM()->getIMGEditor()->addBlankTab(strFilePath, eIMGVersion);
 	getKGM()->getTaskManager()->onTaskEnd("onRequestNew");
 }
 void		CTaskDispatchManager::onRequestStats(void)
@@ -2804,16 +2805,16 @@ string		CTaskDispatchManager::onRequestSaveLog(bool bActiveTab, bool bNormalForm
 		string strLogData = "";
 		if (bNormalFormat)
 		{
-			for (auto pWindowTab : getKGM()->getIMGScreen()->getEntries())
+			for (auto pEditorTab : getKGM()->getIMGEditor()->getEntries())
 			{
-				strLogData += "[[" + ((CIMGScreenTab*)pWindowTab)->getIMGFile()->getFilePath() + "]]\n" + CStringUtility::join(((CIMGScreenTab*)pWindowTab)->getLogLinesBasic(), "\n") + "\n\n";
+				strLogData += "[[" + ((CIMGEditorTab*)pEditorTab)->getIMGFile()->getFilePath() + "]]\n" + CStringUtility::join(((CIMGEditorTab*)pEditorTab)->getLogLinesBasic(), "\n") + "\n\n";
 			}
 		}
 		else
 		{
-			for (auto pWindowTab : getKGM()->getIMGScreen()->getEntries())
+			for (auto pEditorTab : getKGM()->getIMGEditor()->getEntries())
 			{
-				strLogData += "[[" + ((CIMGScreenTab*)pWindowTab)->getIMGFile()->getFilePath() + "]]\n" + CStringUtility::join(((CIMGScreenTab*)pWindowTab)->getLogLinesExtended(), "\n") + "\n\n";
+				strLogData += "[[" + ((CIMGEditorTab*)pEditorTab)->getIMGFile()->getFilePath() + "]]\n" + CStringUtility::join(((CIMGEditorTab*)pEditorTab)->getLogLinesExtended(), "\n") + "\n\n";
 			}
 		}
 		CFileUtility::storeFile(strSaveFilePath, strLogData, false, false);
@@ -2827,7 +2828,7 @@ void		CTaskDispatchManager::onRequestSaveSession(void)
 	/*
 	todo
 	getKGM()->getTaskManager()->onTaskBegin("onRequestSaveSession");
-	if (getKGM()->getIMGScreen()->getEntryCount() == 0)
+	if (getKGM()->getIMGEditor()->getEntryCount() == 0)
 	{
 		getKGM()->getTaskManager()->onTaskEnd("onRequestSaveSession", true);
 		return;
@@ -2838,7 +2839,7 @@ void		CTaskDispatchManager::onRequestSaveSession(void)
 	do
 	{
 		getKGM()->getTaskManager()->onTaskPause();
-		strSessionName = getKGM()->getPopupGUIManager()->showTextInputDialog(CLocalizationManager::getInstance()->getTranslatedText("SessionName"), CLocalizationManager::getInstance()->getTranslatedFormattedText("Window_TextInput_5_Message", getKGM()->getIMGScreen()->getEntryCount()));
+		strSessionName = getKGM()->getPopupGUIManager()->showTextInputDialog(CLocalizationManager::getInstance()->getTranslatedText("SessionName"), CLocalizationManager::getInstance()->getTranslatedFormattedText("Window_TextInput_5_Message", getKGM()->getIMGEditor()->getEntryCount()));
 		getKGM()->getTaskManager()->onTaskUnpause();
 		if (strSessionName == "")
 		{
@@ -2856,17 +2857,17 @@ void		CTaskDispatchManager::onRequestSaveSession(void)
 	} while (bSemiColonFound);
 
 	vector<string> vecPaths;
-	for (auto pWindowTab : getKGM()->getIMGScreen()->getEntries())
+	for (auto pEditorTab : getKGM()->getIMGEditor()->getEntries())
 	{
-		vecPaths.push_back(((CIMGScreenTab*)pWindowTab)->getIMGFile()->getFilePath());
+		vecPaths.push_back(((CIMGEditorTab*)pEditorTab)->getIMGFile()->getFilePath());
 	}
 
 	getKGM()->getSessionManager()->addSession(strSessionName, vecPaths);
 	getKGM()->getSessionManager()->loadSessions();
 
-	getKGM()->getIMGScreen()->logAllTabs(CLocalizationManager::getInstance()->getTranslatedFormattedText("LogAllTabs_4", getKGM()->getIMGScreen()->getEntryCount(), strSessionName));
-	getKGM()->getIMGScreen()->logAllTabs(CLocalizationManager::getInstance()->getTranslatedText("LogAllTabs_5"), true);
-	getKGM()->getIMGScreen()->logAllTabs(CStringUtility::join(vecPaths, "\n"), true);
+	getKGM()->getIMGEditor()->logAllTabs(CLocalizationManager::getInstance()->getTranslatedFormattedText("LogAllTabs_4", getKGM()->getIMGEditor()->getEntryCount(), strSessionName));
+	getKGM()->getIMGEditor()->logAllTabs(CLocalizationManager::getInstance()->getTranslatedText("LogAllTabs_5"), true);
+	getKGM()->getIMGEditor()->logAllTabs(CStringUtility::join(vecPaths, "\n"), true);
 	getKGM()->getTaskManager()->onTaskEnd("onRequestSaveSession");
 	*/
 }
@@ -2948,7 +2949,7 @@ void		CTaskDispatchManager::onRequestOrphanDFFEntriesNotInCOL(void)
 		getKGM()->getTaskManager()->onTaskProgressTick();
 	}
 
-	if (getKGM()->getIMGScreen()->getEntryCount() > 0)
+	if (getKGM()->getIMGEditor()->getEntryCount() > 0)
 	{
 		getKGM()->getEntryListTab()->log(CLocalizationManager::getInstance()->getTranslatedFormattedText("Log_125", vecEntryNamesMissingFromCOL.size()));
 		getKGM()->getEntryListTab()->log(CLocalizationManager::getInstance()->getTranslatedText("Log_93"), true);
@@ -2956,9 +2957,9 @@ void		CTaskDispatchManager::onRequestOrphanDFFEntriesNotInCOL(void)
 	}
 	else
 	{
-		getKGM()->getIMGScreen()->logWithNoTabsOpen(CLocalizationManager::getInstance()->getTranslatedFormattedText("Log_125", vecEntryNamesMissingFromCOL.size()));
-		getKGM()->getIMGScreen()->logWithNoTabsOpen(CLocalizationManager::getInstance()->getTranslatedText("Log_93"), true);
-		getKGM()->getIMGScreen()->logWithNoTabsOpen(CStringUtility::join(vecEntryNamesMissingFromCOL, "\n"), true);
+		getKGM()->getIMGEditor()->logWithNoTabsOpen(CLocalizationManager::getInstance()->getTranslatedFormattedText("Log_125", vecEntryNamesMissingFromCOL.size()));
+		getKGM()->getIMGEditor()->logWithNoTabsOpen(CLocalizationManager::getInstance()->getTranslatedText("Log_93"), true);
+		getKGM()->getIMGEditor()->logWithNoTabsOpen(CStringUtility::join(vecEntryNamesMissingFromCOL, "\n"), true);
 	}
 
 	getKGM()->getTaskManager()->onTaskPause();
@@ -3519,7 +3520,7 @@ void		CTaskDispatchManager::onRequestReopen(void)
 		getKGM()->getTaskManager()->onTaskEnd("onRequestReopen", true);
 		return;
 	}
-	getKGM()->getIMGScreen()->removeTab(getKGM()->getEntryListTab());
+	getKGM()->getIMGEditor()->removeTab(getKGM()->getEntryListTab());
 	onRequestOpen2(strIMGPath);
 	getKGM()->getTaskManager()->onTaskEnd("onRequestReopen");
 }
@@ -4147,9 +4148,9 @@ bool		CTaskDispatchManager::onRequestClose2(bool bCloseAll)
 	if (bCloseAll)
 	{
 		uint32 uiModifiedSinceRebuildCount = 0;
-		for (auto pWindowTab : getKGM()->getIMGScreen()->getEntries())
+		for (auto pEditorTab : getKGM()->getIMGEditor()->getEntries())
 		{
-			if (((CIMGScreenTab*)pWindowTab)->getIMGModifiedSinceRebuild())
+			if (((CIMGEditorTab*)pEditorTab)->getIMGModifiedSinceRebuild())
 			{
 				uiModifiedSinceRebuildCount++;
 			}
@@ -4190,11 +4191,11 @@ bool		CTaskDispatchManager::onRequestClose2(bool bCloseAll)
 
 	if (bCloseAll)
 	{
-		for (auto pWindowTab : getKGM()->getIMGScreen()->getEntries())
+		for (auto pEditorTab : getKGM()->getIMGEditor()->getEntries())
 		{
-			if (((CIMGScreenTab*)pWindowTab)->getIMGModifiedSinceRebuild())
+			if (((CIMGEditorTab*)pEditorTab)->getIMGModifiedSinceRebuild())
 			{
-				((CIMGScreenTab*)pWindowTab)->rebuild();
+				((CIMGEditorTab*)pEditorTab)->rebuild();
 			}
 		}
 	}
@@ -4342,24 +4343,24 @@ void		CTaskDispatchManager::onRequestExportAllEntriesFromAllTabs(void)
 	getKGM()->setLastUsedDirectory("EXPORT_ALL_ALL", strPath);
 
 	uint32 uiTotalEntryCount = 0;
-	for (auto pWindowTab : getKGM()->getIMGScreen()->getEntries())
+	for (auto pEditorTab : getKGM()->getIMGEditor()->getEntries())
 	{
-		uiTotalEntryCount += ((CIMGScreenTab*)pWindowTab)->getIMGFile()->getEntryCount();
+		uiTotalEntryCount += ((CIMGEditorTab*)pEditorTab)->getIMGFile()->getEntryCount();
 	}
 	getKGM()->getTaskManager()->setTaskMaxProgressTickCount(uiTotalEntryCount);
 
 	vector<string> vecIMGPaths;
-	for (auto pWindowTab : getKGM()->getIMGScreen()->getEntries())
+	for (auto pEditorTab : getKGM()->getIMGEditor()->getEntries())
 	{
-		vecIMGPaths.push_back(((CIMGScreenTab*)pWindowTab)->getIMGFile()->getFilePath());
+		vecIMGPaths.push_back(((CIMGEditorTab*)pEditorTab)->getIMGFile()->getFilePath());
 
-		((CIMGScreenTab*)pWindowTab)->getIMGFile()->exportMultiple(((CIMGScreenTab*)pWindowTab)->getIMGFile()->getEntries(), strPath);
-		//pWindowTab->log("Exported all " + CStringUtility::toString(pWindowTab->getIMGFile()->m_vecEntries.size()) + " entr" + (pWindowTab->getIMGFile()->m_vecEntries.size() == 1 ? "y" : "ies") + ".");
+		((CIMGEditorTab*)pEditorTab)->getIMGFile()->exportMultiple(((CIMGEditorTab*)pEditorTab)->getIMGFile()->getEntries(), strPath);
+		//pEditorTab->log("Exported all " + CStringUtility::toString(pEditorTab->getIMGFile()->m_vecEntries.size()) + " entr" + (pEditorTab->getIMGFile()->m_vecEntries.size() == 1 ? "y" : "ies") + ".");
 	}
 
-	getKGM()->getIMGScreen()->logAllTabs(CLocalizationManager::getInstance()->getTranslatedFormattedText("LogAllTabs_6", uiTotalEntryCount, getKGM()->getIMGScreen()->getEntryCount()));
-	getKGM()->getIMGScreen()->logAllTabs(CLocalizationManager::getInstance()->getTranslatedText("LogAllTabs_7"), true);
-	getKGM()->getIMGScreen()->logAllTabs(CStringUtility::join(vecIMGPaths, "\n"), true);
+	getKGM()->getIMGEditor()->logAllTabs(CLocalizationManager::getInstance()->getTranslatedFormattedText("LogAllTabs_6", uiTotalEntryCount, getKGM()->getIMGEditor()->getEntryCount()));
+	getKGM()->getIMGEditor()->logAllTabs(CLocalizationManager::getInstance()->getTranslatedText("LogAllTabs_7"), true);
+	getKGM()->getIMGEditor()->logAllTabs(CStringUtility::join(vecIMGPaths, "\n"), true);
 	getKGM()->getTaskManager()->onTaskEnd("onRequestExportAllEntriesFromAllTabs");
 }
 void		CTaskDispatchManager::onRequestExportEntriesViaIDEFileFromAllTabs(void)
@@ -4396,20 +4397,20 @@ void		CTaskDispatchManager::onRequestExportEntriesViaIDEFileFromAllTabs(void)
 	vecEntryNamesWithoutExtension = CVectorUtility::toUpperCase(vecEntryNamesWithoutExtension);
 	
 	uint32 uiTotalEntryCount = 0;
-	for (auto pWindowTab : getKGM()->getIMGScreen()->getEntries())
+	for (auto pEditorTab : getKGM()->getIMGEditor()->getEntries())
 	{
-		uiTotalEntryCount += ((CIMGScreenTab*)pWindowTab)->getIMGFile()->getEntryCount();
+		uiTotalEntryCount += ((CIMGEditorTab*)pEditorTab)->getIMGFile()->getEntryCount();
 	}
 	getKGM()->getTaskManager()->setTaskMaxProgressTickCount(uiTotalEntryCount);
 
 	uint32 uiTotalEntryExportedCount = 0;
 	vector<string> vecIMGPaths;
-	for (auto pWindowTab : getKGM()->getIMGScreen()->getEntries())
+	for (auto pEditorTab : getKGM()->getIMGEditor()->getEntries())
 	{
-		vecIMGPaths.push_back(((CIMGScreenTab*)pWindowTab)->getIMGFile()->getFilePath());
+		vecIMGPaths.push_back(((CIMGEditorTab*)pEditorTab)->getIMGFile()->getFilePath());
 
 		vector<CIMGEntry*> vecIMGEntries;
-		for (auto pIMGEntry : ((CIMGScreenTab*)pWindowTab)->getIMGFile()->getEntries())
+		for (auto pIMGEntry : ((CIMGEditorTab*)pEditorTab)->getIMGFile()->getEntries())
 		{
 			string strEntryNameWithoutExtension = CStringUtility::toUpperCase(CPathUtility::removeFileExtension(pIMGEntry->getEntryName()));
 			auto it = std::find(vecEntryNamesWithoutExtension.begin(), vecEntryNamesWithoutExtension.end(), strEntryNameWithoutExtension);
@@ -4422,12 +4423,12 @@ void		CTaskDispatchManager::onRequestExportEntriesViaIDEFileFromAllTabs(void)
 			getKGM()->getTaskManager()->onTaskProgressTick();
 		}
 
-		((CIMGScreenTab*)pWindowTab)->getIMGFile()->exportMultiple(vecIMGEntries, strPath);
+		((CIMGEditorTab*)pEditorTab)->getIMGFile()->exportMultiple(vecIMGEntries, strPath);
 	}
 
-	getKGM()->getIMGScreen()->logAllTabs(CLocalizationManager::getInstance()->getTranslatedFormattedText("Log_108", uiTotalEntryExportedCount, getKGM()->getIMGScreen()->getEntryCount()));
-	getKGM()->getIMGScreen()->logAllTabs(CLocalizationManager::getInstance()->getTranslatedText("LogAllTabs_7"), true);
-	getKGM()->getIMGScreen()->logAllTabs(CStringUtility::join(vecIMGPaths, "\n"), true);
+	getKGM()->getIMGEditor()->logAllTabs(CLocalizationManager::getInstance()->getTranslatedFormattedText("Log_108", uiTotalEntryExportedCount, getKGM()->getIMGEditor()->getEntryCount()));
+	getKGM()->getIMGEditor()->logAllTabs(CLocalizationManager::getInstance()->getTranslatedText("LogAllTabs_7"), true);
+	getKGM()->getIMGEditor()->logAllTabs(CStringUtility::join(vecIMGPaths, "\n"), true);
 	getKGM()->getTaskManager()->onTaskEnd("onRequestExportEntriesViaIDEFileFromAllTabs");
 }
 void		CTaskDispatchManager::onRequestExportEntriesViaTextLinesFromAllTabs(void)
@@ -4474,20 +4475,20 @@ void		CTaskDispatchManager::onRequestExportEntriesViaTextLinesFromAllTabs(void)
 	vecEntryNames = CVectorUtility::toUpperCase(vecEntryNames);
 
 	uint32 uiTotalEntryCount = 0;
-	for (auto pWindowTab : getKGM()->getIMGScreen()->getEntries())
+	for (auto pEditorTab : getKGM()->getIMGEditor()->getEntries())
 	{
-		uiTotalEntryCount += ((CIMGScreenTab*)pWindowTab)->getIMGFile()->getEntryCount();
+		uiTotalEntryCount += ((CIMGEditorTab*)pEditorTab)->getIMGFile()->getEntryCount();
 	}
 	getKGM()->getTaskManager()->setTaskMaxProgressTickCount(uiTotalEntryCount);
 
 	uint32 uiTotalEntryExportedCount = 0;
 	vector<string> vecIMGPaths;
-	for (auto pWindowTab : getKGM()->getIMGScreen()->getEntries())
+	for (auto pEditorTab : getKGM()->getIMGEditor()->getEntries())
 	{
-		vecIMGPaths.push_back(((CIMGScreenTab*)pWindowTab)->getIMGFile()->getFilePath());
+		vecIMGPaths.push_back(((CIMGEditorTab*)pEditorTab)->getIMGFile()->getFilePath());
 
 		vector<CIMGEntry*> vecIMGEntries;
-		for (auto pIMGEntry : ((CIMGScreenTab*)pWindowTab)->getIMGFile()->getEntries())
+		for (auto pIMGEntry : ((CIMGEditorTab*)pEditorTab)->getIMGFile()->getEntries())
 		{
 			string strEntryNameWithoutExtension = CStringUtility::toUpperCase(CPathUtility::removeFileExtension(pIMGEntry->getEntryName()));
 			auto it = std::find(vecEntryNames.begin(), vecEntryNames.end(), strEntryNameWithoutExtension);
@@ -4500,12 +4501,12 @@ void		CTaskDispatchManager::onRequestExportEntriesViaTextLinesFromAllTabs(void)
 			getKGM()->getTaskManager()->onTaskProgressTick();
 		}
 
-		((CIMGScreenTab*)pWindowTab)->getIMGFile()->exportMultiple(vecIMGEntries, strPath);
+		((CIMGEditorTab*)pEditorTab)->getIMGFile()->exportMultiple(vecIMGEntries, strPath);
 	}
 
-	getKGM()->getIMGScreen()->logAllTabs(CLocalizationManager::getInstance()->getTranslatedFormattedText("LogAllTabs_8", uiTotalEntryExportedCount, getKGM()->getIMGScreen()->getEntryCount()));
-	getKGM()->getIMGScreen()->logAllTabs(CLocalizationManager::getInstance()->getTranslatedText("LogAllTabs_7"), true);
-	getKGM()->getIMGScreen()->logAllTabs(CStringUtility::join(vecIMGPaths, "\n"), true);
+	getKGM()->getIMGEditor()->logAllTabs(CLocalizationManager::getInstance()->getTranslatedFormattedText("LogAllTabs_8", uiTotalEntryExportedCount, getKGM()->getIMGEditor()->getEntryCount()));
+	getKGM()->getIMGEditor()->logAllTabs(CLocalizationManager::getInstance()->getTranslatedText("LogAllTabs_7"), true);
+	getKGM()->getIMGEditor()->logAllTabs(CStringUtility::join(vecIMGPaths, "\n"), true);
 	getKGM()->getTaskManager()->onTaskEnd("onRequestExportEntriesViaTextLinesFromAllTabs");
 }
 void		CTaskDispatchManager::onRequestImportViaFolder(void)
@@ -4592,7 +4593,7 @@ void		CTaskDispatchManager::onRequestDuplicateEntries(void)
 			return;
 		}
 
-		veCIMGFormats = getKGM()->getIMGScreen()->getAllMainWindowTabsIMGFiles();
+		veCIMGFormats = getKGM()->getIMGEditor()->getAllMainWindowTabsIMGFiles();
 	}
 	else if (pDuplicateEntriesDialogData->m_ucEntriesType == 3) // DAT file
 	{
@@ -4753,23 +4754,23 @@ void		CTaskDispatchManager::onRequestExportAllEntriesFromAllTabsIntoMultipleFold
 	getKGM()->setLastUsedDirectory("EXPORT_ALL_FOLDERS", strPath);
 
 	uint32 uiTotalEntryCount = 0;
-	for (auto pWindowTab : getKGM()->getIMGScreen()->getEntries())
+	for (auto pEditorTab : getKGM()->getIMGEditor()->getEntries())
 	{
-		uiTotalEntryCount += ((CIMGScreenTab*)pWindowTab)->getIMGFile()->getEntryCount();
+		uiTotalEntryCount += ((CIMGEditorTab*)pEditorTab)->getIMGFile()->getEntryCount();
 	}
 	getKGM()->getTaskManager()->setTaskMaxProgressTickCount(uiTotalEntryCount);
 
 	vector<string> vecIMGPaths;
-	for (auto pWindowTab : getKGM()->getIMGScreen()->getEntries())
+	for (auto pEditorTab : getKGM()->getIMGEditor()->getEntries())
 	{
-		vecIMGPaths.push_back(((CIMGScreenTab*)pWindowTab)->getIMGFile()->getFilePath());
+		vecIMGPaths.push_back(((CIMGEditorTab*)pEditorTab)->getIMGFile()->getFilePath());
 
-		((CIMGScreenTab*)pWindowTab)->getIMGFile()->exportMultiple(((CIMGScreenTab*)pWindowTab)->getIMGFile()->getEntries(), strPath + CPathUtility::getFileName(((CIMGScreenTab*)pWindowTab)->getIMGFile()->getFilePath()) + "/");
+		((CIMGEditorTab*)pEditorTab)->getIMGFile()->exportMultiple(((CIMGEditorTab*)pEditorTab)->getIMGFile()->getEntries(), strPath + CPathUtility::getFileName(((CIMGEditorTab*)pEditorTab)->getIMGFile()->getFilePath()) + "/");
 	}
 
-	getKGM()->getIMGScreen()->logAllTabs(CLocalizationManager::getInstance()->getTranslatedFormattedText("LogAllTabs_9", uiTotalEntryCount, getKGM()->getIMGScreen()->getEntries()));
-	getKGM()->getIMGScreen()->logAllTabs(CLocalizationManager::getInstance()->getTranslatedText("LogAllTabs_7"), true);
-	getKGM()->getIMGScreen()->logAllTabs(CStringUtility::join(vecIMGPaths, "\n"), true);
+	getKGM()->getIMGEditor()->logAllTabs(CLocalizationManager::getInstance()->getTranslatedFormattedText("LogAllTabs_9", uiTotalEntryCount, getKGM()->getIMGEditor()->getEntries()));
+	getKGM()->getIMGEditor()->logAllTabs(CLocalizationManager::getInstance()->getTranslatedText("LogAllTabs_7"), true);
+	getKGM()->getIMGEditor()->logAllTabs(CStringUtility::join(vecIMGPaths, "\n"), true);
 	getKGM()->getTaskManager()->onTaskEnd("onRequestExportAllEntriesFromAllTabsIntoMultipleFolders");
 }
 void		CTaskDispatchManager::onRequestOpenLast(void)
@@ -5787,22 +5788,22 @@ void			CTaskDispatchManager::onRequestClearLogs(bool bAllTabs)
 {
 	getKGM()->getLastUsedValueManager()->setLastUsedValue_ClearLogs_AllTabs(bAllTabs);
 	getKGM()->getTaskManager()->onTaskBegin("onRequestClearLogs");
-	vector<CIMGScreenTab*> veCIMGScreenTabs;
+	vector<CIMGEditorTab*> veCIMGEditorTabs;
 	if (bAllTabs)
 	{
-		for (auto pEntryListWindowTab : getKGM()->getIMGScreen()->getEntries())
+		for (auto pEntryListWindowTab : getKGM()->getIMGEditor()->getEntries())
 		{
-			veCIMGScreenTabs.push_back((CIMGScreenTab*)pEntryListWindowTab);
+			veCIMGEditorTabs.push_back((CIMGEditorTab*)pEntryListWindowTab);
 		}
 	}
 	else
 	{
-		veCIMGScreenTabs.push_back(getKGM()->getEntryListTab());
+		veCIMGEditorTabs.push_back(getKGM()->getEntryListTab());
 	}
 
-	for (auto pWindowTab : veCIMGScreenTabs)
+	for (auto pEditorTab : veCIMGEditorTabs)
 	{
-		pWindowTab->clearLogs();
+		pEditorTab->clearLogs();
 	}
 	getKGM()->getTaskManager()->onTaskEnd("onRequestClearLogs");
 }
@@ -6477,7 +6478,7 @@ void			CTaskDispatchManager::onRequestRenamer(void)
 	getKGM()->getEntryListTab()->setIMGModifiedSinceRebuild(true);
 
 	// refresh tab's main list view
-	getKGM()->getIMGScreen()->refreshActiveTab();
+	getKGM()->getIMGEditor()->refreshActiveTab();
 
 	// clean up
 	for (auto pRenamedIMGEntry : vecIMGEntriesWithNewNames)
@@ -6564,10 +6565,10 @@ void		CTaskDispatchManager::onRequestBuildTXD(void)
 			return;
 		}
 
-		for (auto pWindowTab : getKGM()->getIMGScreen()->getEntries())
+		for (auto pEditorTab : getKGM()->getIMGEditor()->getEntries())
 		{
-			vector<CIMGEntry*> vecIMGEntries = ((CIMGScreenTab*)pWindowTab)->getIMGFile()->getEntriesByExtension("DFF");
-			vector<CIMGEntry*> vecIMGEntries_BSP = ((CIMGScreenTab*)pWindowTab)->getIMGFile()->getEntriesByExtension("BSP");
+			vector<CIMGEntry*> vecIMGEntries = ((CIMGEditorTab*)pEditorTab)->getIMGFile()->getEntriesByExtension("DFF");
+			vector<CIMGEntry*> vecIMGEntries_BSP = ((CIMGEditorTab*)pEditorTab)->getIMGFile()->getEntriesByExtension("BSP");
 			for (auto pIMGEntry : vecIMGEntries_BSP)
 			{
 				vecIMGEntries.push_back(pIMGEntry);
@@ -7681,13 +7682,13 @@ void			CTaskDispatchManager::onRequestAlignCOLCollisionMeshesToDFFMesh(void)
 	}
 	
 	string strLogText = CLocalizationManager::getInstance()->getTranslatedFormattedText("Log_AlignMeshes_COL_DFF", vecFilePaths_COL.size());
-	if (getKGM()->getIMGScreen()->getEntryCount() > 0)
+	if (getKGM()->getIMGEditor()->getEntryCount() > 0)
 	{
 		getKGM()->getEntryListTab()->log(strLogText);
 	}
 	else
 	{
-		getKGM()->getIMGScreen()->logWithNoTabsOpen(strLogText);
+		getKGM()->getIMGEditor()->logWithNoTabsOpen(strLogText);
 	}
 
 	getKGM()->getTaskManager()->onTaskEnd("onRequestAlignCOLCollisionMeshesToDFFMesh");
@@ -8706,7 +8707,7 @@ void						CTaskDispatchManager::onRequestMapMoverAndIDShifter(void)
 
 	if (getKGM()->getEntryListTab() == nullptr)
 	{
-		getKGM()->getIMGScreen()->logWithNoTabsOpen("Moved and ID shifted " + CStringUtility::toString(vecIDEPaths.size()) + " IDE files and " + CStringUtility::toString(vecIPLPaths.size()) + " IPL files (" + CStringUtility::toString(uiIPLCount_Text) + " text, " + CStringUtility::toString(uiIPLCount_Binary) + " binary) in " + CPathUtility::getFileName(pMapMoverAndIDShifterDialogData->m_strDATFilePath));
+		getKGM()->getIMGEditor()->logWithNoTabsOpen("Moved and ID shifted " + CStringUtility::toString(vecIDEPaths.size()) + " IDE files and " + CStringUtility::toString(vecIPLPaths.size()) + " IPL files (" + CStringUtility::toString(uiIPLCount_Text) + " text, " + CStringUtility::toString(uiIPLCount_Binary) + " binary) in " + CPathUtility::getFileName(pMapMoverAndIDShifterDialogData->m_strDATFilePath));
 	}
 	else
 	{
@@ -8779,7 +8780,7 @@ void						CTaskDispatchManager::onRequestDATModelList(void)
 
 	if (getKGM()->getEntryListTab() == nullptr)
 	{
-		getKGM()->getIMGScreen()->logWithNoTabsOpen("Found " + CStringUtility::toString(vecModelNames.size()) + " unique model names in IDE/IPL files in " + CPathUtility::getFileName(pDATModelListDialogData->m_strDATFilePath));
+		getKGM()->getIMGEditor()->logWithNoTabsOpen("Found " + CStringUtility::toString(vecModelNames.size()) + " unique model names in IDE/IPL files in " + CPathUtility::getFileName(pDATModelListDialogData->m_strDATFilePath));
 	}
 	else
 	{
@@ -9027,8 +9028,8 @@ void						CTaskDispatchManager::onRequestCloneIMG(void)
 
 	getKGM()->getTaskManager()->setTaskMaxProgressTickCount(pIMGFile->getEntryCount() * 3);
 
-	CIMGScreenTab *pNewTab = getKGM()->getIMGScreen()->addTab(strClonedIMGPath, pIMGFile->getIMGVersion());
-	getKGM()->getIMGScreen()->setActiveTab(pNewTab);
+	CIMGEditorTab *pNewTab = getKGM()->getIMGEditor()->addTab(strClonedIMGPath, pIMGFile->getIMGVersion());
+	getKGM()->getIMGEditor()->setActiveTab(pNewTab);
 
 	getKGM()->getTaskManager()->onTaskEnd("onRequestCloneIMG");
 }
@@ -9280,9 +9281,9 @@ void						CTaskDispatchManager::onRequestFindDFFMissingFromIDEFoundInIPL(void)
 	}
 	else
 	{
-		getKGM()->getIMGScreen()->logWithNoTabsOpen(CLocalizationManager::getInstance()->getTranslatedFormattedText("Log_136", vecDFFNamesWithoutExtensionMissingFromIDE.size()));
-		getKGM()->getIMGScreen()->logWithNoTabsOpen(CLocalizationManager::getInstance()->getTranslatedText("Log_135"), true);
-		getKGM()->getIMGScreen()->logWithNoTabsOpen(CStringUtility::join(vecDFFNamesWithoutExtensionMissingFromIDE, "\n"), true);
+		getKGM()->getIMGEditor()->logWithNoTabsOpen(CLocalizationManager::getInstance()->getTranslatedFormattedText("Log_136", vecDFFNamesWithoutExtensionMissingFromIDE.size()));
+		getKGM()->getIMGEditor()->logWithNoTabsOpen(CLocalizationManager::getInstance()->getTranslatedText("Log_135"), true);
+		getKGM()->getIMGEditor()->logWithNoTabsOpen(CStringUtility::join(vecDFFNamesWithoutExtensionMissingFromIDE, "\n"), true);
 	}
 
 	// popup
@@ -9385,7 +9386,7 @@ void				CTaskDispatchManager::onRequestSortIDEAndIPLFilesByObjectId(void)
 	}
 	else
 	{
-		getKGM()->getIMGScreen()->logWithNoTabsOpen(CLocalizationManager::getInstance()->getTranslatedFormattedText("Log_137", veCIDEFormats.size(), veCIPLFormats.size(), CPathUtility::getFileName(strDATFilePath).c_str()));
+		getKGM()->getIMGEditor()->logWithNoTabsOpen(CLocalizationManager::getInstance()->getTranslatedFormattedText("Log_137", veCIDEFormats.size(), veCIPLFormats.size(), CPathUtility::getFileName(strDATFilePath).c_str()));
 	}
 
 	getKGM()->getTaskManager()->onTaskEnd("onRequestSortIDEAndIPLFilesByObjectId");
@@ -9530,7 +9531,7 @@ void				CTaskDispatchManager::onRequestExtractDVCAndNVCColoursIntoDFFs(void)
 	}
 	else
 	{
-		getKGM()->getIMGScreen()->logWithNoTabsOpen(CLocalizationManager::getInstance()->getTranslatedFormattedText("Log_138", uiDFFUpdatedFileCount));
+		getKGM()->getIMGEditor()->logWithNoTabsOpen(CLocalizationManager::getInstance()->getTranslatedFormattedText("Log_138", uiDFFUpdatedFileCount));
 	}
 
 	// end
@@ -9641,7 +9642,7 @@ void				CTaskDispatchManager::onRequestExtract2DFXIntoDFFs(void)
 	}
 	else
 	{
-		getKGM()->getIMGScreen()->logWithNoTabsOpen(CLocalizationManager::getInstance()->getTranslatedFormattedText("Log_139", uiDFFUpdatedFileCount));
+		getKGM()->getIMGEditor()->logWithNoTabsOpen(CLocalizationManager::getInstance()->getTranslatedFormattedText("Log_139", uiDFFUpdatedFileCount));
 	}
 
 	// end

@@ -73,9 +73,6 @@
     <Filter Include="Source Files\GUI\Controls">
       <UniqueIdentifier>{4b03550f-4c7a-4c7d-9a32-888fb6f71dfa}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Source Files\GUI\Tab">
-      <UniqueIdentifier>{15bc353d-21a3-411b-9226-d8313c874402}</UniqueIdentifier>
-    </Filter>
     <Filter Include="Source Files\GUI\Window">
       <UniqueIdentifier>{e018a109-b6a9-4ab9-92a4-8c6d9cc42fe5}</UniqueIdentifier>
     </Filter>
@@ -84,9 +81,6 @@
     </Filter>
     <Filter Include="Header Files\GUI\Controls">
       <UniqueIdentifier>{e457ab54-76cc-4d53-86cf-a6915abeca99}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Header Files\GUI\Tab">
-      <UniqueIdentifier>{613da06c-2f3b-415c-8982-c4c306d3b8b5}</UniqueIdentifier>
     </Filter>
     <Filter Include="Header Files\GUI\Window">
       <UniqueIdentifier>{3a3fd0cf-daaa-4d82-af6f-0c359f7735f7}</UniqueIdentifier>
@@ -102,6 +96,12 @@
     </Filter>
     <Filter Include="Source Files\GUI\Controls\Entries">
       <UniqueIdentifier>{d9052526-fbaa-4ad8-8e89-96c004f7d6bb}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\GUI\Group">
+      <UniqueIdentifier>{7cbd133d-9e25-4206-b360-91ba32ed4f6d}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\GUI\Group">
+      <UniqueIdentifier>{f404eb15-8c07-4186-931f-37d3ba4e55cb}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
@@ -153,13 +153,7 @@
     <ClCompile Include="..\..\..\Code\General\GUI\Control\CWindowControl.cpp">
       <Filter>Source Files\GUI\Control</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\..\Code\General\GUI\Tab\CWindowTab.cpp">
-      <Filter>Source Files\GUI\Tab</Filter>
-    </ClCompile>
     <ClCompile Include="..\..\..\Code\General\GUI\Window\CWindow.cpp">
-      <Filter>Source Files\GUI\Window</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\..\Code\General\GUI\Window\CTabbedWindow.cpp">
       <Filter>Source Files\GUI\Window</Filter>
     </ClCompile>
     <ClCompile Include="..\..\..\Code\General\GUI\Controls\CWindowControl_Progress.cpp">
@@ -191,6 +185,9 @@
     </ClCompile>
     <ClCompile Include="..\..\..\Code\General\GUI\Controls\CWindowControl_Menu.cpp">
       <Filter>Source Files\GUI\Controls</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\Code\General\GUI\Group\CControlGroup.cpp">
+      <Filter>Source Files\GUI\Group</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -296,12 +293,6 @@
     <ClInclude Include="..\..\..\Code\General\GUI\Control\CWindowControl.h">
       <Filter>Header Files\GUI\Control</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\..\Code\General\GUI\Tab\CWindowTab.h">
-      <Filter>Header Files\GUI\Tab</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\..\Code\General\GUI\Window\CTabbedWindow.h">
-      <Filter>Header Files\GUI\Window</Filter>
-    </ClInclude>
     <ClInclude Include="..\..\..\Code\General\GUI\Window\CWindow.h">
       <Filter>Header Files\GUI\Window</Filter>
     </ClInclude>
@@ -352,6 +343,9 @@
     </ClInclude>
     <ClInclude Include="..\..\..\Code\General\GUI\Controls\Entries\CWindowControlEntry_Menu.h">
       <Filter>Header Files\GUI\Controls\Entries</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\Code\General\GUI\Group\CControlGroup.h">
+      <Filter>Header Files\GUI\Group</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

@@ -4,7 +4,7 @@
 #include "String/CStringUtility.h"
 #include "Globals.h"
 #include "CKGM.h"
-#include "GUI/Screens/CIMGScreen.h"
+#include "GUI/Editors/CIMGEditor.h"
 #include "Path/CPathUtility.h"
 #include "GUI/CGUIUtility.h"
 #include "IMG/CIMGEntry.h"

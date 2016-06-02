@@ -1,5 +1,5 @@
 #include "CKGMWindow.h"
-#include "GUI/Screens/CIMGScreen.h"
+#include "GUI/Editors/CIMGEditor.h"
 #include "GUI/Controls/CWindowControl_Button.h"
 #include "GUI/Controls/CWindowControl_List.h"
 #include "GUI/CWindowManager.h"
@@ -18,39 +18,41 @@ using namespace std;
 
 CKGMWindow::CKGMWindow(void)
 {
-	initTabs();
 }
 
 // event binding
 void					CKGMWindow::bindEvents(void)
 {
-	bindEvent(EVENT_onRender, [](void *pWindow)
+	storeEventBoundFunction(bindEvent(EVENT_onRender, [](void *pWindow)
 	{
 		((CKGMWindow*) pWindow)->onRender();
-	}, this);
+	}, this));
 
-	CTabbedWindow::bindEvents();
+	CWindow::bindEvents();
 }
 
 // window initialization
 void					CKGMWindow::initTabs(void)
 {
-	// add inner window
+	// set window properties
 	setBackgroundColour(0x214E67FF);
 
-	// add inner window controls
+	// fetch control group
+	CEditor *pEditor = (CEditor*) getEntryByIndex(0);
+
+	// add window controls
 	CWindowControl_Button *pButton = new CWindowControl_Button;
-	pButton->setWindow(this);
+	pButton->setControlGroup(pEditor);
 	string strText = "Open";
 	pButton->setText(strText);
 	pButton->setPosition(CVector2i32(38, 35 + 38));
 	pButton->setSize(CVector2ui32(172, 40));
 	pButton->setFillColour(0x1A3C4EFF);
 	pButton->setControlId(1);
-	getControls().addEntry(pButton);
+	pEditor->addEntry(pButton);
 
 	CWindowControl_List *pList = new CWindowControl_List;
-	pList->setWindow(this);
+	pList->setControlGroup(pEditor);
 	pList->setPosition(CVector2i32(252, 35 + 87));
 	pList->setSize(CVector2ui32(732, 480));
 	pList->setFillColour(0xECF3FDFF);
@@ -59,9 +61,9 @@ void					CKGMWindow::initTabs(void)
 	pList->setRowHeight(25);
 	pList->setControlId(2);
 	// todo setEntryListControl(pList);
-	getControls().addEntry(pList);
+	pEditor->addEntry(pList);
 
-	CEventManager::getInstance()->bindEvent(EVENT_onPressButton, [](void *pData)
+	bindEvent(EVENT_onPressButton, [](void *pWindow, void *pData)
 	{
 		CWindowControl_Button *pButton = (CWindowControl_Button*) pData;
 		if (pButton->getControlId() == 1)
@@ -70,7 +72,7 @@ void					CKGMWindow::initTabs(void)
 			// todo getKGM()->getWindowManager()->getMainWindow()->setMarkedToRedraw(true);
 			// todo getKGM()->getWindowManager()->render(); // todo - needed?
 		}
-	});
+	}, this);
 }
 
 // render

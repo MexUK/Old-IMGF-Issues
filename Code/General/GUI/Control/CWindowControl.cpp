@@ -4,8 +4,8 @@
 #include "Math/CMathUtility.h"
 
 CWindowControl::CWindowControl(eWindowControlType eControlType) :
+	m_pControlGroup(nullptr),
 	m_eControlType(eControlType),
-	m_pWindow(nullptr),
 	m_uiControlId(0),
 	m_bPointMarkedAsInControl(false)
 {
@@ -18,6 +18,11 @@ CWindowControl::CWindowControl(eWindowControlType eControlType) :
 CWindowControl::~CWindowControl(void)
 {
 	delete m_pScrolls;
+}
+
+CWindow*								CWindowControl::getWindow(void)
+{
+	return getControlGroup()->getWindow();
 }
 
 // point testing

@@ -1,25 +1,25 @@
 #ifndef CSearchEntry_H
 #define CSearchEntry_H
 
-class CWindowTab;
+class CIMGEditorTab;
 class CIMGEntry;
 
 class CSearchEntry
 {
 public:
 	CSearchEntry(void) :
-		m_pWindowTab(nullptr),
+		m_pEditorTab(nullptr),
 		m_pIMGEntry(nullptr)
 	{};
 
-	void						setWindowTab(CIMGScreenTab* pWindowTab) { m_pWindowTab = pWindowTab; }
-	CIMGScreenTab*		getWindowTab(void) { return m_pWindowTab; }
+	void						setWindowTab(CIMGEditorTab* pEditorTab) { m_pEditorTab = pEditorTab; }
+	CIMGEditorTab*				getWindowTab(void) { return m_pEditorTab; }
 
 	void						setIMGEntry(CIMGEntry* pIMGEntry) { m_pIMGEntry = pIMGEntry; }
 	CIMGEntry*					getIMGEntry(void) { return m_pIMGEntry; }
 
 private:
-	CIMGScreenTab*		m_pWindowTab;
+	CIMGEditorTab*				m_pEditorTab;
 	CIMGEntry*					m_pIMGEntry;
 };
 

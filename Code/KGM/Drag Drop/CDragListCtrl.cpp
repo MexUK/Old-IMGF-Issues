@@ -5,7 +5,7 @@
 #include "String/CStringUtility.h"
 #include "Globals.h"
 #include "CKGM.h"
-#include "GUI/ScreenTabs/CIMGScreenTab.h"
+#include "GUI/Editors/Tab/CIMGEditorTab.h"
 #include "IMG/CIMGFormat.h"
 #include <string>
 

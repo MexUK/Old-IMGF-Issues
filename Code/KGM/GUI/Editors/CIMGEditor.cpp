@@ -1,4 +1,4 @@
-#include "CIMGScreen.h"
+#include "CIMGEditor.h"
 #include "Globals.h"
 #include "CKGM.h"
 #include "IMG/CIMGManager.h"
@@ -31,7 +31,7 @@
 
 using namespace std;
 
-CIMGScreenTab*		CIMGScreen::addBlankTab(string strIMGPath, eIMGVersion eIMGVersionValue)
+CIMGEditorTab*		CIMGEditor::addBlankTab(string strIMGPath, eIMGVersion eIMGVersionValue)
 {
 	getKGM()->getTaskManager()->setTaskMaxProgressTickCount(1);
 
@@ -39,60 +39,60 @@ CIMGScreenTab*		CIMGScreen::addBlankTab(string strIMGPath, eIMGVersion eIMGVersi
 	pIMGFormat->setFilePath(strIMGPath);
 	pIMGFormat->setIMGVersion(eIMGVersionValue);
 
-	CIMGScreenTab *pWindowTab = _addTab(pIMGFormat);
-	if (!pWindowTab)
+	CIMGEditorTab *pEditorTab = _addTab(pIMGFormat);
+	if (!pEditorTab)
 	{
 		getKGM()->getTaskManager()->onTaskProgressTick();
 		return nullptr;
 	}
 
-	pWindowTab->log(CLocalizationManager::getInstance()->getTranslatedFormattedText("Log_26", CPathUtility::getFileName(strIMGPath).c_str()));
-	pWindowTab->log(CLocalizationManager::getInstance()->getTranslatedFormattedText("Log_27", CIMGManager::getIMGVersionNameWithGames(eIMGVersionValue, pIMGFormat->isEncrypted()).c_str()), true);
+	pEditorTab->log(CLocalizationManager::getInstance()->getTranslatedFormattedText("Log_26", CPathUtility::getFileName(strIMGPath).c_str()));
+	pEditorTab->log(CLocalizationManager::getInstance()->getTranslatedFormattedText("Log_27", CIMGManager::getIMGVersionNameWithGames(eIMGVersionValue, pIMGFormat->isEncrypted()).c_str()), true);
 	getKGM()->getTaskManager()->onTaskProgressTick();
 
-	return pWindowTab;
+	return pEditorTab;
 }
 
-CIMGScreenTab*		CIMGScreen::addTab(string strIMGPath, eIMGVersion eIMGVersionValue)
+CIMGEditorTab*		CIMGEditor::addTab(string strIMGPath, eIMGVersion eIMGVersionValue)
 {
 	uint32 uiMultiplier = eIMGVersionValue == IMG_3 ? 4 : 3; // x3 for: 1 for reading entry data (parsing), 1 for reading RW versions (parsing), and 1 for adding all entries to main list view. and x4 (+1) for version 3 entry names.
 	getKGM()->getTaskManager()->setTaskMaxProgressTickCount(CIMGManager::getIMGEntryCount(strIMGPath, eIMGVersionValue) * uiMultiplier);
 
 	CIMGFormat *pIMGFormat = CIMGManager::getInstance()->parseViaFile(strIMGPath/*, eIMGVersionValue - todo*/);
 
-	CIMGScreenTab *pWindowTab = _addTab(pIMGFormat);
-	if (!pWindowTab)
+	CIMGEditorTab *pEditorTab = _addTab(pIMGFormat);
+	if (!pEditorTab)
 	{
 		getKGM()->getTaskManager()->onTaskProgressComplete();
 		return nullptr;
 	}
 
-	pWindowTab->log(CLocalizationManager::getInstance()->getTranslatedFormattedText("Log_28", CPathUtility::getFileName(strIMGPath).c_str()));
-	pWindowTab->log(CLocalizationManager::getInstance()->getTranslatedFormattedText("Log_27", CIMGManager::getIMGVersionNameWithGames(eIMGVersionValue, pIMGFormat->isEncrypted()).c_str()), true);
-	pWindowTab->log(CLocalizationManager::getInstance()->getTranslatedFormattedText("Log_29", CFileUtility::getFileSize(strIMGPath)), true);
+	pEditorTab->log(CLocalizationManager::getInstance()->getTranslatedFormattedText("Log_28", CPathUtility::getFileName(strIMGPath).c_str()));
+	pEditorTab->log(CLocalizationManager::getInstance()->getTranslatedFormattedText("Log_27", CIMGManager::getIMGVersionNameWithGames(eIMGVersionValue, pIMGFormat->isEncrypted()).c_str()), true);
+	pEditorTab->log(CLocalizationManager::getInstance()->getTranslatedFormattedText("Log_29", CFileUtility::getFileSize(strIMGPath)), true);
 	
-	return pWindowTab;
+	return pEditorTab;
 }
 
-CIMGScreenTab*		CIMGScreen::_addTab(CIMGFormat *pIMGFormat)
+CIMGEditorTab*		CIMGEditor::_addTab(CIMGFormat *pIMGFormat)
 {
-	uint32 uiTabIndex = getNextTabIndex();
+	uint32 uiTabIndex = getNextEntryIndex();
 
-	CIMGScreenTab *pWindowTab = new CIMGScreenTab;
-	pWindowTab->setWindow(this);
-	pWindowTab->setIndex(uiTabIndex);
-	pWindowTab->setIMGFile(pIMGFormat);
+	CIMGEditorTab *pEditorTab = new CIMGEditorTab;
+	pEditorTab->setWindow(this);
+	pEditorTab->setIndex(uiTabIndex);
+	pEditorTab->setIMGFile(pIMGFormat);
 
-	if (pWindowTab->onTabFormatReady())
+	if (pEditorTab->onTabFormatReady())
 	{
-		addEntry(pWindowTab);
-		setActiveTab(pWindowTab);
-		return pWindowTab;
+		getTabs().addEntry(pEditorTab);
+		setActiveTab(pEditorTab);
+		return pEditorTab;
 	}
 	else
 	{
-		pWindowTab->unload();
-		delete pWindowTab;
+		pEditorTab->unload();
+		delete pEditorTab;
 
 		getKGM()->getTaskManager()->setTaskMaxProgressTickCount(1); // todo - have like getKGM()->getTaskManager()->setProgressComplete(void) instead of these 2 lines
 		getKGM()->getTaskManager()->onTaskProgressTick();
@@ -101,59 +101,59 @@ CIMGScreenTab*		CIMGScreen::_addTab(CIMGFormat *pIMGFormat)
 	}
 }
 
-void				CIMGScreen::removeTab(CWindowTab *pWindowTab)
+void				CIMGEditor::removeTab(CEditorTab *pEditorTab)
 {
 	// fetch current tab index
-	uint32 uiTabIndex = pWindowTab->getIndex();
+	uint32 uiTabIndex = pEditorTab->getIndex();
 
 	// remove from pool and unload
-	removeEntry(pWindowTab);
+	getTabs().removeEntry(pEditorTab);
 
 	// shift down higher indices by 1
 	//((CTabCtrl*)getKGM()->getDialog()->GetDlgItem(1))->DeleteItem(uiTabIndex);
-	for (CWindowTab *pWindowTab2 : getEntries())
+	for (CEditorTab *pEditorTab2 : getTabs().getEntries())
 	{
-		if (pWindowTab2->getIndex() > uiTabIndex)
+		if (pEditorTab2->getIndex() > uiTabIndex)
 		{
-			pWindowTab2->setIndex(pWindowTab2->getIndex() - 1);
+			pEditorTab2->setIndex(pEditorTab2->getIndex() - 1);
 		}
 	}
 
 	// set active tab
-	if (getEntryCount() == 0)
+	if (getTabs().getEntryCount() == 0)
 	{
 		// blank
 		setActiveTab(nullptr);
 	}
-	else if (getEntryByIndex(uiTabIndex) != nullptr)
+	else if (getTabs().getEntryByIndex(uiTabIndex) != nullptr)
 	{
 		// tab to right
-		setActiveTab((CIMGScreenTab*)getEntryByIndex(uiTabIndex));
+		setActiveTab((CIMGEditorTab*)(getTabs().getEntryByIndex(uiTabIndex)));
 	}
-	else if (getEntryByIndex(uiTabIndex - 1) != nullptr)
+	else if (getTabs().getEntryByIndex(uiTabIndex - 1) != nullptr)
 	{
 		// tab to left
-		setActiveTab((CIMGScreenTab*)getEntryByIndex(uiTabIndex - 1));
+		setActiveTab((CIMGEditorTab*)(getTabs().getEntryByIndex(uiTabIndex - 1)));
 	}
 	else
 	{
 		// first tab
-		setActiveTab((CIMGScreenTab*)getEntryByIndex(0));
+		setActiveTab((CIMGEditorTab*)(getTabs().getEntryByIndex(0)));
 	}
 }
 
-void				CIMGScreen::setActiveTab(CIMGScreenTab *pWindowTab)
+void				CIMGEditor::setActiveTab(CIMGEditorTab *pEditorTab)
 {
-	CTabbedWindow::setActiveTab(pWindowTab);
+	CEditor::setActiveTab(pEditorTab);
 	
-	pWindowTab->readdAllEntriesToMainListView();
+	pEditorTab->readdAllEntriesToMainListView();
 	
 	// todo
 	return;
 
 	vector<uint16> vecButtonIds = {16,17,18,25,26,27,28,29,31,32,33,34,35,36,40,41,42,43,45,47};
 
-	if (pWindowTab == nullptr)
+	if (pEditorTab == nullptr)
 	{
 		/*
 		todo
@@ -191,8 +191,8 @@ void				CIMGScreen::setActiveTab(CIMGScreenTab *pWindowTab)
 		m_vecSearchEntries.clear();
 
 		// filter
-		pWindowTab->unloadFilter_Type();
-		pWindowTab->unloadFilter_Version();
+		pEditorTab->unloadFilter_Type();
+		pEditorTab->unloadFilter_Version();
 
 		// log
 		((CEdit*)getKGM()->getDialog()->GetDlgItem(14))->SetWindowTextW(_T(""));
@@ -218,52 +218,52 @@ void				CIMGScreen::setActiveTab(CIMGScreenTab *pWindowTab)
 		}
 
 		// tab focus
-		((CTabCtrl*)getKGM()->getDialog()->GetDlgItem(1))->SetCurFocus(pWindowTab->getIndex());
+		((CTabCtrl*)getKGM()->getDialog()->GetDlgItem(1))->SetCurFocus(pEditorTab->getIndex());
 
 		// IMG path
-		((CEdit*)getKGM()->getDialog()->GetDlgItem(38))->SetWindowTextW(CStringUtility::convertStdStringToStdWString(pWindowTab->getIMGFile()->getFilePath()).c_str());
+		((CEdit*)getKGM()->getDialog()->GetDlgItem(38))->SetWindowTextW(CStringUtility::convertStdStringToStdWString(pEditorTab->getIMGFile()->getFilePath()).c_str());
 
 		// IMG entry count
-		pWindowTab->updateEntryCountText();
+		pEditorTab->updateEntryCountText();
 
 		// selected entry count
 		m_uiSelectedEntryCount = 0;
 		((CStatic*)getKGM()->getDialog()->GetDlgItem(51))->SetWindowTextW(CLocalizationManager::getInstance()->getTranslatedFormattedTextW("Window_Main_Text_SelectedEntryCount", 0).c_str());
 
 		// IMG version
-		pWindowTab->updateIMGText();
+		pEditorTab->updateIMGText();
 
 		// 6th column name in main list view
-		readdColumnsToMainListView(pWindowTab->getIMGFile()->getIMGVersion());
+		readdColumnsToMainListView(pEditorTab->getIMGFile()->getIMGVersion());
 
 		// search text
 		if (((CButton*)getKGM()->getDialog()->GetDlgItem(46))->GetCheck() == BST_UNCHECKED)
 		{
-			((CEdit*)getKGM()->getDialog()->GetDlgItem(24))->SetWindowTextW(CStringUtility::convertStdStringToStdWString(pWindowTab->getSearchText()).c_str());
-			pWindowTab->searchText();
+			((CEdit*)getKGM()->getDialog()->GetDlgItem(24))->SetWindowTextW(CStringUtility::convertStdStringToStdWString(pEditorTab->getSearchText()).c_str());
+			pEditorTab->searchText();
 		}
 
 		// filter
-		pWindowTab->loadFilter_Type();
-		pWindowTab->loadFilter_Version();
+		pEditorTab->loadFilter_Type();
+		pEditorTab->loadFilter_Version();
 
 		// log
 		CEdit *pEdit = ((CEdit*)getKGM()->getDialog()->GetDlgItem(14));
-		pEdit->SetWindowTextW(CStringUtility::convertStdStringToStdWString(CStringUtility::join(pWindowTab->getLogLinesGUI(), "\r\n")).c_str());
+		pEdit->SetWindowTextW(CStringUtility::convertStdStringToStdWString(CStringUtility::join(pEditorTab->getLogLinesGUI(), "\r\n")).c_str());
 		pEdit->LineScroll(pEdit->GetLineCount());
 
 		// IMG entries
-		pWindowTab->readdAllEntriesToMainListView();
+		pEditorTab->readdAllEntriesToMainListView();
 		*/
 	}
 }
 
-void					CIMGScreen::readdColumnsToMainListView(eIMGVersion eIMGVersionValue)
+void					CIMGEditor::readdColumnsToMainListView(eIMGVersion eIMGVersionValue)
 {
 	removeColumnsFromMainListView();
 	addColumnsToMainListView(eIMGVersionValue);
 }
-void					CIMGScreen::addColumnsToMainListView(eIMGVersion eIMGVersionValue)
+void					CIMGEditor::addColumnsToMainListView(eIMGVersion eIMGVersionValue)
 {
 	/*
 	todo
@@ -293,7 +293,7 @@ void					CIMGScreen::addColumnsToMainListView(eIMGVersion eIMGVersionValue)
 	}
 	*/
 }
-void					CIMGScreen::removeColumnsFromMainListView(void)
+void					CIMGEditor::removeColumnsFromMainListView(void)
 {
 	/*
 	todo
@@ -303,7 +303,7 @@ void					CIMGScreen::removeColumnsFromMainListView(void)
 	}
 	*/
 }
-int						CIMGScreen::getMainListControlItemByEntry(CIMGEntry *pIMGEntry)
+int						CIMGEditor::getMainListControlItemByEntry(CIMGEntry *pIMGEntry)
 {
 	/*
 	todo
@@ -319,7 +319,7 @@ int						CIMGScreen::getMainListControlItemByEntry(CIMGEntry *pIMGEntry)
 	return 0;
 }
 
-void					CIMGScreen::onSelectIMGEntry(bool bEntryIsSelected)
+void					CIMGEditor::onSelectIMGEntry(bool bEntryIsSelected)
 {
 	// todo - have onSelectIMGEntry and onUnselectIMGEntry
 	if (bEntryIsSelected)
@@ -335,20 +335,20 @@ void					CIMGScreen::onSelectIMGEntry(bool bEntryIsSelected)
 	updateSelectedEntryCountText();
 }
 
-void					CIMGScreen::updateSelectedEntryCountText(void)
+void					CIMGEditor::updateSelectedEntryCountText(void)
 {
 	// todo ((CStatic*)getKGM()->getDialog()->GetDlgItem(51))->SetWindowTextW(CLocalizationManager::getInstance()->getTranslatedFormattedTextW("Window_Main_Text_SelectedEntryCount", m_uiSelectedEntryCount).c_str());
 }
 
-void					CIMGScreen::logAllTabs(string strText, bool bExtendedModeOnly)
+void					CIMGEditor::logAllTabs(string strText, bool bExtendedModeOnly)
 {
-	for (auto pWindowTab : getEntries())
+	for (auto pEditorTab : getEntries())
 	{
-		((CIMGScreenTab*)pWindowTab)->log(strText, bExtendedModeOnly);
+		((CIMGEditorTab*)pEditorTab)->log(strText, bExtendedModeOnly);
 	}
 }
 
-void					CIMGScreen::logWithNoTabsOpen(string strText, bool bExtendedModeOnly)
+void					CIMGEditor::logWithNoTabsOpen(string strText, bool bExtendedModeOnly)
 {
 	string strLogEntryWithTimestampAndIMG = "[" + CStringUtility::getTimestampText() + "] [" + CLocalizationManager::getInstance()->getTranslatedText("NoTabsOpen") + "] " + strText;
 
@@ -396,32 +396,32 @@ void					CIMGScreen::logWithNoTabsOpen(string strText, bool bExtendedModeOnly)
 	}
 }
 
-uint32					CIMGScreen::getEntryCountForAllTabs(void)
+uint32					CIMGEditor::getEntryCountForAllTabs(void)
 {
 	uint32 uiTotalEntryCount = 0;
-	for (auto pWindowTab : getEntries())
+	for (auto pEditorTab : getEntries())
 	{
-		uiTotalEntryCount += ((CIMGScreenTab*)pWindowTab)->getIMGFile()->getEntryCount();
+		uiTotalEntryCount += ((CIMGEditorTab*)pEditorTab)->getIMGFile()->getEntryCount();
 	}
 	return uiTotalEntryCount;
 }
 
-vector<CIMGFormat*>		CIMGScreen::getAllMainWindowTabsIMGFiles(void)
+vector<CIMGFormat*>		CIMGEditor::getAllMainWindowTabsIMGFiles(void)
 {
 	vector<CIMGFormat*> veCIMGFormats;
-	for (auto pWindowTab : getEntries())
+	for (auto pEditorTab : getEntries())
 	{
-		veCIMGFormats.push_back(((CIMGScreenTab*)pWindowTab)->getIMGFile());
+		veCIMGFormats.push_back(((CIMGEditorTab*)pEditorTab)->getIMGFile());
 	}
 	return veCIMGFormats;
 }
 
-void					CIMGScreen::refreshActiveTab(void)
+void					CIMGEditor::refreshActiveTab(void)
 {
 	setActiveTab(getActiveTab());
 }
 
-void					CIMGScreen::initMenu(void) // todo - move menu stuff to like CMenuManager
+void					CIMGEditor::initMenu(void) // todo - move menu stuff to like CMenuManager
 {
 	/*
 	HMENU hMenubar = CreateMenu();
@@ -799,7 +799,7 @@ void					CIMGScreen::initMenu(void) // todo - move menu stuff to like CMenuManag
 	*/
 }
 
-void					CIMGScreen::loadRightClickMenu(int xPos, int yPos)
+void					CIMGEditor::loadRightClickMenu(int xPos, int yPos)
 {
 	/*
 	todo

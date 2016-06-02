@@ -1,6 +1,6 @@
 #pragma warning(disable : 4005)
 
-#include "CIMGScreenTab.h"
+#include "CIMGEditorTab.h"
 #include "CKGM.h"
 #include "Globals.h"
 #include "String/CStringUtility.h"
@@ -33,14 +33,14 @@
 #include "DB/CDBManager.h"
 #include "Recently Open/CRecentlyOpenManager.h"
 #include "GUI/Controls/CWindowControl_List.h"
-#include "GUI/Screens/CIMGScreen.h"
+#include "GUI/Editors/CIMGEditor.h"
 #include "CPopupGUIManager.h"
 #include "Task/CTaskManager.h"
 #include <algorithm>
 
 using namespace std;
 
-void					CIMGScreenTab::unload(void)
+void					CIMGEditorTab::unload(void)
 {
 	delete m_pDBFile;
 
@@ -48,7 +48,7 @@ void					CIMGScreenTab::unload(void)
 	delete m_pIMGFile;
 }
 
-bool					CIMGScreenTab::onTabFormatReady(void)
+bool					CIMGEditorTab::onTabFormatReady(void)
 {
 	if (!checkForErrors())
 	{
@@ -59,7 +59,7 @@ bool					CIMGScreenTab::onTabFormatReady(void)
 	return true;
 }
 
-bool					CIMGScreenTab::checkForErrors(void)
+bool					CIMGEditorTab::checkForErrors(void)
 {
 	CIMGFormat *pIMGFormat = getIMGFile();
 
@@ -91,7 +91,7 @@ bool					CIMGScreenTab::checkForErrors(void)
 	return true;
 }
 
-void					CIMGScreenTab::initTab(void)
+void					CIMGEditorTab::initTab(void)
 {
 	// add visual tab
 	// todo
@@ -124,7 +124,7 @@ void					CIMGScreenTab::initTab(void)
 	if (m_pDBFile == nullptr)
 	{
 		// either the db file doesn't exist or the db file is corrupt
-		//pWindowTab->m_pDBFile = CDBManager::getInstance()->createDBFileFromIMGFile(pWindowTab->getIMGFile());
+		//pEditorTab->m_pDBFile = CDBManager::getInstance()->createDBFileFromIMGFile(pEditorTab->getIMGFile());
 		m_pDBFile = CDBManager::getInstance()->createBlankDBFile();
 	}
 	loadProtectedEntryStates();
@@ -136,7 +136,7 @@ void					CIMGScreenTab::initTab(void)
 	checkForUnknownRWVersionEntries();
 }
 
-void					CIMGScreenTab::checkForUnknownRWVersionEntries(void)
+void					CIMGEditorTab::checkForUnknownRWVersionEntries(void)
 {
 	if (getIMGFile()->getIMGVersion() == IMG_3)
 	{
@@ -166,7 +166,7 @@ void					CIMGScreenTab::checkForUnknownRWVersionEntries(void)
 	}
 }
 
-void					CIMGScreenTab::log(string strText, bool bExtendedModeOnly)
+void					CIMGEditorTab::log(string strText, bool bExtendedModeOnly)
 {
 	//string strLogEntryWithTimestamp = "[" + CStringUtility::getTimestampText() + "] " + strText;
 	string strLogEntryWithTimestampAndIMG = "[" + CStringUtility::getTimestampText() + "] [" + CPathUtility::getFileName(m_pIMGFile->getFilePath()) + "] " + strText;
@@ -225,7 +225,7 @@ void					CIMGScreenTab::log(string strText, bool bExtendedModeOnly)
 	}
 }
 
-void					CIMGScreenTab::clearLogs(void)
+void					CIMGEditorTab::clearLogs(void)
 {
 	getLogLinesGUI().clear();
 	getLogLinesBasic().clear();
@@ -239,7 +239,7 @@ void					CIMGScreenTab::clearLogs(void)
 	*/
 }
 
-void					CIMGScreenTab::checkToApplyCompression(CIMGEntry *pIMGEntry)
+void					CIMGEditorTab::checkToApplyCompression(CIMGEntry *pIMGEntry)
 {
 	if (getKGM()->getSettingsManager()->getSettingBool("AutoCompressionImportReplace"))
 	{
@@ -265,7 +265,7 @@ void					CIMGScreenTab::checkToApplyCompression(CIMGEntry *pIMGEntry)
 		}
 	}
 }
-void					CIMGScreenTab::addEntryViaFile(string strEntryFilePath, string strEntryName)
+void					CIMGEditorTab::addEntryViaFile(string strEntryFilePath, string strEntryName)
 {
 	CIMGEntry *pIMGEntry = getIMGFile()->addEntryViaFile(strEntryFilePath, strEntryName);
 	checkToApplyCompression(pIMGEntry);
@@ -273,7 +273,7 @@ void					CIMGScreenTab::addEntryViaFile(string strEntryFilePath, string strEntry
 	updateEntryCountText();
 	updateIMGText();
 }
-void					CIMGScreenTab::addEntryViaData(string strEntryName, string strEntryData)
+void					CIMGEditorTab::addEntryViaData(string strEntryName, string strEntryData)
 {
 	CIMGEntry *pIMGEntry = getIMGFile()->addEntryViaData(strEntryName, strEntryData);
 	checkToApplyCompression(pIMGEntry);
@@ -281,21 +281,21 @@ void					CIMGScreenTab::addEntryViaData(string strEntryName, string strEntryData
 	updateEntryCountText();
 	updateIMGText();
 }
-void					CIMGScreenTab::replaceEntryViaFile(string strEntryName, string strEntryFilePath, string strNewEntryName)
+void					CIMGEditorTab::replaceEntryViaFile(string strEntryName, string strEntryFilePath, string strNewEntryName)
 {
 	CIMGEntry *pIMGEntry = getIMGFile()->replaceEntryViaFile(strEntryName, strEntryFilePath, strNewEntryName);
 	checkToApplyCompression(pIMGEntry);
 	updateEntryInMainListView(pIMGEntry);
 	updateIMGText();
 }
-void					CIMGScreenTab::replaceEntryViaData(string strEntryName, string& strEntryData, string strNewEntryName)
+void					CIMGEditorTab::replaceEntryViaData(string strEntryName, string& strEntryData, string strNewEntryName)
 {
 	CIMGEntry *pIMGEntry = getIMGFile()->replaceEntryViaData(strEntryName, strEntryData, strNewEntryName);
 	checkToApplyCompression(pIMGEntry);
 	updateEntryInMainListView(pIMGEntry);
 	updateIMGText();
 }
-void					CIMGScreenTab::addOrReplaceEntryViaFile(string strEntryFilePath, string strEntryName)
+void					CIMGEditorTab::addOrReplaceEntryViaFile(string strEntryFilePath, string strEntryName)
 {
 	uint32 uiIMGEntryCount = getIMGFile()->getEntryCount();
 	CIMGEntry *pIMGEntry = getIMGFile()->addOrReplaceEntryViaFile(strEntryFilePath, strEntryName);
@@ -313,7 +313,7 @@ void					CIMGScreenTab::addOrReplaceEntryViaFile(string strEntryFilePath, string
 	}
 	updateIMGText();
 }
-void					CIMGScreenTab::addOrReplaceEntryViaData(string strEntryName, string strEntryData)
+void					CIMGEditorTab::addOrReplaceEntryViaData(string strEntryName, string strEntryData)
 {
 	uint32 uiIMGEntryCount = getIMGFile()->getEntryCount();
 	CIMGEntry *pIMGEntry = getIMGFile()->addOrReplaceEntryViaData(strEntryName, strEntryData);
@@ -331,7 +331,7 @@ void					CIMGScreenTab::addOrReplaceEntryViaData(string strEntryName, string str
 	}
 	updateIMGText();
 }
-void					CIMGScreenTab::addOrReplaceEntryViaFileAndSettings(string strEntryFilePath, string strEntryName)
+void					CIMGEditorTab::addOrReplaceEntryViaFileAndSettings(string strEntryFilePath, string strEntryName)
 {
 	if (strEntryName == "")
 	{
@@ -452,7 +452,7 @@ void					CIMGScreenTab::addOrReplaceEntryViaFileAndSettings(string strEntryFileP
 	// replace by default. e.g. if no settings are enabled.
 	return replaceEntryViaFile(strEntryName, strEntryFilePath);
 }
-void					CIMGScreenTab::addOrReplaceEntryViaDataAndSettings(string strEntryName, string strEntryData)
+void					CIMGEditorTab::addOrReplaceEntryViaDataAndSettings(string strEntryName, string strEntryData)
 {
 	CIMGEntry *pIMGEntry = getIMGFile()->getEntryByName(strEntryName);
 	if (pIMGEntry == nullptr)
@@ -508,29 +508,29 @@ void					CIMGScreenTab::addOrReplaceEntryViaDataAndSettings(string strEntryName,
 	
 	return replaceEntryViaData(strEntryName, strEntryData);
 }
-void					CIMGScreenTab::removeEntry(CIMGEntry *pIMGEntry)
+void					CIMGEditorTab::removeEntry(CIMGEntry *pIMGEntry)
 {
 	getIMGFile()->removeEntry(pIMGEntry);
 	updateEntryCountText();
 	updateIMGText();
 }
 
-void					CIMGScreenTab::addColumnsToMainListView(void)
+void					CIMGEditorTab::addColumnsToMainListView(void)
 {
-	getKGM()->getIMGScreen()->addColumnsToMainListView(getIMGFile()->getIMGVersion());
+	getKGM()->getIMGEditor()->addColumnsToMainListView(getIMGFile()->getIMGVersion());
 }
-void					CIMGScreenTab::readdAllEntriesToMainListView(void)
+void					CIMGEditorTab::readdAllEntriesToMainListView(void)
 {
 	getWindow()->getEntryListControl()->removeAllEntries();
 	
-	getKGM()->getIMGScreen()->setSelectedEntryCount(0);
-	getKGM()->getIMGScreen()->updateSelectedEntryCountText();
+	getKGM()->getIMGEditor()->setSelectedEntryCount(0);
+	getKGM()->getIMGEditor()->updateSelectedEntryCountText();
 
 	addAllEntriesToMainListView();
 
 	getWindow()->getEntryListControl()->getWindow()->render();
 }
-void					CIMGScreenTab::addAllEntriesToMainListView(void)
+void					CIMGEditorTab::addAllEntriesToMainListView(void)
 {
 	//getKGM()->getTaskManager()->setTaskMaxProgressTickCount(getIMGFile()->m_vecEntries.size());
 	// setProgressMaxTicks() is called in CKGM::addMainWindowTab(). (as the bottom of this code contains a call to onProgressTick()).
@@ -667,7 +667,7 @@ void					CIMGScreenTab::addAllEntriesToMainListView(void)
 	//updateEntryCountText();
 	//updateIMGText();
 }
-void					CIMGScreenTab::addEntryToMainListView(CIMGEntry *pIMGEntry)
+void					CIMGEditorTab::addEntryToMainListView(CIMGEntry *pIMGEntry)
 {
 	CWindowControlEntry_List *pListEntry = new CWindowControlEntry_List;
 
@@ -703,7 +703,7 @@ void					CIMGScreenTab::addEntryToMainListView(CIMGEntry *pIMGEntry)
 	getListView()->SetItem(uiEntryIndex, 2, LVIF_TEXT, CStringUtility::convertStdStringToStdWString(pIMGEntry->getEntryName()).c_str(), 0, 0, 0, 0);
 	getListView()->SetItem(uiEntryIndex, 3, LVIF_TEXT, CStringUtility::convertStdStringToStdWString(CStringUtility::addNumberGrouping(CStringUtility::toString(pIMGEntry->getEntryOffset()))).c_str(), 0, 0, 0, 0);
 	getListView()->SetItem(uiEntryIndex, 4, LVIF_TEXT, CStringUtility::convertStdStringToStdWString(CStringUtility::addNumberGrouping(CStringUtility::toString(pIMGEntry->getEntrySize()))).c_str(), 0, 0, 0, 0);
-	getKGM()->getIMGScreen()->applyVersionAndResourceTypeColumn(uiEntryIndex, getKGM()->getEntryListTab()->getIMGFile(), pIMGEntry);
+	getKGM()->getIMGEditor()->applyVersionAndResourceTypeColumn(uiEntryIndex, getKGM()->getEntryListTab()->getIMGFile(), pIMGEntry);
 	if (pIMGEntry->getIMGFile()->getIMGVersion() == IMG_FASTMAN92)
 	{
 		getListView()->SetItem(uiEntryIndex, 6, LVIF_TEXT, CStringUtility::convertStdStringToStdWString(CIMGManager::getCompressionTypeText(pIMGEntry->getCompressionAlgorithmId())).c_str(), 0, 0, 0, 0);
@@ -711,7 +711,7 @@ void					CIMGScreenTab::addEntryToMainListView(CIMGEntry *pIMGEntry)
 	}
 	*/
 }
-void					CIMGScreenTab::updateEntryInMainListView(CIMGEntry *pIMGEntry)
+void					CIMGEditorTab::updateEntryInMainListView(CIMGEntry *pIMGEntry)
 {
 	/*
 	todo
@@ -727,7 +727,7 @@ void					CIMGScreenTab::updateEntryInMainListView(CIMGEntry *pIMGEntry)
 	getListView()->SetItem(uiEntryIndex, 2, LVIF_TEXT, CStringUtility::convertStdStringToStdWString(pIMGEntry->getEntryName()).c_str(), 0, 0, 0, 0);
 	getListView()->SetItem(uiEntryIndex, 3, LVIF_TEXT, CStringUtility::convertStdStringToStdWString(CStringUtility::addNumberGrouping(CStringUtility::toString(pIMGEntry->getEntryOffset()))).c_str(), 0, 0, 0, 0);
 	getListView()->SetItem(uiEntryIndex, 4, LVIF_TEXT, CStringUtility::convertStdStringToStdWString(CStringUtility::addNumberGrouping(CStringUtility::toString(pIMGEntry->getEntrySize()))).c_str(), 0, 0, 0, 0);
-	//getKGM()->getIMGScreen()->applyVersionAndResourceTypeColumn(uiEntryIndex, getKGM()->getEntryListTab()->getIMGFile(), pIMGEntry);
+	//getKGM()->getIMGEditor()->applyVersionAndResourceTypeColumn(uiEntryIndex, getKGM()->getEntryListTab()->getIMGFile(), pIMGEntry);
 	if (pIMGEntry->getIMGFile()->getIMGVersion() == IMG_FASTMAN92)
 	{
 		getListView()->SetItem(uiEntryIndex, 6, LVIF_TEXT, CStringUtility::convertStdStringToStdWString(CIMGManager::getCompressionTypeText(pIMGEntry->getCompressionAlgorithmId())).c_str(), 0, 0, 0, 0);
@@ -735,7 +735,7 @@ void					CIMGScreenTab::updateEntryInMainListView(CIMGEntry *pIMGEntry)
 	}
 	*/
 }
-uint32			CIMGScreenTab::getMainListViewItemIndexByItemData(CIMGEntry *pIMGEntry)
+uint32			CIMGEditorTab::getMainListViewItemIndexByItemData(CIMGEntry *pIMGEntry)
 {
 	/*
 	todo
@@ -749,7 +749,7 @@ uint32			CIMGScreenTab::getMainListViewItemIndexByItemData(CIMGEntry *pIMGEntry)
 	*/
 	return -1;
 }
-void					CIMGScreenTab::updateEntryCountText(void)
+void					CIMGEditorTab::updateEntryCountText(void)
 {
 	/*
 	todo
@@ -766,7 +766,7 @@ void					CIMGScreenTab::updateEntryCountText(void)
 	}
 	*/
 }
-void					CIMGScreenTab::updateIMGText(void)
+void					CIMGEditorTab::updateIMGText(void)
 {
 	/*
 	todo
@@ -797,7 +797,7 @@ void					CIMGScreenTab::updateIMGText(void)
 	}
 	*/
 }
-CIMGEntry*				CIMGScreenTab::getEntryByName(string strEntryName)
+CIMGEntry*				CIMGEditorTab::getEntryByName(string strEntryName)
 {
 	for (auto pIMGEntry : getIMGFile()->getEntries())
 	{
@@ -809,7 +809,7 @@ CIMGEntry*				CIMGScreenTab::getEntryByName(string strEntryName)
 	return nullptr;
 }
 
-void					CIMGScreenTab::rebuild(string strIMGPath, bool bLog)
+void					CIMGEditorTab::rebuild(string strIMGPath, bool bLog)
 {
 	getKGM()->getTaskManager()->setTaskMaxProgressTickCount(getIMGFile()->getEntryCount() * 3);
 	getIMGFile()->serializeViaFile(strIMGPath == "" ? getIMGFile()->getFilePath() : strIMGPath);
@@ -819,11 +819,11 @@ void					CIMGScreenTab::rebuild(string strIMGPath, bool bLog)
 		log(CLocalizationManager::getInstance()->getTranslatedText("Log_127"));
 	}
 }
-uint32			CIMGScreenTab::merge(string strPath, vector<string>& vecImportedEntryNames)
+uint32			CIMGEditorTab::merge(string strPath, vector<string>& vecImportedEntryNames)
 {
 	return getIMGFile()->merge(strPath, vecImportedEntryNames);
 }
-void					CIMGScreenTab::splitSelectedEntries(string strPath, eIMGVersion eIMGVersion, bool bDeleteFromSource, vector<string>& vecSplitEntryNames)
+void					CIMGEditorTab::splitSelectedEntries(string strPath, eIMGVersion eIMGVersion, bool bDeleteFromSource, vector<string>& vecSplitEntryNames)
 {
 	/*
 	todo
@@ -870,7 +870,7 @@ void					CIMGScreenTab::splitSelectedEntries(string strPath, eIMGVersion eIMGVer
 	log(CLocalizationManager::getInstance()->getTranslatedFormattedText("Log_128", vecIMGEntries.size(), CPathUtility::getFileName(strPath).c_str()));
 	*/
 }
-void					CIMGScreenTab::replace(vector<string>& vecPaths, vector<string>& vecReplacedEntryNames)
+void					CIMGEditorTab::replace(vector<string>& vecPaths, vector<string>& vecReplacedEntryNames)
 {
 	vector<CIMGEntry*> vecReplacedEntries;
 	uint32 uiReplaceCount = getIMGFile()->replaceEntries(vecPaths, vecReplacedEntryNames, vecReplacedEntries);
@@ -884,7 +884,7 @@ bool					sortStdVectorAzCaseInsensitive(CSearchEntry *pSearchEntry1, CSearchEntr
 {
 	return strcmp(pSearchEntry1->getIMGEntry()->getEntryName().c_str(), pSearchEntry2->getIMGEntry()->getEntryName().c_str()) < 0;
 }
-void					CIMGScreenTab::searchText(void)
+void					CIMGEditorTab::searchText(void)
 {
 	/*
 	todo
@@ -893,11 +893,11 @@ void					CIMGScreenTab::searchText(void)
 		*pListControl = (CListCtrl*)getKGM()->getDialog()->GetDlgItem(22),
 		*pListControlMain = (CListCtrl*)getKGM()->getDialog()->GetDlgItem(37);
 	pListControl->DeleteAllItems();
-	for (auto pSearchEntry : getKGM()->getIMGScreen()->getSearchEntries())
+	for (auto pSearchEntry : getKGM()->getIMGEditor()->getSearchEntries())
 	{
 		delete pSearchEntry;
 	}
-	getKGM()->getIMGScreen()->getSearchEntries().clear();
+	getKGM()->getIMGEditor()->getSearchEntries().clear();
 
 	string strSearchText = CStringUtility::toUpperCase(m_strSearchText);
 	bool bAllTabs = ((CButton*)getKGM()->getDialog()->GetDlgItem(46))->GetCheck() == BST_CHECKED;
@@ -908,16 +908,16 @@ void					CIMGScreenTab::searchText(void)
 		return;
 	}
 
-	vector<CWindowTab*> vecWindowTabs;
+	vector<CEditorTab*> vecEditorTabs;
 	uint32 uiTotalEntryCount;
 	if (bAllTabs)
 	{
-		vecWindowTabs = getKGM()->getIMGScreen()->getEntries();
-		uiTotalEntryCount = getKGM()->getIMGScreen()->getEntryCountForAllTabs();
+		vecEditorTabs = getKGM()->getIMGEditor()->getEntries();
+		uiTotalEntryCount = getKGM()->getIMGEditor()->getEntryCountForAllTabs();
 	}
 	else
 	{
-		vecWindowTabs.push_back(this);
+		vecEditorTabs.push_back(this);
 		uiTotalEntryCount = getIMGFile()->getEntryCount();
 	}
 	getKGM()->getTaskManager()->setTaskMaxProgressTickCount(uiTotalEntryCount);
@@ -925,11 +925,11 @@ void					CIMGScreenTab::searchText(void)
 	uint32
 		uiMatchCount = 0,
 		uiFileCountWithMatches = 0;
-	for (auto pWindowTab : vecWindowTabs)
+	for (auto pEditorTab : vecEditorTabs)
 	{
 		bool bMatchFoundInFile = false;
 		uint32 i = 0;
-		for (auto pIMGEntry : ((CIMGScreenTab*)pWindowTab)->getIMGFile()->getEntries())
+		for (auto pIMGEntry : ((CIMGEditorTab*)pEditorTab)->getIMGFile()->getEntries())
 		{
 			string strEntryExtension = CStringUtility::toUpperCase(CPathUtility::getFileExtension(pIMGEntry->getEntryName()));
 			bool bMatch = false;
@@ -980,9 +980,9 @@ void					CIMGScreenTab::searchText(void)
 				pListControlMain->SetSelectionMark(i);
 
 				CSearchEntry *pSearchEntry = new CSearchEntry;
-				pSearchEntry->setWindowTab((CIMGScreenTab*)pWindowTab);
+				pSearchEntry->setWindowTab((CIMGEditorTab*)pEditorTab);
 				pSearchEntry->setIMGEntry(pIMGEntry);
-				getKGM()->getIMGScreen()->getSearchEntries().push_back(pSearchEntry);
+				getKGM()->getIMGEditor()->getSearchEntries().push_back(pSearchEntry);
 
 				uiMatchCount++;
 				bMatchFoundInFile = true;
@@ -1003,10 +1003,10 @@ void					CIMGScreenTab::searchText(void)
 	}
 
 	// sort search results list view by entry name A-Z case-insensitive
-	std::sort(getKGM()->getIMGScreen()->getSearchEntries().begin(), getKGM()->getIMGScreen()->getSearchEntries().end(), sortStdVectorAzCaseInsensitive);
+	std::sort(getKGM()->getIMGEditor()->getSearchEntries().begin(), getKGM()->getIMGEditor()->getSearchEntries().end(), sortStdVectorAzCaseInsensitive);
 
 	// add all entries to search results list view
-	for (auto pSearchEntry : getKGM()->getIMGScreen()->getSearchEntries())
+	for (auto pSearchEntry : getKGM()->getIMGEditor()->getSearchEntries())
 	{
 		CIMGEntry *pIMGEntry = pSearchEntry->getIMGEntry();
 		uint32 uiRowIndex = pListControl->GetItemCount();
@@ -1039,12 +1039,12 @@ void					CIMGScreenTab::searchText(void)
 	((CStatic*)getKGM()->getDialog()->GetDlgItem(0))->SetWindowTextW(wstrSearchResultText.c_str());
 	pListControlMain->SetFocus();
 
-	getKGM()->getIMGScreen()->setSearchHitCount(uiMatchCount);
-	getKGM()->getIMGScreen()->setSearchFileCount(uiFileCountWithMatches);
+	getKGM()->getIMGEditor()->setSearchHitCount(uiMatchCount);
+	getKGM()->getIMGEditor()->setSearchFileCount(uiFileCountWithMatches);
 	*/
 }
 
-void					CIMGScreenTab::storeFilterOptions(void)
+void					CIMGEditorTab::storeFilterOptions(void)
 {
 	/*
 	todo
@@ -1057,7 +1057,7 @@ void					CIMGScreenTab::storeFilterOptions(void)
 	setActiveFilter("version", CStringUtility::convertCStringToStdString(cstr2));
 	*/
 }
-void					CIMGScreenTab::restoreFilterOptions(void)
+void					CIMGEditorTab::restoreFilterOptions(void)
 {
 	/*
 	todo
@@ -1075,7 +1075,7 @@ void					CIMGScreenTab::restoreFilterOptions(void)
 	m_bRestoringFilterOptions = false;
 	*/
 }
-bool					CIMGScreenTab::isFilterActive(void)
+bool					CIMGEditorTab::isFilterActive(void)
 {
 	/*
 	todo
@@ -1095,7 +1095,7 @@ bool					CIMGScreenTab::isFilterActive(void)
 	return true;
 }
 
-void					CIMGScreenTab::sortEntries(void)
+void					CIMGEditorTab::sortEntries(void)
 {
 	// sort
 	getKGM()->getSortManager()->sort(getIMGFile());
@@ -1133,12 +1133,12 @@ void					CIMGScreenTab::sortEntries(void)
 	setIMGModifiedSinceRebuild(true);
 }
 
-void					CIMGScreenTab::onEntryChange(CIMGEntry *pIMGEntry)
+void					CIMGEditorTab::onEntryChange(CIMGEntry *pIMGEntry)
 {
 	loadProtectedEntryState(pIMGEntry);
 }
 
-void					CIMGScreenTab::loadProtectedEntryState(CIMGEntry *pIMGEntry)
+void					CIMGEditorTab::loadProtectedEntryState(CIMGEntry *pIMGEntry)
 {
 	if (m_pDBFile->isIMGEntryFound(getIMGFile(), pIMGEntry))
 	{
@@ -1149,7 +1149,7 @@ void					CIMGScreenTab::loadProtectedEntryState(CIMGEntry *pIMGEntry)
 		pIMGEntry->setProtectedEntry(false);
 	}
 }
-void				CIMGScreenTab::loadProtectedEntryStates(void)
+void				CIMGEditorTab::loadProtectedEntryStates(void)
 {
 	for (auto pIMGEntry : getIMGFile()->getEntries())
 	{
@@ -1157,7 +1157,7 @@ void				CIMGScreenTab::loadProtectedEntryStates(void)
 	}
 }
 
-void				CIMGScreenTab::loadFilter_Type(void)
+void				CIMGEditorTab::loadFilter_Type(void)
 {
 	/*
 	todo
@@ -1180,7 +1180,7 @@ void				CIMGScreenTab::loadFilter_Type(void)
 	pComboBox->SetCurSel(uiCurSel);
 	*/
 }
-void				CIMGScreenTab::loadFilter_Version(void)
+void				CIMGEditorTab::loadFilter_Version(void)
 {
 	/*
 	todo
@@ -1227,7 +1227,7 @@ void				CIMGScreenTab::loadFilter_Version(void)
 	*/
 }
 
-void				CIMGScreenTab::unloadFilter_Type(void)
+void				CIMGEditorTab::unloadFilter_Type(void)
 {
 	/*
 	todo
@@ -1243,7 +1243,7 @@ void				CIMGScreenTab::unloadFilter_Type(void)
 	pComboBox->SetCurSel(0);
 	*/
 }
-void				CIMGScreenTab::unloadFilter_Version(void)
+void				CIMGEditorTab::unloadFilter_Version(void)
 {
 	/*
 	todo
@@ -1260,7 +1260,7 @@ void				CIMGScreenTab::unloadFilter_Version(void)
 	*/
 }
 
-void				CIMGScreenTab::reassignEntryIds(void)
+void				CIMGEditorTab::reassignEntryIds(void)
 {
 	/*
 	todo
@@ -1272,7 +1272,7 @@ void				CIMGScreenTab::reassignEntryIds(void)
 	*/
 }
 
-vector<CIMGEntry*>	CIMGScreenTab::getSelectedEntries(void)
+vector<CIMGEntry*>	CIMGEditorTab::getSelectedEntries(void)
 {
 	/*
 	todo

@@ -1,36 +1,35 @@
-#ifndef CIMGScreen_H
-#define CIMGScreen_H
+#ifndef CIMGEditor_H
+#define CIMGEditor_H
 
 #include "Types.h"
-#include "GUI/ScreenTabs/CIMGScreenTab.h"
-#include "GUI/Window/CKGMWindow.h"
+#include "GUI/Editors/Tab/CIMGEditorTab.h"
+#include "GUI/Editor/CEditor.h"
 #include "IMG/eIMGVersion.h"
 #include <string>
 
 class CSearchEntry;
 class CWindowControl_List;
 
-class CIMGScreen : public CKGMWindow
+class CIMGEditor : public CEditor
 {
 public:
-	CIMGScreen(void) :
-		CKGMWindow(),
+	CIMGEditor(void) :
 		m_uiSelectedEntryCount(0),
 		m_uiSearchHitCount(0), // todo - rename to SearchHitEntryCount
 		m_uiSearchFileCount(0), // todo - rename to SearchHitFileCount
 		m_pEntryListControl(nullptr)
-	{};
+	{}
 
 	void						initMenu(void);
 	void						loadRightClickMenu(int xPos, int yPos);
 
-	CIMGScreenTab*				addTab(std::string strIMGPath, eIMGVersion eIMGVersionValue);
-	CIMGScreenTab*				addBlankTab(std::string strIMGPath, eIMGVersion eIMGVersionValue);
-	void						removeTab(CWindowTab *pWindowTab);
+	CIMGEditorTab*				addTab(std::string strIMGPath, eIMGVersion eIMGVersionValue);
+	CIMGEditorTab*				addBlankTab(std::string strIMGPath, eIMGVersion eIMGVersionValue);
+	void						removeTab(CEditorTab *pEditorTab);
 
 	void						refreshActiveTab(void);
-	CIMGScreenTab*				getActiveTab(void) { return (CIMGScreenTab*)CTabbedWindow::getActiveTab(); }
-	void						setActiveTab(CIMGScreenTab *pActiveTab);
+	CIMGEditorTab*				getActiveTab(void) { return (CIMGEditorTab*) CEditor::getActiveTab(); }
+	void						setActiveTab(CIMGEditorTab *pActiveTab);
 
 	void						readdColumnsToMainListView(eIMGVersion eIMGVersionValue);
 	void						addColumnsToMainListView(eIMGVersion eIMGVersionValue);
@@ -62,7 +61,7 @@ public:
 	std::vector<CSearchEntry*>&	getSearchEntries(void) { return m_vecSearchEntries; }
 
 private:
-	CIMGScreenTab*				_addTab(CIMGFormat *pIMGFormat);
+	CIMGEditorTab*				_addTab(CIMGFormat *pIMGFormat);
 
 private:
 	uint32						m_uiSelectedEntryCount;

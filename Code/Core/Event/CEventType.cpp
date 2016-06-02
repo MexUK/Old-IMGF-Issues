@@ -6,14 +6,15 @@ CEventType::CEventType(uint32 uiEventTypeId) :
 {
 }
 
-CEventBoundFunction*						CEventType::bindEvent(uint32 uiEventId, void(*pFunction)(void*), void *pArgument, int32 iZOrder, uint32 uiEventTypeIndex)
+// event binding
+CEventBoundFunction*						CEventType::bindEvent(uint32 uiEventId, void(*pFunction)(void*), void *pBoundArgument, int32 iZOrder, uint32 uiEventTypeIndex)
 {
-	return CEventManager::getInstance()->bindEvent(m_uiEventTypeId, uiEventTypeIndex, uiEventId, pFunction, pArgument, iZOrder);
+	return CEventManager::getInstance()->bindEvent(m_uiEventTypeId, uiEventTypeIndex, uiEventId, pFunction, pBoundArgument, iZOrder);
 }
 
-CEventBoundFunction*						CEventType::bindEvent(uint32 uiEventId, void(*pFunction)(void*,void*), void *pArgument, int32 iZOrder, uint32 uiEventTypeIndex)
+CEventBoundFunction*						CEventType::bindEvent(uint32 uiEventId, void(*pFunction)(void*,void*), void *pBoundArgument, int32 iZOrder, uint32 uiEventTypeIndex)
 {
-	return CEventManager::getInstance()->bindEvent(m_uiEventTypeId, uiEventTypeIndex, uiEventId, pFunction, pArgument, iZOrder);
+	return CEventManager::getInstance()->bindEvent(m_uiEventTypeId, uiEventTypeIndex, uiEventId, pFunction, pBoundArgument, iZOrder);
 }
 
 void										CEventType::unbindEvent(CEventBoundFunction *pEventBoundFunction)
@@ -21,7 +22,8 @@ void										CEventType::unbindEvent(CEventBoundFunction *pEventBoundFunction)
 	CEventManager::getInstance()->unbindEvent(pEventBoundFunction);
 }
 
-bool										CEventType::triggerEvent(uint32 uiEventId, void *pArgument, uint32 uiEventTypeIndex)
+// event triggering
+bool										CEventType::triggerEvent(uint32 uiEventId, void *pTriggerArgument, uint32 uiEventTypeIndex)
 {
-	return CEventManager::getInstance()->triggerEvent(m_uiEventTypeId, uiEventTypeIndex, uiEventId, pArgument);
+	return CEventManager::getInstance()->triggerEvent(m_uiEventTypeId, uiEventTypeIndex, uiEventId, pTriggerArgument);
 }

@@ -6,6 +6,7 @@
 #include "Types.h"
 #include "CVector2ui32.h"
 #include "Pool/CVectorPool.h"
+#include "GUI/Group/CControlGroup.h"
 #include "GUI/Control/CWindowControl.h"
 #include "Event/CEventType.h"
 #include "Event/CEventBoundFunction.h"
@@ -14,7 +15,7 @@
 class CWindowControl_Radio;
 class CDropTarget;
 
-class CWindow : public CEventType, public CEventBinder
+class CWindow : public CEventType, public CEventBinder, public CVectorPool<CControlGroup*>
 {
 public:
 	CWindow(void);
@@ -80,8 +81,6 @@ public:
 
 	void									setPreviousPosition(CVector2i32& vecPreviousPosition) { m_vecPreviousPosition = vecPreviousPosition; }
 	CVector2i32&							getPreviousPosition(void) { return m_vecPreviousPosition; }
-
-	CVectorPool<CWindowControl*>&			getControls(void) { return m_vecControls; }
 	
 private:
 	HWND									m_hwndWindow;
@@ -99,7 +98,6 @@ private:
 	uint8									m_bMarkedToRedraw		: 1;
 	uint8									m_bMaximized			: 1;
 	CVector2i32								m_vecPreviousPosition;
-	CVectorPool<CWindowControl*>			m_vecControls;
 
 	/*
 	todo

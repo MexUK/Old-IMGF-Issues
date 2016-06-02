@@ -60,17 +60,17 @@ void									CWindow::bindEvents(void)
 void									CWindow::bindAllEvents(void)
 {
 	bindEvents();
-	for (CWindowControl *pWindowControl : getControls().getEntries())
+	for (CControlGroup *pControlGroup : getEntries())
 	{
-		pWindowControl->bindEvents();
+		pControlGroup->bindAllEvents();
 	}
 }
 
 void									CWindow::unbindAllEvents(void)
 {
-	for (CWindowControl *pWindowControl : getControls().getEntries())
+	for (CControlGroup *pControlGroup : getEntries())
 	{
-		pWindowControl->bindEvents();
+		pControlGroup->unbindAllEvents();
 	}
 	unbindEvents();
 }
@@ -85,16 +85,19 @@ void									CWindow::onMouseDown(CVector2i32& vecCursorPosition)
 
 	// cursor enter/leave control and focused control
 	bool bGainedFocusOverall = false;
-	for (CWindowControl *pWindowControl : getControls().getEntries())
+	for (CControlGroup *pControlGroup : getEntries())
 	{
-		if (CMathUtility::isPointInRectangle(vecCursorPosition, pWindowControl->getPosition(), pWindowControl->getSize()))
+		for (CWindowControl *pWindowControl : pControlGroup->getEntries())
 		{
-			bool bGainedFocus = m_pFocusedControl != pWindowControl;
-			m_pFocusedControl = pWindowControl;
-			if (bGainedFocus)
+			if (CMathUtility::isPointInRectangle(vecCursorPosition, pWindowControl->getPosition(), pWindowControl->getSize()))
 			{
-				pWindowControl->getWindow()->triggerEvent(EVENT_onControlGainFocus, pWindowControl);
-				bGainedFocusOverall = true;
+				bool bGainedFocus = m_pFocusedControl != pWindowControl;
+				m_pFocusedControl = pWindowControl;
+				if (bGainedFocus)
+				{
+					pWindowControl->getWindow()->triggerEvent(EVENT_onControlGainFocus, pWindowControl);
+					bGainedFocusOverall = true;
+				}
 			}
 		}
 	}
@@ -153,22 +156,25 @@ void									CWindow::onMouseUp(CVector2i32& vecCursorPosition)
 
 void									CWindow::onMouseMove(CVector2i32& vecCursorPosition)
 {
-	for (CWindowControl *pWindowControl : getControls().getEntries())
+	for (CControlGroup *pControlGroup : getEntries())
 	{
-		if (pWindowControl->isPointInControl(vecCursorPosition))
+		for (CWindowControl *pWindowControl : pControlGroup->getEntries())
 		{
-			if (!pWindowControl->isPointMarkedAsInControl())
+			if (pWindowControl->isPointInControl(vecCursorPosition))
 			{
-				pWindowControl->setPointMarkedAsInControl(true);
-				triggerEvent(EVENT_onCursorEnterControl, pWindowControl);
+				if (!pWindowControl->isPointMarkedAsInControl())
+				{
+					pWindowControl->setPointMarkedAsInControl(true);
+					triggerEvent(EVENT_onCursorEnterControl, pWindowControl);
+				}
 			}
-		}
-		else
-		{
-			if (pWindowControl->isPointMarkedAsInControl())
+			else
 			{
-				pWindowControl->setPointMarkedAsInControl(false);
-				triggerEvent(EVENT_onCursorLeaveControl, pWindowControl);
+				if (pWindowControl->isPointMarkedAsInControl())
+				{
+					pWindowControl->setPointMarkedAsInControl(false);
+					triggerEvent(EVENT_onCursorLeaveControl, pWindowControl);
+				}
 			}
 		}
 	}
@@ -336,14 +342,17 @@ void									CWindow::setMaximized(bool bMaximized)
 // other
 void									CWindow::uncheckRadios(CWindowControl_Radio *pRadio)
 {
-	for (CWindowControl *pWindowControl : getControls().getEntries())
+	for (CControlGroup *pControlGroup : getEntries())
 	{
-		if (pWindowControl->getControlType() == WINDOW_CONTROL_RADIO)
+		for (CWindowControl *pWindowControl : pControlGroup->getEntries())
 		{
-			CWindowControl_Radio *pRadio2 = (CWindowControl_Radio*)pWindowControl;
-			if (pRadio2->getGroupId() == pRadio->getGroupId())
+			if (pWindowControl->getControlType() == WINDOW_CONTROL_RADIO)
 			{
-				pRadio2->setChecked(false);
+				CWindowControl_Radio *pRadio2 = (CWindowControl_Radio*) pWindowControl;
+				if (pRadio2->getGroupId() == pRadio->getGroupId())
+				{
+					pRadio2->setChecked(false);
+				}
 			}
 		}
 	}
@@ -450,7 +459,7 @@ void		CKGM::init(void)
 	m_pDialog->GetDlgItem(34)->SetWindowText(CLocalizationManager::getInstance()->getTranslatedTextW("Sort").c_str());
 
 	// main list control
-	getIMGScreen()->addColumnsToMainListView(IMG_UNKNOWN);
+	getIMGEditor()->addColumnsToMainListView(IMG_UNKNOWN);
 
 	// search list control
 	((CListCtrl*)m_pDialog->GetDlgItem(22))->SendMessage(LVM_SETEXTENDEDLISTVIEWSTYLE, 0, LVS_EX_FULLROWSELECT);

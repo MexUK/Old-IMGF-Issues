@@ -3,7 +3,7 @@
 
 #include "CManager.h"
 #include "Pool/CVectorPool.h"
-#include "GUI/Window/CTabbedWindow.h"
+#include "GUI/Window/CWindow.h"
 #include "Event/CEventBinder.h"
 #include "CSingleton.h"
 #include <Commctrl.h>
@@ -11,7 +11,7 @@
 LRESULT CALLBACK				WndProc_Window(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lParam);
 HBRUSH							createSolidBrush2(COLORREF colour, LPNMCUSTOMDRAW item);
 
-class CGUIManager : public CManager, public CSingleton<CGUIManager>, public CVectorPool<CTabbedWindow*>, public CEventBinder
+class CGUIManager : public CManager, public CSingleton<CGUIManager>, public CVectorPool<CWindow*>, public CEventBinder
 {
 public:
 	CGUIManager(void);
@@ -22,10 +22,9 @@ public:
 	void						bindEvents(void);
 
 	CWindow*					addWindow(CVector2i32& vecWindowPosition = CVector2i32(0,0), CVector2ui32& vecWindowSize = CVector2ui32(800,600));
-	CTabbedWindow*				addTabbedWindow(CVector2i32& vecWindowPosition = CVector2i32(0, 0), CVector2ui32& vecWindowSize = CVector2ui32(800, 600));
 
 	template <class WindowClass>
-	WindowClass*				addTemplatedTabbedWindow(CVector2i32& vecWindowPosition = CVector2i32(0, 0), CVector2ui32& vecWindowSize = CVector2ui32(800, 600));
+	WindowClass*				addTemplatedWindow(CVector2i32& vecWindowPosition = CVector2i32(0, 0), CVector2ui32& vecWindowSize = CVector2ui32(800, 600));
 
 	void						processWindows(void);
 
@@ -34,8 +33,8 @@ public:
 	void						render(void);
 	void						clearBackground(void);
 
-	void						setActiveWindow(CTabbedWindow *pActiveWindow) { m_pActiveWindow = pActiveWindow; }
-	CTabbedWindow*				getActiveWindow(void) { return m_pActiveWindow; }
+	void						setActiveWindow(CWindow *pActiveWindow) { m_pActiveWindow = pActiveWindow; }
+	CWindow*					getActiveWindow(void) { return m_pActiveWindow; }
 
 	CWindow*					getWindowByHwnd(HWND hWnd);
 
@@ -43,11 +42,11 @@ private:
 	bool						createWindow(CWindow *pWindow);
 
 private:
-	CTabbedWindow*						m_pActiveWindow;
+	CWindow*					m_pActiveWindow;
 };
 
 template <class WindowClass>
-WindowClass*					CGUIManager::addTemplatedTabbedWindow(CVector2i32& vecWindowPosition, CVector2ui32& vecWindowSize)
+WindowClass*					CGUIManager::addTemplatedWindow(CVector2i32& vecWindowPosition, CVector2ui32& vecWindowSize)
 {
 	WindowClass *pWindow = new WindowClass;
 	pWindow->setPosition(CVector2i32(vecWindowPosition.m_x, vecWindowPosition.m_y)); // todo - send directly
@@ -57,7 +56,6 @@ WindowClass*					CGUIManager::addTemplatedTabbedWindow(CVector2i32& vecWindowPos
 	{
 		return nullptr;
 	}
-	pWindow->bindAllEvents();
 	addEntry(pWindow);
 	return pWindow;
 }

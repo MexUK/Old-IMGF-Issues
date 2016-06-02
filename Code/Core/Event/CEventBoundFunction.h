@@ -11,7 +11,7 @@ public:
 
 	void					unload(void) {}
 
-	void					onEventTriggered(void *pFunctionArgument);
+	void					onEventTriggered(void *pTriggerArgument);
 
 	void					setEventTypeId(uint32 uiEventTypeId) { m_uiEventTypeId = uiEventTypeId; }
 	uint32					getEventTypeId(void) { return m_uiEventTypeId; }
@@ -33,8 +33,8 @@ public:
 	void					(*getFunction1Arg(void))(void*) { return m_pFunction_1Arg; }
 	void					(*getFunction2Args(void))(void*,void*) { return m_pFunction_2Args; }
 
-	void					setFunctionArgument(void* pFunctionArgument) { m_pFunctionArgument = pFunctionArgument; }
-	void*					getFunctionArgument(void) { return m_pFunctionArgument; }
+	void					setFunctionBoundArgument(void* pFunctionBoundArgument) { m_pFunctionBoundArgument = pFunctionBoundArgument; }	// 2 event argument types are used, bound arg and trigger arg
+	void*					getFunctionBoundArgument(void) { return m_pFunctionBoundArgument; }									// 2 event argument types are used, bound arg and trigger arg
 
 private:
 	uint32					m_uiEventTypeId;
@@ -44,7 +44,7 @@ private:
 	eEventFunctionType		m_eEventFunctionType;
 	void					(*m_pFunction_1Arg)(void*);
 	void					(*m_pFunction_2Args)(void*,void*);
-	void*					m_pFunctionArgument;
+	void*					m_pFunctionBoundArgument;
 };
 
 #endif

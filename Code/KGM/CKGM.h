@@ -12,9 +12,9 @@ uint32 WINAPI		onInitializationThreadStart(void *pThreadParameter);
 
 class CMainWindow;
 class CWindow;
-class CWindowTab;
-class CIMGScreen;
-class CIMGScreenTab;
+class CEditorTab;
+class CIMGEditor;
+class CIMGEditorTab;
 
 class CSessionManager;
 class CRecentlyOpenManager;
@@ -51,9 +51,9 @@ public:
 	CInstallationMeta&			getInstallationMeta(void) { return m_installationMeta; }
 
 	CWindow*					getActiveWindow(void);
-	CWindowTab*					getActiveTab(void);
-	CIMGScreen*			getIMGScreen(void);
-	CIMGScreenTab*		getEntryListTab(void);
+	CEditorTab*					getActiveTab(void);
+	CIMGEditor*					getIMGEditor(void);
+	CIMGEditorTab*				getEntryListTab(void); // todo
 	
 	CDumpManager*				getDumpManager(void) { return m_pDumpManager; }
 	CEntryViewerManager*		getEntryViewerManager(void) { return m_pEntryViewerManager; }

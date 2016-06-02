@@ -16,7 +16,7 @@
 #include "Event/CEventManager.h"
 #include "Event/eEvent.h"
 #include "GUI/CGUIManager.h"
-#include "GUI/Window/CTabbedWindow.h"
+#include "GUI/Window/CWindow.h"
 #include "GUI/Controls/CWindowControl_Text.h"
 #include "GUI/Controls/CWindowControl_List.h"
 #include "GUI/Controls/CWindowControl_Button.h"
@@ -27,8 +27,8 @@
 #include "GUI/Controls/CWindowControl_Radio.h"
 #include "GUI/Controls/CWindowControl_Edit.h"
 #include "GUI/CWindowManager.h"
-#include "GUI/Screens/CIMGScreen.h"
-#include "GUI/ScreenTabs/CIMGScreenTab.h"
+#include "GUI/Editors/CIMGEditor.h"
+#include "GUI/Editors/Tab/CIMGEditorTab.h"
 #include "String/CStringUtility.h"
 #include "File/CFileUtility.h"
 #include "Path/CPathUtility.h"
@@ -73,6 +73,7 @@
 #include "RW/CRWSection.h"
 #include "CTiming.h"
 #include "CLastUsedValueManager.h"
+#include "GUI/Window/CKGMWindow.h"
 
 using namespace std;
 
@@ -111,18 +112,18 @@ CKGM::~CKGM(void)
 }
 
 // init/uninit (ocurs in original thread)
-void		CKGM::init(void)
+void				CKGM::init(void)
 {
 	m_pWindowManager->init();
 	initInitializationThread();
 }
 
-void		CKGM::uninit(void)
+void				CKGM::uninit(void)
 {
 }
 
 // init tasks (ocurs in original thread)
-void		CKGM::initInitializationThread(void)
+void				CKGM::initInitializationThread(void)
 {
 	SECURITY_ATTRIBUTES sa;
 	sa.nLength = sizeof(SECURITY_ATTRIBUTES);
@@ -138,7 +139,7 @@ uint32 WINAPI		onInitializationThreadStart(void *pThreadParameter)
 	return 0;
 }
 
-void		CKGM::_init(void)
+void				CKGM::_init(void)
 {
 	initBuildMeta();
 	initInstallationMeta();
@@ -156,14 +157,14 @@ void		CKGM::_init(void)
 }
 
 // init tasks (occurs in different thread)
-void		CKGM::initBuildMeta(void)
+void				CKGM::initBuildMeta(void)
 {
 	getBuildMeta().setCurrentVersion(1.3f);
 	getBuildMeta().setIsAlphaBuild(true);
 	getBuildMeta().setCurrentVersionString("1.3" + string(getBuildMeta().isAlphaBuild() ? " Alpha" : ""));
 }
 
-void		CKGM::initInstallationMeta(void)
+void				CKGM::initInstallationMeta(void)
 {
 	// choose installation folder
 	string strInstallationPath = CRegistryUtility::getSoftwareValueString("KGM\\InternalSettings", "InstallationPath");
@@ -192,7 +193,7 @@ void		CKGM::initInstallationMeta(void)
 	}
 }
 
-void		CKGM::initStoredObjects(void)
+void				CKGM::initStoredObjects(void)
 {
 	// initialize objects stored by CKGM
 	// Excludes: CWindowManager and CSortManager
@@ -207,7 +208,7 @@ void		CKGM::initStoredObjects(void)
 	m_pUpdateManager->init();
 }
 
-void		CKGM::initSingletonObjects(void)
+void				CKGM::initSingletonObjects(void)
 {
 	// initialize singleton objects
 	CBMPManager::getInstance()->init();
@@ -233,12 +234,12 @@ void		CKGM::initSingletonObjects(void)
 	CWTDManager::getInstance()->init();
 }
 
-void		CKGM::initStaticData(void)
+void				CKGM::initStaticData(void)
 {
 	CRWSection::initStatic();
 }
 
-void		CKGM::initEventBinding(void)
+void				CKGM::initEventBinding(void)
 {
 	auto pOnEntriesExtensionChange = [](void *pData)
 	{
@@ -260,12 +261,12 @@ void		CKGM::initEventBinding(void)
 	CEventManager::getInstance()->bindEvent(EVENT_onRemoveIMGEntryExtension,	pOnEntriesExtensionChange);
 }
 
-void		CKGM::initSettings(void)
+void				CKGM::initSettings(void)
 {
 	getSettingsManager()->loadSettings();
 }
 
-void		CKGM::initLocalization(void)
+void				CKGM::initLocalization(void)
 {
 	eLanguage eActiveLanguage = (eLanguage)getKGM()->getSettingsManager()->getSettingInt("Language");
 	CLocalizationManager::getInstance()->setActiveLanguage(eActiveLanguage);
@@ -274,12 +275,12 @@ void		CKGM::initLocalization(void)
 	CLocalizationManager::getInstance()->loadTranslatedText();
 }
 
-void		CKGM::initSorting(void)
+void				CKGM::initSorting(void)
 {
 	m_pSortManager->init();
 }
 
-void		CKGM::initOldVersionMigration(void)
+void				CKGM::initOldVersionMigration(void)
 {
 	// delete previous version's exe file
 	string strPreviousVersionExePath = CRegistryUtility::getSoftwareValueString("KGM\\InternalSettings", "DeletePreviousVersionOnNextLaunch");
@@ -310,7 +311,7 @@ void		CKGM::initOldVersionMigration(void)
 	}
 }
 
-void		CKGM::initCommandLine(void)
+void				CKGM::initCommandLine(void)
 {
 	// command line
 	wchar_t *pCommandLine = GetCommandLine();
@@ -327,85 +328,65 @@ void		CKGM::initCommandLine(void)
 	}
 }
 
-void		CKGM::initAutoUpdateCheck(void)
+void				CKGM::initAutoUpdateCheck(void)
 {
 	/*
 	todo
-	This currently calls a onRequestBlah which eventualls calls CTaskManager::onFeatureEnd which can crash before the CIMGScreen object has been created.
+	This currently calls a onRequestBlah which eventualls calls CTaskManager::onFeatureEnd which can crash before the CIMGEditor object has been created.
 	So move this to like lambda: onWindowOpen()
 	getKGM()->getTaskManager()->getDispatch()->onRequestAutoUpdate();
 	*/
 }
 
-void		CKGM::initTempStuff(void)
+void				CKGM::initTempStuff(void)
 {
 }
 
 // windows/tabs
-void		CKGM::openWindow(void)
+void				CKGM::openWindow(void)
 {
 	getWindowManager()->openWindow();
 }
 
-void		CKGM::processWindows(void)
+void				CKGM::processWindows(void)
 {
 	getWindowManager()->processWindows();
 }
 
-CWindow*					CKGM::getActiveWindow(void)
+CWindow*			CKGM::getActiveWindow(void)
 {
 	return CGUIManager::getInstance()->getActiveWindow();
 }
 
-CWindowTab*					CKGM::getActiveTab(void)
+CEditorTab*			CKGM::getActiveTab(void)
 {
-	if (getActiveWindow() == nullptr)
-	{
-		return nullptr;
-	}
-	else
-	{
-		return ((CTabbedWindow*) getActiveWindow())->getActiveTab();
-	}
-	/*
-	todo
-	CWindow *pWindow = m_pWindowManager->getActiveWindow();
-	switch (pWindow->getWindowType())
-	{
-	case WINDOW_TYPE_ENTRY_LIST:	return ((CTabbedWindow<CIMGScreen*>*)pWindow)->getActiveTab();
-	case WINDOW_TYPE_ENTRY_EDITOR:	return ((CTabbedWindow<CEntryEditorWindow*>*)pWindow)->getActiveTab();
-	default:						return nullptr;
-	}
-	*/
-	return nullptr;
+	CKGMWindow *pKGMWindow = (CKGMWindow*) CGUIManager::getInstance()->getEntryByIndex(0);
+	CIMGEditor *pIMGEditor = (CIMGEditor*) pKGMWindow->getEntryByIndex(0);
+	CEditorTab *pEditorTab = pIMGEditor->getActiveTab();
+	return pEditorTab;
 }
 
-CIMGScreen*			CKGM::getIMGScreen(void)
+CIMGEditor*			CKGM::getIMGEditor(void)
 {
-	// todo
-	if (CGUIManager::getInstance()->getEntryCount() == 0)
-	{
-		return nullptr;
-	}
-	return (CIMGScreen*) CGUIManager::getInstance()->getEntryByIndex(0);
+	CKGMWindow *pKGMWindow = (CKGMWindow*) CGUIManager::getInstance()->getEntryByIndex(0);
+	CIMGEditor *pIMGEditor = (CIMGEditor*) pKGMWindow->getEntryByIndex(0);
+	return pIMGEditor;
 }
 
-CIMGScreenTab*		CKGM::getEntryListTab(void)
+CIMGEditorTab*		CKGM::getEntryListTab(void)
 {
-	// todo
-	if (getActiveTab() == nullptr)
-	{
-		return nullptr;
-	}
-	return ((CIMGScreenTab*) CGUIManager::getInstance()->getEntryByIndex(0)->getEntryByIndex(0));
+	CKGMWindow *pKGMWindow = (CKGMWindow*) CGUIManager::getInstance()->getEntryByIndex(0);
+	CIMGEditor *pIMGEditor = (CIMGEditor*) pKGMWindow->getEntryByIndex(0);
+	CIMGEditorTab *pIMGEditorTab = (CIMGEditorTab*) pIMGEditor->getEntryByIndex(0);
+	return pIMGEditorTab;
 }
 
 // last used directory
-void			CKGM::setLastUsedDirectory(string strHandleName, string strDirectory)
+void				CKGM::setLastUsedDirectory(string strHandleName, string strDirectory)
 {
 	CRegistryUtility::setSoftwareValueString("KGM\\LastUsedDirectories", strHandleName, strDirectory);
 }
-string			CKGM::getLastUsedDirectory(string strHandleName)
+string				CKGM::getLastUsedDirectory(string strHandleName)
 {
 	return CRegistryUtility::getSoftwareValueString("KGM\\LastUsedDirectories", strHandleName);
 }

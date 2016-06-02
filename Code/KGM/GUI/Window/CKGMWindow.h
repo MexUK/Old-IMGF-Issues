@@ -1,11 +1,11 @@
 #ifndef CKGMWindow_H
 #define CKGMWindow_H
 
-#include "GUI/Window/CTabbedWindow.h"
+#include "GUI/Window/CWindow.h"
 #include <string>
 #include <vector>
 
-class CKGMWindow : public CTabbedWindow
+class CKGMWindow : public CWindow
 {
 public:
 	CKGMWindow(void);

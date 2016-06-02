@@ -1,7 +1,7 @@
 #include "CWindowManager.h"
 #include "GUI/CGUIManager.h"
-#include "GUI/Window/CWindow.h"
-#include "GUI/SCreens/CIMGScreen.h"
+#include "GUI/Window/CKGMWindow.h"
+#include "GUI/Editors/CIMGEditor.h"
 
 void					CWindowManager::init(void)
 {
@@ -16,7 +16,16 @@ CWindow*				CWindowManager::openWindow(void)
 {
 	CVector2i32 vecWindowPosition = CVector2i32(150, 150);
 	CVector2ui32 vecWindowSize = CVector2ui32(1025, 698);
-	return CGUIManager::getInstance()->addTemplatedTabbedWindow<CIMGScreen>(vecWindowPosition, vecWindowSize);
+	CKGMWindow *pWindow = CGUIManager::getInstance()->addTemplatedWindow<CKGMWindow>(vecWindowPosition, vecWindowSize);
+	
+	CIMGEditor *pIMGEditor = new CIMGEditor; // CIMGEditor eventually extends CControlGroup - todo use pWindow->addTempatedGroup<CIMGEditor>() instead?
+	pIMGEditor->setWindow(pWindow);
+	pWindow->addEntry(pIMGEditor);
+	
+	pWindow->initTabs();
+	pWindow->bindAllEvents();
+	
+	return pWindow;
 }
 
 // window processing

@@ -1,28 +1,28 @@
-#ifndef CIMGScreenTab_H
-#define CIMGScreenTab_H
+#ifndef CIMGEditorTab_H
+#define CIMGEditorTab_H
 
 #include <Windows.h>
+#include "GUI/Editor/Tab/CEditorTab.h"
 #include "IMG/CIMGFormat.h"
 #include "CFilterOptions.h"
-#include "GUI/Tab/CWindowTab.h"
 #include <string>
 #include <vector>
 
-class CIMGScreen;
+class CIMGEditor;
 class CIMGFormat;
 class CIMGEntry;
 class CDBFormat;
 class CListCtrl; // temp
 
-class CIMGScreenTab : public CWindowTab
+class CIMGEditorTab : public CEditorTab
 {
 public:
-	CIMGScreenTab(void) :
+	CIMGEditorTab(void) :
 		m_pWindow(nullptr),
 		m_bRestoringFilterOptions(false),
 		m_bIMGModifiedSinceRebuild(false),
 		m_uiOverwriteEntryOption(0)
-	{};
+	{}
 
 	void						unload(void);
 
@@ -108,8 +108,8 @@ public:
 
 	void						checkForUnknownRWVersionEntries(void);
 	
-	void						setWindow(CIMGScreen *pEntryListWindow) { m_pWindow = pEntryListWindow; }
-	CIMGScreen*			getWindow(void) { return m_pWindow; }
+	void						setWindow(CIMGEditor *pEntryListWindow) { m_pWindow = pEntryListWindow; }
+	CIMGEditor*			getWindow(void) { return m_pWindow; }
 
 	CDBFormat*					m_pDBFile; // todo - make private
 
@@ -120,7 +120,7 @@ private:
 	void						loadProtectedEntryState(CIMGEntry *pIMGEntry);
 
 private:
-	CIMGScreen*			m_pWindow;
+	CIMGEditor*			m_pWindow;
 	CIMGFormat*					m_pIMGFile;
 	std::vector<std::string>	m_vecLogLinesGUI;
 	std::vector<std::string>	m_vecLogLinesBasic;

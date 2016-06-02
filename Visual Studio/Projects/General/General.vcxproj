@@ -103,8 +103,7 @@
     <ClCompile Include="..\..\..\Code\General\GUI\Controls\CWindowControl_Scroll.cpp" />
     <ClCompile Include="..\..\..\Code\General\GUI\Controls\CWindowControl_Text.cpp" />
     <ClCompile Include="..\..\..\Code\General\GUI\Control\CWindowControl.cpp" />
-    <ClCompile Include="..\..\..\Code\General\GUI\Tab\CWindowTab.cpp" />
-    <ClCompile Include="..\..\..\Code\General\GUI\Window\CTabbedWindow.cpp" />
+    <ClCompile Include="..\..\..\Code\General\GUI\Group\CControlGroup.cpp" />
     <ClCompile Include="..\..\..\Code\General\GUI\Window\CWindow.cpp" />
     <ClCompile Include="..\..\..\Code\General\Image\CImageFile.cpp" />
     <ClCompile Include="..\..\..\Code\General\Image\CImageManager.cpp" />
@@ -156,8 +155,7 @@
     <ClInclude Include="..\..\..\Code\General\GUI\Control\CWindowControl.h" />
     <ClInclude Include="..\..\..\Code\General\GUI\Control\CWindowScrollPool.h" />
     <ClInclude Include="..\..\..\Code\General\GUI\Control\eWindowControlType.h" />
-    <ClInclude Include="..\..\..\Code\General\GUI\Tab\CWindowTab.h" />
-    <ClInclude Include="..\..\..\Code\General\GUI\Window\CTabbedWindow.h" />
+    <ClInclude Include="..\..\..\Code\General\GUI\Group\CControlGroup.h" />
     <ClInclude Include="..\..\..\Code\General\GUI\Window\CWindow.h" />
     <ClInclude Include="..\..\..\Code\General\Image\CImageFile.h" />
     <ClInclude Include="..\..\..\Code\General\Image\CImageManager.h" />

@@ -38,8 +38,6 @@ void						CGUIManager::bindEvents(void)
 // add window
 CWindow*					CGUIManager::addWindow(CVector2i32& vecWindowPosition, CVector2ui32& vecWindowSize)
 {
-	/*
-	todo
 	CWindow *pWindow = new CWindow;
 	pWindow->setPosition(vecWindowPosition);
 	pWindow->setSize(vecWindowSize);
@@ -49,25 +47,7 @@ CWindow*					CGUIManager::addWindow(CVector2i32& vecWindowPosition, CVector2ui32
 	{
 		return nullptr;
 	}
-	pWindow->bindAllEvents();
 	return pWindow;
-	*/
-	return nullptr;
-}
-
-CTabbedWindow*				CGUIManager::addTabbedWindow(CVector2i32& vecWindowPosition, CVector2ui32& vecWindowSize)
-{
-	CTabbedWindow *pTabbedWindow = new CTabbedWindow;
-	pTabbedWindow->setPosition(vecWindowPosition);
-	pTabbedWindow->setSize(vecWindowSize);
-	pTabbedWindow->setTitleBarHeight(35);
-	if (!createWindow(pTabbedWindow))
-	{
-		return nullptr;
-	}
-	pTabbedWindow->bindAllEvents();
-	addEntry(pTabbedWindow);
-	return pTabbedWindow;
 }
 
 // create window (internal)

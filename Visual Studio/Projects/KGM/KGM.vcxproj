@@ -125,8 +125,10 @@
     <ClCompile Include="..\..\..\Code\KGM\File Format\LST\CLSTManager.cpp" />
     <ClCompile Include="..\..\..\Code\KGM\Globals.cpp" />
     <ClCompile Include="..\..\..\Code\KGM\GUI\CWindowManager.cpp" />
-    <ClCompile Include="..\..\..\Code\KGM\GUI\Screens\CIMGScreen.cpp" />
-    <ClCompile Include="..\..\..\Code\KGM\GUI\ScreenTabs\CIMGScreenTab.cpp" />
+    <ClCompile Include="..\..\..\Code\KGM\GUI\Editors\CIMGEditor.cpp" />
+    <ClCompile Include="..\..\..\Code\KGM\GUI\Editors\Tab\CIMGEditorTab.cpp" />
+    <ClCompile Include="..\..\..\Code\KGM\GUI\Editor\CEditor.cpp" />
+    <ClCompile Include="..\..\..\Code\KGM\GUI\Editor\Tab\CEditorTab.cpp" />
     <ClCompile Include="..\..\..\Code\KGM\GUI\Window\CKGMWindow.cpp" />
     <ClCompile Include="..\..\..\Code\KGM\Language\CLanguageManager.cpp" />
     <ClCompile Include="..\..\..\Code\KGM\Main.cpp" />
@@ -173,9 +175,11 @@
     <ClInclude Include="..\..\..\Code\KGM\File Format\LST\CLSTManager.h" />
     <ClInclude Include="..\..\..\Code\KGM\Globals.h" />
     <ClInclude Include="..\..\..\Code\KGM\GUI\CWindowManager.h" />
-    <ClInclude Include="..\..\..\Code\KGM\GUI\Screens\CIMGScreen.h" />
-    <ClInclude Include="..\..\..\Code\KGM\GUI\Screens\CTextureScreen.h" />
-    <ClInclude Include="..\..\..\Code\KGM\GUI\ScreenTabs\CIMGScreenTab.h" />
+    <ClInclude Include="..\..\..\Code\KGM\GUI\Editors\CIMGEditor.h" />
+    <ClInclude Include="..\..\..\Code\KGM\GUI\Editors\CTextureEditor.h" />
+    <ClInclude Include="..\..\..\Code\KGM\GUI\Editors\Tab\CIMGEditorTab.h" />
+    <ClInclude Include="..\..\..\Code\KGM\GUI\Editor\CEditor.h" />
+    <ClInclude Include="..\..\..\Code\KGM\GUI\Editor\Tab\CEditorTab.h" />
     <ClInclude Include="..\..\..\Code\KGM\GUI\Window\CKGMWindow.h" />
     <ClInclude Include="..\..\..\Code\KGM\Language\CLanguage.h" />
     <ClInclude Include="..\..\..\Code\KGM\Language\CLanguageManager.h" />
