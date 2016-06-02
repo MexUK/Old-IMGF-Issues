@@ -3,8 +3,8 @@
 #include "String/CStringUtility.h"
 #include "Event/CEventManager.h"
 #include "Event/eEvent.h"
-#include "GUI/Controls/CWindowControl_Button.h"
-#include "GUI/Controls/CWindowControl_List.h"
+#include "GUI/Controls/CButtonControl.h"
+#include "GUI/Controls/CListControl.h"
 #include "GUI/CGUIUtility.h" // temp
 #include <Windowsx.h>
 

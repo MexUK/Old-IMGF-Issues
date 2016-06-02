@@ -1,18 +1,18 @@
-#ifndef CWindowControl_Radio_H
-#define CWindowControl_Radio_H
+#ifndef CRadioControl_H
+#define CRadioControl_H
 
 #include "Types.h"
-#include "GUI/Control/CWindowControl.h"
-#include "GUI/Controls/Components/CWindowControlComponent_Rectangle.h"
-#include "GUI/Controls/Components/CWindowControlComponent_Text.h"
+#include "GUI/Control/CGUIControl.h"
+#include "GUI/Controls/Components/CGUIControlComponent_Rectangle.h"
+#include "GUI/Controls/Components/CGUIControlComponent_Text.h"
 
-class CWindowControl_Radio : public CWindowControl, public CWindowControlComponent_Rectangle, public CWindowControlComponent_Text
+class CRadioControl : public CGUIControl, public CGUIControlComponent_Rectangle, public CGUIControlComponent_Text
 {
 public:
-	CWindowControl_Radio(void) :
-		CWindowControl(WINDOW_CONTROL_RADIO),
-		CWindowControlComponent_Rectangle(),
-		CWindowControlComponent_Text(),
+	CRadioControl(void) :
+		CGUIControl(GUI_CONTROL_RADIO),
+		CGUIControlComponent_Rectangle(),
+		CGUIControlComponent_Text(),
 		m_uiIconRightMargin(5),
 		m_uiGroupId(0),
 		m_bChecked(false)

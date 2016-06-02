@@ -1,21 +1,21 @@
-#ifndef CWindowControl_Drop_H
-#define CWindowControl_Drop_H
+#ifndef CDropControl_H
+#define CDropControl_H
 
 #include "Types.h"
-#include "GUI/Control/CWindowControl.h"
-#include "GUI/Controls/Components/CWindowControlComponent_Text.h"
-#include "GUI/Controls/Components/CWindowControlComponent_Rectangle.h"
-#include "GUI/Controls/Entries/CWindowControlEntry_Drop.h"
+#include "GUI/Control/CGUIControl.h"
+#include "GUI/Controls/Components/CGUIControlComponent_Text.h"
+#include "GUI/Controls/Components/CGUIControlComponent_Rectangle.h"
+#include "GUI/Controls/Entries/CDropControlEntry.h"
 #include "Pool/CVectorPool.h"
 #include "CVector2i32.h"
 #include "CVector2ui32.h"
 #include <string>
 
-class CWindowControl_Drop : public CWindowControl, public CWindowControlComponent_Text, public CWindowControlComponent_Rectangle, public CVectorPool<CWindowControlEntry_Drop*>
+class CDropControl : public CGUIControl, public CGUIControlComponent_Text, public CGUIControlComponent_Rectangle, public CVectorPool<CDropControlEntry*>
 {
 public:
-	CWindowControl_Drop(void) :
-		CWindowControl(WINDOW_CONTROL_DROP),
+	CDropControl(void) :
+		CGUIControl(GUI_CONTROL_DROP),
 		m_uiSelectedIndex(0),
 		m_uiListWidth(100),
 		m_uiListRowHeight(30),

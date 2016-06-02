@@ -1,12 +1,12 @@
-#ifndef CWindowControlComponent_Rectangle_H
-#define CWindowControlComponent_Rectangle_H
+#ifndef CGUIControlComponent_Rectangle_H
+#define CGUIControlComponent_Rectangle_H
 
 #include "Types.h"
 
-class CWindowControlComponent_Rectangle
+class CGUIControlComponent_Rectangle
 {
 public:
-	CWindowControlComponent_Rectangle(void) :
+	CGUIControlComponent_Rectangle(void) :
 		m_bHasFill(false),
 		m_bHasBorder(false),
 		m_uiFillColour(0x0000AAFF),

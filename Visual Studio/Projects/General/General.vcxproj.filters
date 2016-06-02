@@ -150,44 +150,44 @@
     <ClCompile Include="..\..\..\Code\General\GUI\CGUIManager.cpp">
       <Filter>Source Files\GUI</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\..\Code\General\GUI\Control\CWindowControl.cpp">
-      <Filter>Source Files\GUI\Control</Filter>
-    </ClCompile>
     <ClCompile Include="..\..\..\Code\General\GUI\Window\CWindow.cpp">
       <Filter>Source Files\GUI\Window</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\..\Code\General\GUI\Controls\CWindowControl_Progress.cpp">
-      <Filter>Source Files\GUI\Controls</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\..\Code\General\GUI\Controls\CWindowControl_Radio.cpp">
-      <Filter>Source Files\GUI\Controls</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\..\Code\General\GUI\Controls\CWindowControl_Scroll.cpp">
-      <Filter>Source Files\GUI\Controls</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\..\Code\General\GUI\Controls\CWindowControl_Text.cpp">
-      <Filter>Source Files\GUI\Controls</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\..\Code\General\GUI\Controls\CWindowControl_Button.cpp">
-      <Filter>Source Files\GUI\Controls</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\..\Code\General\GUI\Controls\CWindowControl_Check.cpp">
-      <Filter>Source Files\GUI\Controls</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\..\Code\General\GUI\Controls\CWindowControl_Drop.cpp">
-      <Filter>Source Files\GUI\Controls</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\..\Code\General\GUI\Controls\CWindowControl_Edit.cpp">
-      <Filter>Source Files\GUI\Controls</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\..\Code\General\GUI\Controls\CWindowControl_List.cpp">
-      <Filter>Source Files\GUI\Controls</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\..\Code\General\GUI\Controls\CWindowControl_Menu.cpp">
-      <Filter>Source Files\GUI\Controls</Filter>
-    </ClCompile>
     <ClCompile Include="..\..\..\Code\General\GUI\Group\CControlGroup.cpp">
       <Filter>Source Files\GUI\Group</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\Code\General\GUI\Controls\CTextControl.cpp">
+      <Filter>Source Files\GUI\Controls</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\Code\General\GUI\Controls\CScrollControl.cpp">
+      <Filter>Source Files\GUI\Controls</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\Code\General\GUI\Controls\CRadioControl.cpp">
+      <Filter>Source Files\GUI\Controls</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\Code\General\GUI\Controls\CProgressControl.cpp">
+      <Filter>Source Files\GUI\Controls</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\Code\General\GUI\Controls\CMenuControl.cpp">
+      <Filter>Source Files\GUI\Controls</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\Code\General\GUI\Controls\CListControl.cpp">
+      <Filter>Source Files\GUI\Controls</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\Code\General\GUI\Controls\CEditControl.cpp">
+      <Filter>Source Files\GUI\Controls</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\Code\General\GUI\Controls\CDropControl.cpp">
+      <Filter>Source Files\GUI\Controls</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\Code\General\GUI\Controls\CCheckControl.cpp">
+      <Filter>Source Files\GUI\Controls</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\Code\General\GUI\Controls\CButtonControl.cpp">
+      <Filter>Source Files\GUI\Controls</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\Code\General\GUI\Control\CGUIControl.cpp">
+      <Filter>Source Files\GUI\Control</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -287,65 +287,65 @@
     <ClInclude Include="..\..\..\Code\General\GUI\Control\CWindowScrollPool.h">
       <Filter>Header Files\GUI\Control</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\..\Code\General\GUI\Control\eWindowControlType.h">
-      <Filter>Header Files\GUI\Control</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\..\Code\General\GUI\Control\CWindowControl.h">
-      <Filter>Header Files\GUI\Control</Filter>
-    </ClInclude>
     <ClInclude Include="..\..\..\Code\General\GUI\Window\CWindow.h">
       <Filter>Header Files\GUI\Window</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\..\Code\General\GUI\Controls\CWindowControl_Progress.h">
-      <Filter>Header Files\GUI\Controls</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\..\Code\General\GUI\Controls\CWindowControl_Radio.h">
-      <Filter>Header Files\GUI\Controls</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\..\Code\General\GUI\Controls\CWindowControl_Scroll.h">
-      <Filter>Header Files\GUI\Controls</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\..\Code\General\GUI\Controls\CWindowControl_Text.h">
-      <Filter>Header Files\GUI\Controls</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\..\Code\General\GUI\Controls\CWindowControl_Button.h">
-      <Filter>Header Files\GUI\Controls</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\..\Code\General\GUI\Controls\CWindowControl_Check.h">
-      <Filter>Header Files\GUI\Controls</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\..\Code\General\GUI\Controls\CWindowControl_Drop.h">
-      <Filter>Header Files\GUI\Controls</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\..\Code\General\GUI\Controls\CWindowControl_Edit.h">
-      <Filter>Header Files\GUI\Controls</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\..\Code\General\GUI\Controls\CWindowControl_List.h">
-      <Filter>Header Files\GUI\Controls</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\..\Code\General\GUI\Controls\CWindowControl_Menu.h">
-      <Filter>Header Files\GUI\Controls</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\..\Code\General\GUI\Controls\Components\CWindowControlComponent_Text.h">
-      <Filter>Header Files\GUI\Controls\Components</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\..\Code\General\GUI\Controls\Components\eWindowControlOrientation.h">
-      <Filter>Header Files\GUI\Controls\Components</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\..\Code\General\GUI\Controls\Components\CWindowControlComponent_Rectangle.h">
-      <Filter>Header Files\GUI\Controls\Components</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\..\Code\General\GUI\Controls\Entries\CWindowControlEntry_Drop.h">
-      <Filter>Header Files\GUI\Controls\Entries</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\..\Code\General\GUI\Controls\Entries\CWindowControlEntry_List.h">
-      <Filter>Header Files\GUI\Controls\Entries</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\..\Code\General\GUI\Controls\Entries\CWindowControlEntry_Menu.h">
-      <Filter>Header Files\GUI\Controls\Entries</Filter>
-    </ClInclude>
     <ClInclude Include="..\..\..\Code\General\GUI\Group\CControlGroup.h">
       <Filter>Header Files\GUI\Group</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\Code\General\GUI\Controls\CButtonControl.h">
+      <Filter>Header Files\GUI\Controls</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\Code\General\GUI\Controls\CCheckControl.h">
+      <Filter>Header Files\GUI\Controls</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\Code\General\GUI\Controls\CDropControl.h">
+      <Filter>Header Files\GUI\Controls</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\Code\General\GUI\Controls\CEditControl.h">
+      <Filter>Header Files\GUI\Controls</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\Code\General\GUI\Controls\CTextControl.h">
+      <Filter>Header Files\GUI\Controls</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\Code\General\GUI\Controls\CScrollControl.h">
+      <Filter>Header Files\GUI\Controls</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\Code\General\GUI\Controls\CRadioControl.h">
+      <Filter>Header Files\GUI\Controls</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\Code\General\GUI\Controls\CProgressControl.h">
+      <Filter>Header Files\GUI\Controls</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\Code\General\GUI\Controls\CMenuControl.h">
+      <Filter>Header Files\GUI\Controls</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\Code\General\GUI\Controls\CListControl.h">
+      <Filter>Header Files\GUI\Controls</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\Code\General\GUI\Control\CGUIControl.h">
+      <Filter>Header Files\GUI\Control</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\Code\General\GUI\Controls\Components\CGUIControlComponent_Rectangle.h">
+      <Filter>Header Files\GUI\Controls\Components</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\Code\General\GUI\Controls\Components\CGUIControlComponent_Text.h">
+      <Filter>Header Files\GUI\Controls\Components</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\Code\General\GUI\Controls\Entries\CDropControlEntry.h">
+      <Filter>Header Files\GUI\Controls\Entries</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\Code\General\GUI\Controls\Entries\CListControlEntry.h">
+      <Filter>Header Files\GUI\Controls\Entries</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\Code\General\GUI\Controls\Entries\CMenuControlEntry.h">
+      <Filter>Header Files\GUI\Controls\Entries</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\Code\General\GUI\Control\e2DMirroredOrientation.h">
+      <Filter>Header Files\GUI\Control</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\Code\General\GUI\Control\eGUIControl.h">
+      <Filter>Header Files\GUI\Control</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

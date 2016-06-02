@@ -1,4 +1,4 @@
-#include "CWindowControl_Edit.h"
+#include "CEditControl.h"
 #include "GUI/Window/CWindow.h"
 #include "String/CStringUtility.h"
 #include "GDIPlus/CGDIPlusUtility.h"
@@ -8,12 +8,12 @@
 
 using namespace std;
 
-auto pOnKeyDown_Edit		= [](void *pControl, void *pTriggerArg) { ((CWindowControl_Edit*) pControl)->onKeyDown(*(uint8*) pTriggerArg); };
-auto pOnCharDown_Edit		= [](void *pControl, void *pTriggerArg) { ((CWindowControl_Edit*) pControl)->onCharDown(*(uint8*) pTriggerArg); };
-auto pOnRender_Edit			= [](void *pControl) { ((CWindowControl_Edit*) pControl)->render(); };
+auto pOnKeyDown_Edit		= [](void *pControl, void *pTriggerArg) { ((CEditControl*) pControl)->onKeyDown(*(uint8*) pTriggerArg); };
+auto pOnCharDown_Edit		= [](void *pControl, void *pTriggerArg) { ((CEditControl*) pControl)->onCharDown(*(uint8*) pTriggerArg); };
+auto pOnRender_Edit			= [](void *pControl) { ((CEditControl*) pControl)->render(); };
 
 // event binding
-void					CWindowControl_Edit::bindEvents(void)
+void					CEditControl::bindEvents(void)
 {
 	storeEventBoundFunction(getWindow()->bindEvent(EVENT_onKeyDown, pOnKeyDown_Edit, this));
 	storeEventBoundFunction(getWindow()->bindEvent(EVENT_onCharacterDown, pOnCharDown_Edit, this));
@@ -21,7 +21,7 @@ void					CWindowControl_Edit::bindEvents(void)
 }
 
 // input
-void		CWindowControl_Edit::onKeyDown(uint8 uiCharCode)
+void		CEditControl::onKeyDown(uint8 uiCharCode)
 {
 	if (doesControlHaveFocus())
 	{
@@ -30,7 +30,7 @@ void		CWindowControl_Edit::onKeyDown(uint8 uiCharCode)
 	}
 }
 
-void		CWindowControl_Edit::onCharDown(uint8 uiCharCode)
+void		CEditControl::onCharDown(uint8 uiCharCode)
 {
 	if (doesControlHaveFocus())
 	{
@@ -40,7 +40,7 @@ void		CWindowControl_Edit::onCharDown(uint8 uiCharCode)
 }
 
 // render
-void		CWindowControl_Edit::render(void)
+void		CEditControl::render(void)
 {
 	// fill and border
 	CGDIPlusUtility::drawRectangleFill(getPosition(), getSize(), getFillColour());
@@ -62,12 +62,12 @@ void		CWindowControl_Edit::render(void)
 }
 
 // input processing
-void		CWindowControl_Edit::processChar(uint32 uiCharCode)
+void		CEditControl::processChar(uint32 uiCharCode)
 {
 	addCharacter(uiCharCode);
 }
 
-void		CWindowControl_Edit::processKey(uint32 uiCharCode)
+void		CEditControl::processKey(uint32 uiCharCode)
 {
 	switch (uiCharCode)
 	{
@@ -102,12 +102,12 @@ void		CWindowControl_Edit::processKey(uint32 uiCharCode)
 }
 
 // lines
-uint32				CWindowControl_Edit::getLineCount(void)
+uint32				CEditControl::getLineCount(void)
 {
 	return m_vecTextLines.size();
 }
 
-void				CWindowControl_Edit::addLine(void)
+void				CEditControl::addLine(void)
 {
 	if (isCaretAtFarRight() && isCaretAtFarBottom())
 	{
@@ -121,17 +121,17 @@ void				CWindowControl_Edit::addLine(void)
 	}
 }
 
-void				CWindowControl_Edit::addLine(uint32 uiLineIndex, string& strText)
+void				CEditControl::addLine(uint32 uiLineIndex, string& strText)
 {
 	m_vecTextLines.insert(m_vecTextLines.begin() + uiLineIndex, strText);
 }
 
-void		CWindowControl_Edit::removeLine(uint32 uiLineIndex)
+void		CEditControl::removeLine(uint32 uiLineIndex)
 {
 	m_vecTextLines.erase(m_vecTextLines.begin() + uiLineIndex);
 }
 
-void		CWindowControl_Edit::mergeLines(uint32 uiRowIndex1, uint32 uiRowIndex2)
+void		CEditControl::mergeLines(uint32 uiRowIndex1, uint32 uiRowIndex2)
 {
 	uiRowIndex1 = min(uiRowIndex1, uiRowIndex2);
 	uiRowIndex2 = max(uiRowIndex1, uiRowIndex2);
@@ -140,14 +140,14 @@ void		CWindowControl_Edit::mergeLines(uint32 uiRowIndex1, uint32 uiRowIndex2)
 	removeLine(uiRowIndex2);
 }
 
-void		CWindowControl_Edit::splitLine(CVector2ui32& vecCharacterPosition)
+void		CEditControl::splitLine(CVector2ui32& vecCharacterPosition)
 {
 	addLine(vecCharacterPosition.m_y + 1, getLinePartialText(vecCharacterPosition.m_y, vecCharacterPosition.m_x));
 	setLineText(vecCharacterPosition.m_y, getLinePartialText(vecCharacterPosition.m_y, 0, vecCharacterPosition.m_x));
 }
 
 // characters
-void		CWindowControl_Edit::addCharacter(uint32 uiCharCode)
+void		CEditControl::addCharacter(uint32 uiCharCode)
 {
 	if(!CStringUtility::isAsciiCharacterDisplayable(uiCharCode))
 	{
@@ -168,7 +168,7 @@ void		CWindowControl_Edit::addCharacter(uint32 uiCharCode)
 	}
 }
 
-void		CWindowControl_Edit::removeCharacterToLeft(void)
+void		CEditControl::removeCharacterToLeft(void)
 {
 	if (!isCaretAtFarLeft())
 	{
@@ -183,7 +183,7 @@ void		CWindowControl_Edit::removeCharacterToLeft(void)
 	}
 }
 
-void		CWindowControl_Edit::removeCharacterToRight(void)
+void		CEditControl::removeCharacterToRight(void)
 {
 	if (!isCaretAtFarRight())
 	{
@@ -195,7 +195,7 @@ void		CWindowControl_Edit::removeCharacterToRight(void)
 	}
 }
 
-void		CWindowControl_Edit::removeCharacter(CVector2ui32& vecCharacterPosition)
+void		CEditControl::removeCharacter(CVector2ui32& vecCharacterPosition)
 {
 	setLineText(vecCharacterPosition.m_y,
 		  getLinePartialText(vecCharacterPosition.m_y, 0, vecCharacterPosition.m_x)
@@ -204,7 +204,7 @@ void		CWindowControl_Edit::removeCharacter(CVector2ui32& vecCharacterPosition)
 }
 
 // caret character position
-void		CWindowControl_Edit::moveCaret(CVector2i32& vecCharacterPositionIncrease)
+void		CEditControl::moveCaret(CVector2i32& vecCharacterPositionIncrease)
 {
 	CVector2ui32 vecNewCaretPosition = getCaretPosition() + vecCharacterPositionIncrease;
 	vecNewCaretPosition.m_y = CMathUtility::cap(vecNewCaretPosition.m_y, 0, getLineCount() - 1);
@@ -212,64 +212,64 @@ void		CWindowControl_Edit::moveCaret(CVector2i32& vecCharacterPositionIncrease)
 	setCaretPosition(vecNewCaretPosition);
 }
 
-bool		CWindowControl_Edit::isCaretAtFarLeft(void)
+bool		CEditControl::isCaretAtFarLeft(void)
 {
 	return getCaretPosition().m_x == 0;
 }
 
-bool		CWindowControl_Edit::isCaretAtFarRight(void)
+bool		CEditControl::isCaretAtFarRight(void)
 {
 	return getCaretPosition().m_x == getLineLength(getCaretPosition().m_y);
 }
 
-bool		CWindowControl_Edit::isCaretAtFarTop(void)
+bool		CEditControl::isCaretAtFarTop(void)
 {
 	return getCaretPosition().m_y == 0;
 }
 
-bool		CWindowControl_Edit::isCaretAtFarBottom(void)
+bool		CEditControl::isCaretAtFarBottom(void)
 {
 	return getCaretPosition().m_y == getLineCount() - 1;
 }
 
 // caret render position
-CVector2i32			CWindowControl_Edit::getCaretRenderStartPosition(void)
+CVector2i32			CEditControl::getCaretRenderStartPosition(void)
 {
 	return getPosition() + CVector2i32(getCaretPosition().m_x * 10, getCaretPosition().m_y * getFontSize());
 }
 
-CVector2i32			CWindowControl_Edit::getCaretRenderEndPosition(void)
+CVector2i32			CEditControl::getCaretRenderEndPosition(void)
 {
 	return getPosition() + CVector2i32(getCaretPosition().m_x * 10, ((getCaretPosition().m_y + 1) * getFontSize()));
 }
 
 // text
-CVector2i32			CWindowControl_Edit::getTextLinePosition(uint32 uiLineIndex)
+CVector2i32			CEditControl::getTextLinePosition(uint32 uiLineIndex)
 {
 	return getPosition() + CVector2i32(0, uiLineIndex * getFontSize());
 }
 
-void				CWindowControl_Edit::setLineText(uint32 uiLineIndex, string& strText)
+void				CEditControl::setLineText(uint32 uiLineIndex, string& strText)
 {
 	m_vecTextLines[uiLineIndex] = strText;
 }
 
-string&				CWindowControl_Edit::getLineText(uint32 uiLineIndex)
+string&				CEditControl::getLineText(uint32 uiLineIndex)
 {
 	return m_vecTextLines[uiLineIndex];
 }
 
-void				CWindowControl_Edit::addTextToLine(uint32 uiLineIndex, string& strText)
+void				CEditControl::addTextToLine(uint32 uiLineIndex, string& strText)
 {
 	m_vecTextLines[uiLineIndex] += strText;
 }
 
-string				CWindowControl_Edit::getLinePartialText(uint32 uiLineIndex, uint32 uiCharStartIndex, uint32 uiCharReadLength)
+string				CEditControl::getLinePartialText(uint32 uiLineIndex, uint32 uiCharStartIndex, uint32 uiCharReadLength)
 {
 	return m_vecTextLines[uiLineIndex].substr(uiCharStartIndex, uiCharReadLength);
 }
 
-uint32				CWindowControl_Edit::getLineLength(uint32 uiLineIndex)
+uint32				CEditControl::getLineLength(uint32 uiLineIndex)
 {
 	return m_vecTextLines[uiLineIndex].length();
 }

@@ -1,13 +1,13 @@
-#ifndef CWindowControlComponent_Text_H
-#define CWindowControlComponent_Text_H
+#ifndef CGUIControlComponent_Text_H
+#define CGUIControlComponent_Text_H
 
 #include "Types.h"
 #include <string>
 
-class CWindowControlComponent_Text
+class CGUIControlComponent_Text
 {
 public:
-	CWindowControlComponent_Text(void) :
+	CGUIControlComponent_Text(void) :
 		m_uiFontSize(13),
 		m_uiTextColour(0x000000FF),
 		m_bBold(false)

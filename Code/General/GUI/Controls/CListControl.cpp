@@ -1,4 +1,4 @@
-#include "CWindowControl_List.h"
+#include "CListControl.h"
 #include "GUI/Window/CWindow.h"
 #include "GDIPlus/CGDIPlusUtility.h"
 #include "Event/CEventManager.h"
@@ -6,18 +6,18 @@
 
 using namespace std;
 
-auto pOnMouseDown_List		= [](void *pControl, void *pTriggerArg) { ((CWindowControl_List*) pControl)->onMouseDown(*(CVector2i32*) pTriggerArg); };
-auto pOnRender_List			= [](void *pControl) { ((CWindowControl_List*) pControl)->render(); };
+auto pOnMouseDown_List		= [](void *pControl, void *pTriggerArg) { ((CListControl*) pControl)->onMouseDown(*(CVector2i32*) pTriggerArg); };
+auto pOnRender_List			= [](void *pControl) { ((CListControl*) pControl)->render(); };
 
 // event binding
-void					CWindowControl_List::bindEvents(void)
+void					CListControl::bindEvents(void)
 {
 	storeEventBoundFunction(getWindow()->bindEvent(EVENT_onLeftMouseDown, pOnMouseDown_List, this));
 	storeEventBoundFunction(getWindow()->bindEvent(EVENT_onRender, pOnRender_List, this));
 }
 
 // input
-void					CWindowControl_List::onMouseDown(CVector2i32& vecCursorPosition)
+void					CListControl::onMouseDown(CVector2i32& vecCursorPosition)
 {
 	if (isPointInControl(vecCursorPosition))
 	{
@@ -26,7 +26,7 @@ void					CWindowControl_List::onMouseDown(CVector2i32& vecCursorPosition)
 }
 
 // render
-void					CWindowControl_List::render(void)
+void					CListControl::render(void)
 {
 	if (doesHaveFill())
 	{
@@ -67,23 +67,23 @@ void					CWindowControl_List::render(void)
 }
 
 // row
-CVector2i32						CWindowControl_List::getRowPosition(uint32 uiRowIndex)
+CVector2i32						CListControl::getRowPosition(uint32 uiRowIndex)
 {
 	return getPosition() + CVector2i32(0, uiRowIndex * getRowHeight());
 }
 
-CVector2ui32					CWindowControl_List::getRowSize(void)
+CVector2ui32					CListControl::getRowSize(void)
 {
 	return CVector2ui32(getSize().m_x, getRowHeight());
 }
 
 // row text
-CVector2i32						CWindowControl_List::getCellTextPosition(uint32 uiRowIndex, uint32 uiTextRowIndex, uint32 uiColumnIndex)
+CVector2i32						CListControl::getCellTextPosition(uint32 uiRowIndex, uint32 uiTextRowIndex, uint32 uiColumnIndex)
 {
 	return getPosition() + CVector2i32(uiColumnIndex * getColumnWidth(), (uiRowIndex * getRowHeight()) + (uiTextRowIndex * getRowTextHeight()));
 }
 
-CVector2ui32					CWindowControl_List::getCellTextSize(uint32 uiRowIndex, uint32 uiTextRowIndex, uint32 uiColumnIndex)
+CVector2ui32					CListControl::getCellTextSize(uint32 uiRowIndex, uint32 uiTextRowIndex, uint32 uiColumnIndex)
 {
 	return getSize() + CVector2ui32(uiColumnIndex * getColumnWidth(), (uiRowIndex * getRowHeight()) + ((uiTextRowIndex + 1) * getRowTextHeight()));
 }

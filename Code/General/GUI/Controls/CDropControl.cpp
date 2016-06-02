@@ -1,4 +1,4 @@
-#include "CWindowControl_Drop.h"
+#include "CDropControl.h"
 #include "Math/CMathUtility.h"
 #include "GDIPlus/CGDIPlusUtility.h"
 #include "Event/CEventManager.h"
@@ -8,18 +8,18 @@
 
 using namespace std;
 
-auto pOnMouseUp_Drop		= [](void *pControl, void *pTriggerArg) { ((CWindowControl_Drop*) pControl)->onMouseUp(*(CVector2i32*) pTriggerArg); };
-auto pOnRender_Drop			= [](void *pControl) { ((CWindowControl_Drop*) pControl)->render(); };
+auto pOnMouseUp_Drop		= [](void *pControl, void *pTriggerArg) { ((CDropControl*) pControl)->onMouseUp(*(CVector2i32*) pTriggerArg); };
+auto pOnRender_Drop			= [](void *pControl) { ((CDropControl*) pControl)->render(); };
 
 // event binding
-void				CWindowControl_Drop::bindEvents(void)
+void				CDropControl::bindEvents(void)
 {
 	storeEventBoundFunction(getWindow()->bindEvent(EVENT_onLeftMouseUp, pOnMouseUp_Drop, this));
 	storeEventBoundFunction(getWindow()->bindEvent(EVENT_onRender, pOnRender_Drop, this));
 }
 
 // input
-void				CWindowControl_Drop::onMouseUp(CVector2i32& vecCursorPosition)
+void				CDropControl::onMouseUp(CVector2i32& vecCursorPosition)
 {
 	if (isSelectionListOpen())
 	{
@@ -52,7 +52,7 @@ void				CWindowControl_Drop::onMouseUp(CVector2i32& vecCursorPosition)
 }
 
 // render
-void				CWindowControl_Drop::render(void)
+void				CDropControl::render(void)
 {
 	if(isSelectionListOpen())
 	{
@@ -73,7 +73,7 @@ void				CWindowControl_Drop::render(void)
 }
 
 // cursor
-bool				CWindowControl_Drop::isPointInControl(CVector2i32& vecPoint)
+bool				CDropControl::isPointInControl(CVector2i32& vecPoint)
 {
 	if (isSelectionListOpen())
 	{
@@ -81,39 +81,39 @@ bool				CWindowControl_Drop::isPointInControl(CVector2i32& vecPoint)
 	}
 	else
 	{
-		return CWindowControl::isPointInControl(vecPoint);
+		return CGUIControl::isPointInControl(vecPoint);
 	}
 }
 
-bool				CWindowControl_Drop::isPointInSelectionList(CVector2i32& vecPoint)
+bool				CDropControl::isPointInSelectionList(CVector2i32& vecPoint)
 {
 	return CMathUtility::isPointInRectangle(vecPoint, getSelectionListPosition(), getSelectionListSize());
 }
 
 // selection list
-CVector2i32			CWindowControl_Drop::getSelectionListPosition(void)
+CVector2i32			CDropControl::getSelectionListPosition(void)
 {
 	return CVector2i32(getPosition().m_x, getPosition().m_y + getSize().m_y);
 }
 
-CVector2ui32		CWindowControl_Drop::getSelectionListSize(void)
+CVector2ui32		CDropControl::getSelectionListSize(void)
 {
 	return CVector2ui32(getListWidth(), getEntryCount() * getListRowHeight());
 }
 
 // selection list entry
-CVector2i32			CWindowControl_Drop::getSelectionListEntryPosition(uint32 uiEntryIndex)
+CVector2i32			CDropControl::getSelectionListEntryPosition(uint32 uiEntryIndex)
 {
 	CVector2i32 vecPosition = getSelectionListPosition();
 	return CVector2i32(vecPosition.m_x, vecPosition.m_y + (uiEntryIndex * getListRowHeight()));
 }
 
-CVector2ui32		CWindowControl_Drop::getSelectionListEntrySize(void)
+CVector2ui32		CDropControl::getSelectionListEntrySize(void)
 {
 	return CVector2ui32(getSelectionListSize().m_x, getListRowHeight());
 }
 
-uint32				CWindowControl_Drop::getSelectionListEntryFromPoint(CVector2i32& vecCursorPosition)
+uint32				CDropControl::getSelectionListEntryFromPoint(CVector2i32& vecCursorPosition)
 {
 	return CMathUtility::getRowIndex(vecCursorPosition, getSelectionListPosition(), getListRowHeight(), getEntryCount());
 }

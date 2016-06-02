@@ -1,19 +1,19 @@
-#ifndef CWindowControl_Scroll_H
-#define CWindowControl_Scroll_H
+#ifndef CScrollControl_H
+#define CScrollControl_H
 
 #include "Types.h"
 #include "CVector2ui32.h"
-#include "GUI/Control/CWindowControl.h"
-#include "GUI/Controls/Components/CWindowControlComponent_Rectangle.h"
-#include "GUI/Controls/Components/eWindowControlOrientation.h"
+#include "GUI/Control/CGUIControl.h"
+#include "GUI/Controls/Components/CGUIControlComponent_Rectangle.h"
+#include "GUI/Control/e2DMirroredOrientation.h"
 
-class CWindowControl_Scroll : public CWindowControl, public CWindowControlComponent_Rectangle
+class CScrollControl : public CGUIControl, public CGUIControlComponent_Rectangle
 {
 public:
-	CWindowControl_Scroll(void) :
-		m_eScrollOrientation(WINDOW_CONTROL_ORIENTATION_VERTICAL),
-		CWindowControl(WINDOW_CONTROL_SCROLL),
-		CWindowControlComponent_Rectangle(),
+	CScrollControl(void) :
+		m_eScrollOrientation(_2D_MIRRORED_ORIENTATION_VERTICAL),
+		CGUIControl(GUI_CONTROL_SCROLL),
+		CGUIControlComponent_Rectangle(),
 		m_uiSeekBarLength(50),
 		m_uiSeekBarFillColour(0x008800FF),
 		m_uiSeekBarLineColour(0x000000FF),
@@ -38,8 +38,8 @@ public:
 
 	uint32									getAvailableScrollLength(void);					// returns in pixels
 
-	void									setScrollOrientation(eWindowControlOrientation eScrollOrientation) { m_eScrollOrientation = eScrollOrientation; }
-	eWindowControlOrientation				getScrollOrientation(void) { return m_eScrollOrientation; }
+	void									setScrollOrientation(e2DMirroredOrientation eScrollOrientation) { m_eScrollOrientation = eScrollOrientation; }
+	e2DMirroredOrientation				getScrollOrientation(void) { return m_eScrollOrientation; }
 
 	void									setSeekBarLength(uint32 uiSeekBarLength) { m_uiSeekBarLength = uiSeekBarLength; }	// in pixels
 	uint32									getSeekBarLength(void) { return m_uiSeekBarLength; }								// in pixels
@@ -64,7 +64,7 @@ private:
 	uint32									m_uiSeekBarFillColour;	// RGBA
 	uint32									m_uiSeekBarLineColour;	// RGBA
 	float32									m_fProgress;			// 0.0 to 1.0
-	eWindowControlOrientation				m_eScrollOrientation;
+	e2DMirroredOrientation				m_eScrollOrientation;
 	uint8									m_bSeekBarIsMoving		: 1;
 };
 

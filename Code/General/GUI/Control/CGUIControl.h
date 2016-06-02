@@ -1,10 +1,10 @@
-#ifndef CWindowControl_H
-#define CWindowControl_H
+#ifndef CGUIControl_H
+#define CGUIControl_H
 
 #include "Types.h"
 #include "CVector2i32.h"
 #include "CVector2ui32.h"
-#include "eWindowControlType.h"
+#include "eGUIControl.h"
 #include "Pool/CVectorPool.h"
 #include "Event/CEventBoundFunction.h"
 #include "Event/CEventBinder.h"
@@ -15,11 +15,11 @@ class CWindow;
 class CWindowScrollPool;
 class CControlGroup;
 
-class CWindowControl : public CEventBinder
+class CGUIControl : public CEventBinder
 {
 public:
-	CWindowControl(eWindowControlType eControlType);
-	~CWindowControl(void);
+	CGUIControl(eGUIControl eControlType);
+	~CGUIControl(void);
 
 	void									unload(void) {};
 
@@ -34,8 +34,8 @@ public:
 	void									setControlGroup(CControlGroup* pControlGroup) { m_pControlGroup = pControlGroup; }
 	CControlGroup*							getControlGroup(void) { return m_pControlGroup; }
 
-	void									setControlType(eWindowControlType eControlType) { m_eControlType = eControlType; }
-	eWindowControlType						getControlType(void) { return m_eControlType; }
+	void									setControlType(eGUIControl eControlType) { m_eControlType = eControlType; }
+	eGUIControl						getControlType(void) { return m_eControlType; }
 	
 	void									setControlId(uint32 uiControlId) { m_uiControlId = uiControlId; }
 	uint32									getControlId(void) { return m_uiControlId; }
@@ -53,7 +53,7 @@ public:
 
 private:
 	CControlGroup*							m_pControlGroup;
-	eWindowControlType						m_eControlType;
+	eGUIControl						m_eControlType;
 	CVector2i32								m_vecPosition;
 	CVector2ui32							m_vecSize;
 	uint32									m_uiControlId;

@@ -1,16 +1,16 @@
-#ifndef CWindowControl_Progress_H
-#define CWindowControl_Progress_H
+#ifndef CProgressControl_H
+#define CProgressControl_H
 
 #include "Types.h"
-#include "GUI/Control/CWindowControl.h"
-#include "GUI/Controls/Components/CWindowControlComponent_Text.h"
-#include "GUI/Controls/Components/CWindowControlComponent_Rectangle.h"
+#include "GUI/Control/CGUIControl.h"
+#include "GUI/Controls/Components/CGUIControlComponent_Text.h"
+#include "GUI/Controls/Components/CGUIControlComponent_Rectangle.h"
 
-class CWindowControl_Progress : public CWindowControl, public CWindowControlComponent_Text, public CWindowControlComponent_Rectangle
+class CProgressControl : public CGUIControl, public CGUIControlComponent_Text, public CGUIControlComponent_Rectangle
 {
 public:
-	CWindowControl_Progress(void) :
-		CWindowControl(WINDOW_CONTROL_PROGRESS),
+	CProgressControl(void) :
+		CGUIControl(GUI_CONTROL_PROGRESS),
 		m_uiMaxTicks(0),
 		m_uiCurrentTicks(0),
 		m_uiProgressFillColour(0),

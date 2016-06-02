@@ -8,7 +8,7 @@
 #include <string>
 
 class CSearchEntry;
-class CWindowControl_List;
+class CListControl;
 
 class CIMGEditor : public CEditor
 {
@@ -55,8 +55,8 @@ public:
 	void						setSearchFileCount(uint32 uiSearchFileCount) { m_uiSearchFileCount = uiSearchFileCount; }
 	uint32						getSearchFileCount(void) { return m_uiSearchFileCount; }
 
-	void						setEntryListControl(CWindowControl_List *pEntryListControl) { m_pEntryListControl = pEntryListControl; }
-	CWindowControl_List*		getEntryListControl(void) { return m_pEntryListControl; }
+	void						setEntryListControl(CListControl *pEntryListControl) { m_pEntryListControl = pEntryListControl; }
+	CListControl*		getEntryListControl(void) { return m_pEntryListControl; }
 
 	std::vector<CSearchEntry*>&	getSearchEntries(void) { return m_vecSearchEntries; }
 
@@ -67,7 +67,7 @@ private:
 	uint32						m_uiSelectedEntryCount;
 	uint32						m_uiSearchHitCount;
 	uint32						m_uiSearchFileCount;
-	CWindowControl_List*		m_pEntryListControl;
+	CListControl*		m_pEntryListControl;
 	std::vector<CSearchEntry*>	m_vecSearchEntries;
 };
 

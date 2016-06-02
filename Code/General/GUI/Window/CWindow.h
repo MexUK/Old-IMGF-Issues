@@ -7,12 +7,12 @@
 #include "CVector2ui32.h"
 #include "Pool/CVectorPool.h"
 #include "GUI/Group/CControlGroup.h"
-#include "GUI/Control/CWindowControl.h"
+#include "GUI/Control/CGUIControl.h"
 #include "Event/CEventType.h"
 #include "Event/CEventBoundFunction.h"
 #include "Event/CEventBinder.h"
 
-class CWindowControl_Radio;
+class CRadioControl;
 class CDropTarget;
 
 class CWindow : public CEventType, public CEventBinder, public CVectorPool<CControlGroup*>
@@ -35,7 +35,7 @@ public:
 	virtual void							render(void);
 	void									onRenderFromWMPaint(void);
 
-	void									uncheckRadios(CWindowControl_Radio *pRadio);
+	void									uncheckRadios(CRadioControl *pRadio);
 
 	void									setOpenLastFilename(std::string strFileName);
 	void									clearOpenLastFilename(void);
@@ -49,8 +49,8 @@ public:
 	void									setMarkedToRedraw(bool bMarkedToRedraw) { m_bMarkedToRedraw = bMarkedToRedraw; }
 	bool									isMarkedToRedraw(void) { return m_bMarkedToRedraw; }
 	
-	void									setFocusedControl(CWindowControl *pWindowControl) { m_pFocusedControl = pWindowControl; }
-	CWindowControl*							getFocusedControl(void) { return m_pFocusedControl; }
+	void									setFocusedControl(CGUIControl *pWindowControl) { m_pFocusedControl = pWindowControl; }
+	CGUIControl*							getFocusedControl(void) { return m_pFocusedControl; }
 
 	void									setBackgroundColour(uint32 uiBackgroundColour) { m_uiBackgroundColour = uiBackgroundColour; }
 	uint32									getBackgroundColour(void) { return m_uiBackgroundColour; }
@@ -86,7 +86,7 @@ private:
 	HWND									m_hwndWindow;
 	HDC										m_hdc;
 	CWindow*								m_pParentWindow;
-	CWindowControl*							m_pFocusedControl;
+	CGUIControl*							m_pFocusedControl;
 	CVector2i32								m_vecPosition;
 	CVector2ui32							m_vecSize;
 	uint32									m_uiBackgroundColour;

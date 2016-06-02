@@ -1,11 +1,11 @@
-#ifndef CWindowControlEntry_Drop_H
-#define CWindowControlEntry_Drop_H
+#ifndef CDropControlEntry_H
+#define CDropControlEntry_H
 
 #include "Types.h"
 #include "Pool/CVectorPool.h"
 #include <string>
 
-class CWindowControlEntry_Drop
+class CDropControlEntry
 {
 public:
 	void									unload(void) {};

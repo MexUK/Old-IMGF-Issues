@@ -1,16 +1,16 @@
-#include "CWindowControl_Button.h"
+#include "CButtonControl.h"
 #include "Math/CMathUtility.h"
 #include "GDIPlus/CGDIPlusUtility.h"
 #include "Event/CEventManager.h"
 #include "Event/eEvent.h"
 #include "GUI/Window/CWindow.h"
 
-auto pOnMouseDown_Button	= [](void *pControl, void *pTriggerArg) { ((CWindowControl_Button*) pControl)->onMouseDown(*(CVector2i32*) pTriggerArg); };
-auto pOnMouseUp_Button		= [](void *pControl, void *pTriggerArg) { ((CWindowControl_Button*) pControl)->onMouseUp(*(CVector2i32*) pTriggerArg); };
-auto pOnRender_Button		= [](void *pControl) { ((CWindowControl_Button*) pControl)->render(); };
+auto pOnMouseDown_Button	= [](void *pControl, void *pTriggerArg) { ((CButtonControl*) pControl)->onMouseDown(*(CVector2i32*) pTriggerArg); };
+auto pOnMouseUp_Button		= [](void *pControl, void *pTriggerArg) { ((CButtonControl*) pControl)->onMouseUp(*(CVector2i32*) pTriggerArg); };
+auto pOnRender_Button		= [](void *pControl) { ((CButtonControl*) pControl)->render(); };
 
 // event binding
-void					CWindowControl_Button::bindEvents(void)
+void					CButtonControl::bindEvents(void)
 {
 	storeEventBoundFunction(getWindow()->bindEvent(EVENT_onLeftMouseDown, pOnMouseDown_Button, this));
 	storeEventBoundFunction(getWindow()->bindEvent(EVENT_onLeftMouseUp, pOnMouseUp_Button, this));
@@ -18,7 +18,7 @@ void					CWindowControl_Button::bindEvents(void)
 }
 
 // input
-void		CWindowControl_Button::onMouseDown(CVector2i32& vecCursorPosition)
+void		CButtonControl::onMouseDown(CVector2i32& vecCursorPosition)
 {
 	if (isPointInControl(vecCursorPosition))
 	{
@@ -26,7 +26,7 @@ void		CWindowControl_Button::onMouseDown(CVector2i32& vecCursorPosition)
 	}
 }
 
-void		CWindowControl_Button::onMouseUp(CVector2i32& vecCursorPosition)
+void		CButtonControl::onMouseUp(CVector2i32& vecCursorPosition)
 {
 	if (isPointInControl(vecCursorPosition))
 	{
@@ -35,7 +35,7 @@ void		CWindowControl_Button::onMouseUp(CVector2i32& vecCursorPosition)
 }
 
 // render
-void		CWindowControl_Button::render(void)
+void		CButtonControl::render(void)
 {
 	if (doesHaveFill())
 	{

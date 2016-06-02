@@ -32,7 +32,7 @@
 #include "GUI/CGUIUtility.h"
 #include "DB/CDBManager.h"
 #include "Recently Open/CRecentlyOpenManager.h"
-#include "GUI/Controls/CWindowControl_List.h"
+#include "GUI/Controls/CListControl.h"
 #include "GUI/Editors/CIMGEditor.h"
 #include "CPopupGUIManager.h"
 #include "Task/CTaskManager.h"
@@ -669,7 +669,7 @@ void					CIMGEditorTab::addAllEntriesToMainListView(void)
 }
 void					CIMGEditorTab::addEntryToMainListView(CIMGEntry *pIMGEntry)
 {
-	CWindowControlEntry_List *pListEntry = new CWindowControlEntry_List;
+	CListControlEntry *pListEntry = new CListControlEntry;
 
 	pListEntry->setList(getWindow()->getEntryListControl());
 

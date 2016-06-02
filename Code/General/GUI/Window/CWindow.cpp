@@ -1,6 +1,6 @@
 #include "CWindow.h"
 #include "GUI/CGUIManager.h"
-#include "GUI/Controls/CWindowControl_Radio.h"
+#include "GUI/Controls/CRadioControl.h"
 #include "Math/CMathUtility.h"
 #include "Path/CPathUtility.h"
 #include "GDIPlus/CGDIPlusUtility.h"
@@ -87,7 +87,7 @@ void									CWindow::onMouseDown(CVector2i32& vecCursorPosition)
 	bool bGainedFocusOverall = false;
 	for (CControlGroup *pControlGroup : getEntries())
 	{
-		for (CWindowControl *pWindowControl : pControlGroup->getEntries())
+		for (CGUIControl *pWindowControl : pControlGroup->getEntries())
 		{
 			if (CMathUtility::isPointInRectangle(vecCursorPosition, pWindowControl->getPosition(), pWindowControl->getSize()))
 			{
@@ -158,7 +158,7 @@ void									CWindow::onMouseMove(CVector2i32& vecCursorPosition)
 {
 	for (CControlGroup *pControlGroup : getEntries())
 	{
-		for (CWindowControl *pWindowControl : pControlGroup->getEntries())
+		for (CGUIControl *pWindowControl : pControlGroup->getEntries())
 		{
 			if (pWindowControl->isPointInControl(vecCursorPosition))
 			{
@@ -340,15 +340,15 @@ void									CWindow::setMaximized(bool bMaximized)
 }
 
 // other
-void									CWindow::uncheckRadios(CWindowControl_Radio *pRadio)
+void									CWindow::uncheckRadios(CRadioControl *pRadio)
 {
 	for (CControlGroup *pControlGroup : getEntries())
 	{
-		for (CWindowControl *pWindowControl : pControlGroup->getEntries())
+		for (CGUIControl *pWindowControl : pControlGroup->getEntries())
 		{
-			if (pWindowControl->getControlType() == WINDOW_CONTROL_RADIO)
+			if (pWindowControl->getControlType() == GUI_CONTROL_RADIO)
 			{
-				CWindowControl_Radio *pRadio2 = (CWindowControl_Radio*) pWindowControl;
+				CRadioControl *pRadio2 = (CRadioControl*) pWindowControl;
 				if (pRadio2->getGroupId() == pRadio->getGroupId())
 				{
 					pRadio2->setChecked(false);

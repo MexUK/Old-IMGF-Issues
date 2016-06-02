@@ -1,7 +1,7 @@
 #include "CKGMWindow.h"
 #include "GUI/Editors/CIMGEditor.h"
-#include "GUI/Controls/CWindowControl_Button.h"
-#include "GUI/Controls/CWindowControl_List.h"
+#include "GUI/Controls/CButtonControl.h"
+#include "GUI/Controls/CListControl.h"
 #include "GUI/CWindowManager.h"
 #include "Event/CEventManager.h"
 #include "Event/eEvent.h"
@@ -41,13 +41,13 @@ void					CKGMWindow::initTabs(void)
 	CEditor *pEditor = (CEditor*) getEntryByIndex(0);
 
 	// add window controls
-	CWindowControl_Button *pButton = pEditor->addButton(CVector2i32(38, 35 + 38), CVector2ui32(172, 40), "Open");
+	CButtonControl *pButton = pEditor->addButton(CVector2i32(38, 35 + 38), CVector2ui32(172, 40), "Open");
 	pButton->setControlGroup(pEditor);
 	pButton->setFillColour(0x1A3C4EFF);
 	pButton->setControlId(1);
 	pEditor->addEntry(pButton);
 
-	CWindowControl_List *pList = pEditor->addList(CVector2i32(252, 35 + 87), CVector2ui32(732, 480));
+	CListControl *pList = pEditor->addList(CVector2i32(252, 35 + 87), CVector2ui32(732, 480));
 	pList->setControlGroup(pEditor);
 	pList->setFillColour(0xECF3FDFF);
 	pList->setRowBackgroundColour1(0xFF0000FF);
@@ -59,7 +59,7 @@ void					CKGMWindow::initTabs(void)
 
 	bindEvent(EVENT_onPressButton, [](void *pWindow, void *pData)
 	{
-		CWindowControl_Button *pButton = (CWindowControl_Button*) pData;
+		CButtonControl *pButton = (CButtonControl*) pData;
 		if (pButton->getControlId() == 1)
 		{
 			getKGM()->getTaskManager()->getDispatch()->onRequestOpen();

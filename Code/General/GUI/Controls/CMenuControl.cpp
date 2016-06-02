@@ -1,17 +1,17 @@
-#include "CWindowControl_Menu.h"
+#include "CMenuControl.h"
 #include "GUI/Window/CWindow.h"
 #include "GDIPlus/CGDIPlusUtility.h"
 #include "Event/eEvent.h"
 
-auto pOnRender_Menu		= [](void *pControl) { ((CWindowControl_Menu*) pControl)->render(); };
+auto pOnRender_Menu		= [](void *pControl) { ((CMenuControl*) pControl)->render(); };
 
 // event binding
-void					CWindowControl_Menu::bindEvents(void)
+void					CMenuControl::bindEvents(void)
 {
 	storeEventBoundFunction(getWindow()->bindEvent(EVENT_onRender, pOnRender_Menu, this));
 }
 
 // render
-void					CWindowControl_Menu::render(void)
+void					CMenuControl::render(void)
 {
 }

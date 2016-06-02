@@ -2,8 +2,8 @@
 #define CWindowScrollPool_H
 
 #include "Pool/CVectorPool.h"
-#include "GUI/Controls/CWindowControl_Scroll.h"
+#include "GUI/Controls/CScrollControl.h"
 
-class CWindowScrollPool : public CVectorPool<CWindowControl_Scroll*> {};
+class CWindowScrollPool : public CVectorPool<CScrollControl*> {};
 
 #endif

@@ -1,22 +1,22 @@
-#ifndef CWindowControl_Edit_H
-#define CWindowControl_Edit_H
+#ifndef CEditControl_H
+#define CEditControl_H
 
 #include "Types.h"
 #include "CVector2i32.h"
-#include "GUI/Control/CWindowControl.h"
+#include "GUI/Control/CGUIControl.h"
 #include "GUI/Control/CWindowScrollPool.h"
-#include "GUI/Controls/Components/CWindowControlComponent_Text.h"
-#include "GUI/Controls/Components/CWindowControlComponent_Rectangle.h"
-#include "GUI/Controls/CWindowControl_Scroll.h"
+#include "GUI/Controls/Components/CGUIControlComponent_Text.h"
+#include "GUI/Controls/Components/CGUIControlComponent_Rectangle.h"
+#include "GUI/Controls/CScrollControl.h"
 #include <string>
 #include <vector>
 
-class CWindowControl_Edit : public CWindowControl, public CWindowControlComponent_Text, public CWindowControlComponent_Rectangle
+class CEditControl : public CGUIControl, public CGUIControlComponent_Text, public CGUIControlComponent_Rectangle
 {
 public:
-	CWindowControl_Edit(void) :
-		CWindowControl(WINDOW_CONTROL_EDIT),
-		CWindowControlComponent_Rectangle(),
+	CEditControl(void) :
+		CGUIControl(GUI_CONTROL_EDIT),
+		CGUIControlComponent_Rectangle(),
 		m_bHasHorizontalScrollBar(false),
 		m_bHasVerticalScrollBar(false),
 		m_bReadOnly(false),
@@ -24,10 +24,10 @@ public:
 	{
 		m_vecTextLines.push_back(std::string()); // always have atleast 1 line for optimization (skips checks like: if m_vecTextLines.size() == 0)
 		setCaretPosition(CVector2ui32(0, 0));
-		getScrolls()->addEntry(new CWindowControl_Scroll);
-		getScrolls()->addEntry(new CWindowControl_Scroll);
+		getScrolls()->addEntry(new CScrollControl);
+		getScrolls()->addEntry(new CScrollControl);
 	}
-	~CWindowControl_Edit(void)
+	~CEditControl(void)
 	{
 		getScrolls()->removeAllEntries();
 	}

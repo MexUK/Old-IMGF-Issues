@@ -1,23 +1,23 @@
-#ifndef CWindowControl_List_H
-#define CWindowControl_List_H
+#ifndef CListControl_H
+#define CListControl_H
 
 #include "Types.h"
-#include "GUI/Control/CWindowControl.h"
-#include "GUI/Controls/Entries/CWindowControlEntry_List.h"
-#include "GUI/Controls/Components/CWindowControlComponent_Rectangle.h"
-#include "GUI/Controls/Components/CWindowControlComponent_Text.h"
+#include "GUI/Control/CGUIControl.h"
+#include "GUI/Controls/Entries/CListControlEntry.h"
+#include "GUI/Controls/Components/CGUIControlComponent_Rectangle.h"
+#include "GUI/Controls/Components/CGUIControlComponent_Text.h"
 #include "Pool/CVectorPool.h"
 #include "CVector2i32.h"
 #include <string>
 #include <vector>
 
-class CWindowControl_List : public CWindowControl, public CVectorPool<CWindowControlEntry_List*>, public CWindowControlComponent_Rectangle, public CWindowControlComponent_Text
+class CListControl : public CGUIControl, public CVectorPool<CListControlEntry*>, public CGUIControlComponent_Rectangle, public CGUIControlComponent_Text
 {
 public:
-	CWindowControl_List(void) :
-		CWindowControl(WINDOW_CONTROL_LIST),
-		CWindowControlComponent_Rectangle(),
-		CWindowControlComponent_Text(),
+	CListControl(void) :
+		CGUIControl(GUI_CONTROL_LIST),
+		CGUIControlComponent_Rectangle(),
+		CGUIControlComponent_Text(),
 		m_uiRowHeight(50),
 		m_uiRowBackgroundColour1(0),
 		m_uiRowBackgroundColour2(0),

@@ -1,9 +1,9 @@
-#include "CWindowControl.h"
+#include "CGUIControl.h"
 #include "GUI/Window/CWindow.h"
 #include "CWindowScrollPool.h"
 #include "Math/CMathUtility.h"
 
-CWindowControl::CWindowControl(eWindowControlType eControlType) :
+CGUIControl::CGUIControl(eGUIControl eControlType) :
 	m_pControlGroup(nullptr),
 	m_eControlType(eControlType),
 	m_uiControlId(0),
@@ -15,24 +15,24 @@ CWindowControl::CWindowControl(eWindowControlType eControlType) :
 	m_vecSize.m_y = 0;
 	m_pScrolls = new CWindowScrollPool;
 }
-CWindowControl::~CWindowControl(void)
+CGUIControl::~CGUIControl(void)
 {
 	delete m_pScrolls;
 }
 
-CWindow*								CWindowControl::getWindow(void)
+CWindow*								CGUIControl::getWindow(void)
 {
 	return getControlGroup()->getWindow();
 }
 
 // point testing
-bool									CWindowControl::isPointInControl(CVector2i32& vecPoint)
+bool									CGUIControl::isPointInControl(CVector2i32& vecPoint)
 {
 	return CMathUtility::isPointInRectangle(vecPoint, getPosition(), getSize());
 }
 
 // focus
-bool									CWindowControl::doesControlHaveFocus(void)
+bool									CGUIControl::doesControlHaveFocus(void)
 {
 	return getWindow()->getFocusedControl() == this;
 }

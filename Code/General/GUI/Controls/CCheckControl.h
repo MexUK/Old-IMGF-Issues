@@ -1,16 +1,16 @@
-#ifndef CWindowControl_Check_H
-#define CWindowControl_Check_H
+#ifndef CCheckControl_H
+#define CCheckControl_H
 
 #include "Types.h"
-#include "GUI/Control/CWindowControl.h"
-#include "GUI/Controls/Components/CWindowControlComponent_Text.h"
-#include "GUI/Controls/Components/CWindowControlComponent_Rectangle.h"
+#include "GUI/Control/CGUIControl.h"
+#include "GUI/Controls/Components/CGUIControlComponent_Text.h"
+#include "GUI/Controls/Components/CGUIControlComponent_Rectangle.h"
 
-class CWindowControl_Check : public CWindowControl, public CWindowControlComponent_Text, public CWindowControlComponent_Rectangle
+class CCheckControl : public CGUIControl, public CGUIControlComponent_Text, public CGUIControlComponent_Rectangle
 {
 public:
-	CWindowControl_Check(void) :
-		CWindowControl(WINDOW_CONTROL_CHECK),
+	CCheckControl(void) :
+		CGUIControl(GUI_CONTROL_CHECK),
 		m_uiIconRightMargin(5),
 		m_bChecked(false)
 	{};
