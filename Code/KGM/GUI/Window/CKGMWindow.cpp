@@ -41,20 +41,14 @@ void					CKGMWindow::initTabs(void)
 	CEditor *pEditor = (CEditor*) getEntryByIndex(0);
 
 	// add window controls
-	CWindowControl_Button *pButton = new CWindowControl_Button;
+	CWindowControl_Button *pButton = pEditor->addButton(CVector2i32(38, 35 + 38), CVector2ui32(172, 40), "Open");
 	pButton->setControlGroup(pEditor);
-	string strText = "Open";
-	pButton->setText(strText);
-	pButton->setPosition(CVector2i32(38, 35 + 38));
-	pButton->setSize(CVector2ui32(172, 40));
 	pButton->setFillColour(0x1A3C4EFF);
 	pButton->setControlId(1);
 	pEditor->addEntry(pButton);
 
-	CWindowControl_List *pList = new CWindowControl_List;
+	CWindowControl_List *pList = pEditor->addList(CVector2i32(252, 35 + 87), CVector2ui32(732, 480));
 	pList->setControlGroup(pEditor);
-	pList->setPosition(CVector2i32(252, 35 + 87));
-	pList->setSize(CVector2ui32(732, 480));
 	pList->setFillColour(0xECF3FDFF);
 	pList->setRowBackgroundColour1(0xFF0000FF);
 	pList->setRowBackgroundColour2(0x00FF00FF);
