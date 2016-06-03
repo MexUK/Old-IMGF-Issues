@@ -12,7 +12,7 @@
 #include <vector>
 
 class CWindow;
-class CWindowScrollPool;
+class CGUIScrollPool;
 class CControlGroup;
 
 class CGUIControl : public CEventBinder
@@ -35,7 +35,7 @@ public:
 	CControlGroup*							getControlGroup(void) { return m_pControlGroup; }
 
 	void									setControlType(eGUIControl eControlType) { m_eControlType = eControlType; }
-	eGUIControl						getControlType(void) { return m_eControlType; }
+	eGUIControl								getControlType(void) { return m_eControlType; }
 	
 	void									setControlId(uint32 uiControlId) { m_uiControlId = uiControlId; }
 	uint32									getControlId(void) { return m_uiControlId; }
@@ -49,16 +49,16 @@ public:
 	void									setPointMarkedAsInControl(bool bPointMarkedAsInControl) { m_bPointMarkedAsInControl = bPointMarkedAsInControl; }
 	bool									isPointMarkedAsInControl(void) { return m_bPointMarkedAsInControl; }
 
-	CWindowScrollPool*						getScrolls(void) { return m_pScrolls; }
+	CGUIScrollPool*						getScrolls(void) { return m_pScrolls; }
 
 private:
 	CControlGroup*							m_pControlGroup;
-	eGUIControl						m_eControlType;
+	eGUIControl								m_eControlType;
 	CVector2i32								m_vecPosition;
 	CVector2ui32							m_vecSize;
 	uint32									m_uiControlId;
 	uint8									m_bPointMarkedAsInControl		: 1;
-	CWindowScrollPool*						m_pScrolls;
+	CGUIScrollPool*						m_pScrolls;
 };
 
 #endif

@@ -1,6 +1,6 @@
 #include "CGUIControl.h"
 #include "GUI/Window/CWindow.h"
-#include "CWindowScrollPool.h"
+#include "CGUIScrollPool.h"
 #include "Math/CMathUtility.h"
 
 CGUIControl::CGUIControl(eGUIControl eControlType) :
@@ -13,7 +13,7 @@ CGUIControl::CGUIControl(eGUIControl eControlType) :
 	m_vecPosition.m_y = 0;
 	m_vecSize.m_x = 0;
 	m_vecSize.m_y = 0;
-	m_pScrolls = new CWindowScrollPool;
+	m_pScrolls = new CGUIScrollPool;
 }
 CGUIControl::~CGUIControl(void)
 {

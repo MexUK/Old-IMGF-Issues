@@ -152,7 +152,7 @@
     <ClInclude Include="..\..\..\Code\General\GUI\Controls\Entries\CListControlEntry.h" />
     <ClInclude Include="..\..\..\Code\General\GUI\Controls\Entries\CMenuControlEntry.h" />
     <ClInclude Include="..\..\..\Code\General\GUI\Control\CGUIControl.h" />
-    <ClInclude Include="..\..\..\Code\General\GUI\Control\CWindowScrollPool.h" />
+    <ClInclude Include="..\..\..\Code\General\GUI\Control\CGUIScrollPool.h" />
     <ClInclude Include="..\..\..\Code\General\GUI\Control\e2DMirroredOrientation.h" />
     <ClInclude Include="..\..\..\Code\General\GUI\Control\eGUIControl.h" />
     <ClInclude Include="..\..\..\Code\General\GUI\Group\CControlGroup.h" />

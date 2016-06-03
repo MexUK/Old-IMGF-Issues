@@ -4,7 +4,7 @@
 #include "Types.h"
 #include "CVector2i32.h"
 #include "GUI/Control/CGUIControl.h"
-#include "GUI/Control/CWindowScrollPool.h"
+#include "GUI/Control/CGUIScrollPool.h"
 #include "GUI/Controls/Components/CGUIControlComponent_Text.h"
 #include "GUI/Controls/Components/CGUIControlComponent_Rectangle.h"
 #include "GUI/Controls/CScrollControl.h"

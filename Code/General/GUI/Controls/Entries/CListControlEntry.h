@@ -17,12 +17,12 @@ public:
 	void									unload(void) {};
 
 	void									setList(CListControl *pList) { m_pList = pList; }
-	CListControl*					getList(void) { return m_pList; }
+	CListControl*							getList(void) { return m_pList; }
 	
 	std::vector<std::vector<std::string>>&	getText(void) { return m_vecText; }
 	
 private:
-	CListControl*					m_pList;
+	CListControl*							m_pList;
 	std::vector<std::vector<std::string>>	m_vecText;
 };
 

@@ -39,7 +39,7 @@ public:
 	uint32									getAvailableScrollLength(void);					// returns in pixels
 
 	void									setScrollOrientation(e2DMirroredOrientation eScrollOrientation) { m_eScrollOrientation = eScrollOrientation; }
-	e2DMirroredOrientation				getScrollOrientation(void) { return m_eScrollOrientation; }
+	e2DMirroredOrientation					getScrollOrientation(void) { return m_eScrollOrientation; }
 
 	void									setSeekBarLength(uint32 uiSeekBarLength) { m_uiSeekBarLength = uiSeekBarLength; }	// in pixels
 	uint32									getSeekBarLength(void) { return m_uiSeekBarLength; }								// in pixels
@@ -64,7 +64,7 @@ private:
 	uint32									m_uiSeekBarFillColour;	// RGBA
 	uint32									m_uiSeekBarLineColour;	// RGBA
 	float32									m_fProgress;			// 0.0 to 1.0
-	e2DMirroredOrientation				m_eScrollOrientation;
+	e2DMirroredOrientation					m_eScrollOrientation;
 	uint8									m_bSeekBarIsMoving		: 1;
 };
 
