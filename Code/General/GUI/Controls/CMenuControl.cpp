@@ -1,7 +1,8 @@
 #include "CMenuControl.h"
 #include "GUI/Window/CWindow.h"
-#include "GDIPlus/CGDIPlusUtility.h"
 #include "Event/eEvent.h"
+#include "GUI/CGUIManager.h"
+#include "GUI/GraphicsLibrary/CGraphicsLibrary.h"
 
 auto pOnRender_Menu		= [](void *pControl) { ((CMenuControl*) pControl)->render(); };
 
@@ -14,4 +15,7 @@ void					CMenuControl::bindEvents(void)
 // render
 void					CMenuControl::render(void)
 {
+	CGraphicsLibrary *pGFX = CGUIManager::getInstance()->getGraphicsLibrary();
+
+
 }

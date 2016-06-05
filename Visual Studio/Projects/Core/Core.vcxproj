@@ -105,6 +105,7 @@
     <ClInclude Include="..\..\..\Code\Core\Localization\CLocalizationFormat.h" />
     <ClInclude Include="..\..\..\Code\Core\Localization\CLocalizationManager.h" />
     <ClInclude Include="..\..\..\Code\Core\Localization\eLanguage.h" />
+    <ClInclude Include="..\..\..\Code\Core\Pool\CMultipleTypeValuesUMapContainer.h" />
     <ClInclude Include="..\..\..\Code\Core\Pool\CVectorPool.h" />
     <ClInclude Include="..\..\..\Code\Core\Testing\CDebugger.h" />
   </ItemGroup>
@@ -122,6 +123,7 @@
     <ClCompile Include="..\..\..\Code\Core\Event\CEventType.cpp" />
     <ClCompile Include="..\..\..\Code\Core\Localization\CLocalizationFormat.cpp" />
     <ClCompile Include="..\..\..\Code\Core\Localization\CLocalizationManager.cpp" />
+    <ClCompile Include="..\..\..\Code\Core\Pool\CMultipleTypeValuesUMapContainer.cpp" />
     <ClCompile Include="..\..\..\Code\Core\Pool\CVectorPool.cpp" />
     <ClCompile Include="..\..\..\Code\Core\Testing\CDebugger.cpp" />
   </ItemGroup>

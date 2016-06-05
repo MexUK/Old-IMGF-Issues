@@ -1,8 +1,9 @@
 #include "CCheckControl.h"
 #include "Math/CMathUtility.h"
-#include "GDIPlus/CGDIPlusUtility.h"
 #include "Event/CEventManager.h"
 #include "Event/eEvent.h"
+#include "GUI/CGUIManager.h"
+#include "GUI/GraphicsLibrary/CGraphicsLibrary.h"
 #include "GUI/Window/CWindow.h"
 
 auto pOnMouseUp_Check		= [](void *pControl, void *pTriggerArg) { ((CCheckControl*) pControl)->onMouseUp(*(CVector2i32*) pTriggerArg); };
@@ -22,7 +23,7 @@ void		CCheckControl::onMouseUp(CVector2i32& vecCursorPosition)
 	{
 		if (getWindow()->triggerEvent(EVENT_onMarkCheck, this))
 		{
-			setChecked(!isChecked());
+			setMarked(!isMarked());
 			getWindow()->setMarkedToRedraw(true);
 		}
 	}
@@ -31,13 +32,14 @@ void		CCheckControl::onMouseUp(CVector2i32& vecCursorPosition)
 // render
 void		CCheckControl::render(void)
 {
-	CGDIPlusUtility::drawRectangleFill(getPosition(), getSize(), getFillColour());
-	CGDIPlusUtility::drawRectangleBorder(getPosition(), getSize(), getLineColour());
-	if(isChecked())
+	CGraphicsLibrary *pGFX = CGUIManager::getInstance()->getGraphicsLibrary();
+
+	pGFX->drawRectangle(getPosition(), getSize(), getStyles());
+	if(isMarked())
 	{
-		CGDIPlusUtility::drawLine(CVector2i32(getPosition().m_x, getPosition().m_y + getSize().m_y), CVector2i32(getPosition().m_x + getSize().m_x, getPosition().m_y), getLineColour());
+		pGFX->drawLine(CVector2i32(getPosition().m_x, getPosition().m_y + getSize().m_y), CVector2i32(getPosition().m_x + getSize().m_x, getPosition().m_y), getStyles());
 	}
-	CGDIPlusUtility::drawText(CVector2i32(getPosition().m_x + getSize().m_x + getIconRightMargin(), getPosition().m_y), getSize(), getText(), getTextColour(), getFontSize(), isBold());
+	pGFX->drawText(CVector2i32(getPosition().m_x + getSize().m_x + getIconRightMargin(), getPosition().m_y), getSize(), getText(), getStyles());
 }
 
 // cursor

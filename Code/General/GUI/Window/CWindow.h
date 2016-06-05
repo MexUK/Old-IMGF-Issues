@@ -14,6 +14,7 @@
 
 class CRadioControl;
 class CDropTarget;
+class CGUIStyles;
 
 class CWindow : public CEventType, public CEventBinder, public CVectorPool<CControlGroup*>
 {
@@ -35,7 +36,7 @@ public:
 	virtual void							render(void);
 	void									onRenderFromWMPaint(void);
 
-	void									uncheckRadios(CRadioControl *pRadio);
+	void									unmarkRadios(CRadioControl *pRadio);
 
 	void									setOpenLastFilename(std::string strFileName);
 	void									clearOpenLastFilename(void);
@@ -43,17 +44,11 @@ public:
 	void									setWindowHandle(HWND hwndWindow) { m_hwndWindow = hwndWindow; }
 	HWND									getWindowHandle(void) { return m_hwndWindow; }
 
-	void									setHDC(HDC hdc) { m_hdc = hdc; }
-	HDC										getHDC(void) { return m_hdc; }
-
 	void									setMarkedToRedraw(bool bMarkedToRedraw) { m_bMarkedToRedraw = bMarkedToRedraw; }
 	bool									isMarkedToRedraw(void) { return m_bMarkedToRedraw; }
 	
 	void									setFocusedControl(CGUIControl *pWindowControl) { m_pFocusedControl = pWindowControl; }
 	CGUIControl*							getFocusedControl(void) { return m_pFocusedControl; }
-
-	void									setBackgroundColour(uint32 uiBackgroundColour) { m_uiBackgroundColour = uiBackgroundColour; }
-	uint32									getBackgroundColour(void) { return m_uiBackgroundColour; }
 
 	void									setPosition(CVector2i32& vecPosition) { m_vecPosition = vecPosition; m_vecPreviousPosition = vecPosition; }
 	CVector2i32&							getPosition(void) { return m_vecPosition; }
@@ -82,14 +77,14 @@ public:
 	void									setPreviousPosition(CVector2i32& vecPreviousPosition) { m_vecPreviousPosition = vecPreviousPosition; }
 	CVector2i32&							getPreviousPosition(void) { return m_vecPreviousPosition; }
 	
+	CGUIStyles*								getStyles(void) { return m_pStyles; }
+
 private:
 	HWND									m_hwndWindow;
-	HDC										m_hdc;
 	CWindow*								m_pParentWindow;
 	CGUIControl*							m_pFocusedControl;
 	CVector2i32								m_vecPosition;
 	CVector2ui32							m_vecSize;
-	uint32									m_uiBackgroundColour;
 	uint32									m_uiWindowResizeEdges;
 	CDropTarget*							m_pDropTarget;
 	uint32									m_uiTitleBarHeight;
@@ -98,6 +93,7 @@ private:
 	uint8									m_bMarkedToRedraw		: 1;
 	uint8									m_bMaximized			: 1;
 	CVector2i32								m_vecPreviousPosition;
+	CGUIStyles*								m_pStyles;
 
 	/*
 	todo

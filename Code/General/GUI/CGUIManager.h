@@ -8,8 +8,13 @@
 #include "CSingleton.h"
 #include <Commctrl.h>
 
+#ifndef RGBA
+#define RGBA(r,g,b,a)        ((COLORREF)( (((DWORD)(BYTE)(a))<<24) |     RGB(r,g,b) ))
+#endif
+
 LRESULT CALLBACK				WndProc_Window(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lParam);
-HBRUSH							createSolidBrush2(COLORREF colour, LPNMCUSTOMDRAW item);
+
+class CGraphicsLibrary;
 
 class CGUIManager : public CManager, public CSingleton<CGUIManager>, public CVectorPool<CWindow*>, public CEventBinder
 {
@@ -33,6 +38,9 @@ public:
 	void						render(void);
 	void						clearBackground(void);
 
+	void						setGraphicsLibrary(CGraphicsLibrary* pGraphicsLibrary) { m_pGraphicsLibrary = pGraphicsLibrary; }
+	CGraphicsLibrary*			getGraphicsLibrary(void) { return m_pGraphicsLibrary; }
+
 	void						setActiveWindow(CWindow *pActiveWindow) { m_pActiveWindow = pActiveWindow; }
 	CWindow*					getActiveWindow(void) { return m_pActiveWindow; }
 
@@ -42,6 +50,7 @@ private:
 	bool						createWindow(CWindow *pWindow);
 
 private:
+	CGraphicsLibrary*			m_pGraphicsLibrary;
 	CWindow*					m_pActiveWindow;
 };
 

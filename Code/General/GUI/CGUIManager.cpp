@@ -1,8 +1,9 @@
 #include "CGUIManager.h"
-#include "GDIPlus/CGDIPlusUtility.h"
 #include "String/CStringUtility.h"
 #include "Event/CEventManager.h"
 #include "Event/eEvent.h"
+#include "GUI/GraphicsLibraries/CGraphicsLibrary_GDIPlus.h"
+#include "GUI/GraphicsLibrary/CGraphicsLibrary.h"
 #include "GUI/Controls/CButtonControl.h"
 #include "GUI/Controls/CListControl.h"
 #include "GUI/CGUIUtility.h" // temp
@@ -15,24 +16,28 @@ bool g_bWindowRenderHasOccurred = false; // temp
 auto pOnMouseMove_GUIManager		= [](void *pGUIManager, void *pTriggerArg) { ((CGUIManager*) pGUIManager)->onMouseMove(*(CVector2i32*) pTriggerArg); };
 
 CGUIManager::CGUIManager(void) :
+	m_pGraphicsLibrary(nullptr),
 	m_pActiveWindow(nullptr)
 {
+	m_pGraphicsLibrary = new CGraphicsLibrary_GDIPlus;
 }
 
 void						CGUIManager::init(void)
 {
+	getGraphicsLibrary()->init();
 	bindEvents();
 }
 
 void						CGUIManager::uninit(void)
 {
 	unbindEvents();
+	getGraphicsLibrary()->uninit();
 }
 
 // event binding
 void						CGUIManager::bindEvents(void)
 {
-	storeEventBoundFunction(CEventManager::getInstance()->bindEvent(EVENT_onMouseMove, pOnMouseMove_GUIManager, this, 1000));
+	storeEventBoundFunction(CEventManager::getInstance()->bindEvent(EVENT_onMouseMove, pOnMouseMove_GUIManager, this, 1000)); // bind last
 }
 
 // add window
@@ -42,11 +47,11 @@ CWindow*					CGUIManager::addWindow(CVector2i32& vecWindowPosition, CVector2ui32
 	pWindow->setPosition(vecWindowPosition);
 	pWindow->setSize(vecWindowSize);
 	pWindow->setTitleBarHeight(35);
-	addEntry(pWindow);
 	if (!createWindow(pWindow))
 	{
 		return nullptr;
 	}
+	addEntry(pWindow);
 	return pWindow;
 }
 
@@ -194,7 +199,7 @@ void					CGUIManager::clearBackground(void)
 	RECT clientRect;
 	GetClientRect(getEntryByIndex(0)->getWindowHandle(), &clientRect);
 	HBRUSH bkgBrush = CreateSolidBrush(RGB(255, 255, 255));
-	FillRect(getEntryByIndex(0)->getHDC(), &clientRect, bkgBrush);
+	// todo FillRect(getEntryByIndex(0)->getHDC(), &clientRect, bkgBrush);
 	DeleteObject(bkgBrush);
 }
 
@@ -209,29 +214,4 @@ CWindow*					CGUIManager::getWindowByHwnd(HWND hWnd)
 		}
 	}
 	return nullptr;
-}
-
-HBRUSH					createSolidBrush2(COLORREF colour, LPNMCUSTOMDRAW item) // todo - move to CGDIPlusUtility?
-{
-	HBRUSH Brush = NULL;
-	HDC hdcmem = CreateCompatibleDC(item->hdc);
-	HBITMAP hbitmap = CreateCompatibleBitmap(item->hdc, item->rc.right - item->rc.left, item->rc.bottom - item->rc.top);
-	SelectObject(hdcmem, hbitmap);
-
-	Brush = CreateSolidBrush(colour);
-	RECT temp;
-	temp.left = 0;
-	temp.top = 0;
-	temp.right = item->rc.right - item->rc.left;
-	temp.bottom = item->rc.bottom;
-	FillRect(hdcmem, &temp, Brush);
-	DeleteObject(Brush);
-
-	HBRUSH hPattern = CreatePatternBrush(hbitmap);
-
-	DeleteDC(hdcmem);
-	DeleteObject(Brush);
-	DeleteObject(hbitmap);
-
-	return hPattern;
 }

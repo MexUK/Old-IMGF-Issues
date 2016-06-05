@@ -1555,9 +1555,7 @@ void						CCollisionViewer::render2DText(void)
 {
 	HWND hwnd = glfwGetWin32Window(getWindow());
 	HDC hdc = GetDC(hwnd);
-
-	//Graphics graphics(hdc);
-
+	
 	/*
 	PAINTSTRUCT ps;
 	ZeroMemory(&ps, sizeof(ps));

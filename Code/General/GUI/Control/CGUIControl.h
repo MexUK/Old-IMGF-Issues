@@ -10,10 +10,13 @@
 #include "Event/CEventBinder.h"
 #include <string>
 #include <vector>
+#include <Windows.h>
+#include <gdiplus.h>
 
 class CWindow;
 class CGUIScrollPool;
 class CControlGroup;
+class CGUIStyles;
 
 class CGUIControl : public CEventBinder
 {
@@ -30,7 +33,7 @@ public:
 	CWindow*								getWindow(void);
 
 	bool									doesControlHaveFocus(void);
-	
+
 	void									setControlGroup(CControlGroup* pControlGroup) { m_pControlGroup = pControlGroup; }
 	CControlGroup*							getControlGroup(void) { return m_pControlGroup; }
 
@@ -49,7 +52,8 @@ public:
 	void									setPointMarkedAsInControl(bool bPointMarkedAsInControl) { m_bPointMarkedAsInControl = bPointMarkedAsInControl; }
 	bool									isPointMarkedAsInControl(void) { return m_bPointMarkedAsInControl; }
 
-	CGUIScrollPool*						getScrolls(void) { return m_pScrolls; }
+	CGUIScrollPool*							getScrolls(void) { return m_pScrolls; }
+	CGUIStyles*								getStyles(void) { return m_pStyles; }
 
 private:
 	CControlGroup*							m_pControlGroup;
@@ -58,7 +62,8 @@ private:
 	CVector2ui32							m_vecSize;
 	uint32									m_uiControlId;
 	uint8									m_bPointMarkedAsInControl		: 1;
-	CGUIScrollPool*						m_pScrolls;
+	CGUIScrollPool*							m_pScrolls;
+	CGUIStyles*								m_pStyles;
 };
 
 #endif

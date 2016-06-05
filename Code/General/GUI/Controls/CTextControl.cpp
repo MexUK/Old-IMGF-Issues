@@ -1,7 +1,8 @@
 #include "CTextControl.h"
 #include "GUI/Window/CWindow.h"
 #include "Event/eEvent.h"
-#include "GDIPlus/CGDIPlusUtility.h"
+#include "GUI/CGUIManager.h"
+#include "GUI/GraphicsLibrary/CGraphicsLibrary.h"
 
 auto pOnRender_Text			= [](void *pControl) { ((CTextControl*) pControl)->render(); };
 
@@ -14,5 +15,7 @@ void					CTextControl::bindEvents(void)
 // render
 void					CTextControl::render(void)
 {
-	CGDIPlusUtility::drawText(getPosition(), getSize(), getText(), getTextColour(), getFontSize(), isBold());
+	CGraphicsLibrary *pGFX = CGUIManager::getInstance()->getGraphicsLibrary();
+
+	pGFX->drawText(getPosition(), getSize(), getText(), getStyles());
 }

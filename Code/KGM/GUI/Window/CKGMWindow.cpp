@@ -2,14 +2,16 @@
 #include "GUI/Editors/CIMGEditor.h"
 #include "GUI/Controls/CButtonControl.h"
 #include "GUI/Controls/CListControl.h"
+#include "GUI/Styles/CGUIStyles.h"
 #include "GUI/CWindowManager.h"
+#include "GUI/CGUIManager.h"
+#include "GUI/GraphicsLibrary/CGraphicsLibrary.h"
 #include "Event/CEventManager.h"
 #include "Event/eEvent.h"
 #include "Globals.h"
 #include "CKGM.h"
 #include "Task/CTaskManager.h"
 #include "Task/CTaskDispatchManager.h"
-#include "GDIPlus/CGDIPlusUtility.h"
 #include "File/CFileUtility.h"
 #include "Path/CPathUtility.h"
 #include "String/CStringUtility.h"
@@ -35,7 +37,7 @@ void					CKGMWindow::bindEvents(void)
 void					CKGMWindow::initTabs(void)
 {
 	// set window properties
-	setBackgroundColour(0x214E67FF);
+	getStyles()->setStyle("background-colour", RGB(0x21, 0x4E, 0x67));
 
 	// fetch control group
 	CEditor *pEditor = (CEditor*) getEntryByIndex(0);
@@ -43,15 +45,19 @@ void					CKGMWindow::initTabs(void)
 	// add window controls
 	CButtonControl *pButton = pEditor->addButton(CVector2i32(38, 35 + 38), CVector2ui32(172, 40), "Open");
 	pButton->setControlGroup(pEditor);
-	pButton->setFillColour(0x1A3C4EFF);
 	pButton->setControlId(1);
+	pButton->getStyles()->setStyle("background-colour", RGB(0, 0, 0));
+	//pButton->getStyles()->setStyle("background-colour-start", RGB(255, 0, 0));
+	//pButton->getStyles()->setStyle("background-colour-stop", RGB(255, 255, 0));
+	pButton->getStyles()->setStyle("border-intersection-radius", (float32)15.0f);
+	pButton->getStyles()->setStyle("text-colour", RGB(255, 128, 0));
 	pEditor->addEntry(pButton);
 
 	CListControl *pList = pEditor->addList(CVector2i32(252, 35 + 87), CVector2ui32(732, 480));
 	pList->setControlGroup(pEditor);
-	pList->setFillColour(0xECF3FDFF);
-	pList->setRowBackgroundColour1(0xFF0000FF);
-	pList->setRowBackgroundColour2(0x00FF00FF);
+	pList->getStyles()->setStyle("background-colour", RGBA(0xEC, 0xF3, 0xFD, 0xFF));
+	pList->getStyles()->setStyle("row-background-colour-1", RGBA(0xFF, 0x00, 0x00, 0xFF));
+	pList->getStyles()->setStyle("row-background-colour-2", RGBA(0x00, 0xFF, 0x00, 0xFF));
 	pList->setRowHeight(25);
 	pList->setControlId(2);
 	// todo setEntryListControl(pList);
@@ -72,17 +78,25 @@ void					CKGMWindow::initTabs(void)
 // render
 void					CKGMWindow::onRender(void)
 {
+	CGraphicsLibrary *pGFX = CGUIManager::getInstance()->getGraphicsLibrary();
+
 	// render background
-	CGDIPlusUtility::drawRectangleFill(CVector2i32(0, 0), getSize(), getBackgroundColour());
+	pGFX->drawRectangleFill(CVector2i32(0, 0), getSize(), getStyles());
 
 	// render title bar
 	string strTitleBarText = "Komodo Game Manager";
-	uint32 uiTitleBarTextFontSize = 30;
-	uint32 uiTitleBarTextWidth = CGDIPlusUtility::getTextWidth(strTitleBarText, uiTitleBarTextFontSize);
+	uint32 uiTitleBarTextFontSize = 25;
+	CGUIStyles styles9;
+	styles9.setEntry("text-size", uiTitleBarTextFontSize);
+	uint32 uiTitleBarTextWidth = pGFX->getTextSize(strTitleBarText, &styles9).m_x;
 	uint32 uiTitleBarTextX = (getSize().m_x / 2) - (uiTitleBarTextWidth / 2);
 
-	CGDIPlusUtility::drawRectangleFill(CVector2i32(0, 0), CVector2ui32(getSize().m_x, getTitleBarHeight()), 0x387EA3FF);
-	CGDIPlusUtility::drawText(CVector2i32(uiTitleBarTextX, 1), CVector2ui32(uiTitleBarTextWidth, getTitleBarHeight()), strTitleBarText, 0xE1E6EFFF, uiTitleBarTextFontSize, false);
+	CGUIStyles styles1;
+	styles1.setEntry("background-colour", RGB(0x38, 0x7E, 0xA3));
+	styles1.setEntry("text-colour", RGB(0xE1, 0xE6, 0xEF));
+	styles1.setEntry("text-size", uiTitleBarTextFontSize);
+	pGFX->drawRectangle(CVector2i32(0, 0), CVector2ui32(getSize().m_x, getTitleBarHeight()), &styles1);
+	pGFX->drawText(CVector2i32(uiTitleBarTextX, 1), CVector2ui32(uiTitleBarTextWidth, getTitleBarHeight()), strTitleBarText, &styles1);
 
 
 
@@ -90,7 +104,7 @@ void					CKGMWindow::onRender(void)
 	CVector2i32 vecDrawStartPosition = CVector2i32(0, getTitleBarHeight());
 
 	// render background
-	CGDIPlusUtility::drawRectangleFill(vecDrawStartPosition, getSize(), getBackgroundColour());
+	pGFX->drawRectangleFill(vecDrawStartPosition, getSize(), getStyles());
 
 	// render window backgrounds
 	string strTabText = "Opened.IMG";
@@ -98,24 +112,55 @@ void					CKGMWindow::onRender(void)
 
 	uint32 uiTabTextFontSize = 14;
 	uint32 uiTabTextY = vecDrawStartPosition.m_y + 66;
-	uint32 uiTabTextWidth = CGDIPlusUtility::getTextWidth(strTabText, uiTabTextFontSize);
+	CGUIStyles styles10;
+	styles10.setEntry("text-size", uiTabTextFontSize);
+	uint32 uiTabTextWidth = pGFX->getTextSize(strTabText, &styles10).m_x;
 	uint32 uiTabPaddingX = 17;
 	uint32 uiTabWidth = uiTabTextWidth + (2 * uiTabPaddingX);
 	uint32 uiTabTextX = vecDrawStartPosition.m_x + 252 + uiTabPaddingX;
 
-	CGDIPlusUtility::drawRectangleFill(CVector2i32(vecDrawStartPosition.m_x + 213, vecDrawStartPosition.m_y), CVector2ui32(805, 38), 0x739BB2FF);
-	CGDIPlusUtility::drawRectangleFill(CVector2i32(vecDrawStartPosition.m_x + 213, vecDrawStartPosition.m_y + 38), CVector2ui32(805, 586), 0x2B6381FF);
-	CGDIPlusUtility::drawRectangleWithBorderRadius(CVector2i32(vecDrawStartPosition.m_x + 226, vecDrawStartPosition.m_y + 57), CVector2ui32(777, 528), 20, 0x2B6381FF, 0xFDFEFEFF);
-	// todo CGDIPlusUtility::drawRectangleFill(CVector2ui32(vecDrawStartPosition.m_x + 252, vecDrawStartPosition.m_y + 87), CVector2ui32(732, 480), 0xECF3FDFF);
-	CGDIPlusUtility::drawRectangleFillWithGradient(CVector2i32(vecDrawStartPosition.m_x + 252, vecDrawStartPosition.m_y + 61), CVector2ui32(uiTabWidth, 26), 0x5489A7FF, 0x316988FF);
-	CGDIPlusUtility::drawText(CVector2i32(vecDrawStartPosition.m_x + uiTabTextX, uiTabTextY), CVector2ui32(uiTabWidth, 26), strTabText, 0xE1E6EFFF, uiTabTextFontSize, false);
-	CGDIPlusUtility::drawText(CVector2i32(vecDrawStartPosition.m_x + 252, vecDrawStartPosition.m_y + 597), CVector2ui32(200, 20), strTotalEntriesText, 0xE1E6EFFF, 13, false);
+	CGUIStyles styles2;
+	styles2.setEntry("background-colour", RGBA(0x73, 0x9B, 0xB2, 0xFF));
+	pGFX->drawRectangleFill(CVector2i32(vecDrawStartPosition.m_x + 213, vecDrawStartPosition.m_y), CVector2ui32(805, 38), &styles2);
+
+	styles2.setEntry("background-colour", RGBA(0x2B, 0x63, 0x81, 0xFF));
+	pGFX->drawRectangleFill(CVector2i32(vecDrawStartPosition.m_x + 213, vecDrawStartPosition.m_y + 38), CVector2ui32(805, 586), &styles2);
+
+	CGUIStyles styles3;
+	styles3.setEntry("background-colour", RGBA(0x2B, 0x63, 0x81, 0xFF));
+	styles3.setEntry("border-intersection-radius", 20);
+	styles3.setEntry("border-colour", RGBA(0xFD, 0xFE, 0xFE, 0xFF));
+	pGFX->drawRectangle(CVector2i32(vecDrawStartPosition.m_x + 226, vecDrawStartPosition.m_y + 57), CVector2ui32(777, 528), &styles3);
+	
+	/*
+	todo
+	CGUIStyles styles8;
+	styles8.setEntry("background-colour", RGBA(0xEC, 0xF3, 0xFD, 0xFF));
+	pGFX->drawRectangleFill(CVector2ui32(vecDrawStartPosition.m_x + 252, vecDrawStartPosition.m_y + 87), CVector2ui32(732, 480), &styles8);
+	*/
+	
+	CGUIStyles styles4;
+	styles4.setEntry("background-colour-start", RGBA(0x54, 0x89, 0xA7, 0xFF));
+	styles4.setEntry("background-colour-stop", RGBA(0x31, 0x69, 0x88, 0xFF));
+	pGFX->drawRectangleFill(CVector2i32(vecDrawStartPosition.m_x + 252, vecDrawStartPosition.m_y + 61), CVector2ui32(uiTabWidth, 26), &styles4);
+	
+	CGUIStyles styles5;
+	styles4.setEntry("text-colour", RGBA(0xE1, 0xE6, 0xEF, 0xFFF));
+	styles4.setEntry("text-size", uiTabTextFontSize);
+	pGFX->drawText(CVector2i32(vecDrawStartPosition.m_x + uiTabTextX, uiTabTextY), CVector2ui32(uiTabWidth, 26), strTabText, &styles5);
+	
+	CGUIStyles styles6;
+	styles4.setEntry("text-colour", RGBA(0xE1, 0xE6, 0xEF, 0xFF));
+	styles4.setEntry("text-size", 13);
+	pGFX->drawText(CVector2i32(vecDrawStartPosition.m_x + 252, vecDrawStartPosition.m_y + 597), CVector2ui32(200, 20), strTotalEntriesText, &styles6);
 
 	uint32 uiButtonY = vecDrawStartPosition.m_y + 38 + 40;
+	CGUIStyles styles7;
 	for (uint32 i = 1; i < 14; i++)
 	{
-		uint32 uiFillColour = (i % 2) == 0 ? 0x1A3C4EFF : 0x214E67FF;
-		CGDIPlusUtility::drawRectangleFill(CVector2i32(38, uiButtonY), CVector2ui32(172, 40), uiFillColour);
+		uint32 uiFillColour = (i % 2) == 0 ? RGBA(0x1A, 0x3C, 0x4E, 0xFF) : RGBA(0x21, 0x4E, 0x67, 0xFF);
+		styles7.setEntry("background-colour", uiFillColour);
+		pGFX->drawRectangleFill(CVector2i32(38, uiButtonY), CVector2ui32(172, 40), &styles7);
 		uiButtonY += 40;
 	}
 }

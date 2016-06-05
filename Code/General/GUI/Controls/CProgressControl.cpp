@@ -1,8 +1,9 @@
 #include "CProgressControl.h"
 #include "GUI/Window/CWindow.h"
 #include "String/CStringUtility.h"
-#include "GDIPlus/CGDIPlusUtility.h"
 #include "Event/eEvent.h"
+#include "GUI/CGUIManager.h"
+#include "GUI/GraphicsLibrary/CGraphicsLibrary.h"
 
 using namespace std;
 
@@ -17,11 +18,12 @@ void			CProgressControl::bindEvents(void)
 // render
 void			CProgressControl::render(void)
 {
+	CGraphicsLibrary *pGFX = CGUIManager::getInstance()->getGraphicsLibrary();
+
 	CVector2i32 vecProgressPosition = getProgressPosition(); // todo
-	CGDIPlusUtility::drawRectangleFill(getPosition(), getSize(), getFillColour());
-	CGDIPlusUtility::drawRectangleFill(getPosition(), CVector2ui32(vecProgressPosition.m_x, vecProgressPosition.m_y), getProgressFillColour());
-	CGDIPlusUtility::drawRectangleBorder(getPosition(), getSize(), getLineColour());
-	CGDIPlusUtility::drawText(getPosition(), getSize(), getProgressPercentText(), getTextColour(), getFontSize(), isBold());
+	pGFX->drawRectangle(getPosition(), getSize(), getStyles());
+	pGFX->drawRectangle(getPosition(), CVector2ui32(vecProgressPosition.m_x, vecProgressPosition.m_y), getStyles());
+	pGFX->drawText(getPosition(), getSize(), getProgressPercentText(), getStyles());
 }
 
 // ratio

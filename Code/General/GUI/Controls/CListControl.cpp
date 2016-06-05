@@ -1,8 +1,9 @@
 #include "CListControl.h"
 #include "GUI/Window/CWindow.h"
-#include "GDIPlus/CGDIPlusUtility.h"
 #include "Event/CEventManager.h"
 #include "Event/eEvent.h"
+#include "GUI/CGUIManager.h"
+#include "GUI/GraphicsLibrary/CGraphicsLibrary.h"
 
 using namespace std;
 
@@ -28,9 +29,11 @@ void					CListControl::onMouseDown(CVector2i32& vecCursorPosition)
 // render
 void					CListControl::render(void)
 {
-	if (doesHaveFill())
+	CGraphicsLibrary *pGFX = CGUIManager::getInstance()->getGraphicsLibrary();
+
+	if (getStyles()->doesHaveFill())
 	{
-		CGDIPlusUtility::drawRectangleFill(getPosition(), getSize(), getFillColour());
+		pGFX->drawRectangleFill(getPosition(), getSize(), getStyles());
 	}
 
 	uint32
@@ -40,7 +43,7 @@ void					CListControl::render(void)
 	for(auto pListEntry : getEntries())
 	{
 		uint32 uiRowBackgroundColour = (uiRowIndex % 2) == 0 ? getRowBackgroundColour1() : getRowBackgroundColour2();
-		CGDIPlusUtility::drawRectangleFill(getRowPosition(uiRowIndex), getRowSize(), uiRowBackgroundColour);
+		pGFX->drawRectangleFill(getRowPosition(uiRowIndex), getRowSize(), getStyles());
 
 		uiTextRowIndex = 0;
 		for(vector<string>& vecText : pListEntry->getText())
@@ -48,7 +51,7 @@ void					CListControl::render(void)
 			uiColumnIndex = 0;
 			for(string& strText : vecText)
 			{
-				CGDIPlusUtility::drawText(getCellTextPosition(uiRowIndex, uiTextRowIndex, uiColumnIndex), getCellTextSize(uiRowIndex, uiTextRowIndex, uiColumnIndex), strText, getTextColour(), getFontSize(), isBold());
+				pGFX->drawText(getCellTextPosition(uiRowIndex, uiTextRowIndex, uiColumnIndex), getCellTextSize(uiRowIndex, uiTextRowIndex, uiColumnIndex), strText, getStyles());
 				uiColumnIndex++;
 			}
 
@@ -60,9 +63,9 @@ void					CListControl::render(void)
 		uiRowIndex++;
 	}
 
-	if (doesHaveBorder())
+	if (getStyles()->doesHaveBorder())
 	{
-		CGDIPlusUtility::drawRectangleBorder(getPosition(), getSize(), getLineColour());
+		pGFX->drawRectangleBorder(getPosition(), getSize(), getStyles());
 	}
 }
 

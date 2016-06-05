@@ -1,9 +1,11 @@
 #include "CRadioControl.h"
 #include "Math/CMathUtility.h"
-#include "GDIPlus/CGDIPlusUtility.h"
 #include "Event/CEventManager.h"
 #include "Event/eEvent.h"
 #include "GUI/Window/CWindow.h"
+#include "GUI/CGUIManager.h"
+#include "GUI/GraphicsLibrary/CGraphicsLibrary.h"
+#include "GUI/Styles/CGUIStyles.h"
 
 auto pOnMouseUp_Radio		= [](void *pControl, void *pTriggerArg) { ((CRadioControl*) pControl)->onMouseUp(*(CVector2i32*) pTriggerArg); };
 auto pOnRender_Radio		= [](void *pControl) { ((CRadioControl*) pControl)->render(); };
@@ -22,8 +24,8 @@ void		CRadioControl::onMouseUp(CVector2i32& vecCursorPosition)
 	{
 		if (getWindow()->triggerEvent(EVENT_onMarkRadio, this))
 		{
-			getWindow()->uncheckRadios(this);
-			setChecked(true);
+			getWindow()->unmarkRadios(this);
+			setMarked(true);
 			getWindow()->setMarkedToRedraw(true);
 		}
 	}
@@ -32,18 +34,21 @@ void		CRadioControl::onMouseUp(CVector2i32& vecCursorPosition)
 // render
 void		CRadioControl::render(void)
 {
+	CGraphicsLibrary *pGFX = CGUIManager::getInstance()->getGraphicsLibrary();
+
 	float32 fRadius = getIconRadius();
 	CVector2i32 vecCircleCenterPosition = getIconCenterPosition();
-	if (isChecked())
+	if (isMarked())
 	{
-		CGDIPlusUtility::drawCircleFill(vecCircleCenterPosition, fRadius, 0x0000FFFF);
+		getStyles()->setStyleNameOverwrite("backround-colour", "backround-colour-marked");
 	}
 	else
 	{
-		CGDIPlusUtility::drawCircleFill(vecCircleCenterPosition, fRadius, getFillColour());
+		getStyles()->setStyleNameOverwrite("backround-colour", "backround-colour-unmarked");
 	}
-	CGDIPlusUtility::drawCircleBorder(vecCircleCenterPosition, fRadius, getLineColour());
-	CGDIPlusUtility::drawText(getTextPosition(), getTextSize(), getText(), getTextColour(), getFontSize(), isBold());
+	pGFX->drawCircle(vecCircleCenterPosition, fRadius, getStyles());
+	getStyles()->restoreStyleNameOverwrites();
+	pGFX->drawText(getTextPosition(), getTextSize(), getText(), getStyles());
 }
 
 // cursor

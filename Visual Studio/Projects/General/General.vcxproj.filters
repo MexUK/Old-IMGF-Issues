@@ -103,6 +103,24 @@
     <Filter Include="Source Files\GUI\Group">
       <UniqueIdentifier>{f404eb15-8c07-4186-931f-37d3ba4e55cb}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Header Files\GUI\GraphicsLibrary">
+      <UniqueIdentifier>{de3ce410-101f-41b3-b4f5-4dd667e345e2}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\GUI\GraphicsLibrary">
+      <UniqueIdentifier>{571569a6-7ed0-444d-9cfc-747a19952ffd}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\GUI\GraphicsLibraries">
+      <UniqueIdentifier>{9eddbf53-f463-492f-a351-09a38d03ccff}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\GUI\GraphicsLibraries">
+      <UniqueIdentifier>{ae1078f8-f1d0-4f0f-95a9-ecae3c84b994}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\GUI\Styles">
+      <UniqueIdentifier>{b91767fb-ef47-4ec2-86fc-7609ba55693a}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\GUI\Styles">
+      <UniqueIdentifier>{46fcc75c-c84e-40dd-8fea-7dccd47daff9}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\..\..\Code\General\Image\CRasterDataFormatManager.cpp">
@@ -188,6 +206,15 @@
     </ClCompile>
     <ClCompile Include="..\..\..\Code\General\GUI\Control\CGUIControl.cpp">
       <Filter>Source Files\GUI\Control</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\Code\General\GUI\GraphicsLibrary\CGraphicsLibrary.cpp">
+      <Filter>Source Files\GUI\GraphicsLibrary</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\Code\General\GUI\GraphicsLibraries\CGraphicsLibrary_GDIPlus.cpp">
+      <Filter>Source Files\GUI\GraphicsLibraries</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\Code\General\GUI\Styles\CGUIStyles.cpp">
+      <Filter>Source Files\GUI\Styles</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -323,9 +350,6 @@
     <ClInclude Include="..\..\..\Code\General\GUI\Control\CGUIControl.h">
       <Filter>Header Files\GUI\Control</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\..\Code\General\GUI\Controls\Components\CGUIControlComponent_Rectangle.h">
-      <Filter>Header Files\GUI\Controls\Components</Filter>
-    </ClInclude>
     <ClInclude Include="..\..\..\Code\General\GUI\Controls\Components\CGUIControlComponent_Text.h">
       <Filter>Header Files\GUI\Controls\Components</Filter>
     </ClInclude>
@@ -346,6 +370,18 @@
     </ClInclude>
     <ClInclude Include="..\..\..\Code\General\GUI\Control\CGUIScrollPool.h">
       <Filter>Header Files\GUI\Control</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\Code\General\GUI\GraphicsLibrary\CGraphicsLibrary.h">
+      <Filter>Header Files\GUI\GraphicsLibrary</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\Code\General\GUI\GraphicsLibraries\CGraphicsLibrary_GDIPlus.h">
+      <Filter>Header Files\GUI\GraphicsLibraries</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\Code\General\GUI\Styles\CGUIStyles.h">
+      <Filter>Header Files\GUI\Styles</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\Code\General\GUI\Styles\eGUIStyles.h">
+      <Filter>Header Files\GUI\Styles</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

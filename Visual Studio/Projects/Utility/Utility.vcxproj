@@ -86,7 +86,6 @@
   <ItemGroup>
     <ClInclude Include="..\..\..\Code\Utility\Compression\CCompressionUtility.h" />
     <ClInclude Include="..\..\..\Code\Utility\File\CFileUtility.h" />
-    <ClInclude Include="..\..\..\Code\Utility\GDIPlus\CGDIPlusUtility.h" />
     <ClInclude Include="..\..\..\Code\Utility\GUI\CGUIUtility.h" />
     <ClInclude Include="..\..\..\Code\Utility\Image\CImageUtility.h" />
     <ClInclude Include="..\..\..\Code\Utility\Image\eDXTCompressionType.h" />
@@ -102,7 +101,6 @@
   <ItemGroup>
     <ClCompile Include="..\..\..\Code\Utility\Compression\CCompressionUtility.cpp" />
     <ClCompile Include="..\..\..\Code\Utility\File\CFileUtility.cpp" />
-    <ClCompile Include="..\..\..\Code\Utility\GDIPlus\CGDIPlusUtility.cpp" />
     <ClCompile Include="..\..\..\Code\Utility\GUI\CGUIUtility.cpp" />
     <ClCompile Include="..\..\..\Code\Utility\Image\CImageUtility.cpp" />
     <ClCompile Include="..\..\..\Code\Utility\INI\CINIUtility.cpp" />

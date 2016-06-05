@@ -52,6 +52,7 @@ public:
 	static uint32				getRectangleResizeEdges(CVector2i32& vecPoint, CVector2ui32& vecSize, uint32 uiEdgeDistance); // [return] Edges: Left=1,Top=2,Right=4,Bottom=8
 	static CVector2i32			getEllipseFromRectangle(CVector2i32& vecPoint, CVector2ui32& vecSize);
 	static uint32				convertDiameterToRadius(uint32 uiDiameter);
+	static CVector2ui32			get2DSizeFromCircle(CVector2i32& vecPoint, float32 fRadius);
 };
 
 uint32				CMathUtility::convertSectorsToBytes(uint32 uiSectorCount)

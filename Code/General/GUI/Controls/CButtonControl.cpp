@@ -1,9 +1,11 @@
 #include "CButtonControl.h"
 #include "Math/CMathUtility.h"
-#include "GDIPlus/CGDIPlusUtility.h"
 #include "Event/CEventManager.h"
 #include "Event/eEvent.h"
+#include "GUI/CGUIManager.h"
+#include "GUI/GraphicsLibrary/CGraphicsLibrary.h"
 #include "GUI/Window/CWindow.h"
+#include <gdiplus.h>
 
 auto pOnMouseDown_Button	= [](void *pControl, void *pTriggerArg) { ((CButtonControl*) pControl)->onMouseDown(*(CVector2i32*) pTriggerArg); };
 auto pOnMouseUp_Button		= [](void *pControl, void *pTriggerArg) { ((CButtonControl*) pControl)->onMouseUp(*(CVector2i32*) pTriggerArg); };
@@ -37,13 +39,8 @@ void		CButtonControl::onMouseUp(CVector2i32& vecCursorPosition)
 // render
 void		CButtonControl::render(void)
 {
-	if (doesHaveFill())
-	{
-		CGDIPlusUtility::drawRectangleFill(getPosition(), getSize(), getFillColour());
-	}
-	if (doesHaveBorder())
-	{
-		CGDIPlusUtility::drawRectangleBorder(getPosition(), getSize(), getLineColour());
-	}
-	CGDIPlusUtility::drawText(getPosition(), getSize(), getText(), getTextColour(), getFontSize(), isBold());
+	CGraphicsLibrary *pGFX = CGUIManager::getInstance()->getGraphicsLibrary();
+
+	pGFX->drawRectangle(getPosition(), getSize(), getStyles());
+	pGFX->drawText(getPosition(), getSize(), getText(), getStyles());
 }

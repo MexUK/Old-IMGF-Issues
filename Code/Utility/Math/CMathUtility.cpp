@@ -298,3 +298,9 @@ uint32						CMathUtility::convertDiameterToRadius(uint32 uiDiameter)
 {
 	return uiDiameter / 2;
 }
+
+CVector2ui32				CMathUtility::get2DSizeFromCircle(CVector2i32& vecPoint, float32 fRadius)
+{
+	float32 fDiameter = fRadius * 2;
+	return CVector2ui32(fDiameter, fDiameter);
+}

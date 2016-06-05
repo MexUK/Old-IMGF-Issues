@@ -4,14 +4,13 @@
 #include "Types.h"
 #include "GUI/Control/CGUIControl.h"
 #include "GUI/Controls/Components/CGUIControlComponent_Text.h"
-#include "GUI/Controls/Components/CGUIControlComponent_Rectangle.h"
 #include "GUI/Controls/Entries/CDropControlEntry.h"
 #include "Pool/CVectorPool.h"
 #include "CVector2i32.h"
 #include "CVector2ui32.h"
 #include <string>
 
-class CDropControl : public CGUIControl, public CGUIControlComponent_Text, public CGUIControlComponent_Rectangle, public CVectorPool<CDropControlEntry*>
+class CDropControl : public CGUIControl, public CGUIControlComponent_Text, public CVectorPool<CDropControlEntry*>
 {
 public:
 	CDropControl(void) :

@@ -3,7 +3,9 @@
 #include "GUI/Controls/CRadioControl.h"
 #include "Math/CMathUtility.h"
 #include "Path/CPathUtility.h"
-#include "GDIPlus/CGDIPlusUtility.h"
+#include "GUI/CGUIManager.h"
+#include "GUI/GraphicsLibraries/CGraphicsLibrary_GDIPlus.h"
+#include "GUI/Styles/CGUIStyles.h"
 #include "GUI/CGUIUtility.h"
 #include "Event/CEventManager.h"
 #include "Event/eEvent.h"
@@ -20,17 +22,16 @@ auto pOnDoubleLeftClick_Window	= [](void *pWindow, void *pTriggerArg) { ((CWindo
 CWindow::CWindow(void) :
 	CEventType(EVENT_TYPE_WINDOW),
 	m_hwndWindow(nullptr),
-	m_hdc(nullptr),
 	m_pFocusedControl(nullptr),
 	m_uiWindowResizeEdges(0),
 	m_bMovingWindow(false),
 	m_bResizingWindow(false),
 	m_bMarkedToRedraw(false),
 	m_bMaximized(false),
-	m_uiBackgroundColour(0xFFFFFFFF),
 	m_pDropTarget(nullptr),
 	m_pParentWindow(nullptr),
-	m_uiTitleBarHeight(0)
+	m_uiTitleBarHeight(0),
+	m_pStyles(nullptr)
 {
 	m_vecPosition.m_x = 0;
 	m_vecPosition.m_y = 0;
@@ -38,6 +39,7 @@ CWindow::CWindow(void) :
 	m_vecSize.m_y = 0;
 	m_vecPreviousPosition.m_x = 0;
 	m_vecPreviousPosition.m_y = 0;
+	m_pStyles = new CGUIStyles;
 }
 CWindow::~CWindow(void)
 {
@@ -273,24 +275,22 @@ void									CWindow::render(void)
 
 void									CWindow::onRenderFromWMPaint(void)
 {
-	// prepare
-	RECT rect;
-	GetClientRect(getWindowHandle(), &rect);
-
+	// begin paint
 	PAINTSTRUCT ps;
 	HDC hdc = BeginPaint(getWindowHandle(), &ps);
 
+	// fetch window position and size
+	RECT rect;
+	GetClientRect(getWindowHandle(), &rect);
+
+	// create other DCs
 	HDC hdcMem = CreateCompatibleDC(hdc);
 	HBITMAP hbmMem = CreateCompatibleBitmap(hdc, rect.right, rect.bottom);
-
 	HANDLE hOld = SelectObject(hdcMem, hbmMem);
 
-	// store hdc
-	setHDC(hdcMem);
-	CGDIPlusUtility::setHDC(hdcMem);
-
-	// clear background
-	//clearBackground(); // todo - move to like CGDIPlusUtility::clearRect(CVector4ui32(x,y,w,h), CVector3ui8(r,g,b));
+	// create and store GDI Plus Graphics object
+	Gdiplus::Graphics *pGraphics = new Gdiplus::Graphics(hdcMem);
+	((CGraphicsLibrary_GDIPlus*) CGUIManager::getInstance()->getGraphicsLibrary())->setGraphics(pGraphics);
 
 	// render to memory
 	triggerEvent(EVENT_onRenderBefore);
@@ -300,14 +300,16 @@ void									CWindow::onRenderFromWMPaint(void)
 	// render to screen
 	BitBlt(hdc, 0, 0, rect.right, rect.bottom, hdcMem, 0, 0, SRCCOPY);
 
-	// finalize
+	// delete GDI Plus Graphics object
+	delete pGraphics;
+
+	// clean other DCs
 	SelectObject(hdcMem, hOld);
 	DeleteObject(hbmMem);
 	DeleteDC(hdcMem);
 
+	// end paint
 	EndPaint(getWindowHandle(), &ps);
-
-	setMarkedToRedraw(false);
 }
 
 // maximized
@@ -340,7 +342,7 @@ void									CWindow::setMaximized(bool bMaximized)
 }
 
 // other
-void									CWindow::uncheckRadios(CRadioControl *pRadio)
+void									CWindow::unmarkRadios(CRadioControl *pRadio)
 {
 	for (CControlGroup *pControlGroup : getEntries())
 	{
@@ -351,7 +353,7 @@ void									CWindow::uncheckRadios(CRadioControl *pRadio)
 				CRadioControl *pRadio2 = (CRadioControl*) pWindowControl;
 				if (pRadio2->getGroupId() == pRadio->getGroupId())
 				{
-					pRadio2->setChecked(false);
+					pRadio2->setMarked(false);
 				}
 			}
 		}

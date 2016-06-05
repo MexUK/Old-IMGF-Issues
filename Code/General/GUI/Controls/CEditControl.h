@@ -4,23 +4,21 @@
 #include "Types.h"
 #include "CVector2i32.h"
 #include "GUI/Control/CGUIControl.h"
+#include "GUI/Styles/CGUIStyles.h"
 #include "GUI/Control/CGUIScrollPool.h"
 #include "GUI/Controls/Components/CGUIControlComponent_Text.h"
-#include "GUI/Controls/Components/CGUIControlComponent_Rectangle.h"
 #include "GUI/Controls/CScrollControl.h"
 #include <string>
 #include <vector>
 
-class CEditControl : public CGUIControl, public CGUIControlComponent_Text, public CGUIControlComponent_Rectangle
+class CEditControl : public CGUIControl, public CGUIControlComponent_Text
 {
 public:
 	CEditControl(void) :
 		CGUIControl(GUI_CONTROL_EDIT),
-		CGUIControlComponent_Rectangle(),
 		m_bHasHorizontalScrollBar(false),
 		m_bHasVerticalScrollBar(false),
-		m_bReadOnly(false),
-		m_uiCaretColour(0x000000FF)
+		m_bReadOnly(false)
 	{
 		m_vecTextLines.push_back(std::string()); // always have atleast 1 line for optimization (skips checks like: if m_vecTextLines.size() == 0)
 		setCaretPosition(CVector2ui32(0, 0));
@@ -66,7 +64,7 @@ public:
 	uint32									getLineLength(uint32 uiLineIndex);
 	uint32									getLineCount(void);
 
-	void									setMultiLine(bool bMultiLine) { m_bMultiLine = bMultiLine; } // todo - convert text lines into 1 line
+	void									setMultiLine(bool bMultiLine) { m_bMultiLine = bMultiLine; }	// todo - convert text lines into 1 line
 	bool									isMultiLine(void) { return m_bMultiLine; }
 	
 	void									setHasHorizontalScrollBar(bool bHasHorizontalScrollBar) { m_bHasHorizontalScrollBar = bHasHorizontalScrollBar; }
@@ -78,8 +76,7 @@ public:
 	void									setReadOnly(bool bReadOnly) { m_bReadOnly = bReadOnly; }
 	bool									isReadOnly(void) { return m_bReadOnly; }
 
-	void									setCaretColour(uint32 uiCaretColour) { m_uiCaretColour = uiCaretColour; }	// RGBA
-	uint32									getCaretColour(void) { return m_uiCaretColour; }							// RGBA
+	uint32									getCaretColour(void) { return getStyles()->getStyle<uint32>("caret-colour"); }	// RGBA
 
 	std::vector<std::string>&				getTextLines(void) { return m_vecTextLines; }
 
@@ -104,7 +101,6 @@ private:
 	uint8									m_bHasVerticalScrollBar		: 1;
 	uint8									m_bReadOnly					: 1;
 	CVector2ui32							m_vecCaretPosition;					// character position
-	uint32									m_uiCaretColour;					// RGBA
 	std::vector<std::string>				m_vecTextLines;
 };
 

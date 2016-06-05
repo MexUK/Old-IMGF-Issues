@@ -103,7 +103,10 @@
     <ClCompile Include="..\..\..\Code\General\GUI\Controls\CScrollControl.cpp" />
     <ClCompile Include="..\..\..\Code\General\GUI\Controls\CTextControl.cpp" />
     <ClCompile Include="..\..\..\Code\General\GUI\Control\CGUIControl.cpp" />
+    <ClCompile Include="..\..\..\Code\General\GUI\GraphicsLibraries\CGraphicsLibrary_GDIPlus.cpp" />
+    <ClCompile Include="..\..\..\Code\General\GUI\GraphicsLibrary\CGraphicsLibrary.cpp" />
     <ClCompile Include="..\..\..\Code\General\GUI\Group\CControlGroup.cpp" />
+    <ClCompile Include="..\..\..\Code\General\GUI\Styles\CGUIStyles.cpp" />
     <ClCompile Include="..\..\..\Code\General\GUI\Window\CWindow.cpp" />
     <ClCompile Include="..\..\..\Code\General\Image\CImageFile.cpp" />
     <ClCompile Include="..\..\..\Code\General\Image\CImageManager.cpp" />
@@ -136,7 +139,6 @@
     <ClInclude Include="..\..\..\Code\General\Game\eGameFlag.h" />
     <ClInclude Include="..\..\..\Code\General\Game\ePlatformedGame.h" />
     <ClInclude Include="..\..\..\Code\General\GUI\CGUIManager.h" />
-    <ClInclude Include="..\..\..\Code\General\GUI\Controls\Components\CGUIControlComponent_Rectangle.h" />
     <ClInclude Include="..\..\..\Code\General\GUI\Controls\Components\CGUIControlComponent_Text.h" />
     <ClInclude Include="..\..\..\Code\General\GUI\Controls\CButtonControl.h" />
     <ClInclude Include="..\..\..\Code\General\GUI\Controls\CCheckControl.h" />
@@ -155,7 +157,11 @@
     <ClInclude Include="..\..\..\Code\General\GUI\Control\CGUIScrollPool.h" />
     <ClInclude Include="..\..\..\Code\General\GUI\Control\e2DMirroredOrientation.h" />
     <ClInclude Include="..\..\..\Code\General\GUI\Control\eGUIControl.h" />
+    <ClInclude Include="..\..\..\Code\General\GUI\GraphicsLibraries\CGraphicsLibrary_GDIPlus.h" />
+    <ClInclude Include="..\..\..\Code\General\GUI\GraphicsLibrary\CGraphicsLibrary.h" />
     <ClInclude Include="..\..\..\Code\General\GUI\Group\CControlGroup.h" />
+    <ClInclude Include="..\..\..\Code\General\GUI\Styles\CGUIStyles.h" />
+    <ClInclude Include="..\..\..\Code\General\GUI\Styles\eGUIStyles.h" />
     <ClInclude Include="..\..\..\Code\General\GUI\Window\CWindow.h" />
     <ClInclude Include="..\..\..\Code\General\Image\CImageFile.h" />
     <ClInclude Include="..\..\..\Code\General\Image\CImageManager.h" />

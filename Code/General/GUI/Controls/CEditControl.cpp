@@ -1,10 +1,11 @@
 #include "CEditControl.h"
 #include "GUI/Window/CWindow.h"
 #include "String/CStringUtility.h"
-#include "GDIPlus/CGDIPlusUtility.h"
 #include "GUI/CGUIUtility.h"
 #include "Math/CMathUtility.h"
 #include "Event/eEvent.h"
+#include "GUI/CGUIManager.h"
+#include "GUI/GraphicsLibrary/CGraphicsLibrary.h"
 
 using namespace std;
 
@@ -42,21 +43,22 @@ void		CEditControl::onCharDown(uint8 uiCharCode)
 // render
 void		CEditControl::render(void)
 {
+	CGraphicsLibrary *pGFX = CGUIManager::getInstance()->getGraphicsLibrary();
+
 	// fill and border
-	CGDIPlusUtility::drawRectangleFill(getPosition(), getSize(), getFillColour());
-	CGDIPlusUtility::drawRectangleBorder(getPosition(), getSize(), getLineColour());
+	pGFX->drawRectangle(getPosition(), getSize(), getStyles());
 
 	// caret
 	if (!isReadOnly())
 	{
-		CGDIPlusUtility::drawLine(getCaretRenderStartPosition(), getCaretRenderEndPosition(), getCaretColour());
+		pGFX->drawLine(getCaretRenderStartPosition(), getCaretRenderEndPosition(), getStyles());
 	}
 
 	// text lines
 	uint32 uiLineIndex = 0;
 	for (string& strTextLine : getTextLines())
 	{
-		CGDIPlusUtility::drawText(getTextLinePosition(uiLineIndex), getSize(), strTextLine, getTextColour(), getFontSize(), isBold());
+		pGFX->drawText(getTextLinePosition(uiLineIndex), getSize(), strTextLine, getStyles());
 		uiLineIndex++;
 	}
 }
@@ -235,18 +237,18 @@ bool		CEditControl::isCaretAtFarBottom(void)
 // caret render position
 CVector2i32			CEditControl::getCaretRenderStartPosition(void)
 {
-	return getPosition() + CVector2i32(getCaretPosition().m_x * 10, getCaretPosition().m_y * getFontSize());
+	return getPosition() + CVector2i32(getCaretPosition().m_x * 10, getCaretPosition().m_y * getStyles()->getStyle<uint32>("text-size"));
 }
 
 CVector2i32			CEditControl::getCaretRenderEndPosition(void)
 {
-	return getPosition() + CVector2i32(getCaretPosition().m_x * 10, ((getCaretPosition().m_y + 1) * getFontSize()));
+	return getPosition() + CVector2i32(getCaretPosition().m_x * 10, ((getCaretPosition().m_y + 1) * getStyles()->getStyle<uint32>("text-size")));
 }
 
 // text
 CVector2i32			CEditControl::getTextLinePosition(uint32 uiLineIndex)
 {
-	return getPosition() + CVector2i32(0, uiLineIndex * getFontSize());
+	return getPosition() + CVector2i32(0, uiLineIndex * getStyles()->getStyle<uint32>("text-size"));
 }
 
 void				CEditControl::setLineText(uint32 uiLineIndex, string& strText)

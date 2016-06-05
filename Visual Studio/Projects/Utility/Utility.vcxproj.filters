@@ -25,9 +25,6 @@
     <Filter Include="Header Files\File">
       <UniqueIdentifier>{7f61408d-0859-4a56-880e-7bf859e3bd5d}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Header Files\GDIPlus">
-      <UniqueIdentifier>{81fd1fcc-00b7-48df-aca4-f3c5629ded11}</UniqueIdentifier>
-    </Filter>
     <Filter Include="Header Files\GUI">
       <UniqueIdentifier>{fefbe81b-ae8c-434b-82f1-b4f5a5f50060}</UniqueIdentifier>
     </Filter>
@@ -57,9 +54,6 @@
     </Filter>
     <Filter Include="Source Files\File">
       <UniqueIdentifier>{ed20f70e-06ae-4090-bf09-25c31564f6bf}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Source Files\GDIPlus">
-      <UniqueIdentifier>{de6bf791-d44d-45dc-9945-5cb3908b55ab}</UniqueIdentifier>
     </Filter>
     <Filter Include="Source Files\GUI">
       <UniqueIdentifier>{8ec89c90-658e-4074-8dd8-6bfa4e728c00}</UniqueIdentifier>
@@ -102,9 +96,6 @@
     <ClInclude Include="..\..\..\Code\Utility\File\CFileUtility.h">
       <Filter>Header Files\File</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\..\Code\Utility\GDIPlus\CGDIPlusUtility.h">
-      <Filter>Header Files\GDIPlus</Filter>
-    </ClInclude>
     <ClInclude Include="..\..\..\Code\Utility\GUI\CGUIUtility.h">
       <Filter>Header Files\GUI</Filter>
     </ClInclude>
@@ -139,9 +130,6 @@
     </ClCompile>
     <ClCompile Include="..\..\..\Code\Utility\File\CFileUtility.cpp">
       <Filter>Source Files\File</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\..\Code\Utility\GDIPlus\CGDIPlusUtility.cpp">
-      <Filter>Source Files\GDIPlus</Filter>
     </ClCompile>
     <ClCompile Include="..\..\..\Code\Utility\GUI\CGUIUtility.cpp">
       <Filter>Source Files\GUI</Filter>

@@ -3,7 +3,8 @@
 #include "Event/CEventManager.h"
 #include "Event/eEvent.h"
 #include "Math/CMathUtility.h"
-#include "GDIPlus/CGDIPlusUtility.h"
+#include "GUI/CGUIManager.h"
+#include "GUI/GraphicsLibrary/CGraphicsLibrary.h"
 
 auto pOnMouseDown_Scroll	= [](void *pControl, void *pTriggerArg) { ((CScrollControl*) pControl)->onMouseDown(*(CVector2i32*) pTriggerArg); };
 auto pOnMouseUp_Scroll		= [](void *pControl, void *pTriggerArg) { ((CScrollControl*) pControl)->onMouseUp(*(CVector2i32*) pTriggerArg); };
@@ -57,13 +58,13 @@ void									CScrollControl::onMouseMove(CVector2i32& vecCursorPosition)
 // render
 void									CScrollControl::render(void)
 {
+	CGraphicsLibrary *pGFX = CGUIManager::getInstance()->getGraphicsLibrary();
+
 	// background bar
-	CGDIPlusUtility::drawRectangleFill(getPosition(), getSize(), getFillColour());
-	CGDIPlusUtility::drawRectangleBorder(getPosition(), getSize(), getLineColour());
+	pGFX->drawRectangle(getPosition(), getSize(), getStyles());
 	
 	// seek bar
-	CGDIPlusUtility::drawRectangleFill(getSeekBarPosition(), getSeekBarSize(), getSeekBarFillColour());
-	CGDIPlusUtility::drawRectangleBorder(getSeekBarPosition(), getSeekBarSize(), getSeekBarLineColour());
+	pGFX->drawRectangle(getSeekBarPosition(), getSeekBarSize(), getStyles());
 }
 
 // seek bar

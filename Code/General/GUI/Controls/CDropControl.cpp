@@ -1,10 +1,10 @@
 #include "CDropControl.h"
 #include "Math/CMathUtility.h"
-#include "GDIPlus/CGDIPlusUtility.h"
 #include "Event/CEventManager.h"
 #include "Event/eEvent.h"
+#include "GUI/CGUIManager.h"
+#include "GUI/GraphicsLibrary/CGraphicsLibrary.h"
 #include "GUI/Window/CWindow.h"
-#include "GDIPlus/CGDIPlusUtility.h"
 
 using namespace std;
 
@@ -54,22 +54,23 @@ void				CDropControl::onMouseUp(CVector2i32& vecCursorPosition)
 // render
 void				CDropControl::render(void)
 {
+	CGraphicsLibrary *pGFX = CGUIManager::getInstance()->getGraphicsLibrary();
+
 	if(isSelectionListOpen())
 	{
-		CGDIPlusUtility::drawRectangleFill(getSelectionListPosition(), getSelectionListSize(), getFillColour());
-		CGDIPlusUtility::drawRectangleBorder(getSelectionListPosition(), getSelectionListSize(), getLineColour());
+		pGFX->drawRectangle(getSelectionListPosition(), getSelectionListSize(), getStyles());
 		uint32 i = 0;
 		for(auto pDropEntry : getEntries())
 		{
-			CGDIPlusUtility::drawText(getSelectionListEntryPosition(i), getSelectionListEntrySize(), pDropEntry->getText(), getTextColour(), getFontSize(), isBold());
+			pGFX->drawText(getSelectionListEntryPosition(i), getSelectionListEntrySize(), pDropEntry->getText(), getStyles());
 			i++;
 		}
 	}
 
-	CGDIPlusUtility::drawRectangleFill(getPosition(), getSize(), getFillColour());
-	CGDIPlusUtility::drawRectangleBorder(getPosition(), getSize(), getLineColour());
-	CGDIPlusUtility::drawText(getPosition(), getSize(), getEntryByIndex(getSelectedIndex())->getText(), getTextColour(), getFontSize(), isBold());
-	//CGDIPlusUtility::drawTriangle(aaaaaaaaaaaaaaaaaaaaaaaaa); // todo
+	pGFX->drawRectangleFill(getPosition(), getSize(), getStyles());
+	pGFX->drawRectangleBorder(getPosition(), getSize(), getStyles());
+	pGFX->drawText(getPosition(), getSize(), getEntryByIndex(getSelectedIndex())->getText(), getStyles());
+	// todo pGFX->drawTriangle(getPosition(), 10, 0, getStyles());
 }
 
 // cursor
