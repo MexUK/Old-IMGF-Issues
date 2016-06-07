@@ -77,6 +77,22 @@ void									CWindow::unbindAllEvents(void)
 	unbindEvents();
 }
 
+// event triggering
+bool									CWindow::triggerEvent(uint32 uiEventId, void *pTriggerArgument)
+{
+	return CEventType::triggerEvent(uiEventId, pTriggerArgument, (uint32)getWindowHandle());
+}
+
+CEventBoundFunction*					CWindow::bindEvent(uint32 uiEventId, void(*pFunction)(void*), void *pTriggerArgument, int32 iZOrder)
+{
+	return CEventType::bindEvent(uiEventId, pFunction, pTriggerArgument, iZOrder, (uint32) getWindowHandle());
+}
+
+CEventBoundFunction*					CWindow::bindEvent(uint32 uiEventId, void(*pFunction)(void*, void*), void *pTriggerArgument, int32 iZOrder)
+{
+	return CEventType::bindEvent(uiEventId, pFunction, pTriggerArgument, iZOrder, (uint32) getWindowHandle());
+}
+
 // input
 void									CWindow::onMouseDown(CVector2i32& vecCursorPosition)
 {
@@ -275,6 +291,8 @@ void									CWindow::render(void)
 
 void									CWindow::onRenderFromWMPaint(void)
 {
+	CGraphicsLibrary *pGFX = CGUIManager::getInstance()->getGraphicsLibrary();
+
 	// begin paint
 	PAINTSTRUCT ps;
 	HDC hdc = BeginPaint(getWindowHandle(), &ps);
@@ -290,7 +308,17 @@ void									CWindow::onRenderFromWMPaint(void)
 
 	// create and store GDI Plus Graphics object
 	Gdiplus::Graphics *pGraphics = new Gdiplus::Graphics(hdcMem);
-	((CGraphicsLibrary_GDIPlus*) CGUIManager::getInstance()->getGraphicsLibrary())->setGraphics(pGraphics);
+	((CGraphicsLibrary_GDIPlus*) pGFX)->setGraphics(pGraphics);
+
+	// render window background and border
+	if (getStyles()->doesHaveFill())
+	{
+		pGFX->drawRectangleFill(CVector2i32(0, 0), getSize(), getStyles());
+	}
+	if (getStyles()->doesHaveBorder())
+	{
+		pGFX->drawRectangleBorder(CVector2i32(0, 0), getSize(), getStyles());
+	}
 
 	// render to memory
 	triggerEvent(EVENT_onRenderBefore);
@@ -310,6 +338,19 @@ void									CWindow::onRenderFromWMPaint(void)
 
 	// end paint
 	EndPaint(getWindowHandle(), &ps);
+}
+
+// control groups
+CControlGroup*							CWindow::addControlGroup(void)
+{
+	return new CControlGroup;
+}
+
+CControlGroup*							CWindow::addControlGroup(CWindow *pWindow)
+{
+	CControlGroup *pControlGroup = new CControlGroup;
+	pControlGroup->setWindow(pWindow);
+	return pControlGroup;
 }
 
 // maximized

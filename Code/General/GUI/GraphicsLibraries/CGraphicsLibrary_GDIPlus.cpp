@@ -20,7 +20,10 @@ void					CGraphicsLibrary_GDIPlus::drawLine(CVector2i32& vecPoint1, CVector2i32&
 // draw rectangle
 void					CGraphicsLibrary_GDIPlus::drawRectangle(CVector2i32& vecPosition, CVector2ui32& vecSize, CGUIStyles *pStyles)
 {
-	drawRectangleFill(vecPosition, vecSize, pStyles);
+	if (pStyles->doesHaveFill()) // todo - use Fill or Background for naming not both
+	{
+		drawRectangleFill(vecPosition, vecSize, pStyles);
+	}
 	if (pStyles->doesHaveBorder())
 	{
 		drawRectangleBorder(vecPosition, vecSize, pStyles);
@@ -84,7 +87,10 @@ void					CGraphicsLibrary_GDIPlus::drawRectangleFill(CVector2i32& vecPosition, C
 // draw circle
 void					CGraphicsLibrary_GDIPlus::drawCircle(CVector2i32& vecPosition, float32 fRadius, CGUIStyles *pStyles)
 {
-	drawCircleFill(vecPosition, fRadius, pStyles);
+	if (pStyles->doesHaveFill())
+	{
+		drawCircleFill(vecPosition, fRadius, pStyles);
+	}
 	if (pStyles->doesHaveBorder())
 	{
 		drawCircleBorder(vecPosition, fRadius, pStyles);
@@ -104,7 +110,10 @@ void					CGraphicsLibrary_GDIPlus::drawCircleFill(CVector2i32& vecPosition, floa
 // draw ellipse
 void					CGraphicsLibrary_GDIPlus::drawEllipse(CVector2i32& vecPosition, CVector2ui32& vecSize, CGUIStyles *pStyles)
 {
-	drawEllipseFill(vecPosition, vecSize, pStyles);
+	if (pStyles->doesHaveFill())
+	{
+		drawEllipseFill(vecPosition, vecSize, pStyles);
+	}
 	if (pStyles->doesHaveBorder())
 	{
 		drawEllipseBorder(vecPosition, vecSize, pStyles);
@@ -124,7 +133,10 @@ void					CGraphicsLibrary_GDIPlus::drawEllipseFill(CVector2i32& vecPosition, CVe
 // draw triangle
 void					CGraphicsLibrary_GDIPlus::drawTriangle(CVector2i32& vecPosition, uint32 uiSideLength, uint8 uiFacingDirection, CGUIStyles *pStyles)
 {
-	drawTriangleFill(vecPosition, uiSideLength, uiFacingDirection, pStyles);
+	if (pStyles->doesHaveFill())
+	{
+		drawTriangleFill(vecPosition, uiSideLength, uiFacingDirection, pStyles);
+	}
 	if (pStyles->doesHaveBorder())
 	{
 		drawTriangleBorder(vecPosition, uiSideLength, uiFacingDirection, pStyles);
@@ -144,7 +156,10 @@ void					CGraphicsLibrary_GDIPlus::drawTriangleFill(CVector2i32& vecPosition, ui
 // draw polygon
 void					CGraphicsLibrary_GDIPlus::drawPolygon(vector<CVector2i32>& vecPoints, CGUIStyles *pStyles)
 {
-	drawPolygonFill(vecPoints, pStyles);
+	if (pStyles->doesHaveFill())
+	{
+		drawPolygonFill(vecPoints, pStyles);
+	}
 	if (pStyles->doesHaveBorder())
 	{
 		drawPolygonBorder(vecPoints, pStyles);
@@ -285,12 +300,14 @@ Font*					CGraphicsLibrary_GDIPlus::createFontFromStyles(CGUIStyles *pStyles)
 // utility
 Point*					CGraphicsLibrary_GDIPlus::getGdiplusPointsFromVectorPoints(vector<CVector2i32>& vecPoints)
 {
+	// todo - delete
 	Point* pPoints = new Point[vecPoints.size()];
 	uint32 i = 0;
 	for (CVector2i32& vecPoint : vecPoints)
 	{
 		pPoints[i].X = vecPoint.m_x;
-		pPoints[i].Y = vecPoint.m_x;
+		pPoints[i].Y = vecPoint.m_y;
+		i++;
 	}
 	return pPoints;
 }

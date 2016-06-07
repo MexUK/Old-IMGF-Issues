@@ -304,3 +304,8 @@ CVector2ui32				CMathUtility::get2DSizeFromCircle(CVector2i32& vecPoint, float32
 	float32 fDiameter = fRadius * 2;
 	return CVector2ui32(fDiameter, fDiameter);
 }
+
+uint32						CMathUtility::getCenterX(uint32 uiWidth)
+{
+	return uiWidth / 2;
+}

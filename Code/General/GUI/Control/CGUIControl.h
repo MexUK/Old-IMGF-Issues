@@ -53,7 +53,7 @@ public:
 	bool									isPointMarkedAsInControl(void) { return m_bPointMarkedAsInControl; }
 
 	CGUIScrollPool*							getScrolls(void) { return m_pScrolls; }
-	CGUIStyles*								getStyles(void) { return m_pStyles; }
+	CGUIStyles*								getStyles(void) { return m_pStyles; } // todo - repeated code x3
 
 private:
 	CControlGroup*							m_pControlGroup;

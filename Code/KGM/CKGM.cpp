@@ -74,6 +74,7 @@
 #include "CTiming.h"
 #include "CLastUsedValueManager.h"
 #include "GUI/Window/CKGMWindow.h"
+#include "GUI/ThemeDesigner/CThemeDesigner.h"
 
 using namespace std;
 
@@ -93,6 +94,7 @@ CKGM::CKGM(void)
 	m_pUpdateManager		= new CUpdateManager;
 	m_pWindowManager		= new CWindowManager;
 	m_pLastUsedValueManager	= new CLastUsedValueManager;
+	m_pThemeDesigner		= new CThemeDesigner;
 }
 CKGM::~CKGM(void)
 {
@@ -109,12 +111,14 @@ CKGM::~CKGM(void)
 	delete m_pUpdateManager;
 	delete m_pWindowManager;
 	delete m_pLastUsedValueManager;
+	delete m_pThemeDesigner;
 }
 
 // init/uninit (ocurs in original thread)
 void				CKGM::init(void)
 {
 	m_pWindowManager->init();
+	m_pThemeDesigner->init();
 	initInitializationThread();
 }
 
@@ -255,8 +259,8 @@ void				CKGM::initEventBinding(void)
 	};
 	
 	CEventManager::getInstance()->bindEvent(EVENT_onTaskProgress,				pOnTaskProgress);
-	CEventManager::getInstance()->bindEvent(EVENT_onParseIMGEntry,		pOnTaskProgress);
-	CEventManager::getInstance()->bindEvent(EVENT_onStoreIMGEntry,		pOnTaskProgress);
+	CEventManager::getInstance()->bindEvent(EVENT_onParseIMGEntry,				pOnTaskProgress);
+	CEventManager::getInstance()->bindEvent(EVENT_onStoreIMGEntry,				pOnTaskProgress);
 	CEventManager::getInstance()->bindEvent(EVENT_onAddIMGEntryExtension,		pOnEntriesExtensionChange);
 	CEventManager::getInstance()->bindEvent(EVENT_onRemoveIMGEntryExtension,	pOnEntriesExtensionChange);
 }

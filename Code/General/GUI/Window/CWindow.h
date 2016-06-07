@@ -15,6 +15,7 @@
 class CRadioControl;
 class CDropTarget;
 class CGUIStyles;
+class CWindow;
 
 class CWindow : public CEventType, public CEventBinder, public CVectorPool<CControlGroup*>
 {
@@ -27,6 +28,10 @@ public:
 	void									bindEvents(void);
 	void									bindAllEvents(void);
 	void									unbindAllEvents(void);
+	
+	CEventBoundFunction*					bindEvent(uint32 uiEventId, void(*pFunction)(void*), void *pTriggerArgument = nullptr, int32 iZOrder = 0);
+	CEventBoundFunction*					bindEvent(uint32 uiEventId, void(*pFunction)(void*, void*), void *pTriggerArgument = nullptr, int32 iZOrder = 0);
+	bool									triggerEvent(uint32 uiEventId, void *pTriggerArgument = nullptr);
 
 	void									onMouseDown(CVector2i32& vecCursorPosition);
 	void									onMouseUp(CVector2i32& vecCursorPosition);
@@ -35,6 +40,9 @@ public:
 
 	virtual void							render(void);
 	void									onRenderFromWMPaint(void);
+
+	CControlGroup*							addControlGroup(void);
+	CControlGroup*							addControlGroup(CWindow *pWindow);
 
 	void									unmarkRadios(CRadioControl *pRadio);
 

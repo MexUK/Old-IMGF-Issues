@@ -53,6 +53,7 @@ public:
 	static CVector2i32			getEllipseFromRectangle(CVector2i32& vecPoint, CVector2ui32& vecSize);
 	static uint32				convertDiameterToRadius(uint32 uiDiameter);
 	static CVector2ui32			get2DSizeFromCircle(CVector2i32& vecPoint, float32 fRadius);
+	static uint32				getCenterX(uint32 uiWidth);
 };
 
 uint32				CMathUtility::convertSectorsToBytes(uint32 uiSectorCount)

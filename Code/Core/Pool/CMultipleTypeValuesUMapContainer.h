@@ -27,7 +27,6 @@ public:
 	template <typename ValueType>
 	ValueType*								getEntryPointer(KeyClass key);				// does check if the key exists
 	void*									getEntryVoidPointer(KeyClass key);			// does check if the key exists
-	void									addEntry(KeyClass key, void *pValue);
 	void									removeAllEntries(void);
 	void									removeEntry(KeyClass key);
 
@@ -142,12 +141,6 @@ void				CMultipleTypeValuesUMapContainer<KeyClass>::removeAllEntries(void)
 		delete m_umapEntries[it.first];
 	}
 	m_umapEntries.clear();
-}
-
-template <class KeyClass>
-void				CMultipleTypeValuesUMapContainer<KeyClass>::addEntry(KeyClass key, void *pValue)
-{
-	m_umapEntries[key].push_back(pValue);
 }
 
 template <class KeyClass>

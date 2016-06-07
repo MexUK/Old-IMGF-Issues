@@ -121,6 +121,18 @@
     <Filter Include="Header Files\GUI\Styles">
       <UniqueIdentifier>{46fcc75c-c84e-40dd-8fea-7dccd47daff9}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Header Files\GUI\Shape">
+      <UniqueIdentifier>{d69be05c-55c1-4337-b3f6-3cc9b7f4512b}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\GUI\Shape">
+      <UniqueIdentifier>{c3c1bd62-b962-4eef-a843-94ed6926f30a}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\GUI\Shapes">
+      <UniqueIdentifier>{caf055cf-1273-431c-becc-fc54302b610f}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\GUI\Shapes">
+      <UniqueIdentifier>{e8690b33-0580-43e6-a084-25afd9f8d1fa}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\..\..\Code\General\Image\CRasterDataFormatManager.cpp">
@@ -215,6 +227,30 @@
     </ClCompile>
     <ClCompile Include="..\..\..\Code\General\GUI\Styles\CGUIStyles.cpp">
       <Filter>Source Files\GUI\Styles</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\Code\General\GUI\Shape\CGUIShape.cpp">
+      <Filter>Source Files\GUI\Shape</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\Code\General\GUI\Shapes\CLineShape.cpp">
+      <Filter>Source Files\GUI\Shapes</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\Code\General\GUI\Shapes\CPolygonShape.cpp">
+      <Filter>Source Files\GUI\Shapes</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\Code\General\GUI\Shapes\CRectangleShape.cpp">
+      <Filter>Source Files\GUI\Shapes</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\Code\General\GUI\Shapes\CSquareShape.cpp">
+      <Filter>Source Files\GUI\Shapes</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\Code\General\GUI\Shapes\CTriangleShape.cpp">
+      <Filter>Source Files\GUI\Shapes</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\Code\General\GUI\Shapes\CCircleShape.cpp">
+      <Filter>Source Files\GUI\Shapes</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\Code\General\GUI\Shapes\CEllipseShape.cpp">
+      <Filter>Source Files\GUI\Shapes</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -382,6 +418,33 @@
     </ClInclude>
     <ClInclude Include="..\..\..\Code\General\GUI\Styles\eGUIStyles.h">
       <Filter>Header Files\GUI\Styles</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\Code\General\GUI\Shape\CGUIShape.h">
+      <Filter>Header Files\GUI\Shape</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\Code\General\GUI\Shape\eGUIShape.h">
+      <Filter>Header Files\GUI\Shape</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\Code\General\GUI\Shapes\CLineShape.h">
+      <Filter>Header Files\GUI\Shapes</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\Code\General\GUI\Shapes\CPolygonShape.h">
+      <Filter>Header Files\GUI\Shapes</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\Code\General\GUI\Shapes\CRectangleShape.h">
+      <Filter>Header Files\GUI\Shapes</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\Code\General\GUI\Shapes\CSquareShape.h">
+      <Filter>Header Files\GUI\Shapes</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\Code\General\GUI\Shapes\CTriangleShape.h">
+      <Filter>Header Files\GUI\Shapes</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\Code\General\GUI\Shapes\CEllipseShape.h">
+      <Filter>Header Files\GUI\Shapes</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\Code\General\GUI\Shapes\CCircleShape.h">
+      <Filter>Header Files\GUI\Shapes</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

@@ -80,9 +80,6 @@ void					CKGMWindow::onRender(void)
 {
 	CGraphicsLibrary *pGFX = CGUIManager::getInstance()->getGraphicsLibrary();
 
-	// render background
-	pGFX->drawRectangleFill(CVector2i32(0, 0), getSize(), getStyles());
-
 	// render title bar
 	string strTitleBarText = "Komodo Game Manager";
 	uint32 uiTitleBarTextFontSize = 25;

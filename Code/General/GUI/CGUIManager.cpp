@@ -58,29 +58,31 @@ CWindow*					CGUIManager::addWindow(CVector2i32& vecWindowPosition, CVector2ui32
 // create window (internal)
 bool						CGUIManager::createWindow(CWindow *pWindow)
 {
-	// register the window
-	WNDCLASSEX wc = { 0 };
-
 	char *szClassName = "KGM_Window";
 	HINSTANCE hInstance = GetModuleHandle(NULL);
 
-	wc.cbSize = sizeof(wc);
-	wc.style = CS_DBLCLKS;
-	wc.lpfnWndProc = WndProc_Window;
-	wc.cbClsExtra = 0;
-	wc.cbWndExtra = 0;
-	wc.hInstance = hInstance;
-	wc.hIcon = LoadIcon(NULL, IDI_APPLICATION);
-	wc.hCursor = LoadCursor(NULL, IDC_ARROW);
-	wc.hbrBackground = (HBRUSH)(COLOR_WINDOW + 1);
-	wc.lpszMenuName = NULL;
-	wc.lpszClassName = szClassName;
-	wc.hIconSm = LoadIcon(NULL, IDI_APPLICATION);
-	if (!RegisterClassEx(&wc))
+	// register the window
+	if (getEntryCount() == 0)
 	{
-		pWindow->unload();
-		delete pWindow;
-		return false;
+		WNDCLASSEX wc = { 0 };
+		wc.cbSize = sizeof(wc);
+		wc.style = CS_DBLCLKS;
+		wc.lpfnWndProc = WndProc_Window;
+		wc.cbClsExtra = 0;
+		wc.cbWndExtra = 0;
+		wc.hInstance = hInstance;
+		wc.hIcon = LoadIcon(NULL, IDI_APPLICATION);
+		wc.hCursor = LoadCursor(NULL, IDC_ARROW);
+		wc.hbrBackground = (HBRUSH) (COLOR_WINDOW + 1);
+		wc.lpszMenuName = NULL;
+		wc.lpszClassName = szClassName;
+		wc.hIconSm = LoadIcon(NULL, IDI_APPLICATION);
+		if (!RegisterClassEx(&wc))
+		{
+			pWindow->unload();
+			delete pWindow;
+			return false;
+		}
 	}
 
 	// create the window

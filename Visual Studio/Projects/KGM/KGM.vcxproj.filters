@@ -121,6 +121,12 @@
     <Filter Include="Header Files\GUI\Editor\Tab">
       <UniqueIdentifier>{894af7c2-5f88-4b30-906a-d37d5c76335c}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Header Files\GUI\ThemeDesigner">
+      <UniqueIdentifier>{3428ce81-a229-4ab9-ba32-fa1cdc0fd125}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\GUI\ThemeDesigner">
+      <UniqueIdentifier>{812c5d96-f6e5-41a1-a862-f121f9258c21}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\..\..\Code\KGM\CDumpManager.cpp">
@@ -248,6 +254,9 @@
     </ClCompile>
     <ClCompile Include="..\..\..\Code\KGM\GUI\Editor\Tab\CEditorTab.cpp">
       <Filter>Source Files\GUI\Editor\Tab</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\Code\KGM\GUI\ThemeDesigner\CThemeDesigner.cpp">
+      <Filter>Source Files\GUI\ThemeDesigner</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -424,6 +433,9 @@
     </ClInclude>
     <ClInclude Include="..\..\..\Code\KGM\GUI\Editor\Tab\CEditorTab.h">
       <Filter>Header Files\GUI\Editor\Tab</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\Code\KGM\GUI\ThemeDesigner\CThemeDesigner.h">
+      <Filter>Header Files\GUI\ThemeDesigner</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>
