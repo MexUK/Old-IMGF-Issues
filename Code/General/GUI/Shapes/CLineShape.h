@@ -2,16 +2,15 @@
 #define CLineShape_H
 
 #include "GUI/Shape/eGUIShape.h"
-#include "GUI/Shape/CGUIShape.h"
+#include "GUI/Shapes/Geometries/CGUIShapeGeometry_2xPoint.h"
 
-class CLineShape : public CGUIShape
+class CLineShape : public CGUIShapeGeometry_2xPoint
 {
 public:
 	CLineShape(void);
 
-	void					bindEvents(void);
-
-	void					render(void);
+	void							bindEvents(void);
+	void							render(void);
 };
 
 #endif

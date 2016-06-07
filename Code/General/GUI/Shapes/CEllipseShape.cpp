@@ -6,23 +6,18 @@
 auto pOnRender_Ellipse		= [](void *pShape, void *pTriggerArg) { ((CEllipseShape*) pShape)->render(); };
 
 CEllipseShape::CEllipseShape(void) :
-	CGUIShape(GUI_SHAPE_ELLIPSE)
-{
-}
-
-CEllipseShape::CEllipseShape(eGUIShape eShapeType) :
-	CGUIShape(eShapeType)
+	CGUIShapeGeometry_1xPoint_1x2DSize(GUI_SHAPE_ELLIPSE)
 {
 }
 
 // event binding
-void					CEllipseShape::bindEvents(void)
+void							CEllipseShape::bindEvents(void)
 {
 	storeEventBoundFunction(getWindow()->bindEvent(EVENT_onRender, pOnRender_Ellipse, this));
 }
 
 // render
-void					CEllipseShape::render(void)
+void							CEllipseShape::render(void)
 {
 	CGraphicsLibrary *pGFX = CGUIManager::getInstance()->getGraphicsLibrary();
 

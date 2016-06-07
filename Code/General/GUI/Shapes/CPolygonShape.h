@@ -2,17 +2,15 @@
 #define CPolygonShape_H
 
 #include "GUI/Shape/eGUIShape.h"
-#include "GUI/Shape/CGUIShape.h"
+#include "GUI/Shapes/Geometries/CGUIShapeGeometry_NxPoint.h"
 
-class CPolygonShape : public CGUIShape
+class CPolygonShape : public CGUIShapeGeometry_NxPoint
 {
 public:
 	CPolygonShape(void);
-	CPolygonShape(eGUIShape eShapeType);
 
-	void					bindEvents(void);
-
-	void					render(void);
+	void							bindEvents(void);
+	void							render(void);
 };
 
 #endif

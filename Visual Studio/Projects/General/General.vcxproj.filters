@@ -133,6 +133,15 @@
     <Filter Include="Source Files\GUI\Shapes">
       <UniqueIdentifier>{e8690b33-0580-43e6-a084-25afd9f8d1fa}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Header Files\GUI\Shapes\Geometries">
+      <UniqueIdentifier>{c08fa2d6-3920-4e58-9b86-116f12b5b9ba}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\GUI\Shape\Geometry">
+      <UniqueIdentifier>{a5f33396-d337-41ee-94e6-2183fe4ab4fa}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\GUI\Shapes\Geometries">
+      <UniqueIdentifier>{15aa698a-1025-402f-8f25-1fcd6e7538df}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\..\..\Code\General\Image\CRasterDataFormatManager.cpp">
@@ -251,6 +260,21 @@
     </ClCompile>
     <ClCompile Include="..\..\..\Code\General\GUI\Shapes\CEllipseShape.cpp">
       <Filter>Source Files\GUI\Shapes</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\Code\General\GUI\Shapes\Geometries\CGUIShapeGeometry_3xPoint.cpp">
+      <Filter>Source Files\GUI\Shapes\Geometries</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\Code\General\GUI\Shapes\Geometries\CGUIShapeGeometry_NxPoint.cpp">
+      <Filter>Source Files\GUI\Shapes\Geometries</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\Code\General\GUI\Shapes\Geometries\CGUIShapeGeometry_1xPoint_1x1DSize.cpp">
+      <Filter>Source Files\GUI\Shapes\Geometries</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\Code\General\GUI\Shapes\Geometries\CGUIShapeGeometry_1xPoint_1x2DSize.cpp">
+      <Filter>Source Files\GUI\Shapes\Geometries</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\Code\General\GUI\Shapes\Geometries\CGUIShapeGeometry_2xPoint.cpp">
+      <Filter>Source Files\GUI\Shapes\Geometries</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -445,6 +469,24 @@
     </ClInclude>
     <ClInclude Include="..\..\..\Code\General\GUI\Shapes\CCircleShape.h">
       <Filter>Header Files\GUI\Shapes</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\Code\General\GUI\Shapes\Geometries\CGUIShapeGeometry_3xPoint.h">
+      <Filter>Header Files\GUI\Shapes\Geometries</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\Code\General\GUI\Shapes\Geometries\CGUIShapeGeometry_NxPoint.h">
+      <Filter>Header Files\GUI\Shapes\Geometries</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\Code\General\GUI\Shapes\Geometries\CGUIShapeGeometry_1xPoint_1x1DSize.h">
+      <Filter>Header Files\GUI\Shapes\Geometries</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\Code\General\GUI\Shapes\Geometries\CGUIShapeGeometry_1xPoint_1x2DSize.h">
+      <Filter>Header Files\GUI\Shapes\Geometries</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\Code\General\GUI\Shapes\Geometries\CGUIShapeGeometry_2xPoint.h">
+      <Filter>Header Files\GUI\Shapes\Geometries</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\Code\General\GUI\Shape\Geometry\eGUIShapeGeometry.h">
+      <Filter>Header Files\GUI\Shape\Geometry</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

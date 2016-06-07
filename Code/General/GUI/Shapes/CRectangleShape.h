@@ -2,17 +2,15 @@
 #define CRectangleShape_H
 
 #include "GUI/Shape/eGUIShape.h"
-#include "GUI/Shape/CGUIShape.h"
+#include "GUI/Shapes/Geometries/CGUIShapeGeometry_1xPoint_1x2DSize.h"
 
-class CRectangleShape : public CGUIShape
+class CRectangleShape : public CGUIShapeGeometry_1xPoint_1x2DSize
 {
 public:
 	CRectangleShape(void);
-	CRectangleShape(eGUIShape eShapeType);
 
-	void					bindEvents(void);
-
-	void					render(void);
+	void							bindEvents(void);
+	void							render(void);
 };
 
 #endif

@@ -20,6 +20,10 @@ public:
 
 	virtual void					drawLine(CVector2i32& vecPoint1, CVector2i32& vecPoint2, CGUIStyles *pStyles = nullptr) = 0;
 
+	virtual void					drawSquare(CVector2i32& vecPosition, uint32 uiSize, CGUIStyles *pStyles = nullptr) = 0;
+	virtual void					drawSquareBorder(CVector2i32& vecPosition, uint32 uiSize, CGUIStyles *pStyles = nullptr) = 0;
+	virtual void					drawSquareFill(CVector2i32& vecPosition, uint32 uiSize, CGUIStyles *pStyles = nullptr) = 0;
+
 	virtual void					drawRectangle(CVector2i32& vecPosition, CVector2ui32& vecSize, CGUIStyles *pStyles = nullptr) = 0;
 	virtual void					drawRectangleBorder(CVector2i32& vecPosition, CVector2ui32& vecSize, CGUIStyles *pStyles = nullptr) = 0;
 	virtual void					drawRectangleFill(CVector2i32& vecPosition, CVector2ui32& vecSize, CGUIStyles *pStyles = nullptr) = 0;

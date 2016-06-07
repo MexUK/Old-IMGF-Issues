@@ -74,8 +74,7 @@ public:
 
 private:
 	void						_addControl(CGUIControl *pWindowControl, CVector2i32& vecPosition, CVector2ui32& vecSize);
-	void						_addShape(CGUIShape *pShape, CVector2i32& vecPosition, CVector2ui32& vecSize);
-	void						_addShapeWithPolygonPoints(CGUIShape *pShape, std::vector<CVector2i32>& vecPoints);
+	void						_addShape(CGUIShape *pShape);
 
 private:
 	CWindow*					m_pWindow;

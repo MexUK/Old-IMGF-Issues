@@ -152,30 +152,35 @@ CLineShape*					CControlGroup::addLine(CVector2i32& vecPoint1, CVector2i32& vecP
 	CLineShape *pLine = new CLineShape;
 	vector<CVector2i32> vecPoints;
 	vecPoints.resize(2);
-	vecPoints[0] = vecPoint1;
-	vecPoints[1] = vecPoint2;
-	_addShapeWithPolygonPoints(pLine, vecPoints);
+	pLine->setPoint1(vecPoint1);
+	pLine->setPoint2(vecPoint2);
+	_addShape(pLine);
 	return pLine;
 }
 
 CRectangleShape*			CControlGroup::addRectangle(CVector2i32& vecPosition, CVector2ui32& vecSize)
 {
 	CRectangleShape *pRectangle = new CRectangleShape;
-	_addShape(pRectangle, vecPosition, vecSize);
+	pRectangle->setPosition(vecPosition);
+	pRectangle->setSize(vecSize);
+	_addShape(pRectangle);
 	return pRectangle;
 }
 
 CEllipseShape*				CControlGroup::addEllipse(CVector2i32& vecPosition, CVector2ui32& vecSize)
 {
 	CEllipseShape *pEllipse = new CEllipseShape;
-	_addShape(pEllipse, vecPosition, vecSize);
+	pEllipse->setPosition(vecPosition);
+	pEllipse->setSize(vecSize);
+	_addShape(pEllipse);
 	return pEllipse;
 }
 
 CPolygonShape*				CControlGroup::addPolygon(vector<CVector2i32>& vecPoints)
 {
 	CPolygonShape *pPolygon = new CPolygonShape;
-	_addShapeWithPolygonPoints(pPolygon, vecPoints);
+	pPolygon->setPoints(vecPoints);
+	_addShape(pPolygon);
 	return pPolygon;
 }
 
@@ -183,7 +188,9 @@ CPolygonShape*				CControlGroup::addPolygon(vector<CVector2i32>& vecPoints)
 CSquareShape*				CControlGroup::addSquare(CVector2i32& vecPosition, uint32 uiSideLength)
 {
 	CSquareShape *pSquare = new CSquareShape;
-	_addShape(pSquare, vecPosition, CVector2ui32(uiSideLength, uiSideLength)); // todo - CVector2ui32(uiSideLength) to init both props
+	pSquare->setPosition(vecPosition);
+	pSquare->setSize(uiSideLength);
+	_addShape(pSquare);
 	return pSquare;
 }
 
@@ -191,19 +198,19 @@ CCircleShape*				CControlGroup::addCircle(CVector2i32& vecPosition, uint32 uiRad
 {
 	CCircleShape *pCircle = new CCircleShape;
 	uint32 uiDiameter = uiRadius * 2;
-	_addShape(pCircle, vecPosition, CVector2ui32(uiDiameter, uiDiameter));  // todo - CVector2ui32(uiDiameter) to init both props
+	pCircle->setPosition(vecPosition);
+	pCircle->setSize(uiRadius);
+	_addShape(pCircle);
 	return pCircle;
 }
 
 CTriangleShape*				CControlGroup::addTriangle(CVector2i32& vecPoint1, CVector2i32& vecPoint2, CVector2i32& vecPoint3)
 {
-	vector<CVector2i32> vecPoints;
-	vecPoints.resize(3);
-	vecPoints[0] = vecPoint1;
-	vecPoints[1] = vecPoint2;
-	vecPoints[2] = vecPoint3;
 	CTriangleShape *pTriangle = new CTriangleShape;
-	_addShapeWithPolygonPoints(pTriangle, vecPoints);
+	pTriangle->setPoint1(vecPoint1);
+	pTriangle->setPoint2(vecPoint2);
+	pTriangle->setPoint3(vecPoint3);
+	_addShape(pTriangle);
 	return pTriangle;
 }
 
@@ -257,17 +264,8 @@ CTriangleShape*				CControlGroup::addIsoscelesTriangle(CVector2i32& vecBottomLef
 }
 
 // add shape - base
-void						CControlGroup::_addShape(CGUIShape *pShape, CVector2i32& vecPosition, CVector2ui32& vecSize)
+void						CControlGroup::_addShape(CGUIShape *pShape)
 {
 	pShape->setControlGroup(this);
-	pShape->setPosition(vecPosition);
-	pShape->setSize(vecSize);
-	getShapes().addEntry(pShape);
-}
-
-void						CControlGroup::_addShapeWithPolygonPoints(CGUIShape *pShape, vector<CVector2i32>& vecPoints)
-{
-	pShape->setControlGroup(this);
-	pShape->setPolygonPointPositions(vecPoints);
 	getShapes().addEntry(pShape);
 }

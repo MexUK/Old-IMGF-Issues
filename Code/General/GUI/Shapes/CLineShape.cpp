@@ -6,20 +6,20 @@
 auto pOnRender_Line		= [](void *pShape, void *pTriggerArg) { ((CLineShape*) pShape)->render(); };
 
 CLineShape::CLineShape(void) :
-	CGUIShape(GUI_SHAPE_LINE)
+	CGUIShapeGeometry_2xPoint(GUI_SHAPE_LINE)
 {
 }
 
 // event binding
-void					CLineShape::bindEvents(void)
+void							CLineShape::bindEvents(void)
 {
 	storeEventBoundFunction(getWindow()->bindEvent(EVENT_onRender, pOnRender_Line, this));
 }
 
 // render
-void					CLineShape::render(void)
+void							CLineShape::render(void)
 {
 	CGraphicsLibrary *pGFX = CGUIManager::getInstance()->getGraphicsLibrary();
 
-	pGFX->drawLine(getPolygonPointPositions()[0], getPolygonPointPositions()[1], getStyles());
+	pGFX->drawLine(getPoint1(), getPoint2(), getStyles());
 }

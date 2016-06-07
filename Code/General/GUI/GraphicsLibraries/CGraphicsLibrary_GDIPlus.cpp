@@ -84,6 +84,29 @@ void					CGraphicsLibrary_GDIPlus::drawRectangleFill(CVector2i32& vecPosition, C
 	}
 }
 
+// draw square
+void					CGraphicsLibrary_GDIPlus::drawSquare(CVector2i32& vecPosition, uint32 uiSize, CGUIStyles *pStyles)
+{
+	if (pStyles->doesHaveFill()) // todo - use Fill or Background for naming not both
+	{
+		drawSquareFill(vecPosition, uiSize, pStyles);
+	}
+	if (pStyles->doesHaveBorder())
+	{
+		drawSquareBorder(vecPosition, uiSize, pStyles);
+	}
+}
+
+void					CGraphicsLibrary_GDIPlus::drawSquareBorder(CVector2i32& vecPosition, uint32 uiSize, CGUIStyles *pStyles)
+{
+	drawRectangleBorder(vecPosition, CVector2ui32(uiSize, uiSize), pStyles);
+}
+
+void					CGraphicsLibrary_GDIPlus::drawSquareFill(CVector2i32& vecPosition, uint32 uiSize, CGUIStyles *pStyles)
+{
+	drawRectangleFill(vecPosition, CVector2ui32(uiSize, uiSize), pStyles);
+}
+
 // draw circle
 void					CGraphicsLibrary_GDIPlus::drawCircle(CVector2i32& vecPosition, float32 fRadius, CGUIStyles *pStyles)
 {

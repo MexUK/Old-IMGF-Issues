@@ -19,6 +19,10 @@ public:
 
 	void					drawLine(CVector2i32& vecPoint1, CVector2i32& vecPoint2, CGUIStyles *pStyles = nullptr);
 
+	void					drawSquare(CVector2i32& vecPosition, uint32 uiSize, CGUIStyles *pStyles = nullptr);
+	void					drawSquareBorder(CVector2i32& vecPosition, uint32 uiSize, CGUIStyles *pStyles = nullptr);
+	void					drawSquareFill(CVector2i32& vecPosition, uint32 uiSize, CGUIStyles *pStyles = nullptr);
+
 	void					drawRectangle(CVector2i32& vecPosition, CVector2ui32& vecSize, CGUIStyles *pStyles = nullptr);
 	void					drawRectangleBorder(CVector2i32& vecPosition, CVector2ui32& vecSize, CGUIStyles *pStyles = nullptr);
 	void					drawRectangleFill(CVector2i32& vecPosition, CVector2ui32& vecSize, CGUIStyles *pStyles = nullptr);

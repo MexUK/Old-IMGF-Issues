@@ -6,25 +6,20 @@
 auto pOnRender_Polygon		= [](void *pShape, void *pTriggerArg) { ((CPolygonShape*) pShape)->render(); };
 
 CPolygonShape::CPolygonShape(void) :
-	CGUIShape(GUI_SHAPE_POLYGON)
-{
-}
-
-CPolygonShape::CPolygonShape(eGUIShape eShapeType) :
-	CGUIShape(eShapeType)
+	CGUIShapeGeometry_NxPoint(GUI_SHAPE_POLYGON)
 {
 }
 
 // event binding
-void					CPolygonShape::bindEvents(void)
+void							CPolygonShape::bindEvents(void)
 {
 	storeEventBoundFunction(getWindow()->bindEvent(EVENT_onRender, pOnRender_Polygon, this));
 }
 
 // render
-void					CPolygonShape::render(void)
+void							CPolygonShape::render(void)
 {
 	CGraphicsLibrary *pGFX = CGUIManager::getInstance()->getGraphicsLibrary();
 
-	pGFX->drawPolygon(getPolygonPointPositions(), getStyles());
+	pGFX->drawPolygon(getPoints(), getStyles());
 }
