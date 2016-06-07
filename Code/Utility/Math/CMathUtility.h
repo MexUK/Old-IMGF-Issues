@@ -19,10 +19,10 @@ public:
 	static float32				convertRadiansToDegrees(float32 fRadians);
 	static float32				getDistanceBetweenPoints(CVector2D& vecPosition1, CVector2D& vecPosition2);
 	static float32				getDistanceBetweenPoints(CVector3D& vecPosition1, CVector3D& vecPosition2);
-	static float32				getAngleBetweenPoints(CVector2D& vecPosition1, CVector2D& vecPosition2);
-	static float32				getAngleBetweenPoints(CVector3D& vecPosition1, CVector3D& vecPosition2);
-	static CVector2D			getPositionInFrontOfPosition(CVector2D& vecPosition, float32 fAngleRad, float32 fRadius);
-	static CVector3D			getPositionInFrontOfPosition(CVector3D& vecPosition, float32 fAngleRad, float32 fRadius);
+	static float32				getAngleBetweenPoints(CVector2D& vecPosition1, CVector2D& vecPosition2);		// return: radians
+	static float32				getAngleBetweenPoints(CVector3D& vecPosition1, CVector3D& vecPosition2);		// return: radians
+	static CVector2D			getPositionInFrontOfPosition(CVector2D& vecPosition, float32 fAngleRad, float32 fRadius);		// parameter 2: radians
+	static CVector3D			getPositionInFrontOfPosition(CVector3D& vecPosition, float32 fAngleRad, float32 fRadius);		// parameter 2: radians
 	static bool					isPointInPolygon(CVector2D& vecPoint, std::vector<CVector2D>& vecPolygonPoints);
 	static int					getFactorial(int iValue);
 	static int					getBinomialCoefficient(int n, int k);
@@ -54,6 +54,9 @@ public:
 	static uint32				convertDiameterToRadius(uint32 uiDiameter);
 	static CVector2ui32			get2DSizeFromCircle(CVector2i32& vecPoint, float32 fRadius);
 	static uint32				getCenterX(uint32 uiWidth);
+	static float32				getDistanceBetweenPoints(CVector2i32& vecPoint1, CVector2i32& vecPoint2);
+	static float32				getAngleBetweenPoints(CVector2i32& vecPoint1, CVector2i32& vecPoint2);							// return: radians
+	static CVector2i32			getPositionInFrontOfPosition(CVector2i32& vecPosition, float32 fAngleRad, float32 fRadius);		// parameter 2: radians
 };
 
 uint32				CMathUtility::convertSectorsToBytes(uint32 uiSectorCount)

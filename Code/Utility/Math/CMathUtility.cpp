@@ -309,3 +309,27 @@ uint32						CMathUtility::getCenterX(uint32 uiWidth)
 {
 	return uiWidth / 2;
 }
+
+float32						CMathUtility::getDistanceBetweenPoints(CVector2i32& vecPoint1, CVector2i32& vecPoint2)
+{
+	CVector2D vecDistance;
+	vecDistance.m_x = (float32) ((float32) (vecPoint2.m_x) - (float32) (vecPoint1.m_x));
+	vecDistance.m_y = (float32) ((float32) (vecPoint2.m_y) - (float32) (vecPoint1.m_y));
+	return sqrt(vecDistance.m_x*vecDistance.m_x + vecDistance.m_y*vecDistance.m_y);
+}
+
+float32						CMathUtility::getAngleBetweenPoints(CVector2i32& vecPoint1, CVector2i32& vecPoint2)
+{
+	CVector2D vecDistance;
+	vecDistance.m_x = (float32) ((float32) (vecPoint2.m_x) - (float32) (vecPoint1.m_x));
+	vecDistance.m_y = (float32) ((float32) (vecPoint2.m_y) - (float32) (vecPoint1.m_y));
+	return atan2(vecDistance.m_y, vecDistance.m_x);
+}
+
+CVector2i32					CMathUtility::getPositionInFrontOfPosition(CVector2i32& vecPosition, float32 fAngleRad, float32 fRadius)
+{
+	CVector2i32 vecOutPosition(vecPosition);
+	vecOutPosition.m_x += (float32) (cos(fAngleRad) * fRadius);
+	vecOutPosition.m_y += (float32) (sin(fAngleRad) * fRadius);
+	return vecOutPosition;
+}

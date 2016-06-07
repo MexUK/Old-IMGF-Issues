@@ -63,9 +63,11 @@ public:
 
 	CSquareShape*			addSquare(CVector2i32& vecPosition, uint32 uiSideLength);
 	CCircleShape*			addCircle(CVector2i32& vecPosition, uint32 uiRadius);
-	CTriangleShape*			addTriangle(CVector2i32& vecPoint1, CVector2i32& vecPoint2, CVector2i32& vecPoint3); // e.g. scalene
-	CTriangleShape*			addEquilateralTriangle(CVector2i32& vecPosition, uint32 uiSideLength); // position parameter is bottom left
-	CTriangleShape*			addIsoscelesTriangle(CVector2i32& vecBaseCenterPoint, CVector2i32& vecLegsJoinPoint, uint32 uiBaseHalfWidth);
+	CTriangleShape*			addTriangle(CVector2i32& vecPoint1, CVector2i32& vecPoint2, CVector2i32& vecPoint3);	// scalene or any triangle type
+	CTriangleShape*			addEquilateralTriangle(CVector2i32& vecBottomLeftPoint, CVector2i32& vecBottomRightPoint);
+	CTriangleShape*			addEquilateralTriangle(CVector2i32& vecBottomLeftPoint, float32 fSidesLength, float32 fBaseAngle = 0.0f);	// base angle parameter is in degrees
+	CTriangleShape*			addIsoscelesTriangle(CVector2i32& vecBaseCenterPoint, CVector2i32& vecTipPoint, uint32 uiBaseHalfWidth);
+	CTriangleShape*			addIsoscelesTriangle(CVector2i32& vecBottomLeftPoint, float32 fBaseLength, float32 fTipAngle = 25.0f, float32 fBaseAngle = 0.0f);		// tip angle parameter is in degrees
 
 	// CControlGroup continued.
 	CVectorPool<CGUIShape*>&	getShapes(void) { return m_vecShapes; }

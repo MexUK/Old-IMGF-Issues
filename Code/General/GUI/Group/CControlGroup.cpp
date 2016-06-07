@@ -207,20 +207,53 @@ CTriangleShape*				CControlGroup::addTriangle(CVector2i32& vecPoint1, CVector2i3
 	return pTriangle;
 }
 
-CTriangleShape*				CControlGroup::addEquilateralTriangle(CVector2i32& vecPosition, uint32 uiSideLength)
+CTriangleShape*				CControlGroup::addEquilateralTriangle(CVector2i32& vecBottomLeftPoint, CVector2i32& vecBottomRightPoint)
 {
+	const float32
+		fSidesLength = CMathUtility::getDistanceBetweenPoints(vecBottomLeftPoint, vecBottomRightPoint),
+		fBaseAngle = CMathUtility::getAngleBetweenPoints(vecBottomLeftPoint, vecBottomRightPoint),
+		fAngle = CMathUtility::convertDegreesToRadians(60.0f);
 	CVector2i32
-		vecPoint2 = CVector2i32(vecPosition.m_x + uiSideLength, vecPosition.m_y),
-		vecPoint3 = CVector2i32(vecPosition.m_x + (uiSideLength / 2), vecPosition.m_y - uiSideLength);
-	return addTriangle(vecPosition, vecPoint2, vecPoint3);
+		vecTipPoint = CMathUtility::getPositionInFrontOfPosition(vecBottomLeftPoint, fBaseAngle - fAngle, fSidesLength);
+	return addTriangle(vecBottomLeftPoint, vecBottomRightPoint, vecTipPoint);
 }
 
-CTriangleShape*				CControlGroup::addIsoscelesTriangle(CVector2i32& vecBaseCenterPoint, CVector2i32& vecLegsJoinPoint, uint32 uiBaseHalfWidth)
+CTriangleShape*				CControlGroup::addEquilateralTriangle(CVector2i32& vecBottomLeftPoint, float32 fSidesLength, float32 fBaseAngle)
 {
+	const float32
+		fAngle = CMathUtility::convertDegreesToRadians(60.0f);
+	fBaseAngle = CMathUtility::convertDegreesToRadians(fBaseAngle);
 	CVector2i32
-		vecBasePoint1 = CVector2i32(vecBaseCenterPoint.m_x - uiBaseHalfWidth, vecBaseCenterPoint.m_y),
-		vecBasePoint2 = CVector2i32(vecBaseCenterPoint.m_x + uiBaseHalfWidth, vecBaseCenterPoint.m_y);
-	return addTriangle(vecBasePoint1, vecBasePoint2, vecLegsJoinPoint);
+		vecBottomRightPoint = CMathUtility::getPositionInFrontOfPosition(vecBottomLeftPoint, fBaseAngle, fSidesLength),
+		vecTopPoint = CMathUtility::getPositionInFrontOfPosition(vecBottomLeftPoint, fBaseAngle - fAngle, fSidesLength);
+	return addTriangle(vecBottomLeftPoint, vecBottomRightPoint, vecTopPoint);
+}
+
+CTriangleShape*				CControlGroup::addIsoscelesTriangle(CVector2i32& vecBaseCenterPoint, CVector2i32& vecTipPoint, uint32 uiBaseHalfWidth)
+{
+	const float32
+		fBaseToTipDistance = CMathUtility::getDistanceBetweenPoints(vecBaseCenterPoint, vecTipPoint),
+		fBaseToTipAngle = CMathUtility::getAngleBetweenPoints(vecBaseCenterPoint, vecTipPoint),
+		f90DegreeAngle = CMathUtility::convertDegreesToRadians(90.0f);
+	CVector2i32
+		vecBasePoint1 = CMathUtility::getPositionInFrontOfPosition(vecBaseCenterPoint, fBaseToTipAngle - f90DegreeAngle, uiBaseHalfWidth),
+		vecBasePoint2 = CMathUtility::getPositionInFrontOfPosition(vecBaseCenterPoint, fBaseToTipAngle + f90DegreeAngle, uiBaseHalfWidth);
+	return addTriangle(vecBasePoint1, vecBasePoint2, vecTipPoint);
+}
+
+CTriangleShape*				CControlGroup::addIsoscelesTriangle(CVector2i32& vecBottomLeftPoint, float32 fBaseLength, float32 fTipAngle, float32 fBaseAngle)
+{
+	float32
+		fLinesAngle = (180.0f - fTipAngle) / 2.0f,
+		fHeight = (fBaseLength / 2.0f) * tan(fLinesAngle),
+		fSidesLength = sqrt(((fBaseLength * fBaseLength) / 4.0f) + (fHeight * fHeight));
+	fTipAngle = CMathUtility::convertDegreesToRadians(fTipAngle);
+	fBaseAngle = CMathUtility::convertDegreesToRadians(fBaseAngle);
+	fLinesAngle = CMathUtility::convertDegreesToRadians(fLinesAngle);
+	CVector2i32
+		vecBottomRightPoint = CMathUtility::getPositionInFrontOfPosition(vecBottomLeftPoint, fBaseAngle, fBaseLength),
+		vecTipPoint = CMathUtility::getPositionInFrontOfPosition(vecBottomLeftPoint, fBaseAngle - fLinesAngle, fSidesLength);
+	return addTriangle(vecBottomLeftPoint, vecBottomRightPoint, vecTipPoint);
 }
 
 // add shape - base
