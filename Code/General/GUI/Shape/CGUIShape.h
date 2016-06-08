@@ -6,17 +6,17 @@
 #include "Event/CEventBinder.h"
 #include "GUI/Shape/Geometry/eGUIShapeGeometry.h"
 #include "GUI/Shape/eGUIShape.h"
+#include "GUI/Styles/CGUIStyleableEntity.h"
 #include <vector>
 
 class CGUIStyles;
 class CControlGroup;
 class CWindow;
 
-class CGUIShape : public CEventBinder
+class CGUIShape : public CEventBinder, public CGUIStyleableEntity
 {
 public:
 	CGUIShape(eGUIShapeGeometry eShapeGeometry, eGUIShape eShapeType);
-	~CGUIShape(void);
 
 	void									unload(void) {}
 
@@ -34,13 +34,10 @@ public:
 	void									setShapeType(eGUIShape eShapeType) { m_eShapeType = eShapeType; }
 	eGUIShape								getShapeType(void) { return m_eShapeType; }
 
-	CGUIStyles*								getStyles(void) { return m_pStyles; } // todo - repeated code x3
-
 private:
 	CControlGroup*							m_pControlGroup;
 	eGUIShapeGeometry						m_eShapeGeometry;
 	eGUIShape								m_eShapeType;
-	CGUIStyles*								m_pStyles;
 };
 
 #endif

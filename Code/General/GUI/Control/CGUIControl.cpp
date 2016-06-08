@@ -9,15 +9,13 @@ CGUIControl::CGUIControl(eGUIControl eControlType) :
 	m_eControlType(eControlType),
 	m_uiControlId(0),
 	m_bPointMarkedAsInControl(false),
-	m_pScrolls(nullptr),
-	m_pStyles(nullptr)
+	m_pScrolls(nullptr)
 {
 	m_vecPosition.m_x = 0;
 	m_vecPosition.m_y = 0;
 	m_vecSize.m_x = 0;
 	m_vecSize.m_y = 0;
 	m_pScrolls = new CGUIScrollPool;
-	m_pStyles = new CGUIStyles;
 }
 CGUIControl::~CGUIControl(void)
 {

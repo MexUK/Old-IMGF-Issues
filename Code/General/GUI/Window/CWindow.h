@@ -6,18 +6,19 @@
 #include "Types.h"
 #include "CVector2ui32.h"
 #include "Pool/CVectorPool.h"
-#include "GUI/Group/CControlGroup.h"
-#include "GUI/Control/CGUIControl.h"
 #include "Event/CEventType.h"
 #include "Event/CEventBoundFunction.h"
 #include "Event/CEventBinder.h"
+#include "GUI/Group/CControlGroup.h"
+#include "GUI/Control/CGUIControl.h"
+#include "GUI/Styles/CGUIStyleableEntity.h"
 
 class CRadioControl;
 class CDropTarget;
 class CGUIStyles;
 class CWindow;
 
-class CWindow : public CEventType, public CEventBinder, public CVectorPool<CControlGroup*>
+class CWindow : public CEventType, public CEventBinder, public CGUIStyleableEntity, public CVectorPool<CControlGroup*>
 {
 public:
 	CWindow(void);
@@ -84,8 +85,6 @@ public:
 
 	void									setPreviousPosition(CVector2i32& vecPreviousPosition) { m_vecPreviousPosition = vecPreviousPosition; }
 	CVector2i32&							getPreviousPosition(void) { return m_vecPreviousPosition; }
-	
-	CGUIStyles*								getStyles(void) { return m_pStyles; }
 
 private:
 	HWND									m_hwndWindow;
@@ -101,7 +100,6 @@ private:
 	uint8									m_bMarkedToRedraw		: 1;
 	uint8									m_bMaximized			: 1;
 	CVector2i32								m_vecPreviousPosition;
-	CGUIStyles*								m_pStyles;
 
 	/*
 	todo

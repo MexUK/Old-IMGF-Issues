@@ -8,6 +8,7 @@
 #include "Pool/CVectorPool.h"
 #include "Event/CEventBoundFunction.h"
 #include "Event/CEventBinder.h"
+#include "GUI/Styles/CGUIStyleableEntity.h"
 #include <string>
 #include <vector>
 #include <Windows.h>
@@ -18,7 +19,7 @@ class CGUIScrollPool;
 class CControlGroup;
 class CGUIStyles;
 
-class CGUIControl : public CEventBinder
+class CGUIControl : public CEventBinder, public CGUIStyleableEntity
 {
 public:
 	CGUIControl(eGUIControl eControlType);
@@ -53,7 +54,6 @@ public:
 	bool									isPointMarkedAsInControl(void) { return m_bPointMarkedAsInControl; }
 
 	CGUIScrollPool*							getScrolls(void) { return m_pScrolls; }
-	CGUIStyles*								getStyles(void) { return m_pStyles; } // todo - repeated code x3
 
 private:
 	CControlGroup*							m_pControlGroup;
@@ -63,7 +63,6 @@ private:
 	uint32									m_uiControlId;
 	uint8									m_bPointMarkedAsInControl		: 1;
 	CGUIScrollPool*							m_pScrolls;
-	CGUIStyles*								m_pStyles;
 };
 
 #endif

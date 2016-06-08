@@ -30,8 +30,7 @@ CWindow::CWindow(void) :
 	m_bMaximized(false),
 	m_pDropTarget(nullptr),
 	m_pParentWindow(nullptr),
-	m_uiTitleBarHeight(0),
-	m_pStyles(nullptr)
+	m_uiTitleBarHeight(0)
 {
 	m_vecPosition.m_x = 0;
 	m_vecPosition.m_y = 0;
@@ -39,7 +38,6 @@ CWindow::CWindow(void) :
 	m_vecSize.m_y = 0;
 	m_vecPreviousPosition.m_x = 0;
 	m_vecPreviousPosition.m_y = 0;
-	m_pStyles = new CGUIStyles;
 }
 CWindow::~CWindow(void)
 {

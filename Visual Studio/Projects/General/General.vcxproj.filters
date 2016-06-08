@@ -276,6 +276,9 @@
     <ClCompile Include="..\..\..\Code\General\GUI\Shapes\Geometries\CGUIShapeGeometry_2xPoint.cpp">
       <Filter>Source Files\GUI\Shapes\Geometries</Filter>
     </ClCompile>
+    <ClCompile Include="..\..\..\Code\General\GUI\Styles\CGUIStyleableEntity.cpp">
+      <Filter>Source Files\GUI\Styles</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\..\..\Code\General\Image\CImageFile.h">
@@ -487,6 +490,9 @@
     </ClInclude>
     <ClInclude Include="..\..\..\Code\General\GUI\Shape\Geometry\eGUIShapeGeometry.h">
       <Filter>Header Files\GUI\Shape\Geometry</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\Code\General\GUI\Styles\CGUIStyleableEntity.h">
+      <Filter>Header Files\GUI\Styles</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

@@ -217,3 +217,9 @@ CWindow*					CGUIManager::getWindowByHwnd(HWND hWnd)
 	}
 	return nullptr;
 }
+
+// styles
+CGUIStyles*					CGUIManager::createStyles(void)
+{
+	return new CGUIStyles;
+}

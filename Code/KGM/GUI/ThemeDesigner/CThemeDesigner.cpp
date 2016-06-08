@@ -50,59 +50,52 @@ void					CThemeDesigner::initTab_AddItem(void)
 	CVector2i32 vecWindowCenterPosition = CVector2i32(vecWindowSize.m_x, vecWindowSize.m_y) / 2;
 	uint32 uiCenterX = CMathUtility::getCenterX(vecWindowSize.m_x);
 
-	// add 2 lines
-	pShape = (CGUIShape*) pControlGroup_AddItem->addLine(CVector2i32(0, 80), CVector2i32(vecWindowSize.m_x, 80));
-	pShape->getStyles()->setStyle("border-colour", RGB(230, 223, 12));
+	// create styles
+	CGUIStyles
+		*pStyles_GoldBorder = CGUIManager::createStyles(),
+		*pStyles_GoldText = CGUIManager::createStyles(),
+		*pStyles_BlueBorder = CGUIManager::createStyles(),
+		*pStyles_BlueText = CGUIManager::createStyles();
+	pStyles_GoldBorder->setStyle("border-colour", RGB(230, 223, 12));
+	pStyles_GoldText->setStyle("text-colour", RGB(230, 223, 12));
+	pStyles_BlueBorder->setStyle("border-colour", RGB(121, 180, 199));
+	pStyles_BlueText->setStyle("text-colour", RGB(121, 180, 199));
 
-	pShape = (CGUIShape*) pControlGroup_AddItem->addLine(CVector2i32(uiCenterX, 0), CVector2i32(uiCenterX, vecWindowSize.m_y));
-	pShape->getStyles()->setStyle("border-colour", RGB(230, 223, 12));
+	// add 2 lines
+	pShape = (CGUIShape*) pControlGroup_AddItem->addLine(CVector2i32(0, 80), CVector2i32(vecWindowSize.m_x, 80), pStyles_GoldBorder);
+	pShape = (CGUIShape*) pControlGroup_AddItem->addLine(CVector2i32(uiCenterX, 0), CVector2i32(uiCenterX, vecWindowSize.m_y), pStyles_GoldBorder);
 
 	// add headers
-	pControl = (CGUIControl*) pControlGroup_AddItem->addText(CVector2i32(20, 50), CVector2ui32(150, 30), "Shapes");
-	pControl->getStyles()->setStyle("text-colour", RGB(230, 223, 12));
-
-	pControl = (CGUIControl*) pControlGroup_AddItem->addText(CVector2i32(uiCenterX + 20, 50), CVector2ui32(150, 30), "Controls");
-	pControl->getStyles()->setStyle("text-colour", RGB(230, 223, 12));
+	pControl = (CGUIControl*) pControlGroup_AddItem->addText(CVector2i32(20, 50), CVector2ui32(150, 30), "Shapes", pStyles_GoldText);
+	pControl = (CGUIControl*) pControlGroup_AddItem->addText(CVector2i32(uiCenterX + 20, 50), CVector2ui32(150, 30), "Controls", pStyles_GoldText);
 
 	// add shape icons and text
 	uint32
 		uiShapeIconX = 30,
-		uiShapeTextX = 60;
+		uiShapeTextX = 60,
+		uiShapeIconY = 120;
 
-	pShape = (CGUIShape*) pControlGroup_AddItem->addCircle(CVector2i32(uiShapeIconX, 120), 7); // todo - make addRicle take a float for radius coz diameter might be odd number
-	pShape->getStyles()->setStyle("border-colour", RGB(121, 180, 199));
-	pShape = (CGUIShape*) pControlGroup_AddItem->addEllipse(CVector2i32(uiShapeIconX + 3, 120 + 30), CVector2ui32(8, 14));
-	pShape->getStyles()->setStyle("border-colour", RGB(121, 180, 199));
-	pShape = (CGUIShape*) pControlGroup_AddItem->addLine(CVector2i32(uiShapeIconX, 120 + 60), CVector2i32(uiShapeIconX + 15, 120 + 60 + 15));
-	pShape->getStyles()->setStyle("border-colour", RGB(121, 180, 199));
-	vector<CVector2i32> vecPoints;
-	vecPoints.resize(5);
-	vecPoints[0] = CVector2i32(uiShapeIconX, 120 + 90);
-	vecPoints[1] = CVector2i32(uiShapeIconX + 15, 120 + 90 + 3);
-	vecPoints[2] = CVector2i32(uiShapeIconX + 12, 120 + 90 + 10);
-	vecPoints[3] = CVector2i32(uiShapeIconX + 7, 120 + 90 + 5);
-	vecPoints[4] = CVector2i32(uiShapeIconX + 4, 120 + 90 + 15);
-	pShape = (CGUIShape*) pControlGroup_AddItem->addPolygon(vecPoints);
-	pShape->getStyles()->setStyle("border-colour", RGB(121, 180, 199));
-	pShape = (CGUIShape*) pControlGroup_AddItem->addRectangle(CVector2i32(uiShapeIconX + 3, 120 + 120), CVector2ui32(8, 15));
-	pShape->getStyles()->setStyle("border-colour", RGB(121, 180, 199));
-	pShape = (CGUIShape*) pControlGroup_AddItem->addSquare(CVector2i32(uiShapeIconX, 120 + 150), 15);
-	pShape->getStyles()->setStyle("border-colour", RGB(121, 180, 199));
-	pShape = (CGUIShape*) pControlGroup_AddItem->addEquilateralTriangle(CVector2i32(uiShapeIconX, 120 + 195), 15);
-	pShape->getStyles()->setStyle("border-colour", RGB(121, 180, 199));
+	vector<CVector2i32> vecPolygonPoints;
+	vecPolygonPoints.resize(5);
+	vecPolygonPoints[0] = CVector2i32(uiShapeIconX, uiShapeIconY + 90);
+	vecPolygonPoints[1] = CVector2i32(uiShapeIconX + 15, uiShapeIconY + 90 + 3);
+	vecPolygonPoints[2] = CVector2i32(uiShapeIconX + 12, uiShapeIconY + 90 + 10);
+	vecPolygonPoints[3] = CVector2i32(uiShapeIconX + 7, uiShapeIconY + 90 + 5);
+	vecPolygonPoints[4] = CVector2i32(uiShapeIconX + 4, uiShapeIconY + 90 + 15);
 
-	pControl = (CGUIControl*) pControlGroup_AddItem->addText(CVector2i32(uiShapeTextX, 120), CVector2ui32(150, 30), "Circle");
-	pControl->getStyles()->setStyle("text-colour", RGB(121, 180, 199));
-	pControl = (CGUIControl*) pControlGroup_AddItem->addText(CVector2i32(uiShapeTextX, 120 + 30), CVector2ui32(150, 30), "Ellipse");
-	pControl->getStyles()->setStyle("text-colour", RGB(121, 180, 199));
-	pControl = (CGUIControl*) pControlGroup_AddItem->addText(CVector2i32(uiShapeTextX, 120 + 60), CVector2ui32(150, 30), "Line");
-	pControl->getStyles()->setStyle("text-colour", RGB(121, 180, 199));
-	pControl = (CGUIControl*) pControlGroup_AddItem->addText(CVector2i32(uiShapeTextX, 120 + 90), CVector2ui32(150, 30), "Polygon");
-	pControl->getStyles()->setStyle("text-colour", RGB(121, 180, 199));
-	pControl = (CGUIControl*) pControlGroup_AddItem->addText(CVector2i32(uiShapeTextX, 120 + 120), CVector2ui32(150, 30), "Rectangle");
-	pControl->getStyles()->setStyle("text-colour", RGB(121, 180, 199));
-	pControl = (CGUIControl*) pControlGroup_AddItem->addText(CVector2i32(uiShapeTextX, 120 + 150), CVector2ui32(150, 30), "Square");
-	pControl->getStyles()->setStyle("text-colour", RGB(121, 180, 199));
-	pControl = (CGUIControl*) pControlGroup_AddItem->addText(CVector2i32(uiShapeTextX, 120 + 180), CVector2ui32(150, 30), "Triangle");
-	pControl->getStyles()->setStyle("text-colour", RGB(121, 180, 199));
+	pShape = (CGUIShape*) pControlGroup_AddItem->addCircle(CVector2i32(uiShapeIconX, uiShapeIconY), 7, pStyles_BlueBorder); // todo - make addCircle take a float for radius coz diameter might be odd number
+	pShape = (CGUIShape*) pControlGroup_AddItem->addEllipse(CVector2i32(uiShapeIconX + 3, uiShapeIconY + 30), CVector2ui32(8, 14), pStyles_BlueBorder);
+	pShape = (CGUIShape*) pControlGroup_AddItem->addLine(CVector2i32(uiShapeIconX, uiShapeIconY + 60), CVector2i32(uiShapeIconX + 15, 120 + 60 + 15), pStyles_BlueBorder);
+	pShape = (CGUIShape*) pControlGroup_AddItem->addPolygon(vecPolygonPoints, pStyles_BlueBorder);
+	pShape = (CGUIShape*) pControlGroup_AddItem->addRectangle(CVector2i32(uiShapeIconX + 3, uiShapeIconY + 120), CVector2ui32(8, 15), pStyles_BlueBorder);
+	pShape = (CGUIShape*) pControlGroup_AddItem->addSquare(CVector2i32(uiShapeIconX, uiShapeIconY + 150), 15, pStyles_BlueBorder);
+	pShape = (CGUIShape*) pControlGroup_AddItem->addEquilateralTriangle(CVector2i32(uiShapeIconX, uiShapeIconY + 195), 15.0f, 0.0f, pStyles_BlueBorder);
+
+	pControl = (CGUIControl*) pControlGroup_AddItem->addText(CVector2i32(uiShapeTextX, uiShapeIconY), CVector2ui32(150, 30), "Circle", pStyles_BlueText);
+	pControl = (CGUIControl*) pControlGroup_AddItem->addText(CVector2i32(uiShapeTextX, uiShapeIconY + 30), CVector2ui32(150, 30), "Ellipse", pStyles_BlueText);
+	pControl = (CGUIControl*) pControlGroup_AddItem->addText(CVector2i32(uiShapeTextX, uiShapeIconY + 60), CVector2ui32(150, 30), "Line", pStyles_BlueText);
+	pControl = (CGUIControl*) pControlGroup_AddItem->addText(CVector2i32(uiShapeTextX, uiShapeIconY + 90), CVector2ui32(150, 30), "Polygon", pStyles_BlueText);
+	pControl = (CGUIControl*) pControlGroup_AddItem->addText(CVector2i32(uiShapeTextX, uiShapeIconY + 120), CVector2ui32(150, 30), "Rectangle", pStyles_BlueText);
+	pControl = (CGUIControl*) pControlGroup_AddItem->addText(CVector2i32(uiShapeTextX, uiShapeIconY + 150), CVector2ui32(150, 30), "Square", pStyles_BlueText);
+	pControl = (CGUIControl*) pControlGroup_AddItem->addText(CVector2i32(uiShapeTextX, uiShapeIconY + 180), CVector2ui32(150, 30), "Triangle", pStyles_BlueText);
 }

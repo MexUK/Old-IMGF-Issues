@@ -15,6 +15,7 @@
 LRESULT CALLBACK				WndProc_Window(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lParam);
 
 class CGraphicsLibrary;
+class CGUIStyles;
 
 class CGUIManager : public CManager, public CSingleton<CGUIManager>, public CVectorPool<CWindow*>, public CEventBinder
 {
@@ -27,7 +28,6 @@ public:
 	void						bindEvents(void);
 
 	CWindow*					addWindow(CVector2i32& vecWindowPosition = CVector2i32(0,0), CVector2ui32& vecWindowSize = CVector2ui32(800,600));
-
 	template <class WindowClass>
 	WindowClass*				addTemplatedWindow(CVector2i32& vecWindowPosition = CVector2i32(0, 0), CVector2ui32& vecWindowSize = CVector2ui32(800, 600));
 
@@ -38,13 +38,15 @@ public:
 	void						render(void);
 	void						clearBackground(void);
 
+	CWindow*					getWindowByHwnd(HWND hWnd);
+
+	static CGUIStyles*			createStyles(void);
+
 	void						setGraphicsLibrary(CGraphicsLibrary* pGraphicsLibrary) { m_pGraphicsLibrary = pGraphicsLibrary; }
 	CGraphicsLibrary*			getGraphicsLibrary(void) { return m_pGraphicsLibrary; }
 
 	void						setActiveWindow(CWindow *pActiveWindow) { m_pActiveWindow = pActiveWindow; }
 	CWindow*					getActiveWindow(void) { return m_pActiveWindow; }
-
-	CWindow*					getWindowByHwnd(HWND hWnd);
 
 private:
 	bool						createWindow(CWindow *pWindow);
