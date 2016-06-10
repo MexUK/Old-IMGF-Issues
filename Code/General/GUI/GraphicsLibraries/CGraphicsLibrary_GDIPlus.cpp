@@ -14,6 +14,11 @@ CGraphicsLibrary_GDIPlus::CGraphicsLibrary_GDIPlus(void) :
 // draw line
 void					CGraphicsLibrary_GDIPlus::drawLine(CVector2i32& vecPoint1, CVector2i32& vecPoint2, CGUIStyles *pStyles)
 {
+	if (!pStyles->doesHaveBorder())
+	{
+		return;
+	}
+
 	m_pGraphics->DrawLine(createPenFromStyles(pStyles), (INT) vecPoint1.m_x, (INT) vecPoint1.m_y, (INT) vecPoint2.m_x, (INT) vecPoint2.m_y);
 }
 
@@ -32,15 +37,32 @@ void					CGraphicsLibrary_GDIPlus::drawRectangle(CVector2i32& vecPosition, CVect
 
 void					CGraphicsLibrary_GDIPlus::drawRectangleBorder(CVector2i32& vecPosition, CVector2ui32& vecSize, CGUIStyles *pStyles)
 {
+	if (!pStyles->doesHaveBorder())
+	{
+		return;
+	}
+
 	uint32 uiBorderIntersectionRadius = (uint32) pStyles->getStyle<float32>("border-intersection-radius");
 	if (uiBorderIntersectionRadius == 0)
 	{
 		// border-intersection-radius is not set
 		CVector2i32 vecMaxPoint = CVector2i32(vecPosition.m_x + vecSize.m_x, vecPosition.m_y + vecSize.m_y);
-		drawLine(vecPosition, CVector2i32(vecMaxPoint.m_x, vecPosition.m_y), pStyles);
-		drawLine(vecPosition, CVector2i32(vecPosition.m_x, vecMaxPoint.m_y), pStyles);
-		drawLine(vecMaxPoint, CVector2i32(vecPosition.m_x, vecMaxPoint.m_y), pStyles);
-		drawLine(vecMaxPoint, CVector2i32(vecMaxPoint.m_x, vecPosition.m_y), pStyles);
+		if (pStyles->doesHaveLeftBorder())
+		{
+			drawLine(vecPosition, CVector2i32(vecPosition.m_x, vecMaxPoint.m_y), pStyles);
+		}
+		if (pStyles->doesHaveRightBorder())
+		{
+			drawLine(vecMaxPoint, CVector2i32(vecMaxPoint.m_x, vecPosition.m_y), pStyles);
+		}
+		if (pStyles->doesHaveTopBorder())
+		{
+			drawLine(vecPosition, CVector2i32(vecMaxPoint.m_x, vecPosition.m_y), pStyles);
+		}
+		if (pStyles->doesHaveBottomBorder())
+		{
+			drawLine(vecMaxPoint, CVector2i32(vecPosition.m_x, vecMaxPoint.m_y), pStyles);
+		}
 	}
 	else
 	{
@@ -61,6 +83,11 @@ void					CGraphicsLibrary_GDIPlus::drawRectangleBorder(CVector2i32& vecPosition,
 
 void					CGraphicsLibrary_GDIPlus::drawRectangleFill(CVector2i32& vecPosition, CVector2ui32& vecSize, CGUIStyles *pStyles)
 {
+	if (!pStyles->doesHaveFill())
+	{
+		return;
+	}
+
 	uint32 uiBorderIntersectionRadius = (uint32) pStyles->getStyle<float32>("border-intersection-radius");
 	if (uiBorderIntersectionRadius == 0)
 	{
@@ -99,11 +126,21 @@ void					CGraphicsLibrary_GDIPlus::drawSquare(CVector2i32& vecPosition, uint32 u
 
 void					CGraphicsLibrary_GDIPlus::drawSquareBorder(CVector2i32& vecPosition, uint32 uiSize, CGUIStyles *pStyles)
 {
+	if (!pStyles->doesHaveBorder())
+	{
+		return;
+	}
+
 	drawRectangleBorder(vecPosition, CVector2ui32(uiSize, uiSize), pStyles);
 }
 
 void					CGraphicsLibrary_GDIPlus::drawSquareFill(CVector2i32& vecPosition, uint32 uiSize, CGUIStyles *pStyles)
 {
+	if (!pStyles->doesHaveFill())
+	{
+		return;
+	}
+
 	drawRectangleFill(vecPosition, CVector2ui32(uiSize, uiSize), pStyles);
 }
 
@@ -122,11 +159,21 @@ void					CGraphicsLibrary_GDIPlus::drawCircle(CVector2i32& vecPosition, float32 
 
 void					CGraphicsLibrary_GDIPlus::drawCircleBorder(CVector2i32& vecPosition, float32 fRadius, CGUIStyles *pStyles)
 {
+	if (!pStyles->doesHaveBorder())
+	{
+		return;
+	}
+
 	drawEllipseBorder(vecPosition, CMathUtility::get2DSizeFromCircle(vecPosition, fRadius), pStyles);
 }
 
 void					CGraphicsLibrary_GDIPlus::drawCircleFill(CVector2i32& vecPosition, float32 fRadius, CGUIStyles *pStyles)
 {
+	if (!pStyles->doesHaveFill())
+	{
+		return;
+	}
+
 	drawEllipseFill(vecPosition, CMathUtility::get2DSizeFromCircle(vecPosition, fRadius), pStyles);
 }
 
@@ -145,11 +192,21 @@ void					CGraphicsLibrary_GDIPlus::drawEllipse(CVector2i32& vecPosition, CVector
 
 void					CGraphicsLibrary_GDIPlus::drawEllipseBorder(CVector2i32& vecPosition, CVector2ui32& vecSize, CGUIStyles *pStyles)
 {
+	if (!pStyles->doesHaveBorder())
+	{
+		return;
+	}
+
 	m_pGraphics->DrawEllipse(createPenFromStyles(pStyles), getGdiplusRect(vecPosition, vecSize));
 }
 
 void					CGraphicsLibrary_GDIPlus::drawEllipseFill(CVector2i32& vecPosition, CVector2ui32& vecSize, CGUIStyles *pStyles)
 {
+	if (!pStyles->doesHaveFill())
+	{
+		return;
+	}
+
 	m_pGraphics->FillEllipse(createBackgroundBrushFromStyles(pStyles), getGdiplusRect(vecPosition, vecSize));
 }
 
@@ -168,11 +225,21 @@ void					CGraphicsLibrary_GDIPlus::drawTriangle(CVector2i32& vecPosition, uint32
 
 void					CGraphicsLibrary_GDIPlus::drawTriangleBorder(CVector2i32& vecPosition, uint32 uiSideLength, uint8 uiFacingDirection, CGUIStyles *pStyles)
 {
+	if (!pStyles->doesHaveBorder())
+	{
+		return;
+	}
+
 	// todo
 }
 
 void					CGraphicsLibrary_GDIPlus::drawTriangleFill(CVector2i32& vecPosition, uint32 uiSideLength, uint8 uiFacingDirection, CGUIStyles *pStyles)
 {
+	if (!pStyles->doesHaveFill())
+	{
+		return;
+	}
+
 	// todo
 }
 
@@ -191,12 +258,22 @@ void					CGraphicsLibrary_GDIPlus::drawPolygon(vector<CVector2i32>& vecPoints, C
 
 void					CGraphicsLibrary_GDIPlus::drawPolygonBorder(vector<CVector2i32>& vecPoints, CGUIStyles *pStyles)
 {
+	if (!pStyles->doesHaveBorder())
+	{
+		return;
+	}
+
 	Point* pPoints = getGdiplusPointsFromVectorPoints(vecPoints);
 	m_pGraphics->DrawPolygon(createPenFromStyles(pStyles), pPoints, vecPoints.size());
 }
 
 void					CGraphicsLibrary_GDIPlus::drawPolygonFill(vector<CVector2i32>& vecPoints, CGUIStyles *pStyles)
 {
+	if (!pStyles->doesHaveFill())
+	{
+		return;
+	}
+
 	Point* pPoints = getGdiplusPointsFromVectorPoints(vecPoints);
 	m_pGraphics->FillPolygon(createBackgroundBrushFromStyles(pStyles), pPoints, vecPoints.size());
 }
@@ -204,8 +281,10 @@ void					CGraphicsLibrary_GDIPlus::drawPolygonFill(vector<CVector2i32>& vecPoint
 // draw text
 void					CGraphicsLibrary_GDIPlus::drawText(CVector2i32& vecPosition, CVector2ui32& vecSize, string& strText, CGUIStyles *pStyles)
 {
+	CVector2i32 vecPosition2 = getTextPositionFromStyles(vecPosition, vecSize, strText, pStyles);
+
 	wstring wstrText = CStringUtility::convertStdStringToStdWString(strText);
-	RectF layoutRect(vecPosition.m_x, vecPosition.m_y, vecPosition.m_x + vecSize.m_x, vecPosition.m_y + vecSize.m_y);
+	RectF layoutRect(vecPosition2.m_x, vecPosition2.m_y, vecPosition2.m_x + vecSize.m_x, vecPosition2.m_y + vecSize.m_y);
 	StringFormat stringFormat;
 
 	m_pGraphics->DrawString(wstrText.c_str(), wstrText.length(), createFontFromStyles(pStyles), layoutRect, &stringFormat, createTextBrushFromStyles(pStyles));
@@ -215,12 +294,13 @@ void					CGraphicsLibrary_GDIPlus::drawText(CVector2i32& vecPosition, CVector2ui
 CVector2ui32			CGraphicsLibrary_GDIPlus::getTextSize(string& strText, CGUIStyles *pStyles)
 {
 	wstring wstrText = CStringUtility::convertStdStringToStdWString(strText);
-	RectF layoutRect(0, 0, 30000, 30000);
-	RectF *pBoundingBox = &layoutRect;
-
+	const RectF layoutRect(0, 0, 30000, 30000);
+	RectF boundingBox(0, 0, 0, 0);
 	CVector2ui32 vecTextSize;
-	vecTextSize.m_x = m_pGraphics->MeasureString(wstrText.c_str(), wstrText.length(), createFontFromStyles(pStyles), layoutRect, pBoundingBox);
-	vecTextSize.m_y = pStyles->getStyle<uint32>("text-size");
+
+	m_pGraphics->MeasureString(wstrText.c_str(), wstrText.length(), createFontFromStyles(pStyles), layoutRect, &boundingBox);
+	vecTextSize.m_x = boundingBox.Width;
+	vecTextSize.m_y = boundingBox.Height;
 	return vecTextSize;
 }
 
@@ -318,6 +398,54 @@ Font*					CGraphicsLibrary_GDIPlus::createFontFromStyles(CGUIStyles *pStyles)
 	Font *pFont = new Font(pFontFamily, uiTextSize, iStyle, Gdiplus::UnitPixel);
 
 	return pFont;
+}
+
+// position/size calculation
+CVector2i32				CGraphicsLibrary_GDIPlus::getTextPositionFromStyles(CVector2i32& vecPosition, CVector2ui32& vecSize, string& strText, CGUIStyles *pStyles)
+{
+	string
+		strAlignX = pStyles->getTextAlignX(),
+		strAlignY = pStyles->getTextAlignY();
+	CVector2i32
+		vecOutPosition,
+		vecMinInnerSpacing = pStyles->getMinInnerSpacing(),
+		vecMaxInnerSpacing = pStyles->getMaxInnerSpacing();
+	CVector2ui32
+		vecTextSize = getTextSize(strText, pStyles);
+
+	// calculate x position
+	if (strAlignX == "left")
+	{
+		vecOutPosition.m_x = vecPosition.m_x;
+	}
+	else if (strAlignX == "right")
+	{
+		vecOutPosition.m_x = (vecPosition.m_x + vecSize.m_x) - vecTextSize.m_x;
+	}
+	else if (strAlignX == "center")
+	{
+		vecOutPosition.m_x = vecPosition.m_x + ((vecSize.m_x - vecTextSize.m_x) / 2);
+	}
+	vecOutPosition.m_x += vecMinInnerSpacing.m_x; // inner-spacing-left
+	vecOutPosition.m_x -= vecMaxInnerSpacing.m_x; // inner-spacing-right
+	
+	// calculate y position
+	if (strAlignY == "top")
+	{
+		vecOutPosition.m_y = vecPosition.m_y;
+	}
+	else if (strAlignY == "bottom")
+	{
+		vecOutPosition.m_y = (vecPosition.m_y + vecSize.m_y) - vecTextSize.m_y;
+	}
+	else if (strAlignY == "center")
+	{
+		vecOutPosition.m_y = vecPosition.m_y + ((vecSize.m_y - vecTextSize.m_y) / 2);
+	}
+	vecOutPosition.m_y += vecMinInnerSpacing.m_y; // inner-spacing-top
+	vecOutPosition.m_y -= vecMaxInnerSpacing.m_y; // inner-spacing-bottom
+
+	return vecOutPosition;
 }
 
 // utility

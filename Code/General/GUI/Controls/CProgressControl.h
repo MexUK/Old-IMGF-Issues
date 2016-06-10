@@ -13,7 +13,8 @@ public:
 		CGUIControl(GUI_CONTROL_PROGRESS),
 		m_uiMaxTicks(0),
 		m_uiCurrentTicks(0),
-		m_bCompletionPercentageShown(false)
+		m_bCompletionPercentageShown(false),
+		m_bTextShown(false)
 	{};
 
 	void									bindEvents(void);
@@ -31,15 +32,19 @@ public:
 	void									setCurrentTicks(uint32 uiCurrentTicks) { m_uiCurrentTicks = uiCurrentTicks; }
 	uint32									getCurrentTicks(void) { return m_uiCurrentTicks; }
 
-	uint32									getProgressFillColour(void) { return getStyles()->getStyle<uint32>("progress-background-colour"); }	// RGBA
+	uint32									getProgressFillColour(void) { return getStyles()->getStyle<uint32>("progress-bar-background-colour"); }	// RGBA
 
 	void									setCompletionPercentageShown(bool bCompletionPercentageShown) { m_bCompletionPercentageShown = bCompletionPercentageShown; }
 	bool									isCompletionPercentageShown(void) { return m_bCompletionPercentageShown; }
 	
+	void									setTextShown(bool bTextShown) { m_bTextShown = bTextShown; }
+	bool									isTextShown(void) { return m_bTextShown; }
+
 private:
 	uint32									m_uiMaxTicks;
 	uint32									m_uiCurrentTicks;
 	uint8									m_bCompletionPercentageShown	: 1;
+	uint8									m_bTextShown					: 1;
 };
 
 #endif

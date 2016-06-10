@@ -101,7 +101,9 @@
     <ClCompile Include="..\..\..\Code\General\GUI\Controls\CProgressControl.cpp" />
     <ClCompile Include="..\..\..\Code\General\GUI\Controls\CRadioControl.cpp" />
     <ClCompile Include="..\..\..\Code\General\GUI\Controls\CScrollControl.cpp" />
+    <ClCompile Include="..\..\..\Code\General\GUI\Controls\CTabControl.cpp" />
     <ClCompile Include="..\..\..\Code\General\GUI\Controls\CTextControl.cpp" />
+    <ClCompile Include="..\..\..\Code\General\GUI\Controls\Entries\CTabControlEntry.cpp" />
     <ClCompile Include="..\..\..\Code\General\GUI\Control\CGUIControl.cpp" />
     <ClCompile Include="..\..\..\Code\General\GUI\GraphicsLibraries\CGraphicsLibrary_GDIPlus.cpp" />
     <ClCompile Include="..\..\..\Code\General\GUI\GraphicsLibrary\CGraphicsLibrary.cpp" />
@@ -163,10 +165,12 @@
     <ClInclude Include="..\..\..\Code\General\GUI\Controls\CProgressControl.h" />
     <ClInclude Include="..\..\..\Code\General\GUI\Controls\CRadioControl.h" />
     <ClInclude Include="..\..\..\Code\General\GUI\Controls\CScrollControl.h" />
+    <ClInclude Include="..\..\..\Code\General\GUI\Controls\CTabControl.h" />
     <ClInclude Include="..\..\..\Code\General\GUI\Controls\CTextControl.h" />
     <ClInclude Include="..\..\..\Code\General\GUI\Controls\Entries\CDropControlEntry.h" />
     <ClInclude Include="..\..\..\Code\General\GUI\Controls\Entries\CListControlEntry.h" />
     <ClInclude Include="..\..\..\Code\General\GUI\Controls\Entries\CMenuControlEntry.h" />
+    <ClInclude Include="..\..\..\Code\General\GUI\Controls\Entries\CTabControlEntry.h" />
     <ClInclude Include="..\..\..\Code\General\GUI\Control\CGUIControl.h" />
     <ClInclude Include="..\..\..\Code\General\GUI\Control\CGUIScrollPool.h" />
     <ClInclude Include="..\..\..\Code\General\GUI\Control\e2DMirroredOrientation.h" />

@@ -37,7 +37,8 @@ enum eEvent
 	EVENT_onHideDropList,
 	EVENT_onStartMovingSeekBar,
 	EVENT_onStopMovingSeekBar,
-	EVENT_onMoveSeekBar
+	EVENT_onMoveSeekBar,
+	EVENT_onPressTab
 
 	// todo - EVENT_onControlLoseFocus
 	// todo - EVENT_onUnmarkCheck

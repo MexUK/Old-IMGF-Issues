@@ -19,7 +19,7 @@ class CMenuControl;
 class CProgressControl;
 class CRadioControl;
 class CScrollControl;
-class CTabBarControl;
+class CTabControl;
 class CTextControl;
 class CLineShape;
 class CTriangleShape;
@@ -43,6 +43,9 @@ public:
 	void					setWindow(CWindow *pWindow) { m_pWindow = pWindow; }
 	CWindow*				getWindow(void) { return m_pWindow; }
 
+	void					setEnabled(bool bEnabled);
+	bool					isEnabled(void) { return m_bEnabled; }
+
 	// controls
 	CButtonControl*			addButton(CVector2i32& vecPosition, CVector2ui32& vecSize, std::string strButtonText, CGUIStyles *pStyles = nullptr);
 	CCheckControl*			addCheck(CVector2i32& vecPosition, CVector2ui32& vecSize, std::string strCheckText, CGUIStyles *pStyles = nullptr);
@@ -51,9 +54,9 @@ public:
 	CListControl*			addList(CVector2i32& vecPosition, CVector2ui32& vecSize, CGUIStyles *pStyles = nullptr);
 	CMenuControl*			addMenu(CVector2i32& vecPosition, CVector2ui32& vecSize, CGUIStyles *pStyles = nullptr);
 	CProgressControl*		addProgress(CVector2i32& vecPosition, CVector2ui32& vecSize, CGUIStyles *pStyles = nullptr);
-	CRadioControl*			addRadio(CVector2i32& vecPosition, CVector2ui32& vecSize, CGUIStyles *pStyles = nullptr);
+	CRadioControl*			addRadio(CVector2i32& vecPosition, CVector2ui32& vecSize, std::string strRadioText, CGUIStyles *pStyles = nullptr);
 	CScrollControl*			addScroll(CVector2i32& vecPosition, CVector2ui32& vecSize, CGUIStyles *pStyles = nullptr);
-	CTabBarControl*			addTabBar(CVector2i32& vecPosition, CVector2ui32& vecSize, CGUIStyles *pStyles = nullptr);
+	CTabControl*			addTabBar(CVector2i32& vecPosition, CVector2ui32& vecSize, CGUIStyles *pStyles = nullptr);
 	CTextControl*			addText(CVector2i32& vecPosition, CVector2ui32& vecSize, std::string strText, CGUIStyles *pStyles = nullptr);
 
 	// shapes
@@ -79,6 +82,7 @@ private:
 
 private:
 	CWindow*					m_pWindow;
+	bool						m_bEnabled;
 	CVectorPool<CGUIShape*>		m_vecShapes;
 };
 

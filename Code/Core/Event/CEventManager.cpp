@@ -87,9 +87,12 @@ bool										CEventManager::triggerEvent(uint32 uiEventTypeId, uint32 uiEventTy
 	{
 		return true;
 	}
-	for(CEventBoundFunction *pEventBoundFunction : m_umapEventFunctions[uiEventTypeId][uiEventTypeIndex][uiEventId])
+	uint32 uiEventFunctionIndex = 0;
+	while (uiEventFunctionIndex < m_umapEventFunctions[uiEventTypeId][uiEventTypeIndex][uiEventId].size())
 	{
+		CEventBoundFunction *pEventBoundFunction = m_umapEventFunctions[uiEventTypeId][uiEventTypeIndex][uiEventId][uiEventFunctionIndex];
 		pEventBoundFunction->onEventTriggered(pTriggerArgument);
+		uiEventFunctionIndex++;
 	}
 	bool bDefaultActionPrevented = isDefaultActionPrevented();
 	setDefaultActionPrevented(false);

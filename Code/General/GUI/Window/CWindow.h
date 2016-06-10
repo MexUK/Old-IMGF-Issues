@@ -42,8 +42,8 @@ public:
 	virtual void							render(void);
 	void									onRenderFromWMPaint(void);
 
-	CControlGroup*							addControlGroup(void);
-	CControlGroup*							addControlGroup(CWindow *pWindow);
+	CControlGroup*							addControlGroup(bool bEnabled = true);
+	CControlGroup*							addControlGroup(CWindow *pWindow, bool bEnabled = true);
 
 	void									unmarkRadios(CRadioControl *pRadio);
 

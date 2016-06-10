@@ -15,7 +15,7 @@ class CDropControl : public CGUIControl, public CGUIControlComponent_Text, publi
 public:
 	CDropControl(void) :
 		CGUIControl(GUI_CONTROL_DROP),
-		m_uiSelectedIndex(0),
+		m_uiSelectedIndex(-1),
 		m_uiListWidth(100),
 		m_uiListRowHeight(30),
 		m_bSelectionListOpen(false)

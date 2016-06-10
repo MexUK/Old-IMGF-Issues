@@ -12,7 +12,7 @@ auto pOnRender_Progress		= [](void *pControl) { ((CProgressControl*) pControl)->
 // event binding
 void			CProgressControl::bindEvents(void)
 {
-	storeEventBoundFunction(getWindow()->bindEvent(EVENT_onRender, pOnRender_Progress, this));
+	storeEventBoundFunction(getWindow()->bindEvent(EVENT_onRender, pOnRender_Progress, this)); // todo - change to like CGUIControl::bindEvent(eEventId, func) which stores it
 }
 
 // render
@@ -20,10 +20,24 @@ void			CProgressControl::render(void)
 {
 	CGraphicsLibrary *pGFX = CGUIManager::getInstance()->getGraphicsLibrary();
 
-	CVector2i32 vecProgressPosition = getProgressPosition(); // todo
+	// todo - getStyles()->setComponentType
+
+	//getStyles()->setComponentType("default");
 	pGFX->drawRectangle(getPosition(), getSize(), getStyles());
+
+	//getStyles()->setComponentType("seek");
+	CVector2i32 vecProgressPosition = getProgressPosition(); // todo
+	getStyles()->setStyleNameOverwrite("background-colour", "progress-bar-background-colour");
 	pGFX->drawRectangle(getPosition(), CVector2ui32(vecProgressPosition.m_x, vecProgressPosition.m_y), getStyles());
-	pGFX->drawText(getPosition(), getSize(), getProgressPercentText(), getStyles());
+	getStyles()->restoreStyleNameOverwrites();
+
+	if (isTextShown())
+	{
+		//getStyles()->setComponentType("text");
+		pGFX->drawText(getPosition(), getSize(), getProgressPercentText(), getStyles());
+	}
+
+	//getStyles()->resetComponentType();
 }
 
 // ratio

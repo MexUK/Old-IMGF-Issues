@@ -279,6 +279,12 @@
     <ClCompile Include="..\..\..\Code\General\GUI\Styles\CGUIStyleableEntity.cpp">
       <Filter>Source Files\GUI\Styles</Filter>
     </ClCompile>
+    <ClCompile Include="..\..\..\Code\General\GUI\Controls\CTabControl.cpp">
+      <Filter>Source Files\GUI\Controls</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\Code\General\GUI\Controls\Entries\CTabControlEntry.cpp">
+      <Filter>Source Files\GUI\Controls\Entries</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\..\..\Code\General\Image\CImageFile.h">
@@ -493,6 +499,12 @@
     </ClInclude>
     <ClInclude Include="..\..\..\Code\General\GUI\Styles\CGUIStyleableEntity.h">
       <Filter>Header Files\GUI\Styles</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\Code\General\GUI\Controls\CTabControl.h">
+      <Filter>Header Files\GUI\Controls</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\Code\General\GUI\Controls\Entries\CTabControlEntry.h">
+      <Filter>Header Files\GUI\Controls\Entries</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

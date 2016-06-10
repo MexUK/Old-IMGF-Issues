@@ -2,6 +2,7 @@
 #define CGUIStyles_H
 
 #include "Types.h"
+#include "CVector2i32.h"
 #include "Pool/CMultipleTypeValuesUMapContainer.h"
 #include <string>
 
@@ -22,13 +23,24 @@ public:
 	void					setStyle(std::string strStyleName, std::string strStyleValue);
 
 	template <typename ValueType>
+	void					setStyle(std::string strStyleName, ValueType value);
+	template <typename ValueType>
 	ValueType				getStyle(std::string strStyleName);
 
 	template <typename ValueType>
 	ValueType				getStyleDefaultValue(std::string strStyleName);
 
 	bool					doesHaveBorder(void);
+	bool					doesHaveLeftBorder(void);
+	bool					doesHaveRightBorder(void);
+	bool					doesHaveTopBorder(void);
+	bool					doesHaveBottomBorder(void);
 	bool					doesHaveFill(void);
+
+	std::string				getTextAlignX(void);
+	std::string				getTextAlignY(void);
+	CVector2i32				getMinInnerSpacing(void);
+	CVector2i32				getMaxInnerSpacing(void);
 
 	void					setStyleNameOverwrite(std::string strStyleName, std::string strNewStyleName);
 	void					restoreStyleNameOverwrites(void);
@@ -43,6 +55,12 @@ private:
 
 
 
+
+template <typename ValueType>
+void				CGUIStyles::setStyle(std::string strStyleName, ValueType value)
+{
+	setEntry<ValueType>(strStyleName, value);
+}
 
 template <typename ValueType>
 ValueType				CGUIStyles::getStyle(std::string strStyleName)

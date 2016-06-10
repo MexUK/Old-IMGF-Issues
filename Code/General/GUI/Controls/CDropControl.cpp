@@ -69,7 +69,10 @@ void				CDropControl::render(void)
 
 	pGFX->drawRectangleFill(getPosition(), getSize(), getStyles());
 	pGFX->drawRectangleBorder(getPosition(), getSize(), getStyles());
-	pGFX->drawText(getPosition(), getSize(), getEntryByIndex(getSelectedIndex())->getText(), getStyles());
+	if (getSelectedIndex() != -1)
+	{
+		pGFX->drawText(getPosition(), getSize(), getEntryByIndex(getSelectedIndex())->getText(), getStyles());
+	}
 	// todo pGFX->drawTriangle(getPosition(), 10, 0, getStyles());
 }
 

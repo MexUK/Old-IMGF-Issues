@@ -37,14 +37,14 @@ void		CRadioControl::render(void)
 	CGraphicsLibrary *pGFX = CGUIManager::getInstance()->getGraphicsLibrary();
 
 	float32 fRadius = getIconRadius();
-	CVector2i32 vecCircleCenterPosition = getIconCenterPosition();
+	CVector2i32 vecCircleCenterPosition = getPosition();
 	if (isMarked())
 	{
-		getStyles()->setStyleNameOverwrite("backround-colour", "backround-colour-marked");
+		getStyles()->setStyleNameOverwrite("background-colour", "background-colour-marked");
 	}
 	else
 	{
-		getStyles()->setStyleNameOverwrite("backround-colour", "backround-colour-unmarked");
+		getStyles()->setStyleNameOverwrite("background-colour", "background-colour-unmarked");
 	}
 	pGFX->drawCircle(vecCircleCenterPosition, fRadius, getStyles());
 	getStyles()->restoreStyleNameOverwrites();

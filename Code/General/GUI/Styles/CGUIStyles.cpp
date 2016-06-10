@@ -1,5 +1,6 @@
 #include "CGUIStyles.h"
 #include "GUI/CGUIManager.h" // for RGB()
+#include "String/CStringUtility.h"
 
 using namespace std;
 
@@ -18,20 +19,36 @@ void					CGUIStyles::init(void)
 		return;
 	}
 	getStyleDefaultValues().setEntry("border-colour", RGB(0, 0, 0));
-	getStyleDefaultValues().setEntry("border-thickness", 0);
+	getStyleDefaultValues().setEntry<uint32>("border-thickness", 0);
 	getStyleDefaultValues().setEntry<string>("border-style", "consistent");
-	getStyleDefaultValues().setEntry("border-intersection-radius", 0);
+	getStyleDefaultValues().setEntry<int32>("border-intersection-radius", 0);
+	getStyleDefaultValues().setEntry<bool>("border-state-left", false); // todo - document x4
+	getStyleDefaultValues().setEntry<bool>("border-state-right", false);
+	getStyleDefaultValues().setEntry<bool>("border-state-top", false);
+	getStyleDefaultValues().setEntry<bool>("border-state-bottom", false);
+
 	getStyleDefaultValues().setEntry("background-colour", RGB(0xFF,0xFF,0xFF));
 	getStyleDefaultValues().setEntry("background-colour-start", RGB(0xFF, 0xFF, 0xFF));
 	getStyleDefaultValues().setEntry("background-colour-stop", RGB(0x80, 0x80, 0x80));
+
 	getStyleDefaultValues().setEntry("text-colour", RGB(0, 0, 0));
 	getStyleDefaultValues().setEntry("text-size", 11);
 	getStyleDefaultValues().setEntry<string>("text-font", "Verdana");
 	getStyleDefaultValues().setEntry<string>("text-style", "default");
+
+	getStyleDefaultValues().setEntry<string>("text-align-x", "left");
+	getStyleDefaultValues().setEntry<string>("text-align-y", "top");
+	getStyleDefaultValues().setEntry<int32>("inner-spacing-left", 0);
+	getStyleDefaultValues().setEntry<int32>("inner-spacing-top", 0);
+	getStyleDefaultValues().setEntry<int32>("inner-spacing-right", 0);
+	getStyleDefaultValues().setEntry<int32>("inner-spacing-bottom", 0);
+
 	getStyleDefaultValues().setEntry("caret-colour", RGB(0, 0, 0));
 	getStyleDefaultValues().setEntry("row-background-colour-1", RGB(255, 255, 255));
 	getStyleDefaultValues().setEntry("row-background-colour-2", RGB(200, 200, 200));
-	getStyleDefaultValues().setEntry("progress-background-colour", RGB(0, 50, 150));
+	getStyleDefaultValues().setEntry("progress-bar-background-colour", RGB(0, 50, 150));
+	getStyleDefaultValues().setEntry("background-colour-marked", RGB(0, 255, 0));
+	getStyleDefaultValues().setEntry("background-colour-unmarked", RGB(0xFF, 0xFF, 0xFF));
 }
 
 void					CGUIStyles::uninit(void)
@@ -83,10 +100,92 @@ bool					CGUIStyles::doesHaveBorder(void)
 	 || doesEntryExist("border-intersection-radius");
 }
 
+bool					CGUIStyles::doesHaveLeftBorder(void)
+{
+	return getStyle<bool>("border-state-left") || doesHaveBorder();
+}
+
+bool					CGUIStyles::doesHaveRightBorder(void)
+{
+	return getStyle<bool>("border-state-right") || doesHaveBorder();
+}
+
+bool					CGUIStyles::doesHaveTopBorder(void)
+{
+	return getStyle<bool>("border-state-top") || doesHaveBorder();
+}
+
+bool					CGUIStyles::doesHaveBottomBorder(void)
+{
+	return getStyle<bool>("border-state-bottom") || doesHaveBorder();
+}
+
+// fill
 bool					CGUIStyles::doesHaveFill(void)
 {
 	return doesEntryExist("background-colour")
-		|| (doesEntryExist("background-colour-start") && doesEntryExist("background-colour-start"));
+		|| (doesEntryExist("background-colour-start") && doesEntryExist("background-colour-end"))
+	// todo	|| doesEntryExist("progress-bar-background-colour")
+		|| (doesEntryExist("background-colour-marked") || doesEntryExist("background-colour-unmarked"));
+}
+
+// position/size
+CVector2i32				CGUIStyles::getMinInnerSpacing(void)
+{
+	CVector2i32 vecMinSpacing(
+		getStyle<int32>("inner-spacing-x"),
+		getStyle<int32>("inner-spacing-y")
+	);
+	if (doesStyleExist("inner-spacing-left"))
+	{
+		vecMinSpacing.m_x = getStyle<int32>("inner-spacing-left");
+	}
+	if (doesStyleExist("inner-spacing-top"))
+	{
+		vecMinSpacing.m_y = getStyle<int32>("inner-spacing-top");
+	}
+	return vecMinSpacing;
+}
+
+CVector2i32				CGUIStyles::getMaxInnerSpacing(void)
+{
+	CVector2i32 vecMaxSpacing(
+		getStyle<int32>("inner-spacing-x"),
+		getStyle<int32>("inner-spacing-y")
+	);
+	if (doesStyleExist("inner-spacing-right"))
+	{
+		vecMaxSpacing.m_x = getStyle<int32>("inner-spacing-right");
+	}
+	if (doesStyleExist("inner-spacing-bottom"))
+	{
+		vecMaxSpacing.m_y = getStyle<int32>("inner-spacing-bottom");
+	}
+	return vecMaxSpacing;
+}
+
+string					CGUIStyles::getTextAlignX(void)
+{
+	if (doesStyleExist("text-align"))
+	{
+		return CStringUtility::split(getStyle<string>("text-align"), " ")[0];
+	}
+	else
+	{
+		return getStyle<string>("text-align-x");
+	}
+}
+
+string					CGUIStyles::getTextAlignY(void)
+{
+	if (doesStyleExist("text-align"))
+	{
+		return CStringUtility::split(getStyle<string>("text-align"), " ")[1];
+	}
+	else
+	{
+		return getStyle<string>("text-align-y");
+	}
 }
 
 // style name overwrites

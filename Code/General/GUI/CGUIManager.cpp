@@ -174,6 +174,7 @@ LRESULT CALLBACK			WndProc_Window(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lPa
 		break;
 	}
 
+	pWindow->setMarkedToRedraw(false);
 	CEventManager::getInstance()->setEventHogged(false);
 
 	return DefWindowProc(hwnd, msg, wParam, lParam);

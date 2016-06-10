@@ -8,7 +8,7 @@
 #include "GUI/Controls/CProgressControl.h"
 #include "GUI/Controls/CRadioControl.h"
 #include "GUI/Controls/CScrollControl.h"
-// todo #include "GUI/Controls/CTabBarControl.h"
+#include "GUI/Controls/CTabControl.h"
 #include "GUI/Controls/CTextControl.h"
 #include "GUI/Shapes/CCircleShape.h"
 #include "GUI/Shapes/CEllipseShape.h"
@@ -22,7 +22,8 @@
 using namespace std;
 
 CControlGroup::CControlGroup(void) :
-	m_pWindow(nullptr)
+	m_pWindow(nullptr),
+	m_bEnabled(true)
 {
 }
 
@@ -104,9 +105,10 @@ CProgressControl*	CControlGroup::addProgress(CVector2i32& vecPosition, CVector2u
 	return pControl;
 }
 
-CRadioControl*		CControlGroup::addRadio(CVector2i32& vecPosition, CVector2ui32& vecSize, CGUIStyles *pStyles)
+CRadioControl*		CControlGroup::addRadio(CVector2i32& vecPosition, CVector2ui32& vecSize, string strRadioText, CGUIStyles *pStyles)
 {
 	CRadioControl *pControl = new CRadioControl;
+	pControl->setText(strRadioText);
 	_addControl(pControl, vecPosition, vecSize, pStyles);
 	return pControl;
 }
@@ -118,15 +120,11 @@ CScrollControl*		CControlGroup::addScroll(CVector2i32& vecPosition, CVector2ui32
 	return pControl;
 }
 
-CTabBarControl*		CControlGroup::addTabBar(CVector2i32& vecPosition, CVector2ui32& vecSize, CGUIStyles *pStyles)
+CTabControl*		CControlGroup::addTabBar(CVector2i32& vecPosition, CVector2ui32& vecSize, CGUIStyles *pStyles)
 {
-	/*
-	todo
-	CTabBarControl *pControl = new CTabBarControl;
+	CTabControl *pControl = new CTabControl;
 	_addControl(pControl, vecPosition, vecSize, pStyles);
 	return pControl;
-	*/
-	return nullptr;
 }
 
 CTextControl*		CControlGroup::addText(CVector2i32& vecPosition, CVector2ui32& vecSize, string strText, CGUIStyles *pStyles)
@@ -276,4 +274,25 @@ void						CControlGroup::_addShape(CGUIShape *pShape, CGUIStyles *pStyles)
 		pShape->setStyles(pStyles);
 	}
 	getShapes().addEntry(pShape);
+}
+
+// enabled state
+void						CControlGroup::setEnabled(bool bEnabled)
+{
+	bool bPreviousEnabledState = m_bEnabled;
+	m_bEnabled = bEnabled;
+	if (bEnabled)
+	{
+		if (!bPreviousEnabledState)
+		{
+			bindAllEvents();
+		}
+	}
+	else
+	{
+		if (bPreviousEnabledState)
+		{
+			unbindAllEvents();
+		}
+	}
 }

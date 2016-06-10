@@ -55,6 +55,8 @@ private:
 	Gdiplus::Brush*			createTextBrushFromStyles(CGUIStyles *pStyles);
 	Gdiplus::Font*			createFontFromStyles(CGUIStyles *pStyles);
 
+	CVector2i32				getTextPositionFromStyles(CVector2i32& vecPosition, CVector2ui32& vecSize, std::string& strText, CGUIStyles *pStyles);
+
 	Gdiplus::Point*			getGdiplusPointsFromVectorPoints(std::vector<CVector2i32>& vecPoints);
 	Gdiplus::Rect			getGdiplusRect(CVector2i32& vecPosition, CVector2ui32& vecSize);
 	Gdiplus::Color			getGdiplusColourFromRGBAUint32(uint32 uiColour);

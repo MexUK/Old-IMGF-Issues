@@ -62,7 +62,10 @@ void									CWindow::bindAllEvents(void)
 	bindEvents();
 	for (CControlGroup *pControlGroup : getEntries())
 	{
-		pControlGroup->bindAllEvents();
+		if (pControlGroup->isEnabled())
+		{
+			pControlGroup->bindAllEvents();
+		}
 	}
 }
 
@@ -70,7 +73,10 @@ void									CWindow::unbindAllEvents(void)
 {
 	for (CControlGroup *pControlGroup : getEntries())
 	{
-		pControlGroup->unbindAllEvents();
+		if (pControlGroup->isEnabled())
+		{
+			pControlGroup->unbindAllEvents();
+		}
 	}
 	unbindEvents();
 }
@@ -284,7 +290,7 @@ void									CWindow::render(void)
 		return;
 	}
 
-	RedrawWindow(getWindowHandle(), nullptr, nullptr, RDW_UPDATENOW);
+	RedrawWindow(getWindowHandle(), NULL, NULL, RDW_INVALIDATE | RDW_UPDATENOW);
 }
 
 void									CWindow::onRenderFromWMPaint(void)
@@ -339,15 +345,19 @@ void									CWindow::onRenderFromWMPaint(void)
 }
 
 // control groups
-CControlGroup*							CWindow::addControlGroup(void)
+CControlGroup*							CWindow::addControlGroup(bool bEnabled)
 {
-	return new CControlGroup;
+	CControlGroup *pControlGroup = new CControlGroup;
+	pControlGroup->setEnabled(bEnabled);
+	return pControlGroup;
 }
 
-CControlGroup*							CWindow::addControlGroup(CWindow *pWindow)
+CControlGroup*							CWindow::addControlGroup(CWindow *pWindow, bool bEnabled)
 {
 	CControlGroup *pControlGroup = new CControlGroup;
 	pControlGroup->setWindow(pWindow);
+	pControlGroup->setEnabled(bEnabled);
+	addEntry(pControlGroup);
 	return pControlGroup;
 }
 
