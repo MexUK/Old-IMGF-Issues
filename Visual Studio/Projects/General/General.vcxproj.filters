@@ -97,12 +97,6 @@
     <Filter Include="Source Files\GUI\Controls\Entries">
       <UniqueIdentifier>{d9052526-fbaa-4ad8-8e89-96c004f7d6bb}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Header Files\GUI\Group">
-      <UniqueIdentifier>{7cbd133d-9e25-4206-b360-91ba32ed4f6d}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Source Files\GUI\Group">
-      <UniqueIdentifier>{f404eb15-8c07-4186-931f-37d3ba4e55cb}</UniqueIdentifier>
-    </Filter>
     <Filter Include="Header Files\GUI\GraphicsLibrary">
       <UniqueIdentifier>{de3ce410-101f-41b3-b4f5-4dd667e345e2}</UniqueIdentifier>
     </Filter>
@@ -141,6 +135,15 @@
     </Filter>
     <Filter Include="Source Files\GUI\Shapes\Geometries">
       <UniqueIdentifier>{15aa698a-1025-402f-8f25-1fcd6e7538df}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\GUI\Item">
+      <UniqueIdentifier>{afd77fa8-86a1-4d5f-a2c3-81daea21cb91}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\GUI\Layer">
+      <UniqueIdentifier>{7cbd133d-9e25-4206-b360-91ba32ed4f6d}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\GUI\Layer">
+      <UniqueIdentifier>{f404eb15-8c07-4186-931f-37d3ba4e55cb}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
@@ -191,9 +194,6 @@
     </ClCompile>
     <ClCompile Include="..\..\..\Code\General\GUI\Window\CWindow.cpp">
       <Filter>Source Files\GUI\Window</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\..\Code\General\GUI\Group\CControlGroup.cpp">
-      <Filter>Source Files\GUI\Group</Filter>
     </ClCompile>
     <ClCompile Include="..\..\..\Code\General\GUI\Controls\CTextControl.cpp">
       <Filter>Source Files\GUI\Controls</Filter>
@@ -285,6 +285,15 @@
     <ClCompile Include="..\..\..\Code\General\GUI\Controls\Entries\CTabControlEntry.cpp">
       <Filter>Source Files\GUI\Controls\Entries</Filter>
     </ClCompile>
+    <ClCompile Include="..\..\..\Code\General\GUI\Layer\CGUILayer.cpp">
+      <Filter>Source Files\GUI\Layer</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\Code\General\GUI\Controls\Entries\CListControlEntry.cpp">
+      <Filter>Source Files\GUI\Controls\Entries</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\Code\General\GUI\Controls\Entries\CMenuControlEntry.cpp">
+      <Filter>Source Files\GUI\Controls\Entries</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\..\..\Code\General\Image\CImageFile.h">
@@ -298,9 +307,6 @@
     </ClInclude>
     <ClInclude Include="..\..\..\Code\General\Image\CRasterDataFormatManager.h">
       <Filter>Header Files\Image</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\..\Code\General\eFileStatus.h">
-      <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="..\..\..\Code\General\Platform\CPlatform.h">
       <Filter>Header Files\Platform</Filter>
@@ -382,9 +388,6 @@
     </ClInclude>
     <ClInclude Include="..\..\..\Code\General\GUI\Window\CWindow.h">
       <Filter>Header Files\GUI\Window</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\..\Code\General\GUI\Group\CControlGroup.h">
-      <Filter>Header Files\GUI\Group</Filter>
     </ClInclude>
     <ClInclude Include="..\..\..\Code\General\GUI\Controls\CButtonControl.h">
       <Filter>Header Files\GUI\Controls</Filter>
@@ -505,6 +508,12 @@
     </ClInclude>
     <ClInclude Include="..\..\..\Code\General\GUI\Controls\Entries\CTabControlEntry.h">
       <Filter>Header Files\GUI\Controls\Entries</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\Code\General\GUI\Item\CGUIItem.h">
+      <Filter>Header Files\GUI\Item</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\Code\General\GUI\Layer\CGUILayer.h">
+      <Filter>Header Files\GUI\Layer</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

@@ -130,6 +130,8 @@
     <ClCompile Include="..\..\..\Code\KGM\GUI\Editor\CEditor.cpp" />
     <ClCompile Include="..\..\..\Code\KGM\GUI\Editor\Tab\CEditorTab.cpp" />
     <ClCompile Include="..\..\..\Code\KGM\GUI\ThemeDesigner\CThemeDesigner.cpp" />
+    <ClCompile Include="..\..\..\Code\KGM\GUI\ThemeDesigner\Tabs\CThemeDesignerTab_AddItem.cpp" />
+    <ClCompile Include="..\..\..\Code\KGM\GUI\ThemeDesigner\Tab\CThemeDesignerTab.cpp" />
     <ClCompile Include="..\..\..\Code\KGM\GUI\Window\CKGMWindow.cpp" />
     <ClCompile Include="..\..\..\Code\KGM\Language\CLanguageManager.cpp" />
     <ClCompile Include="..\..\..\Code\KGM\Main.cpp" />
@@ -182,6 +184,8 @@
     <ClInclude Include="..\..\..\Code\KGM\GUI\Editor\CEditor.h" />
     <ClInclude Include="..\..\..\Code\KGM\GUI\Editor\Tab\CEditorTab.h" />
     <ClInclude Include="..\..\..\Code\KGM\GUI\ThemeDesigner\CThemeDesigner.h" />
+    <ClInclude Include="..\..\..\Code\KGM\GUI\ThemeDesigner\Tabs\CThemeDesignerTab_AddItem.h" />
+    <ClInclude Include="..\..\..\Code\KGM\GUI\ThemeDesigner\Tab\CThemeDesignerTab.h" />
     <ClInclude Include="..\..\..\Code\KGM\GUI\Window\CKGMWindow.h" />
     <ClInclude Include="..\..\..\Code\KGM\Language\CLanguage.h" />
     <ClInclude Include="..\..\..\Code\KGM\Language\CLanguageManager.h" />

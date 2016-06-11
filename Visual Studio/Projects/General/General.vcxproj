@@ -103,11 +103,13 @@
     <ClCompile Include="..\..\..\Code\General\GUI\Controls\CScrollControl.cpp" />
     <ClCompile Include="..\..\..\Code\General\GUI\Controls\CTabControl.cpp" />
     <ClCompile Include="..\..\..\Code\General\GUI\Controls\CTextControl.cpp" />
+    <ClCompile Include="..\..\..\Code\General\GUI\Controls\Entries\CListControlEntry.cpp" />
+    <ClCompile Include="..\..\..\Code\General\GUI\Controls\Entries\CMenuControlEntry.cpp" />
     <ClCompile Include="..\..\..\Code\General\GUI\Controls\Entries\CTabControlEntry.cpp" />
     <ClCompile Include="..\..\..\Code\General\GUI\Control\CGUIControl.cpp" />
     <ClCompile Include="..\..\..\Code\General\GUI\GraphicsLibraries\CGraphicsLibrary_GDIPlus.cpp" />
     <ClCompile Include="..\..\..\Code\General\GUI\GraphicsLibrary\CGraphicsLibrary.cpp" />
-    <ClCompile Include="..\..\..\Code\General\GUI\Group\CControlGroup.cpp" />
+    <ClCompile Include="..\..\..\Code\General\GUI\Layer\CGUILayer.cpp" />
     <ClCompile Include="..\..\..\Code\General\GUI\Shapes\CCircleShape.cpp" />
     <ClCompile Include="..\..\..\Code\General\GUI\Shapes\CEllipseShape.cpp" />
     <ClCompile Include="..\..\..\Code\General\GUI\Shapes\CLineShape.cpp" />
@@ -132,7 +134,6 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\..\..\Code\General\eCompressionAlgorithm.h" />
-    <ClInclude Include="..\..\..\Code\General\eFileStatus.h" />
     <ClInclude Include="..\..\..\Code\General\File Format\BMP\CBMPFormat_Header1.h" />
     <ClInclude Include="..\..\..\Code\General\File Format\BMP\CBMPFormat_Header2_Version2.h" />
     <ClInclude Include="..\..\..\Code\General\File Format\BMP\CBMPFormat_Header2_Version3.h" />
@@ -177,7 +178,8 @@
     <ClInclude Include="..\..\..\Code\General\GUI\Control\eGUIControl.h" />
     <ClInclude Include="..\..\..\Code\General\GUI\GraphicsLibraries\CGraphicsLibrary_GDIPlus.h" />
     <ClInclude Include="..\..\..\Code\General\GUI\GraphicsLibrary\CGraphicsLibrary.h" />
-    <ClInclude Include="..\..\..\Code\General\GUI\Group\CControlGroup.h" />
+    <ClInclude Include="..\..\..\Code\General\GUI\Item\CGUIItem.h" />
+    <ClInclude Include="..\..\..\Code\General\GUI\Layer\CGUILayer.h" />
     <ClInclude Include="..\..\..\Code\General\GUI\Shapes\CCircleShape.h" />
     <ClInclude Include="..\..\..\Code\General\GUI\Shapes\CEllipseShape.h" />
     <ClInclude Include="..\..\..\Code\General\GUI\Shapes\CLineShape.h" />

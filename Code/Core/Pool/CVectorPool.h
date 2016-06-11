@@ -20,8 +20,6 @@ public:
 	uint32									getIndexByEntry(T pEntry);
 	void									setEntryByIndex(uint32 uiEntryIndex, T pEntry);
 	void									swapEntries(T pEntry1, T pEntry2);
-
-protected:
 	uint32									getNextEntryIndex(void);
 
 protected:
@@ -56,15 +54,6 @@ T					CVectorPool<T>::getEntryByIndex(uint32 uiEntryIndex)
 template <class T>
 void				CVectorPool<T>::removeAllEntries(void)
 {
-	/*
-	//if (m_bUnloadable)
-	//{
-		for (auto pEntry : getEntries())
-		{
-			pEntry->unload();
-		}
-	//}
-	*/
 	for (auto pEntry : m_vecEntries)
 	{
 		pEntry->unload();

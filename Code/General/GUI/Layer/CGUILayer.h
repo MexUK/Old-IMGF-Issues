@@ -1,14 +1,22 @@
-#ifndef CControlGroup_H
-#define CControlGroup_H
+#ifndef CGUILayer_H
+#define CGUILayer_H
 
 #include "Types.h"
 #include "Pool/CVectorPool.h"
-#include "GUI/Control/CGUIControl.h"
 #include "GUI/Shape/CGUIShape.h"
+#include "GUI/Control/CGUIControl.h"
 #include "CVector2i32.h"
 #include "CVector2ui32.h"
 #include <string>
 #include <vector>
+
+class CLineShape;
+class CTriangleShape;
+class CRectangleShape;
+class CEllipseShape;
+class CPolygonShape;
+class CSquareShape;
+class CCircleShape;
 
 class CButtonControl;
 class CCheckControl;
@@ -21,19 +29,13 @@ class CRadioControl;
 class CScrollControl;
 class CTabControl;
 class CTextControl;
-class CLineShape;
-class CTriangleShape;
-class CRectangleShape;
-class CEllipseShape;
-class CPolygonShape;
-class CSquareShape;
-class CCircleShape;
+
 class CGUIStyles;
 
-class CControlGroup : public CVectorPool<CGUIControl*> // todo - move to property like shapes vector pool is
+class CGUILayer
 {
 public:
-	CControlGroup(void);
+	CGUILayer(void);
 
 	void					unload(void) {}
 
@@ -60,6 +62,8 @@ public:
 	CTextControl*			addText(CVector2i32& vecPosition, CVector2ui32& vecSize, std::string strText, CGUIStyles *pStyles = nullptr);
 
 	// shapes
+	CGUIShape*				addShape(eGUIShape eShapeType, CGUIStyles *pStyles = nullptr);
+
 	CLineShape*				addLine(CVector2i32& vecPoint1, CVector2i32& vecPoint2, CGUIStyles *pStyles = nullptr);
 	CRectangleShape*		addRectangle(CVector2i32& vecPosition, CVector2ui32& vecSize, CGUIStyles *pStyles = nullptr);
 	CEllipseShape*			addEllipse(CVector2i32& vecPosition, CVector2ui32& vecSize, CGUIStyles *pStyles = nullptr);
@@ -73,17 +77,21 @@ public:
 	CTriangleShape*			addIsoscelesTriangle(CVector2i32& vecBaseCenterPoint, CVector2i32& vecTipPoint, uint32 uiBaseHalfWidth, CGUIStyles *pStyles = nullptr);
 	CTriangleShape*			addIsoscelesTriangle(CVector2i32& vecBottomLeftPoint, float32 fBaseLength, float32 fTipAngle = 25.0f, float32 fBaseAngle = 0.0f, CGUIStyles *pStyles = nullptr);	// tip angle parameter is in degrees
 
-	// CControlGroup continued.
+	// CGUILayer continued.
 	CVectorPool<CGUIShape*>&	getShapes(void) { return m_vecShapes; }
+	CVectorPool<CGUIControl*>&	getControls(void) { return m_vecControls; }
 
 private:
 	void						_addControl(CGUIControl *pWindowControl, CVector2i32& vecPosition, CVector2ui32& vecSize, CGUIStyles *pStyles);
 	void						_addShape(CGUIShape *pShape, CGUIStyles *pStyles);
 
+	CGUIShape*					createShapeFromId(eGUIShape eShapeId);
+
 private:
 	CWindow*					m_pWindow;
 	bool						m_bEnabled;
 	CVectorPool<CGUIShape*>		m_vecShapes;
+	CVectorPool<CGUIControl*>	m_vecControls;
 };
 
 #endif

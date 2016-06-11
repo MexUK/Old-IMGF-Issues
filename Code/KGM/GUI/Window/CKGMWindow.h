@@ -17,6 +17,11 @@ public:
 	void					onRender(void);
 
 	void					onDropFiles(std::vector<std::string>& vecPaths);
+
+private:
+
+	void					renderTitleBar(void);
+	void					renderEtc(void);
 };
 
 #endif

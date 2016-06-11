@@ -339,10 +339,10 @@ string				CIMGManager::getCompressionTypeText(eCompressionAlgorithm eCompression
 {
 	switch (eCompressionAlgorithmValue)
 	{
-	case IMGCOMPRESSION_NONE:		return "Not Compressed";
-	case IMGCOMPRESSION_ZLIB:		return "ZLib";
-	case IMGCOMPRESSION_LZ4:		return "LZ4";
-	case IMGCOMPRESSION_UNKNOWN:
+	case COMPRESSION_NONE:		return "Not Compressed";
+	case COMPRESSION_ZLIB:		return "ZLib";
+	case COMPRESSION_LZ4:		return "LZ4";
+	case COMPRESSION_UNKNOWN:
 	default:
 		return "Unknown Compression Type";
 	}

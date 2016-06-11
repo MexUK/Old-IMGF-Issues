@@ -60,22 +60,22 @@ void									CWindow::bindEvents(void)
 void									CWindow::bindAllEvents(void)
 {
 	bindEvents();
-	for (CControlGroup *pControlGroup : getEntries())
+	for (CGUILayer *pLayer : getEntries())
 	{
-		if (pControlGroup->isEnabled())
+		if (pLayer->isEnabled())
 		{
-			pControlGroup->bindAllEvents();
+			pLayer->bindAllEvents();
 		}
 	}
 }
 
 void									CWindow::unbindAllEvents(void)
 {
-	for (CControlGroup *pControlGroup : getEntries())
+	for (CGUILayer *pLayer : getEntries())
 	{
-		if (pControlGroup->isEnabled())
+		if (pLayer->isEnabled())
 		{
-			pControlGroup->unbindAllEvents();
+			pLayer->unbindAllEvents();
 		}
 	}
 	unbindEvents();
@@ -107,9 +107,9 @@ void									CWindow::onMouseDown(CVector2i32& vecCursorPosition)
 
 	// cursor enter/leave control and focused control
 	bool bGainedFocusOverall = false;
-	for (CControlGroup *pControlGroup : getEntries())
+	for (CGUILayer *pLayer : getEntries())
 	{
-		for (CGUIControl *pWindowControl : pControlGroup->getEntries())
+		for (CGUIControl *pWindowControl : pLayer->getControls().getEntries())
 		{
 			if (CMathUtility::isPointInRectangle(vecCursorPosition, pWindowControl->getPosition(), pWindowControl->getSize()))
 			{
@@ -178,9 +178,9 @@ void									CWindow::onMouseUp(CVector2i32& vecCursorPosition)
 
 void									CWindow::onMouseMove(CVector2i32& vecCursorPosition)
 {
-	for (CControlGroup *pControlGroup : getEntries())
+	for (CGUILayer *pLayer : getEntries())
 	{
-		for (CGUIControl *pWindowControl : pControlGroup->getEntries())
+		for (CGUIControl *pWindowControl : pLayer->getControls().getEntries())
 		{
 			if (pWindowControl->isPointInControl(vecCursorPosition))
 			{
@@ -285,12 +285,15 @@ void									CWindow::onDoubleLeftClick(CVector2i32& vecCursorPosition)
 // render
 void									CWindow::render(void)
 {
-	if (!isMarkedToRedraw())
-	{
-		return;
-	}
-
 	RedrawWindow(getWindowHandle(), NULL, NULL, RDW_INVALIDATE | RDW_UPDATENOW);
+}
+
+void									CWindow::checkToRender(void)
+{
+	if (isMarkedToRedraw())
+	{
+		render();
+	}
 }
 
 void									CWindow::onRenderFromWMPaint(void)
@@ -344,21 +347,21 @@ void									CWindow::onRenderFromWMPaint(void)
 	EndPaint(getWindowHandle(), &ps);
 }
 
-// control groups
-CControlGroup*							CWindow::addControlGroup(bool bEnabled)
+// layers
+CGUILayer*							CWindow::addLayer(bool bEnabled)
 {
-	CControlGroup *pControlGroup = new CControlGroup;
-	pControlGroup->setEnabled(bEnabled);
-	return pControlGroup;
+	CGUILayer *pLayer = new CGUILayer;
+	pLayer->setEnabled(bEnabled);
+	return pLayer;
 }
 
-CControlGroup*							CWindow::addControlGroup(CWindow *pWindow, bool bEnabled)
+CGUILayer*							CWindow::addLayer(CWindow *pWindow, bool bEnabled)
 {
-	CControlGroup *pControlGroup = new CControlGroup;
-	pControlGroup->setWindow(pWindow);
-	pControlGroup->setEnabled(bEnabled);
-	addEntry(pControlGroup);
-	return pControlGroup;
+	CGUILayer *pLayer = new CGUILayer;
+	pLayer->setWindow(pWindow);
+	pLayer->setEnabled(bEnabled);
+	addEntry(pLayer);
+	return pLayer;
 }
 
 // maximized
@@ -393,9 +396,9 @@ void									CWindow::setMaximized(bool bMaximized)
 // other
 void									CWindow::unmarkRadios(CRadioControl *pRadio)
 {
-	for (CControlGroup *pControlGroup : getEntries())
+	for (CGUILayer *pLayer : getEntries())
 	{
-		for (CGUIControl *pWindowControl : pControlGroup->getEntries())
+		for (CGUIControl *pWindowControl : pLayer->getControls().getEntries())
 		{
 			if (pWindowControl->getControlType() == GUI_CONTROL_RADIO)
 			{

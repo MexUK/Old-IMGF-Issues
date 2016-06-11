@@ -66,7 +66,7 @@ public:
 
 	void					setCompressionAlgorithmId(eCompressionAlgorithm eCompressionAlgorithmValue) { m_eCompressionAlgorithm = eCompressionAlgorithmValue; }
 	eCompressionAlgorithm	getCompressionAlgorithmId(void) { return m_eCompressionAlgorithm; }
-	bool					isCompressed(void) { return m_eCompressionAlgorithm != IMGCOMPRESSION_UNKNOWN && m_eCompressionAlgorithm != IMGCOMPRESSION_NONE; }
+	bool					isCompressed(void) { return m_eCompressionAlgorithm != COMPRESSION_UNKNOWN && m_eCompressionAlgorithm != COMPRESSION_NONE; }
 
 	void					setCompressionLevel(uint32 uiCompressionLevel) { m_uiCompressionLevel = uiCompressionLevel; }
 	uint32					getCompressionLevel(void) { return m_uiCompressionLevel; }

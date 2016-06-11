@@ -8,8 +8,12 @@
 class CVector2ui32 : public CVector2<uint32>
 {
 public:
-	CVector2ui32(void) : CVector2() {};
-	CVector2ui32(uint32 x, uint32 y) : CVector2(x, y) {};
+	CVector2ui32(void)
+	{
+	}
+	CVector2ui32(uint32 x, uint32 y) : CVector2(x, y)
+	{
+	}
 
 	CVector2ui32(const CVector2& vecVector2)
 	{

@@ -2847,13 +2847,13 @@ INT_PTR CALLBACK DialogProc_IMGVersionSettingsDialog(
 	switch (iCompressionType)
 	{
 	case 0:
-	pIMGVersionSettingsDialogData->m_eCompressionAlgorithm = IMGCOMPRESSION_NONE;
+	pIMGVersionSettingsDialogData->m_eCompressionAlgorithm = COMPRESSION_NONE;
 	break;
 	case 1:
-	pIMGVersionSettingsDialogData->m_eCompressionAlgorithm = IMGCOMPRESSION_ZLIB;
+	pIMGVersionSettingsDialogData->m_eCompressionAlgorithm = COMPRESSION_ZLIB;
 	break;
 	case 2:
-	pIMGVersionSettingsDialogData->m_eCompressionAlgorithm = IMGCOMPRESSION_LZ4;
+	pIMGVersionSettingsDialogData->m_eCompressionAlgorithm = COMPRESSION_LZ4;
 	break;
 	}
 

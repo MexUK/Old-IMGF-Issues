@@ -10,9 +10,7 @@ class CListControl;
 class CListControlEntry
 {
 public:
-	CListControlEntry(void) :
-		m_pList(nullptr)
-	{};
+	CListControlEntry(void);
 	
 	void									unload(void) {};
 

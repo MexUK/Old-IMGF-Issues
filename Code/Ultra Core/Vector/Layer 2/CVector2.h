@@ -8,12 +8,16 @@ template<typename T>
 class CVector2 : public CVector<T>
 {
 public:
-	CVector2(void)
-	{};
+	CVector2(void) :
+		m_x((T)0),
+		m_y((T)0)
+	{
+	}
 	CVector2(T x, T y) :
 		m_x(x),
 		m_y(y)
-	{};
+	{
+	}
 
 public:
 	T				m_x;

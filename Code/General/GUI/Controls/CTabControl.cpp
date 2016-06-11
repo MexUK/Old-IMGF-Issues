@@ -79,7 +79,7 @@ void					CTabControl::render(void)
 		CVector2ui32
 			vecTabSize(uiTabWidth, uiTabHeight);
 
-		// draw tab background
+		// draw tab fill
 		pGFX->drawRectangleFill(vecTabTopLeftPosition, vecTabSize, getStyles()); // top horizontal line
 
 		// draw tab border
@@ -161,22 +161,22 @@ CTabControlEntry*		CTabControl::getTabFromPosition(CVector2i32& vecPosition)
 }
 
 // tab layer
-void					CTabControl::bindTabLayer(CTabControlEntry *pTab, CControlGroup *pControlGroup)
+void					CTabControl::bindTabLayer(CTabControlEntry *pTab, CGUILayer *pLayer)
 {
-	m_umapTabLayers[pTab] = pControlGroup;
+	m_umapTabLayers[pTab] = pLayer;
 }
 
 void					CTabControl::applyTabLayer(CTabControlEntry *pTab, CTabControlEntry *pPreviousTab)
 {
 	if (m_umapTabLayers.count(pPreviousTab) != 0)
 	{
-		CControlGroup *pOldControlGroup = m_umapTabLayers[pPreviousTab];
-		pOldControlGroup->setEnabled(false);
+		CGUILayer *pOldLayer = m_umapTabLayers[pPreviousTab];
+		pOldLayer->setEnabled(false);
 	}
 
 	if (m_umapTabLayers.count(pTab) != 0)
 	{
-		CControlGroup *pNewControlGroup = m_umapTabLayers[pTab];
-		pNewControlGroup->setEnabled(true);
+		CGUILayer *pNewLayer = m_umapTabLayers[pTab];
+		pNewLayer->setEnabled(true);
 	}
 }

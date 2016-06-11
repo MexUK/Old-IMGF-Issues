@@ -12,18 +12,18 @@ border-thickness				0
 border-style					consistent					consistent, dashed, dotted
 border-intersection-radius		0
 -----------------------------------------------------------------------------------------------------------------------------------------------------------------------------
-Background
+Fill
 -----------------------------------------------------------------------------------------------------------------------------------------------------------------------------
-background-colour				RGB(0xFF, 0xFF, 0xFF)
-background-colour-start			RGB(0xFF, 0xFF, 0xFF)
-background-colour-stop			RGB(0x80, 0x80, 0x80)
+fill-colour						RGB(0xFF, 0xFF, 0xFF)
+fill-colour-start				RGB(0xFF, 0xFF, 0xFF)
+fill-colour-stop				RGB(0x80, 0x80, 0x80)
 -----------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 Text
 -----------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 text-colour						RGB(0, 0, 0)
 text-size						11
 text-font						Verdana
-text-style						default						bold, italic, underline, strikethrough			Multiple values supported.
+text-style						default						bold, italic, underline, strikethrough			Multiple values supported. Separated by either spaces and/or commas.
 -----------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 Position/Size
 -----------------------------------------------------------------------------------------------------------------------------------------------------------------------------
@@ -41,16 +41,18 @@ inner-spacing-bottom			0							In pixels.
 Control Specific
 -----------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 caret-colour					RGB(0, 0, 0)
-row-background-colour-1			RGB(255, 255, 255)															For list controls.
-row-background-colour-2			RGB(200, 200, 200)															For list controls.
-progress-bar-background-colour	RGB(0, 50, 150)																For progress controls.
-background-colour-marked		RGB(0, 255, 0)																For radio and check controls.
-background-colour-unmarked		RGB(255, 255, 255)															For radio and check controls.
+row-fill-colour-1				RGB(255, 255, 255)															For list controls.
+row-fill-colour-2				RGB(200, 200, 200)															For list controls.
+progress-bar-fill-colour		RGB(0, 50, 150)																For progress controls.
+fill-colour-marked				RGB(0, 255, 0)																For radio and check controls.
+fill-colour-unmarked			RGB(255, 255, 255)															For radio and check controls.
 -----------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 Notes
 -----------------------------------------------------------------------------------------------------------------------------------------------------------------------------
-Background is drawn if at least one background property is used.
-Border is drawn if at least one border property is used.
+Fill is drawn if at least one fill property is used, per control component.
+Border is drawn if at least one border property is used, per control component.
+
+Control component is for example seek bar for scroll control, or background bar for scroll control.
 -----------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 */
 

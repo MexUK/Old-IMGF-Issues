@@ -3,7 +3,10 @@
 
 enum eEvent
 {
+	EVENT_UNKNOWN,
+
 	// general - bound to event type EVENT_TYPE_GENERAL
+	EVENT_onToolReady,
 	EVENT_onTaskProgress,
 	EVENT_onParseIMGEntry,
 	EVENT_onStoreIMGEntry,

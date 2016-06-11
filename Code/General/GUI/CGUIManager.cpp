@@ -17,7 +17,8 @@ auto pOnMouseMove_GUIManager		= [](void *pGUIManager, void *pTriggerArg) { ((CGU
 
 CGUIManager::CGUIManager(void) :
 	m_pGraphicsLibrary(nullptr),
-	m_pActiveWindow(nullptr)
+	m_pActiveWindow(nullptr),
+	m_bThemeDesignerModeEnabled(false)
 {
 	m_pGraphicsLibrary = new CGraphicsLibrary_GDIPlus;
 }
@@ -127,55 +128,89 @@ void					CGUIManager::processWindows(void)
 // window input
 LRESULT CALLBACK			WndProc_Window(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lParam)
 {
-	CGUIManager *pGUIManager = CGUIManager::getInstance();
-	CWindow *pWindow = pGUIManager->getWindowByHwnd(hwnd);
+	CGUIManager
+		*pGUIManager = CGUIManager::getInstance();
+	CWindow
+		*pWindow = pGUIManager->getWindowByHwnd(hwnd);
+
 	if (!pWindow)
 	{
 		return DefWindowProc(hwnd, msg, wParam, lParam);
 	}
 
+	CEventManager
+		*pEventManager = CEventManager::getInstance();
+	uint32
+		uiEventTypeId,
+		uiEventTypeIndex;
+	eEvent
+		eEventId = EVENT_UNKNOWN;
+	void
+		*pTriggerArgument = nullptr;
+
+	if (pWindow == pGUIManager->getEntryByIndex(1) && pGUIManager->isThemeDesignerModeEnabled()) // check if event is for main window and if theme designer mode is enabled
+	{
+ 		uiEventTypeId = EVENT_TYPE_THEME_DESIGNER;
+	}
+	else
+	{
+		uiEventTypeId = EVENT_TYPE_WINDOW;
+	}
+	uiEventTypeIndex = (uint32) pWindow->getWindowHandle();
+
 	switch (msg)
 	{
 	case WM_LBUTTONDOWN:
-		pWindow->triggerEvent(EVENT_onLeftMouseDown, &CVector2ui32(GET_X_LPARAM(lParam), GET_Y_LPARAM(lParam)));
-		pWindow->render();
+		eEventId = EVENT_onLeftMouseDown;
+		pTriggerArgument = &CVector2i32(GET_X_LPARAM(lParam), GET_Y_LPARAM(lParam));
 		break;
 	case WM_LBUTTONUP:
-		pWindow->triggerEvent(EVENT_onLeftMouseUp, &CVector2ui32(GET_X_LPARAM(lParam), GET_Y_LPARAM(lParam)));
-		pWindow->render();
+		eEventId = EVENT_onLeftMouseUp;
+		pTriggerArgument = &CVector2i32(GET_X_LPARAM(lParam), GET_Y_LPARAM(lParam));
 		break;
 	case WM_MOUSEMOVE:
-		pWindow->triggerEvent(EVENT_onMouseMove, &CVector2ui32(GET_X_LPARAM(lParam), GET_Y_LPARAM(lParam)));
-		pWindow->render();
+		eEventId = EVENT_onMouseMove;
+		pTriggerArgument = &CVector2i32(GET_X_LPARAM(lParam), GET_Y_LPARAM(lParam));
 		break;
 	case WM_LBUTTONDBLCLK:
-		pWindow->triggerEvent(EVENT_onLeftMouseDoubleClick, &CVector2ui32(GET_X_LPARAM(lParam), GET_Y_LPARAM(lParam)));
-		pWindow->render();
+		eEventId = EVENT_onLeftMouseDoubleClick;
+		pTriggerArgument = &CVector2i32(GET_X_LPARAM(lParam), GET_Y_LPARAM(lParam));
 		break;
 	case WM_KEYDOWN:
-		pWindow->triggerEvent(EVENT_onKeyDown, &wParam);
-		pWindow->render();
+		eEventId = EVENT_onKeyDown;
+		pTriggerArgument = &wParam;
 		break;
 	case WM_KEYUP:
-		pWindow->triggerEvent(EVENT_onKeyUp, &wParam);
-		pWindow->render();
+		eEventId = EVENT_onKeyUp;
+		pTriggerArgument = &wParam;
 		break;
 	case WM_CHAR:
-		pWindow->triggerEvent(EVENT_onCharacterDown, &wParam);
-		pWindow->render();
+		eEventId = EVENT_onCharacterDown;
+		pTriggerArgument = &wParam;
 		break;
 	case WM_PAINT:
 		pWindow->onRenderFromWMPaint();
 		break;
-	case WM_ERASEBKGND: // todo - needed?
+	case WM_ERASEBKGND:
 		return 1;
 	case WM_CLOSE:
 		PostQuitMessage(0);
 		break;
 	}
 
+	if (eEventId != EVENT_UNKNOWN)
+	{
+		pEventManager->triggerEvent(uiEventTypeId, uiEventTypeIndex, eEventId, pTriggerArgument);
+		
+		// redraw each window if needed
+		for (CWindow *pWindow2 : pGUIManager->getEntries())
+		{
+			pWindow2->checkToRender();
+		}
+	}
+
 	pWindow->setMarkedToRedraw(false);
-	CEventManager::getInstance()->setEventHogged(false);
+	pEventManager->setEventHogged(false);
 
 	return DefWindowProc(hwnd, msg, wParam, lParam);
 }
@@ -190,20 +225,8 @@ void					CGUIManager::render(void)
 {
 	for (CWindow *pWindow : getEntries())
 	{
-		if (pWindow->isMarkedToRedraw())
-		{
-			pWindow->render();
-		}
+		pWindow->checkToRender();
 	}
-}
-
-void					CGUIManager::clearBackground(void)
-{
-	RECT clientRect;
-	GetClientRect(getEntryByIndex(0)->getWindowHandle(), &clientRect);
-	HBRUSH bkgBrush = CreateSolidBrush(RGB(255, 255, 255));
-	// todo FillRect(getEntryByIndex(0)->getHDC(), &clientRect, bkgBrush);
-	DeleteObject(bkgBrush);
 }
 
 // utility

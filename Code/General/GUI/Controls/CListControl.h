@@ -38,8 +38,8 @@ public:
 	void									setRowHeight(uint32 uiRowHeight) { m_uiRowHeight = uiRowHeight; }	// in pixels
 	uint32									getRowHeight(void) { return m_uiRowHeight; }						// in pixels
 
-	uint32									getRowBackgroundColour1(void) { return getStyles()->getStyle<uint32>("row-background-colour-1"); }	// RGBA
-	uint32									getRowBackgroundColour2(void) { return getStyles()->getStyle<uint32>("row-background-colour-2"); }	// RGBA
+	uint32									getRowFillColour1(void) { return getStyles()->getStyle<uint32>("row-fill-colour-1"); }	// RGBA
+	uint32									getRowFillColour2(void) { return getStyles()->getStyle<uint32>("row-fill-colour-2"); }	// RGBA
 	
 	void									setColumnWidth(uint32 uiColumnWidth) { m_uiColumnWidth = uiColumnWidth; }	// in pixels
 	uint32									getColumnWidth(void) { return m_uiColumnWidth; }							// in pixels

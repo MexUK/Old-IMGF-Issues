@@ -653,10 +653,10 @@ void					CIMGFormat::serializeVersionFastman92(void)
 				uint32 uiCompressionValue = 0;
 				switch (pIMGEntry->getCompressionAlgorithmId())
 				{
-				case IMGCOMPRESSION_ZLIB:
+				case COMPRESSION_ZLIB:
 					uiCompressionValue = 1;
 					break;
-				case IMGCOMPRESSION_LZ4:
+				case COMPRESSION_LZ4:
 					uiCompressionValue = 2;
 					break;
 				}
@@ -991,12 +991,12 @@ eCompressionAlgorithm								CIMGFormat::getCompressionAlgorithmIdFromFastman92C
 {
 	switch (eFastman92CompressionAlgorithmId)
 	{
-	case IMGFASTMAN92COMPRESSIONALGORITHM_UNKNOWN:		return IMGCOMPRESSION_UNKNOWN;
-	case IMGFASTMAN92COMPRESSIONALGORITHM_UNCOMPRESSED:	return IMGCOMPRESSION_NONE;
-	case IMGFASTMAN92COMPRESSIONALGORITHM_ZLIB:			return IMGCOMPRESSION_ZLIB;
-	case IMGFASTMAN92COMPRESSIONALGORITHM_LZ4:			return IMGCOMPRESSION_LZ4;
+	case IMGFASTMAN92COMPRESSIONALGORITHM_UNKNOWN:		return COMPRESSION_UNKNOWN;
+	case IMGFASTMAN92COMPRESSIONALGORITHM_UNCOMPRESSED:	return COMPRESSION_NONE;
+	case IMGFASTMAN92COMPRESSIONALGORITHM_ZLIB:			return COMPRESSION_ZLIB;
+	case IMGFASTMAN92COMPRESSIONALGORITHM_LZ4:			return COMPRESSION_LZ4;
 	}
-	return IMGCOMPRESSION_UNKNOWN;
+	return COMPRESSION_UNKNOWN;
 }
 
 uint32			CIMGFormat::getVersion3NamesLength(void)

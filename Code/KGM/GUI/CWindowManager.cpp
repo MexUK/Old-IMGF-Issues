@@ -18,7 +18,7 @@ CWindow*				CWindowManager::openWindow(void)
 	CVector2ui32 vecWindowSize = CVector2ui32(1025, 698);
 	CKGMWindow *pWindow = CGUIManager::getInstance()->addTemplatedWindow<CKGMWindow>(vecWindowPosition, vecWindowSize);
 	
-	CIMGEditor *pIMGEditor = new CIMGEditor; // CIMGEditor eventually extends CControlGroup - todo use pWindow->addTempatedGroup<CIMGEditor>() instead?
+	CIMGEditor *pIMGEditor = new CIMGEditor; // CIMGEditor eventually extends CGUILayer - todo use pWindow->addTempatedGroup<CIMGEditor>() instead?
 	pIMGEditor->setWindow(pWindow);
 	pWindow->addEntry(pIMGEditor);
 	

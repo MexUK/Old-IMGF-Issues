@@ -43,7 +43,7 @@ public:
 	void									setSeekBarLength(uint32 uiSeekBarLength) { m_uiSeekBarLength = uiSeekBarLength; }	// in pixels
 	uint32									getSeekBarLength(void) { return m_uiSeekBarLength; }								// in pixels
 
-	uint32									getSeekBarFillColour(void) { return getStyles()->getStyle<uint32>("background-colour"); }	// RGBA
+	uint32									getSeekBarFillColour(void) { return getStyles()->getStyle<uint32>("fill-colour"); }	// RGBA
 	uint32									getSeekBarLineColour(void) { return getStyles()->getStyle<uint32>("border-colour"); }		// RGBA
 	
 	void									setProgress(float32 fProgress) { m_fProgress = fProgress; }		// 0.0 to 1.0

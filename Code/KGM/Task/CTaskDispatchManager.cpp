@@ -541,12 +541,12 @@ void		CTaskDispatchManager::onRequestRebuildAll(void)
 	}
 
 	vector<string> vecIMGPaths;
-	for (auto pEditorTab : getKGM()->getIMGEditor()->getEntries())
+	for (auto pEditorTab : getKGM()->getIMGEditor()->getTabs().getEntries())
 	{
 		vecIMGPaths.push_back(((CIMGEditorTab*)pEditorTab)->getIMGFile()->getFilePath());
 		((CIMGEditorTab*)pEditorTab)->rebuild("", false);
 	}
-	getKGM()->getIMGEditor()->logAllTabs(CLocalizationManager::getInstance()->getTranslatedFormattedText("LogAllTabs_1", getKGM()->getIMGEditor()->getEntryCount()));
+	getKGM()->getIMGEditor()->logAllTabs(CLocalizationManager::getInstance()->getTranslatedFormattedText("LogAllTabs_1", getKGM()->getIMGEditor()->getTabs().getEntryCount()));
 	getKGM()->getIMGEditor()->logAllTabs(CLocalizationManager::getInstance()->getTranslatedText("LogAllTabs_2"), true);
 	getKGM()->getIMGEditor()->logAllTabs(CStringUtility::join(vecIMGPaths, "\n"), true);
 
@@ -604,10 +604,10 @@ void		CTaskDispatchManager::onRequestConvertIMGVersion(eIMGVersion eIMGVersionVa
 				string strEntryNewData;
 				switch(pIMGEntry->getCompressionAlgorithmId())
 				{
-					case IMGCOMPRESSION_ZLIB:
+					case COMPRESSION_ZLIB:
 						strEntryNewData = CIMGManager::decompressZLib(pIMGEntry->getEntryData(), pIMGEntry->getFUncompressedSize());
 					break;
-					case IMGCOMPRESSION_LZ4:
+					case COMPRESSION_LZ4:
 						strEntryNewData = CIMGManager::decompressLZ4(pIMGEntry->getEntryData(), pIMGEntry->getFUncompressedSize());
 					break;
 				}
@@ -627,10 +627,10 @@ void		CTaskDispatchManager::onRequestConvertIMGVersion(eIMGVersion eIMGVersionVa
 				string strEntryNewData;
 				switch(pIMGEntry->getCompressionAlgorithmId())
 				{
-					case IMGCOMPRESSION_ZLIB:
+					case COMPRESSION_ZLIB:
 						strEntryNewData = CIMGManager::compressZLib(pIMGEntry->getEntryData());
 					break;
-					case IMGCOMPRESSION_LZ4:
+					case COMPRESSION_LZ4:
 						strEntryNewData = CIMGManager::compressLZ4(pIMGEntry->getEntryData());
 					break;
 				}
@@ -646,7 +646,7 @@ void		CTaskDispatchManager::onRequestConvertIMGVersion(eIMGVersion eIMGVersionVa
 	{
 		for (auto pIMGEntry : getKGM()->getEntryListTab()->getIMGFile()->getEntries())
 		{
-			pIMGEntry->applyCompression(IMGCOMPRESSION_NONE);
+			pIMGEntry->applyCompression(COMPRESSION_NONE);
 		}
 	}
 
@@ -2805,14 +2805,14 @@ string		CTaskDispatchManager::onRequestSaveLog(bool bActiveTab, bool bNormalForm
 		string strLogData = "";
 		if (bNormalFormat)
 		{
-			for (auto pEditorTab : getKGM()->getIMGEditor()->getEntries())
+			for (auto pEditorTab : getKGM()->getIMGEditor()->getTabs().getEntries())
 			{
 				strLogData += "[[" + ((CIMGEditorTab*)pEditorTab)->getIMGFile()->getFilePath() + "]]\n" + CStringUtility::join(((CIMGEditorTab*)pEditorTab)->getLogLinesBasic(), "\n") + "\n\n";
 			}
 		}
 		else
 		{
-			for (auto pEditorTab : getKGM()->getIMGEditor()->getEntries())
+			for (auto pEditorTab : getKGM()->getIMGEditor()->getTabs().getEntries())
 			{
 				strLogData += "[[" + ((CIMGEditorTab*)pEditorTab)->getIMGFile()->getFilePath() + "]]\n" + CStringUtility::join(((CIMGEditorTab*)pEditorTab)->getLogLinesExtended(), "\n") + "\n\n";
 			}
@@ -2949,7 +2949,7 @@ void		CTaskDispatchManager::onRequestOrphanDFFEntriesNotInCOL(void)
 		getKGM()->getTaskManager()->onTaskProgressTick();
 	}
 
-	if (getKGM()->getIMGEditor()->getEntryCount() > 0)
+	if (getKGM()->getIMGEditor()->getTabs().getEntryCount() > 0)
 	{
 		getKGM()->getEntryListTab()->log(CLocalizationManager::getInstance()->getTranslatedFormattedText("Log_125", vecEntryNamesMissingFromCOL.size()));
 		getKGM()->getEntryListTab()->log(CLocalizationManager::getInstance()->getTranslatedText("Log_93"), true);
@@ -4148,7 +4148,7 @@ bool		CTaskDispatchManager::onRequestClose2(bool bCloseAll)
 	if (bCloseAll)
 	{
 		uint32 uiModifiedSinceRebuildCount = 0;
-		for (auto pEditorTab : getKGM()->getIMGEditor()->getEntries())
+		for (auto pEditorTab : getKGM()->getIMGEditor()->getTabs().getEntries())
 		{
 			if (((CIMGEditorTab*)pEditorTab)->getIMGModifiedSinceRebuild())
 			{
@@ -4191,7 +4191,7 @@ bool		CTaskDispatchManager::onRequestClose2(bool bCloseAll)
 
 	if (bCloseAll)
 	{
-		for (auto pEditorTab : getKGM()->getIMGEditor()->getEntries())
+		for (auto pEditorTab : getKGM()->getIMGEditor()->getTabs().getEntries())
 		{
 			if (((CIMGEditorTab*)pEditorTab)->getIMGModifiedSinceRebuild())
 			{
@@ -4343,14 +4343,14 @@ void		CTaskDispatchManager::onRequestExportAllEntriesFromAllTabs(void)
 	getKGM()->setLastUsedDirectory("EXPORT_ALL_ALL", strPath);
 
 	uint32 uiTotalEntryCount = 0;
-	for (auto pEditorTab : getKGM()->getIMGEditor()->getEntries())
+	for (auto pEditorTab : getKGM()->getIMGEditor()->getTabs().getEntries())
 	{
 		uiTotalEntryCount += ((CIMGEditorTab*)pEditorTab)->getIMGFile()->getEntryCount();
 	}
 	getKGM()->getTaskManager()->setTaskMaxProgressTickCount(uiTotalEntryCount);
 
 	vector<string> vecIMGPaths;
-	for (auto pEditorTab : getKGM()->getIMGEditor()->getEntries())
+	for (auto pEditorTab : getKGM()->getIMGEditor()->getTabs().getEntries())
 	{
 		vecIMGPaths.push_back(((CIMGEditorTab*)pEditorTab)->getIMGFile()->getFilePath());
 
@@ -4358,7 +4358,7 @@ void		CTaskDispatchManager::onRequestExportAllEntriesFromAllTabs(void)
 		//pEditorTab->log("Exported all " + CStringUtility::toString(pEditorTab->getIMGFile()->m_vecEntries.size()) + " entr" + (pEditorTab->getIMGFile()->m_vecEntries.size() == 1 ? "y" : "ies") + ".");
 	}
 
-	getKGM()->getIMGEditor()->logAllTabs(CLocalizationManager::getInstance()->getTranslatedFormattedText("LogAllTabs_6", uiTotalEntryCount, getKGM()->getIMGEditor()->getEntryCount()));
+	getKGM()->getIMGEditor()->logAllTabs(CLocalizationManager::getInstance()->getTranslatedFormattedText("LogAllTabs_6", uiTotalEntryCount, getKGM()->getIMGEditor()->getTabs().getEntryCount()));
 	getKGM()->getIMGEditor()->logAllTabs(CLocalizationManager::getInstance()->getTranslatedText("LogAllTabs_7"), true);
 	getKGM()->getIMGEditor()->logAllTabs(CStringUtility::join(vecIMGPaths, "\n"), true);
 	getKGM()->getTaskManager()->onTaskEnd("onRequestExportAllEntriesFromAllTabs");
@@ -4397,7 +4397,7 @@ void		CTaskDispatchManager::onRequestExportEntriesViaIDEFileFromAllTabs(void)
 	vecEntryNamesWithoutExtension = CVectorUtility::toUpperCase(vecEntryNamesWithoutExtension);
 	
 	uint32 uiTotalEntryCount = 0;
-	for (auto pEditorTab : getKGM()->getIMGEditor()->getEntries())
+	for (auto pEditorTab : getKGM()->getIMGEditor()->getTabs().getEntries())
 	{
 		uiTotalEntryCount += ((CIMGEditorTab*)pEditorTab)->getIMGFile()->getEntryCount();
 	}
@@ -4405,7 +4405,7 @@ void		CTaskDispatchManager::onRequestExportEntriesViaIDEFileFromAllTabs(void)
 
 	uint32 uiTotalEntryExportedCount = 0;
 	vector<string> vecIMGPaths;
-	for (auto pEditorTab : getKGM()->getIMGEditor()->getEntries())
+	for (auto pEditorTab : getKGM()->getIMGEditor()->getTabs().getEntries())
 	{
 		vecIMGPaths.push_back(((CIMGEditorTab*)pEditorTab)->getIMGFile()->getFilePath());
 
@@ -4426,7 +4426,7 @@ void		CTaskDispatchManager::onRequestExportEntriesViaIDEFileFromAllTabs(void)
 		((CIMGEditorTab*)pEditorTab)->getIMGFile()->exportMultiple(vecIMGEntries, strPath);
 	}
 
-	getKGM()->getIMGEditor()->logAllTabs(CLocalizationManager::getInstance()->getTranslatedFormattedText("Log_108", uiTotalEntryExportedCount, getKGM()->getIMGEditor()->getEntryCount()));
+	getKGM()->getIMGEditor()->logAllTabs(CLocalizationManager::getInstance()->getTranslatedFormattedText("Log_108", uiTotalEntryExportedCount, getKGM()->getIMGEditor()->getTabs().getEntryCount()));
 	getKGM()->getIMGEditor()->logAllTabs(CLocalizationManager::getInstance()->getTranslatedText("LogAllTabs_7"), true);
 	getKGM()->getIMGEditor()->logAllTabs(CStringUtility::join(vecIMGPaths, "\n"), true);
 	getKGM()->getTaskManager()->onTaskEnd("onRequestExportEntriesViaIDEFileFromAllTabs");
@@ -4475,7 +4475,7 @@ void		CTaskDispatchManager::onRequestExportEntriesViaTextLinesFromAllTabs(void)
 	vecEntryNames = CVectorUtility::toUpperCase(vecEntryNames);
 
 	uint32 uiTotalEntryCount = 0;
-	for (auto pEditorTab : getKGM()->getIMGEditor()->getEntries())
+	for (auto pEditorTab : getKGM()->getIMGEditor()->getTabs().getEntries())
 	{
 		uiTotalEntryCount += ((CIMGEditorTab*)pEditorTab)->getIMGFile()->getEntryCount();
 	}
@@ -4483,7 +4483,7 @@ void		CTaskDispatchManager::onRequestExportEntriesViaTextLinesFromAllTabs(void)
 
 	uint32 uiTotalEntryExportedCount = 0;
 	vector<string> vecIMGPaths;
-	for (auto pEditorTab : getKGM()->getIMGEditor()->getEntries())
+	for (auto pEditorTab : getKGM()->getIMGEditor()->getTabs().getEntries())
 	{
 		vecIMGPaths.push_back(((CIMGEditorTab*)pEditorTab)->getIMGFile()->getFilePath());
 
@@ -4504,7 +4504,7 @@ void		CTaskDispatchManager::onRequestExportEntriesViaTextLinesFromAllTabs(void)
 		((CIMGEditorTab*)pEditorTab)->getIMGFile()->exportMultiple(vecIMGEntries, strPath);
 	}
 
-	getKGM()->getIMGEditor()->logAllTabs(CLocalizationManager::getInstance()->getTranslatedFormattedText("LogAllTabs_8", uiTotalEntryExportedCount, getKGM()->getIMGEditor()->getEntryCount()));
+	getKGM()->getIMGEditor()->logAllTabs(CLocalizationManager::getInstance()->getTranslatedFormattedText("LogAllTabs_8", uiTotalEntryExportedCount, getKGM()->getIMGEditor()->getTabs().getEntryCount()));
 	getKGM()->getIMGEditor()->logAllTabs(CLocalizationManager::getInstance()->getTranslatedText("LogAllTabs_7"), true);
 	getKGM()->getIMGEditor()->logAllTabs(CStringUtility::join(vecIMGPaths, "\n"), true);
 	getKGM()->getTaskManager()->onTaskEnd("onRequestExportEntriesViaTextLinesFromAllTabs");
@@ -4754,21 +4754,21 @@ void		CTaskDispatchManager::onRequestExportAllEntriesFromAllTabsIntoMultipleFold
 	getKGM()->setLastUsedDirectory("EXPORT_ALL_FOLDERS", strPath);
 
 	uint32 uiTotalEntryCount = 0;
-	for (auto pEditorTab : getKGM()->getIMGEditor()->getEntries())
+	for (auto pEditorTab : getKGM()->getIMGEditor()->getTabs().getEntries())
 	{
 		uiTotalEntryCount += ((CIMGEditorTab*)pEditorTab)->getIMGFile()->getEntryCount();
 	}
 	getKGM()->getTaskManager()->setTaskMaxProgressTickCount(uiTotalEntryCount);
 
 	vector<string> vecIMGPaths;
-	for (auto pEditorTab : getKGM()->getIMGEditor()->getEntries())
+	for (auto pEditorTab : getKGM()->getIMGEditor()->getTabs().getEntries())
 	{
 		vecIMGPaths.push_back(((CIMGEditorTab*)pEditorTab)->getIMGFile()->getFilePath());
 
 		((CIMGEditorTab*)pEditorTab)->getIMGFile()->exportMultiple(((CIMGEditorTab*)pEditorTab)->getIMGFile()->getEntries(), strPath + CPathUtility::getFileName(((CIMGEditorTab*)pEditorTab)->getIMGFile()->getFilePath()) + "/");
 	}
 
-	getKGM()->getIMGEditor()->logAllTabs(CLocalizationManager::getInstance()->getTranslatedFormattedText("LogAllTabs_9", uiTotalEntryCount, getKGM()->getIMGEditor()->getEntries()));
+	getKGM()->getIMGEditor()->logAllTabs(CLocalizationManager::getInstance()->getTranslatedFormattedText("LogAllTabs_9", uiTotalEntryCount, getKGM()->getIMGEditor()->getTabs().getEntries()));
 	getKGM()->getIMGEditor()->logAllTabs(CLocalizationManager::getInstance()->getTranslatedText("LogAllTabs_7"), true);
 	getKGM()->getIMGEditor()->logAllTabs(CStringUtility::join(vecIMGPaths, "\n"), true);
 	getKGM()->getTaskManager()->onTaskEnd("onRequestExportAllEntriesFromAllTabsIntoMultipleFolders");
@@ -5791,7 +5791,7 @@ void			CTaskDispatchManager::onRequestClearLogs(bool bAllTabs)
 	vector<CIMGEditorTab*> veCIMGEditorTabs;
 	if (bAllTabs)
 	{
-		for (auto pEntryListWindowTab : getKGM()->getIMGEditor()->getEntries())
+		for (auto pEntryListWindowTab : getKGM()->getIMGEditor()->getTabs().getEntries())
 		{
 			veCIMGEditorTabs.push_back((CIMGEditorTab*)pEntryListWindowTab);
 		}
@@ -6565,7 +6565,7 @@ void		CTaskDispatchManager::onRequestBuildTXD(void)
 			return;
 		}
 
-		for (auto pEditorTab : getKGM()->getIMGEditor()->getEntries())
+		for (auto pEditorTab : getKGM()->getIMGEditor()->getTabs().getEntries())
 		{
 			vector<CIMGEntry*> vecIMGEntries = ((CIMGEditorTab*)pEditorTab)->getIMGFile()->getEntriesByExtension("DFF");
 			vector<CIMGEntry*> vecIMGEntries_BSP = ((CIMGEditorTab*)pEditorTab)->getIMGFile()->getEntriesByExtension("BSP");
@@ -7682,7 +7682,7 @@ void			CTaskDispatchManager::onRequestAlignCOLCollisionMeshesToDFFMesh(void)
 	}
 	
 	string strLogText = CLocalizationManager::getInstance()->getTranslatedFormattedText("Log_AlignMeshes_COL_DFF", vecFilePaths_COL.size());
-	if (getKGM()->getIMGEditor()->getEntryCount() > 0)
+	if (getKGM()->getIMGEditor()->getTabs().getEntryCount() > 0)
 	{
 		getKGM()->getEntryListTab()->log(strLogText);
 	}

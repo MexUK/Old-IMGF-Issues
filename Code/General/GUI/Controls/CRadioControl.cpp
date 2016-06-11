@@ -40,11 +40,11 @@ void		CRadioControl::render(void)
 	CVector2i32 vecCircleCenterPosition = getPosition();
 	if (isMarked())
 	{
-		getStyles()->setStyleNameOverwrite("background-colour", "background-colour-marked");
+		getStyles()->setStyleNameOverwrite("fill-colour", "fill-colour-marked");
 	}
 	else
 	{
-		getStyles()->setStyleNameOverwrite("background-colour", "background-colour-unmarked");
+		getStyles()->setStyleNameOverwrite("fill-colour", "fill-colour-unmarked");
 	}
 	pGFX->drawCircle(vecCircleCenterPosition, fRadius, getStyles());
 	getStyles()->restoreStyleNameOverwrites();

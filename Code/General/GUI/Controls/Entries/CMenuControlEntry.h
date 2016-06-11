@@ -11,10 +11,7 @@ class CMenuControlEntry;
 class CMenuControlEntry : public CVectorPool<CMenuControlEntry*>
 {
 public:
-	CMenuControlEntry(void) :
-		m_eOrientation(_2D_MIRRORED_ORIENTATION_HORIZONTAL),
-		m_uiItemId(0)
-	{};
+	CMenuControlEntry(void);
 	
 	void									unload(void) {};
 

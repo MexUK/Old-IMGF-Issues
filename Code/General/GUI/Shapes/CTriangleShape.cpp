@@ -23,10 +23,5 @@ void							CTriangleShape::render(void)
 {
 	CGraphicsLibrary *pGFX = CGUIManager::getInstance()->getGraphicsLibrary();
 
-	vector<CVector2i32> vecPoints;
-	vecPoints.resize(3);
-	vecPoints[0] = getPoint1();
-	vecPoints[1] = getPoint2();
-	vecPoints[2] = getPoint3();
-	pGFX->drawPolygon(vecPoints, getStyles());
+	pGFX->drawTriangle(getPoint1(), getPoint2(), getPoint3(), getStyles());
 }

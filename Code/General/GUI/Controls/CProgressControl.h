@@ -32,7 +32,7 @@ public:
 	void									setCurrentTicks(uint32 uiCurrentTicks) { m_uiCurrentTicks = uiCurrentTicks; }
 	uint32									getCurrentTicks(void) { return m_uiCurrentTicks; }
 
-	uint32									getProgressFillColour(void) { return getStyles()->getStyle<uint32>("progress-bar-background-colour"); }	// RGBA
+	uint32									getProgressFillColour(void) { return getStyles()->getStyle<uint32>("progress-bar-fill-colour"); }	// RGBA
 
 	void									setCompletionPercentageShown(bool bCompletionPercentageShown) { m_bCompletionPercentageShown = bCompletionPercentageShown; }
 	bool									isCompletionPercentageShown(void) { return m_bCompletionPercentageShown; }

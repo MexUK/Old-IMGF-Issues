@@ -42,7 +42,7 @@ void					CListControl::render(void)
 		uiColumnIndex;
 	for(auto pListEntry : getEntries())
 	{
-		uint32 uiRowBackgroundColour = (uiRowIndex % 2) == 0 ? getRowBackgroundColour1() : getRowBackgroundColour2();
+		uint32 uiRowFillColour = (uiRowIndex % 2) == 0 ? getRowFillColour1() : getRowFillColour2(); // todo - used?
 		pGFX->drawRectangleFill(getRowPosition(uiRowIndex), getRowSize(), getStyles());
 
 		uiTextRowIndex = 0;

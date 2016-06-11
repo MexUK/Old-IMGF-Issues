@@ -8,7 +8,7 @@
 #include <unordered_map>
 
 class CTabControlEntry;
-class CControlGroup;
+class CGUILayer;
 
 class CTabControl : public CGUIControl, public CVectorPool<CTabControlEntry*>
 {
@@ -26,7 +26,7 @@ public:
 
 	CTabControlEntry*						getTabFromPosition(CVector2i32& vecPosition);
 
-	void									bindTabLayer(CTabControlEntry *pTab, CControlGroup *pControlGroup);
+	void									bindTabLayer(CTabControlEntry *pTab, CGUILayer *pLayer);
 	void									applyTabLayer(CTabControlEntry *pTab, CTabControlEntry *pPreviousTab);
 
 	void									setActiveTab(CTabControlEntry* pActiveTab) { m_pActiveTab = pActiveTab; }
@@ -34,7 +34,7 @@ public:
 
 private:
 	CTabControlEntry*						m_pActiveTab;
-	std::unordered_map<CTabControlEntry*, CControlGroup*>		m_umapTabLayers;
+	std::unordered_map<CTabControlEntry*, CGUILayer*>		m_umapTabLayers;
 };
 
 #endif

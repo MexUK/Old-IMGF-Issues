@@ -7,11 +7,11 @@
 class CVector2i32 : public CVector2<int32>
 {
 public:
-	CVector2i32(void) {};
-	CVector2i32(float32 fX, float32 fY)
+	CVector2i32(void)
 	{
-		m_x = fX;
-		m_y = fY;
+	}
+	CVector2i32(float32 fX, float32 fY) : CVector2(fX, fY)
+	{
 	}
 
 	CVector2i32	operator+(const CVector2i32& vecVector2)

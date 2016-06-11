@@ -26,7 +26,7 @@ CIMGEntry::CIMGEntry(void) :
 	m_bReplacedEntry(false),
 	m_bProtectedEntry(false),
 	m_uiFileCreationDate(0),
-	m_eCompressionAlgorithm(IMGCOMPRESSION_NONE),
+	m_eCompressionAlgorithm(COMPRESSION_NONE),
 	m_uiCompressionLevel(0),
 	m_bIsEncrypted(false),
 
@@ -47,7 +47,7 @@ CIMGEntry::CIMGEntry(CIMGFormat *pIMGFile) :
 	m_bReplacedEntry(false),
 	m_bProtectedEntry(false),
 	m_uiFileCreationDate(0),
-	m_eCompressionAlgorithm(IMGCOMPRESSION_NONE),
+	m_eCompressionAlgorithm(COMPRESSION_NONE),
 	m_uiCompressionLevel(0),
 	m_bIsEncrypted(false),
 
@@ -117,10 +117,10 @@ void					CIMGEntry::setEntryData(string strEntryData, bool bIsNew)
 			// compressed
 			switch (getCompressionAlgorithmId())
 			{
-			case IMGCOMPRESSION_ZLIB:
+			case COMPRESSION_ZLIB:
 				strEntryData = CCompressionUtility::compressZLib(strEntryData, getCompressionLevel());
 				break;
-			case IMGCOMPRESSION_LZ4:
+			case COMPRESSION_LZ4:
 				strEntryData = CCompressionUtility::compressLZ4(strEntryData, getCompressionLevel());
 				break;
 			}
@@ -190,8 +190,8 @@ string					CIMGEntry::getEntryData(void)
 			// compressed
 			switch (getCompressionAlgorithmId())
 			{
-			case IMGCOMPRESSION_ZLIB:	return CCompressionUtility::decompressZLib(strEntryData, getUncompressedSize());
-			case IMGCOMPRESSION_LZ4:	return CCompressionUtility::decompressLZ4(strEntryData, getUncompressedSize());
+			case COMPRESSION_ZLIB:	return CCompressionUtility::decompressZLib(strEntryData, getUncompressedSize());
+			case COMPRESSION_LZ4:	return CCompressionUtility::decompressLZ4(strEntryData, getUncompressedSize());
 			default:					return "";
 			}
 		}
@@ -254,8 +254,8 @@ string					CIMGEntry::getEntrySubData(uint32 uiStart, uint32 uiLength)
 		//strEntrySubData = CIMGManager::decompressZLib(strEntrySubData, uiLength2);
 		switch (getCompressionAlgorithmId())
 		{
-		case IMGCOMPRESSION_ZLIB:	return CCompressionUtility::decompressZLib(strEntrySubData, getUncompressedSize());
-		case IMGCOMPRESSION_LZ4:	return CCompressionUtility::decompressLZ4(strEntrySubData, getUncompressedSize());
+		case COMPRESSION_ZLIB:	return CCompressionUtility::decompressZLib(strEntrySubData, getUncompressedSize());
+		case COMPRESSION_LZ4:	return CCompressionUtility::decompressLZ4(strEntrySubData, getUncompressedSize());
 		}
 		return strEntrySubData.substr(uiStartOffset, uiLength);
 	}
@@ -444,7 +444,7 @@ bool				CIMGEntry::canBeRead(void)
 		return false;
 	}
 
-	if (isCompressed() && getCompressionAlgorithmId() == IMGCOMPRESSION_UNKNOWN)
+	if (isCompressed() && getCompressionAlgorithmId() == COMPRESSION_UNKNOWN)
 	{
 		return false;
 	}

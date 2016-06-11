@@ -9,7 +9,7 @@
 #include "Event/CEventType.h"
 #include "Event/CEventBoundFunction.h"
 #include "Event/CEventBinder.h"
-#include "GUI/Group/CControlGroup.h"
+#include "GUI/Layer/CGUILayer.h"
 #include "GUI/Control/CGUIControl.h"
 #include "GUI/Styles/CGUIStyleableEntity.h"
 
@@ -18,7 +18,7 @@ class CDropTarget;
 class CGUIStyles;
 class CWindow;
 
-class CWindow : public CEventType, public CEventBinder, public CGUIStyleableEntity, public CVectorPool<CControlGroup*>
+class CWindow : public CEventType, public CEventBinder, public CGUIStyleableEntity, public CVectorPool<CGUILayer*>
 {
 public:
 	CWindow(void);
@@ -40,10 +40,11 @@ public:
 	void									onDoubleLeftClick(CVector2i32& vecCursorPosition);
 
 	virtual void							render(void);
+	void									checkToRender(void);
 	void									onRenderFromWMPaint(void);
 
-	CControlGroup*							addControlGroup(bool bEnabled = true);
-	CControlGroup*							addControlGroup(CWindow *pWindow, bool bEnabled = true);
+	CGUILayer*								addLayer(bool bEnabled = true);
+	CGUILayer*								addLayer(CWindow *pWindow, bool bEnabled = true);
 
 	void									unmarkRadios(CRadioControl *pRadio);
 
@@ -95,10 +96,10 @@ private:
 	uint32									m_uiWindowResizeEdges;
 	CDropTarget*							m_pDropTarget;
 	uint32									m_uiTitleBarHeight;
-	uint8									m_bMovingWindow			: 1;
-	uint8									m_bResizingWindow		: 1;
-	uint8									m_bMarkedToRedraw		: 1;
-	uint8									m_bMaximized			: 1;
+	uint8									m_bMovingWindow					: 1;
+	uint8									m_bResizingWindow				: 1;
+	uint8									m_bMarkedToRedraw				: 1;
+	uint8									m_bMaximized					: 1;
 	CVector2i32								m_vecPreviousPosition;
 
 	/*

@@ -27,9 +27,9 @@ void					CGUIStyles::init(void)
 	getStyleDefaultValues().setEntry<bool>("border-state-top", false);
 	getStyleDefaultValues().setEntry<bool>("border-state-bottom", false);
 
-	getStyleDefaultValues().setEntry("background-colour", RGB(0xFF,0xFF,0xFF));
-	getStyleDefaultValues().setEntry("background-colour-start", RGB(0xFF, 0xFF, 0xFF));
-	getStyleDefaultValues().setEntry("background-colour-stop", RGB(0x80, 0x80, 0x80));
+	getStyleDefaultValues().setEntry("fill-colour", RGB(0xFF,0xFF,0xFF));
+	getStyleDefaultValues().setEntry("fill-colour-start", RGB(0xFF, 0xFF, 0xFF));
+	getStyleDefaultValues().setEntry("fill-colour-stop", RGB(0x80, 0x80, 0x80));
 
 	getStyleDefaultValues().setEntry("text-colour", RGB(0, 0, 0));
 	getStyleDefaultValues().setEntry("text-size", 11);
@@ -44,11 +44,11 @@ void					CGUIStyles::init(void)
 	getStyleDefaultValues().setEntry<int32>("inner-spacing-bottom", 0);
 
 	getStyleDefaultValues().setEntry("caret-colour", RGB(0, 0, 0));
-	getStyleDefaultValues().setEntry("row-background-colour-1", RGB(255, 255, 255));
-	getStyleDefaultValues().setEntry("row-background-colour-2", RGB(200, 200, 200));
-	getStyleDefaultValues().setEntry("progress-bar-background-colour", RGB(0, 50, 150));
-	getStyleDefaultValues().setEntry("background-colour-marked", RGB(0, 255, 0));
-	getStyleDefaultValues().setEntry("background-colour-unmarked", RGB(0xFF, 0xFF, 0xFF));
+	getStyleDefaultValues().setEntry("row-fill-colour-1", RGB(255, 255, 255));
+	getStyleDefaultValues().setEntry("row-fill-colour-2", RGB(200, 200, 200));
+	getStyleDefaultValues().setEntry("progress-bar-fill-colour", RGB(0, 50, 150));
+	getStyleDefaultValues().setEntry("fill-colour-marked", RGB(0, 255, 0));
+	getStyleDefaultValues().setEntry("fill-colour-unmarked", RGB(0xFF, 0xFF, 0xFF));
 }
 
 void					CGUIStyles::uninit(void)
@@ -123,10 +123,10 @@ bool					CGUIStyles::doesHaveBottomBorder(void)
 // fill
 bool					CGUIStyles::doesHaveFill(void)
 {
-	return doesEntryExist("background-colour")
-		|| (doesEntryExist("background-colour-start") && doesEntryExist("background-colour-end"))
-	// todo	|| doesEntryExist("progress-bar-background-colour")
-		|| (doesEntryExist("background-colour-marked") || doesEntryExist("background-colour-unmarked"));
+	return doesEntryExist("fill-colour")
+		|| (doesEntryExist("fill-colour-start") && doesEntryExist("fill-colour-end"))
+	// todo	|| doesEntryExist("progress-bar-fill-colour")
+		|| (doesEntryExist("fill-colour-marked") || doesEntryExist("fill-colour-unmarked"));
 }
 
 // position/size

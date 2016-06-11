@@ -127,6 +127,18 @@
     <Filter Include="Source Files\GUI\ThemeDesigner">
       <UniqueIdentifier>{812c5d96-f6e5-41a1-a862-f121f9258c21}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Header Files\GUI\ThemeDesigner\Tab">
+      <UniqueIdentifier>{1cc1d47e-f393-479c-9b02-eec9547e6212}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\GUI\ThemeDesigner\Tabs">
+      <UniqueIdentifier>{33ed632b-302a-4572-ab57-b63bfce9d8de}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\GUI\ThemeDesigner\Tab">
+      <UniqueIdentifier>{fc808b68-bc29-4de8-914f-626ee2b97ee1}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\GUI\ThemeDesigner\Tabs">
+      <UniqueIdentifier>{f1f36e8d-1c74-49b2-a433-3c1a44e28d9c}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\..\..\Code\KGM\CDumpManager.cpp">
@@ -257,6 +269,12 @@
     </ClCompile>
     <ClCompile Include="..\..\..\Code\KGM\GUI\ThemeDesigner\CThemeDesigner.cpp">
       <Filter>Source Files\GUI\ThemeDesigner</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\Code\KGM\GUI\ThemeDesigner\Tabs\CThemeDesignerTab_AddItem.cpp">
+      <Filter>Source Files\GUI\ThemeDesigner\Tabs</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\Code\KGM\GUI\ThemeDesigner\Tab\CThemeDesignerTab.cpp">
+      <Filter>Source Files\GUI\ThemeDesigner\Tab</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -436,6 +454,12 @@
     </ClInclude>
     <ClInclude Include="..\..\..\Code\KGM\GUI\ThemeDesigner\CThemeDesigner.h">
       <Filter>Header Files\GUI\ThemeDesigner</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\Code\KGM\GUI\ThemeDesigner\Tab\CThemeDesignerTab.h">
+      <Filter>Header Files\GUI\ThemeDesigner\Tab</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\Code\KGM\GUI\ThemeDesigner\Tabs\CThemeDesignerTab_AddItem.h">
+      <Filter>Header Files\GUI\ThemeDesigner\Tabs</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

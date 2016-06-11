@@ -8,7 +8,7 @@
 #include "Pool/CVectorPool.h"
 #include "Event/CEventBoundFunction.h"
 #include "Event/CEventBinder.h"
-#include "GUI/Styles/CGUIStyleableEntity.h"
+#include "GUI/Item/CGUIItem.h"
 #include <string>
 #include <vector>
 #include <Windows.h>
@@ -16,10 +16,10 @@
 
 class CWindow;
 class CGUIScrollPool;
-class CControlGroup;
+class CGUILayer;
 class CGUIStyles;
 
-class CGUIControl : public CEventBinder, public CGUIStyleableEntity
+class CGUIControl : public CGUIItem, public CEventBinder
 {
 public:
 	CGUIControl(eGUIControl eControlType);
@@ -35,8 +35,8 @@ public:
 
 	bool									doesControlHaveFocus(void);
 
-	void									setControlGroup(CControlGroup* pControlGroup) { m_pControlGroup = pControlGroup; }
-	CControlGroup*							getControlGroup(void) { return m_pControlGroup; }
+	void									setLayer(CGUILayer* pLayer) { m_pLayer = pLayer; }
+	CGUILayer*							getLayer(void) { return m_pLayer; }
 
 	void									setControlType(eGUIControl eControlType) { m_eControlType = eControlType; }
 	eGUIControl								getControlType(void) { return m_eControlType; }
@@ -56,7 +56,7 @@ public:
 	CGUIScrollPool*							getScrolls(void) { return m_pScrolls; }
 
 private:
-	CControlGroup*							m_pControlGroup;
+	CGUILayer*							m_pLayer;
 	eGUIControl								m_eControlType;
 	CVector2i32								m_vecPosition;
 	CVector2ui32							m_vecSize;

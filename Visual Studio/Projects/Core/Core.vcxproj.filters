@@ -123,6 +123,9 @@
     <ClInclude Include="..\..\..\Code\Core\Pool\CMultipleTypeValuesUMapContainer.h">
       <Filter>Header Files\Pool</Filter>
     </ClInclude>
+    <ClInclude Include="..\..\..\Code\Core\Pool\CUMapContainer.h">
+      <Filter>Header Files\Pool</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\..\..\Code\Core\Pool\CVectorPool.cpp">
@@ -171,6 +174,9 @@
       <Filter>Source Files\Event</Filter>
     </ClCompile>
     <ClCompile Include="..\..\..\Code\Core\Pool\CMultipleTypeValuesUMapContainer.cpp">
+      <Filter>Source Files\Pool</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\Code\Core\Pool\CUMapContainer.cpp">
       <Filter>Source Files\Pool</Filter>
     </ClCompile>
   </ItemGroup>

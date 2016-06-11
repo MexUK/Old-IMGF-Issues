@@ -40,11 +40,49 @@ public:
 	void					resetFile(void);
 
 	// write string
-	void					write(std::string& strData);
-	void					write(std::string& strData, uint32 uiByteCount);
-	void					write(char *pData, uint32 uiByteCount);
+	void					writeString(std::string& strData);
+	void					writeString(std::string& strData, uint32 uiTotalByteCountPadded);
+	void					writeCString(char *pData, uint32 uiByteCount);
 
 	// write int
+	void					writeUint8(uint8 uiInt);
+	void					writeUint16(uint16 uiInt);
+	void					writeUint32(uint32 uiInt);
+	void					writeUint64(uint64 uiInt);
+	void					writeInt8(int8 iInt);
+	void					writeInt16(int16 iInt);
+	void					writeInt32(int32 iInt);
+	void					writeInt64(int64 iInt);
+	void					writeVector4ui8(CVector4ui8& vecUints);
+	void					writeStdVectorUint32(std::vector<uint32>& vecUints);
+	void					writeStdVector4ui8(std::vector<CVector4ui8>& vecVectors);
+	void					writeStdVector4ui16(std::vector<CVector4ui16>& vecVectors);
+
+	// write float
+	void					writeFloat32(float32 fFloat);
+	void					writeFloat64(float64 fFloat);
+	void					writeVector2D(CVector2D& vecVector);
+	void					writeVector3D(CVector3D& vecVector);
+	void					writeVector4D(CVector4D& vecVector);
+	void					writeStdVector2D(std::vector<CVector2D>& vecVectors);
+	void					writeStdVector3D(std::vector<CVector3D>& vecVectors);
+	void					writeStdVector4D(std::vector<CVector4D>& vecVectors);
+
+	// write token
+	void					writeTokenString(std::string& strString);
+	void					writeTokenInt32(int32 iInt);
+	void					writeTokenUint32(uint32 uiInt);
+	void					writeTokenFloat32(float32 fFloat);
+	void					writeTokenVector2D(CVector2D& vecVector);
+	void					writeTokenVector3D(CVector3D& vecVector);
+	void					writeTokenVector4D(CVector4D& vecVector);
+
+	// write string - type guessed
+	void					write(std::string& strData);
+	void					write(std::string& strData, uint32 uiTotalByteCountPadded);
+	void					write(char *pData, uint32 uiByteCount);
+
+	// write int - type guessed
 	void					write(uint8 uiInt);
 	void					write(uint16 uiInt);
 	void					write(uint32 uiInt);
@@ -53,21 +91,21 @@ public:
 	void					write(int16 iInt);
 	void					write(int32 iInt);
 	void					write(int64 iInt);
-	void					write(CVector4ui8 vecUint);
+	void					write(CVector4ui8& vecUints);
 	void					write(std::vector<uint32>& vecUints);
 	void					write(std::vector<CVector2D>& vecVectors);
 	void					write(std::vector<CVector3D>& vecVectors);
 	void					write(std::vector<CVector4ui8>& vecVectors);
 	void					write(std::vector<CVector4ui16>& vecVectors);
 
-	// write float
+	// write float - type guessed
 	void					write(float32 fFloat);
 	void					write(float64 fFloat);
 	void					write(CVector2D& vecVector);
 	void					write(CVector3D& vecVector);
 	void					write(CVector4D& vecVector);
-	
-	// write token
+
+	// write token - type guessed
 	void					writeToken(std::string& strString);
 	void					writeToken(int32 iInt);
 	void					writeToken(uint32 uiInt);

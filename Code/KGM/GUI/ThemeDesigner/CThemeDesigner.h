@@ -1,37 +1,48 @@
 #ifndef CThemeDesigner_H
 #define CThemeDesigner_H
 
+#include "CVector2i32.h"
+#include "Pool/CVectorPool.h"
+#include "GUI/ThemeDesigner/Tab/CThemeDesignerTab.h"
 #include <string>
 #include <unordered_map>
 
 class CWindow;
 class CTabControl;
 class CTabControlEntry;
+class CGUILayer;
+class CRectangleShape;
 
-class CThemeDesigner
+class CThemeDesigner : public CVectorPool<CThemeDesignerTab*>
 {
 public:
 	CThemeDesigner(void);
 
-	void					init(void);
+	void									init(void);
 
-	void					initWindow(void);
-	void					initWindowDesign(void);
+	void									bindEvents(void);
+
+	void									initWindow(void);
+	void									initWindowDesign(void);
 	
-	void					setWindow(CWindow* pWindow) { m_pWindow = pWindow; }
-	CWindow*				getWindow(void) { return m_pWindow; }
+	CGUILayer*								addLayer(std::string strLayerKey, bool bLayerIsEnabled = true);
 
-	void					setTabControl(CTabControl *pTabControl) { m_pTabControl = pTabControl; }
-	CTabControl*			getTabControl(void) { return m_pTabControl; }
+	void									setWindow(CWindow* pWindow) { m_pWindow = pWindow; }
+	CWindow*								getWindow(void) { return m_pWindow; }
 
-private:
-	void					initTab_AddItem(void);
-	void					initTab_Items(void);
+	void									setTabControl(CTabControl *pTabControl) { m_pTabControl = pTabControl; }
+	CTabControl*							getTabControl(void) { return m_pTabControl; }
+
+	void									setItemHoverRectangle(CRectangleShape* pRectangle) { m_pItemHoverRectangle = pRectangle; }
+	CRectangleShape*						getItemHoverRectangle(void) { return m_pItemHoverRectangle; }
 
 private:
 	CWindow*												m_pWindow;
 	CTabControl*											m_pTabControl;
+	CRectangleShape*										m_pItemHoverRectangle;
 	std::unordered_map<std::string, CTabControlEntry*>		m_umapTabControlEntries;
+public: // todo
+	std::unordered_map<std::string, CGUILayer*>				m_umapTabLayers;
 };
 
 #endif

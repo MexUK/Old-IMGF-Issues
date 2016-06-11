@@ -254,9 +254,9 @@ void					CIMGEditorTab::checkToApplyCompression(CIMGEntry *pIMGEntry)
 				eCompressionAlgorithmValue = getIMGFile()->getEntryByIndex(0)->getCompressionAlgorithmId();
 				
 				// if compression type is not compressed (none) or unknown, default to ZLIB compression
-				if (eCompressionAlgorithmValue == IMGCOMPRESSION_NONE || eCompressionAlgorithmValue == IMGCOMPRESSION_UNKNOWN)
+				if (eCompressionAlgorithmValue == COMPRESSION_NONE || eCompressionAlgorithmValue == COMPRESSION_UNKNOWN)
 				{
-					eCompressionAlgorithmValue = IMGCOMPRESSION_ZLIB;
+					eCompressionAlgorithmValue = COMPRESSION_ZLIB;
 				}
 
 				// apply the compression to the IMG entry
@@ -775,7 +775,7 @@ void					CIMGEditorTab::updateIMGText(void)
 	if (getIMGFile()->getIMGVersion() == IMG_FASTMAN92)
 	{
 		uint32 uiEntryCount = getIMGFile()->getEntryCount();
-		uint32 uiUncompressedEntryCount = getIMGFile()->getEntryCountForCompressionType(IMGCOMPRESSION_NONE);
+		uint32 uiUncompressedEntryCount = getIMGFile()->getEntryCountForCompressionType(COMPRESSION_NONE);
 		string strVersionSuffix = "";
 		if (uiEntryCount == uiUncompressedEntryCount)
 		{

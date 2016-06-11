@@ -76,7 +76,7 @@ CIMGEditorTab*		CIMGEditor::addTab(string strIMGPath, eIMGVersion eIMGVersionVal
 
 CIMGEditorTab*		CIMGEditor::_addTab(CIMGFormat *pIMGFormat)
 {
-	uint32 uiTabIndex = getNextEntryIndex();
+	uint32 uiTabIndex = getTabs().getNextEntryIndex();
 
 	CIMGEditorTab *pEditorTab = new CIMGEditorTab;
 	pEditorTab->setWindow(this);
@@ -342,7 +342,7 @@ void					CIMGEditor::updateSelectedEntryCountText(void)
 
 void					CIMGEditor::logAllTabs(string strText, bool bExtendedModeOnly)
 {
-	for (auto pEditorTab : getEntries())
+	for (auto pEditorTab : getTabs().getEntries())
 	{
 		((CIMGEditorTab*)pEditorTab)->log(strText, bExtendedModeOnly);
 	}
@@ -399,7 +399,7 @@ void					CIMGEditor::logWithNoTabsOpen(string strText, bool bExtendedModeOnly)
 uint32					CIMGEditor::getEntryCountForAllTabs(void)
 {
 	uint32 uiTotalEntryCount = 0;
-	for (auto pEditorTab : getEntries())
+	for (auto pEditorTab : getTabs().getEntries())
 	{
 		uiTotalEntryCount += ((CIMGEditorTab*)pEditorTab)->getIMGFile()->getEntryCount();
 	}
@@ -409,7 +409,7 @@ uint32					CIMGEditor::getEntryCountForAllTabs(void)
 vector<CIMGFormat*>		CIMGEditor::getAllMainWindowTabsIMGFiles(void)
 {
 	vector<CIMGFormat*> veCIMGFormats;
-	for (auto pEditorTab : getEntries())
+	for (auto pEditorTab : getTabs().getEntries())
 	{
 		veCIMGFormats.push_back(((CIMGEditorTab*)pEditorTab)->getIMGFile());
 	}

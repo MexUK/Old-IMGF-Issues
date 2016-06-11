@@ -211,36 +211,48 @@ void					CGraphicsLibrary_GDIPlus::drawEllipseFill(CVector2i32& vecPosition, CVe
 }
 
 // draw triangle
-void					CGraphicsLibrary_GDIPlus::drawTriangle(CVector2i32& vecPosition, uint32 uiSideLength, uint8 uiFacingDirection, CGUIStyles *pStyles)
+void					CGraphicsLibrary_GDIPlus::drawTriangle(CVector2i32& vecPoint1, CVector2i32& vecPoint2, CVector2i32& vecPoint3, CGUIStyles *pStyles)
 {
 	if (pStyles->doesHaveFill())
 	{
-		drawTriangleFill(vecPosition, uiSideLength, uiFacingDirection, pStyles);
+		drawTriangleFill(vecPoint1, vecPoint2, vecPoint3, pStyles);
 	}
 	if (pStyles->doesHaveBorder())
 	{
-		drawTriangleBorder(vecPosition, uiSideLength, uiFacingDirection, pStyles);
+		drawTriangleBorder(vecPoint1, vecPoint2, vecPoint3, pStyles);
 	}
 }
 
-void					CGraphicsLibrary_GDIPlus::drawTriangleBorder(CVector2i32& vecPosition, uint32 uiSideLength, uint8 uiFacingDirection, CGUIStyles *pStyles)
+void					CGraphicsLibrary_GDIPlus::drawTriangleBorder(CVector2i32& vecPoint1, CVector2i32& vecPoint2, CVector2i32& vecPoint3, CGUIStyles *pStyles)
 {
 	if (!pStyles->doesHaveBorder())
 	{
 		return;
 	}
 
-	// todo
+	vector<CVector2i32> vecPoints;
+	vecPoints.resize(3);
+	vecPoints[0] = vecPoint1;
+	vecPoints[1] = vecPoint2;
+	vecPoints[2] = vecPoint3;
+
+	m_pGraphics->DrawPolygon(createPenFromStyles(pStyles), getGdiplusPointsFromVectorPoints(vecPoints), 3);
 }
 
-void					CGraphicsLibrary_GDIPlus::drawTriangleFill(CVector2i32& vecPosition, uint32 uiSideLength, uint8 uiFacingDirection, CGUIStyles *pStyles)
+void					CGraphicsLibrary_GDIPlus::drawTriangleFill(CVector2i32& vecPoint1, CVector2i32& vecPoint2, CVector2i32& vecPoint3, CGUIStyles *pStyles)
 {
 	if (!pStyles->doesHaveFill())
 	{
 		return;
 	}
 
-	// todo
+	vector<CVector2i32> vecPoints;
+	vecPoints.resize(3);
+	vecPoints[0] = vecPoint1;
+	vecPoints[1] = vecPoint2;
+	vecPoints[2] = vecPoint3;
+
+	m_pGraphics->FillPolygon(createBackgroundBrushFromStyles(pStyles), getGdiplusPointsFromVectorPoints(vecPoints), 3);
 }
 
 // draw polygon
@@ -322,7 +334,7 @@ Pen*					CGraphicsLibrary_GDIPlus::createPenFromStyles(CGUIStyles *pStyles)
 Brush*					CGraphicsLibrary_GDIPlus::createBackgroundBrushFromStyles(CGUIStyles *pStyles)
 {
 	uint32 uiBrushType = 1;
-	if (pStyles->doesStyleExist("background-colour-start"))
+	if (pStyles->doesStyleExist("fill-colour-start"))
 	{
 		uiBrushType = 2;
 	}
@@ -331,7 +343,7 @@ Brush*					CGraphicsLibrary_GDIPlus::createBackgroundBrushFromStyles(CGUIStyles 
 	{
 	case 1:
 		{
-			Color colour = getGdiplusColourFromRGBAUint32(pStyles->getStyle<uint32>("background-colour"));
+			Color colour = getGdiplusColourFromRGBAUint32(pStyles->getStyle<uint32>("fill-colour"));
 			return new SolidBrush(colour);
 		}
 	case 2:
@@ -340,8 +352,8 @@ Brush*					CGraphicsLibrary_GDIPlus::createBackgroundBrushFromStyles(CGUIStyles 
 			Color colour1, colour2;
 			point1 = PointF(0, 0);
 			point2 = PointF(200, 200);
-			colour1 = getGdiplusColourFromRGBAUint32(pStyles->getStyle<uint32>("background-colour-start"));
-			colour2 = getGdiplusColourFromRGBAUint32(pStyles->getStyle<uint32>("background-colour-stop"));
+			colour1 = getGdiplusColourFromRGBAUint32(pStyles->getStyle<uint32>("fill-colour-start"));
+			colour2 = getGdiplusColourFromRGBAUint32(pStyles->getStyle<uint32>("fill-colour-stop"));
 			return new LinearGradientBrush(point1, point2, colour1, colour2);
 		}
 	}
@@ -369,6 +381,13 @@ Font*					CGraphicsLibrary_GDIPlus::createFontFromStyles(CGUIStyles *pStyles)
 	INT iStyle = FontStyleRegular;
 	if (pStyles->doesStyleExist("text-style"))
 	{
+		iStyle = 0;
+
+		string a = pStyles->getStyle<string>("text-style");
+		string b = CStringUtility::replace(pStyles->getStyle<string>("text-style"), " ", ",");
+
+		string c = "a";
+
 		vector<string> vecTextStyleValues = CStringUtility::split(CStringUtility::replace(pStyles->getStyle<string>("text-style"), " ", ","), ",");
 		unordered_map<string, bool> umapTextStyleValues;
 		for (string& strTextStyleValue : vecTextStyleValues)
@@ -470,5 +489,9 @@ Rect					CGraphicsLibrary_GDIPlus::getGdiplusRect(CVector2i32& vecPosition, CVec
 
 Color					CGraphicsLibrary_GDIPlus::getGdiplusColourFromRGBAUint32(uint32 uiColour)
 {
-	return Gdiplus::Color(uiColour & 0xFF, (uiColour >> 8) & 0xFF, (uiColour >> 16) & 0xFF);
+	if (((uiColour >> 24) & 0xFF) == 0)
+	{
+		uiColour |= (0xFF << 24);
+	}
+	return Gdiplus::Color((uiColour >> 24) & 0xFF, uiColour & 0xFF, (uiColour >> 8) & 0xFF, (uiColour >> 16) & 0xFF);
 }

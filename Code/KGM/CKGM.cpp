@@ -350,6 +350,7 @@ void				CKGM::initTempStuff(void)
 void				CKGM::openWindow(void)
 {
 	getWindowManager()->openWindow();
+	CEventManager::getInstance()->triggerEvent(EVENT_onToolReady);
 }
 
 void				CKGM::processWindows(void)
@@ -381,7 +382,7 @@ CIMGEditorTab*		CKGM::getEntryListTab(void)
 {
 	CKGMWindow *pKGMWindow = (CKGMWindow*) CGUIManager::getInstance()->getEntryByIndex(0);
 	CIMGEditor *pIMGEditor = (CIMGEditor*) pKGMWindow->getEntryByIndex(0);
-	CIMGEditorTab *pIMGEditorTab = (CIMGEditorTab*) pIMGEditor->getEntryByIndex(0);
+	CIMGEditorTab *pIMGEditorTab = (CIMGEditorTab*) pIMGEditor->getTabs().getEntryByIndex(0);
 	return pIMGEditorTab;
 }
 

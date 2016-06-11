@@ -35,9 +35,9 @@ public:
 	void					drawEllipseBorder(CVector2i32& vecPosition, CVector2ui32& vecSize, CGUIStyles *pStyles = nullptr);
 	void					drawEllipseFill(CVector2i32& vecPosition, CVector2ui32& vecSize, CGUIStyles *pStyles = nullptr);
 
-	void					drawTriangle(CVector2i32& vecPosition, uint32 uiSideLength, uint8 uiFacingDirection, CGUIStyles *pStyles = nullptr);
-	void					drawTriangleBorder(CVector2i32& vecPosition, uint32 uiSideLength, uint8 uiFacingDirection, CGUIStyles *pStyles = nullptr);
-	void					drawTriangleFill(CVector2i32& vecPosition, uint32 uiSideLength, uint8 uiFacingDirection, CGUIStyles *pStyles = nullptr);
+	void					drawTriangle(CVector2i32& vecPoint1, CVector2i32& vecPoint2, CVector2i32& vecPoint3, CGUIStyles *pStyles = nullptr);
+	void					drawTriangleBorder(CVector2i32& vecPoint1, CVector2i32& vecPoint2, CVector2i32& vecPoint3, CGUIStyles *pStyles = nullptr);
+	void					drawTriangleFill(CVector2i32& vecPoint1, CVector2i32& vecPoint2, CVector2i32& vecPoint3, CGUIStyles *pStyles = nullptr);
 
 	void					drawPolygon(std::vector<CVector2i32>& vecPoints, CGUIStyles *pStyles = nullptr);
 	void					drawPolygonBorder(std::vector<CVector2i32>& vecPoints, CGUIStyles *pStyles = nullptr);

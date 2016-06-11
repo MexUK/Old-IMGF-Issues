@@ -1,4 +1,4 @@
-#include "CControlGroup.h"
+#include "CGUILayer.h"
 #include "GUI/Controls/CButtonControl.h"
 #include "GUI/Controls/CCheckControl.h"
 #include "GUI/Controls/CDropControl.h"
@@ -21,39 +21,39 @@
 
 using namespace std;
 
-CControlGroup::CControlGroup(void) :
+CGUILayer::CGUILayer(void) :
 	m_pWindow(nullptr),
 	m_bEnabled(true)
 {
 }
 
 // event binding
-void									CControlGroup::bindAllEvents(void)
+void									CGUILayer::bindAllEvents(void)
 {
-	for (CGUIControl *pWindowControl : getEntries())
-	{
-		pWindowControl->bindEvents();
-	}
 	for (CGUIShape *pGUIShape : getShapes().getEntries())
 	{
 		pGUIShape->bindEvents();
 	}
+	for (CGUIControl *pWindowControl : getControls().getEntries())
+	{
+		pWindowControl->bindEvents();
+	}
 }
 
-void									CControlGroup::unbindAllEvents(void)
+void									CGUILayer::unbindAllEvents(void)
 {
+	for (CGUIControl *pWindowControl : getControls().getEntries())
+	{
+		pWindowControl->unbindEvents();
+	}
 	for (CGUIShape *pGUIShape : getShapes().getEntries())
 	{
 		pGUIShape->unbindEvents();
 	}
-	for (CGUIControl *pWindowControl : getEntries())
-	{
-		pWindowControl->unbindEvents();
-	}
 }
 
 // add control - derived
-CButtonControl*		CControlGroup::addButton(CVector2i32& vecPosition, CVector2ui32& vecSize, string strButtonText, CGUIStyles *pStyles)
+CButtonControl*		CGUILayer::addButton(CVector2i32& vecPosition, CVector2ui32& vecSize, string strButtonText, CGUIStyles *pStyles)
 {
 	CButtonControl *pControl = new CButtonControl;
 	pControl->setText(strButtonText);
@@ -61,7 +61,7 @@ CButtonControl*		CControlGroup::addButton(CVector2i32& vecPosition, CVector2ui32
 	return pControl;
 }
 
-CCheckControl*		CControlGroup::addCheck(CVector2i32& vecPosition, CVector2ui32& vecSize, string strCheckText, CGUIStyles *pStyles)
+CCheckControl*		CGUILayer::addCheck(CVector2i32& vecPosition, CVector2ui32& vecSize, string strCheckText, CGUIStyles *pStyles)
 {
 	CCheckControl *pControl = new CCheckControl;
 	pControl->setText(strCheckText);
@@ -69,14 +69,14 @@ CCheckControl*		CControlGroup::addCheck(CVector2i32& vecPosition, CVector2ui32& 
 	return pControl;
 }
 
-CDropControl*		CControlGroup::addDrop(CVector2i32& vecPosition, CVector2ui32& vecSize, CGUIStyles *pStyles)
+CDropControl*		CGUILayer::addDrop(CVector2i32& vecPosition, CVector2ui32& vecSize, CGUIStyles *pStyles)
 {
 	CDropControl *pControl = new CDropControl;
 	_addControl(pControl, vecPosition, vecSize, pStyles);
 	return pControl;
 }
 
-CEditControl*		CControlGroup::addEdit(CVector2i32& vecPosition, CVector2ui32& vecSize, string strEditText, CGUIStyles *pStyles)
+CEditControl*		CGUILayer::addEdit(CVector2i32& vecPosition, CVector2ui32& vecSize, string strEditText, CGUIStyles *pStyles)
 {
 	CEditControl *pControl = new CEditControl;
 	pControl->setText(strEditText);
@@ -84,28 +84,28 @@ CEditControl*		CControlGroup::addEdit(CVector2i32& vecPosition, CVector2ui32& ve
 	return pControl;
 }
 
-CListControl*		CControlGroup::addList(CVector2i32& vecPosition, CVector2ui32& vecSize, CGUIStyles *pStyles)
+CListControl*		CGUILayer::addList(CVector2i32& vecPosition, CVector2ui32& vecSize, CGUIStyles *pStyles)
 {
 	CListControl *pControl = new CListControl;
 	_addControl(pControl, vecPosition, vecSize, pStyles);
 	return pControl;
 }
 
-CMenuControl*		CControlGroup::addMenu(CVector2i32& vecPosition, CVector2ui32& vecSize, CGUIStyles *pStyles)
+CMenuControl*		CGUILayer::addMenu(CVector2i32& vecPosition, CVector2ui32& vecSize, CGUIStyles *pStyles)
 {
 	CMenuControl *pControl = new CMenuControl;
 	_addControl(pControl, vecPosition, vecSize, pStyles);
 	return pControl;
 }
 
-CProgressControl*	CControlGroup::addProgress(CVector2i32& vecPosition, CVector2ui32& vecSize, CGUIStyles *pStyles)
+CProgressControl*	CGUILayer::addProgress(CVector2i32& vecPosition, CVector2ui32& vecSize, CGUIStyles *pStyles)
 {
 	CProgressControl *pControl = new CProgressControl;
 	_addControl(pControl, vecPosition, vecSize, pStyles);
 	return pControl;
 }
 
-CRadioControl*		CControlGroup::addRadio(CVector2i32& vecPosition, CVector2ui32& vecSize, string strRadioText, CGUIStyles *pStyles)
+CRadioControl*		CGUILayer::addRadio(CVector2i32& vecPosition, CVector2ui32& vecSize, string strRadioText, CGUIStyles *pStyles)
 {
 	CRadioControl *pControl = new CRadioControl;
 	pControl->setText(strRadioText);
@@ -113,21 +113,21 @@ CRadioControl*		CControlGroup::addRadio(CVector2i32& vecPosition, CVector2ui32& 
 	return pControl;
 }
 
-CScrollControl*		CControlGroup::addScroll(CVector2i32& vecPosition, CVector2ui32& vecSize, CGUIStyles *pStyles)
+CScrollControl*		CGUILayer::addScroll(CVector2i32& vecPosition, CVector2ui32& vecSize, CGUIStyles *pStyles)
 {
 	CScrollControl *pControl = new CScrollControl;
 	_addControl(pControl, vecPosition, vecSize, pStyles);
 	return pControl;
 }
 
-CTabControl*		CControlGroup::addTabBar(CVector2i32& vecPosition, CVector2ui32& vecSize, CGUIStyles *pStyles)
+CTabControl*		CGUILayer::addTabBar(CVector2i32& vecPosition, CVector2ui32& vecSize, CGUIStyles *pStyles)
 {
 	CTabControl *pControl = new CTabControl;
 	_addControl(pControl, vecPosition, vecSize, pStyles);
 	return pControl;
 }
 
-CTextControl*		CControlGroup::addText(CVector2i32& vecPosition, CVector2ui32& vecSize, string strText, CGUIStyles *pStyles)
+CTextControl*		CGUILayer::addText(CVector2i32& vecPosition, CVector2ui32& vecSize, string strText, CGUIStyles *pStyles)
 {
 	CTextControl *pControl = new CTextControl;
 	pControl->setText(strText);
@@ -136,20 +136,43 @@ CTextControl*		CControlGroup::addText(CVector2i32& vecPosition, CVector2ui32& ve
 }
 
 // add control - base
-void						CControlGroup::_addControl(CGUIControl *pControl, CVector2i32& vecPosition, CVector2ui32& vecSize, CGUIStyles *pStyles)
+void						CGUILayer::_addControl(CGUIControl *pControl, CVector2i32& vecPosition, CVector2ui32& vecSize, CGUIStyles *pStyles)
 {
-	pControl->setControlGroup(this);
+	pControl->setLayer(this);
 	pControl->setPosition(vecPosition);
 	pControl->setSize(vecSize);
 	if (pStyles)
 	{
 		pControl->setStyles(pStyles);
 	}
-	addEntry(pControl);
+	getControls().addEntry(pControl);
+}
+
+// create shape
+CGUIShape*					CGUILayer::createShapeFromId(eGUIShape eShapeId)
+{
+	switch (eShapeId)
+	{
+	case GUI_SHAPE_CIRCLE:		return new CCircleShape;
+	case GUI_SHAPE_ELLIPSE:		return new CEllipseShape;
+	case GUI_SHAPE_LINE:		return new CLineShape;
+	case GUI_SHAPE_POLYGON:		return new CPolygonShape;
+	case GUI_SHAPE_RECTANGLE:	return new CRectangleShape;
+	case GUI_SHAPE_SQUARE:		return new CSquareShape;
+	case GUI_SHAPE_TRIANGLE:	return new CTriangleShape;
+	}
+	return nullptr;
 }
 
 // add shape - derived
-CLineShape*					CControlGroup::addLine(CVector2i32& vecPoint1, CVector2i32& vecPoint2, CGUIStyles *pStyles)
+CGUIShape*					CGUILayer::addShape(eGUIShape eShapeId, CGUIStyles *pStyles)
+{
+	CGUIShape *pShape = createShapeFromId(eShapeId);
+	_addShape(pShape, pStyles);
+	return pShape;
+}
+
+CLineShape*					CGUILayer::addLine(CVector2i32& vecPoint1, CVector2i32& vecPoint2, CGUIStyles *pStyles)
 {
 	CLineShape *pLine = new CLineShape;
 	vector<CVector2i32> vecPoints;
@@ -160,7 +183,7 @@ CLineShape*					CControlGroup::addLine(CVector2i32& vecPoint1, CVector2i32& vecP
 	return pLine;
 }
 
-CRectangleShape*			CControlGroup::addRectangle(CVector2i32& vecPosition, CVector2ui32& vecSize, CGUIStyles *pStyles)
+CRectangleShape*			CGUILayer::addRectangle(CVector2i32& vecPosition, CVector2ui32& vecSize, CGUIStyles *pStyles)
 {
 	CRectangleShape *pRectangle = new CRectangleShape;
 	pRectangle->setPosition(vecPosition);
@@ -169,7 +192,7 @@ CRectangleShape*			CControlGroup::addRectangle(CVector2i32& vecPosition, CVector
 	return pRectangle;
 }
 
-CEllipseShape*				CControlGroup::addEllipse(CVector2i32& vecPosition, CVector2ui32& vecSize, CGUIStyles *pStyles)
+CEllipseShape*				CGUILayer::addEllipse(CVector2i32& vecPosition, CVector2ui32& vecSize, CGUIStyles *pStyles)
 {
 	CEllipseShape *pEllipse = new CEllipseShape;
 	pEllipse->setPosition(vecPosition);
@@ -178,7 +201,7 @@ CEllipseShape*				CControlGroup::addEllipse(CVector2i32& vecPosition, CVector2ui
 	return pEllipse;
 }
 
-CPolygonShape*				CControlGroup::addPolygon(vector<CVector2i32>& vecPoints, CGUIStyles *pStyles)
+CPolygonShape*				CGUILayer::addPolygon(vector<CVector2i32>& vecPoints, CGUIStyles *pStyles)
 {
 	CPolygonShape *pPolygon = new CPolygonShape;
 	pPolygon->setPoints(vecPoints);
@@ -187,7 +210,7 @@ CPolygonShape*				CControlGroup::addPolygon(vector<CVector2i32>& vecPoints, CGUI
 }
 
 // add shape - derived - wrappers
-CSquareShape*				CControlGroup::addSquare(CVector2i32& vecPosition, uint32 uiSideLength, CGUIStyles *pStyles)
+CSquareShape*				CGUILayer::addSquare(CVector2i32& vecPosition, uint32 uiSideLength, CGUIStyles *pStyles)
 {
 	CSquareShape *pSquare = new CSquareShape;
 	pSquare->setPosition(vecPosition);
@@ -196,7 +219,7 @@ CSquareShape*				CControlGroup::addSquare(CVector2i32& vecPosition, uint32 uiSid
 	return pSquare;
 }
 
-CCircleShape*				CControlGroup::addCircle(CVector2i32& vecPosition, uint32 uiRadius, CGUIStyles *pStyles)
+CCircleShape*				CGUILayer::addCircle(CVector2i32& vecPosition, uint32 uiRadius, CGUIStyles *pStyles)
 {
 	CCircleShape *pCircle = new CCircleShape;
 	uint32 uiDiameter = uiRadius * 2;
@@ -206,7 +229,7 @@ CCircleShape*				CControlGroup::addCircle(CVector2i32& vecPosition, uint32 uiRad
 	return pCircle;
 }
 
-CTriangleShape*				CControlGroup::addTriangle(CVector2i32& vecPoint1, CVector2i32& vecPoint2, CVector2i32& vecPoint3, CGUIStyles *pStyles)
+CTriangleShape*				CGUILayer::addTriangle(CVector2i32& vecPoint1, CVector2i32& vecPoint2, CVector2i32& vecPoint3, CGUIStyles *pStyles)
 {
 	CTriangleShape *pTriangle = new CTriangleShape;
 	pTriangle->setPoint1(vecPoint1);
@@ -216,7 +239,7 @@ CTriangleShape*				CControlGroup::addTriangle(CVector2i32& vecPoint1, CVector2i3
 	return pTriangle;
 }
 
-CTriangleShape*				CControlGroup::addEquilateralTriangle(CVector2i32& vecBottomLeftPoint, CVector2i32& vecBottomRightPoint, CGUIStyles *pStyles)
+CTriangleShape*				CGUILayer::addEquilateralTriangle(CVector2i32& vecBottomLeftPoint, CVector2i32& vecBottomRightPoint, CGUIStyles *pStyles)
 {
 	const float32
 		fSidesLength = CMathUtility::getDistanceBetweenPoints(vecBottomLeftPoint, vecBottomRightPoint),
@@ -227,7 +250,7 @@ CTriangleShape*				CControlGroup::addEquilateralTriangle(CVector2i32& vecBottomL
 	return addTriangle(vecBottomLeftPoint, vecBottomRightPoint, vecTipPoint, pStyles);
 }
 
-CTriangleShape*				CControlGroup::addEquilateralTriangle(CVector2i32& vecBottomLeftPoint, float32 fSidesLength, float32 fBaseAngle, CGUIStyles *pStyles)
+CTriangleShape*				CGUILayer::addEquilateralTriangle(CVector2i32& vecBottomLeftPoint, float32 fSidesLength, float32 fBaseAngle, CGUIStyles *pStyles)
 {
 	const float32
 		fAngle = CMathUtility::convertDegreesToRadians(60.0f);
@@ -238,7 +261,7 @@ CTriangleShape*				CControlGroup::addEquilateralTriangle(CVector2i32& vecBottomL
 	return addTriangle(vecBottomLeftPoint, vecBottomRightPoint, vecTopPoint, pStyles);
 }
 
-CTriangleShape*				CControlGroup::addIsoscelesTriangle(CVector2i32& vecBaseCenterPoint, CVector2i32& vecTipPoint, uint32 uiBaseHalfWidth, CGUIStyles *pStyles)
+CTriangleShape*				CGUILayer::addIsoscelesTriangle(CVector2i32& vecBaseCenterPoint, CVector2i32& vecTipPoint, uint32 uiBaseHalfWidth, CGUIStyles *pStyles)
 {
 	const float32
 		fBaseToTipDistance = CMathUtility::getDistanceBetweenPoints(vecBaseCenterPoint, vecTipPoint),
@@ -250,7 +273,7 @@ CTriangleShape*				CControlGroup::addIsoscelesTriangle(CVector2i32& vecBaseCente
 	return addTriangle(vecBasePoint1, vecBasePoint2, vecTipPoint, pStyles);
 }
 
-CTriangleShape*				CControlGroup::addIsoscelesTriangle(CVector2i32& vecBottomLeftPoint, float32 fBaseLength, float32 fTipAngle, float32 fBaseAngle, CGUIStyles *pStyles)
+CTriangleShape*				CGUILayer::addIsoscelesTriangle(CVector2i32& vecBottomLeftPoint, float32 fBaseLength, float32 fTipAngle, float32 fBaseAngle, CGUIStyles *pStyles)
 {
 	float32
 		fLinesAngle = (180.0f - fTipAngle) / 2.0f,
@@ -266,9 +289,9 @@ CTriangleShape*				CControlGroup::addIsoscelesTriangle(CVector2i32& vecBottomLef
 }
 
 // add shape - base
-void						CControlGroup::_addShape(CGUIShape *pShape, CGUIStyles *pStyles)
+void						CGUILayer::_addShape(CGUIShape *pShape, CGUIStyles *pStyles)
 {
-	pShape->setControlGroup(this);
+	pShape->setLayer(this);
 	if (pStyles)
 	{
 		pShape->setStyles(pStyles);
@@ -277,7 +300,7 @@ void						CControlGroup::_addShape(CGUIShape *pShape, CGUIStyles *pStyles)
 }
 
 // enabled state
-void						CControlGroup::setEnabled(bool bEnabled)
+void						CGUILayer::setEnabled(bool bEnabled)
 {
 	bool bPreviousEnabledState = m_bEnabled;
 	m_bEnabled = bEnabled;

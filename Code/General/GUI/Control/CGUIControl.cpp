@@ -5,7 +5,7 @@
 #include "Math/CMathUtility.h"
 
 CGUIControl::CGUIControl(eGUIControl eControlType) :
-	m_pControlGroup(nullptr),
+	m_pLayer(nullptr),
 	m_eControlType(eControlType),
 	m_uiControlId(0),
 	m_bPointMarkedAsInControl(false),
@@ -25,7 +25,7 @@ CGUIControl::~CGUIControl(void)
 // window
 CWindow*								CGUIControl::getWindow(void)
 {
-	return getControlGroup()->getWindow();
+	return getLayer()->getWindow();
 }
 
 // point testing
