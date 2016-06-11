@@ -23,9 +23,12 @@ auto pOnLeftMouseDown_ThemeDesigner_MainWindow	= [](void *pThemeDesigner, void *
 
 CThemeDesignerTab_AddItem::CThemeDesignerTab_AddItem(CThemeDesigner *pThemeDesigner) :
 	CThemeDesignerTab(pThemeDesigner),
-	m_uiItemType(0),
-	m_eShapeId(GUI_SHAPE_UNKNOWN),
-	m_eControlId(GUI_CONTROL_UNKNOWN),
+	m_uiHoveredItemType(0),
+	m_uiActiveItemType(0),
+	m_eHoveredShapeId(GUI_SHAPE_UNKNOWN),
+	m_eHoveredControlId(GUI_CONTROL_UNKNOWN),
+	m_eActiveShapeId(GUI_SHAPE_UNKNOWN),
+	m_eActiveControlId(GUI_CONTROL_UNKNOWN),
 	m_uiItemRowHeight(0)
 {
 }
@@ -47,8 +50,8 @@ void									CThemeDesignerTab_AddItem::initDesign(void)
 	setShapeTextStartPosition(CVector2i32(60, 120));
 	setControlIconStartPosition(CVector2i32(250 + 30, 120));
 	setControlTextStartPosition(CVector2i32(250 + 60, 120));
-	setItemRowHeight(30);
-	setItemSize(CVector2ui32(15, 15));
+	setItemRowSize(CVector2ui32(200, 30));
+	setItemSize(CVector2ui32(200, 15));
 
 	CThemeDesigner *pThemeDesigner = getThemeDesigner();
 
@@ -89,10 +92,10 @@ void									CThemeDesignerTab_AddItem::initDesign(void)
 	pStyles_Radio->setStyle("fill-colour-marked", RGB(85, 33, 33));
 
 	// add 2 lines
-	pShape = (CGUIShape*) pLayer->addLine(CVector2i32(0, 80), CVector2i32(vecWindowSize.m_x, 80), pStyles_GoldBorder); // horizontal
-	pShape = (CGUIShape*) pLayer->addLine(CVector2i32(uiCenterX, 25), CVector2i32(uiCenterX, vecWindowSize.m_y), pStyles_GoldBorder); // vertical
-
-																																			  // add headers
+	pShape = (CGUIShape*) pLayer->addLine(CVector2i32(0, 80), CVector2i32(vecWindowSize.m_x, 80), pStyles_GoldBorder);					// horizontal line
+	pShape = (CGUIShape*) pLayer->addLine(CVector2i32(uiCenterX, 25), CVector2i32(uiCenterX, vecWindowSize.m_y), pStyles_GoldBorder);	// vertical line
+	
+	// add headers
 	pControl = (CGUIControl*) pLayer->addText(CVector2i32(20, 50), CVector2ui32(150, 30), "Shapes", pStyles_GoldText);
 	pControl = (CGUIControl*) pLayer->addText(CVector2i32(uiCenterX + 20, 50), CVector2ui32(150, 30), "Controls", pStyles_GoldText);
 
@@ -177,76 +180,137 @@ void									CThemeDesignerTab_AddItem::onLeftMouseDown(CVector2i32& vecCursorPo
 	CGUIManager::getInstance()->setThemeDesignerModeEnabled(true);
 	CGUIManager::getInstance()->getEntryByIndex(1)->setMarkedToRedraw(true); // redraw main window title bar
 
-	setItemType(1); // shape
-	setShapeId(GUI_SHAPE_SQUARE);
+	uint32
+		uiShapeIndex,
+		uiControlIndex;
+	CVector2i32
+		vecRectanglePosition;
+	CVector2ui32
+		vecRectangleSize(200, 30);
+	bool
+		bShowRectangle = false;
+
+	uiShapeIndex = getTabShapeIndexFromPoint(vecCursorPosition);
+	if (uiShapeIndex == -1)
+	{
+		uiControlIndex = getTabControlIndexFromPoint(vecCursorPosition);
+
+		if (uiControlIndex != -1)
+		{
+			// mouse is over a control row
+			vecRectanglePosition = getControlRowPoint(uiControlIndex); // todo getControlRowSize(ui)
+			setActiveItemType(2); // control
+			setActiveControlId(getControlIdFromIndex(uiControlIndex));
+			bShowRectangle = true;
+		}
+	}
+	else
+	{
+		// mouse over a shape row
+		vecRectanglePosition = getShapeRowPoint(uiShapeIndex); // todo getShapeRowSize(ui)
+		setActiveItemType(1); // shape
+		setActiveShapeId(getShapeIdFromIndex(uiShapeIndex));
+		bShowRectangle = true;
+	}
+
+	if (bShowRectangle)
+	{
+		if (getThemeDesigner()->getActiveItemRectangle() != nullptr)
+		{
+			getThemeDesigner()->getActiveItemRectangle()->unbindEvents();
+			getThemeDesigner()->getActiveItemRectangle()->getLayer()->getShapes().removeEntry(getThemeDesigner()->getActiveItemRectangle());
+			getThemeDesigner()->setActiveItemRectangle(nullptr);
+			getThemeDesigner()->getWindow()->setMarkedToRedraw(true);
+		}
+
+		CGUIStyles *pStyles = new CGUIStyles;
+		pStyles->setStyle("fill-colour", RGBA(215, 0, 0, 50));
+		pStyles->setStyle("border-colour", RGBA(255, 0, 0, 230));
+		getThemeDesigner()->setActiveItemRectangle(getThemeDesigner()->m_umapTabLayers["add_item"]->addRectangle(vecRectanglePosition, vecRectangleSize, pStyles));
+		getThemeDesigner()->getActiveItemRectangle()->bindEvents();
+		getThemeDesigner()->getWindow()->setMarkedToRedraw(true);
+	}
+	else
+	{
+		if (getThemeDesigner()->getActiveItemRectangle() != nullptr)
+		{
+			getThemeDesigner()->getActiveItemRectangle()->unbindEvents();
+			getThemeDesigner()->getActiveItemRectangle()->getLayer()->getShapes().removeEntry(getThemeDesigner()->getActiveItemRectangle());
+			getThemeDesigner()->setActiveItemRectangle(nullptr);
+			getThemeDesigner()->getWindow()->setMarkedToRedraw(true);
+		}
+
+		CGUIManager::getInstance()->setThemeDesignerModeEnabled(false);
+	}
 }
 
 void									CThemeDesignerTab_AddItem::onMouseMove(CVector2i32& vecCursorPosition)
 {
 	uint32
-		uiShapeIconX = 30 - 5,
-		uiShapeTextX = 60 - 5,
-		uiShapeIconY = 120 - 5;
+		uiShapeIndex,
+		uiControlIndex;
+	CVector2i32
+		vecRectanglePosition;
+	CVector2ui32
+		vecRectangleSize(200, 30);
+	bool
+		bShowRectangle = false;
 
-	/*
-	uint32
-	uiShapeIndex,
-	uiControlIndex;
 	uiShapeIndex = getTabShapeIndexFromPoint(vecCursorPosition);
 	if (uiShapeIndex == -1)
 	{
-	uiControlIndex = getTabControlIndexFromPoint(vecCursorPosition);
-	vecTabPosition = getTabControlPoint(ui) getTabControlSize(ui)
+		uiControlIndex = getTabControlIndexFromPoint(vecCursorPosition);
 
-	if (uiControlIndex != -1)
-	{
-	setAddItemItemType(2); // control
-	setAddItemShapeId(GUI_CONTROL_EDIT);
-	}
+		if (uiControlIndex != -1)
+		{
+			// mouse is over a control row
+			vecRectanglePosition = getControlRowPoint(uiControlIndex); // todo getControlRowSize(ui)
+			setHoveredItemType(2); // control
+			setHoveredControlId(getControlIdFromIndex(uiControlIndex));
+			bShowRectangle = true;
+		}
 	}
 	else
 	{
-	vecTabPosition = getTabShapePoint(ui) getTabShapeSize(ui)
-
-	setItemType(1); // shape
-	setShapeId(GUI_SHAPE_SQUARE);
+		// mouse over a shape row
+		vecRectanglePosition = getShapeRowPoint(uiShapeIndex); // todo getShapeRowSize(ui)
+		setHoveredItemType(1); // shape
+		setHoveredShapeId(getShapeIdFromIndex(uiShapeIndex));
+		bShowRectangle = true;
 	}
-	*/
 
-	bool bCursorIsOverItem = false;
-	for (uint32 i = 0, j = 10; i < j; i++)
+	if (bShowRectangle)
 	{
-		CVector2i32 vecItemPosition(uiShapeIconX, uiShapeIconY);
-		CVector2ui32 vecItemSize(200, 25);
-		if (CMathUtility::isPointInRectangle(vecCursorPosition, vecItemPosition, vecItemSize))
+		if (getThemeDesigner()->getItemHoverRectangle() != nullptr)
 		{
-			bCursorIsOverItem = true;
-			if (getThemeDesigner()->getItemHoverRectangle() == nullptr)
-			{
-				CGUIStyles *pStyles = new CGUIStyles;
-				pStyles->setStyle("fill-colour", RGBA(215, 0, 0, 50));
-				getThemeDesigner()->setItemHoverRectangle(getThemeDesigner()->m_umapTabLayers["add_item"]->addRectangle(vecItemPosition, vecItemSize, pStyles));
-				getThemeDesigner()->getItemHoverRectangle()->bindEvents();
-				getThemeDesigner()->getWindow()->setMarkedToRedraw(true);
-			}
-			break;
+			getThemeDesigner()->getItemHoverRectangle()->unbindEvents();
+			getThemeDesigner()->getItemHoverRectangle()->getLayer()->getShapes().removeEntry(getThemeDesigner()->getItemHoverRectangle());
+			getThemeDesigner()->setItemHoverRectangle(nullptr);
+			getThemeDesigner()->getWindow()->setMarkedToRedraw(true);
 		}
-		uiShapeIconY += 30;
-	}
 
-	if (getThemeDesigner()->getItemHoverRectangle() != nullptr && !bCursorIsOverItem)
-	{
-		getThemeDesigner()->getItemHoverRectangle()->unbindEvents();
-		getThemeDesigner()->getItemHoverRectangle()->getLayer()->getShapes().removeEntry(getThemeDesigner()->getItemHoverRectangle());
-		getThemeDesigner()->setItemHoverRectangle(nullptr);
+		CGUIStyles *pStyles = new CGUIStyles;
+		pStyles->setStyle("fill-colour", RGBA(215, 0, 0, 50));
+		getThemeDesigner()->setItemHoverRectangle(getThemeDesigner()->m_umapTabLayers["add_item"]->addRectangle(vecRectanglePosition, vecRectangleSize, pStyles));
+		getThemeDesigner()->getItemHoverRectangle()->bindEvents();
 		getThemeDesigner()->getWindow()->setMarkedToRedraw(true);
+	}
+	else
+	{
+		if (getThemeDesigner()->getItemHoverRectangle() != nullptr)
+		{
+			getThemeDesigner()->getItemHoverRectangle()->unbindEvents();
+			getThemeDesigner()->getItemHoverRectangle()->getLayer()->getShapes().removeEntry(getThemeDesigner()->getItemHoverRectangle());
+			getThemeDesigner()->setItemHoverRectangle(nullptr);
+			getThemeDesigner()->getWindow()->setMarkedToRedraw(true);
+		}
 	}
 }
 
 // input - main window
 void									CThemeDesignerTab_AddItem::onLeftMouseDown_MainWindow(CVector2i32& vecCursorPosition)
 {
-	uint32 uiAddItemType = getItemType();
+	uint32 uiAddItemType = getActiveItemType();
 	if (uiAddItemType == 0)
 	{
 		return;
@@ -261,16 +325,16 @@ void									CThemeDesignerTab_AddItem::onLeftMouseDown_MainWindow(CVector2i32& 
 	if (uiAddItemType == 1)
 	{
 		// shape
-		CGUIShape *pShape = pLayer->addShape(getShapeId(), pDefaultItemStyles);
+		CGUIShape *pShape = pLayer->addShape(getActiveShapeId(), pDefaultItemStyles);
 		switch (pShape->getShapeGeometry())
 		{
 		case GUI_SHAPE_GEOMETRY_1_POINT_1_X_1D_SIZE: // circle, square
 			((CGUIShapeGeometry_1xPoint_1x1DSize*) pShape)->setPosition(vecCursorPosition);
-			((CGUIShapeGeometry_1xPoint_1x1DSize*) pShape)->setSize(15);
+			((CGUIShapeGeometry_1xPoint_1x1DSize*) pShape)->setSize(7.5);
 			break;
 		case GUI_SHAPE_GEOMETRY_1_POINT_1_X_2D_SIZE: // ellipse, rectangle
 			((CGUIShapeGeometry_1xPoint_1x2DSize*) pShape)->setPosition(vecCursorPosition);
-			((CGUIShapeGeometry_1xPoint_1x2DSize*) pShape)->setSize(CVector2ui32(15, 15));
+			((CGUIShapeGeometry_1xPoint_1x2DSize*) pShape)->setSize(CVector2ui32(10, 15));
 			break;
 		case GUI_SHAPE_GEOMETRY_2_POINTS: // line
 			((CGUIShapeGeometry_2xPoint*) pShape)->setPoint1(vecCursorPosition);
@@ -285,11 +349,11 @@ void									CThemeDesignerTab_AddItem::onLeftMouseDown_MainWindow(CVector2i32& 
 		{
 			vector<CVector2i32> vecPolygonPoints;
 			vecPolygonPoints.resize(5);
-			vecPolygonPoints[0] = CVector2i32(vecCursorPosition.m_x, vecCursorPosition.m_y + 90);
-			vecPolygonPoints[1] = CVector2i32(vecCursorPosition.m_x + 15, vecCursorPosition.m_y + 90 + 3);
-			vecPolygonPoints[2] = CVector2i32(vecCursorPosition.m_x + 12, vecCursorPosition.m_y + 90 + 10);
-			vecPolygonPoints[3] = CVector2i32(vecCursorPosition.m_x + 7, vecCursorPosition.m_y + 90 + 5);
-			vecPolygonPoints[4] = CVector2i32(vecCursorPosition.m_x + 4, vecCursorPosition.m_y + 90 + 15);
+			vecPolygonPoints[0] = CVector2i32(vecCursorPosition.m_x, vecCursorPosition.m_y);
+			vecPolygonPoints[1] = CVector2i32(vecCursorPosition.m_x + 15, vecCursorPosition.m_y + 3);
+			vecPolygonPoints[2] = CVector2i32(vecCursorPosition.m_x + 12, vecCursorPosition.m_y + 10);
+			vecPolygonPoints[3] = CVector2i32(vecCursorPosition.m_x + 7, vecCursorPosition.m_y + 5);
+			vecPolygonPoints[4] = CVector2i32(vecCursorPosition.m_x + 4, vecCursorPosition.m_y + 15);
 			((CGUIShapeGeometry_NxPoint*) pShape)->setPoints(vecPolygonPoints);
 			break;
 		}
@@ -299,8 +363,86 @@ void									CThemeDesignerTab_AddItem::onLeftMouseDown_MainWindow(CVector2i32& 
 	else if (uiAddItemType == 2)
 	{
 		// control
-		eGUIControl eControlId = getControlId();
+		eGUIControl eControlId = getActiveControlId();
+		CGUIControl *pControl = pLayer->addControl(eControlId, pDefaultItemStyles);
+		pControl->setPosition(vecCursorPosition);
+		pControl->setSize(getControlDefaultSize(eControlId));
+		pControl->bindEvents();
 	}
 
 	pMainWindow->setMarkedToRedraw(true);
+}
+
+// other
+uint32									CThemeDesignerTab_AddItem::getTabShapeIndexFromPoint(CVector2i32& vecCursorPosition)
+{
+	return CMathUtility::getRowIndexInRectangle(vecCursorPosition, getShapeIconStartPosition(), getItemSize().m_x, getItemRowSize().m_y, 7);
+}
+
+uint32									CThemeDesignerTab_AddItem::getTabControlIndexFromPoint(CVector2i32& vecCursorPosition)
+{
+	return CMathUtility::getRowIndexInRectangle(vecCursorPosition, getControlIconStartPosition(), getItemSize().m_x, getItemRowSize().m_y, 11);
+}
+
+CVector2i32								CThemeDesignerTab_AddItem::getShapeRowPoint(uint32 uiShapeRowIndex)
+{
+	return getShapeIconStartPosition() + CVector2i32(0, uiShapeRowIndex * getItemRowSize().m_y);
+}
+
+CVector2i32								CThemeDesignerTab_AddItem::getControlRowPoint(uint32 uiControlRowIndex)
+{
+	return getControlIconStartPosition() + CVector2i32(0, uiControlRowIndex * getItemRowSize().m_y);
+}
+
+eGUIShape								CThemeDesignerTab_AddItem::getShapeIdFromIndex(uint32 uiShapeIndex)
+{
+	switch (uiShapeIndex)
+	{
+	case 0:		return GUI_SHAPE_CIRCLE;
+	case 1:		return GUI_SHAPE_ELLIPSE;
+	case 2:		return GUI_SHAPE_LINE;
+	case 3:		return GUI_SHAPE_POLYGON;
+	case 4:		return GUI_SHAPE_RECTANGLE;
+	case 5:		return GUI_SHAPE_SQUARE;
+	case 6:		return GUI_SHAPE_TRIANGLE;
+	}
+	return GUI_SHAPE_UNKNOWN;
+}
+
+eGUIControl								CThemeDesignerTab_AddItem::getControlIdFromIndex(uint32 uiControlIndex)
+{
+	switch (uiControlIndex)
+	{
+	case 0:		return GUI_CONTROL_BUTTON;
+	case 1:		return GUI_CONTROL_CHECK;
+	case 2:		return GUI_CONTROL_DROP;
+	case 3:		return GUI_CONTROL_EDIT;
+	case 4:		return GUI_CONTROL_LIST;
+	case 5:		return GUI_CONTROL_MENU;
+	case 6:		return GUI_CONTROL_PROGRESS;
+	case 7:		return GUI_CONTROL_RADIO;
+	case 8:		return GUI_CONTROL_SCROLL;
+	case 9:		return GUI_CONTROL_TAB;
+	case 10:	return GUI_CONTROL_TEXT;
+	}
+	return GUI_CONTROL_UNKNOWN;
+}
+
+CVector2ui32							CThemeDesignerTab_AddItem::getControlDefaultSize(eGUIControl eControlId)
+{
+	switch (eControlId)
+	{
+	case GUI_CONTROL_BUTTON:	return CVector2ui32(60, 20);
+	case GUI_CONTROL_CHECK:		return CVector2ui32(20, 20);
+	case GUI_CONTROL_DROP:		return CVector2ui32(80, 25);
+	case GUI_CONTROL_EDIT:		return CVector2ui32(100, 20);
+	case GUI_CONTROL_LIST:		return CVector2ui32(250, 250);
+	case GUI_CONTROL_MENU:		return CVector2ui32(250, 20);
+	case GUI_CONTROL_PROGRESS:	return CVector2ui32(100, 25);
+	case GUI_CONTROL_RADIO:		return CVector2ui32(20, 20);
+	case GUI_CONTROL_SCROLL:	return CVector2ui32(250, 15);
+	case GUI_CONTROL_TAB:		return CVector2ui32(250, 25);
+	case GUI_CONTROL_TEXT:		return CVector2ui32(250, 50);
+	}
+	return CVector2ui32(50, 50);
 }

@@ -43,12 +43,13 @@ public:
 	// open gl related
 	static std::vector<CVector3D>	getCuboidFaceVerticesAsQuads(CVector3D& vecMinPosition, CVector3D& vecMaxPosition);
 
-	// vector related
+	// vector or int related
 	static CVector4ui8			createVector4ui8(uint8 ucByte1, uint8 ucByte2, uint8 ucByte3, uint8 ucByte4);
 	static CVector4ui16			createVector4ui16(uint16 usWord1, uint16 usWord2, uint16 usWord3, uint16 usWord4);
 	static bool					isPointInRectangle(CVector2i32& vecPoint, CVector2i32& vecPosition, CVector2ui32& vecSize);
 	static CVector4ui32			getRectangleFromCircle(CVector2i32 vecCenterPosition, float32 fRadius);
 	static uint32				getRowIndex(CVector2i32& vecPoint, CVector2i32& vecMinPosition, float32 fRowHeight, uint32 uiRowCount);
+	static uint32				getRowIndexInRectangle(CVector2i32& vecPoint, CVector2i32& vecMinPosition, uint32 uiWidth, float32 fRowHeight, uint32 uiRowCount);
 	static uint32				getRectangleResizeEdges(CVector2i32& vecPoint, CVector2ui32& vecSize, uint32 uiEdgeDistance); // [return] Edges: Left=1,Top=2,Right=4,Bottom=8
 	static CVector2i32			getEllipseFromRectangle(CVector2i32& vecPoint, CVector2ui32& vecSize);
 	static uint32				convertDiameterToRadius(uint32 uiDiameter);
@@ -57,6 +58,7 @@ public:
 	static float32				getDistanceBetweenPoints(CVector2i32& vecPoint1, CVector2i32& vecPoint2);
 	static float32				getAngleBetweenPoints(CVector2i32& vecPoint1, CVector2i32& vecPoint2);							// return: radians
 	static CVector2i32			getPositionInFrontOfPosition(CVector2i32& vecPosition, float32 fAngleRad, float32 fRadius);		// parameter 2: radians
+	static int32				divide(int32 iInt1, int32 iInt2);
 };
 
 uint32				CMathUtility::convertSectorsToBytes(uint32 uiSectorCount)

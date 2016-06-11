@@ -383,11 +383,6 @@ Font*					CGraphicsLibrary_GDIPlus::createFontFromStyles(CGUIStyles *pStyles)
 	{
 		iStyle = 0;
 
-		string a = pStyles->getStyle<string>("text-style");
-		string b = CStringUtility::replace(pStyles->getStyle<string>("text-style"), " ", ",");
-
-		string c = "a";
-
 		vector<string> vecTextStyleValues = CStringUtility::split(CStringUtility::replace(pStyles->getStyle<string>("text-style"), " ", ","), ",");
 		unordered_map<string, bool> umapTextStyleValues;
 		for (string& strTextStyleValue : vecTextStyleValues)

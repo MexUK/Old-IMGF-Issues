@@ -36,10 +36,14 @@ public:
 	void									setItemHoverRectangle(CRectangleShape* pRectangle) { m_pItemHoverRectangle = pRectangle; }
 	CRectangleShape*						getItemHoverRectangle(void) { return m_pItemHoverRectangle; }
 
+	void									setActiveItemRectangle(CRectangleShape* pRectangle) { m_pActiveItemRectangle = pRectangle; }
+	CRectangleShape*						getActiveItemRectangle(void) { return m_pActiveItemRectangle; }
+
 private:
 	CWindow*												m_pWindow;
 	CTabControl*											m_pTabControl;
 	CRectangleShape*										m_pItemHoverRectangle;
+	CRectangleShape*										m_pActiveItemRectangle;
 	std::unordered_map<std::string, CTabControlEntry*>		m_umapTabControlEntries;
 public: // todo
 	std::unordered_map<std::string, CGUILayer*>				m_umapTabLayers;

@@ -270,6 +270,15 @@ uint32						CMathUtility::getRowIndex(CVector2i32& vecPoint, CVector2i32& vecMin
 	}
 }
 
+uint32						CMathUtility::getRowIndexInRectangle(CVector2i32& vecPoint, CVector2i32& vecMinPosition, uint32 uiWidth, float32 fRowHeight, uint32 uiRowCount)
+{
+	if (vecPoint.m_x < vecMinPosition.m_x || vecPoint.m_x > (vecMinPosition.m_x + uiWidth))
+	{
+		return -1;
+	}
+	return getRowIndex(vecPoint, vecMinPosition, fRowHeight, uiRowCount);
+}
+
 uint32						CMathUtility::getRectangleResizeEdges(CVector2i32& vecPoint, CVector2ui32& vecSize, uint32 uiEdgeDistance)
 {
 	uint32
@@ -332,4 +341,9 @@ CVector2i32					CMathUtility::getPositionInFrontOfPosition(CVector2i32& vecPosit
 	vecOutPosition.m_x += (float32) (cos(fAngleRad) * fRadius);
 	vecOutPosition.m_y += (float32) (sin(fAngleRad) * fRadius);
 	return vecOutPosition;
+}
+
+int32						CMathUtility::divide(int32 iInt1, int32 iInt2)
+{
+	return (float32)(((float32) iInt1) / ((float32) iInt2));
 }

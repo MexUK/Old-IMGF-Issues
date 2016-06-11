@@ -15,7 +15,8 @@ using namespace std;
 CThemeDesigner::CThemeDesigner(void) :
 	m_pWindow(nullptr),
 	m_pTabControl(nullptr),
-	m_pItemHoverRectangle(nullptr)
+	m_pItemHoverRectangle(nullptr),
+	m_pActiveItemRectangle(nullptr)
 {
 }
 

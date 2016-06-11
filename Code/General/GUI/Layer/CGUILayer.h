@@ -49,6 +49,8 @@ public:
 	bool					isEnabled(void) { return m_bEnabled; }
 
 	// controls
+	CGUIControl*			addControl(eGUIControl eControlId, CGUIStyles *pStyles = nullptr);
+
 	CButtonControl*			addButton(CVector2i32& vecPosition, CVector2ui32& vecSize, std::string strButtonText, CGUIStyles *pStyles = nullptr);
 	CCheckControl*			addCheck(CVector2i32& vecPosition, CVector2ui32& vecSize, std::string strCheckText, CGUIStyles *pStyles = nullptr);
 	CDropControl*			addDrop(CVector2i32& vecPosition, CVector2ui32& vecSize, CGUIStyles *pStyles = nullptr);
@@ -62,7 +64,7 @@ public:
 	CTextControl*			addText(CVector2i32& vecPosition, CVector2ui32& vecSize, std::string strText, CGUIStyles *pStyles = nullptr);
 
 	// shapes
-	CGUIShape*				addShape(eGUIShape eShapeType, CGUIStyles *pStyles = nullptr);
+	CGUIShape*				addShape(eGUIShape eShapeId, CGUIStyles *pStyles = nullptr);
 
 	CLineShape*				addLine(CVector2i32& vecPoint1, CVector2i32& vecPoint2, CGUIStyles *pStyles = nullptr);
 	CRectangleShape*		addRectangle(CVector2i32& vecPosition, CVector2ui32& vecSize, CGUIStyles *pStyles = nullptr);
@@ -83,9 +85,11 @@ public:
 
 private:
 	void						_addControl(CGUIControl *pWindowControl, CVector2i32& vecPosition, CVector2ui32& vecSize, CGUIStyles *pStyles);
+	void						_addControl(CGUIControl *pWindowControl, CGUIStyles *pStyles);
 	void						_addShape(CGUIShape *pShape, CGUIStyles *pStyles);
 
 	CGUIShape*					createShapeFromId(eGUIShape eShapeId);
+	CGUIControl*				createControlFromId(eGUIControl eControlId);
 
 private:
 	CWindow*					m_pWindow;

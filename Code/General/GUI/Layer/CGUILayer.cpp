@@ -53,6 +53,13 @@ void									CGUILayer::unbindAllEvents(void)
 }
 
 // add control - derived
+CGUIControl*		CGUILayer::addControl(eGUIControl eControlId, CGUIStyles *pStyles)
+{
+	CGUIControl *pControl = createControlFromId(eControlId);
+	_addControl(pControl, pStyles);
+	return pControl;
+}
+
 CButtonControl*		CGUILayer::addButton(CVector2i32& vecPosition, CVector2ui32& vecSize, string strButtonText, CGUIStyles *pStyles)
 {
 	CButtonControl *pControl = new CButtonControl;
@@ -138,9 +145,14 @@ CTextControl*		CGUILayer::addText(CVector2i32& vecPosition, CVector2ui32& vecSiz
 // add control - base
 void						CGUILayer::_addControl(CGUIControl *pControl, CVector2i32& vecPosition, CVector2ui32& vecSize, CGUIStyles *pStyles)
 {
-	pControl->setLayer(this);
 	pControl->setPosition(vecPosition);
 	pControl->setSize(vecSize);
+	_addControl(pControl, pStyles);
+}
+
+void						CGUILayer::_addControl(CGUIControl *pControl, CGUIStyles *pStyles)
+{
+	pControl->setLayer(this);
 	if (pStyles)
 	{
 		pControl->setStyles(pStyles);
@@ -160,6 +172,26 @@ CGUIShape*					CGUILayer::createShapeFromId(eGUIShape eShapeId)
 	case GUI_SHAPE_RECTANGLE:	return new CRectangleShape;
 	case GUI_SHAPE_SQUARE:		return new CSquareShape;
 	case GUI_SHAPE_TRIANGLE:	return new CTriangleShape;
+	}
+	return nullptr;
+}
+
+// create control
+CGUIControl*				CGUILayer::createControlFromId(eGUIControl eControlId)
+{
+	switch (eControlId)
+	{
+	case GUI_CONTROL_BUTTON:	return new CButtonControl;
+	case GUI_CONTROL_CHECK:		return new CCheckControl;
+	case GUI_CONTROL_DROP:		return new CDropControl;
+	case GUI_CONTROL_EDIT:		return new CEditControl;
+	case GUI_CONTROL_LIST:		return new CListControl;
+	case GUI_CONTROL_MENU:		return new CMenuControl;
+	case GUI_CONTROL_PROGRESS:	return new CProgressControl;
+	case GUI_CONTROL_RADIO:		return new CRadioControl;
+	case GUI_CONTROL_SCROLL:	return new CScrollControl;
+	case GUI_CONTROL_TAB:		return new CTabControl;
+	case GUI_CONTROL_TEXT:		return new CTextControl;
 	}
 	return nullptr;
 }

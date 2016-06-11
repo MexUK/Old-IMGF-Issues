@@ -19,14 +19,32 @@ public:
 	void													onMouseMove(CVector2i32& vecCursorPosition);
 	void													onLeftMouseDown_MainWindow(CVector2i32& vecCursorPosition);
 
-	void													setItemType(uint32 uiItemType) { m_uiItemType = uiItemType; }
-	uint32													getItemType(void) { return m_uiItemType; }
+	uint32													getTabShapeIndexFromPoint(CVector2i32& vecCursorPosition);
+	uint32													getTabControlIndexFromPoint(CVector2i32& vecCursorPosition);
+	CVector2i32												getShapeRowPoint(uint32 uiShapeRowIndex);
+	CVector2i32												getControlRowPoint(uint32 uiControlRowIndex);
+	eGUIShape												getShapeIdFromIndex(uint32 uiShapeIndex);
+	eGUIControl												getControlIdFromIndex(uint32 uiControlIndex);
 
-	void													setShapeId(eGUIShape eShapeId) { m_eShapeId = eShapeId; }
-	eGUIShape												getShapeId(void) { return m_eShapeId; }
+	CVector2ui32											getControlDefaultSize(eGUIControl eControlId);
 
-	void													setControlId(eGUIControl eControlId) { m_eControlId = eControlId; }
-	eGUIControl												getControlId(void) { return m_eControlId; }
+	void													setHoveredItemType(uint32 uiHoveredItemType) { m_uiHoveredItemType = uiHoveredItemType; }
+	uint32													getHoveredItemType(void) { return m_uiHoveredItemType; }
+
+	void													setActiveItemType(uint32 uiActiveItemType) { m_uiActiveItemType = uiActiveItemType; }
+	uint32													getActiveItemType(void) { return m_uiActiveItemType; }
+
+	void													setHoveredShapeId(eGUIShape eHoveredShapeId) { m_eHoveredShapeId = eHoveredShapeId; }
+	eGUIShape												getHoveredShapeId(void) { return m_eHoveredShapeId; }
+
+	void													setHoveredControlId(eGUIControl eHoveredControlId) { m_eHoveredControlId = eHoveredControlId; }
+	eGUIControl												getHoveredControlId(void) { return m_eHoveredControlId; }
+
+	void													setActiveShapeId(eGUIShape eActiveShapeId) { m_eActiveShapeId = eActiveShapeId; }
+	eGUIShape												getActiveShapeId(void) { return m_eActiveShapeId; }
+
+	void													setActiveControlId(eGUIControl eActiveControlId) { m_eActiveControlId = eActiveControlId; }
+	eGUIControl												getActiveControlId(void) { return m_eActiveControlId; }
 
 	void													setShapeIconStartPosition(CVector2i32& vecShapeIconStartPosition) { m_vecShapeIconStartPosition = vecShapeIconStartPosition; }
 	CVector2i32&											getShapeIconStartPosition(void) { return m_vecShapeIconStartPosition; }
@@ -40,21 +58,25 @@ public:
 	void													setControlTextStartPosition(CVector2i32& vecControlTextStartPosition) { m_vecControlTextStartPosition = vecControlTextStartPosition; }
 	CVector2i32&											getControlTextStartPosition(void) { return m_vecControlTextStartPosition; }
 
-	void													setItemRowHeight(uint32 uiItemRowHeight) { m_uiItemRowHeight = uiItemRowHeight; }
-	uint32													getItemRowHeight(void) { return m_uiItemRowHeight; }
+	void													setItemRowSize(CVector2ui32& vecItemRowSize) { m_vecItemRowSize = vecItemRowSize; }
+	CVector2ui32&											getItemRowSize(void) { return m_vecItemRowSize; }
 
 	void													setItemSize(CVector2ui32& vecItemSize) { m_vecItemSize = vecItemSize; }
 	CVector2ui32&											getItemSize(void) { return m_vecItemSize; }
 
 private:
-	uint32													m_uiItemType;
-	eGUIShape												m_eShapeId;
-	eGUIControl												m_eControlId;
+	uint32													m_uiHoveredItemType;
+	uint32													m_uiActiveItemType;
+	eGUIShape												m_eHoveredShapeId;
+	eGUIControl												m_eHoveredControlId;
+	eGUIShape												m_eActiveShapeId;
+	eGUIControl												m_eActiveControlId;
 	CVector2i32												m_vecShapeIconStartPosition;
 	CVector2i32												m_vecShapeTextStartPosition;
 	CVector2i32												m_vecControlIconStartPosition;
 	CVector2i32												m_vecControlTextStartPosition;
 	uint32													m_uiItemRowHeight;
+	CVector2ui32											m_vecItemRowSize;
 	CVector2ui32											m_vecItemSize;
 };
 
