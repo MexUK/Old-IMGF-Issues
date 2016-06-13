@@ -85,7 +85,7 @@ bool				CDropControl::isPointInControl(CVector2i32& vecPoint)
 	}
 	else
 	{
-		return CGUIControl::isPointInControl(vecPoint);
+		return CGUIControl::isPointInItem(vecPoint);
 	}
 }
 

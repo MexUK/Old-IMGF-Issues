@@ -8,7 +8,7 @@
 class CIntermediateModel : public CVectorPool<CIntermediateGeometry*>
 {
 public:
-	void								unload(void) {};
+	void								unload(void) {}
 };
 
 #endif

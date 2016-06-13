@@ -24,7 +24,7 @@ class CIMGFormat : public CFormat, public CVectorPool<CIMGEntry*>
 public:
 	CIMGFormat(void);
 
-	void											unload(void) {};
+	void											unload(void) {}
 
 	void											unserializeRWVersions(void);
 	void											unserializeResourceTypes(void);

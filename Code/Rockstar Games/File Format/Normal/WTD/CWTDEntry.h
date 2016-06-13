@@ -14,7 +14,7 @@ class CWTDEntry : public CVectorPool<CWTDMipmap*>
 public:
 	CWTDEntry(void);
 
-	void						unload(void) {};
+	void						unload(void) {}
 
 	void						setEntryName(std::string strEntryName) { m_strEntryName = strEntryName; }
 	std::string					getEntryName(void) { return m_strEntryName; }

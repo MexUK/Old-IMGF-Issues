@@ -20,7 +20,7 @@ public:
 		m_vecSwizzledImageSize.m_y = 0;
 	};
 
-	void						unload(void) {};
+	void						unload(void) {}
 
 	bool						canRasterDataBeConverted(void);
 	eRasterDataFormat			getRasterDataFormat(void);

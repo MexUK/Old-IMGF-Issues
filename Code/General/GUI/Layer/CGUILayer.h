@@ -31,6 +31,7 @@ class CTabControl;
 class CTextControl;
 
 class CGUIStyles;
+class CGUIItem;
 
 class CGUILayer
 {
@@ -47,6 +48,8 @@ public:
 
 	void					setEnabled(bool bEnabled);
 	bool					isEnabled(void) { return m_bEnabled; }
+
+	CGUIItem*				getItemByPoint(CVector2i32& vecPoint);
 
 	// controls
 	CGUIControl*			addControl(eGUIControl eControlId, CGUIStyles *pStyles = nullptr);
@@ -72,7 +75,7 @@ public:
 	CPolygonShape*			addPolygon(std::vector<CVector2i32>& vecPoints, CGUIStyles *pStyles = nullptr);
 
 	CSquareShape*			addSquare(CVector2i32& vecPosition, uint32 uiSideLength, CGUIStyles *pStyles = nullptr);
-	CCircleShape*			addCircle(CVector2i32& vecPosition, uint32 uiRadius, CGUIStyles *pStyles = nullptr);
+	CCircleShape*			addCircle(CVector2i32& vecPosition, uint32 uiRadius, CGUIStyles *pStyles = nullptr);		// position is top left of circle
 	CTriangleShape*			addTriangle(CVector2i32& vecPoint1, CVector2i32& vecPoint2, CVector2i32& vecPoint3, CGUIStyles *pStyles = nullptr);		// scalene or any triangle type
 	CTriangleShape*			addEquilateralTriangle(CVector2i32& vecBottomLeftPoint, CVector2i32& vecBottomRightPoint, CGUIStyles *pStyles = nullptr);
 	CTriangleShape*			addEquilateralTriangle(CVector2i32& vecBottomLeftPoint, float32 fSidesLength, float32 fBaseAngle = 0.0f, CGUIStyles *pStyles = nullptr);	// base angle parameter is in degrees

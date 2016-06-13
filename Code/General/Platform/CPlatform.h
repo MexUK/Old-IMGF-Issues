@@ -7,7 +7,7 @@
 class CPlatform
 {
 public:
-	void					unload(void) {};
+	void					unload(void) {}
 
 	void					setPlatformId(ePlatform ePlatformValue) { m_ePlatformId = ePlatformValue; }
 	ePlatform				getPlatformId(void) { return m_ePlatformId; }

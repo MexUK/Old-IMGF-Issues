@@ -10,13 +10,16 @@
 #include "Event/CEventBoundFunction.h"
 #include "Event/CEventBinder.h"
 #include "GUI/Layer/CGUILayer.h"
+#include "GUI/Item/CGUIItem.h"
 #include "GUI/Control/CGUIControl.h"
 #include "GUI/Styles/CGUIStyleableEntity.h"
+#include "GUI/Interaction/CPlaceableRectangle.h"
 
 class CRadioControl;
 class CDropTarget;
 class CGUIStyles;
 class CWindow;
+class CInputEventCallbacks;
 
 class CWindow : public CEventType, public CEventBinder, public CGUIStyleableEntity, public CVectorPool<CGUILayer*>
 {
@@ -27,11 +30,13 @@ public:
 	void									unload(void);
 
 	void									bindEvents(void);
+	void									unbindEvents(void);
 	void									bindAllEvents(void);
 	void									unbindAllEvents(void);
 	
 	CEventBoundFunction*					bindEvent(uint32 uiEventId, void(*pFunction)(void*), void *pTriggerArgument = nullptr, int32 iZOrder = 0);
 	CEventBoundFunction*					bindEvent(uint32 uiEventId, void(*pFunction)(void*, void*), void *pTriggerArgument = nullptr, int32 iZOrder = 0);
+	CEventBoundFunction*					bindEvent(uint32 uiEventId, CInputEventCallbacks *pObject, void *pTriggerArgument = nullptr, int32 iZOrder = 0);
 	bool									triggerEvent(uint32 uiEventId, void *pTriggerArgument = nullptr);
 
 	void									onMouseDown(CVector2i32& vecCursorPosition);
@@ -45,6 +50,10 @@ public:
 
 	CGUILayer*								addLayer(bool bEnabled = true);
 	CGUILayer*								addLayer(CWindow *pWindow, bool bEnabled = true);
+
+	bool									doesActiveItemExist(void) { return m_pActiveItem != nullptr; }
+	void									setActiveItem(CGUIItem *pItem);
+	void									clearActiveItem(void);
 
 	void									unmarkRadios(CRadioControl *pRadio);
 
@@ -101,6 +110,9 @@ private:
 	uint8									m_bMarkedToRedraw				: 1;
 	uint8									m_bMaximized					: 1;
 	CVector2i32								m_vecPreviousPosition;
+	CGUIItem*								m_pActiveItem;
+	// todo CPlaceableRectangle<CWindow>			m_placeableWindow;	// gui windows
+	CPlaceableRectangle<CGUIItem>			m_placeableItem;	// gui items - e.g. shapes and controls
 
 	/*
 	todo

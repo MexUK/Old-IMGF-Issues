@@ -20,7 +20,7 @@ void					CListControl::bindEvents(void)
 // input
 void					CListControl::onMouseDown(CVector2i32& vecCursorPosition)
 {
-	if (isPointInControl(vecCursorPosition))
+	if (isPointInItem(vecCursorPosition))
 	{
 		CEventManager::getInstance()->setEventHogged(true);
 	}

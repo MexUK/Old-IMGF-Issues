@@ -29,7 +29,7 @@ public:
 		m_pBoundingObject->setHasNormals(false);
 	}
 
-	void									unload(void) {};
+	void									unload(void) {}
 
 	void									setBoundingObject(CIntermediateBoundingObject *pBoundingObject) { m_pBoundingObject = pBoundingObject; }
 	CIntermediateBoundingObject*			getBoundingObject(void) { return m_pBoundingObject; }

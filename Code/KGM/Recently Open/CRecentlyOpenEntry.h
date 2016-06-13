@@ -6,7 +6,7 @@
 class CRecentlyOpenEntry
 {
 public:
-	void							unload(void) {}; 
+	void							unload(void) {} 
 	
 	std::string						serialize(void) { return m_strPath; }
 	

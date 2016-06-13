@@ -12,7 +12,7 @@ class CListControlEntry
 public:
 	CListControlEntry(void);
 	
-	void									unload(void) {};
+	void									unload(void) {}
 
 	void									setList(CListControl *pList) { m_pList = pList; }
 	CListControl*							getList(void) { return m_pList; }

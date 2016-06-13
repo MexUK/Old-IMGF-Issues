@@ -45,6 +45,13 @@ public:
 		vecVector1.m_y = m_y / uiValue2;
 		return vecVector1;
 	}
+
+	CVector2i32	operator+=(const CVector2i32& vecVector2)
+	{
+		m_x += vecVector2.m_x;
+		m_y += vecVector2.m_y;
+		return *this;
+	}
 };
 
 #endif

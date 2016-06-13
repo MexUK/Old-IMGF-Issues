@@ -17,7 +17,7 @@ public:
 	{
 	};
 
-	virtual void				unload(void) {};
+	virtual void				unload(void) {}
 
 	virtual void				unserialize(void) = 0;
 	virtual void				serialize(void) = 0;

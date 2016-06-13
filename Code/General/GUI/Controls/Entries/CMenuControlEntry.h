@@ -13,7 +13,7 @@ class CMenuControlEntry : public CVectorPool<CMenuControlEntry*>
 public:
 	CMenuControlEntry(void);
 	
-	void									unload(void) {};
+	void									unload(void) {}
 
 	void									setWindowControlOrientation(e2DMirroredOrientation eOrientation) { m_eOrientation = eOrientation; }
 	e2DMirroredOrientation					getWindowControlOrientation(void) { return m_eOrientation; }

@@ -8,7 +8,7 @@
 class CLSTEntry
 {
 public:
-	void								unload(void) {};
+	void								unload(void) {}
 
 	std::string							getValue(uint32 uiValueIndex);
 	std::string							getLine(void);

@@ -14,7 +14,7 @@ class CCOLEntry
 public:
 								CCOLEntry(CCOLFormat *pCOLFile);
 
-	void						unload(void) {};
+	void						unload(void) {}
 
 	void						unserialize(void);
 	void						serialize(void);

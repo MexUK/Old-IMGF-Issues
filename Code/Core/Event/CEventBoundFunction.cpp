@@ -8,11 +8,12 @@ CEventBoundFunction::CEventBoundFunction(void) :
 	m_eEventFunctionType(EVENT_FUNCTION_TYPE_1_ARG),
 	m_pFunction_1Arg(nullptr),
 	m_pFunction_2Args(nullptr),
-	m_pFunctionBoundArgument(nullptr)
+	m_pFunctionBoundArgument(nullptr),
+	m_pCallbackObject(nullptr)
 {
 }
 
-void					CEventBoundFunction::onEventTriggered(void *pTriggerArgument)
+void					CEventBoundFunction::onEventTriggered(uint32 uiEventId, void *pTriggerArgument)
 {
 	switch (m_eEventFunctionType)
 	{
@@ -21,6 +22,25 @@ void					CEventBoundFunction::onEventTriggered(void *pTriggerArgument)
 		break;
 	case EVENT_FUNCTION_TYPE_2_ARGS:
 		m_pFunction_2Args(m_pFunctionBoundArgument, pTriggerArgument);
+		break;
+	case EVENT_FUNCTION_TYPE_OBJECT_CALLBACK:
+		triggerObjectCallback(uiEventId, pTriggerArgument);
+		break;
+	}
+}
+
+void					CEventBoundFunction::triggerObjectCallback(uint32 uiEventId, void *pTriggerArgument)
+{
+	switch (uiEventId)
+	{
+	case EVENT_onLeftMouseDown:
+		m_pCallbackObject->onLeftMouseDown(*(CVector2i32*) pTriggerArgument);
+		break;
+	case EVENT_onLeftMouseUp:
+		m_pCallbackObject->onLeftMouseUp(*(CVector2i32*) pTriggerArgument);
+		break;
+	case EVENT_onMouseMove:
+		m_pCallbackObject->onMouseMove(*(CVector2i32*) pTriggerArgument);
 		break;
 	}
 }

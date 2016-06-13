@@ -7,7 +7,7 @@
 class CGame
 {
 public:
-	void					unload(void) {};
+	void					unload(void) {}
 
 	void					setGameId(eGame eGameValue) { m_eGameId = eGameValue; }
 	eGame					getGameId(void) { return m_eGameId; }

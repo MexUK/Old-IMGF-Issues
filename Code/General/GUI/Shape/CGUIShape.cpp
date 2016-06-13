@@ -4,13 +4,6 @@
 
 CGUIShape::CGUIShape(eGUIShapeGeometry eShapeGeometry, eGUIShape eShapeType) :
 	m_eShapeGeometry(eShapeGeometry),
-	m_eShapeType(eShapeType),
-	m_pLayer(nullptr)
+	m_eShapeType(eShapeType)
 {
-}
-
-// window
-CWindow*								CGUIShape::getWindow(void)
-{
-	return getLayer()->getWindow();
 }

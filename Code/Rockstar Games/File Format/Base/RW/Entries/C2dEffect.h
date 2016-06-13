@@ -16,7 +16,7 @@ public:
 		m_vecPosition{ 0.0f, 0.0f, 0.0f }
 	{};
 
-	void							unload(void) {};
+	void							unload(void) {}
 	
 	virtual void					unserialize(void)	= 0;
 	virtual void					serialize(void)		= 0;

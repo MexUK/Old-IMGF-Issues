@@ -22,7 +22,7 @@ void					CButtonControl::bindEvents(void)
 // input
 void		CButtonControl::onMouseDown(CVector2i32& vecCursorPosition)
 {
-	if (isPointInControl(vecCursorPosition))
+	if (isPointInItem(vecCursorPosition))
 	{
 		CEventManager::getInstance()->setEventHogged(true);
 	}
@@ -30,7 +30,7 @@ void		CButtonControl::onMouseDown(CVector2i32& vecCursorPosition)
 
 void		CButtonControl::onMouseUp(CVector2i32& vecCursorPosition)
 {
-	if (isPointInControl(vecCursorPosition))
+	if (isPointInItem(vecCursorPosition))
 	{
 		getWindow()->triggerEvent(EVENT_onPressButton, this);
 	}

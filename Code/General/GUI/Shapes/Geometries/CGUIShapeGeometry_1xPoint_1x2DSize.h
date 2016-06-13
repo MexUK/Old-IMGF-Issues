@@ -12,6 +12,9 @@ class CGUIShapeGeometry_1xPoint_1x2DSize : public CGUIShape
 public:
 	CGUIShapeGeometry_1xPoint_1x2DSize(eGUIShape eShapeType);
 
+	void							moveItem(CVector2i32& vecPositionChange) { m_vecPosition += vecPositionChange; }
+	void							resizeItemViaOffsets(CVector2i32& vecItemSizeChange) { m_vecSize += CVector2ui32(vecItemSizeChange.m_x, vecItemSizeChange.m_y); }
+
 	void							setPosition(CVector2i32& vecPosition) { m_vecPosition = vecPosition; }
 	CVector2i32&					getPosition(void) { return m_vecPosition; }
 

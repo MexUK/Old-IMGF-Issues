@@ -8,7 +8,7 @@
 class CDropControlEntry
 {
 public:
-	void									unload(void) {};
+	void									unload(void) {}
 
 	void									setText(std::string& strText) { m_strText = strText; }
 	std::string&							getText(void) { return m_strText; }

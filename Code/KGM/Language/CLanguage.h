@@ -7,7 +7,7 @@
 class CLanguage
 {
 public:
-	void					unload(void) {};
+	void					unload(void) {}
 
 	void					setLanguageId(eLanguage eLanguageValue) { m_eLanguageId = eLanguageValue; }
 	eLanguage				getLanguageId(void) { return m_eLanguageId; }

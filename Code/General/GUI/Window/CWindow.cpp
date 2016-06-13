@@ -30,7 +30,8 @@ CWindow::CWindow(void) :
 	m_bMaximized(false),
 	m_pDropTarget(nullptr),
 	m_pParentWindow(nullptr),
-	m_uiTitleBarHeight(0)
+	m_uiTitleBarHeight(0),
+	m_pActiveItem(nullptr)
 {
 	m_vecPosition.m_x = 0;
 	m_vecPosition.m_y = 0;
@@ -51,10 +52,21 @@ void									CWindow::unload(void)
 // event binding
 void									CWindow::bindEvents(void)
 {
+	m_placeableItem.setWindow(this);
+	m_placeableItem.setItems(((CVectorPool<CGUIItem*>*)&(getEntryByIndex(0)->getShapes())));
+
 	storeEventBoundFunction(bindEvent(EVENT_onLeftMouseDown, pOnMouseDown_Window, this));
 	storeEventBoundFunction(bindEvent(EVENT_onLeftMouseUp, pOnMouseUp_Window, this));
 	storeEventBoundFunction(bindEvent(EVENT_onMouseMove, pOnMouseMove_Window, this));
 	storeEventBoundFunction(bindEvent(EVENT_onLeftMouseDoubleClick, pOnDoubleLeftClick_Window, this));
+
+	m_placeableItem.bindEvents();
+}
+
+void									CWindow::unbindEvents(void)
+{
+	m_placeableItem.unbindEvents();
+	CEventBinder::unbindEvents();
 }
 
 void									CWindow::bindAllEvents(void)
@@ -95,6 +107,11 @@ CEventBoundFunction*					CWindow::bindEvent(uint32 uiEventId, void(*pFunction)(v
 CEventBoundFunction*					CWindow::bindEvent(uint32 uiEventId, void(*pFunction)(void*, void*), void *pTriggerArgument, int32 iZOrder)
 {
 	return CEventType::bindEvent(uiEventId, pFunction, pTriggerArgument, iZOrder, (uint32) getWindowHandle());
+}
+
+CEventBoundFunction*					CWindow::bindEvent(uint32 uiEventId, CInputEventCallbacks *pObject, void *pTriggerArgument, int32 iZOrder)
+{
+	return CEventType::bindEvent(uiEventId, pObject, pTriggerArgument, iZOrder, (uint32) getWindowHandle());
 }
 
 // input
@@ -152,11 +169,6 @@ void									CWindow::onMouseDown(CVector2i32& vecCursorPosition)
 
 	// enable capture
 	SetCapture(getWindowHandle());
-
-	// store cursor position
-	POINT point;
-	GetCursorPos(&point);
-	CEventManager::getInstance()->setLastCursorPosition(CVector2i32(point.x, point.y));
 }
 
 void									CWindow::onMouseUp(CVector2i32& vecCursorPosition)
@@ -182,7 +194,7 @@ void									CWindow::onMouseMove(CVector2i32& vecCursorPosition)
 	{
 		for (CGUIControl *pWindowControl : pLayer->getControls().getEntries())
 		{
-			if (pWindowControl->isPointInControl(vecCursorPosition))
+			if (pWindowControl->isPointInItem(vecCursorPosition))
 			{
 				if (!pWindowControl->isPointMarkedAsInControl())
 				{
@@ -210,12 +222,7 @@ void									CWindow::onMouseMove(CVector2i32& vecCursorPosition)
 		RECT rect;
 		GetWindowRect(getWindowHandle(), &rect);
 
-		CVector2i32
-			vecPreviousCursorPosition = CEventManager::getInstance()->getLastCursorPosition(),
-			vecCursorDiff;
-
-		vecCursorDiff.m_x = ((int32) vecCursorPosition.m_x) - ((int32) vecPreviousCursorPosition.m_x);
-		vecCursorDiff.m_y = ((int32) vecCursorPosition.m_y) - ((int32) vecPreviousCursorPosition.m_y);
+		CVector2i32 vecCursorDiff = CEventManager::getInstance()->getScreenCursorMoveDifference();
 
 		rect.left += vecCursorDiff.m_x;
 		rect.top += vecCursorDiff.m_y;
@@ -224,8 +231,6 @@ void									CWindow::onMouseMove(CVector2i32& vecCursorPosition)
 		setPosition(CVector2i32(rect.left, rect.top));
 		//MoveWindow(hwndWindow, rect.left, rect.top, rect.right, rect.bottom, false);
 		//InvalidateRect(hwndWindow, &rect, false);
-
-		CEventManager::getInstance()->setLastCursorPosition(vecCursorPosition);
 		return;
 	}
 	else if (isResizingWindow())
@@ -237,12 +242,7 @@ void									CWindow::onMouseMove(CVector2i32& vecCursorPosition)
 		RECT rect;
 		GetWindowRect(getWindowHandle(), &rect);
 
-		CVector2i32
-			vecPreviousCursorPosition = CEventManager::getInstance()->getLastCursorPosition(),
-			vecCursorDiff;
-
-		vecCursorDiff.m_x = ((int32) vecCursorPosition.m_x) - ((int32) vecPreviousCursorPosition.m_x);
-		vecCursorDiff.m_y = ((int32) vecCursorPosition.m_y) - ((int32) vecPreviousCursorPosition.m_y);
+		CVector2i32 vecCursorDiff = CEventManager::getInstance()->getScreenCursorMoveDifference();
 
 		uint32 uiMainWindowResizeEdges = getWindowResizeEdges();
 		if (uiMainWindowResizeEdges & 1) // left edge
@@ -264,8 +264,6 @@ void									CWindow::onMouseMove(CVector2i32& vecCursorPosition)
 		}
 
 		SetWindowPos(getWindowHandle(), NULL, rect.left, rect.top, rect.right - rect.left, rect.bottom - rect.top, SWP_NOZORDER);
-
-		CEventManager::getInstance()->setLastCursorPosition(vecCursorPosition);
 		return;
 	}
 }
@@ -362,6 +360,19 @@ CGUILayer*							CWindow::addLayer(CWindow *pWindow, bool bEnabled)
 	pLayer->setEnabled(bEnabled);
 	addEntry(pLayer);
 	return pLayer;
+}
+
+// active item
+void								CWindow::setActiveItem(CGUIItem *pItem)
+{
+	m_pActiveItem = pItem;
+	pItem->getStyles()->setStyle("border-colour", RGB(255, 0, 0));
+}
+
+void								CWindow::clearActiveItem(void)
+{
+	m_pActiveItem->getStyles()->setStyle("border-colour", RGB(0, 0, 0));
+	m_pActiveItem = nullptr;
 }
 
 // maximized

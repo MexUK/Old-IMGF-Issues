@@ -8,7 +8,7 @@
 class CRageResourceType
 {
 public:
-	void						unload(void) {};
+	void						unload(void) {}
 
 	std::string					getResourceName(void);
 	eRageResourceType			getResourceId(void);

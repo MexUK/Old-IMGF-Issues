@@ -6,7 +6,7 @@
 class CUpdateConnection
 {
 public:
-	void						unload(void) {};
+	void						unload(void) {}
 
 	void						setIsAlpha(bool bIsAlpha) { m_bIsAlpha = bIsAlpha; }
 	bool						isAlpha(void) { return m_bIsAlpha; }

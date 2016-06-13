@@ -11,7 +11,7 @@ class CBMPFormat : public CFormat
 public:
 	CBMPFormat(void);
 
-	void							unload(void) {};
+	void							unload(void) {}
 
 	void							setSkipBMPFileHeaderForSerialize(bool bSkipBMPFileHeaderForSerialize) { m_bSkipBMPFileHeaderForSerialize = bSkipBMPFileHeaderForSerialize; }
 	bool							getSkipBMPFileHeaderForSerialize(void) { return m_bSkipBMPFileHeaderForSerialize; }

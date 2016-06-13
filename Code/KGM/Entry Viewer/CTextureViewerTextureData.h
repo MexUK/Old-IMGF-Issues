@@ -11,7 +11,7 @@ struct CTextureViewerTextureData
 		return false;
 	};
 
-	void			unload(void) {};
+	void			unload(void) {}
 
 	HBITMAP			m_hBitmap;
 	uint32	m_uiWidth;

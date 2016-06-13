@@ -18,7 +18,7 @@ public:
 		m_vecSize.m_y = 0;
 	};
 
-	void						unload(void) {};
+	void						unload(void) {}
 
 	void						setName(std::string& strName) { m_strName = strName; }
 	std::string&				getName(void) { return m_strName; }

@@ -20,7 +20,7 @@ public:
 	ePlatformedGame					getFirstGame(void);
 	std::vector<ePlatformedGame>	getGames(void);
 
-	void							unload(void) {};
+	void							unload(void) {}
 
 	void							setVersionId(eRWVersion eVersionId) { m_eVersionId = eVersionId; }
 	eRWVersion						getVersionId(void) { return m_eVersionId; }

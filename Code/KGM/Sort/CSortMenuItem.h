@@ -9,7 +9,7 @@ struct CSortMenuItem
 		m_pType(pType)
 	{};
 
-	void				unload(void) {};
+	void				unload(void) {}
 
 	uint32		m_uiMenuHandle;
 	CSortPriority*		m_pPriority;

@@ -18,7 +18,7 @@ public:
 	CIMGEntry(void);
 	CIMGEntry(CIMGFormat *pIMGFile);
 
-	void					unload(void) {};
+	void					unload(void) {}
 
 	void					unserializeVersion1Or2(RG::CIMGEntry_Version1Or2 *pRGIMGEntry);
 	void					unserializeVersion3(RG::CIMGEntry_Version3 *pRGIMGEntry);

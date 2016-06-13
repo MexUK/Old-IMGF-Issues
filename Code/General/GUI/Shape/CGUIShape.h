@@ -20,14 +20,6 @@ public:
 
 	void									unload(void) {}
 
-	virtual void							bindEvents(void) = 0;
-	virtual void							render(void) = 0;
-
-	CWindow*								getWindow(void);
-
-	void									setLayer(CGUILayer* pLayer) { m_pLayer = pLayer; }
-	CGUILayer*							getLayer(void) { return m_pLayer; }
-
 	void									setShapeGeometry(eGUIShapeGeometry eShapeGeometry) { m_eShapeGeometry = eShapeGeometry; }
 	eGUIShapeGeometry						getShapeGeometry(void) { return m_eShapeGeometry; }
 
@@ -35,7 +27,6 @@ public:
 	eGUIShape								getShapeType(void) { return m_eShapeType; }
 
 private:
-	CGUILayer*							m_pLayer;
 	eGUIShapeGeometry						m_eShapeGeometry;
 	eGUIShape								m_eShapeType;
 };

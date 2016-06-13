@@ -11,7 +11,7 @@ class CWTDMipmap
 public:
 	CWTDMipmap(CWTDEntry *pWTDEntry);
 
-	void						unload(void) {};
+	void						unload(void) {}
 
 	void						setWTDEntry(CWTDEntry *pWTDEntry) { m_pWTDEntry = pWTDEntry; }
 	CWTDEntry*					getWTDEntry(void) { return m_pWTDEntry; }

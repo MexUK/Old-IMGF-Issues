@@ -26,7 +26,7 @@ CGUIManager::CGUIManager(void) :
 void						CGUIManager::init(void)
 {
 	getGraphicsLibrary()->init();
-	bindEvents();
+	CEventManager::getInstance()->bindEvent(EVENT_onToolReady, [](void *pData) { ((CGUIManager*) pData)->bindEvents(); }, this);
 }
 
 void						CGUIManager::uninit(void)
@@ -38,7 +38,8 @@ void						CGUIManager::uninit(void)
 // event binding
 void						CGUIManager::bindEvents(void)
 {
-	storeEventBoundFunction(CEventManager::getInstance()->bindEvent(EVENT_onMouseMove, pOnMouseMove_GUIManager, this, 1000)); // bind last
+	storeEventBoundFunction(getEntryByIndex(0)->bindEvent(EVENT_onMouseMove, pOnMouseMove_GUIManager, this, -1000000)); // bind first
+	storeEventBoundFunction(getEntryByIndex(1)->bindEvent(EVENT_onMouseMove, pOnMouseMove_GUIManager, this, -1000000)); // bind first
 }
 
 // add window
@@ -112,7 +113,7 @@ bool						CGUIManager::createWindow(CWindow *pWindow)
 }
 
 // process windows
-void					CGUIManager::processWindows(void)
+void						CGUIManager::processWindows(void)
 {
 	MSG msg;
 	
@@ -215,13 +216,27 @@ LRESULT CALLBACK			WndProc_Window(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lPa
 	return DefWindowProc(hwnd, msg, wParam, lParam);
 }
 
-void					CGUIManager::onMouseMove(CVector2i32& vecCursorPosition)
+void						CGUIManager::onMouseMove(CVector2i32& vecCursorPosition)
 {
-	CEventManager::getInstance()->setLastCursorPosition(vecCursorPosition);
+	CEventManager *pEventManager = CEventManager::getInstance();
+
+	// store cursor position relative to window - latest and previous
+	pEventManager->setPreviousCursorPosition(pEventManager->getLatestCursorPosition());
+	pEventManager->setLatestCursorPosition(vecCursorPosition);
+
+	// store cursor position relative to screen - latest and previous
+	POINT point;
+	GetCursorPos(&point);
+	CVector2i32 vecPoint(point.x, point.y);
+	pEventManager->setPreviousScreenCursorPosition(pEventManager->getLatestScreenCursorPosition());
+	pEventManager->setLatestScreenCursorPosition(vecPoint);
+
+	// store cursor move difference relative to screen - latest
+	pEventManager->setScreenCursorMoveDifference(vecPoint - pEventManager->getPreviousScreenCursorPosition());
 }
 
 // window render
-void					CGUIManager::render(void)
+void						CGUIManager::render(void)
 {
 	for (CWindow *pWindow : getEntries())
 	{

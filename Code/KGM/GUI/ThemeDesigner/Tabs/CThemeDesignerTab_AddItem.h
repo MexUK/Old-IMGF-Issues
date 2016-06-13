@@ -18,6 +18,7 @@ public:
 	void													onLeftMouseDown(CVector2i32& vecCursorPosition);
 	void													onMouseMove(CVector2i32& vecCursorPosition);
 	void													onLeftMouseDown_MainWindow(CVector2i32& vecCursorPosition);
+	void													onLeftMouseDown_MainWindow_WindowEventType(CVector2i32& vecCursorPosition);
 
 	uint32													getTabShapeIndexFromPoint(CVector2i32& vecCursorPosition);
 	uint32													getTabControlIndexFromPoint(CVector2i32& vecCursorPosition);

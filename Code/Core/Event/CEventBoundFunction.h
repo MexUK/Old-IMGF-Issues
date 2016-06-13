@@ -2,7 +2,9 @@
 #define CEventBoundFunction_H
 
 #include "Types.h"
+#include "eEvent.h"
 #include "eEventFunctionType.h"
+#include "CInputEventCallbacks.h"
 
 class CEventBoundFunction
 {
@@ -11,7 +13,8 @@ public:
 
 	void					unload(void) {}
 
-	void					onEventTriggered(void *pTriggerArgument);
+	void					onEventTriggered(uint32 uiEventId, void *pTriggerArgument);
+	void					triggerObjectCallback(uint32 uiEventId, void *pTriggerArgument);
 
 	void					setEventTypeId(uint32 uiEventTypeId) { m_uiEventTypeId = uiEventTypeId; }
 	uint32					getEventTypeId(void) { return m_uiEventTypeId; }
@@ -33,8 +36,11 @@ public:
 	void					(*getFunction1Arg(void))(void*) { return m_pFunction_1Arg; }
 	void					(*getFunction2Args(void))(void*,void*) { return m_pFunction_2Args; }
 
+	void					setCallbackObject(CInputEventCallbacks *pCallbackObject) { m_pCallbackObject = pCallbackObject; }
+	CInputEventCallbacks*	getCallbackObject(void) { return m_pCallbackObject; }
+
 	void					setFunctionBoundArgument(void* pFunctionBoundArgument) { m_pFunctionBoundArgument = pFunctionBoundArgument; }	// 2 event argument types are used, bound arg and trigger arg
-	void*					getFunctionBoundArgument(void) { return m_pFunctionBoundArgument; }									// 2 event argument types are used, bound arg and trigger arg
+	void*					getFunctionBoundArgument(void) { return m_pFunctionBoundArgument; }												// 2 event argument types are used, bound arg and trigger arg
 
 private:
 	uint32					m_uiEventTypeId;
@@ -45,6 +51,7 @@ private:
 	void					(*m_pFunction_1Arg)(void*);
 	void					(*m_pFunction_2Args)(void*,void*);
 	void*					m_pFunctionBoundArgument;
+	CInputEventCallbacks*	m_pCallbackObject;
 };
 
 #endif

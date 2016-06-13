@@ -25,18 +25,15 @@ public:
 	CGUIControl(eGUIControl eControlType);
 	~CGUIControl(void);
 
-	void									unload(void) {};
+	void									unload(void) {}
 
-	virtual void							bindEvents(void) = 0;
-	virtual void							render(void) = 0;
-	virtual bool							isPointInControl(CVector2i32& vecPoint);
-
-	CWindow*								getWindow(void);
+	virtual bool							isPointInItem(CVector2i32& vecPoint);
+	CVector2i32								getBoundingRectanglePosition(void) { return m_vecPosition; }
+	CVector2ui32							getBoundingRectangleSize(void) { return m_vecSize; }
+	void									moveItem(CVector2i32& vecPositionChange) { m_vecPosition += vecPositionChange; }
+	void									resizeItemViaOffsets(CVector2i32& vecItemSizeChange) { m_vecSize += CVector2ui32(vecItemSizeChange.m_x, vecItemSizeChange.m_y); }
 
 	bool									doesControlHaveFocus(void);
-
-	void									setLayer(CGUILayer* pLayer) { m_pLayer = pLayer; }
-	CGUILayer*							getLayer(void) { return m_pLayer; }
 
 	void									setControlType(eGUIControl eControlType) { m_eControlType = eControlType; }
 	eGUIControl								getControlType(void) { return m_eControlType; }
@@ -56,7 +53,6 @@ public:
 	CGUIScrollPool*							getScrolls(void) { return m_pScrolls; }
 
 private:
-	CGUILayer*							m_pLayer;
 	eGUIControl								m_eControlType;
 	CVector2i32								m_vecPosition;
 	CVector2ui32							m_vecSize;

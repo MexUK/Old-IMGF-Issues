@@ -11,6 +11,9 @@ class CGUIShapeGeometry_3xPoint : public CGUIShape
 public:
 	CGUIShapeGeometry_3xPoint(eGUIShape eShapeType);
 
+	void							moveItem(CVector2i32& vecPositionChange);
+	void							resizeItemViaOffsets(CVector2i32& vecItemSizeChange) {}
+
 	void							setPoint1(CVector2i32& vecPoint1) { m_vecPoint1 = vecPoint1; }
 	CVector2i32&					getPoint1(void) { return m_vecPoint1; }
 

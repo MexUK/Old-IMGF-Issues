@@ -7,3 +7,9 @@ CGUIShapeGeometry_1xPoint_1x1DSize::CGUIShapeGeometry_1xPoint_1x1DSize(eGUIShape
 	m_vecPosition.m_y = 0;
 	m_fSize = 0.0f;
 }
+
+// center position
+CVector2i32						CGUIShapeGeometry_1xPoint_1x1DSize::getCenterPosition(void)
+{
+	return getPosition() + CVector2i32(getSize(), getSize());
+}

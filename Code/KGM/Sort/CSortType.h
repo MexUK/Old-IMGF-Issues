@@ -7,7 +7,7 @@
 class CSortType
 {
 public:
-	void						unload(void) {};
+	void						unload(void) {}
 
 	void						setType(eSortType eType) { m_eType = eType; }
 	eSortType					getType(void) { return m_eType; }

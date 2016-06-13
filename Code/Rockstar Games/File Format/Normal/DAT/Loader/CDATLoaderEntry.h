@@ -8,7 +8,7 @@
 class CDATLoaderEntry
 {
 public:
-	void						unload(void) {};
+	void						unload(void) {}
 
 	void						setEntryType(eDATLoaderEntryType eEntryType) { m_eEntryType = eEntryType; }
 	eDATLoaderEntryType			getEntryType(void) { return m_eEntryType; }

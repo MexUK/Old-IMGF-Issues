@@ -9,7 +9,7 @@ class CICOFormat : public CBMPFormat
 public:
 	CICOFormat(void);
 	
-	void							unload(void) {};
+	void							unload(void) {}
 	
 private:
 	void							unserialize(void);

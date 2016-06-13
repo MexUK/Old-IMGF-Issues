@@ -9,9 +9,14 @@ CEventBoundFunction*						CEventManager::bindEvent(uint32 uiEventId, void(*fEven
 	return bindEvent(EVENT_TYPE_GENERAL, 0, uiEventId, fEventFunction, pBoundArgument, iZIndex);
 }
 
-CEventBoundFunction*						CEventManager::bindEvent(uint32 uiEventId, void(*fEventFunction)(void*,void*), void *pBoundArgument, int32 iZIndex)
+CEventBoundFunction*						CEventManager::bindEvent(uint32 uiEventId, void(*fEventFunction)(void*, void*), void *pBoundArgument, int32 iZIndex)
 {
 	return bindEvent(EVENT_TYPE_GENERAL, 0, uiEventId, fEventFunction, pBoundArgument, iZIndex);
+}
+
+CEventBoundFunction*						CEventManager::bindEvent(uint32 uiEventId, CInputEventCallbacks *pObject, void *pBoundArgument, int32 iZIndex)
+{
+	return bindEvent(EVENT_TYPE_GENERAL, 0, uiEventId, pObject, pBoundArgument, iZIndex);
 }
 
 bool										CEventManager::doesEventExist(uint32 uiEventId)
@@ -44,6 +49,15 @@ CEventBoundFunction*						CEventManager::bindEvent(uint32 uiEventTypeId, uint32 
 	CEventBoundFunction *pEventBoundFunction = createEventBoundFunctionObject(uiEventTypeId, uiEventTypeIndex, uiEventId, pBoundArgument, iZIndex);
 	pEventBoundFunction->setEventFunctionType(EVENT_FUNCTION_TYPE_2_ARGS);
 	pEventBoundFunction->setFunction(fEventFunction);
+	m_umapEventFunctions[uiEventTypeId][uiEventTypeIndex][uiEventId].insert(m_umapEventFunctions[uiEventTypeId][uiEventTypeIndex][uiEventId].begin() + getInsertionIndexForEventBoundFunction(pEventBoundFunction), pEventBoundFunction);
+	return pEventBoundFunction;
+}
+
+CEventBoundFunction*						CEventManager::bindEvent(uint32 uiEventTypeId, uint32 uiEventTypeIndex, uint32 uiEventId, CInputEventCallbacks *pObject, void *pBoundArgument, int32 iZIndex)
+{
+	CEventBoundFunction *pEventBoundFunction = createEventBoundFunctionObject(uiEventTypeId, uiEventTypeIndex, uiEventId, pBoundArgument, iZIndex);
+	pEventBoundFunction->setEventFunctionType(EVENT_FUNCTION_TYPE_OBJECT_CALLBACK);
+	pEventBoundFunction->setCallbackObject(pObject);
 	m_umapEventFunctions[uiEventTypeId][uiEventTypeIndex][uiEventId].insert(m_umapEventFunctions[uiEventTypeId][uiEventTypeIndex][uiEventId].begin() + getInsertionIndexForEventBoundFunction(pEventBoundFunction), pEventBoundFunction);
 	return pEventBoundFunction;
 }
@@ -91,7 +105,7 @@ bool										CEventManager::triggerEvent(uint32 uiEventTypeId, uint32 uiEventTy
 	while (uiEventFunctionIndex < m_umapEventFunctions[uiEventTypeId][uiEventTypeIndex][uiEventId].size())
 	{
 		CEventBoundFunction *pEventBoundFunction = m_umapEventFunctions[uiEventTypeId][uiEventTypeIndex][uiEventId][uiEventFunctionIndex];
-		pEventBoundFunction->onEventTriggered(pTriggerArgument);
+		pEventBoundFunction->onEventTriggered(uiEventId, pTriggerArgument);
 		uiEventFunctionIndex++;
 	}
 	bool bDefaultActionPrevented = isDefaultActionPrevented();
@@ -130,10 +144,4 @@ uint32										CEventManager::getInsertionIndexForEventBoundFunction(CEventBoun
 		uiEventBoundFunctionInsertionIndex++;
 	}
 	return uiEventBoundFunctionInsertionIndex;
-}
-
-// cursor
-CVector2i32									CEventManager::getCursorMovedSize(CVector2i32& vecCursorPositionNow)
-{
-	return vecCursorPositionNow - getLastCursorPosition();
 }

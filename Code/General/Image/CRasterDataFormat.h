@@ -7,7 +7,7 @@
 class CRasterDataFormat
 {
 public:
-	void						unload(void) {};
+	void						unload(void) {}
 
 	void						setRasterDataFormatId(eRasterDataFormat eRasterDataFormatValue) { m_eRasterDataFormatId = eRasterDataFormatValue; }
 	eRasterDataFormat			getRasterDataFormatId(void) { return m_eRasterDataFormatId; }

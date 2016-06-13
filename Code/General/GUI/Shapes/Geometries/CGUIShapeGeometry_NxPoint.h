@@ -12,6 +12,9 @@ class CGUIShapeGeometry_NxPoint : public CGUIShape
 public:
 	CGUIShapeGeometry_NxPoint(eGUIShape eShapeType);
 
+	void							moveItem(CVector2i32& vecPositionChange);
+	void							resizeItemViaOffsets(CVector2i32& vecItemSizeChange) {}
+
 	void							setPoints(std::vector<CVector2i32>& vecPoints) { m_vecPoints = vecPoints; }
 	std::vector<CVector2i32>&		getPoints(void) { return m_vecPoints; }
 	

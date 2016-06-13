@@ -7,7 +7,7 @@
 class CSession
 {
 public:
-	void							unload(void) {};
+	void							unload(void) {}
 
 	std::string						serialize(void);
 	

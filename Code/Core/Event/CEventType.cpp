@@ -17,6 +17,11 @@ CEventBoundFunction*						CEventType::bindEvent(uint32 uiEventId, void(*pFunctio
 	return CEventManager::getInstance()->bindEvent(m_uiEventTypeId, uiEventTypeIndex, uiEventId, pFunction, pBoundArgument, iZOrder);
 }
 
+CEventBoundFunction*						CEventType::bindEvent(uint32 uiEventId, CInputEventCallbacks *pObject, void *pBoundArgument, int32 iZOrder, uint32 uiEventTypeIndex)
+{
+	return CEventManager::getInstance()->bindEvent(m_uiEventTypeId, uiEventTypeIndex, uiEventId, pObject, pBoundArgument, iZOrder);
+}
+
 void										CEventType::unbindEvent(CEventBoundFunction *pEventBoundFunction)
 {
 	CEventManager::getInstance()->unbindEvent(pEventBoundFunction);

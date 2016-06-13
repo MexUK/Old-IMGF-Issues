@@ -49,7 +49,7 @@ void									CScrollControl::onMouseMove(CVector2i32& vecCursorPosition)
 	{
 		if (getWindow()->triggerEvent(EVENT_onMoveSeekBar, this))
 		{
-			increaseProgress(getProgressIncreaseForLength(CEventManager::getInstance()->getCursorMovedSize(vecCursorPosition).m_y));
+			increaseProgress(getProgressIncreaseForLength(CEventManager::getInstance()->getScreenCursorMoveDifference().m_y));
 			getWindow()->setMarkedToRedraw(true);
 		}
 	}

@@ -1,4 +1,5 @@
 #include "CMathUtility.h"
+#include <algorithm>
 
 using namespace std;
 
@@ -246,6 +247,33 @@ bool						CMathUtility::isPointInRectangle(CVector2i32& vecPoint, CVector2i32& v
 		&& vecPoint.m_y <= (vecPosition.m_y + vecSize.m_y);
 }
 
+bool						CMathUtility::isPointInEllipse(CVector2i32& vecPoint, CVector2i32& vecPosition, CVector2ui32& vecSize)
+{
+	int32 iNumberX1 = vecPoint.m_x - vecPosition.m_x;
+	int32 iNumberY1 = vecPoint.m_y - vecPosition.m_y;
+	int32 iNumberX2 = (iNumberX1 * iNumberX1) / (vecSize.m_x * vecSize.m_x);
+	int32 iNumberY2 = (iNumberY1 * iNumberY1) / (vecSize.m_y * vecSize.m_y);
+	return (iNumberX2 + iNumberY2) <= 1;
+}
+
+bool						CMathUtility::isPointOnLine(CVector2i32& vecPoint, CVector2i32& vecLinePoint1, CVector2i32& vecLinePoint2)
+{
+	return (vecPoint.m_x - vecLinePoint1.m_x) / (vecLinePoint2.m_x - vecLinePoint1.m_x) == (vecPoint.m_y - vecLinePoint1.m_y) / (vecLinePoint2.m_y - vecLinePoint1.m_y);
+}
+
+bool						CMathUtility::isPointInPolygon(CVector2i32& vecPoint, vector<CVector2i32>& vecPolygonPoints)
+{
+	// http://www.ecse.rpi.edu/Homepages/wrf/Research/Short_Notes/pnpoly.html
+	uint32 i, j;
+	bool c = false;
+	for (i = 0, j = vecPolygonPoints.size() - 1; i < vecPolygonPoints.size(); j = i++) {
+		if (((vecPolygonPoints[i].m_y>vecPoint.m_y) != (vecPolygonPoints[j].m_y>vecPoint.m_y)) &&
+			(vecPoint.m_x < (vecPolygonPoints[j].m_x - vecPolygonPoints[i].m_x) * (vecPoint.m_y - vecPolygonPoints[i].m_y) / (vecPolygonPoints[j].m_y - vecPolygonPoints[i].m_y) + vecPolygonPoints[i].m_x))
+			c = !c;
+	}
+	return c;
+}
+
 CVector4ui32				CMathUtility::getRectangleFromCircle(CVector2i32 vecCenterPosition, float32 fRadius)
 {
 	CVector4ui32 vecRect;
@@ -288,6 +316,24 @@ uint32						CMathUtility::getRectangleResizeEdges(CVector2i32& vecPoint, CVector
 		bIsNearTopEdge = vecPoint.m_y < uiEdgeDistance,
 		bIsNearRightEdge = vecPoint.m_x >= (vecSize.m_x - uiEdgeDistance),
 		bIsNearBottomEdge = vecPoint.m_y >= (vecSize.m_y - uiEdgeDistance);
+
+	if		(bIsNearLeftEdge)	uiResult |= 1;
+	else if (bIsNearRightEdge)	uiResult |= 4;
+	if		(bIsNearTopEdge)	uiResult |= 2;
+	else if (bIsNearBottomEdge)	uiResult |= 8;
+
+	return uiResult;
+}
+
+uint32						CMathUtility::getRectangleResizeEdges(CVector2i32& vecPoint, CVector2i32& vecPosition, CVector2ui32& vecSize, uint32 uiEdgeDistance)
+{
+	uint32
+		uiResult = 0;
+	bool
+		bIsNearLeftEdge = vecPoint.m_x < (vecPosition.m_x + uiEdgeDistance),
+		bIsNearTopEdge = vecPoint.m_y < (vecPosition.m_y + uiEdgeDistance),
+		bIsNearRightEdge = vecPoint.m_x >= ((vecPosition.m_x + vecSize.m_x) - uiEdgeDistance),
+		bIsNearBottomEdge = vecPoint.m_y >= ((vecPosition.m_y + vecSize.m_y) - uiEdgeDistance);
 
 	if		(bIsNearLeftEdge)	uiResult |= 1;
 	else if (bIsNearRightEdge)	uiResult |= 4;
@@ -346,4 +392,78 @@ CVector2i32					CMathUtility::getPositionInFrontOfPosition(CVector2i32& vecPosit
 int32						CMathUtility::divide(int32 iInt1, int32 iInt2)
 {
 	return (float32)(((float32) iInt1) / ((float32) iInt2));
+}
+
+CVector2i32					CMathUtility::getBoundingRectanglePositionForLine(CVector2i32& vecPoint1, CVector2i32& vecPoint2)
+{
+	return CVector2i32(
+		min(vecPoint1.m_x, vecPoint2.m_x),
+		min(vecPoint1.m_y, vecPoint2.m_y)
+	);
+}
+
+CVector2ui32				CMathUtility::getBoundingRectangleSizeForLine(CVector2i32& vecPoint1, CVector2i32& vecPoint2)
+{
+	CVector2i32 vecMinPoint(
+		min(vecPoint1.m_x, vecPoint2.m_x),
+		min(vecPoint1.m_y, vecPoint2.m_y)
+	);
+	CVector2i32 vecMaxPoint(
+		max(vecPoint1.m_x, vecPoint2.m_x),
+		max(vecPoint1.m_y, vecPoint2.m_y)
+	);
+	return CVector2ui32(
+		vecMaxPoint.m_x - vecMinPoint.m_x,
+		vecMaxPoint.m_y - vecMinPoint.m_y
+	);
+}
+
+CVector2i32					CMathUtility::getBoundingRectanglePositionForPolygon(vector<CVector2i32>& vecPoints)
+{
+	CVector2i32 vecMinPoint = CVector2i32(vecPoints[0]);
+	for (CVector2i32& vecPoint : vecPoints)
+	{
+		if (vecPoint.m_x < vecMinPoint.m_x)
+		{
+			vecMinPoint.m_x = vecPoint.m_x;
+		}
+		if (vecPoint.m_y < vecMinPoint.m_y)
+		{
+			vecMinPoint.m_y = vecPoint.m_y;
+		}
+	}
+	return vecMinPoint;
+}
+
+CVector2ui32				CMathUtility::getBoundingRectangleSizeForPolygon(vector<CVector2i32>& vecPoints)
+{
+	// todo
+	// http://gamedev.stackexchange.com/questions/70077/how-to-calculate-a-bounding-rectangle-of-a-polygon
+	return CVector2ui32(100, 100);
+}
+
+void						CMathUtility::getResizePositionAndSizeChange(CVector2i32& vecCursorChange, uint32 uiResizeEdges, CVector2i32& vecItemPositionChange, CVector2i32& vecItemSizeChange)
+{
+	vecItemPositionChange.m_x = 0;
+	vecItemPositionChange.m_y = 0;
+	vecItemSizeChange.m_x = 0;
+	vecItemSizeChange.m_y = 0;
+
+	if (uiResizeEdges & 1) // left edge
+	{
+		vecItemPositionChange.m_x += vecCursorChange.m_x;
+	}
+	else if (uiResizeEdges & 4) // right edge
+	{
+		vecItemSizeChange.m_x += vecCursorChange.m_x;
+	}
+
+	if (uiResizeEdges & 2) // top edge
+	{
+		vecItemPositionChange.m_y += vecCursorChange.m_y;
+	}
+	else if (uiResizeEdges & 8) // bottom edge
+	{
+		vecItemSizeChange.m_y += vecCursorChange.m_y;
+	}
 }

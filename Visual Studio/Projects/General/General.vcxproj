@@ -109,6 +109,8 @@
     <ClCompile Include="..\..\..\Code\General\GUI\Control\CGUIControl.cpp" />
     <ClCompile Include="..\..\..\Code\General\GUI\GraphicsLibraries\CGraphicsLibrary_GDIPlus.cpp" />
     <ClCompile Include="..\..\..\Code\General\GUI\GraphicsLibrary\CGraphicsLibrary.cpp" />
+    <ClCompile Include="..\..\..\Code\General\GUI\Interaction\CPlaceableRectangle.cpp" />
+    <ClCompile Include="..\..\..\Code\General\GUI\Item\CGUIItem.cpp" />
     <ClCompile Include="..\..\..\Code\General\GUI\Layer\CGUILayer.cpp" />
     <ClCompile Include="..\..\..\Code\General\GUI\Shapes\CCircleShape.cpp" />
     <ClCompile Include="..\..\..\Code\General\GUI\Shapes\CEllipseShape.cpp" />
@@ -178,6 +180,7 @@
     <ClInclude Include="..\..\..\Code\General\GUI\Control\eGUIControl.h" />
     <ClInclude Include="..\..\..\Code\General\GUI\GraphicsLibraries\CGraphicsLibrary_GDIPlus.h" />
     <ClInclude Include="..\..\..\Code\General\GUI\GraphicsLibrary\CGraphicsLibrary.h" />
+    <ClInclude Include="..\..\..\Code\General\GUI\Interaction\CPlaceableRectangle.h" />
     <ClInclude Include="..\..\..\Code\General\GUI\Item\CGUIItem.h" />
     <ClInclude Include="..\..\..\Code\General\GUI\Layer\CGUILayer.h" />
     <ClInclude Include="..\..\..\Code\General\GUI\Shapes\CCircleShape.h" />

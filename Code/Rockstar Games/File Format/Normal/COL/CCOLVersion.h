@@ -7,7 +7,7 @@
 class CCOLVersion
 {
 public:
-	void				unload(void) {};
+	void				unload(void) {}
 
 	void				setVersionId(eCOLVersion eVersionId) { m_eVersionId = eVersionId; }
 	eCOLVersion			getVersionId(void) { return m_eVersionId; }

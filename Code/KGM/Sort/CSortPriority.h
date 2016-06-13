@@ -19,7 +19,7 @@ public:
 		m_bEnabled(false)
 	{};
 
-	void						unload(void) {};
+	void						unload(void) {}
 
 	void						setEnabled(bool bEnabled) { m_bEnabled = bEnabled; }
 	bool						isEnabled(void) { return m_bEnabled; }

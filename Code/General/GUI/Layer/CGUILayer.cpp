@@ -52,6 +52,27 @@ void									CGUILayer::unbindAllEvents(void)
 	}
 }
 
+// item fetching
+CGUIItem*			CGUILayer::getItemByPoint(CVector2i32& vecPoint)
+{
+	uint32 uiOuterSpacing = 1;
+	for (CGUIShape *pShape : getShapes().getEntries())
+	{
+		if (pShape->isPointInBoundingRectangle(vecPoint, uiOuterSpacing))
+		{
+			return pShape;
+		}
+	}
+	for (CGUIControl *pControl : getControls().getEntries())
+	{
+		if (pControl->isPointInBoundingRectangle(vecPoint, uiOuterSpacing))
+		{
+			return pControl;
+		}
+	}
+	return nullptr;
+}
+
 // add control - derived
 CGUIControl*		CGUILayer::addControl(eGUIControl eControlId, CGUIStyles *pStyles)
 {

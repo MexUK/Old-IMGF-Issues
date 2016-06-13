@@ -99,6 +99,7 @@
     <ClInclude Include="..\..\..\Code\Core\Event\CEventBoundFunction.h" />
     <ClInclude Include="..\..\..\Code\Core\Event\CEventManager.h" />
     <ClInclude Include="..\..\..\Code\Core\Event\CEventType.h" />
+    <ClInclude Include="..\..\..\Code\Core\Event\CInputEventCallbacks.h" />
     <ClInclude Include="..\..\..\Code\Core\Event\eEvent.h" />
     <ClInclude Include="..\..\..\Code\Core\Event\eEventFunctionType.h" />
     <ClInclude Include="..\..\..\Code\Core\Event\eEventType.h" />

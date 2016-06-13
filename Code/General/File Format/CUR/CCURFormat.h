@@ -9,7 +9,7 @@ class CCURFormat : public CBMPFormat
 public:
 	CCURFormat(void);
 	
-	void							unload(void) {};
+	void							unload(void) {}
 	
 private:
 	void							unserialize(void);

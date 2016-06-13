@@ -5,7 +5,6 @@
 #include "Math/CMathUtility.h"
 
 CGUIControl::CGUIControl(eGUIControl eControlType) :
-	m_pLayer(nullptr),
 	m_eControlType(eControlType),
 	m_uiControlId(0),
 	m_bPointMarkedAsInControl(false),
@@ -22,14 +21,8 @@ CGUIControl::~CGUIControl(void)
 	delete m_pScrolls;
 }
 
-// window
-CWindow*								CGUIControl::getWindow(void)
-{
-	return getLayer()->getWindow();
-}
-
 // point testing
-bool									CGUIControl::isPointInControl(CVector2i32& vecPoint)
+bool									CGUIControl::isPointInItem(CVector2i32& vecPoint)
 {
 	return CMathUtility::isPointInRectangle(vecPoint, getPosition(), getSize());
 }

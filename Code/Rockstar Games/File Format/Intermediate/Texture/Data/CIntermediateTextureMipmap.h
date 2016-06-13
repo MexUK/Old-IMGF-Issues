@@ -14,7 +14,7 @@ public:
 		m_vecSize.m_y = 0;
 	};
 
-	void						unload(void) {};
+	void						unload(void) {}
 
 	void						setSize(CVector2ui16& vecSize) { m_vecSize = vecSize; }
 	CVector2ui16&				getSize(void) { return m_vecSize; }
