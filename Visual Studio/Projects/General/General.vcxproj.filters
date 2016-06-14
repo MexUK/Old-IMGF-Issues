@@ -306,7 +306,7 @@
     <ClCompile Include="..\..\..\Code\General\GUI\Item\CGUIItem.cpp">
       <Filter>Source Files\GUI\Item</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\..\Code\General\GUI\Interaction\CPlaceableRectangle.cpp">
+    <ClCompile Include="..\..\..\Code\General\GUI\Interaction\CRectangleItemPlacement.cpp">
       <Filter>Source Files\GUI\Interaction</Filter>
     </ClCompile>
   </ItemGroup>
@@ -497,19 +497,10 @@
     <ClInclude Include="..\..\..\Code\General\GUI\Shapes\CCircleShape.h">
       <Filter>Header Files\GUI\Shapes</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\..\Code\General\GUI\Shapes\Geometries\CGUIShapeGeometry_3xPoint.h">
-      <Filter>Header Files\GUI\Shapes\Geometries</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\..\Code\General\GUI\Shapes\Geometries\CGUIShapeGeometry_NxPoint.h">
-      <Filter>Header Files\GUI\Shapes\Geometries</Filter>
-    </ClInclude>
     <ClInclude Include="..\..\..\Code\General\GUI\Shapes\Geometries\CGUIShapeGeometry_1xPoint_1x1DSize.h">
       <Filter>Header Files\GUI\Shapes\Geometries</Filter>
     </ClInclude>
     <ClInclude Include="..\..\..\Code\General\GUI\Shapes\Geometries\CGUIShapeGeometry_1xPoint_1x2DSize.h">
-      <Filter>Header Files\GUI\Shapes\Geometries</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\..\Code\General\GUI\Shapes\Geometries\CGUIShapeGeometry_2xPoint.h">
       <Filter>Header Files\GUI\Shapes\Geometries</Filter>
     </ClInclude>
     <ClInclude Include="..\..\..\Code\General\GUI\Shape\Geometry\eGUIShapeGeometry.h">
@@ -530,7 +521,16 @@
     <ClInclude Include="..\..\..\Code\General\GUI\Layer\CGUILayer.h">
       <Filter>Header Files\GUI\Layer</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\..\Code\General\GUI\Interaction\CPlaceableRectangle.h">
+    <ClInclude Include="..\..\..\Code\General\GUI\Shapes\Geometries\CGUIShapeGeometry_2xPoints.h">
+      <Filter>Header Files\GUI\Shapes\Geometries</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\Code\General\GUI\Shapes\Geometries\CGUIShapeGeometry_3xPoints.h">
+      <Filter>Header Files\GUI\Shapes\Geometries</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\Code\General\GUI\Shapes\Geometries\CGUIShapeGeometry_NxPoints.h">
+      <Filter>Header Files\GUI\Shapes\Geometries</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\Code\General\GUI\Interaction\CRectangleItemPlacement.h">
       <Filter>Header Files\GUI\Interaction</Filter>
     </ClInclude>
   </ItemGroup>

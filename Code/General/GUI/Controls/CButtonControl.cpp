@@ -11,6 +11,11 @@ auto pOnMouseDown_Button	= [](void *pControl, void *pTriggerArg) { ((CButtonCont
 auto pOnMouseUp_Button		= [](void *pControl, void *pTriggerArg) { ((CButtonControl*) pControl)->onMouseUp(*(CVector2i32*) pTriggerArg); };
 auto pOnRender_Button		= [](void *pControl) { ((CButtonControl*) pControl)->render(); };
 
+CButtonControl::CButtonControl(void) :
+	CGUIControl(GUI_CONTROL_BUTTON)
+{
+}
+
 // event binding
 void					CButtonControl::bindEvents(void)
 {

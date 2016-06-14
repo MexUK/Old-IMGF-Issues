@@ -8,11 +8,7 @@
 class CCheckControl : public CGUIControl, public CGUIControlComponent_Text
 {
 public:
-	CCheckControl(void) :
-		CGUIControl(GUI_CONTROL_CHECK),
-		m_uiIconRightMargin(5),
-		m_bMarked(false)
-	{};
+	CCheckControl(void);
 
 	void									bindEvents(void);
 

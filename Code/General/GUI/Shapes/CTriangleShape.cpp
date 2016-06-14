@@ -9,7 +9,7 @@ using namespace std;
 auto pOnRender_Triangle		= [](void *pShape, void *pTriggerArg) { ((CTriangleShape*) pShape)->render(); };
 
 CTriangleShape::CTriangleShape(void) :
-	CGUIShapeGeometry_3xPoint(GUI_SHAPE_TRIANGLE)
+	CGUIShapeGeometry_3xPoints(GUI_SHAPE_TRIANGLE)
 {
 }
 

@@ -11,6 +11,17 @@ auto pOnMouseUp_Scroll		= [](void *pControl, void *pTriggerArg) { ((CScrollContr
 auto pOnMouseMove_Scroll	= [](void *pControl, void *pTriggerArg) { ((CScrollControl*) pControl)->onMouseMove(*(CVector2i32*) pTriggerArg); };
 auto pOnRender_Scroll		= [](void *pControl) { ((CScrollControl*) pControl)->render(); };
 
+CScrollControl::CScrollControl(void) :
+	m_eScrollOrientation(_2D_MIRRORED_ORIENTATION_VERTICAL),
+	CGUIControl(GUI_CONTROL_SCROLL),
+	m_uiSeekBarLength(50),
+	m_uiSeekBarFillColour(0x008800FF),
+	m_uiSeekBarLineColour(0x000000FF),
+	m_fProgress(0.0f),
+	m_bSeekBarIsMoving(false)
+{
+}
+
 // event binding
 void									CScrollControl::bindEvents(void)
 {

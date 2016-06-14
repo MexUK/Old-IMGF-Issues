@@ -1,15 +1,15 @@
-#ifndef CGUIShapeGeometry_2xPoint_H
-#define CGUIShapeGeometry_2xPoint_H
+#ifndef CGUIShapeGeometry_2xPoints_H
+#define CGUIShapeGeometry_2xPoints_H
 
 #include "Types.h"
 #include "CVector2i32.h"
 #include "GUI/Shape/eGUIShape.h"
 #include "GUI/Shape/CGUIShape.h"
 
-class CGUIShapeGeometry_2xPoint : public CGUIShape
+class CGUIShapeGeometry_2xPoints : public CGUIShape
 {
 public:
-	CGUIShapeGeometry_2xPoint(eGUIShape eShapeType);
+	CGUIShapeGeometry_2xPoints(eGUIShape eShapeType);
 
 	void							moveItem(CVector2i32& vecPositionChange);
 	void							resizeItemViaOffsets(CVector2i32& vecItemSizeChange) {}

@@ -6,6 +6,11 @@
 
 auto pOnRender_Text			= [](void *pControl) { ((CTextControl*) pControl)->render(); };
 
+CTextControl::CTextControl(void) :
+	CGUIControl(GUI_CONTROL_TEXT)
+{
+}
+
 // event binding
 void					CTextControl::bindEvents(void)
 {

@@ -9,9 +9,7 @@
 class CTextControl : public CGUIControl, public CGUIControlComponent_Text
 {
 public:
-	CTextControl(void) :
-		CGUIControl(GUI_CONTROL_TEXT)
-	{};
+	CTextControl(void);
 
 	void									bindEvents(void);
 

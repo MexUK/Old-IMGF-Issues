@@ -109,7 +109,7 @@
     <ClCompile Include="..\..\..\Code\General\GUI\Control\CGUIControl.cpp" />
     <ClCompile Include="..\..\..\Code\General\GUI\GraphicsLibraries\CGraphicsLibrary_GDIPlus.cpp" />
     <ClCompile Include="..\..\..\Code\General\GUI\GraphicsLibrary\CGraphicsLibrary.cpp" />
-    <ClCompile Include="..\..\..\Code\General\GUI\Interaction\CPlaceableRectangle.cpp" />
+    <ClCompile Include="..\..\..\Code\General\GUI\Interaction\CRectangleItemPlacement.cpp" />
     <ClCompile Include="..\..\..\Code\General\GUI\Item\CGUIItem.cpp" />
     <ClCompile Include="..\..\..\Code\General\GUI\Layer\CGUILayer.cpp" />
     <ClCompile Include="..\..\..\Code\General\GUI\Shapes\CCircleShape.cpp" />
@@ -180,7 +180,7 @@
     <ClInclude Include="..\..\..\Code\General\GUI\Control\eGUIControl.h" />
     <ClInclude Include="..\..\..\Code\General\GUI\GraphicsLibraries\CGraphicsLibrary_GDIPlus.h" />
     <ClInclude Include="..\..\..\Code\General\GUI\GraphicsLibrary\CGraphicsLibrary.h" />
-    <ClInclude Include="..\..\..\Code\General\GUI\Interaction\CPlaceableRectangle.h" />
+    <ClInclude Include="..\..\..\Code\General\GUI\Interaction\CRectangleItemPlacement.h" />
     <ClInclude Include="..\..\..\Code\General\GUI\Item\CGUIItem.h" />
     <ClInclude Include="..\..\..\Code\General\GUI\Layer\CGUILayer.h" />
     <ClInclude Include="..\..\..\Code\General\GUI\Shapes\CCircleShape.h" />
@@ -192,9 +192,9 @@
     <ClInclude Include="..\..\..\Code\General\GUI\Shapes\CTriangleShape.h" />
     <ClInclude Include="..\..\..\Code\General\GUI\Shapes\Geometries\CGUIShapeGeometry_1xPoint_1x1DSize.h" />
     <ClInclude Include="..\..\..\Code\General\GUI\Shapes\Geometries\CGUIShapeGeometry_1xPoint_1x2DSize.h" />
-    <ClInclude Include="..\..\..\Code\General\GUI\Shapes\Geometries\CGUIShapeGeometry_2xPoint.h" />
-    <ClInclude Include="..\..\..\Code\General\GUI\Shapes\Geometries\CGUIShapeGeometry_3xPoint.h" />
-    <ClInclude Include="..\..\..\Code\General\GUI\Shapes\Geometries\CGUIShapeGeometry_NxPoint.h" />
+    <ClInclude Include="..\..\..\Code\General\GUI\Shapes\Geometries\CGUIShapeGeometry_2xPoints.h" />
+    <ClInclude Include="..\..\..\Code\General\GUI\Shapes\Geometries\CGUIShapeGeometry_3xPoints.h" />
+    <ClInclude Include="..\..\..\Code\General\GUI\Shapes\Geometries\CGUIShapeGeometry_NxPoints.h" />
     <ClInclude Include="..\..\..\Code\General\GUI\Shape\CGUIShape.h" />
     <ClInclude Include="..\..\..\Code\General\GUI\Shape\eGUIShape.h" />
     <ClInclude Include="..\..\..\Code\General\GUI\Shape\Geometry\eGUIShapeGeometry.h" />

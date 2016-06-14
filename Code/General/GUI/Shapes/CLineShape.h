@@ -4,9 +4,9 @@
 #include "CVector2i32.h"
 #include "CVector2ui32.h"
 #include "GUI/Shape/eGUIShape.h"
-#include "GUI/Shapes/Geometries/CGUIShapeGeometry_2xPoint.h"
+#include "GUI/Shapes/Geometries/CGUIShapeGeometry_2xPoints.h"
 
-class CLineShape : public CGUIShapeGeometry_2xPoint
+class CLineShape : public CGUIShapeGeometry_2xPoints
 {
 public:
 	CLineShape(void);

@@ -9,13 +9,7 @@
 class CProgressControl : public CGUIControl, public CGUIControlComponent_Text
 {
 public:
-	CProgressControl(void) :
-		CGUIControl(GUI_CONTROL_PROGRESS),
-		m_uiMaxTicks(0),
-		m_uiCurrentTicks(0),
-		m_bCompletionPercentageShown(false),
-		m_bTextShown(false)
-	{};
+	CProgressControl(void);
 
 	void									bindEvents(void);
 

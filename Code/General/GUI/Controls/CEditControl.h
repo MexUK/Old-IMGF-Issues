@@ -14,21 +14,8 @@
 class CEditControl : public CGUIControl, public CGUIControlComponent_Text
 {
 public:
-	CEditControl(void) :
-		CGUIControl(GUI_CONTROL_EDIT),
-		m_bHasHorizontalScrollBar(false),
-		m_bHasVerticalScrollBar(false),
-		m_bReadOnly(false)
-	{
-		m_vecTextLines.push_back(std::string()); // always have atleast 1 line for optimization (skips checks like: if m_vecTextLines.size() == 0)
-		setCaretPosition(CVector2ui32(0, 0));
-		getScrolls()->addEntry(new CScrollControl);
-		getScrolls()->addEntry(new CScrollControl);
-	}
-	~CEditControl(void)
-	{
-		getScrolls()->removeAllEntries();
-	}
+	CEditControl(void);
+	~CEditControl(void);
 
 	void									bindEvents(void);
 

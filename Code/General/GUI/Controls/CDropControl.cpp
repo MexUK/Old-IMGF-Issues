@@ -11,6 +11,15 @@ using namespace std;
 auto pOnMouseUp_Drop		= [](void *pControl, void *pTriggerArg) { ((CDropControl*) pControl)->onMouseUp(*(CVector2i32*) pTriggerArg); };
 auto pOnRender_Drop			= [](void *pControl) { ((CDropControl*) pControl)->render(); };
 
+CDropControl::CDropControl(void) :
+	CGUIControl(GUI_CONTROL_DROP),
+	m_uiSelectedIndex(-1),
+	m_uiListWidth(100),
+	m_uiListRowHeight(30),
+	m_bSelectionListOpen(false)
+{
+}
+
 // event binding
 void				CDropControl::bindEvents(void)
 {

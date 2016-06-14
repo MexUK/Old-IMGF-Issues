@@ -1,15 +1,15 @@
-#ifndef CGUIShapeGeometry_3xPoint_H
-#define CGUIShapeGeometry_3xPoint_H
+#ifndef CGUIShapeGeometry_3xPoints_H
+#define CGUIShapeGeometry_3xPoints_H
 
 #include "Types.h"
 #include "CVector2i32.h"
 #include "GUI/Shape/eGUIShape.h"
 #include "GUI/Shape/CGUIShape.h"
 
-class CGUIShapeGeometry_3xPoint : public CGUIShape
+class CGUIShapeGeometry_3xPoints : public CGUIShape
 {
 public:
-	CGUIShapeGeometry_3xPoint(eGUIShape eShapeType);
+	CGUIShapeGeometry_3xPoints(eGUIShape eShapeType);
 
 	void							moveItem(CVector2i32& vecPositionChange);
 	void							resizeItemViaOffsets(CVector2i32& vecItemSizeChange) {}

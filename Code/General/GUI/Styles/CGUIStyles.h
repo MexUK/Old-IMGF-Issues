@@ -41,6 +41,8 @@ public:
 	std::string				getTextAlignY(void);
 	CVector2i32				getMinInnerSpacing(void);
 	CVector2i32				getMaxInnerSpacing(void);
+	uint32					getInnerSpacingTotalX(void);
+	uint32					getInnerSpacingTotalY(void);
 
 	void					setStyleNameOverwrite(std::string strStyleName, std::string strNewStyleName);
 	void					restoreStyleNameOverwrites(void);

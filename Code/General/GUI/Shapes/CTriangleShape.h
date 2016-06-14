@@ -4,9 +4,9 @@
 #include "CVector2i32.h"
 #include "CVector2ui32.h"
 #include "GUI/Shape/eGUIShape.h"
-#include "GUI/Shapes/Geometries/CGUIShapeGeometry_3xPoint.h"
+#include "GUI/Shapes/Geometries/CGUIShapeGeometry_3xPoints.h"
 
-class CTriangleShape : public CGUIShapeGeometry_3xPoint
+class CTriangleShape : public CGUIShapeGeometry_3xPoints
 {
 public:
 	CTriangleShape(void);

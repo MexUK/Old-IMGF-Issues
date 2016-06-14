@@ -11,9 +11,7 @@
 class CMenuControl : public CGUIControl, public CGUIControlComponent_Text, public CVectorPool<CMenuControlEntry*>
 {
 public:
-	CMenuControl(void) :
-		CGUIControl(GUI_CONTROL_MENU)
-	{};
+	CMenuControl(void);
 
 	void									bindEvents(void);
 

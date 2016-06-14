@@ -1,6 +1,6 @@
-#include "CGUIShapeGeometry_3xPoint.h"
+#include "CGUIShapeGeometry_3xPoints.h"
 
-CGUIShapeGeometry_3xPoint::CGUIShapeGeometry_3xPoint(eGUIShape eShapeType) :
+CGUIShapeGeometry_3xPoints::CGUIShapeGeometry_3xPoints(eGUIShape eShapeType) :
 	CGUIShape(GUI_SHAPE_GEOMETRY_3_POINTS, eShapeType)
 {
 	m_vecPoint1.m_x = 0;
@@ -12,7 +12,7 @@ CGUIShapeGeometry_3xPoint::CGUIShapeGeometry_3xPoint(eGUIShape eShapeType) :
 }
 
 // position
-void							CGUIShapeGeometry_3xPoint::moveItem(CVector2i32& vecPositionChange)
+void							CGUIShapeGeometry_3xPoints::moveItem(CVector2i32& vecPositionChange)
 {
 	m_vecPoint1 += vecPositionChange;
 	m_vecPoint2 += vecPositionChange;

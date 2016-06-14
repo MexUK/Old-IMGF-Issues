@@ -1,12 +1,12 @@
-#include "CGUIShapeGeometry_NxPoint.h"
+#include "CGUIShapeGeometry_NxPoints.h"
 
-CGUIShapeGeometry_NxPoint::CGUIShapeGeometry_NxPoint(eGUIShape eShapeType) :
+CGUIShapeGeometry_NxPoints::CGUIShapeGeometry_NxPoints(eGUIShape eShapeType) :
 	CGUIShape(GUI_SHAPE_GEOMETRY_N_POINTS, eShapeType)
 {
 }
 
 // position
-void							CGUIShapeGeometry_NxPoint::moveItem(CVector2i32& vecPositionChange)
+void							CGUIShapeGeometry_NxPoints::moveItem(CVector2i32& vecPositionChange)
 {
 	for (CVector2i32& vecPoint : m_vecPoints)
 	{

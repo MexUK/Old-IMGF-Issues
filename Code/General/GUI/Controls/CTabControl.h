@@ -32,8 +32,12 @@ public:
 	void									setActiveTab(CTabControlEntry* pActiveTab) { m_pActiveTab = pActiveTab; }
 	CTabControlEntry*						getActiveTab(void) { return m_pActiveTab; }
 
+	void									setActiveTabHeightDifference(uint32 uiActiveTabHeightDifference) { m_uiActiveTabHeightDifference = uiActiveTabHeightDifference; }
+	uint32									getActiveTabHeightDifference(void) { return m_uiActiveTabHeightDifference; }
+
 private:
-	CTabControlEntry*						m_pActiveTab;
+	CTabControlEntry*										m_pActiveTab;
+	uint32													m_uiActiveTabHeightDifference;
 	std::unordered_map<CTabControlEntry*, CGUILayer*>		m_umapTabLayers;
 };
 

@@ -1,6 +1,6 @@
-#include "CGUIShapeGeometry_2xPoint.h"
+#include "CGUIShapeGeometry_2xPoints.h"
 
-CGUIShapeGeometry_2xPoint::CGUIShapeGeometry_2xPoint(eGUIShape eShapeType) :
+CGUIShapeGeometry_2xPoints::CGUIShapeGeometry_2xPoints(eGUIShape eShapeType) :
 	CGUIShape(GUI_SHAPE_GEOMETRY_2_POINTS, eShapeType)
 {
 	m_vecPoint1.m_x = 0;
@@ -10,7 +10,7 @@ CGUIShapeGeometry_2xPoint::CGUIShapeGeometry_2xPoint(eGUIShape eShapeType) :
 }
 
 // position
-void							CGUIShapeGeometry_2xPoint::moveItem(CVector2i32& vecPositionChange)
+void							CGUIShapeGeometry_2xPoints::moveItem(CVector2i32& vecPositionChange)
 {
 	m_vecPoint1 += vecPositionChange;
 	m_vecPoint2 += vecPositionChange;

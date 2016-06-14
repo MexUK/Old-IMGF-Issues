@@ -7,7 +7,7 @@
 auto pOnRender_Polygon		= [](void *pShape, void *pTriggerArg) { ((CPolygonShape*) pShape)->render(); };
 
 CPolygonShape::CPolygonShape(void) :
-	CGUIShapeGeometry_NxPoint(GUI_SHAPE_POLYGON)
+	CGUIShapeGeometry_NxPoints(GUI_SHAPE_POLYGON)
 {
 }
 

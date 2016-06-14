@@ -1,5 +1,5 @@
-#ifndef CGUIShapeGeometry_NxPoint_H
-#define CGUIShapeGeometry_NxPoint_H
+#ifndef CGUIShapeGeometry_NxPoints_H
+#define CGUIShapeGeometry_NxPoints_H
 
 #include "Types.h"
 #include "CVector2i32.h"
@@ -7,10 +7,10 @@
 #include "GUI/Shape/CGUIShape.h"
 #include <vector>
 
-class CGUIShapeGeometry_NxPoint : public CGUIShape
+class CGUIShapeGeometry_NxPoints : public CGUIShape
 {
 public:
-	CGUIShapeGeometry_NxPoint(eGUIShape eShapeType);
+	CGUIShapeGeometry_NxPoints(eGUIShape eShapeType);
 
 	void							moveItem(CVector2i32& vecPositionChange);
 	void							resizeItemViaOffsets(CVector2i32& vecItemSizeChange) {}

@@ -9,6 +9,15 @@ using namespace std;
 
 auto pOnRender_Progress		= [](void *pControl) { ((CProgressControl*) pControl)->render(); };
 
+CProgressControl::CProgressControl(void) :
+	CGUIControl(GUI_CONTROL_PROGRESS),
+	m_uiMaxTicks(0),
+	m_uiCurrentTicks(0),
+	m_bCompletionPercentageShown(false),
+	m_bTextShown(false)
+{
+}
+
 // event binding
 void			CProgressControl::bindEvents(void)
 {

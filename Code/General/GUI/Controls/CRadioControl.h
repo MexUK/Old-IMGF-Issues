@@ -8,13 +8,7 @@
 class CRadioControl : public CGUIControl, public CGUIControlComponent_Text
 {
 public:
-	CRadioControl(void) :
-		CGUIControl(GUI_CONTROL_RADIO),
-		CGUIControlComponent_Text(),
-		m_uiIconRightMargin(5),
-		m_uiGroupId(0),
-		m_bMarked(false)
-	{};
+	CRadioControl(void);
 
 	void									bindEvents(void);
 

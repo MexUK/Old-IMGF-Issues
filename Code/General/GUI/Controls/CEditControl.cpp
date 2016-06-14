@@ -13,6 +13,22 @@ auto pOnKeyDown_Edit		= [](void *pControl, void *pTriggerArg) { ((CEditControl*)
 auto pOnCharDown_Edit		= [](void *pControl, void *pTriggerArg) { ((CEditControl*) pControl)->onCharDown(*(uint8*) pTriggerArg); };
 auto pOnRender_Edit			= [](void *pControl) { ((CEditControl*) pControl)->render(); };
 
+CEditControl::CEditControl(void) :
+	CGUIControl(GUI_CONTROL_EDIT),
+	m_bHasHorizontalScrollBar(false),
+	m_bHasVerticalScrollBar(false),
+	m_bReadOnly(false)
+{
+	m_vecTextLines.push_back(std::string()); // always have atleast 1 line for optimization (skips checks like: if m_vecTextLines.size() == 0)
+	setCaretPosition(CVector2ui32(0, 0));
+	getScrolls()->addEntry(new CScrollControl);
+	getScrolls()->addEntry(new CScrollControl);
+}
+CEditControl::~CEditControl(void)
+{
+	getScrolls()->removeAllEntries();
+}
+
 // event binding
 void					CEditControl::bindEvents(void)
 {

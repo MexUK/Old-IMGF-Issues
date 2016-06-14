@@ -10,6 +10,15 @@
 auto pOnMouseUp_Radio		= [](void *pControl, void *pTriggerArg) { ((CRadioControl*) pControl)->onMouseUp(*(CVector2i32*) pTriggerArg); };
 auto pOnRender_Radio		= [](void *pControl) { ((CRadioControl*) pControl)->render(); };
 
+CRadioControl::CRadioControl(void) :
+	CGUIControl(GUI_CONTROL_RADIO),
+	CGUIControlComponent_Text(),
+	m_uiIconRightMargin(5),
+	m_uiGroupId(0),
+	m_bMarked(false)
+{
+}
+
 // event binding
 void		CRadioControl::bindEvents(void)
 {

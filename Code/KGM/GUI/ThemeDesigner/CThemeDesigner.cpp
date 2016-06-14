@@ -47,8 +47,8 @@ void					CThemeDesigner::initWindow(void)
 	pStyles_TabControl->setStyle("fill-colour", RGB(19, 46, 60));
 	pStyles_TabControl->setStyle("text-colour", RGB(121, 180, 199));
 	pStyles_TabControl->setStyle("border-colour", RGB(121, 180, 199));
-	pStyles_TabControl->setStyle<string>("text-align", "left center");
-	pStyles_TabControl->setStyle<uint32>("inner-spacing-left", 15);
+	pStyles_TabControl->setStyle<string>("text-align", "center center");
+	pStyles_TabControl->setStyle<uint32>("inner-spacing-x", 15);
 	//pStyles_TabControl->setStyle<bool>("border-state-left", false);
 	//pStyles_TabControl->setStyle<bool>("border-state-top", false);
 

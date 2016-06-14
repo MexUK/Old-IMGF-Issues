@@ -13,7 +13,7 @@
 #include "GUI/Item/CGUIItem.h"
 #include "GUI/Control/CGUIControl.h"
 #include "GUI/Styles/CGUIStyleableEntity.h"
-#include "GUI/Interaction/CPlaceableRectangle.h"
+#include "GUI/Interaction/CRectangleItemPlacement.h"
 
 class CRadioControl;
 class CDropTarget;
@@ -111,8 +111,8 @@ private:
 	uint8									m_bMaximized					: 1;
 	CVector2i32								m_vecPreviousPosition;
 	CGUIItem*								m_pActiveItem;
-	// todo CPlaceableRectangle<CWindow>			m_placeableWindow;	// gui windows
-	CPlaceableRectangle<CGUIItem>			m_placeableItem;	// gui items - e.g. shapes and controls
+	// todo CRectangleItemPlacement<CWindow>			m_placeableWindow;	// gui windows
+	CRectangleItemPlacement<CGUIItem>			m_placeableItem;	// gui items - e.g. shapes and controls
 
 	/*
 	todo

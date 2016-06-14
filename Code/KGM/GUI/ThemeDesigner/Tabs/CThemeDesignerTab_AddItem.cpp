@@ -7,9 +7,9 @@
 #include "GUI/Shapes/CRectangleShape.h"
 #include "GUI/Shapes/Geometries/CGUIShapeGeometry_1xPoint_1x1DSize.h"
 #include "GUI/Shapes/Geometries/CGUIShapeGeometry_1xPoint_1x2DSize.h"
-#include "GUI/Shapes/Geometries/CGUIShapeGeometry_2xPoint.h" // todo - rename Point to Points
-#include "GUI/Shapes/Geometries/CGUIShapeGeometry_3xPoint.h" // todo - rename Point to Points
-#include "GUI/Shapes/Geometries/CGUIShapeGeometry_NxPoint.h" // todo - rename Point to Points
+#include "GUI/Shapes/Geometries/CGUIShapeGeometry_2xPoints.h" // todo - rename Point to Points
+#include "GUI/Shapes/Geometries/CGUIShapeGeometry_3xPoints.h" // todo - rename Point to Points
+#include "GUI/Shapes/Geometries/CGUIShapeGeometry_NxPoints.h" // todo - rename Point to Points
 #include "GUI/Controls/CCheckControl.h"
 #include "GUI/Controls/CProgressControl.h"
 #include "GUI/Controls/CRadioControl.h"
@@ -340,13 +340,13 @@ void									CThemeDesignerTab_AddItem::onLeftMouseDown_MainWindow(CVector2i32& 
 				((CGUIShapeGeometry_1xPoint_1x2DSize*) pShape)->setSize(CVector2ui32(10, 15));
 				break;
 			case GUI_SHAPE_GEOMETRY_2_POINTS: // line
-				((CGUIShapeGeometry_2xPoint*) pShape)->setPoint1(vecCursorPosition);
-				((CGUIShapeGeometry_2xPoint*) pShape)->setPoint2(vecCursorPosition + CVector2i32(15, 15));
+				((CGUIShapeGeometry_2xPoints*) pShape)->setPoint1(vecCursorPosition);
+				((CGUIShapeGeometry_2xPoints*) pShape)->setPoint2(vecCursorPosition + CVector2i32(15, 15));
 				break;
 			case GUI_SHAPE_GEOMETRY_3_POINTS: // triangle
-				((CGUIShapeGeometry_3xPoint*) pShape)->setPoint1(vecCursorPosition);
-				((CGUIShapeGeometry_3xPoint*) pShape)->setPoint2(vecCursorPosition + CVector2i32(0, 10));
-				((CGUIShapeGeometry_3xPoint*) pShape)->setPoint3(vecCursorPosition + CVector2i32(15, 5));
+				((CGUIShapeGeometry_3xPoints*) pShape)->setPoint1(vecCursorPosition);
+				((CGUIShapeGeometry_3xPoints*) pShape)->setPoint2(vecCursorPosition + CVector2i32(0, 10));
+				((CGUIShapeGeometry_3xPoints*) pShape)->setPoint3(vecCursorPosition + CVector2i32(15, 5));
 				break;
 			case GUI_SHAPE_GEOMETRY_N_POINTS: // polygon
 			{
@@ -357,7 +357,7 @@ void									CThemeDesignerTab_AddItem::onLeftMouseDown_MainWindow(CVector2i32& 
 				vecPolygonPoints[2] = CVector2i32(vecCursorPosition.m_x + 12, vecCursorPosition.m_y + 10);
 				vecPolygonPoints[3] = CVector2i32(vecCursorPosition.m_x + 7, vecCursorPosition.m_y + 5);
 				vecPolygonPoints[4] = CVector2i32(vecCursorPosition.m_x + 4, vecCursorPosition.m_y + 15);
-				((CGUIShapeGeometry_NxPoint*) pShape)->setPoints(vecPolygonPoints);
+				((CGUIShapeGeometry_NxPoints*) pShape)->setPoints(vecPolygonPoints);
 				break;
 			}
 			}

@@ -9,6 +9,13 @@
 auto pOnMouseUp_Check		= [](void *pControl, void *pTriggerArg) { ((CCheckControl*) pControl)->onMouseUp(*(CVector2i32*) pTriggerArg); };
 auto pOnRender_Check		= [](void *pControl) { ((CCheckControl*) pControl)->render(); };
 
+CCheckControl::CCheckControl(void) :
+	CGUIControl(GUI_CONTROL_CHECK),
+	m_uiIconRightMargin(5),
+	m_bMarked(false)
+{
+}
+
 // event binding
 void					CCheckControl::bindEvents(void)
 {

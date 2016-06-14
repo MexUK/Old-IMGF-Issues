@@ -4,9 +4,9 @@
 #include "CVector2i32.h"
 #include "CVector2ui32.h"
 #include "GUI/Shape/eGUIShape.h"
-#include "GUI/Shapes/Geometries/CGUIShapeGeometry_NxPoint.h"
+#include "GUI/Shapes/Geometries/CGUIShapeGeometry_NxPoints.h"
 
-class CPolygonShape : public CGUIShapeGeometry_NxPoint
+class CPolygonShape : public CGUIShapeGeometry_NxPoints
 {
 public:
 	CPolygonShape(void);

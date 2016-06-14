@@ -14,14 +14,7 @@
 class CListControl : public CGUIControl, public CVectorPool<CListControlEntry*>, public CGUIControlComponent_Text
 {
 public:
-	CListControl(void) :
-		CGUIControl(GUI_CONTROL_LIST),
-		CGUIControlComponent_Text(),
-		m_uiRowHeight(50),
-		m_uiColumnWidth(100),
-		m_uiRowTextHeight(10),
-		m_bHasVerticalScrollBar(true)
-	{};
+	CListControl(void);
 
 	void									bindEvents(void);
 

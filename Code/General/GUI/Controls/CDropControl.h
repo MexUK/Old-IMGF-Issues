@@ -13,13 +13,7 @@
 class CDropControl : public CGUIControl, public CGUIControlComponent_Text, public CVectorPool<CDropControlEntry*>
 {
 public:
-	CDropControl(void) :
-		CGUIControl(GUI_CONTROL_DROP),
-		m_uiSelectedIndex(-1),
-		m_uiListWidth(100),
-		m_uiListRowHeight(30),
-		m_bSelectionListOpen(false)
-	{};
+	CDropControl(void);
 
 	void									bindEvents(void);
 

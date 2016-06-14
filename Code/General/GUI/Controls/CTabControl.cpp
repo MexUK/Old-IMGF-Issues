@@ -13,7 +13,8 @@ auto pOnRender_Tab			= [](void *pControl) { ((CTabControl*) pControl)->render();
 
 CTabControl::CTabControl(void) :
 	CGUIControl(GUI_CONTROL_TAB),
-	m_pActiveTab(nullptr)
+	m_pActiveTab(nullptr),
+	m_uiActiveTabHeightDifference(5)
 {
 }
 
@@ -55,20 +56,24 @@ void					CTabControl::render(void)
 		uiTabTextWidth,
 		uiTabWidth,
 		uiTabHeight,
-		uiActiveTabHeightDifference = 5;
+		uiActiveTabHeightDifference = getActiveTabHeightDifference();
+	int32
+		iMaxX = getSize().m_x;
 	for (CTabControlEntry *pTab : getEntries())
 	{
+		if (vecTabTopLeftBoundingPosition.m_x >= iMaxX)
+		{
+			break;
+		}
+
 		// calculate tab position and size
 		uiTabTextWidth = pGFX->getTextSize(pTab->getText(), getStyles()).m_x;
 		pTab->setTextWidth(uiTabTextWidth);
-		uiTabWidth = uiTabTextWidth + 30;
-		if (pTab->isActiveTab())
+		uiTabWidth = uiTabTextWidth + getStyles()->getInnerSpacingTotalX();
+		uiTabHeight = getSize().m_y;
+		if (!pTab->isActiveTab())
 		{
-			uiTabHeight = getSize().m_y;
-		}
-		else
-		{
-			uiTabHeight = getSize().m_y - uiActiveTabHeightDifference;
+			uiTabHeight -= uiActiveTabHeightDifference;
 		}
 		CVector2i32
 			vecTabTopLeftPosition = pTab->isActiveTab() ? vecTabTopLeftBoundingPosition : (vecTabTopLeftBoundingPosition + CVector2i32(0, uiActiveTabHeightDifference)),
@@ -80,7 +85,7 @@ void					CTabControl::render(void)
 			vecTabSize(uiTabWidth, uiTabHeight);
 
 		// draw tab fill
-		pGFX->drawRectangleFill(vecTabTopLeftPosition, vecTabSize, getStyles()); // top horizontal line
+		pGFX->drawRectangleFill(vecTabTopLeftPosition, vecTabSize, getStyles());
 
 		// draw tab border
 		pGFX->drawLine(vecTabTopLeftPosition, vecTabTopRightPosition, getStyles()); // top horizontal line
@@ -135,18 +140,22 @@ CTabControlEntry*		CTabControl::getTabFromPosition(CVector2i32& vecPosition)
 		uiTabTextWidth,
 		uiTabWidth,
 		uiTabHeight,
-		uiActiveTabHeightDifference = 5;
+		uiActiveTabHeightDifference = getActiveTabHeightDifference();
+	int32
+		iMaxX = getSize().m_x;
 	for (CTabControlEntry *pTab : getEntries())
 	{
-		uiTabTextWidth = pTab->getTextWidth();
-		uiTabWidth = uiTabTextWidth + 30;
-		if (pTab->isActiveTab())
+		if (vecTabTopLeftPosition.m_x >= iMaxX)
 		{
-			uiTabHeight = getSize().m_y;
+			break;
 		}
-		else
+
+		uiTabTextWidth = pTab->getTextWidth();
+		uiTabWidth = uiTabTextWidth + getStyles()->getInnerSpacingTotalX();
+		uiTabHeight = getSize().m_y;
+		if (!pTab->isActiveTab())
 		{
-			uiTabHeight = getSize().m_y - uiActiveTabHeightDifference;
+			uiTabHeight -= uiActiveTabHeightDifference;
 		}
 		vecTabSize = CVector2ui32(uiTabWidth, uiTabHeight);
 

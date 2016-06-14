@@ -10,9 +10,7 @@
 class CButtonControl : public CGUIControl, public CGUIControlComponent_Text
 {
 public:
-	CButtonControl(void) :
-		CGUIControl(GUI_CONTROL_BUTTON)
-	{};
+	CButtonControl(void);
 	
 	void									bindEvents(void);
 

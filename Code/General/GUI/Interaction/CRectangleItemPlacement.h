@@ -1,5 +1,5 @@
-#ifndef CPlaceableRectangle_H
-#define CPlaceableRectangle_H
+#ifndef CRectangleItemPlacement_H
+#define CRectangleItemPlacement_H
 
 #include "Types.h"
 #include "CVector2i32.h"
@@ -15,10 +15,10 @@
 class CWindow;
 
 template <class Item>
-class CPlaceableRectangle : public CEventBinder, public CInputEventCallbacks
+class CRectangleItemPlacement : public CEventBinder, public CInputEventCallbacks
 {
 public:
-	CPlaceableRectangle(void);
+	CRectangleItemPlacement(void);
 	
 	void						bindEvents(void);
 	void						bindEvents_WhenNotPlacing(void);
@@ -63,7 +63,7 @@ private:
 };
 
 template <class Item>
-CPlaceableRectangle<Item>::CPlaceableRectangle(void) :
+CRectangleItemPlacement<Item>::CRectangleItemPlacement(void) :
 	m_pItemBeingMoved(nullptr),
 	m_pItemBeingResized(nullptr),
 	m_uiItemResizeEdges(0),
@@ -73,33 +73,33 @@ CPlaceableRectangle<Item>::CPlaceableRectangle(void) :
 }
 
 template <class Item>
-void					CPlaceableRectangle<Item>::bindEvents(void)
+void					CRectangleItemPlacement<Item>::bindEvents(void)
 {
 	bindEvents_WhenNotPlacing();
 }
 
 template <class Item>
-void					CPlaceableRectangle<Item>::bindEvents_WhenNotPlacing(void)
+void					CRectangleItemPlacement<Item>::bindEvents_WhenNotPlacing(void)
 {
 	storeEventBoundFunction(getWindow()->bindEvent(EVENT_onLeftMouseDown, this, nullptr, -10));
 }
 
 template <class Item>
-void					CPlaceableRectangle<Item>::bindEvents_WhenPlacing(void)
+void					CRectangleItemPlacement<Item>::bindEvents_WhenPlacing(void)
 {
 	storeEventBoundFunction(getWindow()->bindEvent(EVENT_onLeftMouseUp, this));
 	storeEventBoundFunction(getWindow()->bindEvent(EVENT_onMouseMove, this));
 }
 
 template <class Item>
-void					CPlaceableRectangle<Item>::startMovingItem(Item *pItem)
+void					CRectangleItemPlacement<Item>::startMovingItem(Item *pItem)
 {
 	setItemBeingMoved(pItem);
 	bindEvents_WhenPlacing();
 }
 
 template <class Item>
-void					CPlaceableRectangle<Item>::stopMovingItem(void)
+void					CRectangleItemPlacement<Item>::stopMovingItem(void)
 {
 	unbindEvents();
 	setItemBeingMoved(nullptr);
@@ -107,7 +107,7 @@ void					CPlaceableRectangle<Item>::stopMovingItem(void)
 }
 
 template <class Item>
-void					CPlaceableRectangle<Item>::startResizingItem(Item *pItem, uint32 uiEdges)
+void					CRectangleItemPlacement<Item>::startResizingItem(Item *pItem, uint32 uiEdges)
 {
 	setItemBeingResized(pItem);
 	setResizingItemEdges(uiEdges);
@@ -115,7 +115,7 @@ void					CPlaceableRectangle<Item>::startResizingItem(Item *pItem, uint32 uiEdge
 }
 
 template <class Item>
-void					CPlaceableRectangle<Item>::stopResizingItem(void)
+void					CRectangleItemPlacement<Item>::stopResizingItem(void)
 {
 	unbindEvents();
 	setItemBeingResized(nullptr);
@@ -124,7 +124,7 @@ void					CPlaceableRectangle<Item>::stopResizingItem(void)
 }
 
 template <class Item>
-void					CPlaceableRectangle<Item>::checkToStartMovingOrResizingItem(CVector2i32& vecCursorPoint, uint32 uiOuterSpacing)
+void					CRectangleItemPlacement<Item>::checkToStartMovingOrResizingItem(CVector2i32& vecCursorPoint, uint32 uiOuterSpacing)
 {
 	uint32 uiRectangleEdges;
 	for(Item *pItem : getItems()->getEntries())
@@ -151,14 +151,14 @@ void					CPlaceableRectangle<Item>::checkToStartMovingOrResizingItem(CVector2i32
 }
 
 template <class Item>
-void					CPlaceableRectangle<Item>::onLeftMouseDown(CVector2i32& vecCursorPoint)
+void					CRectangleItemPlacement<Item>::onLeftMouseDown(CVector2i32& vecCursorPoint)
 {
 	uint32 uiOuterSpacing = 1;
 	checkToStartMovingOrResizingItem(vecCursorPoint, uiOuterSpacing);
 }
 
 template <class Item>
-void					CPlaceableRectangle<Item>::onLeftMouseUp(CVector2i32& vecCursorPoint)
+void					CRectangleItemPlacement<Item>::onLeftMouseUp(CVector2i32& vecCursorPoint)
 {
 	if (isMovingItem())
 	{
@@ -171,7 +171,7 @@ void					CPlaceableRectangle<Item>::onLeftMouseUp(CVector2i32& vecCursorPoint)
 }
 
 template <class Item>
-void					CPlaceableRectangle<Item>::onMouseMove(CVector2i32& vecCursorPoint)
+void					CRectangleItemPlacement<Item>::onMouseMove(CVector2i32& vecCursorPoint)
 {
 	if (isMovingItem())
 	{

@@ -7,7 +7,7 @@
 auto pOnRender_Line		= [](void *pShape, void *pTriggerArg) { ((CLineShape*) pShape)->render(); };
 
 CLineShape::CLineShape(void) :
-	CGUIShapeGeometry_2xPoint(GUI_SHAPE_LINE)
+	CGUIShapeGeometry_2xPoints(GUI_SHAPE_LINE)
 {
 }
 

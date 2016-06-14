@@ -129,7 +129,7 @@ bool					CGUIStyles::doesHaveFill(void)
 		|| (doesEntryExist("fill-colour-marked") || doesEntryExist("fill-colour-unmarked"));
 }
 
-// position/size
+// spacing
 CVector2i32				CGUIStyles::getMinInnerSpacing(void)
 {
 	CVector2i32 vecMinSpacing(
@@ -164,6 +164,17 @@ CVector2i32				CGUIStyles::getMaxInnerSpacing(void)
 	return vecMaxSpacing;
 }
 
+uint32					CGUIStyles::getInnerSpacingTotalX(void)
+{
+	return getMinInnerSpacing().m_x + getMaxInnerSpacing().m_x;
+}
+
+uint32					CGUIStyles::getInnerSpacingTotalY(void)
+{
+	return getMinInnerSpacing().m_y + getMaxInnerSpacing().m_y;
+}
+
+// alignment
 string					CGUIStyles::getTextAlignX(void)
 {
 	if (doesStyleExist("text-align"))

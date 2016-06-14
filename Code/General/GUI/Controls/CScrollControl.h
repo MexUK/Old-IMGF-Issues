@@ -10,15 +10,7 @@
 class CScrollControl : public CGUIControl
 {
 public:
-	CScrollControl(void) :
-		m_eScrollOrientation(_2D_MIRRORED_ORIENTATION_VERTICAL),
-		CGUIControl(GUI_CONTROL_SCROLL),
-		m_uiSeekBarLength(50),
-		m_uiSeekBarFillColour(0x008800FF),
-		m_uiSeekBarLineColour(0x000000FF),
-		m_fProgress(0.0f),
-		m_bSeekBarIsMoving(false)
-	{};
+	CScrollControl(void);
 
 	void									bindEvents(void);
 
