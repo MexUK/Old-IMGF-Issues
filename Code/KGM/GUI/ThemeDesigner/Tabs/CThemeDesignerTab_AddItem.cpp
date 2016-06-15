@@ -13,6 +13,7 @@
 #include "GUI/Controls/CCheckControl.h"
 #include "GUI/Controls/CProgressControl.h"
 #include "GUI/Controls/CRadioControl.h"
+#include "GUI/Controls/CDropControl.h"
 #include "GUI/ThemeDesigner/CThemeDesigner.h"
 
 using namespace std;
@@ -92,8 +93,8 @@ void									CThemeDesignerTab_AddItem::initDesign(void)
 	pStyles_BlueBorderAndText->setStyle("text-colour", RGB(121, 180, 199));
 	pStyles_Progress->setStyle("border-colour", RGB(121, 180, 199));
 	pStyles_Progress->setStyle("progress-bar-fill-colour", RGB(85, 33, 33));
-	pStyles_Radio->setStyle("border-colour", RGB(121, 180, 199));
-	pStyles_Radio->setStyle("fill-colour-marked", RGB(85, 33, 33));
+	pStyles_Radio->setStyle<uint32>("border-colour", RGB(121, 180, 199));
+	pStyles_Radio->setStyle<uint32>("fill-colour:marked", RGB(85, 33, 33));
 
 	// add 2 lines
 	pShape = (CGUIShape*) pLayer->addLine(CVector2i32(0, 80), CVector2i32(vecWindowSize.m_x, 80), pStyles_GoldBorder);					// horizontal line
@@ -148,6 +149,12 @@ void									CThemeDesignerTab_AddItem::initDesign(void)
 	((CCheckControl*) pControl)->setMarked(true);
 
 	pControl = (CGUIControl*) pLayer->addDrop(CVector2i32(uiControlIconX, uiControlIconY + 60), CVector2ui32(15, 10), pStyles_BlueBorder);
+	/*
+	((CDropControl*) pControl)->addItem("aaaaa");
+	((CDropControl*) pControl)->addItem("bbbbbbbbbbbbbb");
+	((CDropControl*) pControl)->addItem("c");
+	*/
+
 	pControl = (CGUIControl*) pLayer->addEdit(CVector2i32(uiControlIconX, uiControlIconY + 90), CVector2ui32(15, 15), "", pStyles_Edit);
 	pControl = (CGUIControl*) pLayer->addList(CVector2i32(uiControlIconX, uiControlIconY + 120), CVector2ui32(15, 15), pStyles_BlueBorder);
 	// todo pControl = (CGUIControl*) pLayer->addMenu(CVector2i32(uiControlIconX, uiControlIconY + 150), CVector2ui32(15, 15), pStyles_BlueBorder);

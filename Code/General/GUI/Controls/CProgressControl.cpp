@@ -36,9 +36,9 @@ void			CProgressControl::render(void)
 
 	//getStyles()->setComponentType("seek");
 	CVector2i32 vecProgressPosition = getProgressPosition(); // todo
-	getStyles()->setStyleNameOverwrite("fill-colour", "progress-bar-fill-colour");
+	// todo getStyles()->setStyleNameOverwrite("fill-colour", "progress-bar-fill-colour");
 	pGFX->drawRectangle(getPosition(), CVector2ui32(vecProgressPosition.m_x, vecProgressPosition.m_y), getStyles());
-	getStyles()->restoreStyleNameOverwrites();
+	// todo getStyles()->restoreStyleNameOverwrites();
 
 	if (isTextShown())
 	{

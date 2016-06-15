@@ -62,12 +62,23 @@ public:
 	static float32				getDistanceBetweenPoints(CVector2i32& vecPoint1, CVector2i32& vecPoint2);
 	static float32				getAngleBetweenPoints(CVector2i32& vecPoint1, CVector2i32& vecPoint2);							// return: radians
 	static CVector2i32			getPositionInFrontOfPosition(CVector2i32& vecPosition, float32 fAngleRad, float32 fRadius);		// parameter 2: radians
-	static int32				divide(int32 iInt1, int32 iInt2);
+	static float32				divide(int32 iInt1, int32 iInt2);
+	static float32				divide(float32 fValue1, float32 fValue2);	// intended for sending non float values as parameters
+	static float32				multiply(int32 iInt1, int32 iInt2);
+	static float32				multiply(float32 fValue1, float32 fValue2);	// intended for sending non float values as parameters
 	static CVector2i32			getBoundingRectanglePositionForLine(CVector2i32& vecPoint1, CVector2i32& vecPoint2);
 	static CVector2ui32			getBoundingRectangleSizeForLine(CVector2i32& vecPoint1, CVector2i32& vecPoint2);
 	static CVector2i32			getBoundingRectanglePositionForPolygon(std::vector<CVector2i32>& vecPoints);
 	static CVector2ui32			getBoundingRectangleSizeForPolygon(std::vector<CVector2i32>& vecPoints);
-	static void					getResizePositionAndSizeChange(CVector2i32& vecCursorChange, uint32 uiResizeEdges, CVector2i32& vecItemPositionChange, CVector2i32& vecItemSizeChange); // [parameter uiResizeEdges] Edges: Left=1,Top=2,Right=4,Bottom=8
+	static void					getResizePositionAndSizeChange(CVector2i32& vecCursorChange, uint32 uiResizeEdges, CVector2i32& vecItemPositionChange, CVector2i32& vecItemSizeChange);	// [parameter uiResizeEdges] Edges: Left=1,Top=2,Right=4,Bottom=8
+	static std::vector<CVector2i32>	getEquilateralTrianglePoints(CVector2i32& vecPoint, float32 fSideLength, uint32 uiPointingDirection);	// [parameter vecPoint] Represents top left point of triangle.
+	static std::vector<CVector2i32>	getEquilateralTrianglePoints(CVector2i32& vecBottomLeftPoint, CVector2i32& vecBottomRightPoint);
+	static std::vector<CVector2i32>	getEquilateralTrianglePoints(CVector2i32& vecBottomLeftPoint, float32 fSideLength, float32 fBaseAngle);
+	static std::vector<CVector2i32>	getIsoscelesTrianglePoints(CVector2i32& vecPoint, float32 fBaseLength, float32 fLegLength, uint32 uiPointingDirection);	// [parameter vecPoint] Represents top left point of triangle.
+	static std::vector<CVector2i32>	getIsoscelesTrianglePoints(CVector2i32& vecBaseCenterPoint, CVector2i32& vecTipPoint, uint32 uiBaseHalfWidth);
+	static std::vector<CVector2i32>	getIsoscelesTrianglePoints(CVector2i32& vecBottomLeftPoint, float32 fBaseLength, float32 fTipAngle, float32 fBaseAngle);
+	static float32				getEquilateralTriangleHeightFromSideLength(float32 fTriangleSideLength);
+	static float32				getEquilateralTriangleSideLengthFromHeight(float32 fTriangleHeight);
 };
 
 uint32				CMathUtility::convertSectorsToBytes(uint32 uiSectorCount)

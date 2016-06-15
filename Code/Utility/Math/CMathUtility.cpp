@@ -389,9 +389,24 @@ CVector2i32					CMathUtility::getPositionInFrontOfPosition(CVector2i32& vecPosit
 	return vecOutPosition;
 }
 
-int32						CMathUtility::divide(int32 iInt1, int32 iInt2)
+float32						CMathUtility::divide(int32 iInt1, int32 iInt2)
 {
-	return (float32)(((float32) iInt1) / ((float32) iInt2));
+	return (float32) (((float32) iInt1) / ((float32) iInt2));
+}
+
+float32						CMathUtility::divide(float32 fValue1, float32 fValue2)
+{
+	return fValue1 / fValue2;
+}
+
+float32						CMathUtility::multiply(int32 iInt1, int32 iInt2)
+{
+	return (float32) (((float32) iInt1) * ((float32) iInt2));
+}
+
+float32						CMathUtility::multiply(float32 fValue1, float32 fValue2)
+{
+	return fValue1 * fValue2;
 }
 
 CVector2i32					CMathUtility::getBoundingRectanglePositionForLine(CVector2i32& vecPoint1, CVector2i32& vecPoint2)
@@ -466,4 +481,142 @@ void						CMathUtility::getResizePositionAndSizeChange(CVector2i32& vecCursorCha
 	{
 		vecItemSizeChange.m_y += vecCursorChange.m_y;
 	}
+}
+
+vector<CVector2i32>	CMathUtility::getEquilateralTrianglePoints(CVector2i32& vecPoint, float32 fSideLength, uint32 uiPointingDirection)
+{
+	int32
+		iTriangleHeight = getEquilateralTriangleHeightFromSideLength(fSideLength),
+		iHalfSideLength = fSideLength / 2;
+	vector<CVector2i32>
+		vecPoints;
+	vecPoints.resize(3);
+	switch (uiPointingDirection)
+	{
+	case 1: // left arrow
+		vecPoints[0] = vecPoint; // top right point
+		vecPoints[1] = vecPoint + CVector2i32(0, fSideLength);
+		vecPoints[2] = vecPoint + CVector2i32(-iTriangleHeight, iHalfSideLength);
+		break;
+	case 2: // up arrow
+		vecPoints[0] = vecPoint; // bottom left point
+		vecPoints[1] = vecPoint + CVector2i32(fSideLength, 0);
+		vecPoints[2] = vecPoint + CVector2i32(iHalfSideLength, -iTriangleHeight);
+		break;
+	case 3: // right arrow
+		vecPoints[0] = vecPoint; // top left point
+		vecPoints[1] = vecPoint + CVector2i32(0, fSideLength);
+		vecPoints[2] = vecPoint + CVector2i32(iTriangleHeight, iHalfSideLength);
+		break;
+	case 4: // down arrow
+		vecPoints[0] = vecPoint; // top left point
+		vecPoints[1] = vecPoint + CVector2i32(fSideLength, 0);
+		vecPoints[2] = vecPoint + CVector2i32(iHalfSideLength, iTriangleHeight);
+		break;
+	case 5: // top left arrow
+		// todo
+		break;
+	case 6: // top right arrow
+		// todo
+		break;
+	case 7: // bottom right arrow
+		// todo
+		break;
+	case 8: // bottom left arrow
+		// todo
+		break;
+	}
+	return vecPoints;
+}
+
+vector<CVector2i32>	CMathUtility::getEquilateralTrianglePoints(CVector2i32& vecBottomLeftPoint, CVector2i32& vecBottomRightPoint)
+{
+	const float32
+		fSideLength = CMathUtility::getDistanceBetweenPoints(vecBottomLeftPoint, vecBottomRightPoint),
+		fBaseAngle = CMathUtility::getAngleBetweenPoints(vecBottomLeftPoint, vecBottomRightPoint),
+		fAngle = CMathUtility::convertDegreesToRadians(60.0f);
+	CVector2i32
+		vecTipPoint = CMathUtility::getPositionInFrontOfPosition(vecBottomLeftPoint, fBaseAngle - fAngle, fSideLength);
+	vector<CVector2i32>
+		vecShapePoints;
+	vecShapePoints.resize(3);
+	vecShapePoints[0] = vecBottomLeftPoint;
+	vecShapePoints[1] = vecBottomRightPoint;
+	vecShapePoints[2] = vecTipPoint;
+	return vecShapePoints;
+}
+
+vector<CVector2i32>	CMathUtility::getEquilateralTrianglePoints(CVector2i32& vecBottomLeftPoint, float32 fSideLength, float32 fBaseAngle)
+{
+	const float32
+		fAngle = CMathUtility::convertDegreesToRadians(60.0f);
+	fBaseAngle = CMathUtility::convertDegreesToRadians(fBaseAngle);
+	CVector2i32
+		vecBottomRightPoint = CMathUtility::getPositionInFrontOfPosition(vecBottomLeftPoint, fBaseAngle, fSideLength),
+		vecTopPoint = CMathUtility::getPositionInFrontOfPosition(vecBottomLeftPoint, fBaseAngle - fAngle, fSideLength);
+	vector<CVector2i32>
+		vecShapePoints;
+	vecShapePoints.resize(3);
+	vecShapePoints[0] = vecBottomLeftPoint;
+	vecShapePoints[1] = vecBottomRightPoint;
+	vecShapePoints[2] = vecTopPoint;
+	return vecShapePoints;
+}
+
+vector<CVector2i32>	CMathUtility::getIsoscelesTrianglePoints(CVector2i32& vecPoint, float32 fBaseLength, float32 fLegLength, uint32 uiPointingDirection)
+{
+	vector<CVector2i32>
+		vecPoints;
+	vecPoints.resize(3);
+	// todo - see CMathUtility::getEquilateralTrianglePoints
+	return vecPoints;
+}
+
+vector<CVector2i32>	CMathUtility::getIsoscelesTrianglePoints(CVector2i32& vecBaseCenterPoint, CVector2i32& vecTipPoint, uint32 uiBaseHalfWidth)
+{
+	const float32
+		fBaseToTipDistance = CMathUtility::getDistanceBetweenPoints(vecBaseCenterPoint, vecTipPoint),
+		fBaseToTipAngle = CMathUtility::getAngleBetweenPoints(vecBaseCenterPoint, vecTipPoint),
+		f90DegreeAngle = CMathUtility::convertDegreesToRadians(90.0f);
+	CVector2i32
+		vecBasePoint1 = CMathUtility::getPositionInFrontOfPosition(vecBaseCenterPoint, fBaseToTipAngle - f90DegreeAngle, uiBaseHalfWidth),
+		vecBasePoint2 = CMathUtility::getPositionInFrontOfPosition(vecBaseCenterPoint, fBaseToTipAngle + f90DegreeAngle, uiBaseHalfWidth);
+	vector<CVector2i32>
+		vecShapePoints;
+	vecShapePoints.resize(3);
+	vecShapePoints[0] = vecBasePoint1;
+	vecShapePoints[1] = vecBasePoint2;
+	vecShapePoints[2] = vecTipPoint;
+	return vecShapePoints;
+}
+
+vector<CVector2i32>	CMathUtility::getIsoscelesTrianglePoints(CVector2i32& vecBottomLeftPoint, float32 fBaseLength, float32 fTipAngle, float32 fBaseAngle)
+{
+	float32
+		fLinesAngle = (180.0f - fTipAngle) / 2.0f,
+		fHeight = (fBaseLength / 2.0f) * tan(fLinesAngle),
+		fSideLength = sqrt(((fBaseLength * fBaseLength) / 4.0f) + (fHeight * fHeight));
+	fTipAngle = CMathUtility::convertDegreesToRadians(fTipAngle);
+	fBaseAngle = CMathUtility::convertDegreesToRadians(fBaseAngle);
+	fLinesAngle = CMathUtility::convertDegreesToRadians(fLinesAngle);
+	CVector2i32
+		vecBottomRightPoint = CMathUtility::getPositionInFrontOfPosition(vecBottomLeftPoint, fBaseAngle, fBaseLength),
+		vecTipPoint = CMathUtility::getPositionInFrontOfPosition(vecBottomLeftPoint, fBaseAngle - fLinesAngle, fSideLength);
+	vector<CVector2i32>
+		vecShapePoints;
+	vecShapePoints.resize(3);
+	vecShapePoints[0] = vecBottomLeftPoint;
+	vecShapePoints[1] = vecBottomRightPoint;
+	vecShapePoints[2] = vecTipPoint;
+	return vecShapePoints;
+}
+
+float32				CMathUtility::getEquilateralTriangleHeightFromSideLength(float32 fTriangleSideLength)
+{
+	return (fTriangleSideLength / 2.0f) * sqrt(3.0f);
+}
+
+float32				CMathUtility::getEquilateralTriangleSideLengthFromHeight(float32 fTriangleHeight)
+{
+	return (fTriangleHeight * 2.0f) / sqrt(3.0f);
 }

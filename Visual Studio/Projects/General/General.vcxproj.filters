@@ -154,6 +154,12 @@
     <Filter Include="Source Files\GUI\Interaction">
       <UniqueIdentifier>{414f4b9d-2cc5-4fb4-8252-5459215be773}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Header Files\GUI\String">
+      <UniqueIdentifier>{e630c493-f9c3-4954-a9f6-4006f4887400}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\GUI\String">
+      <UniqueIdentifier>{4eb46b26-a408-4582-b3d0-3532349f9590}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\..\..\Code\General\Image\CRasterDataFormatManager.cpp">
@@ -308,6 +314,9 @@
     </ClCompile>
     <ClCompile Include="..\..\..\Code\General\GUI\Interaction\CRectangleItemPlacement.cpp">
       <Filter>Source Files\GUI\Interaction</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\Code\General\GUI\String\CGUIString.cpp">
+      <Filter>Source Files\GUI\String</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -532,6 +541,9 @@
     </ClInclude>
     <ClInclude Include="..\..\..\Code\General\GUI\Interaction\CRectangleItemPlacement.h">
       <Filter>Header Files\GUI\Interaction</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\Code\General\GUI\String\CGUIString.h">
+      <Filter>Header Files\GUI\String</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

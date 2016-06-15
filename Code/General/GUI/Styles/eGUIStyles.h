@@ -24,6 +24,7 @@ text-colour						RGB(0, 0, 0)
 text-size						11
 text-font						Verdana
 text-style						default						bold, italic, underline, strikethrough			Multiple values supported. Separated by either spaces and/or commas.
+text-thickness					1
 -----------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 Position/Size
 -----------------------------------------------------------------------------------------------------------------------------------------------------------------------------
@@ -46,6 +47,7 @@ row-fill-colour-2				RGB(200, 200, 200)															For list controls.
 progress-bar-fill-colour		RGB(0, 50, 150)																For progress controls.
 fill-colour-marked				RGB(0, 255, 0)																For radio and check controls.
 fill-colour-unmarked			RGB(255, 255, 255)															For radio and check controls.
+markable-text-spacing			5							In pixels.										For radio and check controls.
 -----------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 Notes
 -----------------------------------------------------------------------------------------------------------------------------------------------------------------------------

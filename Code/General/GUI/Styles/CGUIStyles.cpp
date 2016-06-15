@@ -6,7 +6,8 @@ using namespace std;
 
 CMultipleTypeValuesUMapContainer<std::string>		CGUIStyles::m_umapStyleDefaultValues;
 
-CGUIStyles::CGUIStyles(void)
+CGUIStyles::CGUIStyles(void) :
+	m_bHasFillOverwrite(false)
 {
 	init();
 }
@@ -32,9 +33,10 @@ void					CGUIStyles::init(void)
 	getStyleDefaultValues().setEntry("fill-colour-stop", RGB(0x80, 0x80, 0x80));
 
 	getStyleDefaultValues().setEntry("text-colour", RGB(0, 0, 0));
-	getStyleDefaultValues().setEntry("text-size", 11);
+	getStyleDefaultValues().setEntry<uint32>("text-size", 11);
 	getStyleDefaultValues().setEntry<string>("text-font", "Verdana");
 	getStyleDefaultValues().setEntry<string>("text-style", "default");
+	getStyleDefaultValues().setEntry<uint32>("text-thickness", 1);
 
 	getStyleDefaultValues().setEntry<string>("text-align-x", "left");
 	getStyleDefaultValues().setEntry<string>("text-align-y", "top");
@@ -42,20 +44,30 @@ void					CGUIStyles::init(void)
 	getStyleDefaultValues().setEntry<int32>("inner-spacing-top", 0);
 	getStyleDefaultValues().setEntry<int32>("inner-spacing-right", 0);
 	getStyleDefaultValues().setEntry<int32>("inner-spacing-bottom", 0);
+	getStyleDefaultValues().setEntry<int32>("inner-spacing-x", 0);
+	getStyleDefaultValues().setEntry<int32>("inner-spacing-y", 0);
 
 	getStyleDefaultValues().setEntry("caret-colour", RGB(0, 0, 0));
+	getStyleDefaultValues().setEntry("list-row-1.fill-colour", RGB(255, 255, 255));
+	getStyleDefaultValues().setEntry("list-row-2.fill-colour", RGB(200, 200, 200));
+	getStyleDefaultValues().setEntry("progress-seek-bar.fill-colour", RGB(0, 50, 150));
+	getStyleDefaultValues().setEntry("fill-colour:marked", RGB(0, 255, 0));
+	getStyleDefaultValues().setEntry("fill-colour:unmarked", RGB(0xFF, 0xFF, 0xFF));
+	getStyleDefaultValues().setEntry<int32>("markable-text-spacing", 0);
+
+	// temp start
 	getStyleDefaultValues().setEntry("row-fill-colour-1", RGB(255, 255, 255));
 	getStyleDefaultValues().setEntry("row-fill-colour-2", RGB(200, 200, 200));
 	getStyleDefaultValues().setEntry("progress-bar-fill-colour", RGB(0, 50, 150));
 	getStyleDefaultValues().setEntry("fill-colour-marked", RGB(0, 255, 0));
 	getStyleDefaultValues().setEntry("fill-colour-unmarked", RGB(0xFF, 0xFF, 0xFF));
+	// temp end
 }
 
 void					CGUIStyles::uninit(void)
 {
 	removeAllEntries();
 	m_umapStyleDefaultValues.removeAllEntries();
-	m_umapStyleNameOverwrites.clear();
 }
 
 // does style exist
@@ -125,8 +137,9 @@ bool					CGUIStyles::doesHaveFill(void)
 {
 	return doesEntryExist("fill-colour")
 		|| (doesEntryExist("fill-colour-start") && doesEntryExist("fill-colour-end"))
-	// todo	|| doesEntryExist("progress-bar-fill-colour")
-		|| (doesEntryExist("fill-colour-marked") || doesEntryExist("fill-colour-unmarked"));
+		// todo	|| doesEntryExist("progress-bar-fill-colour")
+		|| doesEntryExist("fill-colour:marked") || doesEntryExist("fill-colour:unmarked")
+		|| doesHaveFillOverwrite();
 }
 
 // spacing
@@ -199,25 +212,15 @@ string					CGUIStyles::getTextAlignY(void)
 	}
 }
 
-// style name overwrites
-void					CGUIStyles::setStyleNameOverwrite(string strStyleName, string strNewStyleName)
+// style overwrites
+void					CGUIStyles::restoreTemporaryStyleData(void)
 {
-	m_umapStyleNameOverwrites[strStyleName] = strNewStyleName;
+	setItemComponent("");
+	setItemStatus("");
+	restoreStyleOverwrites();
 }
 
-void					CGUIStyles::restoreStyleNameOverwrites(void)
+void					CGUIStyles::restoreStyleOverwrites(void)
 {
-	m_umapStyleNameOverwrites.clear();
-}
-
-string					CGUIStyles::getStyleNameOverwrite(string strStyleName)
-{
-	if (m_umapStyleNameOverwrites.count(strStyleName) == 0)
-	{
-		return strStyleName;
-	}
-	else
-	{
-		return m_umapStyleNameOverwrites[strStyleName];
-	}
+	setHasFillOverwrite(false);
 }

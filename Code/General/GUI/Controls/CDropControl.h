@@ -21,6 +21,9 @@ public:
 
 	void									render(void);
 
+	CDropControlEntry*						addItem(std::string strItemText);
+	void									removeItem(CDropControlEntry *pDropEntry);
+
 	bool									isPointInControl(CVector2i32& vecPoint);
 	bool									isPointInSelectionList(CVector2i32& vecPoint);
 
@@ -30,8 +33,10 @@ public:
 	CVector2ui32							getSelectionListEntrySize(void);
 	uint32									getSelectionListEntryFromPoint(CVector2i32& vecCursorPosition);
 
-	void									setSelectedIndex(uint32 uiSelectedIndex) { m_uiSelectedIndex = uiSelectedIndex; }
-	uint32									getSelectedIndex(void) { return m_uiSelectedIndex; }
+	void									setSize(CVector2ui32& vecSize);
+
+	void									setActiveItem(CDropControlEntry *pDropEntry) { m_pActiveItem = pDropEntry; }
+	CDropControlEntry*						getActiveItem(void) { return m_pActiveItem; }
 	
 	void									setListWidth(uint32 uiListWidth) { m_uiListWidth = uiListWidth; }	// in pixels
 	uint32									getListWidth(void) { return m_uiListWidth; }						// in pixels
@@ -42,11 +47,24 @@ public:
 	void									setSelectionListOpen(bool bSelectionListOpen) { m_bSelectionListOpen = bSelectionListOpen; }
 	bool									isSelectionListOpen(void) { return m_bSelectionListOpen; }
 	
+	void									setGUIStringSizesNeedRecalculating(bool bGUIStringSizesNeedRecalculating) { m_bGUIStringSizesNeedRecalculating = bGUIStringSizesNeedRecalculating; }
+	bool									doGUIStringSizesNeedRecalculating(void) { return m_bGUIStringSizesNeedRecalculating; }
+
+private:
+	CVector2i32								getDropTrianglePosition(void);
+	float32									getDropTriangleSideLength(void);
+	float32									getDropTriangleSideHeight(void);
+
+	void									recalculateGUIStringSizes(void);
+	void									recalculateListWidth(void);
+
 private:
 	uint32									m_uiSelectedIndex;
 	uint32									m_uiListWidth;		// in pixels
 	uint32									m_uiListRowHeight;	// in pixels
-	uint8									m_bSelectionListOpen	: 1;
+	uint8									m_bSelectionListOpen				: 1;
+	uint8									m_bGUIStringSizesNeedRecalculating	: 1;
+	CDropControlEntry*						m_pActiveItem;
 };
 
 #endif

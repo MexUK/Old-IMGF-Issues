@@ -13,7 +13,6 @@ auto pOnRender_Radio		= [](void *pControl) { ((CRadioControl*) pControl)->render
 CRadioControl::CRadioControl(void) :
 	CGUIControl(GUI_CONTROL_RADIO),
 	CGUIControlComponent_Text(),
-	m_uiIconRightMargin(5),
 	m_uiGroupId(0),
 	m_bMarked(false)
 {
@@ -47,23 +46,25 @@ void		CRadioControl::render(void)
 
 	float32 fRadius = getIconRadius();
 	CVector2i32 vecCircleCenterPosition = getPosition();
-	if (isMarked())
-	{
-		getStyles()->setStyleNameOverwrite("fill-colour", "fill-colour-marked");
-	}
-	else
-	{
-		getStyles()->setStyleNameOverwrite("fill-colour", "fill-colour-unmarked");
-	}
+
+	getStyles()->setItemStatus(isMarked() ? "marked" : "unmarked");
+
+	// draw circle
+	getStyles()->setHasFillOverwrite(isMarked());
 	pGFX->drawCircle(vecCircleCenterPosition, fRadius, getStyles());
-	getStyles()->restoreStyleNameOverwrites();
+	getStyles()->restoreStyleOverwrites();
+
+	// draw text
 	pGFX->drawText(getTextPosition(), getTextSize(), getText(), getStyles());
+
+	// reset
+	getStyles()->restoreTemporaryStyleData();
 }
 
 // cursor
 bool			CRadioControl::isPointInControl(CVector2i32& vecPoint)
 {
-	return CMathUtility::isPointInRectangle(vecPoint, getPosition(), getSizeWithText());
+	return CMathUtility::isPointInRectangle(vecPoint, getPosition(), getTotalSize()); // todo - also its repeated code for them 2 controls - make like CMarkableControlComponent
 }
 
 // position
@@ -73,9 +74,9 @@ CVector2i32		CRadioControl::getIconCenterPosition(void)
 }
 
 // size
-CVector2ui32	CRadioControl::getSizeWithText(void)
+CVector2ui32	CRadioControl::getTotalSize(void)
 {
-	return getSize() + CVector2ui32(getTextWidth(), 0);
+	return getSize() + getMarkableTextSpacing() + CVector2ui32(getTextWidth(), 0);
 }
 
 uint32			CRadioControl::getIconRadius(void)
@@ -86,10 +87,16 @@ uint32			CRadioControl::getIconRadius(void)
 // text
 CVector2i32		CRadioControl::getTextPosition(void)
 {
-	return CVector2i32(getPosition().m_x + getSize().m_x + getIconRightMargin(), getPosition().m_y);
+	return CVector2i32(getPosition().m_x + getSize().m_x + getMarkableTextSpacing(), getPosition().m_y);
 }
 
 CVector2ui32	CRadioControl::getTextSize(void)
 {
 	return CVector2ui32(500, getSize().m_y); // todo - change 500 to fetch the displayed width of just the text
+}
+
+// styles
+int32			CRadioControl::getMarkableTextSpacing(void)
+{
+	return getStyles()->getStyle<int32>("markable-text-spacing");
 }

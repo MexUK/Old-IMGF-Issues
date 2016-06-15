@@ -223,6 +223,42 @@ void					CGraphicsLibrary_GDIPlus::drawTriangle(CVector2i32& vecPoint1, CVector2
 	}
 }
 
+void					CGraphicsLibrary_GDIPlus::drawEquilateralTriangle(CVector2i32& vecPosition, float32 fSideLength, uint32 uiPointingDirection, CGUIStyles *pStyles)
+{
+	vector<CVector2i32> vecShapePoints = CMathUtility::getEquilateralTrianglePoints(vecPosition, fSideLength, uiPointingDirection);
+	drawTriangle(vecShapePoints[0], vecShapePoints[1], vecShapePoints[2], pStyles);
+}
+
+void					CGraphicsLibrary_GDIPlus::drawEquilateralTriangle(CVector2i32& vecBottomLeftPoint, CVector2i32& vecBottomRightPoint, CGUIStyles *pStyles)
+{
+	vector<CVector2i32> vecShapePoints = CMathUtility::getEquilateralTrianglePoints(vecBottomLeftPoint, vecBottomRightPoint);
+	drawTriangle(vecShapePoints[0], vecShapePoints[1], vecShapePoints[2], pStyles);
+}
+
+void					CGraphicsLibrary_GDIPlus::drawEquilateralTriangle(CVector2i32& vecBottomLeftPoint, float32 fSideLength, float32 fBaseAngle, CGUIStyles *pStyles)
+{
+	vector<CVector2i32> vecShapePoints = CMathUtility::getEquilateralTrianglePoints(vecBottomLeftPoint, fSideLength, fBaseAngle);
+	drawTriangle(vecShapePoints[0], vecShapePoints[1], vecShapePoints[2], pStyles);
+}
+
+void					CGraphicsLibrary_GDIPlus::drawIsoscelesTriangle(CVector2i32& vecPosition, float32 fBaseLength, float32 fLegLength, uint32 uiPointingDirection, CGUIStyles *pStyles)
+{
+	vector<CVector2i32> vecShapePoints = CMathUtility::getIsoscelesTrianglePoints(vecPosition, fBaseLength, fLegLength, uiPointingDirection);
+	drawTriangle(vecShapePoints[0], vecShapePoints[1], vecShapePoints[2], pStyles);
+}
+
+void					CGraphicsLibrary_GDIPlus::drawIsoscelesTriangle(CVector2i32& vecBaseCenterPoint, CVector2i32& vecTipPoint, uint32 uiBaseHalfWidth, CGUIStyles *pStyles)
+{
+	vector<CVector2i32> vecShapePoints = CMathUtility::getIsoscelesTrianglePoints(vecBaseCenterPoint, vecTipPoint, uiBaseHalfWidth);
+	drawTriangle(vecShapePoints[0], vecShapePoints[1], vecShapePoints[2], pStyles);
+}
+
+void					CGraphicsLibrary_GDIPlus::drawIsoscelesTriangle(CVector2i32& vecBottomLeftPoint, float32 fBaseLength, float32 fTipAngle, float32 fBaseAngle, CGUIStyles *pStyles)
+{
+	vector<CVector2i32> vecShapePoints = CMathUtility::getIsoscelesTrianglePoints(vecBottomLeftPoint, fBaseLength, fTipAngle, fBaseAngle);
+	drawTriangle(vecShapePoints[0], vecShapePoints[1], vecShapePoints[2], pStyles);
+}
+
 void					CGraphicsLibrary_GDIPlus::drawTriangleBorder(CVector2i32& vecPoint1, CVector2i32& vecPoint2, CVector2i32& vecPoint3, CGUIStyles *pStyles)
 {
 	if (!pStyles->doesHaveBorder())
@@ -486,7 +522,7 @@ Color					CGraphicsLibrary_GDIPlus::getGdiplusColourFromRGBAUint32(uint32 uiColo
 {
 	if (((uiColour >> 24) & 0xFF) == 0)
 	{
-		uiColour |= (0xFF << 24);
+		uiColour |= (0xFF << 24); // todo
 	}
 	return Gdiplus::Color((uiColour >> 24) & 0xFF, uiColour & 0xFF, (uiColour >> 8) & 0xFF, (uiColour >> 16) & 0xFF);
 }

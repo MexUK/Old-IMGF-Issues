@@ -125,6 +125,7 @@
     <ClCompile Include="..\..\..\Code\General\GUI\Shapes\Geometries\CGUIShapeGeometry_3xPoint.cpp" />
     <ClCompile Include="..\..\..\Code\General\GUI\Shapes\Geometries\CGUIShapeGeometry_NxPoint.cpp" />
     <ClCompile Include="..\..\..\Code\General\GUI\Shape\CGUIShape.cpp" />
+    <ClCompile Include="..\..\..\Code\General\GUI\String\CGUIString.cpp" />
     <ClCompile Include="..\..\..\Code\General\GUI\Styles\CGUIStyleableEntity.cpp" />
     <ClCompile Include="..\..\..\Code\General\GUI\Styles\CGUIStyles.cpp" />
     <ClCompile Include="..\..\..\Code\General\GUI\Window\CWindow.cpp" />
@@ -198,6 +199,7 @@
     <ClInclude Include="..\..\..\Code\General\GUI\Shape\CGUIShape.h" />
     <ClInclude Include="..\..\..\Code\General\GUI\Shape\eGUIShape.h" />
     <ClInclude Include="..\..\..\Code\General\GUI\Shape\Geometry\eGUIShapeGeometry.h" />
+    <ClInclude Include="..\..\..\Code\General\GUI\String\CGUIString.h" />
     <ClInclude Include="..\..\..\Code\General\GUI\Styles\CGUIStyleableEntity.h" />
     <ClInclude Include="..\..\..\Code\General\GUI\Styles\CGUIStyles.h" />
     <ClInclude Include="..\..\..\Code\General\GUI\Styles\eGUIStyles.h" />

@@ -5,6 +5,7 @@
 #include "GUI/CGUIManager.h"
 #include "GUI/GraphicsLibrary/CGraphicsLibrary.h"
 #include "GUI/Window/CWindow.h"
+#include "Entries/CDropControlEntry.h"
 
 using namespace std;
 
@@ -13,10 +14,11 @@ auto pOnRender_Drop			= [](void *pControl) { ((CDropControl*) pControl)->render(
 
 CDropControl::CDropControl(void) :
 	CGUIControl(GUI_CONTROL_DROP),
-	m_uiSelectedIndex(-1),
-	m_uiListWidth(100),
+	m_pActiveItem(nullptr),
+	m_uiListWidth(0),
 	m_uiListRowHeight(30),
-	m_bSelectionListOpen(false)
+	m_bSelectionListOpen(false),
+	m_bGUIStringSizesNeedRecalculating(false)
 {
 }
 
@@ -45,12 +47,12 @@ void				CDropControl::onMouseUp(CVector2i32& vecCursorPosition)
 			if (getWindow()->triggerEvent(EVENT_onHideDropList, this))
 			{
 				setSelectionListOpen(false);
-				setSelectedIndex(uiEntryIndex);
+				setActiveItem(getEntryByIndex(uiEntryIndex));
 				getWindow()->setMarkedToRedraw(true);
 			}
 		}
 	}
-	else if (CMathUtility::isPointInRectangle(vecCursorPosition, getPosition(), getSize()))
+	else if (isPointInControl(vecCursorPosition))
 	{
 		if (getWindow()->triggerEvent(EVENT_onShowDropList, this))
 		{
@@ -65,9 +67,19 @@ void				CDropControl::render(void)
 {
 	CGraphicsLibrary *pGFX = CGUIManager::getInstance()->getGraphicsLibrary();
 
+	if (doGUIStringSizesNeedRecalculating())
+	{
+		recalculateGUIStringSizes();
+		recalculateListWidth();
+		setGUIStringSizesNeedRecalculating(false);
+	}
+
 	if(isSelectionListOpen())
 	{
+		getStyles()->setItemComponent("list");
 		pGFX->drawRectangle(getSelectionListPosition(), getSelectionListSize(), getStyles());
+
+		getStyles()->setItemComponent("list-row");
 		uint32 i = 0;
 		for(auto pDropEntry : getEntries())
 		{
@@ -76,13 +88,37 @@ void				CDropControl::render(void)
 		}
 	}
 
-	pGFX->drawRectangleFill(getPosition(), getSize(), getStyles());
-	pGFX->drawRectangleBorder(getPosition(), getSize(), getStyles());
-	if (getSelectedIndex() != -1)
+	getStyles()->setItemComponent("");
+	pGFX->drawRectangle(getPosition(), getSize(), getStyles());
+	if (getActiveItem())
 	{
-		pGFX->drawText(getPosition(), getSize(), getEntryByIndex(getSelectedIndex())->getText(), getStyles());
+		pGFX->drawText(getPosition(), getSize(), getActiveItem()->getText(), getStyles());
 	}
-	// todo pGFX->drawTriangle(getPosition(), 10, 0, getStyles());
+
+	getStyles()->setItemComponent("arrow");
+	pGFX->drawEquilateralTriangle(getDropTrianglePosition(), getDropTriangleSideLength(), (uint32) 4, getStyles());
+
+	// reset
+	getStyles()->restoreTemporaryStyleData();
+}
+
+// add/remove item
+CDropControlEntry*	CDropControl::addItem(string strText)
+{
+	CDropControlEntry *pDropEntry = new CDropControlEntry;
+	pDropEntry->setText(strText);
+	addEntry(pDropEntry);
+	setGUIStringSizesNeedRecalculating(true);
+	return pDropEntry;
+}
+
+void				CDropControl::removeItem(CDropControlEntry *pDropEntry)
+{
+	if (getActiveItem() == pDropEntry)
+	{
+		setActiveItem(nullptr);
+	}
+	CVectorPool::removeEntry(pDropEntry);
 }
 
 // cursor
@@ -129,4 +165,60 @@ CVector2ui32		CDropControl::getSelectionListEntrySize(void)
 uint32				CDropControl::getSelectionListEntryFromPoint(CVector2i32& vecCursorPosition)
 {
 	return CMathUtility::getRowIndex(vecCursorPosition, getSelectionListPosition(), getListRowHeight(), getEntryCount());
+}
+
+// drop triangle
+CVector2i32			CDropControl::getDropTrianglePosition(void)
+{
+	float32
+		fTriangleHeight = getDropTriangleSideHeight(),
+		fTriangleSideLength = getDropTriangleSideLength();
+	CVector2i32
+		vecTrianglePositionOffset((getSize().m_x - fTriangleSideLength) - 3, CMathUtility::divide(getSize().m_y - floor(fTriangleHeight), 2.0f));
+	return CVector2i32(getPosition() + vecTrianglePositionOffset);
+}
+
+float32				CDropControl::getDropTriangleSideLength(void)
+{
+	return CMathUtility::getEquilateralTriangleSideLengthFromHeight(getDropTriangleSideHeight());
+}
+
+float32				CDropControl::getDropTriangleSideHeight(void)
+{
+	return CMathUtility::divide(getSize().m_y, 2.0f);
+}
+
+// set size
+void				CDropControl::setSize(CVector2ui32& vecSize)
+{
+	CGUIControl::setSize(vecSize);
+	setGUIStringSizesNeedRecalculating(true);
+}
+
+// string sizes
+void				CDropControl::recalculateGUIStringSizes(void)
+{
+	CGraphicsLibrary *pGFX = CGUIManager::getInstance()->getGraphicsLibrary();
+
+	for (CDropControlEntry *pDropControlEntry : getEntries())
+	{
+		pDropControlEntry->getGUIString().setSize(pGFX->getTextSize(pDropControlEntry->getText(), getStyles()));
+	}
+}
+
+// list width
+void				CDropControl::recalculateListWidth(void)
+{
+	uint32
+		uiMaxWidth = getSize().m_x,
+		uiDropEntryTextWidth;
+	for (CDropControlEntry *pDropControlEntry : getEntries())
+	{
+		uiDropEntryTextWidth = pDropControlEntry->getGUIString().getSize().m_x;
+		if (uiDropEntryTextWidth > uiMaxWidth)
+		{
+			uiMaxWidth = uiDropEntryTextWidth;
+		}
+	}
+	setListWidth(uiMaxWidth);
 }

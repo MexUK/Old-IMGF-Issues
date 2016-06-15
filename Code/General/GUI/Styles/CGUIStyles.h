@@ -5,6 +5,7 @@
 #include "CVector2i32.h"
 #include "Pool/CMultipleTypeValuesUMapContainer.h"
 #include <string>
+#include <vector>
 
 class CGUIStyles : public CMultipleTypeValuesUMapContainer<std::string>
 {
@@ -44,14 +45,24 @@ public:
 	uint32					getInnerSpacingTotalX(void);
 	uint32					getInnerSpacingTotalY(void);
 
-	void					setStyleNameOverwrite(std::string strStyleName, std::string strNewStyleName);
-	void					restoreStyleNameOverwrites(void);
-	std::string				getStyleNameOverwrite(std::string strStyleName);
+	void					restoreTemporaryStyleData(void);
+	void					restoreStyleOverwrites(void);
+
+	void					setItemComponent(std::string strItemComponent) { m_strItemComponent = strItemComponent; }
+	std::string&			getItemComponent(void) { return m_strItemComponent; }
+
+	void					setItemStatus(std::string strItemStatus) { m_strItemStatus = strItemStatus; }
+	std::string&			getItemStatus(void) { return m_strItemStatus; }
+
+	void					setHasFillOverwrite(bool bHasFillOverwrite) { m_bHasFillOverwrite = bHasFillOverwrite; }
+	bool					doesHaveFillOverwrite(void) { return m_bHasFillOverwrite; }
 
 	static CMultipleTypeValuesUMapContainer<std::string>&	getStyleDefaultValues(void) { return m_umapStyleDefaultValues; }
 
 private:
-	std::unordered_map<std::string, std::string>			m_umapStyleNameOverwrites;
+	uint8													m_bHasFillOverwrite		: 1;
+	std::string												m_strItemComponent;
+	std::string												m_strItemStatus;
 	static CMultipleTypeValuesUMapContainer<std::string>	m_umapStyleDefaultValues;
 };
 
@@ -67,13 +78,42 @@ void				CGUIStyles::setStyle(std::string strStyleName, ValueType value)
 template <typename ValueType>
 ValueType				CGUIStyles::getStyle(std::string strStyleName)
 {
-	strStyleName = getStyleNameOverwrite(strStyleName);
-	if (doesStyleExist(strStyleName))
+	std::string
+		strStyleNameFullyResolved = (getItemComponent() == "" ? "default." : (getItemComponent() + ".")) + strStyleName + (getItemStatus() == "" ? "" : (":" + getItemStatus())), // with component and status
+		strStyleNameWithStatus = strStyleName + (getItemStatus() == "" ? "" : (":" + getItemStatus())),
+		strStyleNameWithComponent = (getItemComponent() == "" ? "default." : (getItemComponent() + ".")) + strStyleName;
+
+	if (doesStyleExist(strStyleNameFullyResolved))
 	{
+		// e.g. drop-triangle.fill-colour:list-open
+		return *getEntryPointer<ValueType>(strStyleNameFullyResolved);
+	}
+	else if (doesStyleExist(strStyleNameWithStatus))
+	{
+		// e.g. fill-colour:list-open
+		return *getEntryPointer<ValueType>(strStyleNameWithStatus);
+	}
+	/*
+	todo
+	else if (getItemStatus() != "")
+	{
+		// e.g. fill-colour:list-open
+		return getStyleDefaultValue<ValueType>(strStyleNameWithStatus);
+	}
+	*/
+	else if (doesStyleExist(strStyleNameWithComponent))
+	{
+		// e.g. drop-triangle.fill-colour
+		return *getEntryPointer<ValueType>(strStyleNameWithComponent);
+	}
+	else if (doesStyleExist(strStyleName))
+	{
+		// e.g. fill-colour
 		return *getEntryPointer<ValueType>(strStyleName);
 	}
 	else
 	{
+		// e.g. fill-colour
 		return getStyleDefaultValue<ValueType>(strStyleName);
 	}
 }
@@ -81,7 +121,6 @@ ValueType				CGUIStyles::getStyle(std::string strStyleName)
 template <typename ValueType>
 ValueType				CGUIStyles::getStyleDefaultValue(std::string strStyleName)
 {
-	strStyleName = getStyleNameOverwrite(strStyleName);
 	if (getStyleDefaultValues().doesEntryExist(strStyleName))
 	{
 		return *(getStyleDefaultValues().getEntryPointer<ValueType>(strStyleName));
