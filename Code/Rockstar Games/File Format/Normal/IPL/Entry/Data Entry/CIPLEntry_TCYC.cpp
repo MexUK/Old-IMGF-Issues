@@ -33,13 +33,13 @@ void			CIPLEntry_TCYC::serialize(void)
 	switch (getFormatType())
 	{
 	case 0:
-		pDataWriter->write(m_vecPositionLower);
-		pDataWriter->write(m_vecPositionUpper);
-		pDataWriter->write(m_uiUnknown1);
-		pDataWriter->write(m_uiWeatherId);
-		pDataWriter->write(m_iBrightness);
-		pDataWriter->write(m_uiTime);
-		pDataWriter->write(m_uiDrawDistance);
+		pDataWriter->writeVector3D(m_vecPositionLower);
+		pDataWriter->writeVector3D(m_vecPositionUpper);
+		pDataWriter->writeUint32(m_uiUnknown1);
+		pDataWriter->writeUint32(m_uiWeatherId);
+		pDataWriter->writeInt32(m_iBrightness);
+		pDataWriter->writeUint32(m_uiTime);
+		pDataWriter->writeUint32(m_uiDrawDistance);
 		break;
 	default:
 		throw EXCEPTION_UNKNOWN_FORMAT_TYPE;

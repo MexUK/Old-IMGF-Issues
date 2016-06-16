@@ -21,6 +21,6 @@ void							CRWEntry_2dEffect_CoverPoint::serialize(void)
 {
 	CDataWriter *pDataWriter = CDataWriter::getInstance();
 	
-	pDataWriter->write(m_vecDirection);
-	pDataWriter->write(m_uiCoverType);
+	pDataWriter->writeVector2D(m_vecDirection);
+	pDataWriter->writeUint32(m_uiCoverType);
 }

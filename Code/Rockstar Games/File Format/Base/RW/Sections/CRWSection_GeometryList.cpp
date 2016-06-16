@@ -19,5 +19,5 @@ void							CRWSection_GeometryList::serialize(void)
 {
 	CDataWriter *pDataWriter = CDataWriter::getInstance();
 
-	pDataWriter->write(m_uiGeometryCount);
+	pDataWriter->writeUint32(m_uiGeometryCount);
 }

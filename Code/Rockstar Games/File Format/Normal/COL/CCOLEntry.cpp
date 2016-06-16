@@ -202,10 +202,10 @@ void			CCOLEntry::serialize(void)
 	eCOLVersion eCOLVersionValue = getCOLVersion() == nullptr ? COL_UNKNOWN : getCOLVersion()->getVersionId();
 
 	// COL 1 2 3 & 4 header
-	pDataWriter->write(CCOLManager::getFourCCFromCOLVersion(eCOLVersionValue));
-	pDataWriter->write(calculateEntrySizeForPacking());
-	pDataWriter->write(m_strModelName, 22);
-	pDataWriter->write(m_usModelId);
+	pDataWriter->writeString(CCOLManager::getFourCCFromCOLVersion(eCOLVersionValue));
+	pDataWriter->writeUint32(calculateEntrySizeForPacking());
+	pDataWriter->writeString(m_strModelName, 22);
+	pDataWriter->writeUint16(m_usModelId);
 	storeBoundingObjects();
 
 	if (eCOLVersionValue != COL_1)
@@ -301,30 +301,30 @@ void			CCOLEntry::serializeHeader_Versions2_3_4(void)
 	setShadowMeshFacesOffset(uiShadowMeshFacesOffset);
 
 	// COL 2 3 & 4 header
-	pDataWriter->write((uint16)m_uiCollisionSphereCount);
-	pDataWriter->write((uint16)m_uiCollisionBoxCount);
-	pDataWriter->write((uint16)m_uiCollisionMeshFaceCount);
-	pDataWriter->write((uint8)m_uiCollisionConeCount);
-	pDataWriter->write((uint8)0); // 1 byte padding
-	pDataWriter->write(getFlagsForPacking());
-	pDataWriter->write(uiCollisionSpheresOffset);
-	pDataWriter->write(uiCollisionBoxesOffset);
-	pDataWriter->write(uiCollisionConesOffset);
-	pDataWriter->write(uiCollisionMeshVerticesOffset);
-	pDataWriter->write(uiCollisionMeshFacesOffset);
-	pDataWriter->write(uiTrianglePlanesOffset);
+	pDataWriter->writeUint16(m_uiCollisionSphereCount);
+	pDataWriter->writeUint16(m_uiCollisionBoxCount);
+	pDataWriter->writeUint16(m_uiCollisionMeshFaceCount);
+	pDataWriter->writeUint8(m_uiCollisionConeCount);
+	pDataWriter->writeUint8(0); // 1 byte padding
+	pDataWriter->writeUint32(getFlagsForPacking());
+	pDataWriter->writeUint32(uiCollisionSpheresOffset);
+	pDataWriter->writeUint32(uiCollisionBoxesOffset);
+	pDataWriter->writeUint32(uiCollisionConesOffset);
+	pDataWriter->writeUint32(uiCollisionMeshVerticesOffset);
+	pDataWriter->writeUint32(uiCollisionMeshFacesOffset);
+	pDataWriter->writeUint32(uiTrianglePlanesOffset);
 
 	if (eCOLVersionValue == COL_3 || eCOLVersionValue == COL_4)
 	{
 		// COL 3 & 4 header
-		pDataWriter->write(m_uiShadowMeshFaceCount);
-		pDataWriter->write(uiShadowMeshVerticesOffset);
-		pDataWriter->write(uiShadowMeshFacesOffset);
+		pDataWriter->writeUint32(m_uiShadowMeshFaceCount);
+		pDataWriter->writeUint32(uiShadowMeshVerticesOffset);
+		pDataWriter->writeUint32(uiShadowMeshFacesOffset);
 
 		if (eCOLVersionValue == COL_4)
 		{
 			// COL 4 header
-			pDataWriter->write(m_uiUnknown1);
+			pDataWriter->writeUint32(m_uiUnknown1);
 		}
 	}
 }
@@ -333,18 +333,18 @@ void			CCOLEntry::serializeBody_Version1(void)
 {
 	CDataWriter *pDataWriter = CDataWriter::getInstance();
 
-	pDataWriter->write(m_uiCollisionSphereCount);
+	pDataWriter->writeUint32(m_uiCollisionSphereCount);
 	storeCollisionSpheres();
 
-	pDataWriter->write((uint32)0); // number of unknown data (0)
+	pDataWriter->writeUint32(0); // number of unknown data (0)
 
-	pDataWriter->write(m_uiCollisionBoxCount);
+	pDataWriter->writeUint32(m_uiCollisionBoxCount);
 	storeCollisionBoxes();
 
-	pDataWriter->write(m_uiCollisionMeshVertexCount);
+	pDataWriter->writeUint32(m_uiCollisionMeshVertexCount);
 	storeCollisionMeshVertices();
 
-	pDataWriter->write(m_uiCollisionMeshFaceCount);
+	pDataWriter->writeUint32(m_uiCollisionMeshFaceCount);
 	storeCollisionMeshFaces();
 }
 
@@ -360,13 +360,13 @@ void			CCOLEntry::serializeBody_Versions2_3_4(void)
 
 	if (((m_uiCollisionMeshVertexCount * 6) % 4) != 0)
 	{
-		pDataWriter->write(CStringUtility::zeroPad(2)); // 2 bytes padding
+		pDataWriter->writeString("", 2); // 2 bytes padding
 	}
 
 	if (m_uiFlags & 8) // has face groups
 	{
 		storeCollisionMeshFaceGroups();
-		pDataWriter->write(m_uiCollisionMeshFaceGroupCount);
+		pDataWriter->writeUint32(m_uiCollisionMeshFaceGroupCount);
 	}
 
 	storeCollisionMeshFaces();
@@ -378,7 +378,7 @@ void			CCOLEntry::serializeBody_Versions2_3_4(void)
 
 		if (((m_uiShadowMeshVertexCount * 6) % 4) != 0)
 		{
-			pDataWriter->write(CStringUtility::zeroPad(2)); // 2 bytes padding
+			pDataWriter->writeString("", 2); // 2 bytes padding
 		}
 
 		storeShadowMeshFaces();
@@ -637,29 +637,17 @@ void				CCOLEntry::storeBoundingObjects(void)
 	TBounds boundingObjects = getBoundingObjects();
 	if (eCOLVersionValue == COL_1)
 	{
-		pDataWriter->write(boundingObjects.m_fRadius);
-		pDataWriter->write(boundingObjects.m_vecCenter.m_x);
-		pDataWriter->write(boundingObjects.m_vecCenter.m_y);
-		pDataWriter->write(boundingObjects.m_vecCenter.m_z);
-		pDataWriter->write(boundingObjects.m_vecMin.m_x);
-		pDataWriter->write(boundingObjects.m_vecMin.m_y);
-		pDataWriter->write(boundingObjects.m_vecMin.m_z);
-		pDataWriter->write(boundingObjects.m_vecMax.m_x);
-		pDataWriter->write(boundingObjects.m_vecMax.m_y);
-		pDataWriter->write(boundingObjects.m_vecMax.m_z);
+		pDataWriter->writeFloat32(boundingObjects.m_fRadius);
+		pDataWriter->writeVector3D(boundingObjects.m_vecCenter);
+		pDataWriter->writeVector3D(boundingObjects.m_vecMin);
+		pDataWriter->writeVector3D(boundingObjects.m_vecMax);
 	}
 	else
 	{
-		pDataWriter->write(boundingObjects.m_vecMin.m_x);
-		pDataWriter->write(boundingObjects.m_vecMin.m_y);
-		pDataWriter->write(boundingObjects.m_vecMin.m_z);
-		pDataWriter->write(boundingObjects.m_vecMax.m_x);
-		pDataWriter->write(boundingObjects.m_vecMax.m_y);
-		pDataWriter->write(boundingObjects.m_vecMax.m_z);
-		pDataWriter->write(boundingObjects.m_vecCenter.m_x);
-		pDataWriter->write(boundingObjects.m_vecCenter.m_y);
-		pDataWriter->write(boundingObjects.m_vecCenter.m_z);
-		pDataWriter->write(boundingObjects.m_fRadius);
+		pDataWriter->writeVector3D(boundingObjects.m_vecMin);
+		pDataWriter->writeVector3D(boundingObjects.m_vecMax);
+		pDataWriter->writeVector3D(boundingObjects.m_vecCenter);
+		pDataWriter->writeFloat32(boundingObjects.m_fRadius);
 	}
 }
 void				CCOLEntry::storeCollisionSpheres(void)
@@ -671,25 +659,21 @@ void				CCOLEntry::storeCollisionSpheres(void)
 	{
 		if (eCOLVersionValue == COL_1)
 		{
-			pDataWriter->write(sphere.m_fRadius);
-			pDataWriter->write(sphere.m_vecCenter.m_x);
-			pDataWriter->write(sphere.m_vecCenter.m_y);
-			pDataWriter->write(sphere.m_vecCenter.m_z);
-			pDataWriter->write(sphere.m_surface.m_ucMaterial);
-			pDataWriter->write(sphere.m_surface.m_ucFlag);
-			pDataWriter->write(sphere.m_surface.m_ucBrightness);
-			pDataWriter->write(sphere.m_surface.m_ucLight);
+			pDataWriter->writeFloat32(sphere.m_fRadius);
+			pDataWriter->writeVector3D(sphere.m_vecCenter);
+			pDataWriter->writeUint8(sphere.m_surface.m_ucMaterial);
+			pDataWriter->writeUint8(sphere.m_surface.m_ucFlag);
+			pDataWriter->writeUint8(sphere.m_surface.m_ucBrightness);
+			pDataWriter->writeUint8(sphere.m_surface.m_ucLight);
 		}
 		else
 		{
-			pDataWriter->write(sphere.m_vecCenter.m_x);
-			pDataWriter->write(sphere.m_vecCenter.m_y);
-			pDataWriter->write(sphere.m_vecCenter.m_z);
-			pDataWriter->write(sphere.m_fRadius);
-			pDataWriter->write(sphere.m_surface.m_ucMaterial);
-			pDataWriter->write(sphere.m_surface.m_ucFlag);
-			pDataWriter->write(sphere.m_surface.m_ucBrightness);
-			pDataWriter->write(sphere.m_surface.m_ucLight);
+			pDataWriter->writeVector3D(sphere.m_vecCenter);
+			pDataWriter->writeFloat32(sphere.m_fRadius);
+			pDataWriter->writeUint8(sphere.m_surface.m_ucMaterial);
+			pDataWriter->writeUint8(sphere.m_surface.m_ucFlag);
+			pDataWriter->writeUint8(sphere.m_surface.m_ucBrightness);
+			pDataWriter->writeUint8(sphere.m_surface.m_ucLight);
 		}
 	}
 }
@@ -699,16 +683,12 @@ void				CCOLEntry::storeCollisionBoxes(void)
 
 	for (TBox& box : getCollisionBoxes())
 	{
-		pDataWriter->write(box.m_min.m_x);
-		pDataWriter->write(box.m_min.m_y);
-		pDataWriter->write(box.m_min.m_z);
-		pDataWriter->write(box.m_max.m_x);
-		pDataWriter->write(box.m_max.m_y);
-		pDataWriter->write(box.m_max.m_z);
-		pDataWriter->write(box.m_surface.m_ucMaterial);
-		pDataWriter->write(box.m_surface.m_ucFlag);
-		pDataWriter->write(box.m_surface.m_ucBrightness);
-		pDataWriter->write(box.m_surface.m_ucLight);
+		pDataWriter->writeVector3D(box.m_min);
+		pDataWriter->writeVector3D(box.m_max);
+		pDataWriter->writeUint8(box.m_surface.m_ucMaterial);
+		pDataWriter->writeUint8(box.m_surface.m_ucFlag);
+		pDataWriter->writeUint8(box.m_surface.m_ucBrightness);
+		pDataWriter->writeUint8(box.m_surface.m_ucLight);
 	}
 }
 void				CCOLEntry::storeCollisionMeshVertices(void)
@@ -720,15 +700,15 @@ void				CCOLEntry::storeCollisionMeshVertices(void)
 	{
 		if (eCOLVersionValue == COL_1)
 		{
-			pDataWriter->write(vertex.m_x);
-			pDataWriter->write(vertex.m_y);
-			pDataWriter->write(vertex.m_z);
+			pDataWriter->writeFloat32(vertex.m_x);
+			pDataWriter->writeFloat32(vertex.m_y);
+			pDataWriter->writeFloat32(vertex.m_z);
 		}
 		else
 		{
-			pDataWriter->write((uint16) vertex.m_x);
-			pDataWriter->write((uint16) vertex.m_y);
-			pDataWriter->write((uint16) vertex.m_z);
+			pDataWriter->writeUint16(vertex.m_x);
+			pDataWriter->writeUint16(vertex.m_y);
+			pDataWriter->writeUint16(vertex.m_z);
 		}
 	}
 }
@@ -741,21 +721,21 @@ void				CCOLEntry::storeCollisionMeshFaces(void)
 	{
 		if (eCOLVersionValue == COL_1)
 		{
-			pDataWriter->write(face.m_uiA);
-			pDataWriter->write(face.m_uiB);
-			pDataWriter->write(face.m_uiC);
-			pDataWriter->write(face.m_surface.m_ucMaterial);
-			pDataWriter->write(face.m_surface.m_ucFlag);
-			pDataWriter->write(face.m_surface.m_ucBrightness);
-			pDataWriter->write(face.m_surface.m_ucLight);
+			pDataWriter->writeUint32(face.m_uiA);
+			pDataWriter->writeUint32(face.m_uiB);
+			pDataWriter->writeUint32(face.m_uiC);
+			pDataWriter->writeUint8(face.m_surface.m_ucMaterial);
+			pDataWriter->writeUint8(face.m_surface.m_ucFlag);
+			pDataWriter->writeUint8(face.m_surface.m_ucBrightness);
+			pDataWriter->writeUint8(face.m_surface.m_ucLight);
 		}
 		else
 		{
-			pDataWriter->write((uint16) face.m_uiA);
-			pDataWriter->write((uint16) face.m_uiB);
-			pDataWriter->write((uint16) face.m_uiC);
-			pDataWriter->write(face.m_surface.m_ucMaterial);
-			pDataWriter->write(face.m_surface.m_ucLight);
+			pDataWriter->writeUint16(face.m_uiA);
+			pDataWriter->writeUint16(face.m_uiB);
+			pDataWriter->writeUint16(face.m_uiC);
+			pDataWriter->writeUint8(face.m_surface.m_ucMaterial);
+			pDataWriter->writeUint8(face.m_surface.m_ucLight);
 		}
 	}
 }
@@ -765,14 +745,10 @@ void				CCOLEntry::storeCollisionMeshFaceGroups(void)
 
 	for (TFaceGroup& faceGroup : getCollisionMeshFaceGroups())
 	{
-		pDataWriter->write(faceGroup.m_min.m_x);
-		pDataWriter->write(faceGroup.m_min.m_y);
-		pDataWriter->write(faceGroup.m_min.m_z);
-		pDataWriter->write(faceGroup.m_max.m_x);
-		pDataWriter->write(faceGroup.m_max.m_y);
-		pDataWriter->write(faceGroup.m_max.m_z);
-		pDataWriter->write(faceGroup.m_startFace); // todo - property name type prefix
-		pDataWriter->write(faceGroup.m_endFace); // todo - property name type prefix
+		pDataWriter->writeVector3D(faceGroup.m_min);
+		pDataWriter->writeVector3D(faceGroup.m_max);
+		pDataWriter->writeUint16(faceGroup.m_startFace); // todo - property name type prefix
+		pDataWriter->writeUint16(faceGroup.m_endFace); // todo - property name type prefix
 	}
 }
 void				CCOLEntry::storeShadowMeshVertices(void)
@@ -781,9 +757,9 @@ void				CCOLEntry::storeShadowMeshVertices(void)
 
 	for (TVertex& vertex : getShadowMeshVertices())
 	{
-		pDataWriter->write((uint16)vertex.m_x);
-		pDataWriter->write((uint16)vertex.m_y);
-		pDataWriter->write((uint16)vertex.m_z);
+		pDataWriter->writeUint16(vertex.m_x);
+		pDataWriter->writeUint16(vertex.m_y);
+		pDataWriter->writeUint16(vertex.m_z);
 	}
 }
 void				CCOLEntry::storeShadowMeshFaces(void)
@@ -792,11 +768,11 @@ void				CCOLEntry::storeShadowMeshFaces(void)
 
 	for (TFace& face : getShadowMeshFaces())
 	{
-		pDataWriter->write((uint16)face.m_uiA);
-		pDataWriter->write((uint16)face.m_uiB);
-		pDataWriter->write((uint16)face.m_uiC);
-		pDataWriter->write(face.m_surface.m_ucMaterial);
-		pDataWriter->write(face.m_surface.m_ucLight);
+		pDataWriter->writeUint16(face.m_uiA);
+		pDataWriter->writeUint16(face.m_uiB);
+		pDataWriter->writeUint16(face.m_uiC);
+		pDataWriter->writeUint8(face.m_surface.m_ucMaterial);
+		pDataWriter->writeUint8(face.m_surface.m_ucLight);
 	}
 }
 

@@ -47,16 +47,16 @@ void			CIPLEntry_PATH_Node::serialize(void)
 	case 0:
 		CIPLEntry_PATH::serialize();
 
-		pDataWriter->write(m_uiNodeType);
-		pDataWriter->write(m_uiNextNode);
-		pDataWriter->write(m_uiIsCrossRoad);
-		pDataWriter->write(m_vecPosition * 16.0f);
-		pDataWriter->write(m_fMedian);
-		pDataWriter->write(m_uiLeftLaneCount);
-		pDataWriter->write(m_uiRightLaneCount);
-		pDataWriter->write(m_uiSpeedLimit);
-		pDataWriter->write(m_uiFlags);
-		pDataWriter->write(m_fSpawnRate);
+		pDataWriter->writeUint32(m_uiNodeType);
+		pDataWriter->writeUint32(m_uiNextNode);
+		pDataWriter->writeUint32(m_uiIsCrossRoad);
+		pDataWriter->writeVector3D(m_vecPosition * 16.0f);
+		pDataWriter->writeFloat32(m_fMedian);
+		pDataWriter->writeUint32(m_uiLeftLaneCount);
+		pDataWriter->writeUint32(m_uiRightLaneCount);
+		pDataWriter->writeUint32(m_uiSpeedLimit);
+		pDataWriter->writeUint32(m_uiFlags);
+		pDataWriter->writeFloat32(m_fSpawnRate);
 		break;
 	default:
 		throw EXCEPTION_UNKNOWN_FORMAT_TYPE;

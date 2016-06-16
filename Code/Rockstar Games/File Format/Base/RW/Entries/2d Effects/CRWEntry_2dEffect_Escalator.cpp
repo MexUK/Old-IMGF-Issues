@@ -25,8 +25,8 @@ void							CRWEntry_2dEffect_Escalator::serialize(void)
 {
 	CDataWriter *pDataWriter = CDataWriter::getInstance();
 
-	pDataWriter->write(m_vecEscalatorBottom);
-	pDataWriter->write(m_vecEscalatorTop);
-	pDataWriter->write(m_vecEscalatorEnd);
-	pDataWriter->write(m_uiDirection);
+	pDataWriter->writeVector3D(m_vecEscalatorBottom);
+	pDataWriter->writeVector3D(m_vecEscalatorTop);
+	pDataWriter->writeVector3D(m_vecEscalatorEnd);
+	pDataWriter->writeUint32(m_uiDirection);
 }

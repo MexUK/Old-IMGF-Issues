@@ -19,5 +19,5 @@ void							CRWEntry_2dEffect_SlotmachineWheel::serialize(void)
 {
 	CDataWriter *pDataWriter = CDataWriter::getInstance();
 	
-	pDataWriter->write(m_iWheelIndex);
+	pDataWriter->writeInt32(m_iWheelIndex);
 }

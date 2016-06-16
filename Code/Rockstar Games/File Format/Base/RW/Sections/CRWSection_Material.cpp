@@ -31,11 +31,11 @@ void							CRWSection_Material::serialize(void)
 {
 	CDataWriter *pDataWriter = CDataWriter::getInstance();
 
-	pDataWriter->write(m_uiUnknown1);
-	pDataWriter->write(m_uiColour);
-	pDataWriter->write(m_uiUnknown2);
-	pDataWriter->write(m_uiUsesTextures);
-	pDataWriter->write(m_fAmbient);
-	pDataWriter->write(m_fSpecular);
-	pDataWriter->write(m_fDiffuse);
+	pDataWriter->writeUint32(m_uiUnknown1);
+	pDataWriter->writeUint32(m_uiColour);
+	pDataWriter->writeUint32(m_uiUnknown2);
+	pDataWriter->writeUint32(m_uiUsesTextures);
+	pDataWriter->writeFloat32(m_fAmbient);
+	pDataWriter->writeFloat32(m_fSpecular);
+	pDataWriter->writeFloat32(m_fDiffuse);
 }

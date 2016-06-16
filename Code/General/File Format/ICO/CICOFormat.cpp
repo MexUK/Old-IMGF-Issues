@@ -35,5 +35,5 @@ void			CICOFormat::serialize(void)
 	strCURHeaderData += CStringUtility::packUint32((getWidth() * getHeight()) * (32 / 8), false); // BPP
 	strCURHeaderData += CStringUtility::packUint32(22, false); // offset to BMP data from beginning of file
 	
-	pDataWriter->write(strCURHeaderData + serializeViaMemory());
+	pDataWriter->writeString(strCURHeaderData + serializeViaMemory());
 }

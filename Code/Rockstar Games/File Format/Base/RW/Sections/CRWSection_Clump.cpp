@@ -48,12 +48,12 @@ void							CRWSection_Clump::serialize(void)
 {
 	CDataWriter *pDataWriter = CDataWriter::getInstance();
 
-	pDataWriter->write(m_uiAtomicallyLinkedObjectCount);
+	pDataWriter->writeUint32(m_uiAtomicallyLinkedObjectCount);
 
 	uint32 uiRWVersionCC = CRWManager::getInstance()->getRWVersionCCForSerialization();
 	if ((uiRWVersionCC >= 0x0C02FFFF || uiRWVersionCC == 0x0400CFFF) && uiRWVersionCC != 0x1003FFFF)
 	{
-		pDataWriter->write(m_uiLightCount);
-		pDataWriter->write(m_uiCameraCount);
+		pDataWriter->writeUint32(m_uiLightCount);
+		pDataWriter->writeUint32(m_uiCameraCount);
 	}
 }

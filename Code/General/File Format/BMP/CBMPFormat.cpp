@@ -244,25 +244,25 @@ void			CBMPFormat::serializeVersion2(void)
 	{
 		uint32 uiFileSize = 14 + 16 + (m_bHasPalette ? m_strPaletteData.length() : 0) + m_strRasterData.length();
 
-		pDataWriter->write("BM", 2);
-		pDataWriter->write(uiFileSize); // file size
-		pDataWriter->write((uint16)0); // reserved 1
-		pDataWriter->write((uint16)0); // reserved 2
-		pDataWriter->write((uint32)54); // bitmap offset
+		pDataWriter->writeString("BM");
+		pDataWriter->writeUint32(uiFileSize); // file size
+		pDataWriter->writeUint16(0); // reserved 1
+		pDataWriter->writeUint16(0); // reserved 2
+		pDataWriter->writeUint32(54); // bitmap offset
 	}
 
-	pDataWriter->write((uint32)12);
-	pDataWriter->write(m_uiWidth);
-	pDataWriter->write(m_uiHeight);
-	pDataWriter->write((uint16)1); // plane count
-	pDataWriter->write(m_usBPP);
+	pDataWriter->writeUint32(12);
+	pDataWriter->writeUint32(m_uiWidth);
+	pDataWriter->writeUint32(m_uiHeight);
+	pDataWriter->writeUint16(1); // plane count
+	pDataWriter->writeUint16(m_usBPP);
 
 	if (m_bHasPalette)
 	{
-		pDataWriter->write(m_strPaletteData);
+		pDataWriter->writeString(m_strPaletteData);
 	}
 
-	pDataWriter->write(m_strRasterData);
+	pDataWriter->writeString(m_strRasterData);
 }
 
 void			CBMPFormat::serializeVersion3(void)
@@ -273,31 +273,31 @@ void			CBMPFormat::serializeVersion3(void)
 	{
 		uint32 uiFileSize = 14 + 40 + (m_bHasPalette ? m_strPaletteData.length() : 0) + m_strRasterData.length();
 
-		pDataWriter->write("BM", 2);
-		pDataWriter->write(uiFileSize); // file size
-		pDataWriter->write((uint16)0); // reserved 1
-		pDataWriter->write((uint16)0); // reserved 2
-		pDataWriter->write((uint32)54); // bitmap offset
+		pDataWriter->writeString("BM");
+		pDataWriter->writeUint32(uiFileSize); // file size
+		pDataWriter->writeUint16(0); // reserved 1
+		pDataWriter->writeUint16(0); // reserved 2
+		pDataWriter->writeUint32(54); // bitmap offset
 	}
 
-	pDataWriter->write((uint32)40);
-	pDataWriter->write(m_uiWidth);
-	pDataWriter->write(m_uiHeight);
-	pDataWriter->write((uint16)1); // plane count
-	pDataWriter->write(m_usBPP);
-	pDataWriter->write((uint32)0); // uiCompressionMethods
-	pDataWriter->write((uint32)m_uiWidth * m_uiHeight * ((float32)m_usBPP / 8.0f)); // uiBitmapSize
-	pDataWriter->write((uint32)0); // uiHorizontalResolution
-	pDataWriter->write((uint32)0); // uiVerticalResolution
-	pDataWriter->write((uint32)0); // uiColoursUsed
-	pDataWriter->write((uint32)0); // uiColoursImportant
+	pDataWriter->writeUint32(40);
+	pDataWriter->writeUint32(m_uiWidth);
+	pDataWriter->writeUint32(m_uiHeight);
+	pDataWriter->writeUint16(1); // plane count
+	pDataWriter->writeUint16(m_usBPP);
+	pDataWriter->writeUint32(0); // uiCompressionMethods
+	pDataWriter->writeUint32(m_uiWidth * m_uiHeight * ((float32)m_usBPP / 8.0f)); // uiBitmapSize
+	pDataWriter->writeUint32(0); // uiHorizontalResolution
+	pDataWriter->writeUint32(0); // uiVerticalResolution
+	pDataWriter->writeUint32(0); // uiColoursUsed
+	pDataWriter->writeUint32(0); // uiColoursImportant
 
 	if (m_bHasPalette)
 	{
-		pDataWriter->write(m_strPaletteData);
+		pDataWriter->writeString(m_strPaletteData);
 	}
 
-	pDataWriter->write(m_strRasterData);
+	pDataWriter->writeString(m_strRasterData);
 }
 
 void			CBMPFormat::serializeVersion4(void)
@@ -308,29 +308,29 @@ void			CBMPFormat::serializeVersion4(void)
 	{
 		uint32 uiFileSize = 14 + 108 + (m_bHasPalette ? m_strPaletteData.length() : 0) + m_strRasterData.length();
 
-		pDataWriter->write("BM", 2);
-		pDataWriter->write(uiFileSize); // file size
-		pDataWriter->write((uint16)0); // reserved 1
-		pDataWriter->write((uint16)0); // reserved 2
-		pDataWriter->write((uint32)54); // bitmap offset
+		pDataWriter->writeString("BM", 2);
+		pDataWriter->writeUint32(uiFileSize); // file size
+		pDataWriter->writeUint16(0); // reserved 1
+		pDataWriter->writeUint16(0); // reserved 2
+		pDataWriter->writeUint32(54); // bitmap offset
 	}
 
-	pDataWriter->write((uint32)108);
-	pDataWriter->write(m_uiWidth);
-	pDataWriter->write(m_uiHeight);
-	pDataWriter->write((uint16)1); // plane count
-	pDataWriter->write(m_usBPP);
-	pDataWriter->write((uint32)0); // uiCompressionMethods
-	pDataWriter->write((uint32)m_uiWidth * m_uiHeight * ((float32)m_usBPP / 8.0f)); // uiBitmapSize
-	pDataWriter->write((uint32)0); // uiHorizontalResolution
-	pDataWriter->write((uint32)0); // uiVerticalResolution
-	pDataWriter->write((uint32)0); // uiColoursUsed
-	pDataWriter->write((uint32)0); // uiColoursImportant
+	pDataWriter->writeUint32(108);
+	pDataWriter->writeUint32(m_uiWidth);
+	pDataWriter->writeUint32(m_uiHeight);
+	pDataWriter->writeUint16(1); // plane count
+	pDataWriter->writeUint16(m_usBPP);
+	pDataWriter->writeUint32(0); // uiCompressionMethods
+	pDataWriter->writeUint32(m_uiWidth * m_uiHeight * ((float32)m_usBPP / 8.0f)); // uiBitmapSize
+	pDataWriter->writeUint32(0); // uiHorizontalResolution
+	pDataWriter->writeUint32(0); // uiVerticalResolution
+	pDataWriter->writeUint32(0); // uiColoursUsed
+	pDataWriter->writeUint32(0); // uiColoursImportant
 
 	if (m_bHasPalette)
 	{
-		pDataWriter->write(m_strPaletteData);
+		pDataWriter->writeString(m_strPaletteData);
 	}
 
-	pDataWriter->write(m_strRasterData);
+	pDataWriter->writeString(m_strRasterData);
 }

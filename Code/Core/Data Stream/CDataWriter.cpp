@@ -45,7 +45,7 @@ void					CDataWriter::moveLatestInstanceDown(void)
 	CDataWriter *pDataWriterLatest = m_vecDataWriters[uiCurrentInstanceIndex];
 	CDataWriter *pDataWriterSecondLatest = m_vecDataWriters[uiCurrentInstanceIndex - 1];
 
-	pDataWriterSecondLatest->write(pDataWriterLatest->getData());
+	pDataWriterSecondLatest->writeString(pDataWriterLatest->getData());
 
 	m_vecDataWriters.pop_back();
 	delete pDataWriterLatest;
@@ -94,12 +94,12 @@ void					CDataWriter::resetFile(void)
 }
 
 // write string
-void					CDataWriter::writeString(string& strData)
+void					CDataWriter::writeString(string strData)
 {
 	writeCString((char*) strData.c_str(), strData.length());
 }
 
-void					CDataWriter::writeString(string& strData, uint32 uiTotalByteCountPadded)
+void					CDataWriter::writeString(string strData, uint32 uiTotalByteCountPadded)
 {
 	writeCString((char*)CStringUtility::zeroPad(CStringUtility::capLength(strData, uiTotalByteCountPadded), uiTotalByteCountPadded).c_str(), uiTotalByteCountPadded);
 }
@@ -163,6 +163,26 @@ void					CDataWriter::writeInt32(int32 iInt)
 void					CDataWriter::writeInt64(int64 iInt)
 {
 	writeString(CStringUtility::packInt64(iInt, m_eEndian == BIG_ENDIAN));
+}
+
+void					CDataWriter::writeVector2ui8(CVector2ui8& vecUints)
+{
+	writeUint8(vecUints.m_x);
+	writeUint8(vecUints.m_y);
+}
+
+void					CDataWriter::writeVector3ui8(CVector3ui8& vecUints)
+{
+	writeUint8(vecUints.m_x);
+	writeUint8(vecUints.m_y);
+	writeUint8(vecUints.m_z);
+}
+
+void					CDataWriter::writeVector3ui32(CVector3ui32& vecUints)
+{
+	writeUint32(vecUints.m_x);
+	writeUint32(vecUints.m_y);
+	writeUint32(vecUints.m_z);
 }
 
 void					CDataWriter::writeVector4ui8(CVector4ui8& vecUints)

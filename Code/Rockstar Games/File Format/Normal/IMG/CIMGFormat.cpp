@@ -485,7 +485,7 @@ void					CIMGFormat::serializeVersion1(void)
 		uint32 uiEntryByteCountPadded = CIMGFormat::getEntryPaddedSize(pIMGEntry->getEntrySize());
 
 		pDataReader->setSeek(pIMGEntry->getEntryOffset());
-		pDataWriter->write(CStringUtility::zeroPad(pDataReader->readString(pIMGEntry->getEntrySize()), uiEntryByteCountPadded));
+		pDataWriter->writeString(pDataReader->readString(pIMGEntry->getEntrySize()), uiEntryByteCountPadded);
 
 		pIMGEntry->setEntryOffsetInSectors(uiSeek);
 		uiSeek += uiEntryByteCountPadded;
@@ -514,9 +514,9 @@ void					CIMGFormat::serializeVersion1(void)
 	// write DIR data
 	for (auto pIMGEntry : getEntries())
 	{
-		pDataWriter->write(pIMGEntry->getEntryOffsetInSectors());
-		pDataWriter->write(pIMGEntry->getEntrySizeInSectors());
-		pDataWriter->write(pIMGEntry->getEntryName(), 24);
+		pDataWriter->writeUint32(pIMGEntry->getEntryOffsetInSectors());
+		pDataWriter->writeUint32(pIMGEntry->getEntrySizeInSectors());
+		pDataWriter->writeString(pIMGEntry->getEntryName(), 24);
 
 		CEventManager::getInstance()->triggerEvent(EVENT_onStoreIMGEntry, this);
 	}
@@ -557,16 +557,16 @@ void					CIMGFormat::serializeVersion2(void)
 	}
 
 	// write IMG data - IMG header
-	pDataWriter->write(string("VER2"));
-	pDataWriter->write(getEntryCount());
+	pDataWriter->writeString("VER2");
+	pDataWriter->writeUint32(getEntryCount());
 
 	i = 0;
 	for (auto pIMGEntry : getEntries())
 	{
-		pDataWriter->write(vecNewEntryPositions[i++]);
-		pDataWriter->write((uint16)ceil((float)(pIMGEntry->getEntrySize() / (float)2048.0f)));
-		pDataWriter->write((uint16)0);
-		pDataWriter->write(pIMGEntry->getEntryName(), 24);
+		pDataWriter->writeUint32(vecNewEntryPositions[i++]);
+		pDataWriter->writeUint16(ceil((float)(pIMGEntry->getEntrySize() / (float)2048.0f)));
+		pDataWriter->writeUint16(0);
+		pDataWriter->writeString(pIMGEntry->getEntryName(), 24);
 
 		CEventManager::getInstance()->triggerEvent(EVENT_onStoreIMGEntry, this);
 	}
@@ -574,7 +574,7 @@ void					CIMGFormat::serializeVersion2(void)
 	if ((uiBodyStart % 2048) != 0)
 	{
 		uint32 uiPadByteCount = 2048 - (uiBodyStart % 2048);
-		pDataWriter->write(CStringUtility::zeroPad(uiPadByteCount));
+		pDataWriter->writeString("", uiPadByteCount);
 	}
 
 	// write IMG data - IMG body
@@ -582,7 +582,7 @@ void					CIMGFormat::serializeVersion2(void)
 	for (auto pIMGEntry : getEntries())
 	{
 		pDataReader->setSeek(pIMGEntry->getEntryOffsetInSectors() * 2048);
-		pDataWriter->write(CStringUtility::zeroPad(pDataReader->readString(pIMGEntry->getEntrySize()), CIMGFormat::getEntryPaddedSize(pIMGEntry->getEntrySize())));
+		pDataWriter->writeString(pDataReader->readString(pIMGEntry->getEntrySize()), CIMGFormat::getEntryPaddedSize(pIMGEntry->getEntrySize()));
 
 		pIMGEntry->setEntryOffsetInSectors(vecNewEntryPositions[i++]);
 
@@ -629,9 +629,9 @@ void					CIMGFormat::serializeVersionFastman92(void)
 	uint32 uiArchiveVersion = 1;
 	uint32 uiArchiveFlags = uiArchiveVersion;
 
-	pDataWriter->write(strIMGVersion);
-	pDataWriter->write(uiArchiveFlags);
-	pDataWriter->write(CStringUtility::zeroPad(string("fastman92"), 12));
+	pDataWriter->writeString(strIMGVersion);
+	pDataWriter->writeUint32(uiArchiveFlags);
+	pDataWriter->writeString("fastman92", 12);
 	if (uiArchiveVersion == 1)
 	{
 		// write IMG data - IMG header
@@ -639,9 +639,9 @@ void					CIMGFormat::serializeVersionFastman92(void)
 		uint32 uiEntryCount = getEntryCount();
 		string strReserved1 = CStringUtility::zeroPad(8);
 
-		pDataWriter->write(uiCheck);
-		pDataWriter->write(uiEntryCount);
-		pDataWriter->write(strReserved1);
+		pDataWriter->writeUint32(uiCheck);
+		pDataWriter->writeUint32(uiEntryCount);
+		pDataWriter->writeString(strReserved1);
 
 		// write IMG data - IMG directory
 		i = 0;
@@ -667,14 +667,14 @@ void					CIMGFormat::serializeVersionFastman92(void)
 			uint16 usPaddedBytesCountInAlignedOriginalSize = (usUncompressedSizeInSectors * 2048) % 2048;
 			uint16 usPaddedBytesCountInAlignedPackedSize = (usPackedSizeInSectors * 2048) % 2048;
 
-			pDataWriter->write(vecNewEntryPositions[i++]);
-			pDataWriter->write(usUncompressedSizeInSectors);
-			pDataWriter->write(usPaddedBytesCountInAlignedOriginalSize);
-			pDataWriter->write(usPackedSizeInSectors);
-			pDataWriter->write(usPaddedBytesCountInAlignedPackedSize);
-			pDataWriter->write(uiEntryFlags);
-			pDataWriter->write(pIMGEntry->getEntryName(), 40);
-			pDataWriter->write(CStringUtility::zeroPad(8));
+			pDataWriter->writeUint32(vecNewEntryPositions[i++]);
+			pDataWriter->writeUint16(usUncompressedSizeInSectors);
+			pDataWriter->writeUint16(usPaddedBytesCountInAlignedOriginalSize);
+			pDataWriter->writeUint16(usPackedSizeInSectors);
+			pDataWriter->writeUint16(usPaddedBytesCountInAlignedPackedSize);
+			pDataWriter->writeUint32(uiEntryFlags);
+			pDataWriter->writeString(pIMGEntry->getEntryName(), 40);
+			pDataWriter->writeString("", 8);
 
 			CEventManager::getInstance()->triggerEvent(EVENT_onStoreIMGEntry, this);
 		}
@@ -682,7 +682,7 @@ void					CIMGFormat::serializeVersionFastman92(void)
 		if ((uiBodyStart % 2048) != 0)
 		{
 			uint32 uiPadByteCount = 2048 - (uiBodyStart % 2048);
-			pDataWriter->write(CStringUtility::zeroPad(uiPadByteCount));
+			pDataWriter->writeString("", uiPadByteCount);
 		}
 
 		// write IMG data - IMG body
@@ -690,7 +690,7 @@ void					CIMGFormat::serializeVersionFastman92(void)
 		for (auto pIMGEntry : getEntries())
 		{
 			pDataReader->setSeek(pIMGEntry->getEntryOffsetInSectors() * 2048);
-			pDataWriter->write(CStringUtility::zeroPad(pDataReader->readString(pIMGEntry->getEntrySize()), CIMGFormat::getEntryPaddedSize(pIMGEntry->getEntrySize())));
+			pDataWriter->writeString(pDataReader->readString(pIMGEntry->getEntrySize()), CIMGFormat::getEntryPaddedSize(pIMGEntry->getEntrySize()));
 
 			pIMGEntry->setEntryOffsetInSectors(vecNewEntryPositions[i++]);
 
@@ -738,23 +738,23 @@ void					CIMGFormat::serializeVersion3_Encrypted(void)
 	eDataStreamType ePreviousStreamType = pDataWriter->getStreamType();
 	pDataWriter->setStreamType(DATA_STREAM_MEMORY);
 
-	pDataWriter->write((uint32)0xA94E2A52);
-	pDataWriter->write((uint32)3);
-	pDataWriter->write(getEntryCount());
-	pDataWriter->write((uint32)(ceil(((float)((16 * getEntryCount()) + uiNamesLength)) / 2048.0) * 2048.0));
-	pDataWriter->write((uint16)16);
-	pDataWriter->write((uint16)0);
+	pDataWriter->writeUint32(0xA94E2A52);
+	pDataWriter->writeUint32(3);
+	pDataWriter->writeUint32(getEntryCount());
+	pDataWriter->writeUint32((ceil(((float)((16 * getEntryCount()) + uiNamesLength)) / 2048.0) * 2048.0));
+	pDataWriter->writeUint16(16);
+	pDataWriter->writeUint16(0);
 
 	// IMG file - table
 	for (auto pIMGEntry : getEntries())
 	{
-		pDataWriter->write((uint32)0);
-		pDataWriter->write(pIMGEntry->getRageResourceType() == nullptr ? 0 : pIMGEntry->getRageResourceType()->getIdentifier());
-		pDataWriter->write(pIMGEntry->getEntryOffsetInSectors());
-		pDataWriter->write((uint16)ceil(((float)pIMGEntry->getEntrySize()) / (float)2048.0f));
+		pDataWriter->writeUint32(0);
+		pDataWriter->writeUint32(pIMGEntry->getRageResourceType() == nullptr ? 0 : pIMGEntry->getRageResourceType()->getIdentifier());
+		pDataWriter->writeUint32(pIMGEntry->getEntryOffsetInSectors());
+		pDataWriter->writeUint16(ceil(((float)pIMGEntry->getEntrySize()) / (float)2048.0f));
 
 		uint32 uiRemainder = pIMGEntry->getEntrySize() % 2048;
-		pDataWriter->write((uint16)(pIMGEntry->getFlags() | ((uint16)(uiRemainder == 0 ? 0 : (2048 - uiRemainder)))));
+		pDataWriter->writeUint16((pIMGEntry->getFlags() | ((uint16)(uiRemainder == 0 ? 0 : (2048 - uiRemainder)))));
 
 		CEventManager::getInstance()->triggerEvent(EVENT_onStoreIMGEntry, this);
 	}
@@ -764,13 +764,13 @@ void					CIMGFormat::serializeVersion3_Encrypted(void)
 	{
 		strEntryName = pIMGEntry->getEntryName();
 		strEntryName.append("\0", 1);
-		pDataWriter->write(strEntryName);
+		pDataWriter->writeString(strEntryName);
 	}
 
 	if ((uiBodyStart % 2048) != 0)
 	{
 		uint32 uiPadByteCount = 2048 - (uiBodyStart % 2048);
-		pDataWriter->write(CStringUtility::zeroPad(uiPadByteCount));
+		pDataWriter->writeString("", uiPadByteCount);
 	}
 
 	// encrypt header and table
@@ -781,16 +781,16 @@ void					CIMGFormat::serializeVersion3_Encrypted(void)
 
 	pDataWriter->setStreamType(ePreviousStreamType);
 	pDataWriter->setSeek(0);
-	pDataWriter->write(strHeader);
+	pDataWriter->writeString(strHeader);
 	pDataWriter->setSeek(20);
-	pDataWriter->write(strTables);
+	pDataWriter->writeString(strTables);
 
 	// IMG file - body
 	i = 0;
 	for (auto pIMGEntry : getEntries())
 	{
 		pDataReader->setSeek(pIMGEntry->getEntryOffsetInSectors() * 2048);
-		pDataWriter->write(pDataReader->readString(pIMGEntry->getEntrySize()));
+		pDataWriter->writeString(pDataReader->readString(pIMGEntry->getEntrySize()));
 
 		pIMGEntry->setEntryOffsetInSectors(vecNewEntryPositions[i++]);
 
@@ -834,23 +834,23 @@ void					CIMGFormat::serializeVersion3_Unencrypted(void)
 	}
 
 	// IMG file - header
-	pDataWriter->write((uint32)0xA94E2A52);
-	pDataWriter->write((uint32)3);
-	pDataWriter->write(getEntryCount());
-	pDataWriter->write((uint32)(ceil(((float)((16 * getEntryCount()) + uiNamesLength)) / 2048.0) * 2048));
-	pDataWriter->write((uint16)16);
-	pDataWriter->write((uint16)0);
+	pDataWriter->writeUint32(0xA94E2A52);
+	pDataWriter->writeUint32(3);
+	pDataWriter->writeUint32(getEntryCount());
+	pDataWriter->writeUint32((ceil(((float)((16 * getEntryCount()) + uiNamesLength)) / 2048.0) * 2048));
+	pDataWriter->writeUint16(16);
+	pDataWriter->writeUint16(0);
 
 	// IMG file - table
 	for (auto pIMGEntry : getEntries())
 	{
-		pDataWriter->write((uint32)0);
-		pDataWriter->write((uint32)(pIMGEntry->getRageResourceType() == nullptr ? 0 : pIMGEntry->getRageResourceType()->getIdentifier()));
-		pDataWriter->write(pIMGEntry->getEntryOffsetInSectors());
-		pDataWriter->write((uint16)ceil(((float)pIMGEntry->getEntrySize()) / (float)2048.0f));
+		pDataWriter->writeUint32(0);
+		pDataWriter->writeUint32((pIMGEntry->getRageResourceType() == nullptr ? 0 : pIMGEntry->getRageResourceType()->getIdentifier()));
+		pDataWriter->writeUint32(pIMGEntry->getEntryOffsetInSectors());
+		pDataWriter->writeUint16(ceil(((float)pIMGEntry->getEntrySize()) / (float)2048.0f));
 
 		uint32 uiRemainder = pIMGEntry->getEntrySize() % 2048;
-		pDataWriter->write((uint16)(pIMGEntry->getFlags() | ((uint16)(uiRemainder == 0 ? 0 : (2048 - uiRemainder)))));
+		pDataWriter->writeUint16((pIMGEntry->getFlags() | ((uint16)(uiRemainder == 0 ? 0 : (2048 - uiRemainder)))));
 
 		CEventManager::getInstance()->triggerEvent(EVENT_onStoreIMGEntry, this);
 	}
@@ -860,13 +860,13 @@ void					CIMGFormat::serializeVersion3_Unencrypted(void)
 	{
 		strEntryName = pIMGEntry->getEntryName();
 		strEntryName.append("\0", 1);
-		pDataWriter->write(strEntryName);
+		pDataWriter->writeString(strEntryName);
 	}
 
 	if ((uiBodyStart % 2048) != 0)
 	{
 		uint32 uiPadByteCount = 2048 - (uiBodyStart % 2048);
-		pDataWriter->write(CStringUtility::zeroPad(uiPadByteCount));
+		pDataWriter->writeString("", uiPadByteCount);
 	}
 
 	// IMG file - body
@@ -874,7 +874,7 @@ void					CIMGFormat::serializeVersion3_Unencrypted(void)
 	for (auto pIMGEntry : getEntries())
 	{
 		pDataReader->setSeek(pIMGEntry->getEntryOffsetInSectors() * 2048);
-		pDataWriter->write(pDataReader->readString(pIMGEntry->getEntrySize()));
+		pDataWriter->writeString(pDataReader->readString(pIMGEntry->getEntrySize()));
 
 		pIMGEntry->setEntryOffsetInSectors(vecNewEntryPositions[i++]);
 

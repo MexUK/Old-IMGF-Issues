@@ -42,8 +42,8 @@ void			CIPLEntry_PATH_Group::serialize(void)
 	case 0:
 		CIPLEntry_PATH::serialize();
 
-		pDataWriter->write(m_strGroupType);
-		pDataWriter->write(m_iMinusOne);
+		pDataWriter->writeString(m_strGroupType);
+		pDataWriter->writeInt32(m_iMinusOne);
 		break;
 	default:
 		throw EXCEPTION_UNKNOWN_FORMAT_TYPE;

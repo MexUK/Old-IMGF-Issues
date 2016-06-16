@@ -58,17 +58,15 @@ void							CRWSection_2dEffect::serialize(void)
 	CDataWriter *pDataWriter = CDataWriter::getInstance();
 
 	// 2d effect RW section header
-	pDataWriter->write((uint32)get2dEffects()->getEntryCount());
+	pDataWriter->writeUint32(get2dEffects()->getEntryCount());
 
 	// 2d effect entries
 	for (C2dEffect* p2dEffect : get2dEffects()->getEntries())
 	{
 		// 2d effect header
-		pDataWriter->write(p2dEffect->getPosition().m_x);
-		pDataWriter->write(p2dEffect->getPosition().m_y);
-		pDataWriter->write(p2dEffect->getPosition().m_z);
-		pDataWriter->write((uint32)p2dEffect->get2DFXType());
-		pDataWriter->write(p2dEffect->getDataSize());
+		pDataWriter->writeVector3D(p2dEffect->getPosition());
+		pDataWriter->writeUint32(p2dEffect->get2DFXType());
+		pDataWriter->writeUint32(p2dEffect->getDataSize());
 
 		// 2d effect body
 		p2dEffect->serialize();

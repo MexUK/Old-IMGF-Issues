@@ -385,7 +385,7 @@ void							CDATPathFormat::serializeDefault(void)
 	header.m_uiPedNodeCount = m_header.m_uiPedNodeCount;
 	header.m_uiNaviNodeCount = m_header.m_uiNaviNodeCount;
 	header.m_uiLinkCount = m_header.m_uiLinkCount;
-	pDataWriter->write((char*)&header, 20);
+	pDataWriter->writeCString((char*)&header, 20);
 	//uiSize = 20;
 	//uiSeek += uiSize;
 
@@ -466,7 +466,7 @@ void							CDATPathFormat::serializeDefault(void)
 	memcpy(pOutputData, pLinkLengths, uiSize);
 	pOutputData += uiSize;
 
-	pDataWriter->write(pOutputDataStart, uiSize2);
+	pDataWriter->writeString(pOutputDataStart, uiSize2);
 	//uiSeek += uiSize2;
 	delete[] pOutputDataStart;
 
@@ -481,20 +481,20 @@ void							CDATPathFormat::serializeFastman92(void)
 {
 	CDataWriter *pDataWriter = CDataWriter::getInstance();
 
-	pDataWriter->write((uint32)0xFFFFFFFF);
-	pDataWriter->write("FM92", 4);
-	pDataWriter->write((uint8)11);
+	pDataWriter->writeUint32(0xFFFFFFFF);
+	pDataWriter->writeString("FM92");
+	pDataWriter->writeUint8(11);
 	string strNickname = "";
 	strNickname.append(1, 0);
 	strNickname.append("fastman92", 9);
 	strNickname.append(1, 0);
-	pDataWriter->write(strNickname);
-	pDataWriter->write("VER2", 4);
-	pDataWriter->write((uint32)m_header.m_uiPathNodeCount);
-	pDataWriter->write((uint32)m_header.m_uiVehicleNodeCount);
-	pDataWriter->write((uint32)m_header.m_uiPedNodeCount);
-	pDataWriter->write((uint32)m_header.m_uiNaviNodeCount);
-	pDataWriter->write((uint32)m_header.m_uiLinkCount);
+	pDataWriter->writeString(strNickname);
+	pDataWriter->writeString("VER2");
+	pDataWriter->writeUint32(m_header.m_uiPathNodeCount);
+	pDataWriter->writeUint32(m_header.m_uiVehicleNodeCount);
+	pDataWriter->writeUint32(m_header.m_uiPedNodeCount);
+	pDataWriter->writeUint32(m_header.m_uiNaviNodeCount);
+	pDataWriter->writeUint32(m_header.m_uiLinkCount);
 
 	CDATEntry_Paths_Fastman92_PathNode_extended *pPathNodes = new CDATEntry_Paths_Fastman92_PathNode_extended[m_header.m_uiPathNodeCount];
 	CDATEntry_Paths_Fastman92_NaviNode_extended *pNaviNodes = new CDATEntry_Paths_Fastman92_NaviNode_extended[m_header.m_uiNaviNodeCount];
@@ -560,59 +560,59 @@ void							CDATPathFormat::serializeFastman92(void)
 	for (uint32 i = 0, j = m_header.m_uiPathNodeCount; i < j; i++)
 	{
 		CDATEntry_Paths_Fastman92_PathNode_extended *pPathNode_Fastman92 = pPathNodes + i;
-		pDataWriter->write((uint32)0); // pPathNode_Fastman92->m_pPrev = 0;
-		pDataWriter->write((uint32)0); // pPathNode_Fastman92->m_ppNext = 0;
-		pDataWriter->write((uint16)pPathNode_Fastman92->m_posn.x);
-		pDataWriter->write((uint16)pPathNode_Fastman92->m_posn.y);
-		pDataWriter->write((uint16)pPathNode_Fastman92->m_posn.z);
-		pDataWriter->write((uint16)pPathNode_Fastman92->m_wSearchList);
-		pDataWriter->write((uint16)pPathNode_Fastman92->m_wConnectedNodesStartId);
-		pDataWriter->write((uint16)pPathNode_Fastman92->m_wAreaId);
-		pDataWriter->write((uint16)pPathNode_Fastman92->m_wNodeId);
-		pDataWriter->write((uint8)pPathNode_Fastman92->m_nPathWidth);
-		pDataWriter->write((uint8)pPathNode_Fastman92->m_nNodeType);
-		pDataWriter->write((uint32)pPathNode_Fastman92->m_dwFlags);
-		pDataWriter->write((uint32)pPathNode_Fastman92->m_extended_posn.x);
-		pDataWriter->write((uint32)pPathNode_Fastman92->m_extended_posn.y);
-		pDataWriter->write((uint32)pPathNode_Fastman92->m_extended_posn.z);
+		pDataWriter->writeUint32(0); // pPathNode_Fastman92->m_pPrev = 0;
+		pDataWriter->writeUint32(0); // pPathNode_Fastman92->m_ppNext = 0;
+		pDataWriter->writeUint16(pPathNode_Fastman92->m_posn.x);
+		pDataWriter->writeUint16(pPathNode_Fastman92->m_posn.y);
+		pDataWriter->writeUint16(pPathNode_Fastman92->m_posn.z);
+		pDataWriter->writeUint16(pPathNode_Fastman92->m_wSearchList);
+		pDataWriter->writeUint16(pPathNode_Fastman92->m_wConnectedNodesStartId);
+		pDataWriter->writeUint16(pPathNode_Fastman92->m_wAreaId);
+		pDataWriter->writeUint16(pPathNode_Fastman92->m_wNodeId);
+		pDataWriter->writeUint8(pPathNode_Fastman92->m_nPathWidth);
+		pDataWriter->writeUint8(pPathNode_Fastman92->m_nNodeType);
+		pDataWriter->writeUint32(pPathNode_Fastman92->m_dwFlags);
+		pDataWriter->writeUint32(pPathNode_Fastman92->m_extended_posn.x);
+		pDataWriter->writeUint32(pPathNode_Fastman92->m_extended_posn.y);
+		pDataWriter->writeUint32(pPathNode_Fastman92->m_extended_posn.z);
 	}
 
 	for (uint32 i = 0, j = m_header.m_uiNaviNodeCount; i < j; i++)
 	{
 		CDATEntry_Paths_Fastman92_NaviNode_extended *pNaviNode_Fastman92 = pNaviNodes + i;
-		pDataWriter->write((uint16)pNaviNode_Fastman92->posX);
-		pDataWriter->write((uint16)pNaviNode_Fastman92->posY);
-		pDataWriter->write((uint16)pNaviNode_Fastman92->info.areaId);
-		pDataWriter->write((uint16)pNaviNode_Fastman92->info.nodeId);
-		pDataWriter->write((uint8)pNaviNode_Fastman92->dirX);
-		pDataWriter->write((uint8)pNaviNode_Fastman92->dirY);
-		pDataWriter->write((uint32)pNaviNode_Fastman92->m_dwFlags);
-		pDataWriter->write((uint32)pNaviNode_Fastman92->extended_posX);
-		pDataWriter->write((uint32)pNaviNode_Fastman92->extended_posY);
+		pDataWriter->writeUint16(pNaviNode_Fastman92->posX);
+		pDataWriter->writeUint16(pNaviNode_Fastman92->posY);
+		pDataWriter->writeUint16(pNaviNode_Fastman92->info.areaId);
+		pDataWriter->writeUint16(pNaviNode_Fastman92->info.nodeId);
+		pDataWriter->writeUint8(pNaviNode_Fastman92->dirX);
+		pDataWriter->writeUint8(pNaviNode_Fastman92->dirY);
+		pDataWriter->writeUint32(pNaviNode_Fastman92->m_dwFlags);
+		pDataWriter->writeUint32(pNaviNode_Fastman92->extended_posX);
+		pDataWriter->writeUint32(pNaviNode_Fastman92->extended_posY);
 	}
 
 	for (uint32 i = 0, j = m_header.m_uiLinkCount; i < j; i++)
 	{
 		CDATEntry_Paths_Fastman92_Link *pLink_Fastman92 = pLinks + i;
-		pDataWriter->write((uint16)pLink_Fastman92->m_usAreaId);
-		pDataWriter->write((uint16)pLink_Fastman92->m_usNodeId);
+		pDataWriter->writeUint16(pLink_Fastman92->m_usAreaId);
+		pDataWriter->writeUint16(pLink_Fastman92->m_usNodeId);
 	}
 
 	if (m_header.m_uiLinkCount > 0)
 	{
-		pDataWriter->write(CStringUtility::zeroPad(768));
+		pDataWriter->writeString("", 768);
 	}
 
 	for (uint32 i = 0, j = m_header.m_uiLinkCount; i < j; i++)
 	{
 		CDATEntry_Paths_Fastman92_NaviLink *pNaviLink_Fastman92 = pNaviLinks + i;
-		pDataWriter->write((uint32)pNaviLink_Fastman92->m_uiData);
+		pDataWriter->writeUint32(pNaviLink_Fastman92->m_uiData);
 	}
 
 	for (uint32 i = 0, j = m_header.m_uiLinkCount; i < j; i++)
 	{
 		CDATEntry_Paths_Fastman92_LinkLength *pLinkLength_Fastman92 = pLinkLengths + i;
-		pDataWriter->write((uint8)pLinkLength_Fastman92->m_ucLength);
+		pDataWriter->writeUint8(pLinkLength_Fastman92->m_ucLength);
 	}
 
 	for (uint32 i = 0, j = m_header.m_uiLinkCount; i < j; i++)
@@ -622,22 +622,22 @@ void							CDATPathFormat::serializeFastman92(void)
 		uint8 ucByte = pPathIntersectionFlags_Fastman92->m_ucData;
 		//ucByte |= pPathIntersectionFlags_Fastman92->m_bRoadCross ? 1 : 0;
 		//ucByte |= pPathIntersectionFlags_Fastman92->m_bPedTrafficLight ? 2 : 0;
-		pDataWriter->write((uint8)ucByte);
+		pDataWriter->writeUint8(ucByte);
 	}
 
 	if (m_header.m_uiLinkCount > 0)
 	{
-		pDataWriter->write(CStringUtility::zeroPad(192));
+		pDataWriter->writeString("", 192);
 	}
 
 	if (m_header.m_uiLinkCount > 0)
 	{
-		pDataWriter->write(CStringUtility::zeroPad(192));
+		pDataWriter->writeString("", 192);
 	}
 
 	string strEOF = "EOF";
 	strEOF.append(1, 0);
-	pDataWriter->write(strEOF);
+	pDataWriter->writeString(strEOF);
 
 	/*
 	//////////////////////// commented

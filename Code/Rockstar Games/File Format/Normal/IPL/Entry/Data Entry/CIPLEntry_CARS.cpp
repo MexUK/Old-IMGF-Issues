@@ -102,16 +102,16 @@ void			CIPLEntry_CARS::serialize_Binary(void)
 	switch (getFormatType())
 	{
 	case 0:
-		pDataWriter->write(m_vecPosition);
-		pDataWriter->write(m_zRotation);
-		pDataWriter->write(m_iVehicleModelId);
-		pDataWriter->write(m_iVehicleColour.m_x);
-		pDataWriter->write(m_iVehicleColour.m_y);
-		pDataWriter->write(m_uiForceSpawn);
-		pDataWriter->write(m_uiAlarmTriggerProbability);
-		pDataWriter->write(m_uiDoorLockProbability);
-		pDataWriter->write(m_uiUnknown1);
-		pDataWriter->write(m_uiUnknown2);
+		pDataWriter->writeVector3D(m_vecPosition);
+		pDataWriter->writeFloat32(m_zRotation);
+		pDataWriter->writeInt32(m_iVehicleModelId);
+		pDataWriter->writeInt32(m_iVehicleColour.m_x);
+		pDataWriter->writeInt32(m_iVehicleColour.m_y);
+		pDataWriter->writeUint32(m_uiForceSpawn);
+		pDataWriter->writeUint32(m_uiAlarmTriggerProbability);
+		pDataWriter->writeUint32(m_uiDoorLockProbability);
+		pDataWriter->writeUint32(m_uiUnknown1);
+		pDataWriter->writeUint32(m_uiUnknown2);
 	default:
 		throw EXCEPTION_UNKNOWN_FORMAT_TYPE;
 	}

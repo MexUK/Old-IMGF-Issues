@@ -33,12 +33,12 @@ void							CRWEntry_2dEffect_EnterExit::serialize(void)
 {
 	CDataWriter *pDataWriter = CDataWriter::getInstance();
 	
-	pDataWriter->write(m_fEnterMarkerRotationAngle);
-	pDataWriter->write(m_vecMarkerApporximationRadius);
-	pDataWriter->write(m_vecExitMarkerPosition);
-	pDataWriter->write(m_fExitMarkerAngleRotation);
-	pDataWriter->write(m_iInteriorCount);
-	pDataWriter->write(m_iFlags);
-	pDataWriter->write(m_strInteriorName, 8);
-	pDataWriter->write(m_iSkyColour);
+	pDataWriter->writeFloat32(m_fEnterMarkerRotationAngle);
+	pDataWriter->writeVector2D(m_vecMarkerApporximationRadius);
+	pDataWriter->writeVector3D(m_vecExitMarkerPosition);
+	pDataWriter->writeFloat32(m_fExitMarkerAngleRotation);
+	pDataWriter->writeInt32(m_iInteriorCount);
+	pDataWriter->writeInt32(m_iFlags);
+	pDataWriter->writeString(m_strInteriorName, 8);
+	pDataWriter->writeInt32(m_iSkyColour);
 }

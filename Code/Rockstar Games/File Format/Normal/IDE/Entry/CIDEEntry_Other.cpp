@@ -13,5 +13,5 @@ void		CIDEEntry_Other::serialize(void)
 {
 	CDataWriter *pDataWriter = CDataWriter::getInstance();
 
-	pDataWriter->write(getLine());
+	pDataWriter->writeString(getLine());
 }

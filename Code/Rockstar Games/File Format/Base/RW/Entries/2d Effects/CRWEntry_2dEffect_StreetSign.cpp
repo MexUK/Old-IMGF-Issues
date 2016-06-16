@@ -28,11 +28,11 @@ void							CRWEntry_2dEffect_StreetSign::serialize(void)
 {
 	CDataWriter *pDataWriter = CDataWriter::getInstance();
 
-	pDataWriter->write(m_vecSize);
-	pDataWriter->write(m_vecRotation);
-	pDataWriter->write(m_uiFlags);
+	pDataWriter->writeVector2D(m_vecSize);
+	pDataWriter->writeVector3D(m_vecRotation);
+	pDataWriter->writeUint32(m_uiFlags);
 	for (uint32 i = 0; i < 4; i++)
 	{
-		pDataWriter->write(CStringUtility::zeroPad(m_strText[i].substr(0, 16), 16)); // todo - use pDataWriter->write(std::string str, uint32 len)
+		pDataWriter->writeString(m_strText[i]);
 	}
 }

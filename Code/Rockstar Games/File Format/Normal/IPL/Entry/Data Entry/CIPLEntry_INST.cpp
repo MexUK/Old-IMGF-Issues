@@ -129,11 +129,11 @@ void			CIPLEntry_INST::serialize_Binary(void)
 	switch (getFormatType())
 	{
 	case 0:
-		pDataWriter->write(m_vecPosition);
-		pDataWriter->write(m_vecRotation);
-		pDataWriter->write(m_uiObjectId);
-		pDataWriter->write(m_uiInterior);
-		pDataWriter->write(m_iLOD);
+		pDataWriter->writeVector3D(m_vecPosition);
+		pDataWriter->writeVector4D(m_vecRotation);
+		pDataWriter->writeUint32(m_uiObjectId);
+		pDataWriter->writeUint32(m_uiInterior);
+		pDataWriter->writeInt32(m_iLOD);
 		break;
 	}
 }

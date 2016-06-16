@@ -23,9 +23,9 @@ void							CRWSection_UnknownSection::serialize(void)
 
 	uint32 uiRWVersionCC = CRWManager::getInstance()->getRWVersionCCForSerialization();
 
-	pDataWriter->write(m_uiActualSectionId);
-	pDataWriter->write((uint32)m_strData.length());
-	pDataWriter->write(uiRWVersionCC);
+	pDataWriter->writeUint32(m_uiActualSectionId);
+	pDataWriter->writeUint32(m_strData.length());
+	pDataWriter->writeUint32(uiRWVersionCC);
 
-	pDataWriter->write(m_strData);
+	pDataWriter->writeString(m_strData);
 }

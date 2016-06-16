@@ -25,8 +25,8 @@ void							CRWSection_Atomic::serialize(void)
 {
 	CDataWriter *pDataWriter = CDataWriter::getInstance();
 
-	pDataWriter->write(m_uiFrameIndex);
-	pDataWriter->write(m_uiGeometryIndex);
-	pDataWriter->write(m_uiUnknown1);
-	pDataWriter->write(m_uiUnknown2);
+	pDataWriter->writeUint32(m_uiFrameIndex);
+	pDataWriter->writeUint32(m_uiGeometryIndex);
+	pDataWriter->writeUint32(m_uiUnknown1);
+	pDataWriter->writeUint32(m_uiUnknown2);
 }

@@ -9,6 +9,9 @@
 #include "CVector2D.h"
 #include "CVector3D.h"
 #include "CVector4D.h"
+#include "CVector2ui8.h"
+#include "CVector3ui8.h"
+#include "CVector3ui32.h"
 #include "CVector4ui8.h"
 #include "CVector4ui16.h"
 #include "Pool/CVectorPool.h"
@@ -40,8 +43,8 @@ public:
 	void					resetFile(void);
 
 	// write string
-	void					writeString(std::string& strData);
-	void					writeString(std::string& strData, uint32 uiTotalByteCountPadded);
+	void					writeString(std::string strData);
+	void					writeString(std::string strData, uint32 uiTotalByteCountPadded);
 	void					writeCString(char *pData, uint32 uiByteCount);
 
 	// write int
@@ -53,6 +56,9 @@ public:
 	void					writeInt16(int16 iInt);
 	void					writeInt32(int32 iInt);
 	void					writeInt64(int64 iInt);
+	void					writeVector2ui8(CVector2ui8& vecUints);
+	void					writeVector3ui8(CVector3ui8& vecUints);
+	void					writeVector3ui32(CVector3ui32& vecUints);
 	void					writeVector4ui8(CVector4ui8& vecUints);
 	void					writeStdVectorUint32(std::vector<uint32>& vecUints);
 	void					writeStdVector4ui8(std::vector<CVector4ui8>& vecVectors);
@@ -152,7 +158,7 @@ void						CDataWriter::writeLineEntries(CVectorPool<DerivedFormatClass> *pPool)
 	for (DerivedFormatClass *pEntry : pPool->getEntries())
 	{
 		pEntry->serialize();
-		pDataWriter->write("\n", 1);
+		pDataWriter->writeString("\n");
 	}
 }
 
@@ -164,15 +170,15 @@ void					CDataWriter::writeSectionLineEntries(CVectorPool<SectionClass> *pPool)
 	for (SectionClass *pSection : pPool->getEntries())
 	{
 		pSection->serialize();
-		pDataWriter->write("\n");
+		pDataWriter->writeString("\n");
 
 		for (EntryClass *pEntry : pSection->getEntries())
 		{
 			pEntry->serialize();
-			pDataWriter->write("\n");
+			pDataWriter->writeString("\n");
 		}
 
-		pDataWriter->write("end\n");
+		pDataWriter->writeString("end\n");
 	}
 }
 

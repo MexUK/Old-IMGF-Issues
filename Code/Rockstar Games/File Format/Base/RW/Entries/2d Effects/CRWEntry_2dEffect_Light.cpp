@@ -62,30 +62,27 @@ void							CRWEntry_2dEffect_Light::serialize(void)
 {
 	CDataWriter *pDataWriter = CDataWriter::getInstance();
 	
-	pDataWriter->write(m_uiColor);
-	pDataWriter->write(m_fCoronaFarClip);
-	pDataWriter->write(m_fPointlightRange);
-	pDataWriter->write(m_fCoronaSize);
-	pDataWriter->write(m_fShadowSize);
-	pDataWriter->write(m_ucCoronaShowMode);
-	pDataWriter->write(m_ucCoronaEnableReflection);
-	pDataWriter->write(m_ucCoronaFlareType);
-	pDataWriter->write(m_ucShadowColorMultiplier);
-	pDataWriter->write(m_ucFlags1);
-	pDataWriter->write(m_strCoronaTexName, 24);
-	pDataWriter->write(m_strShadowTexName, 24);
-	pDataWriter->write(m_ucShadowZDistance);
-	pDataWriter->write(m_ucFlags2);
+	pDataWriter->writeUint32(m_uiColor);
+	pDataWriter->writeFloat32(m_fCoronaFarClip);
+	pDataWriter->writeFloat32(m_fPointlightRange);
+	pDataWriter->writeFloat32(m_fCoronaSize);
+	pDataWriter->writeFloat32(m_fShadowSize);
+	pDataWriter->writeUint8(m_ucCoronaShowMode);
+	pDataWriter->writeUint8(m_ucCoronaEnableReflection);
+	pDataWriter->writeUint8(m_ucCoronaFlareType);
+	pDataWriter->writeUint8(m_ucShadowColorMultiplier);
+	pDataWriter->writeUint8(m_ucFlags1);
+	pDataWriter->writeString(m_strCoronaTexName, 24);
+	pDataWriter->writeString(m_strShadowTexName, 24);
+	pDataWriter->writeUint8(m_ucShadowZDistance);
+	pDataWriter->writeUint8(m_ucFlags2);
 	if (m_uiDataSize == 76)
 	{
-		pDataWriter->write(m_vecPadding.m_x);
+		pDataWriter->writeVector2ui8(m_vecPadding);
 	}
 	else if (m_uiDataSize == 80)
 	{
-		pDataWriter->write(m_vecLookDirection.m_x);
-		pDataWriter->write(m_vecLookDirection.m_y);
-		pDataWriter->write(m_vecLookDirection.m_z);
-		pDataWriter->write(m_vecPadding.m_x);
-		pDataWriter->write(m_vecPadding.m_y);
+		pDataWriter->writeVector3ui8(m_vecLookDirection);
+		pDataWriter->writeVector2ui8(m_vecPadding);
 	}
 }

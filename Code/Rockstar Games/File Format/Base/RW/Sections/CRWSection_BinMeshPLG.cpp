@@ -37,18 +37,18 @@ void							CRWSection_BinMeshPLG::serialize(void)
 {
 	CDataWriter *pDataWriter = CDataWriter::getInstance();
 
-	pDataWriter->write(m_uiFlags);
-	pDataWriter->write(m_uiMeshCount);
-	pDataWriter->write(m_uiIndexCount);
+	pDataWriter->writeUint32(m_uiFlags);
+	pDataWriter->writeUint32(m_uiMeshCount);
+	pDataWriter->writeUint32(m_uiIndexCount);
 
 	for (CRWEntry_BinMeshPLG_Mesh *pRWEntry_BinMeshPLG_Mesh : m_vecMeshes)
 	{
-		pDataWriter->write(pRWEntry_BinMeshPLG_Mesh->getIndexCount());
-		pDataWriter->write(pRWEntry_BinMeshPLG_Mesh->getMaterialIndex());
+		pDataWriter->writeUint32(pRWEntry_BinMeshPLG_Mesh->getIndexCount());
+		pDataWriter->writeUint32(pRWEntry_BinMeshPLG_Mesh->getMaterialIndex());
 
-		for (auto uiVertexIndex : pRWEntry_BinMeshPLG_Mesh->getVertexIndices())
+		for (uint32& uiVertexIndex : pRWEntry_BinMeshPLG_Mesh->getVertexIndices())
 		{
-			pDataWriter->write(uiVertexIndex);
+			pDataWriter->writeUint32(uiVertexIndex);
 		}
 	}
 }

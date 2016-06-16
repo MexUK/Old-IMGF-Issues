@@ -175,7 +175,7 @@ void				CSectionLinesFormat<FormatClass, EntryClass, SectionEnum, OtherEntryClas
 		for (EntryClass *pFormatEntry : it.second)
 		{
 			pFormatEntry->serialize();
-			pDataWriter->write("\n", 1);
+			pDataWriter->writeString("\n");
 		}
 	}
 }

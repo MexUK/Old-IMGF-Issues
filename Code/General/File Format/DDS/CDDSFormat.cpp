@@ -64,7 +64,7 @@ void				CDDSFormat::serialize(void)
 
 	// file header
 	uint32 uiMagicNumber = 0x20534444;
-	pDataWriter->write(uiMagicNumber);
+	pDataWriter->writeUint32(uiMagicNumber);
 
 	// DDS_HEADER structure
 	uint32
@@ -85,16 +85,16 @@ void				CDDSFormat::serialize(void)
 		uiFlags |= 8;
 		uiPitchOrLinearSize = m_uiWidth * 4;
 	}
-	pDataWriter->write(uiSize);
-	pDataWriter->write(uiFlags);
-	pDataWriter->write(m_uiHeight);
-	pDataWriter->write(m_uiWidth);
-	pDataWriter->write(uiPitchOrLinearSize);
-	pDataWriter->write(uiDepth);
-	pDataWriter->write(uiMipMapCount);
+	pDataWriter->writeUint32(uiSize);
+	pDataWriter->writeUint32(uiFlags);
+	pDataWriter->writeUint32(m_uiHeight);
+	pDataWriter->writeUint32(m_uiWidth);
+	pDataWriter->writeUint32(uiPitchOrLinearSize);
+	pDataWriter->writeUint32(uiDepth);
+	pDataWriter->writeUint32(uiMipMapCount);
 	for (uint32 i = 0; i < 11; i++)
 	{
-		pDataWriter->write(uiReserved1);
+		pDataWriter->writeUint32(uiReserved1);
 	}
 
 	// DDS_PIXELFORMAT structure
@@ -125,14 +125,14 @@ void				CDDSFormat::serialize(void)
 	{
 		strFourCC.append(4, '\0');
 	}
-	pDataWriter->write(uiSize2);
-	pDataWriter->write(uiFlags2);
-	pDataWriter->write(strFourCC);
-	pDataWriter->write(uiRGBBitCount);
-	pDataWriter->write(uiRBitMask);
-	pDataWriter->write(uiGBitMask);
-	pDataWriter->write(uiBBitMask);
-	pDataWriter->write(uiABitMask);
+	pDataWriter->writeUint32(uiSize2);
+	pDataWriter->writeUint32(uiFlags2);
+	pDataWriter->writeString(strFourCC);
+	pDataWriter->writeUint32(uiRGBBitCount);
+	pDataWriter->writeUint32(uiRBitMask);
+	pDataWriter->writeUint32(uiGBitMask);
+	pDataWriter->writeUint32(uiBBitMask);
+	pDataWriter->writeUint32(uiABitMask);
 
 	//if (uiFlags2 == DDPF_FOURCC && strFourCC == "DX10")
 	if (uiFlags2 == 4 && strFourCC == "DX10")
@@ -143,11 +143,11 @@ void				CDDSFormat::serialize(void)
 		int32 iMiscFlag = 0;
 		int32 iArraySize = 0;
 		int32 iMiscFlag2 = 0;
-		pDataWriter->write(uiDXGIFormat);
-		pDataWriter->write(uiD3D10ResourceDimension); // D3D10_RESOURCE_DIMENSION - assume 4 bytes
-		pDataWriter->write(iMiscFlag);
-		pDataWriter->write(iArraySize);
-		pDataWriter->write(iMiscFlag2);
+		pDataWriter->writeUint32(uiDXGIFormat);
+		pDataWriter->writeUint32(uiD3D10ResourceDimension); // D3D10_RESOURCE_DIMENSION - assume 4 bytes
+		pDataWriter->writeInt32(iMiscFlag);
+		pDataWriter->writeInt32(iArraySize);
+		pDataWriter->writeInt32(iMiscFlag2);
 	}
 
 	// DDS_HEADER structure continued
@@ -158,12 +158,12 @@ void				CDDSFormat::serialize(void)
 		uiCaps4 = 0,
 		uiReserved2 = 0
 	;
-	pDataWriter->write(uiCaps);
-	pDataWriter->write(uiCaps2);
-	pDataWriter->write(uiCaps3);
-	pDataWriter->write(uiCaps4);
-	pDataWriter->write(uiReserved2);
+	pDataWriter->writeUint32(uiCaps);
+	pDataWriter->writeUint32(uiCaps2);
+	pDataWriter->writeUint32(uiCaps3);
+	pDataWriter->writeUint32(uiCaps4);
+	pDataWriter->writeUint32(uiReserved2);
 
 	// data
-	pDataWriter->write(m_strRasterData);
+	pDataWriter->writeString(m_strRasterData);
 }

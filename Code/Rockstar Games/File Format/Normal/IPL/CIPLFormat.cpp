@@ -144,25 +144,25 @@ void		CIPLFormat::serializeBinary(void)
 		uiSectionOffset_INST = 76,
 		uiSectionOffset_CARS = uiSectionOffset_INST + (uiEntryCount_INST * 40);
 
-	pDataWriter->write(strFourCC);
-	pDataWriter->write(uiEntryCount_INST);
-	pDataWriter->write(0ul);
-	pDataWriter->write(0ul);
-	pDataWriter->write(0ul);
-	pDataWriter->write(uiEntryCount_CARS);
-	pDataWriter->write(0ul);
-	pDataWriter->write(uiSectionOffset_INST);
-	pDataWriter->write(uiSectionOffset_INST);
-	pDataWriter->write(0ul);
-	pDataWriter->write(0ul);
-	pDataWriter->write(0ul);
-	pDataWriter->write(0ul);
-	pDataWriter->write(0ul);
-	pDataWriter->write(0ul);
-	pDataWriter->write(uiSectionOffset_CARS);
-	pDataWriter->write(uiSectionOffset_CARS);
-	pDataWriter->write(0ul);
-	pDataWriter->write(0ul);
+	pDataWriter->writeString(strFourCC);
+	pDataWriter->writeUint32(uiEntryCount_INST);
+	pDataWriter->writeUint32(0);
+	pDataWriter->writeUint32(0);
+	pDataWriter->writeUint32(0);
+	pDataWriter->writeUint32(uiEntryCount_CARS);
+	pDataWriter->writeUint32(0);
+	pDataWriter->writeUint32(uiSectionOffset_INST);
+	pDataWriter->writeUint32(uiSectionOffset_INST);
+	pDataWriter->writeUint32(0);
+	pDataWriter->writeUint32(0);
+	pDataWriter->writeUint32(0);
+	pDataWriter->writeUint32(0);
+	pDataWriter->writeUint32(0);
+	pDataWriter->writeUint32(0);
+	pDataWriter->writeUint32(uiSectionOffset_CARS);
+	pDataWriter->writeUint32(uiSectionOffset_CARS);
+	pDataWriter->writeUint32(0);
+	pDataWriter->writeUint32(0);
 
 	// entries - INST
 	for (auto& vecIPLEntries : vecSections_INST)

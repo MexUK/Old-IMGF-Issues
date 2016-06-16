@@ -33,11 +33,11 @@ void							CRWSection_TextureDictionary::serialize(void)
 	{
 		uint16 usDeviceId = 0;
 
-		pDataWriter->write((uint16)uiTextureCount);
-		pDataWriter->write((uint16)usDeviceId);
+		pDataWriter->writeUint16(uiTextureCount);
+		pDataWriter->writeUint16(usDeviceId);
 	}
 	else
 	{
-		pDataWriter->write((uint32)uiTextureCount);
+		pDataWriter->writeUint32(uiTextureCount);
 	}
 }

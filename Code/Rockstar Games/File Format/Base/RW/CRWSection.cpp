@@ -59,16 +59,16 @@ void				CRWSection::serialize(void)
 	
 	if (!isSectionHeaderSkipped())
 	{
-		pDataWriter->write((uint32)m_eSectionId);
-		pDataWriter->write((uint32)0); // placeholder
-		pDataWriter->write(uiVersionCC);
+		pDataWriter->writeUint32(m_eSectionId);
+		pDataWriter->writeUint32(0); // placeholder
+		pDataWriter->writeUint32(uiVersionCC);
 	}
 	
 	if (doesRWSectionContainStruct(m_eSectionId))
 	{
-		pDataWriter->write((uint32)RW_SECTION_STRUCT);
-		pDataWriter->write((uint32)0); // placeholder
-		pDataWriter->write(uiVersionCC);
+		pDataWriter->writeUint32(RW_SECTION_STRUCT);
+		pDataWriter->writeUint32(0); // placeholder
+		pDataWriter->writeUint32(uiVersionCC);
 	}
 }
 

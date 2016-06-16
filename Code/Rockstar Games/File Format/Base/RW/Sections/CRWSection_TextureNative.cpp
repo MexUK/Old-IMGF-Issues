@@ -423,48 +423,48 @@ void							CRWSection_TextureNative::serializeHeader_Direct3D(void)
 	CDataWriter *pDataWriter = CDataWriter::getInstance();
 
 	// struct TextureFormat
-	pDataWriter->write((uint32)m_uiPlatformId);
-	pDataWriter->write(m_ucFilterFlags);
-	pDataWriter->write(m_ucTextureWrapUV);
-	pDataWriter->write(CStringUtility::zeroPad(2)); // 2 bytes padding
+	pDataWriter->writeUint32(m_uiPlatformId);
+	pDataWriter->writeUint8(m_ucFilterFlags);
+	pDataWriter->writeUint8(m_ucTextureWrapUV);
+	pDataWriter->writeString("", 2); // 2 bytes padding
 	
 	if (doesHaveDiffuse())
 	{
-		pDataWriter->write(m_strDiffuseName, 32);
+		pDataWriter->writeString(m_strDiffuseName, 32);
 	}
 	else
 	{
-		pDataWriter->write(CStringUtility::zeroPad(32));
+		pDataWriter->writeString("", 32);
 	}
 
 	if (doesHaveAlpha())
 	{
-		pDataWriter->write(m_strAlphaName, 32);
+		pDataWriter->writeString(m_strAlphaName, 32);
 	}
 	else
 	{
-		pDataWriter->write(CStringUtility::zeroPad(32));
+		pDataWriter->writeString("", 32);
 	}
 
 	// struct RasterFormat
-	pDataWriter->write(getTXDRasterDataFormat() | (getMipMaps().getEntryCount() > 1 ? TXDRASTERDATAFORMAT_EXT_MIPMAP : 0));
+	pDataWriter->writeUint32(getTXDRasterDataFormat() | (getMipMaps().getEntryCount() > 1 ? TXDRASTERDATAFORMAT_EXT_MIPMAP : 0));
 	
 	if (m_uiPlatformId == 9)
 	{
 		// GTA SA
-		pDataWriter->write(CImageUtility::getD3DFormatToPack(CImageUtility::getD3DFormatFromRasterDataFormat(m_eRasterDataFormat)));
+		pDataWriter->writeString(CImageUtility::getD3DFormatToPack(CImageUtility::getD3DFormatFromRasterDataFormat(m_eRasterDataFormat)));
 	}
 	else
 	{
 		// GTA III & VC
-		pDataWriter->write((uint32)(doesHaveAlpha() ? 1 : 0));
+		pDataWriter->writeUint32((doesHaveAlpha() ? 1 : 0));
 	}
 
-	pDataWriter->write((uint16)getImageSize().m_x);
-	pDataWriter->write((uint16)getImageSize().m_y);
-	pDataWriter->write(getBPP());
-	pDataWriter->write(getMipMaps().getEntryCount());
-	pDataWriter->write(getRasterType());
+	pDataWriter->writeUint16(getImageSize().m_x);
+	pDataWriter->writeUint16(getImageSize().m_y);
+	pDataWriter->writeUint8(getBPP());
+	pDataWriter->writeUint32(getMipMaps().getEntryCount());
+	pDataWriter->writeUint8(getRasterType());
 	if (m_uiPlatformId == 9)
 	{
 		// GTA SA
@@ -485,12 +485,12 @@ void							CRWSection_TextureNative::serializeHeader_Direct3D(void)
 		{
 			ucSAData |= 8;
 		}
-		pDataWriter->write(ucSAData);
+		pDataWriter->writeUint8(ucSAData);
 	}
 	else
 	{
 		// GTA III & VC
-		pDataWriter->write((uint8)getDXTCompressionType());
+		pDataWriter->writeUint8(getDXTCompressionType());
 	}
 }
 
@@ -514,8 +514,8 @@ void							CRWSection_TextureNative::serializeBody_Direct3D(void)
 
 	for (auto pMipmap : getMipMaps().getEntries())
 	{
-		pDataWriter->write((uint32)pMipmap->getRasterData().length());
-		pDataWriter->write(pMipmap->getRasterData());
+		pDataWriter->writeUint32(pMipmap->getRasterData().length());
+		pDataWriter->writeString(pMipmap->getRasterData());
 	}
 }
 

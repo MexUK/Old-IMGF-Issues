@@ -33,11 +33,11 @@ void							CRWSection_ExtraVertColour::serialize(void)
 {
 	CDataWriter *pDataWriter = CDataWriter::getInstance();
 
-	pDataWriter->write(m_uiMagicNumber);
+	pDataWriter->writeUint32(m_uiMagicNumber);
 
-	for (CVector4ui8 uiVertexColour : getVertexColours())
+	for (CVector4ui8& uiVertexColour : getVertexColours())
 	{
-		pDataWriter->write(uiVertexColour);
+		pDataWriter->writeVector4ui8(uiVertexColour);
 	}
 }
 

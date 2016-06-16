@@ -14,5 +14,5 @@ void			CIPLEntry_UnknownSection::serialize(void)
 {
 	CDataWriter *pDataWriter = CDataWriter::getInstance();
 
-	pDataWriter->write(m_strLine);
+	pDataWriter->writeString(m_strLine);
 }

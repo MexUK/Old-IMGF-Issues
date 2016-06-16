@@ -41,8 +41,8 @@ void								CDBFormat::serialize(void)
 	CDataWriter *pDataWriter = CDataWriter::getInstance();
 
 	// DB file header
-	pDataWriter->write(getDBVersion());
-	pDataWriter->write(getEntryCount());
+	pDataWriter->writeUint32(getDBVersion());
+	pDataWriter->writeUint32(getEntryCount());
 
 	// DB file entries
 	for (auto pDBEntry : getEntries())

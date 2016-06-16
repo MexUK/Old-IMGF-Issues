@@ -14,5 +14,5 @@ void		CIDEEntry_Section::serialize(void)
 {
 	CDataWriter *pDataWriter = CDataWriter::getInstance();
 
-	pDataWriter->write(getFormat()->getSectionText(getSectionType()));
+	pDataWriter->writeString(getFormat()->getSectionText(getSectionType()));
 }

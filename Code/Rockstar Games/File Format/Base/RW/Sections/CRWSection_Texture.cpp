@@ -21,6 +21,6 @@ void							CRWSection_Texture::serialize(void)
 {
 	CDataWriter *pDataWriter = CDataWriter::getInstance();
 
-	pDataWriter->write(m_usFilterFlags);
-	pDataWriter->write(m_usUnknown1);
+	pDataWriter->writeUint16(m_usFilterFlags);
+	pDataWriter->writeUint16(m_usUnknown1);
 }

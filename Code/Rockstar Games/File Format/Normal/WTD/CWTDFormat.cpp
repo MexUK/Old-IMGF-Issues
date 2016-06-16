@@ -191,24 +191,24 @@ void					CWTDFormat::serialize(void)
 		usUnknown3 = 0
 	;
 
-	pDataWriter->write(uiVTable);
+	pDataWriter->writeUint32(uiVTable);
 
-	pDataWriter->write(CRageManager::getPackedOffset(uiBlockMapOffset));
-	pDataWriter->write(uiParentDictionary);
-	pDataWriter->write(uiUsageCount);
+	pDataWriter->writeUint32(CRageManager::getPackedOffset(uiBlockMapOffset));
+	pDataWriter->writeUint32(uiParentDictionary);
+	pDataWriter->writeUint32(uiUsageCount);
 
-	pDataWriter->write(CRageManager::getPackedOffset(uiHashTableOffset));
-	pDataWriter->write(usTextureCount);
-	pDataWriter->write(usUnknown1);
+	pDataWriter->writeUint32(CRageManager::getPackedOffset(uiHashTableOffset));
+	pDataWriter->writeUint16(usTextureCount);
+	pDataWriter->writeUint16(usUnknown1);
 
-	pDataWriter->write(CRageManager::getPackedOffset(uiTextureListOffset));
-	pDataWriter->write(usUnknown2);
-	pDataWriter->write(usUnknown3);
+	pDataWriter->writeUint32(CRageManager::getPackedOffset(uiTextureListOffset));
+	pDataWriter->writeUint16(usUnknown2);
+	pDataWriter->writeUint16(usUnknown3);
 
 	// store texture hashes
 	for (auto pWTDEntry : getEntries())
 	{
-		pDataWriter->write(pWTDEntry->getTextureHash());
+		pDataWriter->writeUint32(pWTDEntry->getTextureHash());
 	}
 
 	// store texture info
@@ -246,39 +246,39 @@ void					CWTDFormat::serialize(void)
 		;
 		D3DFORMAT eD3DFormat = D3DFMT_DXT1;
 
-		pDataWriter->write(uiVTable2);
+		pDataWriter->writeUint32(uiVTable2);
 
-		pDataWriter->write(CRageManager::getPackedOffset(uiBlockMapOffset2));
+		pDataWriter->writeUint32(CRageManager::getPackedOffset(uiBlockMapOffset2));
 
-		pDataWriter->write(uiUnknown4);
-		pDataWriter->write(uiUnknown5);
-		pDataWriter->write(uiUnknown6);
+		pDataWriter->writeUint32(uiUnknown4);
+		pDataWriter->writeUint32(uiUnknown5);
+		pDataWriter->writeUint32(uiUnknown6);
 
-		pDataWriter->write(CRageManager::getPackedOffset(uiNameOffset));
+		pDataWriter->writeUint32(CRageManager::getPackedOffset(uiNameOffset));
 
-		pDataWriter->write(uiUnknown7);
+		pDataWriter->writeUint32(uiUnknown7);
 
-		pDataWriter->write(usWidth);
-		pDataWriter->write(usHeight);
-		pDataWriter->write(getFourCCFromD3DFormat(eD3DFormat));
+		pDataWriter->writeUint16(usWidth);
+		pDataWriter->writeUint16(usHeight);
+		pDataWriter->writeString(getFourCCFromD3DFormat(eD3DFormat));
 
-		pDataWriter->write(usStrideSize);
-		pDataWriter->write(ucType);
-		pDataWriter->write(ucLevels);
+		pDataWriter->writeUint16(usStrideSize);
+		pDataWriter->writeUint8(ucType);
+		pDataWriter->writeUint8(ucLevels);
 
-		pDataWriter->write(fUnknown8);
-		pDataWriter->write(fUnknown9);
-		pDataWriter->write(fUnknown10);
-		pDataWriter->write(fUnknown11);
-		pDataWriter->write(fUnknown12);
-		pDataWriter->write(fUnknown13);
+		pDataWriter->writeFloat32(fUnknown8);
+		pDataWriter->writeFloat32(fUnknown9);
+		pDataWriter->writeFloat32(fUnknown10);
+		pDataWriter->writeFloat32(fUnknown11);
+		pDataWriter->writeFloat32(fUnknown12);
+		pDataWriter->writeFloat32(fUnknown13);
 
-		pDataWriter->write(CRageManager::getPackedOffset(uiPrevTextureInfoOffset));
-		pDataWriter->write(CRageManager::getPackedOffset(uiNextTextureInfoOffset));
+		pDataWriter->writeUint32(CRageManager::getPackedOffset(uiPrevTextureInfoOffset));
+		pDataWriter->writeUint32(CRageManager::getPackedOffset(uiNextTextureInfoOffset));
 
-		pDataWriter->write(CRageManager::getPackedOffset(uiRawDataOffset));
+		pDataWriter->writeUint32(CRageManager::getPackedOffset(uiRawDataOffset));
 
-		pDataWriter->write(uiUnknown14);
+		pDataWriter->writeUint32(uiUnknown14);
 	}
 
 	// store texture names
@@ -286,7 +286,7 @@ void					CWTDFormat::serialize(void)
 	{
 		string strEntryName = pWTDEntry->getEntryName();
 		strEntryName.append("\0", 1);
-		pDataWriter->write(strEntryName);
+		pDataWriter->writeString(strEntryName);
 	}
 
 	// store graphics stream
@@ -295,7 +295,7 @@ void					CWTDFormat::serialize(void)
 	{
 		for (auto pMipmap : pWTDEntry->getEntries())
 		{
-			pDataWriter->write(pMipmap->getRasterData());
+			pDataWriter->writeString(pMipmap->getRasterData());
 		}
 	}
 	uint32 uiGraphicsStreamSize = pDataWriter->getData().length() - uiSystemStreamSize;
@@ -317,7 +317,7 @@ void					CWTDFormat::serialize(void)
 		CStringUtility::packUint32(uiMagicNumber, bBigEndian) +
 		CStringUtility::packUint32(uiType, bBigEndian) +
 		CStringUtility::packUint32(uiFlags, bBigEndian);
-	pDataWriter->write(strHeader12B + CCompressionUtility::compressZLib(strWTDFileData));
+	pDataWriter->writeString(strHeader12B + CCompressionUtility::compressZLib(strWTDFileData));
 }
 
 CIntermediateTextureFormat*		CWTDFormat::convertToIntermediateFormat(void)

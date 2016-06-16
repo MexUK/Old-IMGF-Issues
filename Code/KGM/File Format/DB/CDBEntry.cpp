@@ -20,10 +20,10 @@ void				CDBEntry::serialize(void)
 {
 	CDataWriter *pDataWriter = CDataWriter::getInstance();
 
-	pDataWriter->write((uint32)m_strEntryName.length());
-	pDataWriter->write(m_strEntryName);
-	pDataWriter->write(m_uiEntrySize);
-	pDataWriter->write(m_uiEntryDataCRC);
-	pDataWriter->write(m_uiEntryCreationDate);
-	pDataWriter->write((uint8)(m_bHasIssue ? 1 : 0));
+	pDataWriter->writeUint32(m_strEntryName.length());
+	pDataWriter->writeString(m_strEntryName);
+	pDataWriter->writeUint32(m_uiEntrySize);
+	pDataWriter->writeUint32(m_uiEntryDataCRC);
+	pDataWriter->writeUint32(m_uiEntryCreationDate);
+	pDataWriter->writeUint8((m_bHasIssue ? 1 : 0));
 }

@@ -96,53 +96,53 @@ void							CRWSection_Geometry::serialize(void)
 {
 	CDataWriter *pDataWriter = CDataWriter::getInstance();
 
-	pDataWriter->write(m_usFlags);
-	pDataWriter->write(m_ucUVCoordinateCount);
-	pDataWriter->write(m_ucGeometryNativeFlags);
-	pDataWriter->write(m_uiTriangleCount);
-	pDataWriter->write(m_uiVertexCount);
-	pDataWriter->write(m_uiFrameCount);
+	pDataWriter->writeUint16(m_usFlags);
+	pDataWriter->writeUint8(m_ucUVCoordinateCount);
+	pDataWriter->writeUint8(m_ucGeometryNativeFlags);
+	pDataWriter->writeUint32(m_uiTriangleCount);
+	pDataWriter->writeUint32(m_uiVertexCount);
+	pDataWriter->writeUint32(m_uiFrameCount);
 
 	uint32 uiRWVersionCC = CRWManager::getInstance()->getRWVersionCCForSerialization();
 	if (uiRWVersionCC < 0x1003FFFF)
 	{
-		pDataWriter->write(m_uiAmbientColour);
-		pDataWriter->write(m_uiDiffuseColour);
-		pDataWriter->write(m_uiSpecularColour);
+		pDataWriter->writeUint32(m_uiAmbientColour);
+		pDataWriter->writeUint32(m_uiDiffuseColour);
+		pDataWriter->writeUint32(m_uiSpecularColour);
 	}
 
 	if (!m_ucGeometryNativeFlags)
 	{
 		if (m_usFlags & 8)
 		{
-			pDataWriter->write(m_vecVertexColours);
+			pDataWriter->writeStdVector4ui8(m_vecVertexColours);
 		}
 		if (m_usFlags & 4)
 		{
-			pDataWriter->write(m_vecTextureCoordinates);
+			pDataWriter->writeStdVector2D(m_vecTextureCoordinates);
 		}
 		if (m_usFlags & 128)
 		{
 			for (uint32 i = 0, j = ((CRWSection_Geometry*)this)->m_ucUVCoordinateCount; i < j; i++)
 			{
-				pDataWriter->write(m_vecTextureCoordinates);
+				pDataWriter->writeStdVector2D(m_vecTextureCoordinates);
 			}
 		}
-		pDataWriter->write(m_vecVertexIndices);
+		pDataWriter->writeStdVector4ui16(m_vecVertexIndices);
 	}
 
-	pDataWriter->write(m_boundingInfo.getCenter());
-	pDataWriter->write(m_boundingInfo.getCenterRadius());
-	pDataWriter->write((uint32)m_boundingInfo.doesHavePosition());
-	pDataWriter->write((uint32)m_boundingInfo.doesHaveNormals());
+	pDataWriter->writeVector3D(m_boundingInfo.getCenter());
+	pDataWriter->writeFloat32(m_boundingInfo.getCenterRadius());
+	pDataWriter->writeUint32(m_boundingInfo.doesHavePosition());
+	pDataWriter->writeUint32(m_boundingInfo.doesHaveNormals());
 
 	if ((m_usFlags & 2) || m_boundingInfo.doesHavePosition())
 	{
-		pDataWriter->write(m_vecVertexPositions);
+		pDataWriter->writeStdVector3D(m_vecVertexPositions);
 	}
 	if ((m_usFlags & 16) || m_boundingInfo.doesHaveNormals())
 	{
-		pDataWriter->write(m_vecVertexNormals);
+		pDataWriter->writeStdVector3D(m_vecVertexNormals);
 	}
 }
 
