@@ -53,7 +53,6 @@ void					CTabControl::render(void)
 		vecTabBottomLeftPosition,
 		vecTabBottomRightPosition;
 	uint32
-		uiTabTextWidth,
 		uiTabWidth,
 		uiTabHeight,
 		uiActiveTabHeightDifference = getActiveTabHeightDifference();
@@ -66,10 +65,10 @@ void					CTabControl::render(void)
 			break;
 		}
 
+		pTab->checkToRecalculateStringSize(getStyles());
+
 		// calculate tab position and size
-		uiTabTextWidth = pGFX->getTextSize(pTab->getText(), getStyles()).m_x;
-		pTab->setTextWidth(uiTabTextWidth);
-		uiTabWidth = uiTabTextWidth + getStyles()->getInnerSpacingTotalX();
+		uiTabWidth = pTab->getTextWidth() + getStyles()->getInnerSpacingTotalX();
 		uiTabHeight = getSize().m_y;
 		if (!pTab->isActiveTab())
 		{

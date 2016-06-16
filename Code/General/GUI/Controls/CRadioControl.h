@@ -24,7 +24,6 @@ public:
 	uint32									getIconRadius(void);
 
 	CVector2i32								getTextPosition(void);
-	CVector2ui32							getTextSize(void);
 
 	int32									getMarkableTextSpacing(void); // todo - duplicated code in check and radio controls
 

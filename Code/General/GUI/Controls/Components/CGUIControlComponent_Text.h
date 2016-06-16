@@ -4,7 +4,7 @@
 #include "Types.h"
 #include "GUI/CGUIManager.h"
 #include "GUI/GraphicsLibrary/CGraphicsLibrary.h"
-#include "GUI/Styles/CGUIStyles.h"
+#include "GUI/String/CGUIString.h"
 #include <string>
 #include <Windows.h>
 #include <Gdiplus.h>
@@ -12,13 +12,28 @@
 class CGUIControlComponent_Text
 {
 public:
-	uint32									getTextWidth(void) { return 500; /* todo CGUIManager::getInstance()->getGraphicsLibrary()->getTextSize(getText(), getStyles()).m_x */; }
+	CGUIControlComponent_Text(void);
 
-	void									setText(std::string& strText) { m_strText = strText; }
-	std::string&							getText(void) { return m_strText; }
+	bool									checkToRecalculateStringSize(CGUIStyles *pStyles);
+
+	CVector2ui32&							getTextSize(void) { return m_gstrText.getSize(); }
+	uint32									getTextWidth(void) { return m_gstrText.getSize().m_x; }
+	uint32									getTextHeight(void) { return m_gstrText.getSize().m_y; }
+
+	void									setText(std::string& strText) { m_gstrText.setString(strText); }
+	std::string&							getText(void) { return m_gstrText.getString(); }
+
+	CGUIString&								getGUIString(void) { return m_gstrText; }
+
+	void									setStringSizeNeedsRecalculating(bool bStringSizeNeedsRecalculating) { m_bStringSizeNeedsRecalculating = bStringSizeNeedsRecalculating; }
+	bool									doesStringSizeNeedRecalculating(void) { return m_bStringSizeNeedsRecalculating; }
 
 private:
-	std::string								m_strText;
+	void									recalculateStringSize(CGUIStyles *pStyles);
+
+private:
+	uint8									m_bStringSizeNeedsRecalculating		: 1;
+	CGUIString								m_gstrText;
 };
 
 #endif

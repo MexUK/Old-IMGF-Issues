@@ -149,11 +149,9 @@ void									CThemeDesignerTab_AddItem::initDesign(void)
 	((CCheckControl*) pControl)->setMarked(true);
 
 	pControl = (CGUIControl*) pLayer->addDrop(CVector2i32(uiControlIconX, uiControlIconY + 60), CVector2ui32(15, 10), pStyles_BlueBorder);
-	/*
 	((CDropControl*) pControl)->addItem("aaaaa");
 	((CDropControl*) pControl)->addItem("bbbbbbbbbbbbbb");
 	((CDropControl*) pControl)->addItem("c");
-	*/
 
 	pControl = (CGUIControl*) pLayer->addEdit(CVector2i32(uiControlIconX, uiControlIconY + 90), CVector2ui32(15, 15), "", pStyles_Edit);
 	pControl = (CGUIControl*) pLayer->addList(CVector2i32(uiControlIconX, uiControlIconY + 120), CVector2ui32(15, 15), pStyles_BlueBorder);

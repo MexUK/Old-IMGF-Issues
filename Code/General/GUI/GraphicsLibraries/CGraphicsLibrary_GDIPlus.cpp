@@ -25,7 +25,7 @@ void					CGraphicsLibrary_GDIPlus::drawLine(CVector2i32& vecPoint1, CVector2i32&
 // draw rectangle
 void					CGraphicsLibrary_GDIPlus::drawRectangle(CVector2i32& vecPosition, CVector2ui32& vecSize, CGUIStyles *pStyles)
 {
-	if (pStyles->doesHaveFill()) // todo - use Fill or Background for naming not both
+	if (pStyles->doesHaveFill())
 	{
 		drawRectangleFill(vecPosition, vecSize, pStyles);
 	}
@@ -461,7 +461,7 @@ CVector2i32				CGraphicsLibrary_GDIPlus::getTextPositionFromStyles(CVector2i32& 
 		vecMinInnerSpacing = pStyles->getMinInnerSpacing(),
 		vecMaxInnerSpacing = pStyles->getMaxInnerSpacing();
 	CVector2ui32
-		vecTextSize = getTextSize(strText, pStyles);
+		vecTextSize = getTextSize(strText, pStyles); // todo - send CGUIString& to this method instead of std::string to make use of already calculated text size
 
 	// calculate x position
 	if (strAlignX == "left")

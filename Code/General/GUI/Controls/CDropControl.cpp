@@ -6,6 +6,7 @@
 #include "GUI/GraphicsLibrary/CGraphicsLibrary.h"
 #include "GUI/Window/CWindow.h"
 #include "Entries/CDropControlEntry.h"
+#include "GUI/Styles/CGUIStyles.h"
 
 using namespace std;
 
@@ -17,8 +18,7 @@ CDropControl::CDropControl(void) :
 	m_pActiveItem(nullptr),
 	m_uiListWidth(0),
 	m_uiListRowHeight(30),
-	m_bSelectionListOpen(false),
-	m_bGUIStringSizesNeedRecalculating(false)
+	m_bSelectionListOpen(false)
 {
 }
 
@@ -67,13 +67,6 @@ void				CDropControl::render(void)
 {
 	CGraphicsLibrary *pGFX = CGUIManager::getInstance()->getGraphicsLibrary();
 
-	if (doGUIStringSizesNeedRecalculating())
-	{
-		recalculateGUIStringSizes();
-		recalculateListWidth();
-		setGUIStringSizesNeedRecalculating(false);
-	}
-
 	if(isSelectionListOpen())
 	{
 		getStyles()->setItemComponent("list");
@@ -81,14 +74,25 @@ void				CDropControl::render(void)
 
 		getStyles()->setItemComponent("list-row");
 		uint32 i = 0;
+		bool bRecalculateListWidth = false;
 		for(auto pDropEntry : getEntries())
 		{
+			if (pDropEntry->checkToRecalculateStringSize(getStyles()))
+			{
+				bRecalculateListWidth = true;
+			}
+
 			pGFX->drawText(getSelectionListEntryPosition(i), getSelectionListEntrySize(), pDropEntry->getText(), getStyles());
 			i++;
 		}
+
+		if (bRecalculateListWidth)
+		{
+			recalculateListWidth();
+		}
 	}
 
-	getStyles()->setItemComponent("");
+	getStyles()->resetItemComponent(); // todo getStyles()->setItemComponent("");
 	pGFX->drawRectangle(getPosition(), getSize(), getStyles());
 	if (getActiveItem())
 	{
@@ -107,8 +111,8 @@ CDropControlEntry*	CDropControl::addItem(string strText)
 {
 	CDropControlEntry *pDropEntry = new CDropControlEntry;
 	pDropEntry->setText(strText);
+	pDropEntry->setStringSizeNeedsRecalculating(true);
 	addEntry(pDropEntry);
-	setGUIStringSizesNeedRecalculating(true);
 	return pDropEntry;
 }
 
@@ -192,18 +196,7 @@ float32				CDropControl::getDropTriangleSideHeight(void)
 void				CDropControl::setSize(CVector2ui32& vecSize)
 {
 	CGUIControl::setSize(vecSize);
-	setGUIStringSizesNeedRecalculating(true);
-}
-
-// string sizes
-void				CDropControl::recalculateGUIStringSizes(void)
-{
-	CGraphicsLibrary *pGFX = CGUIManager::getInstance()->getGraphicsLibrary();
-
-	for (CDropControlEntry *pDropControlEntry : getEntries())
-	{
-		pDropControlEntry->getGUIString().setSize(pGFX->getTextSize(pDropControlEntry->getText(), getStyles()));
-	}
+	recalculateListWidth();
 }
 
 // list width

@@ -3,12 +3,11 @@
 
 #include "Types.h"
 #include "GUI/Control/CGUIControl.h"
-#include "GUI/Controls/Components/CGUIControlComponent_Text.h"
 #include "GUI/Controls/Entries/CMenuControlEntry.h"
 #include "Pool/CVectorPool.h"
 #include <string>
 
-class CMenuControl : public CGUIControl, public CGUIControlComponent_Text, public CVectorPool<CMenuControlEntry*>
+class CMenuControl : public CGUIControl, public CVectorPool<CMenuControlEntry*>
 {
 public:
 	CMenuControl(void);

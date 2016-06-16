@@ -22,5 +22,7 @@ void					CTextControl::render(void)
 {
 	CGraphicsLibrary *pGFX = CGUIManager::getInstance()->getGraphicsLibrary();
 
+	checkToRecalculateStringSize(getStyles());
+
 	pGFX->drawText(getPosition(), getSize(), getText(), getStyles());
 }

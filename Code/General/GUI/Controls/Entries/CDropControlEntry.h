@@ -3,21 +3,13 @@
 
 #include "Types.h"
 #include "Pool/CVectorPool.h"
-#include "GUI/String/CGUIString.h"
+#include "GUI/Controls/Components/CGUIControlComponent_Text.h"
 #include <string>
 
-class CDropControlEntry
+class CDropControlEntry : public CGUIControlComponent_Text
 {
 public:
 	void									unload(void) {}
-
-	void									setText(std::string& strText) { m_gstrText.setString(strText); }
-	std::string&							getText(void) { return m_gstrText.getString(); }
-
-	CGUIString&								getGUIString(void) { return m_gstrText; }
-	
-private:
-	CGUIString								m_gstrText;
 };
 
 #endif

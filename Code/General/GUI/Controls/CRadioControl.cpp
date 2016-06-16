@@ -44,21 +44,23 @@ void		CRadioControl::render(void)
 {
 	CGraphicsLibrary *pGFX = CGUIManager::getInstance()->getGraphicsLibrary();
 
+	getStyles()->setItemStatus(isMarked() ? "marked" : "unmarked");
+
+	checkToRecalculateStringSize(getStyles());
+
 	float32 fRadius = getIconRadius();
 	CVector2i32 vecCircleCenterPosition = getPosition();
-
-	getStyles()->setItemStatus(isMarked() ? "marked" : "unmarked");
 
 	// draw circle
 	getStyles()->setHasFillOverwrite(isMarked());
 	pGFX->drawCircle(vecCircleCenterPosition, fRadius, getStyles());
 	getStyles()->restoreStyleOverwrites();
 
-	// draw text
-	pGFX->drawText(getTextPosition(), getTextSize(), getText(), getStyles());
-
 	// reset
 	getStyles()->restoreTemporaryStyleData();
+
+	// draw text
+	pGFX->drawText(getTextPosition(), getTextSize(), getText(), getStyles());
 }
 
 // cursor
@@ -88,11 +90,6 @@ uint32			CRadioControl::getIconRadius(void)
 CVector2i32		CRadioControl::getTextPosition(void)
 {
 	return CVector2i32(getPosition().m_x + getSize().m_x + getMarkableTextSpacing(), getPosition().m_y);
-}
-
-CVector2ui32	CRadioControl::getTextSize(void)
-{
-	return CVector2ui32(500, getSize().m_y); // todo - change 500 to fetch the displayed width of just the text
 }
 
 // styles

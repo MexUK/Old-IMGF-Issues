@@ -42,6 +42,8 @@ void			CProgressControl::render(void)
 
 	if (isTextShown())
 	{
+		checkToRecalculateStringSize(getStyles());
+
 		//getStyles()->setComponentType("text");
 		pGFX->drawText(getPosition(), getSize(), getProgressPercentText(), getStyles());
 	}

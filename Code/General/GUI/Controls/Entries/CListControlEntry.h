@@ -2,12 +2,13 @@
 #define CListControlEntry_H
 
 #include "Types.h"
+#include "GUI/Controls/Components/CGUIControlComponent_Text.h"
 #include <string>
 #include <vector>
 
 class CListControl;
 
-class CListControlEntry
+class CListControlEntry : public CGUIControlComponent_Text
 {
 public:
 	CListControlEntry(void);

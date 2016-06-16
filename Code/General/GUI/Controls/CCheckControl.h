@@ -20,6 +20,8 @@ public:
 
 	CVector2ui32							getTotalSize(void); // todo - duplicated code in check and radio controls
 
+	CVector2i32								getTextPosition(void);
+
 	int32									getMarkableTextSpacing(void); // todo - duplicated code in check and radio controls
 	
 	void									setMarked(bool bMarked) { m_bMarked = bMarked; } // todo - duplicated code in check and radio controls

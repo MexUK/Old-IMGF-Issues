@@ -318,6 +318,9 @@
     <ClCompile Include="..\..\..\Code\General\GUI\String\CGUIString.cpp">
       <Filter>Source Files\GUI\String</Filter>
     </ClCompile>
+    <ClCompile Include="..\..\..\Code\General\GUI\Controls\Components\CGUIControlComponent_Text.cpp">
+      <Filter>Source Files\GUI\Controls\Components</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\..\..\Code\General\Image\CImageFile.h">

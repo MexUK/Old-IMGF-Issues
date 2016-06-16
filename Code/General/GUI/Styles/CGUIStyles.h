@@ -50,14 +50,18 @@ public:
 
 	void					setItemComponent(std::string strItemComponent) { m_strItemComponent = strItemComponent; }
 	std::string&			getItemComponent(void) { return m_strItemComponent; }
+	void					resetItemComponent(void) { m_strItemComponent = ""; }
 
 	void					setItemStatus(std::string strItemStatus) { m_strItemStatus = strItemStatus; }
 	std::string&			getItemStatus(void) { return m_strItemStatus; }
+	void					resetItemStatus(void) { m_strItemStatus = ""; }
 
 	void					setHasFillOverwrite(bool bHasFillOverwrite) { m_bHasFillOverwrite = bHasFillOverwrite; }
 	bool					doesHaveFillOverwrite(void) { return m_bHasFillOverwrite; }
 
 	static CMultipleTypeValuesUMapContainer<std::string>&	getStyleDefaultValues(void) { return m_umapStyleDefaultValues; }
+
+	static bool				doesDefaultStyleValueExist(std::string strStyleName);
 
 private:
 	uint8													m_bHasFillOverwrite		: 1;
@@ -78,30 +82,41 @@ void				CGUIStyles::setStyle(std::string strStyleName, ValueType value)
 template <typename ValueType>
 ValueType				CGUIStyles::getStyle(std::string strStyleName)
 {
+	/*
+	Order of style processing
+	-------------------------
+	applied style: default.fill-colour:marked
+	applied style: fill-colour:marked
+	default style: fill-colour:marked	- eventually can be fully resolved to encounter for default values for multiple components - todo
+	applied style: default.fill-colour
+	applied style: fill-colour
+	default style: fill-colour		- eventually can be fully resolved to encounter for default values for multiple components - todo
+	*/
+
+	bool
+		bHasComponent = getItemComponent() != "",
+		bHasStatus = getItemStatus() != "";
 	std::string
 		strStyleNameFullyResolved = (getItemComponent() == "" ? "default." : (getItemComponent() + ".")) + strStyleName + (getItemStatus() == "" ? "" : (":" + getItemStatus())), // with component and status
 		strStyleNameWithStatus = strStyleName + (getItemStatus() == "" ? "" : (":" + getItemStatus())),
 		strStyleNameWithComponent = (getItemComponent() == "" ? "default." : (getItemComponent() + ".")) + strStyleName;
 
-	if (doesStyleExist(strStyleNameFullyResolved))
+	if (bHasComponent && bHasStatus && doesStyleExist(strStyleNameFullyResolved))
 	{
 		// e.g. drop-triangle.fill-colour:list-open
 		return *getEntryPointer<ValueType>(strStyleNameFullyResolved);
 	}
-	else if (doesStyleExist(strStyleNameWithStatus))
+	else if (bHasStatus && doesStyleExist(strStyleNameWithStatus))
 	{
 		// e.g. fill-colour:list-open
 		return *getEntryPointer<ValueType>(strStyleNameWithStatus);
 	}
-	/*
-	todo
-	else if (getItemStatus() != "")
+	else if (bHasStatus && doesDefaultStyleValueExist(strStyleNameWithStatus))
 	{
 		// e.g. fill-colour:list-open
 		return getStyleDefaultValue<ValueType>(strStyleNameWithStatus);
 	}
-	*/
-	else if (doesStyleExist(strStyleNameWithComponent))
+	else if (bHasComponent && doesStyleExist(strStyleNameWithComponent))
 	{
 		// e.g. drop-triangle.fill-colour
 		return *getEntryPointer<ValueType>(strStyleNameWithComponent);

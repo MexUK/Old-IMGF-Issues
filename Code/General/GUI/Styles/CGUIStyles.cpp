@@ -54,14 +54,6 @@ void					CGUIStyles::init(void)
 	getStyleDefaultValues().setEntry("fill-colour:marked", RGB(0, 255, 0));
 	getStyleDefaultValues().setEntry("fill-colour:unmarked", RGB(0xFF, 0xFF, 0xFF));
 	getStyleDefaultValues().setEntry<int32>("markable-text-spacing", 0);
-
-	// temp start
-	getStyleDefaultValues().setEntry("row-fill-colour-1", RGB(255, 255, 255));
-	getStyleDefaultValues().setEntry("row-fill-colour-2", RGB(200, 200, 200));
-	getStyleDefaultValues().setEntry("progress-bar-fill-colour", RGB(0, 50, 150));
-	getStyleDefaultValues().setEntry("fill-colour-marked", RGB(0, 255, 0));
-	getStyleDefaultValues().setEntry("fill-colour-unmarked", RGB(0xFF, 0xFF, 0xFF));
-	// temp end
 }
 
 void					CGUIStyles::uninit(void)
@@ -223,4 +215,10 @@ void					CGUIStyles::restoreTemporaryStyleData(void)
 void					CGUIStyles::restoreStyleOverwrites(void)
 {
 	setHasFillOverwrite(false);
+}
+
+// default styles
+bool					CGUIStyles::doesDefaultStyleValueExist(string strStyleName)
+{
+	return getStyleDefaultValues().doesEntryExist(strStyleName);
 }

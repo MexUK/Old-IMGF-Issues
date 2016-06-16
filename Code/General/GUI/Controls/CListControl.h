@@ -5,13 +5,12 @@
 #include "GUI/Control/CGUIControl.h"
 #include "GUI/Styles/CGUIStyles.h"
 #include "GUI/Controls/Entries/CListControlEntry.h"
-#include "GUI/Controls/Components/CGUIControlComponent_Text.h"
 #include "Pool/CVectorPool.h"
 #include "CVector2i32.h"
 #include <string>
 #include <vector>
 
-class CListControl : public CGUIControl, public CVectorPool<CListControlEntry*>, public CGUIControlComponent_Text
+class CListControl : public CGUIControl, public CVectorPool<CListControlEntry*>
 {
 public:
 	CListControl(void);

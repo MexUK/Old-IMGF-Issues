@@ -6,12 +6,11 @@
 #include "GUI/Control/CGUIControl.h"
 #include "GUI/Styles/CGUIStyles.h"
 #include "GUI/Control/CGUIScrollPool.h"
-#include "GUI/Controls/Components/CGUIControlComponent_Text.h"
 #include "GUI/Controls/CScrollControl.h"
 #include <string>
 #include <vector>
 
-class CEditControl : public CGUIControl, public CGUIControlComponent_Text
+class CEditControl : public CGUIControl
 {
 public:
 	CEditControl(void);

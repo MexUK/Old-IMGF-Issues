@@ -12,7 +12,6 @@ auto pOnRender_List			= [](void *pControl) { ((CListControl*) pControl)->render(
 
 CListControl::CListControl(void) :
 	CGUIControl(GUI_CONTROL_LIST),
-	CGUIControlComponent_Text(),
 	m_uiRowHeight(50),
 	m_uiColumnWidth(100),
 	m_uiRowTextHeight(10),
@@ -52,6 +51,8 @@ void					CListControl::render(void)
 		uiColumnIndex;
 	for(auto pListEntry : getEntries())
 	{
+		pListEntry->checkToRecalculateStringSize(getStyles());
+
 		uint32 uiRowFillColour = (uiRowIndex % 2) == 0 ? getRowFillColour1() : getRowFillColour2(); // todo - used?
 		pGFX->drawRectangleFill(getRowPosition(uiRowIndex), getRowSize(), getStyles());
 

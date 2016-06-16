@@ -98,6 +98,7 @@
     <ClCompile Include="..\..\..\Code\General\GUI\Controls\CEditControl.cpp" />
     <ClCompile Include="..\..\..\Code\General\GUI\Controls\CListControl.cpp" />
     <ClCompile Include="..\..\..\Code\General\GUI\Controls\CMenuControl.cpp" />
+    <ClCompile Include="..\..\..\Code\General\GUI\Controls\Components\CGUIControlComponent_Text.cpp" />
     <ClCompile Include="..\..\..\Code\General\GUI\Controls\CProgressControl.cpp" />
     <ClCompile Include="..\..\..\Code\General\GUI\Controls\CRadioControl.cpp" />
     <ClCompile Include="..\..\..\Code\General\GUI\Controls\CScrollControl.cpp" />

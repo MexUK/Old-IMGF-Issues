@@ -2,8 +2,7 @@
 #include "GUI/Controls/CTabControl.h"
 
 CTabControlEntry::CTabControlEntry(void) :
-	m_pTabControl(nullptr),
-	m_uiTextWidth(0)
+	m_pTabControl(nullptr)
 {
 }
 

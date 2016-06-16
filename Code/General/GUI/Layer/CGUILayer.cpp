@@ -107,7 +107,7 @@ CDropControl*		CGUILayer::addDrop(CVector2i32& vecPosition, CVector2ui32& vecSiz
 CEditControl*		CGUILayer::addEdit(CVector2i32& vecPosition, CVector2ui32& vecSize, string strEditText, CGUIStyles *pStyles)
 {
 	CEditControl *pControl = new CEditControl;
-	pControl->setText(strEditText);
+	// todo pControl->setText(strEditText);
 	_addControl(pControl, vecPosition, vecSize, pStyles);
 	return pControl;
 }
