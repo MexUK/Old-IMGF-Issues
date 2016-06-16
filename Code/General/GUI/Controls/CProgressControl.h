@@ -17,7 +17,7 @@ public:
 	
 	float32									getProgress(void);				// 0.0 to 1.0
 	std::string								getProgressPercentText(void);
-	CVector2i32								getProgressPosition(void);		// in pixels
+	CPoint2D								getProgressPosition(void);		// in pixels
 	int32									getProgressPositionX(void);		// in pixels
 
 	void									setMaxTicks(uint32 uiMaxTicks) { m_uiMaxTicks = uiMaxTicks; }

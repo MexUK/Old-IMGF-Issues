@@ -8,6 +8,7 @@
 #include "GUI/Styles/CGUIStyles.h"
 #include "GUI/Controls/CTabControl.h"
 #include "GUI/ThemeDesigner/Tabs/CThemeDesignerTab_AddItem.h"
+#include "CColour.h"
 #include <vector>
 
 using namespace std;
@@ -37,23 +38,23 @@ void					CThemeDesigner::bindEvents(void)
 
 void					CThemeDesigner::initWindow(void)
 {
-	CVector2i32 vecWindowPosition(10, 10);
-	CVector2ui32 vecWindowSize(500, 500);
+	CPoint2D vecWindowPosition(10, 10);
+	CSize2D vecWindowSize(500, 500);
 	CWindow *pWindow = CGUIManager::getInstance()->addWindow(vecWindowPosition, vecWindowSize);
-	pWindow->getStyles()->setStyle("fill-colour", RGB(33, 78, 103));
+	pWindow->getStyles()->setStyle("fill-colour", CColour(33, 78, 103));
 	setWindow(pWindow);
 
 	CGUIStyles *pStyles_TabControl = CGUIManager::createStyles();
-	pStyles_TabControl->setStyle("fill-colour", RGB(19, 46, 60));
-	pStyles_TabControl->setStyle("text-colour", RGB(121, 180, 199));
-	pStyles_TabControl->setStyle("border-colour", RGB(121, 180, 199));
+	pStyles_TabControl->setStyle("fill-colour", CColour(19, 46, 60));
+	pStyles_TabControl->setStyle("text-colour", CColour(121, 180, 199));
+	pStyles_TabControl->setStyle("border-colour", CColour(121, 180, 199));
 	pStyles_TabControl->setStyle<string>("text-align", "center center");
 	pStyles_TabControl->setStyle<uint32>("inner-spacing-x", 15);
 	//pStyles_TabControl->setStyle<bool>("border-state-left", false);
 	//pStyles_TabControl->setStyle<bool>("border-state-top", false);
 
 	CGUILayer *pLayer_ThemeDesignerWindow = pWindow->addLayer(pWindow, true);
-	CTabControl *pTabControl = pLayer_ThemeDesignerWindow->addTabBar(CVector2i32(0, 0), CVector2ui32(vecWindowSize.m_x, 25), pStyles_TabControl);
+	CTabControl *pTabControl = pLayer_ThemeDesignerWindow->addTabBar(CPoint2D(0, 0), CSize2D(vecWindowSize.m_x, 25), pStyles_TabControl);
 	setTabControl(pTabControl);
 	m_umapTabControlEntries["items"] = pTabControl->addTab("Items");
 	m_umapTabControlEntries["add_item"] = pTabControl->addTab("Add Item", true);

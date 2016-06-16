@@ -28,9 +28,9 @@ void							CTriangleShape::render(void)
 }
 
 // point testing
-bool							CTriangleShape::isPointInItem(CVector2i32& vecPoint)
+bool							CTriangleShape::isPointInItem(CPoint2D& vecPoint)
 {
-	vector<CVector2i32> vecPoints;
+	vector<CPoint2D> vecPoints; // todo - use wrapper
 	vecPoints.resize(3);
 	vecPoints[0] = getPoint1();
 	vecPoints[1] = getPoint2();
@@ -39,9 +39,9 @@ bool							CTriangleShape::isPointInItem(CVector2i32& vecPoint)
 }
 
 // bounding rectangle
-CVector2i32						CTriangleShape::getBoundingRectanglePosition(void)
+CPoint2D						CTriangleShape::getBoundingRectanglePosition(void)
 {
-	vector<CVector2i32> vecPoints; // todo - repeated code
+	vector<CPoint2D> vecPoints; // todo - repeated code
 	vecPoints.resize(3);
 	vecPoints[0] = getPoint1();
 	vecPoints[1] = getPoint2();
@@ -49,9 +49,9 @@ CVector2i32						CTriangleShape::getBoundingRectanglePosition(void)
 	return CMathUtility::getBoundingRectanglePositionForPolygon(vecPoints);
 }
 
-CVector2ui32					CTriangleShape::getBoundingRectangleSize(void)
+CSize2D							CTriangleShape::getBoundingRectangleSize(void)
 {
-	vector<CVector2i32> vecPoints; // todo - repeated code
+	vector<CPoint2D> vecPoints; // todo - repeated code
 	vecPoints.resize(3);
 	vecPoints[0] = getPoint1();
 	vecPoints[1] = getPoint2();

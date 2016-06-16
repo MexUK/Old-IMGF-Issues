@@ -22,7 +22,7 @@ CGUIControl::~CGUIControl(void)
 }
 
 // point testing
-bool									CGUIControl::isPointInItem(CVector2i32& vecPoint)
+bool									CGUIControl::isPointInItem(CPoint2D& vecPoint)
 {
 	return CMathUtility::isPointInRectangle(vecPoint, getPosition(), getSize());
 }

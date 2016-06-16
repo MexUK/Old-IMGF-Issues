@@ -2,7 +2,7 @@
 #define CRWEntry_TextureNative_MipMap_H
 
 #include "Types.h"
-#include "CVector2ui32.h"
+#include "CSize2D.h"
 #include "Image/eRasterDataFormat.h"
 #include <string>
 
@@ -32,19 +32,19 @@ public:
 	void						setRasterData(std::string& strData) { m_strRasterData = strData; }
 	std::string&				getRasterData(void) { return m_strRasterData; }
 
-	void						setImageSize(CVector2ui32& vecImageSize) { m_vecImageSize = vecImageSize; }
-	CVector2ui32&				getImageSize(void) { return m_vecImageSize; }
+	void						setImageSize(CSize2D& vecImageSize) { m_vecImageSize = vecImageSize; }
+	CSize2D&					getImageSize(void) { return m_vecImageSize; }
 
-	void						setSwizzledImageSize(CVector2ui32& vecSwizzledImageSize) { m_vecSwizzledImageSize = vecSwizzledImageSize; }
-	CVector2ui32&				getSwizzledImageSize(void) { return m_vecSwizzledImageSize; }
+	void						setSwizzledImageSize(CSize2D& vecSwizzledImageSize) { m_vecSwizzledImageSize = vecSwizzledImageSize; }
+	CSize2D&					getSwizzledImageSize(void) { return m_vecSwizzledImageSize; }
 
 	void						setTexture(CRWSection_TextureNative *pTextureNative) { m_pTextureNative = pTextureNative; }
 	CRWSection_TextureNative*	getTexture(void) { return m_pTextureNative; }
 
 private:
 	CRWSection_TextureNative*	m_pTextureNative;
-	CVector2ui32				m_vecImageSize;
-	CVector2ui32				m_vecSwizzledImageSize;
+	CSize2D						m_vecImageSize;
+	CSize2D						m_vecSwizzledImageSize;
 	std::string					m_strRasterData;
 };
 

@@ -2,8 +2,8 @@
 #define CGUIControl_H
 
 #include "Types.h"
-#include "CVector2i32.h"
-#include "CVector2ui32.h"
+#include "CPoint2D.h"
+#include "CSize2D.h"
 #include "eGUIControl.h"
 #include "Pool/CVectorPool.h"
 #include "Event/CEventBoundFunction.h"
@@ -27,11 +27,11 @@ public:
 
 	void									unload(void) {}
 
-	virtual bool							isPointInItem(CVector2i32& vecPoint);
-	CVector2i32								getBoundingRectanglePosition(void) { return m_vecPosition; }
-	CVector2ui32							getBoundingRectangleSize(void) { return m_vecSize; }
+	virtual bool							isPointInItem(CPoint2D& vecPoint);
+	CPoint2D								getBoundingRectanglePosition(void) { return m_vecPosition; }
+	CSize2D									getBoundingRectangleSize(void) { return m_vecSize; }
 	void									moveItem(CVector2i32& vecPositionChange) { m_vecPosition += vecPositionChange; }
-	void									resizeItemViaOffsets(CVector2i32& vecItemSizeChange) { m_vecSize += CVector2ui32(vecItemSizeChange.m_x, vecItemSizeChange.m_y); }
+	void									resizeItemViaOffsets(CVector2i32& vecItemSizeChange) { m_vecSize += CSize2D(vecItemSizeChange.m_x, vecItemSizeChange.m_y); }
 
 	bool									doesControlHaveFocus(void);
 
@@ -41,11 +41,11 @@ public:
 	void									setControlId(uint32 uiControlId) { m_uiControlId = uiControlId; }
 	uint32									getControlId(void) { return m_uiControlId; }
 	
-	void									setPosition(CVector2i32& vecPosition) { m_vecPosition = vecPosition; }
-	CVector2i32&							getPosition(void) { return m_vecPosition; }
+	void									setPosition(CPoint2D& vecPosition) { m_vecPosition = vecPosition; }
+	CPoint2D&								getPosition(void) { return m_vecPosition; }
 	
-	void									setSize(CVector2ui32& vecSize) { m_vecSize = vecSize; }
-	CVector2ui32&							getSize(void) { return m_vecSize; }
+	void									setSize(CSize2D& vecSize) { m_vecSize = vecSize; }
+	CSize2D&								getSize(void) { return m_vecSize; }
 	
 	void									setPointMarkedAsInControl(bool bPointMarkedAsInControl) { m_bPointMarkedAsInControl = bPointMarkedAsInControl; }
 	bool									isPointMarkedAsInControl(void) { return m_bPointMarkedAsInControl; }
@@ -54,8 +54,8 @@ public:
 
 private:
 	eGUIControl								m_eControlType;
-	CVector2i32								m_vecPosition;
-	CVector2ui32							m_vecSize;
+	CPoint2D								m_vecPosition;
+	CSize2D									m_vecSize;
 	uint32									m_uiControlId;
 	uint8									m_bPointMarkedAsInControl		: 1;
 	CGUIScrollPool*							m_pScrolls;

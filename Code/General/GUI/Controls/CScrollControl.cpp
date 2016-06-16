@@ -6,9 +6,9 @@
 #include "GUI/CGUIManager.h"
 #include "GUI/GraphicsLibrary/CGraphicsLibrary.h"
 
-auto pOnMouseDown_Scroll	= [](void *pControl, void *pTriggerArg) { ((CScrollControl*) pControl)->onMouseDown(*(CVector2i32*) pTriggerArg); };
-auto pOnMouseUp_Scroll		= [](void *pControl, void *pTriggerArg) { ((CScrollControl*) pControl)->onMouseUp(*(CVector2i32*) pTriggerArg); };
-auto pOnMouseMove_Scroll	= [](void *pControl, void *pTriggerArg) { ((CScrollControl*) pControl)->onMouseMove(*(CVector2i32*) pTriggerArg); };
+auto pOnMouseDown_Scroll	= [](void *pControl, void *pTriggerArg) { ((CScrollControl*) pControl)->onMouseDown(*(CPoint2D*) pTriggerArg); };
+auto pOnMouseUp_Scroll		= [](void *pControl, void *pTriggerArg) { ((CScrollControl*) pControl)->onMouseUp(*(CPoint2D*) pTriggerArg); };
+auto pOnMouseMove_Scroll	= [](void *pControl, void *pTriggerArg) { ((CScrollControl*) pControl)->onMouseMove(*(CPoint2D*) pTriggerArg); };
 auto pOnRender_Scroll		= [](void *pControl) { ((CScrollControl*) pControl)->render(); };
 
 CScrollControl::CScrollControl(void) :
@@ -32,7 +32,7 @@ void									CScrollControl::bindEvents(void)
 }
 
 // input
-void									CScrollControl::onMouseDown(CVector2i32& vecCursorPosition)
+void									CScrollControl::onMouseDown(CPoint2D& vecCursorPosition)
 {
 	if (isPointInSeekBar(vecCursorPosition))
 	{
@@ -43,7 +43,7 @@ void									CScrollControl::onMouseDown(CVector2i32& vecCursorPosition)
 	}
 }
 
-void									CScrollControl::onMouseUp(CVector2i32& vecCursorPosition)
+void									CScrollControl::onMouseUp(CPoint2D& vecCursorPosition)
 {
 	if (isSeekBarMoving())
 	{
@@ -54,7 +54,7 @@ void									CScrollControl::onMouseUp(CVector2i32& vecCursorPosition)
 	}
 }
 
-void									CScrollControl::onMouseMove(CVector2i32& vecCursorPosition)
+void									CScrollControl::onMouseMove(CPoint2D& vecCursorPosition)
 {
 	if (isSeekBarMoving())
 	{
@@ -79,9 +79,9 @@ void									CScrollControl::render(void)
 }
 
 // seek bar
-CVector2i32								CScrollControl::getSeekBarPosition(void)
+CPoint2D								CScrollControl::getSeekBarPosition(void)
 {
-	return getPosition() + CVector2i32(0, getSeekBarPositionOffset());
+	return getPosition() + CPoint2D(0, getSeekBarPositionOffset());
 }
 
 uint32									CScrollControl::getSeekBarPositionOffset(void)
@@ -89,12 +89,12 @@ uint32									CScrollControl::getSeekBarPositionOffset(void)
 	return ((float32) (getSize().m_y - getSeekBarLength())) * getProgress();
 }
 
-CVector2ui32							CScrollControl::getSeekBarSize(void)
+CSize2D									CScrollControl::getSeekBarSize(void)
 {
-	return CVector2ui32(getSize().m_x, getSeekBarLength());
+	return CSize2D(getSize().m_x, getSeekBarLength());
 }
 
-bool									CScrollControl::isPointInSeekBar(CVector2i32& vecPoint)
+bool									CScrollControl::isPointInSeekBar(CPoint2D& vecPoint)
 {
 	return CMathUtility::isPointInRectangle(vecPoint, getSeekBarPosition(), getSeekBarSize());
 }

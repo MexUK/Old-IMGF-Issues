@@ -1,8 +1,8 @@
 #ifndef CGUIShape_H
 #define CGUIShape_H
 
-#include "CVector2i32.h"
-#include "CVector2ui32.h"
+#include "CPoint2D.h"
+#include "CSize2D.h"
 #include "Event/CEventBinder.h"
 #include "GUI/Shape/Geometry/eGUIShapeGeometry.h"
 #include "GUI/Shape/eGUIShape.h"

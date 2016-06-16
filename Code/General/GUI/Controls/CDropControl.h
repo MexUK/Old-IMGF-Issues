@@ -3,10 +3,10 @@
 
 #include "Types.h"
 #include "GUI/Control/CGUIControl.h"
-#include "GUI/Controls/Entries/CDropControlEntry.h"
 #include "Pool/CVectorPool.h"
-#include "CVector2i32.h"
-#include "CVector2ui32.h"
+#include "GUI/Controls/Entries/CDropControlEntry.h"
+#include "CPoint2D.h"
+#include "CSize2D.h"
 #include <string>
 
 class CDropControl : public CGUIControl, public CVectorPool<CDropControlEntry*>
@@ -16,23 +16,23 @@ public:
 
 	void									bindEvents(void);
 
-	void									onMouseUp(CVector2i32& vecCursorPosition);
+	void									onMouseUp(CPoint2D& vecCursorPosition);
 
 	void									render(void);
 
-	CDropControlEntry*						addItem(std::string strItemText);
+	CDropControlEntry*						addItem(std::string strItemText, bool bIsActiveItem = false);
 	void									removeItem(CDropControlEntry *pDropEntry);
 
-	bool									isPointInControl(CVector2i32& vecPoint);
-	bool									isPointInSelectionList(CVector2i32& vecPoint);
+	bool									isPointInControl(CPoint2D& vecPoint);
+	bool									isPointInSelectionList(CPoint2D& vecPoint);
 
-	CVector2i32								getSelectionListPosition(void);
-	CVector2ui32							getSelectionListSize(void);
-	CVector2i32								getSelectionListEntryPosition(uint32 uiEntryIndex);
-	CVector2ui32							getSelectionListEntrySize(void);
-	uint32									getSelectionListEntryFromPoint(CVector2i32& vecCursorPosition);
+	CPoint2D								getSelectionListPosition(void);
+	CSize2D									getSelectionListSize(void);
+	CPoint2D								getSelectionListEntryPosition(uint32 uiEntryIndex);
+	CSize2D									getSelectionListEntrySize(void);
+	uint32									getSelectionListEntryFromPoint(CPoint2D& vecCursorPosition);
 
-	void									setSize(CVector2ui32& vecSize);
+	void									setSize(CSize2D& vecSize);
 
 	void									setActiveItem(CDropControlEntry *pDropEntry) { m_pActiveItem = pDropEntry; }
 	CDropControlEntry*						getActiveItem(void) { return m_pActiveItem; }
@@ -47,7 +47,7 @@ public:
 	bool									isSelectionListOpen(void) { return m_bSelectionListOpen; }
 
 private:
-	CVector2i32								getDropTrianglePosition(void);
+	CPoint2D								getDropTrianglePosition(void);
 	float32									getDropTriangleSideLength(void);
 	float32									getDropTriangleSideHeight(void);
 

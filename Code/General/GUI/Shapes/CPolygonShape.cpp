@@ -26,18 +26,18 @@ void							CPolygonShape::render(void)
 }
 
 // point testing
-bool							CPolygonShape::isPointInItem(CVector2i32& vecPoint)
+bool							CPolygonShape::isPointInItem(CPoint2D& vecPoint)
 {
 	return CMathUtility::isPointInPolygon(vecPoint, getPoints());
 }
 
 // bounding rectangle
-CVector2i32						CPolygonShape::getBoundingRectanglePosition(void)
+CPoint2D						CPolygonShape::getBoundingRectanglePosition(void)
 {
 	return CMathUtility::getBoundingRectanglePositionForPolygon(getPoints());
 }
 
-CVector2ui32					CPolygonShape::getBoundingRectangleSize(void)
+CSize2D							CPolygonShape::getBoundingRectangleSize(void)
 {
 	return CMathUtility::getBoundingRectangleSizeForPolygon(getPoints());
 }

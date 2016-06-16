@@ -16,7 +16,7 @@ public:
 
 	bool									checkToRecalculateStringSize(CGUIStyles *pStyles);
 
-	CVector2ui32&							getTextSize(void) { return m_gstrText.getSize(); }
+	CSize2D&								getTextSize(void) { return m_gstrText.getSize(); }
 	uint32									getTextWidth(void) { return m_gstrText.getSize().m_x; }
 	uint32									getTextHeight(void) { return m_gstrText.getSize().m_y; }
 

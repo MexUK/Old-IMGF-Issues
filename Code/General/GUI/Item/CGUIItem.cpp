@@ -35,7 +35,7 @@ CWindow*								CGUIItem::getWindow(void)
 }
 
 // point testing
-bool									CGUIItem::isPointInBoundingRectangle(CVector2i32& vecPoint, uint32 uiOuterSpacing)
+bool									CGUIItem::isPointInBoundingRectangle(CPoint2D& vecPoint, uint32 uiOuterSpacing)
 {
 	// todo - uiOuterSpacing
 	return CMathUtility::isPointInRectangle(vecPoint, getBoundingRectanglePosition(), getBoundingRectangleSize());

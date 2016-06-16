@@ -3,6 +3,7 @@
 
 #include "Types.h"
 #include "CVector2i32.h"
+#include "CPoint2D.h"
 #include "GUI/Shape/eGUIShape.h"
 #include "GUI/Shape/CGUIShape.h"
 #include <vector>
@@ -15,11 +16,11 @@ public:
 	void							moveItem(CVector2i32& vecPositionChange);
 	void							resizeItemViaOffsets(CVector2i32& vecItemSizeChange) {}
 
-	void							setPoints(std::vector<CVector2i32>& vecPoints) { m_vecPoints = vecPoints; }
-	std::vector<CVector2i32>&		getPoints(void) { return m_vecPoints; }
+	void							setPoints(std::vector<CPoint2D>& vecPoints) { m_vecPoints = vecPoints; }
+	std::vector<CPoint2D>&			getPoints(void) { return m_vecPoints; }
 	
 private:
-	std::vector<CVector2i32>		m_vecPoints;
+	std::vector<CPoint2D>			m_vecPoints;
 };
 
 #endif

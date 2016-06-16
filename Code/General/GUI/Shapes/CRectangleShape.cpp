@@ -26,18 +26,18 @@ void							CRectangleShape::render(void)
 }
 
 // point testing
-bool							CRectangleShape::isPointInItem(CVector2i32& vecPoint)
+bool							CRectangleShape::isPointInItem(CPoint2D& vecPoint)
 {
 	return CMathUtility::isPointInRectangle(vecPoint, getPosition(), getSize());
 }
 
 // bounding rectangle
-CVector2i32						CRectangleShape::getBoundingRectanglePosition(void)
+CPoint2D						CRectangleShape::getBoundingRectanglePosition(void)
 {
 	return getPosition();
 }
 
-CVector2ui32					CRectangleShape::getBoundingRectangleSize(void)
+CSize2D							CRectangleShape::getBoundingRectangleSize(void)
 {
 	return getSize();
 }

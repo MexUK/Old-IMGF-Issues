@@ -53,7 +53,7 @@ void									CGUILayer::unbindAllEvents(void)
 }
 
 // item fetching
-CGUIItem*			CGUILayer::getItemByPoint(CVector2i32& vecPoint)
+CGUIItem*			CGUILayer::getItemByPoint(CPoint2D& vecPoint)
 {
 	uint32 uiOuterSpacing = 1;
 	for (CGUIShape *pShape : getShapes().getEntries())
@@ -81,7 +81,7 @@ CGUIControl*		CGUILayer::addControl(eGUIControl eControlId, CGUIStyles *pStyles)
 	return pControl;
 }
 
-CButtonControl*		CGUILayer::addButton(CVector2i32& vecPosition, CVector2ui32& vecSize, string strButtonText, CGUIStyles *pStyles)
+CButtonControl*		CGUILayer::addButton(CPoint2D& vecPosition, CSize2D& vecSize, string strButtonText, CGUIStyles *pStyles)
 {
 	CButtonControl *pControl = new CButtonControl;
 	pControl->setText(strButtonText);
@@ -89,7 +89,7 @@ CButtonControl*		CGUILayer::addButton(CVector2i32& vecPosition, CVector2ui32& ve
 	return pControl;
 }
 
-CCheckControl*		CGUILayer::addCheck(CVector2i32& vecPosition, CVector2ui32& vecSize, string strCheckText, CGUIStyles *pStyles)
+CCheckControl*		CGUILayer::addCheck(CPoint2D& vecPosition, CSize2D& vecSize, string strCheckText, CGUIStyles *pStyles)
 {
 	CCheckControl *pControl = new CCheckControl;
 	pControl->setText(strCheckText);
@@ -97,14 +97,14 @@ CCheckControl*		CGUILayer::addCheck(CVector2i32& vecPosition, CVector2ui32& vecS
 	return pControl;
 }
 
-CDropControl*		CGUILayer::addDrop(CVector2i32& vecPosition, CVector2ui32& vecSize, CGUIStyles *pStyles)
+CDropControl*		CGUILayer::addDrop(CPoint2D& vecPosition, CSize2D& vecSize, CGUIStyles *pStyles)
 {
 	CDropControl *pControl = new CDropControl;
 	_addControl(pControl, vecPosition, vecSize, pStyles);
 	return pControl;
 }
 
-CEditControl*		CGUILayer::addEdit(CVector2i32& vecPosition, CVector2ui32& vecSize, string strEditText, CGUIStyles *pStyles)
+CEditControl*		CGUILayer::addEdit(CPoint2D& vecPosition, CSize2D& vecSize, string strEditText, CGUIStyles *pStyles)
 {
 	CEditControl *pControl = new CEditControl;
 	// todo pControl->setText(strEditText);
@@ -112,28 +112,28 @@ CEditControl*		CGUILayer::addEdit(CVector2i32& vecPosition, CVector2ui32& vecSiz
 	return pControl;
 }
 
-CListControl*		CGUILayer::addList(CVector2i32& vecPosition, CVector2ui32& vecSize, CGUIStyles *pStyles)
+CListControl*		CGUILayer::addList(CPoint2D& vecPosition, CSize2D& vecSize, CGUIStyles *pStyles)
 {
 	CListControl *pControl = new CListControl;
 	_addControl(pControl, vecPosition, vecSize, pStyles);
 	return pControl;
 }
 
-CMenuControl*		CGUILayer::addMenu(CVector2i32& vecPosition, CVector2ui32& vecSize, CGUIStyles *pStyles)
+CMenuControl*		CGUILayer::addMenu(CPoint2D& vecPosition, CSize2D& vecSize, CGUIStyles *pStyles)
 {
 	CMenuControl *pControl = new CMenuControl;
 	_addControl(pControl, vecPosition, vecSize, pStyles);
 	return pControl;
 }
 
-CProgressControl*	CGUILayer::addProgress(CVector2i32& vecPosition, CVector2ui32& vecSize, CGUIStyles *pStyles)
+CProgressControl*	CGUILayer::addProgress(CPoint2D& vecPosition, CSize2D& vecSize, CGUIStyles *pStyles)
 {
 	CProgressControl *pControl = new CProgressControl;
 	_addControl(pControl, vecPosition, vecSize, pStyles);
 	return pControl;
 }
 
-CRadioControl*		CGUILayer::addRadio(CVector2i32& vecPosition, CVector2ui32& vecSize, string strRadioText, CGUIStyles *pStyles)
+CRadioControl*		CGUILayer::addRadio(CPoint2D& vecPosition, CSize2D& vecSize, string strRadioText, CGUIStyles *pStyles)
 {
 	CRadioControl *pControl = new CRadioControl;
 	pControl->setText(strRadioText);
@@ -141,21 +141,21 @@ CRadioControl*		CGUILayer::addRadio(CVector2i32& vecPosition, CVector2ui32& vecS
 	return pControl;
 }
 
-CScrollControl*		CGUILayer::addScroll(CVector2i32& vecPosition, CVector2ui32& vecSize, CGUIStyles *pStyles)
+CScrollControl*		CGUILayer::addScroll(CPoint2D& vecPosition, CSize2D& vecSize, CGUIStyles *pStyles)
 {
 	CScrollControl *pControl = new CScrollControl;
 	_addControl(pControl, vecPosition, vecSize, pStyles);
 	return pControl;
 }
 
-CTabControl*		CGUILayer::addTabBar(CVector2i32& vecPosition, CVector2ui32& vecSize, CGUIStyles *pStyles)
+CTabControl*		CGUILayer::addTabBar(CPoint2D& vecPosition, CSize2D& vecSize, CGUIStyles *pStyles)
 {
 	CTabControl *pControl = new CTabControl;
 	_addControl(pControl, vecPosition, vecSize, pStyles);
 	return pControl;
 }
 
-CTextControl*		CGUILayer::addText(CVector2i32& vecPosition, CVector2ui32& vecSize, string strText, CGUIStyles *pStyles)
+CTextControl*		CGUILayer::addText(CPoint2D& vecPosition, CSize2D& vecSize, string strText, CGUIStyles *pStyles)
 {
 	CTextControl *pControl = new CTextControl;
 	pControl->setText(strText);
@@ -164,7 +164,7 @@ CTextControl*		CGUILayer::addText(CVector2i32& vecPosition, CVector2ui32& vecSiz
 }
 
 // add control - base
-void						CGUILayer::_addControl(CGUIControl *pControl, CVector2i32& vecPosition, CVector2ui32& vecSize, CGUIStyles *pStyles)
+void						CGUILayer::_addControl(CGUIControl *pControl, CPoint2D& vecPosition, CSize2D& vecSize, CGUIStyles *pStyles)
 {
 	pControl->setPosition(vecPosition);
 	pControl->setSize(vecSize);
@@ -225,10 +225,10 @@ CGUIShape*					CGUILayer::addShape(eGUIShape eShapeId, CGUIStyles *pStyles)
 	return pShape;
 }
 
-CLineShape*					CGUILayer::addLine(CVector2i32& vecPoint1, CVector2i32& vecPoint2, CGUIStyles *pStyles)
+CLineShape*					CGUILayer::addLine(CPoint2D& vecPoint1, CPoint2D& vecPoint2, CGUIStyles *pStyles)
 {
 	CLineShape *pLine = new CLineShape;
-	vector<CVector2i32> vecPoints;
+	vector<CPoint2D> vecPoints;
 	vecPoints.resize(2);
 	pLine->setPoint1(vecPoint1);
 	pLine->setPoint2(vecPoint2);
@@ -236,7 +236,7 @@ CLineShape*					CGUILayer::addLine(CVector2i32& vecPoint1, CVector2i32& vecPoint
 	return pLine;
 }
 
-CRectangleShape*			CGUILayer::addRectangle(CVector2i32& vecPosition, CVector2ui32& vecSize, CGUIStyles *pStyles)
+CRectangleShape*			CGUILayer::addRectangle(CPoint2D& vecPosition, CSize2D& vecSize, CGUIStyles *pStyles)
 {
 	CRectangleShape *pRectangle = new CRectangleShape;
 	pRectangle->setPosition(vecPosition);
@@ -245,7 +245,7 @@ CRectangleShape*			CGUILayer::addRectangle(CVector2i32& vecPosition, CVector2ui3
 	return pRectangle;
 }
 
-CEllipseShape*				CGUILayer::addEllipse(CVector2i32& vecPosition, CVector2ui32& vecSize, CGUIStyles *pStyles)
+CEllipseShape*				CGUILayer::addEllipse(CPoint2D& vecPosition, CSize2D& vecSize, CGUIStyles *pStyles)
 {
 	CEllipseShape *pEllipse = new CEllipseShape;
 	pEllipse->setPosition(vecPosition);
@@ -254,7 +254,7 @@ CEllipseShape*				CGUILayer::addEllipse(CVector2i32& vecPosition, CVector2ui32& 
 	return pEllipse;
 }
 
-CPolygonShape*				CGUILayer::addPolygon(vector<CVector2i32>& vecPoints, CGUIStyles *pStyles)
+CPolygonShape*				CGUILayer::addPolygon(vector<CPoint2D>& vecPoints, CGUIStyles *pStyles)
 {
 	CPolygonShape *pPolygon = new CPolygonShape;
 	pPolygon->setPoints(vecPoints);
@@ -263,7 +263,7 @@ CPolygonShape*				CGUILayer::addPolygon(vector<CVector2i32>& vecPoints, CGUIStyl
 }
 
 // add shape - derived - wrappers
-CSquareShape*				CGUILayer::addSquare(CVector2i32& vecPosition, uint32 uiSideLength, CGUIStyles *pStyles)
+CSquareShape*				CGUILayer::addSquare(CPoint2D& vecPosition, uint32 uiSideLength, CGUIStyles *pStyles)
 {
 	CSquareShape *pSquare = new CSquareShape;
 	pSquare->setPosition(vecPosition);
@@ -272,7 +272,7 @@ CSquareShape*				CGUILayer::addSquare(CVector2i32& vecPosition, uint32 uiSideLen
 	return pSquare;
 }
 
-CCircleShape*				CGUILayer::addCircle(CVector2i32& vecPosition, uint32 uiRadius, CGUIStyles *pStyles)
+CCircleShape*				CGUILayer::addCircle(CPoint2D& vecPosition, uint32 uiRadius, CGUIStyles *pStyles)
 {
 	CCircleShape *pCircle = new CCircleShape;
 	uint32 uiDiameter = uiRadius * 2;
@@ -282,7 +282,7 @@ CCircleShape*				CGUILayer::addCircle(CVector2i32& vecPosition, uint32 uiRadius,
 	return pCircle;
 }
 
-CTriangleShape*				CGUILayer::addTriangle(CVector2i32& vecPoint1, CVector2i32& vecPoint2, CVector2i32& vecPoint3, CGUIStyles *pStyles)
+CTriangleShape*				CGUILayer::addTriangle(CPoint2D& vecPoint1, CPoint2D& vecPoint2, CPoint2D& vecPoint3, CGUIStyles *pStyles)
 {
 	CTriangleShape *pTriangle = new CTriangleShape;
 	pTriangle->setPoint1(vecPoint1);
@@ -292,39 +292,39 @@ CTriangleShape*				CGUILayer::addTriangle(CVector2i32& vecPoint1, CVector2i32& v
 	return pTriangle;
 }
 
-CTriangleShape*				CGUILayer::addEquilateralTriangle(CVector2i32& vecPosition, float32 fSideLength, uint32 uiPointingDirection, CGUIStyles *pStyles)
+CTriangleShape*				CGUILayer::addEquilateralTriangle(CPoint2D& vecPosition, float32 fSideLength, uint32 uiPointingDirection, CGUIStyles *pStyles)
 {
-	vector<CVector2i32> vecShapePoints = CMathUtility::getEquilateralTrianglePoints(vecPosition, fSideLength, uiPointingDirection);
+	vector<CPoint2D> vecShapePoints = CMathUtility::getEquilateralTrianglePoints(vecPosition, fSideLength, uiPointingDirection);
 	return addTriangle(vecShapePoints[0], vecShapePoints[1], vecShapePoints[2], pStyles);
 }
 
-CTriangleShape*				CGUILayer::addEquilateralTriangle(CVector2i32& vecBottomLeftPoint, CVector2i32& vecBottomRightPoint, CGUIStyles *pStyles)
+CTriangleShape*				CGUILayer::addEquilateralTriangle(CPoint2D& vecBottomLeftPoint, CPoint2D& vecBottomRightPoint, CGUIStyles *pStyles)
 {
-	vector<CVector2i32> vecShapePoints = CMathUtility::getEquilateralTrianglePoints(vecBottomLeftPoint, vecBottomRightPoint);
+	vector<CPoint2D> vecShapePoints = CMathUtility::getEquilateralTrianglePoints(vecBottomLeftPoint, vecBottomRightPoint);
 	return addTriangle(vecShapePoints[0], vecShapePoints[1], vecShapePoints[2], pStyles);
 }
 
-CTriangleShape*				CGUILayer::addEquilateralTriangle(CVector2i32& vecBottomLeftPoint, float32 fSideLength, float32 fBaseAngle, CGUIStyles *pStyles)
+CTriangleShape*				CGUILayer::addEquilateralTriangle(CPoint2D& vecBottomLeftPoint, float32 fSideLength, float32 fBaseAngle, CGUIStyles *pStyles)
 {
-	vector<CVector2i32> vecShapePoints = CMathUtility::getEquilateralTrianglePoints(vecBottomLeftPoint, fSideLength, fBaseAngle);
+	vector<CPoint2D> vecShapePoints = CMathUtility::getEquilateralTrianglePoints(vecBottomLeftPoint, fSideLength, fBaseAngle);
 	return addTriangle(vecShapePoints[0], vecShapePoints[1], vecShapePoints[2], pStyles);
 }
 
-CTriangleShape*				CGUILayer::addIsoscelesTriangle(CVector2i32& vecPosition, float32 fBaseLength, float32 fLegLength, uint32 uiPointingDirection, CGUIStyles *pStyles)
+CTriangleShape*				CGUILayer::addIsoscelesTriangle(CPoint2D& vecPosition, float32 fBaseLength, float32 fLegLength, uint32 uiPointingDirection, CGUIStyles *pStyles)
 {
-	vector<CVector2i32> vecShapePoints = CMathUtility::getIsoscelesTrianglePoints(vecPosition, fBaseLength, fLegLength, uiPointingDirection);
+	vector<CPoint2D> vecShapePoints = CMathUtility::getIsoscelesTrianglePoints(vecPosition, fBaseLength, fLegLength, uiPointingDirection);
 	return addTriangle(vecShapePoints[0], vecShapePoints[1], vecShapePoints[2], pStyles);
 }
 
-CTriangleShape*				CGUILayer::addIsoscelesTriangle(CVector2i32& vecBaseCenterPoint, CVector2i32& vecTipPoint, uint32 uiBaseHalfWidth, CGUIStyles *pStyles)
+CTriangleShape*				CGUILayer::addIsoscelesTriangle(CPoint2D& vecBaseCenterPoint, CPoint2D& vecTipPoint, uint32 uiBaseHalfWidth, CGUIStyles *pStyles)
 {
-	vector<CVector2i32> vecShapePoints = CMathUtility::getIsoscelesTrianglePoints(vecBaseCenterPoint, vecTipPoint, uiBaseHalfWidth);
+	vector<CPoint2D> vecShapePoints = CMathUtility::getIsoscelesTrianglePoints(vecBaseCenterPoint, vecTipPoint, uiBaseHalfWidth);
 	return addTriangle(vecShapePoints[0], vecShapePoints[1], vecShapePoints[2], pStyles);
 }
 
-CTriangleShape*				CGUILayer::addIsoscelesTriangle(CVector2i32& vecBottomLeftPoint, float32 fBaseLength, float32 fTipAngle, float32 fBaseAngle, CGUIStyles *pStyles)
+CTriangleShape*				CGUILayer::addIsoscelesTriangle(CPoint2D& vecBottomLeftPoint, float32 fBaseLength, float32 fTipAngle, float32 fBaseAngle, CGUIStyles *pStyles)
 {
-	vector<CVector2i32> vecShapePoints = CMathUtility::getIsoscelesTrianglePoints(vecBottomLeftPoint, fBaseLength, fTipAngle, fBaseAngle);
+	vector<CPoint2D> vecShapePoints = CMathUtility::getIsoscelesTrianglePoints(vecBottomLeftPoint, fBaseLength, fTipAngle, fBaseAngle);
 	return addTriangle(vecShapePoints[0], vecShapePoints[1], vecShapePoints[2], pStyles);
 }
 

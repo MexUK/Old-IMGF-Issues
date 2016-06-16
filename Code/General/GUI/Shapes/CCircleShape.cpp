@@ -27,19 +27,19 @@ void							CCircleShape::render(void)
 }
 
 // point testing
-bool							CCircleShape::isPointInItem(CVector2i32& vecPoint)
+bool							CCircleShape::isPointInItem(CPoint2D& vecPoint)
 {
 	return CMathUtility::getDistanceBetweenPoints(getCenterPosition(), vecPoint) <= getSize();
 }
 
 // bounding rectangle
-CVector2i32						CCircleShape::getBoundingRectanglePosition(void)
+CPoint2D						CCircleShape::getBoundingRectanglePosition(void)
 {
 	return getPosition();
 }
 
-CVector2ui32					CCircleShape::getBoundingRectangleSize(void)
+CSize2D							CCircleShape::getBoundingRectangleSize(void)
 {
 	float32 fDiameter = getSize() * 2.0f;
-	return CVector2ui32(fDiameter, fDiameter);
+	return CSize2D(fDiameter, fDiameter); // todo - make it take 1 param
 }

@@ -26,18 +26,18 @@ void							CLineShape::render(void)
 }
 
 // point testing
-bool							CLineShape::isPointInItem(CVector2i32& vecPoint)
+bool							CLineShape::isPointInItem(CPoint2D& vecPoint)
 {
 	return CMathUtility::isPointOnLine(vecPoint, getPoint1(), getPoint2());
 }
 
 // bounding rectangle
-CVector2i32						CLineShape::getBoundingRectanglePosition(void)
+CPoint2D						CLineShape::getBoundingRectanglePosition(void)
 {
 	return CMathUtility::getBoundingRectanglePositionForLine(getPoint1(), getPoint2());
 }
 
-CVector2ui32					CLineShape::getBoundingRectangleSize(void)
+CSize2D							CLineShape::getBoundingRectangleSize(void)
 {
 	return CMathUtility::getBoundingRectangleSizeForLine(getPoint1(), getPoint2());
 }

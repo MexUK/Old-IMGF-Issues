@@ -5,6 +5,7 @@
 #include "CSingleton.h"
 #include "eEventType.h"
 #include "CVector2i32.h"
+#include "CPoint2D.h"
 #include "CInputEventCallbacks.h"
 #include <string>
 #include <vector>
@@ -39,17 +40,17 @@ public:
 	bool										triggerEvent(uint32 uiEventTypeId, uint32 uiEventTypeIndex, uint32 uiEventId, void *pTriggerArgument = nullptr);
 
 	// CEventManager continued
-	void										setLatestCursorPosition(CVector2i32& vecLatestCursorPosition) { m_vecLatestCursorPosition = vecLatestCursorPosition; }
-	CVector2i32&								getLatestCursorPosition(void) { return m_vecLatestCursorPosition; }
+	void										setLatestCursorPosition(CPoint2D& vecLatestCursorPosition) { m_vecLatestCursorPosition = vecLatestCursorPosition; }
+	CPoint2D&									getLatestCursorPosition(void) { return m_vecLatestCursorPosition; }
 
-	void										setLatestScreenCursorPosition(CVector2i32& vecLatestScreenCursorPosition) { m_vecLatestScreenCursorPosition = vecLatestScreenCursorPosition; }
-	CVector2i32&								getLatestScreenCursorPosition(void) { return m_vecLatestScreenCursorPosition; }
+	void										setLatestScreenCursorPosition(CPoint2D& vecLatestScreenCursorPosition) { m_vecLatestScreenCursorPosition = vecLatestScreenCursorPosition; }
+	CPoint2D&									getLatestScreenCursorPosition(void) { return m_vecLatestScreenCursorPosition; }
 
-	void										setPreviousCursorPosition(CVector2i32& vecPreviousCursorPosition) { m_vecPreviousCursorPosition = vecPreviousCursorPosition; }
-	CVector2i32&								getPreviousCursorPosition(void) { return m_vecPreviousCursorPosition; }
+	void										setPreviousCursorPosition(CPoint2D& vecPreviousCursorPosition) { m_vecPreviousCursorPosition = vecPreviousCursorPosition; }
+	CPoint2D&									getPreviousCursorPosition(void) { return m_vecPreviousCursorPosition; }
 
-	void										setPreviousScreenCursorPosition(CVector2i32& vecPreviousScreenCursorPosition) { m_vecPreviousScreenCursorPosition = vecPreviousScreenCursorPosition; }
-	CVector2i32&								getPreviousScreenCursorPosition(void) { return m_vecPreviousScreenCursorPosition; }
+	void										setPreviousScreenCursorPosition(CPoint2D& vecPreviousScreenCursorPosition) { m_vecPreviousScreenCursorPosition = vecPreviousScreenCursorPosition; }
+	CPoint2D&									getPreviousScreenCursorPosition(void) { return m_vecPreviousScreenCursorPosition; }
 
 	void										setScreenCursorMoveDifference(CVector2i32& vecScreenCursorMoveDifference) { m_vecScreenCursorMoveDifference = vecScreenCursorMoveDifference; }
 	CVector2i32&								getScreenCursorMoveDifference(void) { return m_vecScreenCursorMoveDifference; }
@@ -68,10 +69,10 @@ private:
 private:
 	uint8															m_bDefaultActionPrevented	: 1;
 	uint8															m_bEventHogged				: 1;
-	CVector2i32														m_vecLatestCursorPosition;
-	CVector2i32														m_vecLatestScreenCursorPosition;
-	CVector2i32														m_vecPreviousCursorPosition;
-	CVector2i32														m_vecPreviousScreenCursorPosition;
+	CPoint2D														m_vecLatestCursorPosition;
+	CPoint2D														m_vecLatestScreenCursorPosition;
+	CPoint2D														m_vecPreviousCursorPosition;
+	CPoint2D														m_vecPreviousScreenCursorPosition;
 	CVector2i32														m_vecScreenCursorMoveDifference;
 	std::unordered_map<
 		uint32,

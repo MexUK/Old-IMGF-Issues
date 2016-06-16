@@ -112,11 +112,21 @@
     <ClInclude Include="..\..\..\Code\Ultra Core\Vector\Layer 3\CVector4ui32.h" />
     <ClInclude Include="..\..\..\Code\Ultra Core\Vector\Layer 3\CVector4ui64.h" />
     <ClInclude Include="..\..\..\Code\Ultra Core\Vector\Layer 3\CVector4ui8.h" />
+    <ClInclude Include="..\..\..\Code\Ultra Core\Vector\Layer 4\CColour.h" />
+    <ClInclude Include="..\..\..\Code\Ultra Core\Vector\Layer 4\CPoint2D.h" />
+    <ClInclude Include="..\..\..\Code\Ultra Core\Vector\Layer 4\CPoint3D.h" />
+    <ClInclude Include="..\..\..\Code\Ultra Core\Vector\Layer 4\CSize2D.h" />
+    <ClInclude Include="..\..\..\Code\Ultra Core\Vector\Layer 4\CSize3D.h" />
     <ClInclude Include="..\..\..\Code\Ultra Core\Vector\Layer 4\CVector2D.h" />
     <ClInclude Include="..\..\..\Code\Ultra Core\Vector\Layer 4\CVector3D.h" />
     <ClInclude Include="..\..\..\Code\Ultra Core\Vector\Layer 4\CVector4D.h" />
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="..\..\..\Code\Ultra Core\Vector\Layer 4\CColour.cpp" />
+    <ClCompile Include="..\..\..\Code\Ultra Core\Vector\Layer 4\CPoint2D.cpp" />
+    <ClCompile Include="..\..\..\Code\Ultra Core\Vector\Layer 4\CPoint3D.cpp" />
+    <ClCompile Include="..\..\..\Code\Ultra Core\Vector\Layer 4\CSize2D.cpp" />
+    <ClCompile Include="..\..\..\Code\Ultra Core\Vector\Layer 4\CSize3D.cpp" />
     <ClCompile Include="..\..\..\Code\Ultra Core\Vector\Layer 4\CVector2D.cpp" />
     <ClCompile Include="..\..\..\Code\Ultra Core\Vector\Layer 4\CVector3D.cpp" />
     <ClCompile Include="..\..\..\Code\Ultra Core\Vector\Layer 4\CVector4D.cpp" />

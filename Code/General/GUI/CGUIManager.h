@@ -8,10 +8,6 @@
 #include "CSingleton.h"
 #include <Commctrl.h>
 
-#ifndef RGBA
-#define RGBA(r,g,b,a)        ((COLORREF)( (((DWORD)(BYTE)(a))<<24) |     RGB(r,g,b) ))
-#endif
-
 LRESULT CALLBACK				WndProc_Window(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lParam);
 
 class CGraphicsLibrary;
@@ -27,13 +23,13 @@ public:
 
 	void						bindEvents(void);
 
-	CWindow*					addWindow(CVector2i32& vecWindowPosition = CVector2i32(0,0), CVector2ui32& vecWindowSize = CVector2ui32(800,600));
+	CWindow*					addWindow(CPoint2D& vecWindowPosition = CPoint2D(0,0), CSize2D& vecWindowSize = CSize2D(800,600));
 	template <class WindowClass>
-	WindowClass*				addTemplatedWindow(CVector2i32& vecWindowPosition = CVector2i32(0, 0), CVector2ui32& vecWindowSize = CVector2ui32(800, 600));
+	WindowClass*				addTemplatedWindow(CPoint2D& vecWindowPosition = CPoint2D(0, 0), CSize2D& vecWindowSize = CSize2D(800, 600));
 
 	void						processWindows(void);
 
-	void						onMouseMove(CVector2i32& vecCursorPosition);
+	void						onMouseMove(CPoint2D& vecCursorPosition);
 
 	void						render(void);
 
@@ -60,10 +56,10 @@ private:
 };
 
 template <class WindowClass>
-WindowClass*					CGUIManager::addTemplatedWindow(CVector2i32& vecWindowPosition, CVector2ui32& vecWindowSize)
+WindowClass*					CGUIManager::addTemplatedWindow(CPoint2D& vecWindowPosition, CSize2D& vecWindowSize)
 {
 	WindowClass *pWindow = new WindowClass;
-	pWindow->setPosition(CVector2i32(vecWindowPosition.m_x, vecWindowPosition.m_y)); // todo - send directly
+	pWindow->setPosition(CPoint2D(vecWindowPosition.m_x, vecWindowPosition.m_y)); // todo - send directly
 	pWindow->setSize(vecWindowSize);
 	pWindow->setTitleBarHeight(35);
 	if (!createWindow(pWindow))

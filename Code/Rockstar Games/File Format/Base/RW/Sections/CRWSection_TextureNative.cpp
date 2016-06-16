@@ -152,7 +152,7 @@ void							CRWSection_TextureNative::unserializeHeader_Direct3D(void)
 		// GTA III & VC
 		setAlpha(pDataReader->readUint32());
 	}
-	CVector2ui32 vecImageSize;
+	CSize2D vecImageSize;
 	vecImageSize.m_x = pDataReader->readUint16();
 	vecImageSize.m_y = pDataReader->readUint16();
 	setImageSize(vecImageSize);
@@ -208,7 +208,7 @@ void							CRWSection_TextureNative::unserializeHeader_PS2(void)
 	pDataReader->readUint32();
 	pDataReader->readUint32();
 
-	CVector2ui32 vecImageSize;
+	CSize2D vecImageSize;
 	m_vecImageSize.m_x = pDataReader->readUint32();
 	m_vecImageSize.m_y = pDataReader->readUint32();
 	setImageSize(vecImageSize);
@@ -295,7 +295,7 @@ void							CRWSection_TextureNative::unserializeBody_Direct3D(void)
 	{
 		uint32 uiImageDataSize = pDataReader->readUint32();
 
-		CVector2ui32 vecImageSize;
+		CSize2D vecImageSize;
 		vecImageSize.m_x = uiMipmapWidth;
 		vecImageSize.m_y = uiMipmapHeight;
 
@@ -354,7 +354,7 @@ void							CRWSection_TextureNative::unserializeBody_PS2(void)
 
 		CRWEntry_TextureNative_MipMap *pMipmap = new CRWEntry_TextureNative_MipMap(this);
 
-		CVector2ui32 vecImageSize, vecSwizzledImageSize;
+		CSize2D vecImageSize, vecSwizzledImageSize;
 		vecImageSize.m_x = uiMipmapWidth;
 		vecImageSize.m_y = uiMipmapHeight;
 		vecSwizzledImageSize.m_x = uiSwizzledWidth;

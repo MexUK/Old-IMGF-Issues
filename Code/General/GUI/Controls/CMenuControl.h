@@ -16,7 +16,7 @@ public:
 
 	void									render(void);
 
-	bool									isPointInControl(CVector2i32& vecPoint) { return false; }
+	bool									isPointInControl(CPoint2D& vecPoint) { return false; }
 };
 
 #endif

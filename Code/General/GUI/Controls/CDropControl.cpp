@@ -10,7 +10,7 @@
 
 using namespace std;
 
-auto pOnMouseUp_Drop		= [](void *pControl, void *pTriggerArg) { ((CDropControl*) pControl)->onMouseUp(*(CVector2i32*) pTriggerArg); };
+auto pOnMouseUp_Drop		= [](void *pControl, void *pTriggerArg) { ((CDropControl*) pControl)->onMouseUp(*(CPoint2D*) pTriggerArg); };
 auto pOnRender_Drop			= [](void *pControl) { ((CDropControl*) pControl)->render(); };
 
 CDropControl::CDropControl(void) :
@@ -30,7 +30,7 @@ void				CDropControl::bindEvents(void)
 }
 
 // input
-void				CDropControl::onMouseUp(CVector2i32& vecCursorPosition)
+void				CDropControl::onMouseUp(CPoint2D& vecCursorPosition)
 {
 	if (isSelectionListOpen())
 	{
@@ -69,37 +69,39 @@ void				CDropControl::render(void)
 
 	if(isSelectionListOpen())
 	{
-		getStyles()->setItemComponent("list");
-		pGFX->drawRectangle(getSelectionListPosition(), getSelectionListSize(), getStyles());
-
-		getStyles()->setItemComponent("list-row");
-		uint32 i = 0;
 		bool bRecalculateListWidth = false;
-		for(auto pDropEntry : getEntries())
+		for (CDropControlEntry *pDropEntry : getEntries())
 		{
 			if (pDropEntry->checkToRecalculateStringSize(getStyles()))
 			{
 				bRecalculateListWidth = true;
 			}
-
-			pGFX->drawText(getSelectionListEntryPosition(i), getSelectionListEntrySize(), pDropEntry->getText(), getStyles());
-			i++;
 		}
-
 		if (bRecalculateListWidth)
 		{
 			recalculateListWidth();
 		}
+
+		getStyles()->setItemComponent("drop-list");
+		pGFX->drawRectangle(getSelectionListPosition(), getSelectionListSize(), getStyles());
+
+		getStyles()->setItemComponent("drop-row");
+		uint32 i = 0;
+		for(CDropControlEntry *pDropEntry : getEntries())
+		{
+			pGFX->drawText(getSelectionListEntryPosition(i), getSelectionListEntrySize(), pDropEntry->getText(), getStyles());
+			i++;
+		}
 	}
 
-	getStyles()->resetItemComponent(); // todo getStyles()->setItemComponent("");
+	getStyles()->resetItemComponent();
 	pGFX->drawRectangle(getPosition(), getSize(), getStyles());
 	if (getActiveItem())
 	{
 		pGFX->drawText(getPosition(), getSize(), getActiveItem()->getText(), getStyles());
 	}
 
-	getStyles()->setItemComponent("arrow");
+	getStyles()->setItemComponent("drop-arrow");
 	pGFX->drawEquilateralTriangle(getDropTrianglePosition(), getDropTriangleSideLength(), (uint32) 4, getStyles());
 
 	// reset
@@ -107,12 +109,16 @@ void				CDropControl::render(void)
 }
 
 // add/remove item
-CDropControlEntry*	CDropControl::addItem(string strText)
+CDropControlEntry*	CDropControl::addItem(string strText, bool bIsActiveItem)
 {
 	CDropControlEntry *pDropEntry = new CDropControlEntry;
 	pDropEntry->setText(strText);
 	pDropEntry->setStringSizeNeedsRecalculating(true);
 	addEntry(pDropEntry);
+	if (bIsActiveItem)
+	{
+		setActiveItem(pDropEntry);
+	}
 	return pDropEntry;
 }
 
@@ -122,11 +128,11 @@ void				CDropControl::removeItem(CDropControlEntry *pDropEntry)
 	{
 		setActiveItem(nullptr);
 	}
-	CVectorPool::removeEntry(pDropEntry);
+	removeEntry(pDropEntry);
 }
 
 // cursor
-bool				CDropControl::isPointInControl(CVector2i32& vecPoint)
+bool				CDropControl::isPointInControl(CPoint2D& vecPoint)
 {
 	if (isSelectionListOpen())
 	{
@@ -138,48 +144,48 @@ bool				CDropControl::isPointInControl(CVector2i32& vecPoint)
 	}
 }
 
-bool				CDropControl::isPointInSelectionList(CVector2i32& vecPoint)
+bool				CDropControl::isPointInSelectionList(CPoint2D& vecPoint)
 {
 	return CMathUtility::isPointInRectangle(vecPoint, getSelectionListPosition(), getSelectionListSize());
 }
 
 // selection list
-CVector2i32			CDropControl::getSelectionListPosition(void)
+CPoint2D			CDropControl::getSelectionListPosition(void)
 {
-	return CVector2i32(getPosition().m_x, getPosition().m_y + getSize().m_y);
+	return CPoint2D(getPosition().m_x, getPosition().m_y + getSize().m_y);
 }
 
-CVector2ui32		CDropControl::getSelectionListSize(void)
+CSize2D				CDropControl::getSelectionListSize(void)
 {
-	return CVector2ui32(getListWidth(), getEntryCount() * getListRowHeight());
+	return CSize2D(getListWidth(), getEntryCount() * getListRowHeight());
 }
 
 // selection list entry
-CVector2i32			CDropControl::getSelectionListEntryPosition(uint32 uiEntryIndex)
+CPoint2D			CDropControl::getSelectionListEntryPosition(uint32 uiEntryIndex)
 {
-	CVector2i32 vecPosition = getSelectionListPosition();
-	return CVector2i32(vecPosition.m_x, vecPosition.m_y + (uiEntryIndex * getListRowHeight()));
+	CPoint2D vecPosition = getSelectionListPosition();
+	return CPoint2D(vecPosition.m_x, vecPosition.m_y + (uiEntryIndex * getListRowHeight()));
 }
 
-CVector2ui32		CDropControl::getSelectionListEntrySize(void)
+CSize2D				CDropControl::getSelectionListEntrySize(void)
 {
-	return CVector2ui32(getSelectionListSize().m_x, getListRowHeight());
+	return CSize2D(getSelectionListSize().m_x, getListRowHeight());
 }
 
-uint32				CDropControl::getSelectionListEntryFromPoint(CVector2i32& vecCursorPosition)
+uint32				CDropControl::getSelectionListEntryFromPoint(CPoint2D& vecCursorPosition)
 {
 	return CMathUtility::getRowIndex(vecCursorPosition, getSelectionListPosition(), getListRowHeight(), getEntryCount());
 }
 
 // drop triangle
-CVector2i32			CDropControl::getDropTrianglePosition(void)
+CPoint2D			CDropControl::getDropTrianglePosition(void)
 {
 	float32
 		fTriangleHeight = getDropTriangleSideHeight(),
 		fTriangleSideLength = getDropTriangleSideLength();
-	CVector2i32
+	CPoint2D
 		vecTrianglePositionOffset((getSize().m_x - fTriangleSideLength) - 3, CMathUtility::divide(getSize().m_y - floor(fTriangleHeight), 2.0f));
-	return CVector2i32(getPosition() + vecTrianglePositionOffset);
+	return CPoint2D(getPosition() + vecTrianglePositionOffset);
 }
 
 float32				CDropControl::getDropTriangleSideLength(void)
@@ -193,7 +199,7 @@ float32				CDropControl::getDropTriangleSideHeight(void)
 }
 
 // set size
-void				CDropControl::setSize(CVector2ui32& vecSize)
+void				CDropControl::setSize(CSize2D& vecSize)
 {
 	CGUIControl::setSize(vecSize);
 	recalculateListWidth();

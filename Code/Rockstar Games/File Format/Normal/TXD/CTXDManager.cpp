@@ -81,7 +81,7 @@ CTXDFormat*				CTXDManager::convertIntermediateTextureFileToTXDFile(CIntermediat
 			// GTA III & VC
 			pTexture->setAlpha(0);
 		}
-		CVector2ui32 vecImageSize;
+		CSize2D vecImageSize;
 		vecImageSize.m_x = pGeneralTexture->getSize().m_x;
 		vecImageSize.m_y = pGeneralTexture->getSize().m_y;
 		pTexture->setImageSize(vecImageSize);
@@ -114,7 +114,7 @@ CTXDFormat*				CTXDManager::convertIntermediateTextureFileToTXDFile(CIntermediat
 			string strPaletteDataOut = "";
 			strMipmapRasterData = CImageUtility::convertBGRA32ToRasterDataFormat(strMipmapRasterData, eRasterDataFormatValue, &strPaletteDataOut, pGeneralMipmap->getSize().m_x, pGeneralMipmap->getSize().m_y);
 			
-			CVector2ui32 vecMipMapSize;
+			CSize2D vecMipMapSize;
 			vecMipMapSize.m_x = pGeneralMipmap->getSize().m_x;
 			vecMipMapSize.m_y = pGeneralMipmap->getSize().m_y;
 

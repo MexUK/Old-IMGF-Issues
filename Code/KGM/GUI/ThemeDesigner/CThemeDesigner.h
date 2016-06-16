@@ -1,7 +1,7 @@
 #ifndef CThemeDesigner_H
 #define CThemeDesigner_H
 
-#include "CVector2i32.h"
+#include "CPoint2D.h"
 #include "Pool/CVectorPool.h"
 #include "GUI/ThemeDesigner/Tab/CThemeDesignerTab.h"
 #include <string>

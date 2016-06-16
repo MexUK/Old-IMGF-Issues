@@ -2,6 +2,7 @@
 #include "Math/CMathUtility.h"
 #include "String/CStringUtility.h"
 #include "GUI/Styles/CGUIStyles.h"
+#include "CColour.h"
 
 using namespace std;
 using namespace Gdiplus;
@@ -12,7 +13,7 @@ CGraphicsLibrary_GDIPlus::CGraphicsLibrary_GDIPlus(void) :
 }
 
 // draw line
-void					CGraphicsLibrary_GDIPlus::drawLine(CVector2i32& vecPoint1, CVector2i32& vecPoint2, CGUIStyles *pStyles)
+void					CGraphicsLibrary_GDIPlus::drawLine(CPoint2D& vecPoint1, CPoint2D& vecPoint2, CGUIStyles *pStyles)
 {
 	if (!pStyles->doesHaveBorder())
 	{
@@ -23,7 +24,7 @@ void					CGraphicsLibrary_GDIPlus::drawLine(CVector2i32& vecPoint1, CVector2i32&
 }
 
 // draw rectangle
-void					CGraphicsLibrary_GDIPlus::drawRectangle(CVector2i32& vecPosition, CVector2ui32& vecSize, CGUIStyles *pStyles)
+void					CGraphicsLibrary_GDIPlus::drawRectangle(CPoint2D& vecPosition, CSize2D& vecSize, CGUIStyles *pStyles)
 {
 	if (pStyles->doesHaveFill())
 	{
@@ -35,7 +36,7 @@ void					CGraphicsLibrary_GDIPlus::drawRectangle(CVector2i32& vecPosition, CVect
 	}
 }
 
-void					CGraphicsLibrary_GDIPlus::drawRectangleBorder(CVector2i32& vecPosition, CVector2ui32& vecSize, CGUIStyles *pStyles)
+void					CGraphicsLibrary_GDIPlus::drawRectangleBorder(CPoint2D& vecPosition, CSize2D& vecSize, CGUIStyles *pStyles)
 {
 	if (!pStyles->doesHaveBorder())
 	{
@@ -46,22 +47,22 @@ void					CGraphicsLibrary_GDIPlus::drawRectangleBorder(CVector2i32& vecPosition,
 	if (uiBorderIntersectionRadius == 0)
 	{
 		// border-intersection-radius is not set
-		CVector2i32 vecMaxPoint = CVector2i32(vecPosition.m_x + vecSize.m_x, vecPosition.m_y + vecSize.m_y);
+		CPoint2D vecMaxPoint = CPoint2D(vecPosition.m_x + vecSize.m_x, vecPosition.m_y + vecSize.m_y);
 		if (pStyles->doesHaveLeftBorder())
 		{
-			drawLine(vecPosition, CVector2i32(vecPosition.m_x, vecMaxPoint.m_y), pStyles);
+			drawLine(vecPosition, CPoint2D(vecPosition.m_x, vecMaxPoint.m_y), pStyles);
 		}
 		if (pStyles->doesHaveRightBorder())
 		{
-			drawLine(vecMaxPoint, CVector2i32(vecMaxPoint.m_x, vecPosition.m_y), pStyles);
+			drawLine(vecMaxPoint, CPoint2D(vecMaxPoint.m_x, vecPosition.m_y), pStyles);
 		}
 		if (pStyles->doesHaveTopBorder())
 		{
-			drawLine(vecPosition, CVector2i32(vecMaxPoint.m_x, vecPosition.m_y), pStyles);
+			drawLine(vecPosition, CPoint2D(vecMaxPoint.m_x, vecPosition.m_y), pStyles);
 		}
 		if (pStyles->doesHaveBottomBorder())
 		{
-			drawLine(vecMaxPoint, CVector2i32(vecPosition.m_x, vecMaxPoint.m_y), pStyles);
+			drawLine(vecMaxPoint, CPoint2D(vecPosition.m_x, vecMaxPoint.m_y), pStyles);
 		}
 	}
 	else
@@ -81,7 +82,7 @@ void					CGraphicsLibrary_GDIPlus::drawRectangleBorder(CVector2i32& vecPosition,
 	}
 }
 
-void					CGraphicsLibrary_GDIPlus::drawRectangleFill(CVector2i32& vecPosition, CVector2ui32& vecSize, CGUIStyles *pStyles)
+void					CGraphicsLibrary_GDIPlus::drawRectangleFill(CPoint2D& vecPosition, CSize2D& vecSize, CGUIStyles *pStyles)
 {
 	if (!pStyles->doesHaveFill())
 	{
@@ -112,7 +113,7 @@ void					CGraphicsLibrary_GDIPlus::drawRectangleFill(CVector2i32& vecPosition, C
 }
 
 // draw square
-void					CGraphicsLibrary_GDIPlus::drawSquare(CVector2i32& vecPosition, uint32 uiSize, CGUIStyles *pStyles)
+void					CGraphicsLibrary_GDIPlus::drawSquare(CPoint2D& vecPosition, uint32 uiSize, CGUIStyles *pStyles)
 {
 	if (pStyles->doesHaveFill()) // todo - use Fill or Background for naming not both
 	{
@@ -124,28 +125,28 @@ void					CGraphicsLibrary_GDIPlus::drawSquare(CVector2i32& vecPosition, uint32 u
 	}
 }
 
-void					CGraphicsLibrary_GDIPlus::drawSquareBorder(CVector2i32& vecPosition, uint32 uiSize, CGUIStyles *pStyles)
+void					CGraphicsLibrary_GDIPlus::drawSquareBorder(CPoint2D& vecPosition, uint32 uiSize, CGUIStyles *pStyles)
 {
 	if (!pStyles->doesHaveBorder())
 	{
 		return;
 	}
 
-	drawRectangleBorder(vecPosition, CVector2ui32(uiSize, uiSize), pStyles);
+	drawRectangleBorder(vecPosition, CSize2D(uiSize, uiSize), pStyles);
 }
 
-void					CGraphicsLibrary_GDIPlus::drawSquareFill(CVector2i32& vecPosition, uint32 uiSize, CGUIStyles *pStyles)
+void					CGraphicsLibrary_GDIPlus::drawSquareFill(CPoint2D& vecPosition, uint32 uiSize, CGUIStyles *pStyles)
 {
 	if (!pStyles->doesHaveFill())
 	{
 		return;
 	}
 
-	drawRectangleFill(vecPosition, CVector2ui32(uiSize, uiSize), pStyles);
+	drawRectangleFill(vecPosition, CSize2D(uiSize, uiSize), pStyles);
 }
 
 // draw circle
-void					CGraphicsLibrary_GDIPlus::drawCircle(CVector2i32& vecPosition, float32 fRadius, CGUIStyles *pStyles)
+void					CGraphicsLibrary_GDIPlus::drawCircle(CPoint2D& vecPosition, float32 fRadius, CGUIStyles *pStyles)
 {
 	if (pStyles->doesHaveFill())
 	{
@@ -157,7 +158,7 @@ void					CGraphicsLibrary_GDIPlus::drawCircle(CVector2i32& vecPosition, float32 
 	}
 }
 
-void					CGraphicsLibrary_GDIPlus::drawCircleBorder(CVector2i32& vecPosition, float32 fRadius, CGUIStyles *pStyles)
+void					CGraphicsLibrary_GDIPlus::drawCircleBorder(CPoint2D& vecPosition, float32 fRadius, CGUIStyles *pStyles)
 {
 	if (!pStyles->doesHaveBorder())
 	{
@@ -167,7 +168,7 @@ void					CGraphicsLibrary_GDIPlus::drawCircleBorder(CVector2i32& vecPosition, fl
 	drawEllipseBorder(vecPosition, CMathUtility::get2DSizeFromCircle(vecPosition, fRadius), pStyles);
 }
 
-void					CGraphicsLibrary_GDIPlus::drawCircleFill(CVector2i32& vecPosition, float32 fRadius, CGUIStyles *pStyles)
+void					CGraphicsLibrary_GDIPlus::drawCircleFill(CPoint2D& vecPosition, float32 fRadius, CGUIStyles *pStyles)
 {
 	if (!pStyles->doesHaveFill())
 	{
@@ -178,7 +179,7 @@ void					CGraphicsLibrary_GDIPlus::drawCircleFill(CVector2i32& vecPosition, floa
 }
 
 // draw ellipse
-void					CGraphicsLibrary_GDIPlus::drawEllipse(CVector2i32& vecPosition, CVector2ui32& vecSize, CGUIStyles *pStyles)
+void					CGraphicsLibrary_GDIPlus::drawEllipse(CPoint2D& vecPosition, CSize2D& vecSize, CGUIStyles *pStyles)
 {
 	if (pStyles->doesHaveFill())
 	{
@@ -190,7 +191,7 @@ void					CGraphicsLibrary_GDIPlus::drawEllipse(CVector2i32& vecPosition, CVector
 	}
 }
 
-void					CGraphicsLibrary_GDIPlus::drawEllipseBorder(CVector2i32& vecPosition, CVector2ui32& vecSize, CGUIStyles *pStyles)
+void					CGraphicsLibrary_GDIPlus::drawEllipseBorder(CPoint2D& vecPosition, CSize2D& vecSize, CGUIStyles *pStyles)
 {
 	if (!pStyles->doesHaveBorder())
 	{
@@ -200,7 +201,7 @@ void					CGraphicsLibrary_GDIPlus::drawEllipseBorder(CVector2i32& vecPosition, C
 	m_pGraphics->DrawEllipse(createPenFromStyles(pStyles), getGdiplusRect(vecPosition, vecSize));
 }
 
-void					CGraphicsLibrary_GDIPlus::drawEllipseFill(CVector2i32& vecPosition, CVector2ui32& vecSize, CGUIStyles *pStyles)
+void					CGraphicsLibrary_GDIPlus::drawEllipseFill(CPoint2D& vecPosition, CSize2D& vecSize, CGUIStyles *pStyles)
 {
 	if (!pStyles->doesHaveFill())
 	{
@@ -211,7 +212,7 @@ void					CGraphicsLibrary_GDIPlus::drawEllipseFill(CVector2i32& vecPosition, CVe
 }
 
 // draw triangle
-void					CGraphicsLibrary_GDIPlus::drawTriangle(CVector2i32& vecPoint1, CVector2i32& vecPoint2, CVector2i32& vecPoint3, CGUIStyles *pStyles)
+void					CGraphicsLibrary_GDIPlus::drawTriangle(CPoint2D& vecPoint1, CPoint2D& vecPoint2, CPoint2D& vecPoint3, CGUIStyles *pStyles)
 {
 	if (pStyles->doesHaveFill())
 	{
@@ -223,50 +224,50 @@ void					CGraphicsLibrary_GDIPlus::drawTriangle(CVector2i32& vecPoint1, CVector2
 	}
 }
 
-void					CGraphicsLibrary_GDIPlus::drawEquilateralTriangle(CVector2i32& vecPosition, float32 fSideLength, uint32 uiPointingDirection, CGUIStyles *pStyles)
+void					CGraphicsLibrary_GDIPlus::drawEquilateralTriangle(CPoint2D& vecPosition, float32 fSideLength, uint32 uiPointingDirection, CGUIStyles *pStyles)
 {
-	vector<CVector2i32> vecShapePoints = CMathUtility::getEquilateralTrianglePoints(vecPosition, fSideLength, uiPointingDirection);
+	vector<CPoint2D> vecShapePoints = CMathUtility::getEquilateralTrianglePoints(vecPosition, fSideLength, uiPointingDirection);
 	drawTriangle(vecShapePoints[0], vecShapePoints[1], vecShapePoints[2], pStyles);
 }
 
-void					CGraphicsLibrary_GDIPlus::drawEquilateralTriangle(CVector2i32& vecBottomLeftPoint, CVector2i32& vecBottomRightPoint, CGUIStyles *pStyles)
+void					CGraphicsLibrary_GDIPlus::drawEquilateralTriangle(CPoint2D& vecBottomLeftPoint, CPoint2D& vecBottomRightPoint, CGUIStyles *pStyles)
 {
-	vector<CVector2i32> vecShapePoints = CMathUtility::getEquilateralTrianglePoints(vecBottomLeftPoint, vecBottomRightPoint);
+	vector<CPoint2D> vecShapePoints = CMathUtility::getEquilateralTrianglePoints(vecBottomLeftPoint, vecBottomRightPoint);
 	drawTriangle(vecShapePoints[0], vecShapePoints[1], vecShapePoints[2], pStyles);
 }
 
-void					CGraphicsLibrary_GDIPlus::drawEquilateralTriangle(CVector2i32& vecBottomLeftPoint, float32 fSideLength, float32 fBaseAngle, CGUIStyles *pStyles)
+void					CGraphicsLibrary_GDIPlus::drawEquilateralTriangle(CPoint2D& vecBottomLeftPoint, float32 fSideLength, float32 fBaseAngle, CGUIStyles *pStyles)
 {
-	vector<CVector2i32> vecShapePoints = CMathUtility::getEquilateralTrianglePoints(vecBottomLeftPoint, fSideLength, fBaseAngle);
+	vector<CPoint2D> vecShapePoints = CMathUtility::getEquilateralTrianglePoints(vecBottomLeftPoint, fSideLength, fBaseAngle);
 	drawTriangle(vecShapePoints[0], vecShapePoints[1], vecShapePoints[2], pStyles);
 }
 
-void					CGraphicsLibrary_GDIPlus::drawIsoscelesTriangle(CVector2i32& vecPosition, float32 fBaseLength, float32 fLegLength, uint32 uiPointingDirection, CGUIStyles *pStyles)
+void					CGraphicsLibrary_GDIPlus::drawIsoscelesTriangle(CPoint2D& vecPosition, float32 fBaseLength, float32 fLegLength, uint32 uiPointingDirection, CGUIStyles *pStyles)
 {
-	vector<CVector2i32> vecShapePoints = CMathUtility::getIsoscelesTrianglePoints(vecPosition, fBaseLength, fLegLength, uiPointingDirection);
+	vector<CPoint2D> vecShapePoints = CMathUtility::getIsoscelesTrianglePoints(vecPosition, fBaseLength, fLegLength, uiPointingDirection);
 	drawTriangle(vecShapePoints[0], vecShapePoints[1], vecShapePoints[2], pStyles);
 }
 
-void					CGraphicsLibrary_GDIPlus::drawIsoscelesTriangle(CVector2i32& vecBaseCenterPoint, CVector2i32& vecTipPoint, uint32 uiBaseHalfWidth, CGUIStyles *pStyles)
+void					CGraphicsLibrary_GDIPlus::drawIsoscelesTriangle(CPoint2D& vecBaseCenterPoint, CPoint2D& vecTipPoint, uint32 uiBaseHalfWidth, CGUIStyles *pStyles)
 {
-	vector<CVector2i32> vecShapePoints = CMathUtility::getIsoscelesTrianglePoints(vecBaseCenterPoint, vecTipPoint, uiBaseHalfWidth);
+	vector<CPoint2D> vecShapePoints = CMathUtility::getIsoscelesTrianglePoints(vecBaseCenterPoint, vecTipPoint, uiBaseHalfWidth);
 	drawTriangle(vecShapePoints[0], vecShapePoints[1], vecShapePoints[2], pStyles);
 }
 
-void					CGraphicsLibrary_GDIPlus::drawIsoscelesTriangle(CVector2i32& vecBottomLeftPoint, float32 fBaseLength, float32 fTipAngle, float32 fBaseAngle, CGUIStyles *pStyles)
+void					CGraphicsLibrary_GDIPlus::drawIsoscelesTriangle(CPoint2D& vecBottomLeftPoint, float32 fBaseLength, float32 fTipAngle, float32 fBaseAngle, CGUIStyles *pStyles)
 {
-	vector<CVector2i32> vecShapePoints = CMathUtility::getIsoscelesTrianglePoints(vecBottomLeftPoint, fBaseLength, fTipAngle, fBaseAngle);
+	vector<CPoint2D> vecShapePoints = CMathUtility::getIsoscelesTrianglePoints(vecBottomLeftPoint, fBaseLength, fTipAngle, fBaseAngle);
 	drawTriangle(vecShapePoints[0], vecShapePoints[1], vecShapePoints[2], pStyles);
 }
 
-void					CGraphicsLibrary_GDIPlus::drawTriangleBorder(CVector2i32& vecPoint1, CVector2i32& vecPoint2, CVector2i32& vecPoint3, CGUIStyles *pStyles)
+void					CGraphicsLibrary_GDIPlus::drawTriangleBorder(CPoint2D& vecPoint1, CPoint2D& vecPoint2, CPoint2D& vecPoint3, CGUIStyles *pStyles)
 {
 	if (!pStyles->doesHaveBorder())
 	{
 		return;
 	}
 
-	vector<CVector2i32> vecPoints;
+	vector<CPoint2D> vecPoints;
 	vecPoints.resize(3);
 	vecPoints[0] = vecPoint1;
 	vecPoints[1] = vecPoint2;
@@ -275,14 +276,14 @@ void					CGraphicsLibrary_GDIPlus::drawTriangleBorder(CVector2i32& vecPoint1, CV
 	m_pGraphics->DrawPolygon(createPenFromStyles(pStyles), getGdiplusPointsFromVectorPoints(vecPoints), 3);
 }
 
-void					CGraphicsLibrary_GDIPlus::drawTriangleFill(CVector2i32& vecPoint1, CVector2i32& vecPoint2, CVector2i32& vecPoint3, CGUIStyles *pStyles)
+void					CGraphicsLibrary_GDIPlus::drawTriangleFill(CPoint2D& vecPoint1, CPoint2D& vecPoint2, CPoint2D& vecPoint3, CGUIStyles *pStyles)
 {
 	if (!pStyles->doesHaveFill())
 	{
 		return;
 	}
 
-	vector<CVector2i32> vecPoints;
+	vector<CPoint2D> vecPoints;
 	vecPoints.resize(3);
 	vecPoints[0] = vecPoint1;
 	vecPoints[1] = vecPoint2;
@@ -292,7 +293,7 @@ void					CGraphicsLibrary_GDIPlus::drawTriangleFill(CVector2i32& vecPoint1, CVec
 }
 
 // draw polygon
-void					CGraphicsLibrary_GDIPlus::drawPolygon(vector<CVector2i32>& vecPoints, CGUIStyles *pStyles)
+void					CGraphicsLibrary_GDIPlus::drawPolygon(vector<CPoint2D>& vecPoints, CGUIStyles *pStyles)
 {
 	if (pStyles->doesHaveFill())
 	{
@@ -304,7 +305,7 @@ void					CGraphicsLibrary_GDIPlus::drawPolygon(vector<CVector2i32>& vecPoints, C
 	}
 }
 
-void					CGraphicsLibrary_GDIPlus::drawPolygonBorder(vector<CVector2i32>& vecPoints, CGUIStyles *pStyles)
+void					CGraphicsLibrary_GDIPlus::drawPolygonBorder(vector<CPoint2D>& vecPoints, CGUIStyles *pStyles)
 {
 	if (!pStyles->doesHaveBorder())
 	{
@@ -315,7 +316,7 @@ void					CGraphicsLibrary_GDIPlus::drawPolygonBorder(vector<CVector2i32>& vecPoi
 	m_pGraphics->DrawPolygon(createPenFromStyles(pStyles), pPoints, vecPoints.size());
 }
 
-void					CGraphicsLibrary_GDIPlus::drawPolygonFill(vector<CVector2i32>& vecPoints, CGUIStyles *pStyles)
+void					CGraphicsLibrary_GDIPlus::drawPolygonFill(vector<CPoint2D>& vecPoints, CGUIStyles *pStyles)
 {
 	if (!pStyles->doesHaveFill())
 	{
@@ -327,9 +328,9 @@ void					CGraphicsLibrary_GDIPlus::drawPolygonFill(vector<CVector2i32>& vecPoint
 }
 
 // draw text
-void					CGraphicsLibrary_GDIPlus::drawText(CVector2i32& vecPosition, CVector2ui32& vecSize, string& strText, CGUIStyles *pStyles)
+void					CGraphicsLibrary_GDIPlus::drawText(CPoint2D& vecPosition, CSize2D& vecSize, string& strText, CGUIStyles *pStyles, CSize2D vecTextSize)
 {
-	CVector2i32 vecPosition2 = getTextPositionFromStyles(vecPosition, vecSize, strText, pStyles);
+	CPoint2D vecPosition2 = getTextPositionFromStyles(vecPosition, vecSize, strText, vecTextSize, pStyles);
 
 	wstring wstrText = CStringUtility::convertStdStringToStdWString(strText);
 	RectF layoutRect(vecPosition2.m_x, vecPosition2.m_y, vecPosition2.m_x + vecSize.m_x, vecPosition2.m_y + vecSize.m_y);
@@ -338,13 +339,18 @@ void					CGraphicsLibrary_GDIPlus::drawText(CVector2i32& vecPosition, CVector2ui
 	m_pGraphics->DrawString(wstrText.c_str(), wstrText.length(), createFontFromStyles(pStyles), layoutRect, &stringFormat, createTextBrushFromStyles(pStyles));
 }
 
+void					CGraphicsLibrary_GDIPlus::drawText(CPoint2D& vecPosition, CSize2D& vecSize, CGUIString& gstrString, CGUIStyles *pStyles)
+{
+	drawText(vecPosition, vecSize, gstrString.getString(), pStyles, gstrString.getSize());
+}
+
 // text size
-CVector2ui32			CGraphicsLibrary_GDIPlus::getTextSize(string& strText, CGUIStyles *pStyles)
+CSize2D					CGraphicsLibrary_GDIPlus::getTextSize(string& strText, CGUIStyles *pStyles)
 {
 	wstring wstrText = CStringUtility::convertStdStringToStdWString(strText);
 	const RectF layoutRect(0, 0, 30000, 30000);
 	RectF boundingBox(0, 0, 0, 0);
-	CVector2ui32 vecTextSize;
+	CSize2D vecTextSize;
 
 	m_pGraphics->MeasureString(wstrText.c_str(), wstrText.length(), createFontFromStyles(pStyles), layoutRect, &boundingBox);
 	vecTextSize.m_x = boundingBox.Width;
@@ -355,7 +361,7 @@ CVector2ui32			CGraphicsLibrary_GDIPlus::getTextSize(string& strText, CGUIStyles
 // pen/brush creation
 Pen*					CGraphicsLibrary_GDIPlus::createPenFromStyles(CGUIStyles *pStyles)
 {
-	Color colour = getGdiplusColourFromRGBAUint32(pStyles->getStyle<uint32>("border-colour"));
+	Color colour = getGdiplusColourFromColour(&pStyles->getStyle<CColour>("border-colour"));
 	uint32 uiBorderThickness = pStyles->getStyle<uint32>("border-thickness");
 
 	Pen *pPen = new Gdiplus::Pen(colour, uiBorderThickness);
@@ -379,7 +385,7 @@ Brush*					CGraphicsLibrary_GDIPlus::createBackgroundBrushFromStyles(CGUIStyles 
 	{
 	case 1:
 		{
-			Color colour = getGdiplusColourFromRGBAUint32(pStyles->getStyle<uint32>("fill-colour"));
+			Color colour = getGdiplusColourFromColour(&pStyles->getStyle<CColour>("fill-colour"));
 			return new SolidBrush(colour);
 		}
 	case 2:
@@ -388,8 +394,8 @@ Brush*					CGraphicsLibrary_GDIPlus::createBackgroundBrushFromStyles(CGUIStyles 
 			Color colour1, colour2;
 			point1 = PointF(0, 0);
 			point2 = PointF(200, 200);
-			colour1 = getGdiplusColourFromRGBAUint32(pStyles->getStyle<uint32>("fill-colour-start"));
-			colour2 = getGdiplusColourFromRGBAUint32(pStyles->getStyle<uint32>("fill-colour-stop"));
+			colour1 = getGdiplusColourFromColour(&pStyles->getStyle<CColour>("fill-colour-start"));
+			colour2 = getGdiplusColourFromColour(&pStyles->getStyle<CColour>("fill-colour-stop"));
 			return new LinearGradientBrush(point1, point2, colour1, colour2);
 		}
 	}
@@ -401,7 +407,7 @@ Brush*					CGraphicsLibrary_GDIPlus::createTextBrushFromStyles(CGUIStyles *pStyl
 {
 	// todo - delete gui pens and brushes when no longer needed
 
-	Color colour = getGdiplusColourFromRGBAUint32(pStyles->getStyle<uint32>("text-colour"));
+	Color colour = getGdiplusColourFromColour(&pStyles->getStyle<CColour>("text-colour"));
 
 	SolidBrush *pBrush = new SolidBrush(colour);
 	
@@ -451,17 +457,20 @@ Font*					CGraphicsLibrary_GDIPlus::createFontFromStyles(CGUIStyles *pStyles)
 }
 
 // position/size calculation
-CVector2i32				CGraphicsLibrary_GDIPlus::getTextPositionFromStyles(CVector2i32& vecPosition, CVector2ui32& vecSize, string& strText, CGUIStyles *pStyles)
+CPoint2D				CGraphicsLibrary_GDIPlus::getTextPositionFromStyles(CPoint2D& vecPosition, CSize2D& vecSize, string& strText, CSize2D& vecTextSize, CGUIStyles *pStyles)
 {
 	string
 		strAlignX = pStyles->getTextAlignX(),
 		strAlignY = pStyles->getTextAlignY();
-	CVector2i32
+	CPoint2D
 		vecOutPosition,
 		vecMinInnerSpacing = pStyles->getMinInnerSpacing(),
 		vecMaxInnerSpacing = pStyles->getMaxInnerSpacing();
-	CVector2ui32
-		vecTextSize = getTextSize(strText, pStyles); // todo - send CGUIString& to this method instead of std::string to make use of already calculated text size
+
+	if (vecTextSize.m_x == 0 && vecTextSize.m_y == 0)
+	{
+		vecTextSize = getTextSize(strText, pStyles);
+	}
 
 	// calculate x position
 	if (strAlignX == "left")
@@ -499,12 +508,12 @@ CVector2i32				CGraphicsLibrary_GDIPlus::getTextPositionFromStyles(CVector2i32& 
 }
 
 // utility
-Point*					CGraphicsLibrary_GDIPlus::getGdiplusPointsFromVectorPoints(vector<CVector2i32>& vecPoints)
+Point*					CGraphicsLibrary_GDIPlus::getGdiplusPointsFromVectorPoints(vector<CPoint2D>& vecPoints)
 {
 	// todo - delete
 	Point* pPoints = new Point[vecPoints.size()];
 	uint32 i = 0;
-	for (CVector2i32& vecPoint : vecPoints)
+	for (CPoint2D& vecPoint : vecPoints)
 	{
 		pPoints[i].X = vecPoint.m_x;
 		pPoints[i].Y = vecPoint.m_y;
@@ -513,16 +522,12 @@ Point*					CGraphicsLibrary_GDIPlus::getGdiplusPointsFromVectorPoints(vector<CVe
 	return pPoints;
 }
 
-Rect					CGraphicsLibrary_GDIPlus::getGdiplusRect(CVector2i32& vecPosition, CVector2ui32& vecSize)
+Rect					CGraphicsLibrary_GDIPlus::getGdiplusRect(CPoint2D& vecPosition, CSize2D& vecSize)
 {
 	return Rect(vecPosition.m_x, vecPosition.m_y, vecSize.m_x, vecSize.m_y);
 }
 
-Color					CGraphicsLibrary_GDIPlus::getGdiplusColourFromRGBAUint32(uint32 uiColour)
+Color					CGraphicsLibrary_GDIPlus::getGdiplusColourFromColour(CColour *pColour)
 {
-	if (((uiColour >> 24) & 0xFF) == 0)
-	{
-		uiColour |= (0xFF << 24); // todo
-	}
-	return Gdiplus::Color((uiColour >> 24) & 0xFF, uiColour & 0xFF, (uiColour >> 8) & 0xFF, (uiColour >> 16) & 0xFF);
+	return Gdiplus::Color(pColour->alpha(), pColour->red(), pColour->green(), pColour->blue());
 }

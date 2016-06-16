@@ -3,6 +3,7 @@
 
 #include "Types.h"
 #include "CVector2i32.h"
+#include "CPoint2D.h"
 #include "GUI/Control/CGUIControl.h"
 #include "GUI/Styles/CGUIStyles.h"
 #include "GUI/Control/CGUIScrollPool.h"
@@ -23,8 +24,8 @@ public:
 
 	void									render(void);
 	
-	CVector2i32								getCaretRenderStartPosition(void);	// in pixels
-	CVector2i32								getCaretRenderEndPosition(void);	// in pixels
+	CPoint2D								getCaretRenderStartPosition(void);	// in pixels
+	CPoint2D								getCaretRenderEndPosition(void);	// in pixels
 
 	bool									isCaretAtFarLeft(void);
 	bool									isCaretAtFarRight(void);
@@ -42,7 +43,7 @@ public:
 	void									moveCaretX(int32 iCaretMoveX) { moveCaret(CVector2i32(iCaretMoveX, 0)); }	// parameter is character x position offset
 	void									moveCaretY(int32 iCaretMoveY) { moveCaret(CVector2i32(0, iCaretMoveY)); }	// parameter is character x position offset
 
-	CVector2i32								getTextLinePosition(uint32 uiLineIndex);	// in pixels
+	CPoint2D								getTextLinePosition(uint32 uiLineIndex);	// in pixels
 	void									setLineText(uint32 uiLineIndex, std::string& strText);
 	std::string&							getLineText(uint32 uiLineIndex);
 	void									addTextToLine(uint32 uiLineIndex, std::string& strText);

@@ -7,7 +7,7 @@
 #include "GUI/Window/CWindow.h"
 #include "GUI/Styles/CGUIStyles.h"
 
-auto pOnMouseUp_Check		= [](void *pControl, void *pTriggerArg) { ((CCheckControl*) pControl)->onMouseUp(*(CVector2i32*) pTriggerArg); };
+auto pOnMouseUp_Check		= [](void *pControl, void *pTriggerArg) { ((CCheckControl*) pControl)->onMouseUp(*(CPoint2D*) pTriggerArg); };
 auto pOnRender_Check		= [](void *pControl) { ((CCheckControl*) pControl)->render(); };
 
 CCheckControl::CCheckControl(void) :
@@ -24,7 +24,7 @@ void			CCheckControl::bindEvents(void)
 }
 
 // input
-void			CCheckControl::onMouseUp(CVector2i32& vecCursorPosition)
+void			CCheckControl::onMouseUp(CPoint2D& vecCursorPosition)
 {
 	if (isPointInControl(vecCursorPosition))
 	{
@@ -51,32 +51,32 @@ void			CCheckControl::render(void)
 	// draw marked line
 	if (isMarked())
 	{
-		pGFX->drawLine(CVector2i32(getPosition().m_x, getPosition().m_y + getSize().m_y), CVector2i32(getPosition().m_x + getSize().m_x, getPosition().m_y), getStyles());
+		pGFX->drawLine(CPoint2D(getPosition().m_x, getPosition().m_y + getSize().m_y), CPoint2D(getPosition().m_x + getSize().m_x, getPosition().m_y), getStyles());
 	}
-
-	// reset
-	getStyles()->restoreTemporaryStyleData();
 
 	// draw text
 	pGFX->drawText(getTextPosition(), getTextSize(), getText(), getStyles());
+
+	// reset
+	getStyles()->restoreTemporaryStyleData();
 }
 
 // cursor
-bool			CCheckControl::isPointInControl(CVector2i32& vecPoint)
+bool			CCheckControl::isPointInControl(CPoint2D& vecPoint)
 {
 	return CMathUtility::isPointInRectangle(vecPoint, getPosition(), getTotalSize());
 }
 
 // size
-CVector2ui32	CCheckControl::getTotalSize(void)
+CSize2D			CCheckControl::getTotalSize(void)
 {
-	return getSize() + getMarkableTextSpacing() + CVector2ui32(getTextWidth(), 0);
+	return getSize() + CSize2D(getMarkableTextSpacing() + getTextWidth(), 0);
 }
 
 // text
-CVector2i32		CCheckControl::getTextPosition(void)
+CPoint2D		CCheckControl::getTextPosition(void)
 {
-	return CVector2i32(getPosition().m_x + getSize().m_x + getMarkableTextSpacing(), getPosition().m_y);
+	return CPoint2D(getPosition().m_x + getSize().m_x + getMarkableTextSpacing(), getPosition().m_y);
 }
 
 // styles

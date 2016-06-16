@@ -26,18 +26,18 @@ void							CEllipseShape::render(void)
 }
 
 // point testing
-bool							CEllipseShape::isPointInItem(CVector2i32& vecPoint)
+bool							CEllipseShape::isPointInItem(CPoint2D& vecPoint)
 {
 	return CMathUtility::isPointInEllipse(vecPoint, getPosition(), getSize());
 }
 
 // bounding rectangle
-CVector2i32						CEllipseShape::getBoundingRectanglePosition(void)
+CPoint2D						CEllipseShape::getBoundingRectanglePosition(void)
 {
 	return getPosition();
 }
 
-CVector2ui32					CEllipseShape::getBoundingRectangleSize(void)
+CSize2D							CEllipseShape::getBoundingRectangleSize(void)
 {
 	return getSize();
 }

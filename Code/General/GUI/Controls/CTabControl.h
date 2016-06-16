@@ -17,14 +17,14 @@ public:
 
 	void									bindEvents(void);
 
-	void									onLeftMouseDown(CVector2i32& vecCursorPosition);
+	void									onLeftMouseDown(CPoint2D& vecCursorPosition);
 
 	void									render(void);
 
 	CTabControlEntry*						addTab(std::string strTabText, bool bSetActiveTab = false);
 	void									removeTab(CTabControlEntry *pTab);
 
-	CTabControlEntry*						getTabFromPosition(CVector2i32& vecPosition);
+	CTabControlEntry*						getTabFromPosition(CPoint2D& vecPosition);
 
 	void									bindTabLayer(CTabControlEntry *pTab, CGUILayer *pLayer);
 	void									applyTabLayer(CTabControlEntry *pTab, CTabControlEntry *pPreviousTab);

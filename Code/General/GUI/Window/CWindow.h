@@ -4,7 +4,7 @@
 #include <Windows.h>
 #include <gdiplus.h>
 #include "Types.h"
-#include "CVector2ui32.h"
+#include "CSize2D.h"
 #include "Pool/CVectorPool.h"
 #include "Event/CEventType.h"
 #include "Event/CEventBoundFunction.h"
@@ -39,10 +39,10 @@ public:
 	CEventBoundFunction*					bindEvent(uint32 uiEventId, CInputEventCallbacks *pObject, void *pTriggerArgument = nullptr, int32 iZOrder = 0);
 	bool									triggerEvent(uint32 uiEventId, void *pTriggerArgument = nullptr);
 
-	void									onMouseDown(CVector2i32& vecCursorPosition);
-	void									onMouseUp(CVector2i32& vecCursorPosition);
-	void									onMouseMove(CVector2i32& vecCursorPosition);
-	void									onDoubleLeftClick(CVector2i32& vecCursorPosition);
+	void									onMouseDown(CPoint2D& vecCursorPosition);
+	void									onMouseUp(CPoint2D& vecCursorPosition);
+	void									onMouseMove(CPoint2D& vecCursorPosition);
+	void									onDoubleLeftClick(CPoint2D& vecCursorPosition);
 
 	virtual void							render(void);
 	void									checkToRender(void);
@@ -69,11 +69,11 @@ public:
 	void									setFocusedControl(CGUIControl *pWindowControl) { m_pFocusedControl = pWindowControl; }
 	CGUIControl*							getFocusedControl(void) { return m_pFocusedControl; }
 
-	void									setPosition(CVector2i32& vecPosition) { m_vecPosition = vecPosition; m_vecPreviousPosition = vecPosition; }
-	CVector2i32&							getPosition(void) { return m_vecPosition; }
+	void									setPosition(CPoint2D& vecPosition) { m_vecPosition = vecPosition; m_vecPreviousPosition = vecPosition; }
+	CPoint2D&								getPosition(void) { return m_vecPosition; }
 
-	void									setSize(CVector2ui32& vecSize) { m_vecSize = vecSize; }
-	CVector2ui32&							getSize(void) { return m_vecSize; }
+	void									setSize(CSize2D& vecSize) { m_vecSize = vecSize; }
+	CSize2D&								getSize(void) { return m_vecSize; }
 
 	void									setMovingWindow(bool bMovingMainWindow) { m_bMovingWindow = bMovingMainWindow; }
 	bool									isMovingWindow(void) { return m_bMovingWindow; }
@@ -93,15 +93,15 @@ public:
 	void									setMaximized(bool bMaximized);
 	bool									isMaximized(void) { return m_bMaximized; }
 
-	void									setPreviousPosition(CVector2i32& vecPreviousPosition) { m_vecPreviousPosition = vecPreviousPosition; }
-	CVector2i32&							getPreviousPosition(void) { return m_vecPreviousPosition; }
+	void									setPreviousPosition(CPoint2D& vecPreviousPosition) { m_vecPreviousPosition = vecPreviousPosition; }
+	CPoint2D&								getPreviousPosition(void) { return m_vecPreviousPosition; }
 
 private:
 	HWND									m_hwndWindow;
 	CWindow*								m_pParentWindow;
 	CGUIControl*							m_pFocusedControl;
-	CVector2i32								m_vecPosition;
-	CVector2ui32							m_vecSize;
+	CPoint2D								m_vecPosition;
+	CSize2D									m_vecSize;
 	uint32									m_uiWindowResizeEdges;
 	CDropTarget*							m_pDropTarget;
 	uint32									m_uiTitleBarHeight;
@@ -109,7 +109,7 @@ private:
 	uint8									m_bResizingWindow				: 1;
 	uint8									m_bMarkedToRedraw				: 1;
 	uint8									m_bMaximized					: 1;
-	CVector2i32								m_vecPreviousPosition;
+	CPoint2D								m_vecPreviousPosition;
 	CGUIItem*								m_pActiveItem;
 	// todo CRectangleItemPlacement<CWindow>			m_placeableWindow;	// gui windows
 	CRectangleItemPlacement<CGUIItem>			m_placeableItem;	// gui items - e.g. shapes and controls

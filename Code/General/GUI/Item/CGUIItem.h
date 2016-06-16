@@ -2,7 +2,8 @@
 #define CGUIItem_H
 
 #include "CVector2i32.h"
-#include "CVector2ui32.h"
+#include "CPoint2D.h"
+#include "CSize2D.h"
 #include "GUI/Styles/CGUIStyleableEntity.h"
 
 class CGUILayer;
@@ -16,9 +17,9 @@ public:
 	void									unload(void) {}
 
 	virtual void							render(void)											= 0;
-	virtual bool							isPointInItem(CVector2i32& vecPoint)					= 0;
-	virtual CVector2i32						getBoundingRectanglePosition(void)						= 0;
-	virtual CVector2ui32					getBoundingRectangleSize(void)							= 0;
+	virtual bool							isPointInItem(CPoint2D& vecPoint)						= 0;
+	virtual CPoint2D						getBoundingRectanglePosition(void)						= 0;
+	virtual CSize2D							getBoundingRectangleSize(void)							= 0;
 	virtual void							moveItem(CVector2i32& vecItemPositionChange)			= 0;
 	virtual void							resizeItemViaOffsets(CVector2i32& vecItemSizeChange)	= 0;
 
@@ -29,7 +30,7 @@ public:
 
 	CWindow*								getWindow(void);
 
-	bool									isPointInBoundingRectangle(CVector2i32& vecPoint, uint32 uiOuterSpacing);
+	bool									isPointInBoundingRectangle(CPoint2D& vecPoint, uint32 uiOuterSpacing);
 
 	void									setLayer(CGUILayer* pLayer) { m_pLayer = pLayer; }
 	CGUILayer*								getLayer(void) { return m_pLayer; }

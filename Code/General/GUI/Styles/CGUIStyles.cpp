@@ -1,6 +1,7 @@
 #include "CGUIStyles.h"
 #include "GUI/CGUIManager.h" // for RGB()
 #include "String/CStringUtility.h"
+#include "CColour.h"
 
 using namespace std;
 
@@ -19,7 +20,7 @@ void					CGUIStyles::init(void)
 	{
 		return;
 	}
-	getStyleDefaultValues().setEntry("border-colour", RGB(0, 0, 0));
+	getStyleDefaultValues().setEntry("border-colour", CColour(0, 0, 0));
 	getStyleDefaultValues().setEntry<uint32>("border-thickness", 0);
 	getStyleDefaultValues().setEntry<string>("border-style", "consistent");
 	getStyleDefaultValues().setEntry<int32>("border-intersection-radius", 0);
@@ -28,11 +29,11 @@ void					CGUIStyles::init(void)
 	getStyleDefaultValues().setEntry<bool>("border-state-top", false);
 	getStyleDefaultValues().setEntry<bool>("border-state-bottom", false);
 
-	getStyleDefaultValues().setEntry("fill-colour", RGB(0xFF,0xFF,0xFF));
-	getStyleDefaultValues().setEntry("fill-colour-start", RGB(0xFF, 0xFF, 0xFF));
-	getStyleDefaultValues().setEntry("fill-colour-stop", RGB(0x80, 0x80, 0x80));
+	getStyleDefaultValues().setEntry("fill-colour", CColour(0xFF,0xFF,0xFF));
+	getStyleDefaultValues().setEntry("fill-colour-start", CColour(0xFF, 0xFF, 0xFF));
+	getStyleDefaultValues().setEntry("fill-colour-stop", CColour(0x80, 0x80, 0x80));
 
-	getStyleDefaultValues().setEntry("text-colour", RGB(0, 0, 0));
+	getStyleDefaultValues().setEntry("text-colour", CColour(0, 0, 0));
 	getStyleDefaultValues().setEntry<uint32>("text-size", 11);
 	getStyleDefaultValues().setEntry<string>("text-font", "Verdana");
 	getStyleDefaultValues().setEntry<string>("text-style", "default");
@@ -47,13 +48,15 @@ void					CGUIStyles::init(void)
 	getStyleDefaultValues().setEntry<int32>("inner-spacing-x", 0);
 	getStyleDefaultValues().setEntry<int32>("inner-spacing-y", 0);
 
-	getStyleDefaultValues().setEntry("caret-colour", RGB(0, 0, 0));
-	getStyleDefaultValues().setEntry("list-row-1.fill-colour", RGB(255, 255, 255));
-	getStyleDefaultValues().setEntry("list-row-2.fill-colour", RGB(200, 200, 200));
-	getStyleDefaultValues().setEntry("progress-seek-bar.fill-colour", RGB(0, 50, 150));
-	getStyleDefaultValues().setEntry("fill-colour:marked", RGB(0, 255, 0));
-	getStyleDefaultValues().setEntry("fill-colour:unmarked", RGB(0xFF, 0xFF, 0xFF));
+	getStyleDefaultValues().setEntry("caret-colour", CColour(0, 0, 0));
+	getStyleDefaultValues().setEntry("list-row-1.fill-colour", CColour(255, 255, 255));
+	getStyleDefaultValues().setEntry("list-row-2.fill-colour", CColour(200, 200, 200));
+	getStyleDefaultValues().setEntry("progress-seek-bar.fill-colour", CColour(0, 50, 150));
+	getStyleDefaultValues().setEntry("fill-colour:marked", CColour(0, 255, 0));
+	getStyleDefaultValues().setEntry("fill-colour:unmarked", CColour(0xFF, 0xFF, 0xFF));
+	getStyleDefaultValues().setEntry("list.line-colour", CColour(0, 0, 0));
 	getStyleDefaultValues().setEntry<int32>("markable-text-spacing", 0);
+	getStyleDefaultValues().setEntry("drop-list.fill-colour", CColour(0xFF, 0xFF, 0xFF));
 }
 
 void					CGUIStyles::uninit(void)
@@ -127,17 +130,25 @@ bool					CGUIStyles::doesHaveBottomBorder(void)
 // fill
 bool					CGUIStyles::doesHaveFill(void)
 {
+	/*
+	todo
+	// check for alpha in fill colour
+	uint32 uiColour = getStyle<uint32>("fill-colour");
+	return (uiColour & 0xFF) != 0;
+	*/
+
 	return doesEntryExist("fill-colour")
 		|| (doesEntryExist("fill-colour-start") && doesEntryExist("fill-colour-end"))
 		// todo	|| doesEntryExist("progress-bar-fill-colour")
 		|| doesEntryExist("fill-colour:marked") || doesEntryExist("fill-colour:unmarked")
-		|| doesHaveFillOverwrite();
+		|| doesHaveFillOverwrite()
+		|| doesDefaultStyleValueExist(getResolvedStyleName("fill-colour"));
 }
 
 // spacing
-CVector2i32				CGUIStyles::getMinInnerSpacing(void)
+CPoint2D				CGUIStyles::getMinInnerSpacing(void)
 {
-	CVector2i32 vecMinSpacing(
+	CPoint2D vecMinSpacing(
 		getStyle<int32>("inner-spacing-x"),
 		getStyle<int32>("inner-spacing-y")
 	);
@@ -152,9 +163,9 @@ CVector2i32				CGUIStyles::getMinInnerSpacing(void)
 	return vecMinSpacing;
 }
 
-CVector2i32				CGUIStyles::getMaxInnerSpacing(void)
+CPoint2D				CGUIStyles::getMaxInnerSpacing(void)
 {
-	CVector2i32 vecMaxSpacing(
+	CPoint2D vecMaxSpacing(
 		getStyle<int32>("inner-spacing-x"),
 		getStyle<int32>("inner-spacing-y")
 	);
@@ -221,4 +232,15 @@ void					CGUIStyles::restoreStyleOverwrites(void)
 bool					CGUIStyles::doesDefaultStyleValueExist(string strStyleName)
 {
 	return getStyleDefaultValues().doesEntryExist(strStyleName);
+}
+
+// resolved style name
+string					CGUIStyles::getResolvedStyleName(string strStyleName)
+{
+	bool
+		bHasComponent = getItemComponent() != "",
+		bHasStatus = getItemStatus() != "";
+	string
+		strStyleNameFullyResolved = (getItemComponent() == "" ? "default." : (getItemComponent() + ".")) + strStyleName + (getItemStatus() == "" ? "" : (":" + getItemStatus())); // with component and status
+	return strStyleNameFullyResolved;
 }

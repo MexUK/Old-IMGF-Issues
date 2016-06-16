@@ -15,54 +15,12 @@ public:
 	{
 	}
 
-	CVector2ui32(const CVector2& vecVector2)
+	CVector2ui32&	operator+(const CVector2i32& vecVector2)
 	{
-		m_x = vecVector2.m_x;
-		m_y = vecVector2.m_y;
-	}
-
-	CVector2ui32	operator+(const CVector2& vecVector2)
-	{
-		CVector2ui32 vecVector1;
-		vecVector1.m_x = m_x + vecVector2.m_x;
-		vecVector1.m_y = m_y + vecVector2.m_y;
-		return vecVector1;
-	}
-	CVector2ui32	operator+(const CVector2i32& vecVector2)
-	{
-		CVector2ui32 vecVector1;
-		vecVector1.m_x = m_x + vecVector2.m_x;
-		vecVector1.m_y = m_y + vecVector2.m_y;
-		return vecVector1;
-	}
-	CVector2ui32	operator+(const uint32 uiValue)
-	{
-		CVector2ui32 vecVector1;
-		vecVector1.m_x = m_x + uiValue;
-		vecVector1.m_y = m_y + uiValue;
-		return vecVector1;
-	}
-
-	CVector2ui32	operator-(const CVector2& vecVector2)
-	{
-		CVector2ui32 vecVector1;
-		vecVector1.m_x = m_x - vecVector2.m_x;
-		vecVector1.m_y = m_y - vecVector2.m_y;
-		return vecVector1;
-	}
-
-	CVector2ui32	operator/(const uint32 uiValue)
-	{
-		CVector2ui32 vecVector1;
-		vecVector1.m_x = m_x / uiValue;
-		vecVector1.m_y = m_y / uiValue;
-		return vecVector1;
-	}
-
-	CVector2ui32&	operator+=(const CVector2& vecVector2)
-	{
-		*this = *this + vecVector2;
-		return *this;
+		CVector2ui32 vecVector;
+		vecVector.m_x = m_x + vecVector2.m_x;
+		vecVector.m_y = m_y + vecVector2.m_y;
+		return vecVector;
 	}
 };
 

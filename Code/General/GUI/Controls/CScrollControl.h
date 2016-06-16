@@ -2,7 +2,7 @@
 #define CScrollControl_H
 
 #include "Types.h"
-#include "CVector2ui32.h"
+#include "CSize2D.h"
 #include "GUI/Control/CGUIControl.h"
 #include "GUI/Styles/CGUIStyles.h"
 #include "GUI/Control/e2DMirroredOrientation.h"
@@ -14,13 +14,13 @@ public:
 
 	void									bindEvents(void);
 
-	void									onMouseDown(CVector2i32& vecCursorPosition);
-	void									onMouseUp(CVector2i32& vecCursorPosition);
-	void									onMouseMove(CVector2i32& vecCursorPosition);
+	void									onMouseDown(CPoint2D& vecCursorPosition);
+	void									onMouseUp(CPoint2D& vecCursorPosition);
+	void									onMouseMove(CPoint2D& vecCursorPosition);
 
 	void									render(void);
 
-	bool									isPointInSeekBar(CVector2i32& vecPoint);
+	bool									isPointInSeekBar(CPoint2D& vecPoint);
 	uint32									getSeekBarPositionOffset(void);
 
 	float32									getProgressFor1px(void);						// returns 0.0 to 1.0
@@ -44,8 +44,8 @@ public:
 	void									setSeekBarMoving(bool bSeekBarIsMoving) { m_bSeekBarIsMoving = bSeekBarIsMoving; }
 	bool									isSeekBarMoving(void) { return m_bSeekBarIsMoving; }
 
-	CVector2i32								getSeekBarPosition(void);
-	CVector2ui32							getSeekBarSize(void);
+	CPoint2D								getSeekBarPosition(void);
+	CSize2D									getSeekBarSize(void);
 
 private:
 	uint32									m_uiSeekBarLength;

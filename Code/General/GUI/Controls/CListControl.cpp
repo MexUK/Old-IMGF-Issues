@@ -7,7 +7,7 @@
 
 using namespace std;
 
-auto pOnMouseDown_List		= [](void *pControl, void *pTriggerArg) { ((CListControl*) pControl)->onMouseDown(*(CVector2i32*) pTriggerArg); };
+auto pOnMouseDown_List		= [](void *pControl, void *pTriggerArg) { ((CListControl*) pControl)->onMouseDown(*(CPoint2D*) pTriggerArg); };
 auto pOnRender_List			= [](void *pControl) { ((CListControl*) pControl)->render(); };
 
 CListControl::CListControl(void) :
@@ -27,7 +27,7 @@ void					CListControl::bindEvents(void)
 }
 
 // input
-void					CListControl::onMouseDown(CVector2i32& vecCursorPosition)
+void					CListControl::onMouseDown(CPoint2D& vecCursorPosition)
 {
 	if (isPointInItem(vecCursorPosition))
 	{
@@ -81,23 +81,23 @@ void					CListControl::render(void)
 }
 
 // row
-CVector2i32						CListControl::getRowPosition(uint32 uiRowIndex)
+CPoint2D						CListControl::getRowPosition(uint32 uiRowIndex)
 {
-	return getPosition() + CVector2i32(0, uiRowIndex * getRowHeight());
+	return getPosition() + CPoint2D(0, uiRowIndex * getRowHeight());
 }
 
-CVector2ui32					CListControl::getRowSize(void)
+CSize2D							CListControl::getRowSize(void)
 {
-	return CVector2ui32(getSize().m_x, getRowHeight());
+	return CSize2D(getSize().m_x, getRowHeight());
 }
 
 // row text
-CVector2i32						CListControl::getCellTextPosition(uint32 uiRowIndex, uint32 uiTextRowIndex, uint32 uiColumnIndex)
+CPoint2D						CListControl::getCellTextPosition(uint32 uiRowIndex, uint32 uiTextRowIndex, uint32 uiColumnIndex)
 {
-	return getPosition() + CVector2i32(uiColumnIndex * getColumnWidth(), (uiRowIndex * getRowHeight()) + (uiTextRowIndex * getRowTextHeight()));
+	return getPosition() + CPoint2D(uiColumnIndex * getColumnWidth(), (uiRowIndex * getRowHeight()) + (uiTextRowIndex * getRowTextHeight()));
 }
 
-CVector2ui32					CListControl::getCellTextSize(uint32 uiRowIndex, uint32 uiTextRowIndex, uint32 uiColumnIndex)
+CSize2D							CListControl::getCellTextSize(uint32 uiRowIndex, uint32 uiTextRowIndex, uint32 uiColumnIndex)
 {
-	return getSize() + CVector2ui32(uiColumnIndex * getColumnWidth(), (uiRowIndex * getRowHeight()) + ((uiTextRowIndex + 1) * getRowTextHeight()));
+	return getSize() + CSize2D(uiColumnIndex * getColumnWidth(), (uiRowIndex * getRowHeight()) + ((uiTextRowIndex + 1) * getRowTextHeight()));
 }

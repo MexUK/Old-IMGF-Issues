@@ -11,13 +11,14 @@
 #include "Event/eEvent.h"
 #include "Event/eEventType.h"
 #include "Localization/CLocalizationManager.h"
+#include "CColour.h"
 
 using namespace std;
 
-auto pOnMouseDown_Window		= [](void *pWindow, void *pTriggerArg) { ((CWindow*) pWindow)->onMouseDown(*(CVector2i32*) pTriggerArg); };
-auto pOnMouseUp_Window			= [](void *pWindow, void *pTriggerArg) { ((CWindow*) pWindow)->onMouseUp(*(CVector2i32*) pTriggerArg); };
-auto pOnMouseMove_Window		= [](void *pWindow, void *pTriggerArg) { ((CWindow*) pWindow)->onMouseMove(*(CVector2i32*) pTriggerArg); };
-auto pOnDoubleLeftClick_Window	= [](void *pWindow, void *pTriggerArg) { ((CWindow*) pWindow)->onDoubleLeftClick(*(CVector2i32*) pTriggerArg); };
+auto pOnMouseDown_Window		= [](void *pWindow, void *pTriggerArg) { ((CWindow*) pWindow)->onMouseDown(*(CPoint2D*) pTriggerArg); };
+auto pOnMouseUp_Window			= [](void *pWindow, void *pTriggerArg) { ((CWindow*) pWindow)->onMouseUp(*(CPoint2D*) pTriggerArg); };
+auto pOnMouseMove_Window		= [](void *pWindow, void *pTriggerArg) { ((CWindow*) pWindow)->onMouseMove(*(CPoint2D*) pTriggerArg); };
+auto pOnDoubleLeftClick_Window	= [](void *pWindow, void *pTriggerArg) { ((CWindow*) pWindow)->onDoubleLeftClick(*(CPoint2D*) pTriggerArg); };
 
 CWindow::CWindow(void) :
 	CEventType(EVENT_TYPE_WINDOW),
@@ -115,7 +116,7 @@ CEventBoundFunction*					CWindow::bindEvent(uint32 uiEventId, CInputEventCallbac
 }
 
 // input
-void									CWindow::onMouseDown(CVector2i32& vecCursorPosition)
+void									CWindow::onMouseDown(CPoint2D& vecCursorPosition)
 {
 	if (CEventManager::getInstance()->isEventHogged())
 	{
@@ -153,7 +154,7 @@ void									CWindow::onMouseDown(CVector2i32& vecCursorPosition)
 
 	RECT rect;
 	GetWindowRect(getWindowHandle(), &rect);
-	CVector2ui32 vecMainWindowSize(rect.right - rect.left, rect.bottom - rect.top);
+	CSize2D vecMainWindowSize(rect.right - rect.left, rect.bottom - rect.top);
 
 	setWindowResizeEdges(CMathUtility::getRectangleResizeEdges(vecCursorPosition, vecMainWindowSize, 10));
 	if (getWindowResizeEdges() == 0)
@@ -171,7 +172,7 @@ void									CWindow::onMouseDown(CVector2i32& vecCursorPosition)
 	SetCapture(getWindowHandle());
 }
 
-void									CWindow::onMouseUp(CVector2i32& vecCursorPosition)
+void									CWindow::onMouseUp(CPoint2D& vecCursorPosition)
 {
 	if (isMovingWindow())
 	{
@@ -188,7 +189,7 @@ void									CWindow::onMouseUp(CVector2i32& vecCursorPosition)
 	}
 }
 
-void									CWindow::onMouseMove(CVector2i32& vecCursorPosition)
+void									CWindow::onMouseMove(CPoint2D& vecCursorPosition)
 {
 	for (CGUILayer *pLayer : getEntries())
 	{
@@ -217,7 +218,7 @@ void									CWindow::onMouseMove(CVector2i32& vecCursorPosition)
 	{
 		POINT point;
 		GetCursorPos(&point);
-		vecCursorPosition = CVector2i32(point.x, point.y);
+		vecCursorPosition = CPoint2D(point.x, point.y);
 
 		RECT rect;
 		GetWindowRect(getWindowHandle(), &rect);
@@ -228,7 +229,7 @@ void									CWindow::onMouseMove(CVector2i32& vecCursorPosition)
 		rect.top += vecCursorDiff.m_y;
 
 		SetWindowPos(getWindowHandle(), NULL, rect.left, rect.top, 0, 0, SWP_NOSIZE | SWP_NOZORDER);
-		setPosition(CVector2i32(rect.left, rect.top));
+		setPosition(CPoint2D(rect.left, rect.top));
 		//MoveWindow(hwndWindow, rect.left, rect.top, rect.right, rect.bottom, false);
 		//InvalidateRect(hwndWindow, &rect, false);
 		return;
@@ -237,7 +238,7 @@ void									CWindow::onMouseMove(CVector2i32& vecCursorPosition)
 	{
 		POINT point;
 		GetCursorPos(&point);
-		vecCursorPosition = CVector2i32(point.x, point.y);
+		vecCursorPosition = CPoint2D(point.x, point.y);
 
 		RECT rect;
 		GetWindowRect(getWindowHandle(), &rect);
@@ -268,13 +269,13 @@ void									CWindow::onMouseMove(CVector2i32& vecCursorPosition)
 	}
 }
 
-void									CWindow::onDoubleLeftClick(CVector2i32& vecCursorPosition)
+void									CWindow::onDoubleLeftClick(CPoint2D& vecCursorPosition)
 {
 	RECT rect;
 	GetWindowRect(getWindowHandle(), &rect);
-	CVector2ui32 vecMainWindowTitleBarSize(rect.right - rect.left, 35);
+	CSize2D vecMainWindowTitleBarSize(rect.right - rect.left, 35);
 
-	if (CMathUtility::isPointInRectangle(vecCursorPosition, CVector2i32(0, 0), vecMainWindowTitleBarSize))
+	if (CMathUtility::isPointInRectangle(vecCursorPosition, CPoint2D(0, 0), vecMainWindowTitleBarSize))
 	{
 		setMaximized(!isMaximized());
 	}
@@ -318,11 +319,11 @@ void									CWindow::onRenderFromWMPaint(void)
 	// render window background and border
 	if (getStyles()->doesHaveFill())
 	{
-		pGFX->drawRectangleFill(CVector2i32(0, 0), getSize(), getStyles());
+		pGFX->drawRectangleFill(CPoint2D(0, 0), getSize(), getStyles());
 	}
 	if (getStyles()->doesHaveBorder())
 	{
-		pGFX->drawRectangleBorder(CVector2i32(0, 0), getSize(), getStyles());
+		pGFX->drawRectangleBorder(CPoint2D(0, 0), getSize(), getStyles());
 	}
 
 	// render to memory
@@ -366,12 +367,12 @@ CGUILayer*							CWindow::addLayer(CWindow *pWindow, bool bEnabled)
 void								CWindow::setActiveItem(CGUIItem *pItem)
 {
 	m_pActiveItem = pItem;
-	pItem->getStyles()->setStyle("border-colour", RGB(255, 0, 0));
+	pItem->getStyles()->setStyle("border-colour", CColour(255, 0, 0));
 }
 
 void								CWindow::clearActiveItem(void)
 {
-	m_pActiveItem->getStyles()->setStyle("border-colour", RGB(0, 0, 0));
+	m_pActiveItem->getStyles()->setStyle("border-colour", CColour(0, 0, 0));
 	m_pActiveItem = nullptr;
 }
 

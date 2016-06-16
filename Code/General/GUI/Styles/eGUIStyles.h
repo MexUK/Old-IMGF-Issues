@@ -7,20 +7,20 @@ Properties						Default Value				Potential Values								Notes
 -----------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 Border
 -----------------------------------------------------------------------------------------------------------------------------------------------------------------------------
-border-colour					RGB(0, 0, 0)
+border-colour					CColour(0, 0, 0)
 border-thickness				0
 border-style					consistent					consistent, dashed, dotted
 border-intersection-radius		0
 -----------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 Fill
 -----------------------------------------------------------------------------------------------------------------------------------------------------------------------------
-fill-colour						RGB(0xFF, 0xFF, 0xFF)
-fill-colour-start				RGB(0xFF, 0xFF, 0xFF)
-fill-colour-stop				RGB(0x80, 0x80, 0x80)
+fill-colour						CColour(0xFF, 0xFF, 0xFF)
+fill-colour-start				CColour(0xFF, 0xFF, 0xFF)
+fill-colour-stop				CColour(0x80, 0x80, 0x80)
 -----------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 Text
 -----------------------------------------------------------------------------------------------------------------------------------------------------------------------------
-text-colour						RGB(0, 0, 0)
+text-colour						CColour(0, 0, 0)
 text-size						11
 text-font						Verdana
 text-style						default						bold, italic, underline, strikethrough			Multiple values supported. Separated by either spaces and/or commas.
@@ -41,12 +41,12 @@ inner-spacing-bottom			0							In pixels.
 -----------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 Control Specific
 -----------------------------------------------------------------------------------------------------------------------------------------------------------------------------
-caret-colour					RGB(0, 0, 0)
-row-fill-colour-1				RGB(255, 255, 255)															For list controls.
-row-fill-colour-2				RGB(200, 200, 200)															For list controls.
-progress-bar-fill-colour		RGB(0, 50, 150)																For progress controls.
-fill-colour-marked				RGB(0, 255, 0)																For radio and check controls.
-fill-colour-unmarked			RGB(255, 255, 255)															For radio and check controls.
+caret-colour					CColour(0, 0, 0)
+row-fill-colour-1				CColour(255, 255, 255)														For list controls.
+row-fill-colour-2				CColour(200, 200, 200)														For list controls.
+progress-bar-fill-colour		CColour(0, 50, 150)															For progress controls.
+fill-colour-marked				CColour(0, 255, 0)															For radio and check controls.
+fill-colour-unmarked			CColour(255, 255, 255)														For radio and check controls.
 markable-text-spacing			5							In pixels.										For radio and check controls.
 -----------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 Notes

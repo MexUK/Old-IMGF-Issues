@@ -7,7 +7,7 @@
 #include "GUI/GraphicsLibrary/CGraphicsLibrary.h"
 #include "GUI/Styles/CGUIStyles.h"
 
-auto pOnMouseUp_Radio		= [](void *pControl, void *pTriggerArg) { ((CRadioControl*) pControl)->onMouseUp(*(CVector2i32*) pTriggerArg); };
+auto pOnMouseUp_Radio		= [](void *pControl, void *pTriggerArg) { ((CRadioControl*) pControl)->onMouseUp(*(CPoint2D*) pTriggerArg); };
 auto pOnRender_Radio		= [](void *pControl) { ((CRadioControl*) pControl)->render(); };
 
 CRadioControl::CRadioControl(void) :
@@ -26,7 +26,7 @@ void		CRadioControl::bindEvents(void)
 }
 
 // input
-void		CRadioControl::onMouseUp(CVector2i32& vecCursorPosition)
+void		CRadioControl::onMouseUp(CPoint2D& vecCursorPosition)
 {
 	if (isPointInControl(vecCursorPosition))
 	{
@@ -49,36 +49,36 @@ void		CRadioControl::render(void)
 	checkToRecalculateStringSize(getStyles());
 
 	float32 fRadius = getIconRadius();
-	CVector2i32 vecCircleCenterPosition = getPosition();
+	CPoint2D vecCircleCenterPosition = getPosition();
 
 	// draw circle
 	getStyles()->setHasFillOverwrite(isMarked());
 	pGFX->drawCircle(vecCircleCenterPosition, fRadius, getStyles());
 	getStyles()->restoreStyleOverwrites();
 
-	// reset
-	getStyles()->restoreTemporaryStyleData();
-
 	// draw text
 	pGFX->drawText(getTextPosition(), getTextSize(), getText(), getStyles());
+
+	// reset
+	getStyles()->restoreTemporaryStyleData();
 }
 
 // cursor
-bool			CRadioControl::isPointInControl(CVector2i32& vecPoint)
+bool			CRadioControl::isPointInControl(CPoint2D& vecPoint)
 {
 	return CMathUtility::isPointInRectangle(vecPoint, getPosition(), getTotalSize()); // todo - also its repeated code for them 2 controls - make like CMarkableControlComponent
 }
 
 // position
-CVector2i32		CRadioControl::getIconCenterPosition(void)
+CPoint2D		CRadioControl::getIconCenterPosition(void)
 {
 	return CMathUtility::getEllipseFromRectangle(getPosition(), getSize());
 }
 
 // size
-CVector2ui32	CRadioControl::getTotalSize(void)
+CSize2D			CRadioControl::getTotalSize(void)
 {
-	return getSize() + getMarkableTextSpacing() + CVector2ui32(getTextWidth(), 0);
+	return getSize() + CSize2D(getMarkableTextSpacing() + getTextWidth(), 0);
 }
 
 uint32			CRadioControl::getIconRadius(void)
@@ -87,9 +87,9 @@ uint32			CRadioControl::getIconRadius(void)
 }
 
 // text
-CVector2i32		CRadioControl::getTextPosition(void)
+CPoint2D		CRadioControl::getTextPosition(void)
 {
-	return CVector2i32(getPosition().m_x + getSize().m_x + getMarkableTextSpacing(), getPosition().m_y);
+	return CPoint2D(getPosition().m_x + getSize().m_x + getMarkableTextSpacing(), getPosition().m_y);
 }
 
 // styles

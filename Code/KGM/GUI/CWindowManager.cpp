@@ -14,8 +14,8 @@ void					CWindowManager::uninit(void)
 // window open/close
 CWindow*				CWindowManager::openWindow(void)
 {
-	CVector2i32 vecWindowPosition = CVector2i32(150, 150);
-	CVector2ui32 vecWindowSize = CVector2ui32(1025, 698);
+	CPoint2D vecWindowPosition = CPoint2D(150, 150);
+	CSize2D vecWindowSize = CSize2D(1025, 698);
 	CKGMWindow *pWindow = CGUIManager::getInstance()->addTemplatedWindow<CKGMWindow>(vecWindowPosition, vecWindowSize);
 	
 	CIMGEditor *pIMGEditor = new CIMGEditor; // CIMGEditor eventually extends CGUILayer - todo use pWindow->addTempatedGroup<CIMGEditor>() instead?

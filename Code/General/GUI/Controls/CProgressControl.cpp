@@ -35,9 +35,9 @@ void			CProgressControl::render(void)
 	pGFX->drawRectangle(getPosition(), getSize(), getStyles());
 
 	//getStyles()->setComponentType("seek");
-	CVector2i32 vecProgressPosition = getProgressPosition(); // todo
+	CPoint2D vecProgressPosition = getProgressPosition(); // todo
 	// todo getStyles()->setStyleNameOverwrite("fill-colour", "progress-bar-fill-colour");
-	pGFX->drawRectangle(getPosition(), CVector2ui32(vecProgressPosition.m_x, vecProgressPosition.m_y), getStyles());
+	pGFX->drawRectangle(getPosition(), CSize2D(vecProgressPosition.m_x, vecProgressPosition.m_y), getStyles());
 	// todo getStyles()->restoreStyleNameOverwrites();
 
 	if (isTextShown())
@@ -64,9 +64,9 @@ string			CProgressControl::getProgressPercentText(void)
 }
 
 // position
-CVector2i32		CProgressControl::getProgressPosition(void)
+CPoint2D		CProgressControl::getProgressPosition(void)
 {
-	return CVector2i32(getProgressPositionX(), getSize().m_y);
+	return CPoint2D(getProgressPositionX(), getSize().m_y);
 }
 
 int32			CProgressControl::getProgressPositionX(void)

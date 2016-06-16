@@ -8,7 +8,7 @@
 
 using namespace std;
 
-auto pOnLeftMouseDown_Tab	= [](void *pControl, void *pTriggerArg) { ((CTabControl*) pControl)->onLeftMouseDown(*(CVector2i32*) pTriggerArg); };
+auto pOnLeftMouseDown_Tab	= [](void *pControl, void *pTriggerArg) { ((CTabControl*) pControl)->onLeftMouseDown(*(CPoint2D*) pTriggerArg); };
 auto pOnRender_Tab			= [](void *pControl) { ((CTabControl*) pControl)->render(); };
 
 CTabControl::CTabControl(void) :
@@ -26,7 +26,7 @@ void					CTabControl::bindEvents(void)
 }
 
 // input
-void					CTabControl::onLeftMouseDown(CVector2i32& vecCursorPosition)
+void					CTabControl::onLeftMouseDown(CPoint2D& vecCursorPosition)
 {
 	CTabControlEntry *pTab = getTabFromPosition(vecCursorPosition);
 	if (pTab != nullptr)
@@ -46,7 +46,7 @@ void					CTabControl::render(void)
 {
 	CGraphicsLibrary *pGFX = CGUIManager::getInstance()->getGraphicsLibrary();
 
-	CVector2i32
+	CPoint2D
 		vecTabTopLeftBoundingPosition(getPosition()),
 		vecTabTopLeftPosition,
 		vecTabTopRightPosition,
@@ -74,13 +74,13 @@ void					CTabControl::render(void)
 		{
 			uiTabHeight -= uiActiveTabHeightDifference;
 		}
-		CVector2i32
-			vecTabTopLeftPosition = pTab->isActiveTab() ? vecTabTopLeftBoundingPosition : (vecTabTopLeftBoundingPosition + CVector2i32(0, uiActiveTabHeightDifference)),
-			vecTabTopRightPosition = vecTabTopLeftPosition + CVector2i32(uiTabWidth, 0),
-			vecTabBottomRightPosition = vecTabTopRightPosition + CVector2i32(0, uiTabHeight),
-			vecTabBottomLeftPosition = vecTabTopLeftPosition + CVector2i32(0, uiTabHeight),
+		CPoint2D
+			vecTabTopLeftPosition = pTab->isActiveTab() ? vecTabTopLeftBoundingPosition : (vecTabTopLeftBoundingPosition + CPoint2D(0, uiActiveTabHeightDifference)),
+			vecTabTopRightPosition = vecTabTopLeftPosition + CPoint2D(uiTabWidth, 0),
+			vecTabBottomRightPosition = vecTabTopRightPosition + CPoint2D(0, uiTabHeight),
+			vecTabBottomLeftPosition = vecTabTopLeftPosition + CPoint2D(0, uiTabHeight),
 			vecTextTabPosition = vecTabTopLeftPosition;
-		CVector2ui32
+		CSize2D
 			vecTabSize(uiTabWidth, uiTabHeight);
 
 		// draw tab fill
@@ -127,13 +127,13 @@ void					CTabControl::removeTab(CTabControlEntry *pTab)
 }
 
 // tab retrieval
-CTabControlEntry*		CTabControl::getTabFromPosition(CVector2i32& vecPosition)
+CTabControlEntry*		CTabControl::getTabFromPosition(CPoint2D& vecPosition)
 {
 	CGraphicsLibrary
 		*pGFX = CGUIManager::getInstance()->getGraphicsLibrary();
-	CVector2i32
+	CPoint2D
 		vecTabTopLeftPosition(getPosition());
-	CVector2ui32
+	CSize2D
 		vecTabSize;
 	uint32
 		uiTabTextWidth,
@@ -156,7 +156,7 @@ CTabControlEntry*		CTabControl::getTabFromPosition(CVector2i32& vecPosition)
 		{
 			uiTabHeight -= uiActiveTabHeightDifference;
 		}
-		vecTabSize = CVector2ui32(uiTabWidth, uiTabHeight);
+		vecTabSize = CSize2D(uiTabWidth, uiTabHeight);
 
 		if (CMathUtility::isPointInRectangle(vecPosition, vecTabTopLeftPosition, vecTabSize))
 		{

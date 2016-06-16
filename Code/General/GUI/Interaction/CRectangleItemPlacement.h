@@ -2,8 +2,8 @@
 #define CRectangleItemPlacement_H
 
 #include "Types.h"
-#include "CVector2i32.h"
-#include "CVector2ui32.h"
+#include "CPoint2D.h"
+#include "CSize2D.h"
 #include "Pool/CVectorPool.h"
 #include "Event/eEvent.h"
 #include "Event/CEventManager.h"
@@ -32,9 +32,9 @@ public:
 	void						stopResizingItem(void);
 	bool						isResizingItem(void) { return m_pItemBeingResized != nullptr; }
 	
-	void						onLeftMouseDown(CVector2i32& vecCursorPoint);
-	void						onLeftMouseUp(CVector2i32& vecCursorPoint);
-	void						onMouseMove(CVector2i32& vecCursorPoint);
+	void						onLeftMouseDown(CPoint2D& vecCursorPoint);
+	void						onLeftMouseUp(CPoint2D& vecCursorPoint);
+	void						onMouseMove(CPoint2D& vecCursorPoint);
 
 	void						setItemBeingMoved(Item *pItem) { m_pItemBeingMoved = pItem; }
 	Item*						getItemBeingMoved(void) { return m_pItemBeingMoved; }
@@ -52,7 +52,7 @@ public:
 	CVectorPool<Item*>*			getItems(void) { return m_pvecItems; }
 
 private:
-	void						checkToStartMovingOrResizingItem(CVector2i32& vecCursorPoint, uint32 uiOuterSpacing);
+	void						checkToStartMovingOrResizingItem(CPoint2D& vecCursorPoint, uint32 uiOuterSpacing);
 	
 private:
 	Item*						m_pItemBeingMoved;		// the item that is being moved or resized
@@ -124,7 +124,7 @@ void					CRectangleItemPlacement<Item>::stopResizingItem(void)
 }
 
 template <class Item>
-void					CRectangleItemPlacement<Item>::checkToStartMovingOrResizingItem(CVector2i32& vecCursorPoint, uint32 uiOuterSpacing)
+void					CRectangleItemPlacement<Item>::checkToStartMovingOrResizingItem(CPoint2D& vecCursorPoint, uint32 uiOuterSpacing)
 {
 	uint32 uiRectangleEdges;
 	for(Item *pItem : getItems()->getEntries())
@@ -151,14 +151,14 @@ void					CRectangleItemPlacement<Item>::checkToStartMovingOrResizingItem(CVector
 }
 
 template <class Item>
-void					CRectangleItemPlacement<Item>::onLeftMouseDown(CVector2i32& vecCursorPoint)
+void					CRectangleItemPlacement<Item>::onLeftMouseDown(CPoint2D& vecCursorPoint)
 {
 	uint32 uiOuterSpacing = 1;
 	checkToStartMovingOrResizingItem(vecCursorPoint, uiOuterSpacing);
 }
 
 template <class Item>
-void					CRectangleItemPlacement<Item>::onLeftMouseUp(CVector2i32& vecCursorPoint)
+void					CRectangleItemPlacement<Item>::onLeftMouseUp(CPoint2D& vecCursorPoint)
 {
 	if (isMovingItem())
 	{
@@ -171,7 +171,7 @@ void					CRectangleItemPlacement<Item>::onLeftMouseUp(CVector2i32& vecCursorPoin
 }
 
 template <class Item>
-void					CRectangleItemPlacement<Item>::onMouseMove(CVector2i32& vecCursorPoint)
+void					CRectangleItemPlacement<Item>::onMouseMove(CPoint2D& vecCursorPoint)
 {
 	if (isMovingItem())
 	{

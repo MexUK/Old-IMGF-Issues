@@ -2,7 +2,7 @@
 #define CGUIStyles_H
 
 #include "Types.h"
-#include "CVector2i32.h"
+#include "CPoint2D.h"
 #include "Pool/CMultipleTypeValuesUMapContainer.h"
 #include <string>
 #include <vector>
@@ -40,13 +40,15 @@ public:
 
 	std::string				getTextAlignX(void);
 	std::string				getTextAlignY(void);
-	CVector2i32				getMinInnerSpacing(void);
-	CVector2i32				getMaxInnerSpacing(void);
+	CPoint2D				getMinInnerSpacing(void);
+	CPoint2D				getMaxInnerSpacing(void);
 	uint32					getInnerSpacingTotalX(void);
 	uint32					getInnerSpacingTotalY(void);
 
 	void					restoreTemporaryStyleData(void);
 	void					restoreStyleOverwrites(void);
+
+	std::string				getResolvedStyleName(std::string strStyleName);
 
 	void					setItemComponent(std::string strItemComponent) { m_strItemComponent = strItemComponent; }
 	std::string&			getItemComponent(void) { return m_strItemComponent; }
@@ -106,6 +108,11 @@ ValueType				CGUIStyles::getStyle(std::string strStyleName)
 		// e.g. drop-triangle.fill-colour:list-open
 		return *getEntryPointer<ValueType>(strStyleNameFullyResolved);
 	}
+	else if (bHasComponent && bHasStatus && doesDefaultStyleValueExist(strStyleNameFullyResolved))
+	{
+		// e.g. drop-triangle.fill-colour:list-open
+		return getStyleDefaultValue<ValueType>(strStyleNameFullyResolved);
+	}
 	else if (bHasStatus && doesStyleExist(strStyleNameWithStatus))
 	{
 		// e.g. fill-colour:list-open
@@ -120,6 +127,11 @@ ValueType				CGUIStyles::getStyle(std::string strStyleName)
 	{
 		// e.g. drop-triangle.fill-colour
 		return *getEntryPointer<ValueType>(strStyleNameWithComponent);
+	}
+	else if (bHasComponent && doesDefaultStyleValueExist(strStyleNameWithComponent))
+	{
+		// e.g. drop-triangle.fill-colour
+		return getStyleDefaultValue<ValueType>(strStyleNameWithComponent);
 	}
 	else if (doesStyleExist(strStyleName))
 	{
@@ -142,7 +154,7 @@ ValueType				CGUIStyles::getStyleDefaultValue(std::string strStyleName)
 	}
 	else
 	{
-		return (ValueType) 0;
+		return ValueType();
 	}
 }
 

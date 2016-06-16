@@ -7,8 +7,8 @@
 #include "GUI/Window/CWindow.h"
 #include <gdiplus.h>
 
-auto pOnMouseDown_Button	= [](void *pControl, void *pTriggerArg) { ((CButtonControl*) pControl)->onMouseDown(*(CVector2i32*) pTriggerArg); };
-auto pOnMouseUp_Button		= [](void *pControl, void *pTriggerArg) { ((CButtonControl*) pControl)->onMouseUp(*(CVector2i32*) pTriggerArg); };
+auto pOnMouseDown_Button	= [](void *pControl, void *pTriggerArg) { ((CButtonControl*) pControl)->onMouseDown(*(CPoint2D*) pTriggerArg); };
+auto pOnMouseUp_Button		= [](void *pControl, void *pTriggerArg) { ((CButtonControl*) pControl)->onMouseUp(*(CPoint2D*) pTriggerArg); };
 auto pOnRender_Button		= [](void *pControl) { ((CButtonControl*) pControl)->render(); };
 
 CButtonControl::CButtonControl(void) :
@@ -25,7 +25,7 @@ void					CButtonControl::bindEvents(void)
 }
 
 // input
-void		CButtonControl::onMouseDown(CVector2i32& vecCursorPosition)
+void		CButtonControl::onMouseDown(CPoint2D& vecCursorPosition)
 {
 	if (isPointInItem(vecCursorPosition))
 	{
@@ -33,7 +33,7 @@ void		CButtonControl::onMouseDown(CVector2i32& vecCursorPosition)
 	}
 }
 
-void		CButtonControl::onMouseUp(CVector2i32& vecCursorPosition)
+void		CButtonControl::onMouseUp(CPoint2D& vecCursorPosition)
 {
 	if (isPointInItem(vecCursorPosition))
 	{

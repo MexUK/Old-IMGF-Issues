@@ -2,20 +2,20 @@
 #define CGUIString_H
 
 #include "Types.h"
-#include "CVector2ui32.h"
+#include "CSize2D.h"
 #include <string>
 
 class CGUIString
 {
 public:
-	void							setSize(CVector2ui32& vecSize) { m_vecSize = vecSize; }
-	CVector2ui32&					getSize(void) { return m_vecSize; }
+	void							setSize(CSize2D& vecSize) { m_vecSize = vecSize; }
+	CSize2D&						getSize(void) { return m_vecSize; }
 
 	void							setString(std::string& strString) { m_strString = strString; }
 	std::string&					getString(void) { return m_strString; }
 
 private:
-	CVector2ui32					m_vecSize;
+	CSize2D							m_vecSize;
 	std::string						m_strString;
 };
 

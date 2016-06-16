@@ -34,13 +34,13 @@ void					CEventBoundFunction::triggerObjectCallback(uint32 uiEventId, void *pTri
 	switch (uiEventId)
 	{
 	case EVENT_onLeftMouseDown:
-		m_pCallbackObject->onLeftMouseDown(*(CVector2i32*) pTriggerArgument);
+		m_pCallbackObject->onLeftMouseDown(*(CPoint2D*) pTriggerArgument);
 		break;
 	case EVENT_onLeftMouseUp:
-		m_pCallbackObject->onLeftMouseUp(*(CVector2i32*) pTriggerArgument);
+		m_pCallbackObject->onLeftMouseUp(*(CPoint2D*) pTriggerArgument);
 		break;
 	case EVENT_onMouseMove:
-		m_pCallbackObject->onMouseMove(*(CVector2i32*) pTriggerArgument);
+		m_pCallbackObject->onMouseMove(*(CPoint2D*) pTriggerArgument);
 		break;
 	}
 }

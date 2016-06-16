@@ -1,14 +1,14 @@
 #ifndef CInputEventCallbacks_H
 #define CInputEventCallbacks_H
 
-#include "CVector2i32.h"
+#include "CPoint2D.h"
 
 class CInputEventCallbacks
 {
 public:
-	virtual void					onLeftMouseDown(CVector2i32& vecCursorPoint) {}
-	virtual void					onLeftMouseUp(CVector2i32& vecCursorPoint) {}
-	virtual void					onMouseMove(CVector2i32& vecCursorPoint) {}
+	virtual void					onLeftMouseDown(CPoint2D& vecCursorPoint) {}
+	virtual void					onLeftMouseUp(CPoint2D& vecCursorPoint) {}
+	virtual void					onMouseMove(CPoint2D& vecCursorPoint) {}
 };
 
 #endif

@@ -26,18 +26,18 @@ void							CSquareShape::render(void)
 }
 
 // point testing
-bool							CSquareShape::isPointInItem(CVector2i32& vecPoint)
+bool							CSquareShape::isPointInItem(CPoint2D& vecPoint)
 {
-	return CMathUtility::isPointInRectangle(vecPoint, getPosition(), CVector2ui32(getSize(), getSize()));
+	return CMathUtility::isPointInRectangle(vecPoint, getPosition(), CSize2D(getSize(), getSize()));
 }
 
 // bounding rectangle
-CVector2i32						CSquareShape::getBoundingRectanglePosition(void)
+CPoint2D						CSquareShape::getBoundingRectanglePosition(void)
 {
 	return getPosition();
 }
 
-CVector2ui32					CSquareShape::getBoundingRectangleSize(void)
+CSize2D							CSquareShape::getBoundingRectangleSize(void)
 {
-	return CVector2ui32(getSize(), getSize());
+	return CSize2D(getSize(), getSize()); // todo - make it take 1 value too
 }

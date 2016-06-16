@@ -6,7 +6,7 @@
 #include "GUI/Styles/CGUIStyles.h"
 #include "GUI/Controls/Entries/CListControlEntry.h"
 #include "Pool/CVectorPool.h"
-#include "CVector2i32.h"
+#include "CPoint2D.h"
 #include <string>
 #include <vector>
 
@@ -17,15 +17,15 @@ public:
 
 	void									bindEvents(void);
 
-	void									onMouseDown(CVector2i32& vecCursorPosition);
+	void									onMouseDown(CPoint2D& vecCursorPosition);
 
 	void									render(void);
 
-	CVector2i32								getRowPosition(uint32 uiRowIndex);	// in pixels
-	CVector2ui32							getRowSize(void);					// in pixels
+	CPoint2D								getRowPosition(uint32 uiRowIndex);	// in pixels
+	CSize2D									getRowSize(void);					// in pixels
 
-	CVector2i32								getCellTextPosition(uint32 uiRowIndex, uint32 uiTextRowIndex, uint32 uiColumnIndex);	// in pixels
-	CVector2ui32							getCellTextSize(uint32 uiRowIndex, uint32 uiTextRowIndex, uint32 uiColumnIndex);		// in pixels
+	CPoint2D								getCellTextPosition(uint32 uiRowIndex, uint32 uiTextRowIndex, uint32 uiColumnIndex);	// in pixels
+	CSize2D									getCellTextSize(uint32 uiRowIndex, uint32 uiTextRowIndex, uint32 uiColumnIndex);		// in pixels
 
 	void									setRowHeight(uint32 uiRowHeight) { m_uiRowHeight = uiRowHeight; }	// in pixels
 	uint32									getRowHeight(void) { return m_uiRowHeight; }						// in pixels

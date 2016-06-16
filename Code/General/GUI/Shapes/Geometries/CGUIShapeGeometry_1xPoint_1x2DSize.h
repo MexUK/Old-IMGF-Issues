@@ -3,7 +3,8 @@
 
 #include "Types.h"
 #include "CVector2i32.h"
-#include "CVector2ui32.h"
+#include "CPoint2D.h"
+#include "CSize2D.h"
 #include "GUI/Shape/eGUIShape.h"
 #include "GUI/Shape/CGUIShape.h"
 
@@ -13,17 +14,17 @@ public:
 	CGUIShapeGeometry_1xPoint_1x2DSize(eGUIShape eShapeType);
 
 	void							moveItem(CVector2i32& vecPositionChange) { m_vecPosition += vecPositionChange; }
-	void							resizeItemViaOffsets(CVector2i32& vecItemSizeChange) { m_vecSize += CVector2ui32(vecItemSizeChange.m_x, vecItemSizeChange.m_y); }
+	void							resizeItemViaOffsets(CVector2i32& vecItemSizeChange) { m_vecSize += CSize2D(vecItemSizeChange.m_x, vecItemSizeChange.m_y); }
 
-	void							setPosition(CVector2i32& vecPosition) { m_vecPosition = vecPosition; }
-	CVector2i32&					getPosition(void) { return m_vecPosition; }
+	void							setPosition(CPoint2D& vecPosition) { m_vecPosition = vecPosition; }
+	CPoint2D&						getPosition(void) { return m_vecPosition; }
 
-	void							setSize(CVector2ui32& vecSize) { m_vecSize = vecSize; }
-	CVector2ui32&					getSize(void) { return m_vecSize; }
+	void							setSize(CSize2D& vecSize) { m_vecSize = vecSize; }
+	CSize2D&						getSize(void) { return m_vecSize; }
 	
 private:
-	CVector2i32						m_vecPosition;
-	CVector2ui32					m_vecSize;
+	CPoint2D						m_vecPosition;
+	CSize2D							m_vecSize;
 };
 
 #endif

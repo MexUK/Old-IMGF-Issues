@@ -159,6 +159,21 @@
     <ClInclude Include="..\..\..\Code\Ultra Core\Vector\Layer 4\CVector4D.h">
       <Filter>Header Files\Vector\Layer 4</Filter>
     </ClInclude>
+    <ClInclude Include="..\..\..\Code\Ultra Core\Vector\Layer 4\CColour.h">
+      <Filter>Header Files\Vector\Layer 4</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\Code\Ultra Core\Vector\Layer 4\CSize3D.h">
+      <Filter>Header Files\Vector\Layer 4</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\Code\Ultra Core\Vector\Layer 4\CSize2D.h">
+      <Filter>Header Files\Vector\Layer 4</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\Code\Ultra Core\Vector\Layer 4\CPoint2D.h">
+      <Filter>Header Files\Vector\Layer 4</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\Code\Ultra Core\Vector\Layer 4\CPoint3D.h">
+      <Filter>Header Files\Vector\Layer 4</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\..\..\Code\Ultra Core\Vector\Layer 4\CVector3D.cpp">
@@ -168,6 +183,21 @@
       <Filter>Source Files\Vector\Layer 4</Filter>
     </ClCompile>
     <ClCompile Include="..\..\..\Code\Ultra Core\Vector\Layer 4\CVector4D.cpp">
+      <Filter>Source Files\Vector\Layer 4</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\Code\Ultra Core\Vector\Layer 4\CColour.cpp">
+      <Filter>Source Files\Vector\Layer 4</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\Code\Ultra Core\Vector\Layer 4\CSize3D.cpp">
+      <Filter>Source Files\Vector\Layer 4</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\Code\Ultra Core\Vector\Layer 4\CSize2D.cpp">
+      <Filter>Source Files\Vector\Layer 4</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\Code\Ultra Core\Vector\Layer 4\CPoint3D.cpp">
+      <Filter>Source Files\Vector\Layer 4</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\Code\Ultra Core\Vector\Layer 4\CPoint2D.cpp">
       <Filter>Source Files\Vector\Layer 4</Filter>
     </ClCompile>
   </ItemGroup>

@@ -12,18 +12,18 @@ public:
 
 	void									bindEvents(void);
 
-	void									onMouseUp(CVector2i32& vecCursorPosition);
+	void									onMouseUp(CPoint2D& vecCursorPosition);
 
 	void									render(void);
 
-	bool									isPointInControl(CVector2i32& vecPoint);
+	bool									isPointInControl(CPoint2D& vecPoint);
 
-	CVector2i32								getIconCenterPosition(void);
+	CPoint2D								getIconCenterPosition(void);
 
-	CVector2ui32							getTotalSize(void); // todo - duplicated code in check and radio controls
+	CSize2D									getTotalSize(void); // todo - duplicated code in check and radio controls
 	uint32									getIconRadius(void);
 
-	CVector2i32								getTextPosition(void);
+	CPoint2D								getTextPosition(void);
 
 	int32									getMarkableTextSpacing(void); // todo - duplicated code in check and radio controls
 

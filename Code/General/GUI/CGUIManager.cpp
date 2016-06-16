@@ -13,7 +13,7 @@ using namespace std;
 
 bool g_bWindowRenderHasOccurred = false; // temp
 
-auto pOnMouseMove_GUIManager		= [](void *pGUIManager, void *pTriggerArg) { ((CGUIManager*) pGUIManager)->onMouseMove(*(CVector2i32*) pTriggerArg); };
+auto pOnMouseMove_GUIManager		= [](void *pGUIManager, void *pTriggerArg) { ((CGUIManager*) pGUIManager)->onMouseMove(*(CPoint2D*) pTriggerArg); };
 
 CGUIManager::CGUIManager(void) :
 	m_pGraphicsLibrary(nullptr),
@@ -43,7 +43,7 @@ void						CGUIManager::bindEvents(void)
 }
 
 // add window
-CWindow*					CGUIManager::addWindow(CVector2i32& vecWindowPosition, CVector2ui32& vecWindowSize)
+CWindow*					CGUIManager::addWindow(CPoint2D& vecWindowPosition, CSize2D& vecWindowSize)
 {
 	CWindow *pWindow = new CWindow;
 	pWindow->setPosition(vecWindowPosition);
@@ -163,19 +163,19 @@ LRESULT CALLBACK			WndProc_Window(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lPa
 	{
 	case WM_LBUTTONDOWN:
 		eEventId = EVENT_onLeftMouseDown;
-		pTriggerArgument = &CVector2i32(GET_X_LPARAM(lParam), GET_Y_LPARAM(lParam));
+		pTriggerArgument = &CPoint2D(GET_X_LPARAM(lParam), GET_Y_LPARAM(lParam));
 		break;
 	case WM_LBUTTONUP:
 		eEventId = EVENT_onLeftMouseUp;
-		pTriggerArgument = &CVector2i32(GET_X_LPARAM(lParam), GET_Y_LPARAM(lParam));
+		pTriggerArgument = &CPoint2D(GET_X_LPARAM(lParam), GET_Y_LPARAM(lParam));
 		break;
 	case WM_MOUSEMOVE:
 		eEventId = EVENT_onMouseMove;
-		pTriggerArgument = &CVector2i32(GET_X_LPARAM(lParam), GET_Y_LPARAM(lParam));
+		pTriggerArgument = &CPoint2D(GET_X_LPARAM(lParam), GET_Y_LPARAM(lParam));
 		break;
 	case WM_LBUTTONDBLCLK:
 		eEventId = EVENT_onLeftMouseDoubleClick;
-		pTriggerArgument = &CVector2i32(GET_X_LPARAM(lParam), GET_Y_LPARAM(lParam));
+		pTriggerArgument = &CPoint2D(GET_X_LPARAM(lParam), GET_Y_LPARAM(lParam));
 		break;
 	case WM_KEYDOWN:
 		eEventId = EVENT_onKeyDown;
@@ -216,7 +216,7 @@ LRESULT CALLBACK			WndProc_Window(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lPa
 	return DefWindowProc(hwnd, msg, wParam, lParam);
 }
 
-void						CGUIManager::onMouseMove(CVector2i32& vecCursorPosition)
+void						CGUIManager::onMouseMove(CPoint2D& vecCursorPosition)
 {
 	CEventManager *pEventManager = CEventManager::getInstance();
 
@@ -227,7 +227,7 @@ void						CGUIManager::onMouseMove(CVector2i32& vecCursorPosition)
 	// store cursor position relative to screen - latest and previous
 	POINT point;
 	GetCursorPos(&point);
-	CVector2i32 vecPoint(point.x, point.y);
+	CPoint2D vecPoint(point.x, point.y);
 	pEventManager->setPreviousScreenCursorPosition(pEventManager->getLatestScreenCursorPosition());
 	pEventManager->setLatestScreenCursorPosition(vecPoint);
 

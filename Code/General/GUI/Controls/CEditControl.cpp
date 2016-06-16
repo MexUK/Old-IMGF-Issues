@@ -251,18 +251,18 @@ bool		CEditControl::isCaretAtFarBottom(void)
 }
 
 // caret render position
-CVector2i32			CEditControl::getCaretRenderStartPosition(void)
+CPoint2D			CEditControl::getCaretRenderStartPosition(void)
 {
 	return getPosition() + CVector2i32(getCaretPosition().m_x * 10, getCaretPosition().m_y * getStyles()->getStyle<uint32>("text-size"));
 }
 
-CVector2i32			CEditControl::getCaretRenderEndPosition(void)
+CPoint2D			CEditControl::getCaretRenderEndPosition(void)
 {
 	return getPosition() + CVector2i32(getCaretPosition().m_x * 10, ((getCaretPosition().m_y + 1) * getStyles()->getStyle<uint32>("text-size")));
 }
 
 // text
-CVector2i32			CEditControl::getTextLinePosition(uint32 uiLineIndex)
+CPoint2D			CEditControl::getTextLinePosition(uint32 uiLineIndex) // todo - rename function to have Render in function name?
 {
 	return getPosition() + CVector2i32(0, uiLineIndex * getStyles()->getStyle<uint32>("text-size"));
 }

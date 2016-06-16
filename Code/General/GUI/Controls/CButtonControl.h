@@ -14,8 +14,8 @@ public:
 	
 	void									bindEvents(void);
 
-	void									onMouseDown(CVector2i32& vecCursorPosition);
-	void									onMouseUp(CVector2i32& vecCursorPosition);
+	void									onMouseDown(CPoint2D& vecCursorPosition);
+	void									onMouseUp(CPoint2D& vecCursorPosition);
 
 	void									render(void);
 };

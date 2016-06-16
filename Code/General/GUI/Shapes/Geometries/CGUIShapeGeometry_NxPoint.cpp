@@ -8,7 +8,7 @@ CGUIShapeGeometry_NxPoints::CGUIShapeGeometry_NxPoints(eGUIShape eShapeType) :
 // position
 void							CGUIShapeGeometry_NxPoints::moveItem(CVector2i32& vecPositionChange)
 {
-	for (CVector2i32& vecPoint : m_vecPoints)
+	for (CPoint2D& vecPoint : m_vecPoints)
 	{
 		vecPoint += vecPositionChange;
 	}

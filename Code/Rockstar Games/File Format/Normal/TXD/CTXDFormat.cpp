@@ -232,7 +232,7 @@ CRWSection_TextureNative*	CTXDFormat::addTextureViaFile(string& strFilePath, str
 		pTexture->setAlphaName(strAlphaName);
 	}
 
-	CVector2ui32 vecSize;
+	CSize2D vecSize;
 	vecSize.m_x = pImageFile->m_uiImageWidth;
 	vecSize.m_y = pImageFile->m_uiImageHeight;
 	string strPaletteData = "";

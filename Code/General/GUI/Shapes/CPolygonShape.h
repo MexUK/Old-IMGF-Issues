@@ -1,8 +1,8 @@
 #ifndef CPolygonShape_H
 #define CPolygonShape_H
 
-#include "CVector2i32.h"
-#include "CVector2ui32.h"
+#include "CPoint2D.h"
+#include "CSize2D.h"
 #include "GUI/Shape/eGUIShape.h"
 #include "GUI/Shapes/Geometries/CGUIShapeGeometry_NxPoints.h"
 
@@ -13,9 +13,9 @@ public:
 
 	void							bindEvents(void);
 	void							render(void);
-	bool							isPointInItem(CVector2i32& vecPoint);
-	CVector2i32						getBoundingRectanglePosition(void);
-	CVector2ui32					getBoundingRectangleSize(void);
+	bool							isPointInItem(CPoint2D& vecPoint);
+	CPoint2D						getBoundingRectanglePosition(void);
+	CSize2D							getBoundingRectangleSize(void);
 };
 
 #endif

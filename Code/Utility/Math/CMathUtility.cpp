@@ -239,7 +239,7 @@ CVector4ui16				CMathUtility::createVector4ui16(uint16 usWord1, uint16 usWord2, 
 	return vecVector;
 }
 
-bool						CMathUtility::isPointInRectangle(CVector2i32& vecPoint, CVector2i32& vecPosition, CVector2ui32& vecSize)
+bool						CMathUtility::isPointInRectangle(CPoint2D& vecPoint, CPoint2D& vecPosition, CSize2D& vecSize)
 {
 	return vecPoint.m_x >= vecPosition.m_x
 		&& vecPoint.m_y >= vecPosition.m_y
@@ -247,7 +247,7 @@ bool						CMathUtility::isPointInRectangle(CVector2i32& vecPoint, CVector2i32& v
 		&& vecPoint.m_y <= (vecPosition.m_y + vecSize.m_y);
 }
 
-bool						CMathUtility::isPointInEllipse(CVector2i32& vecPoint, CVector2i32& vecPosition, CVector2ui32& vecSize)
+bool						CMathUtility::isPointInEllipse(CPoint2D& vecPoint, CPoint2D& vecPosition, CSize2D& vecSize)
 {
 	int32 iNumberX1 = vecPoint.m_x - vecPosition.m_x;
 	int32 iNumberY1 = vecPoint.m_y - vecPosition.m_y;
@@ -256,12 +256,12 @@ bool						CMathUtility::isPointInEllipse(CVector2i32& vecPoint, CVector2i32& vec
 	return (iNumberX2 + iNumberY2) <= 1;
 }
 
-bool						CMathUtility::isPointOnLine(CVector2i32& vecPoint, CVector2i32& vecLinePoint1, CVector2i32& vecLinePoint2)
+bool						CMathUtility::isPointOnLine(CPoint2D& vecPoint, CPoint2D& vecLinePoint1, CPoint2D& vecLinePoint2)
 {
 	return (vecPoint.m_x - vecLinePoint1.m_x) / (vecLinePoint2.m_x - vecLinePoint1.m_x) == (vecPoint.m_y - vecLinePoint1.m_y) / (vecLinePoint2.m_y - vecLinePoint1.m_y);
 }
 
-bool						CMathUtility::isPointInPolygon(CVector2i32& vecPoint, vector<CVector2i32>& vecPolygonPoints)
+bool						CMathUtility::isPointInPolygon(CPoint2D& vecPoint, vector<CPoint2D>& vecPolygonPoints)
 {
 	// http://www.ecse.rpi.edu/Homepages/wrf/Research/Short_Notes/pnpoly.html
 	uint32 i, j;
@@ -274,7 +274,7 @@ bool						CMathUtility::isPointInPolygon(CVector2i32& vecPoint, vector<CVector2i
 	return c;
 }
 
-CVector4ui32				CMathUtility::getRectangleFromCircle(CVector2i32 vecCenterPosition, float32 fRadius)
+CVector4ui32				CMathUtility::getRectangleFromCircle(CPoint2D vecCenterPosition, float32 fRadius)
 {
 	CVector4ui32 vecRect;
 	vecRect.m_x = vecCenterPosition.m_x - fRadius;
@@ -284,7 +284,7 @@ CVector4ui32				CMathUtility::getRectangleFromCircle(CVector2i32 vecCenterPositi
 	return vecRect;
 }
 
-uint32						CMathUtility::getRowIndex(CVector2i32& vecPoint, CVector2i32& vecMinPosition, float32 fRowHeight, uint32 uiRowCount)
+uint32						CMathUtility::getRowIndex(CPoint2D& vecPoint, CPoint2D& vecMinPosition, float32 fRowHeight, uint32 uiRowCount)
 {
 	float32 fPointYRelative = vecPoint.m_y - vecMinPosition.m_y;
 	int32 iRowIndex = floor(fPointYRelative / fRowHeight);
@@ -298,7 +298,7 @@ uint32						CMathUtility::getRowIndex(CVector2i32& vecPoint, CVector2i32& vecMin
 	}
 }
 
-uint32						CMathUtility::getRowIndexInRectangle(CVector2i32& vecPoint, CVector2i32& vecMinPosition, uint32 uiWidth, float32 fRowHeight, uint32 uiRowCount)
+uint32						CMathUtility::getRowIndexInRectangle(CPoint2D& vecPoint, CPoint2D& vecMinPosition, uint32 uiWidth, float32 fRowHeight, uint32 uiRowCount)
 {
 	if (vecPoint.m_x < vecMinPosition.m_x || vecPoint.m_x > (vecMinPosition.m_x + uiWidth))
 	{
@@ -307,7 +307,7 @@ uint32						CMathUtility::getRowIndexInRectangle(CVector2i32& vecPoint, CVector2
 	return getRowIndex(vecPoint, vecMinPosition, fRowHeight, uiRowCount);
 }
 
-uint32						CMathUtility::getRectangleResizeEdges(CVector2i32& vecPoint, CVector2ui32& vecSize, uint32 uiEdgeDistance)
+uint32						CMathUtility::getRectangleResizeEdges(CPoint2D& vecPoint, CSize2D& vecSize, uint32 uiEdgeDistance)
 {
 	uint32
 		uiResult = 0;
@@ -325,7 +325,7 @@ uint32						CMathUtility::getRectangleResizeEdges(CVector2i32& vecPoint, CVector
 	return uiResult;
 }
 
-uint32						CMathUtility::getRectangleResizeEdges(CVector2i32& vecPoint, CVector2i32& vecPosition, CVector2ui32& vecSize, uint32 uiEdgeDistance)
+uint32						CMathUtility::getRectangleResizeEdges(CPoint2D& vecPoint, CPoint2D& vecPosition, CSize2D& vecSize, uint32 uiEdgeDistance)
 {
 	uint32
 		uiResult = 0;
@@ -343,9 +343,9 @@ uint32						CMathUtility::getRectangleResizeEdges(CVector2i32& vecPoint, CVector
 	return uiResult;
 }
 
-CVector2i32					CMathUtility::getEllipseFromRectangle(CVector2i32& vecPoint, CVector2ui32& vecSize)
+CPoint2D					CMathUtility::getEllipseFromRectangle(CPoint2D& vecPoint, CSize2D& vecSize)
 {
-	CVector2i32 vecSizeSigned = CVector2i32(vecSize.m_x / 2, vecSize.m_x / 2); // todo
+	CPoint2D vecSizeSigned = CPoint2D(vecSize.m_x / 2, vecSize.m_x / 2); // todo
 	return vecPoint + vecSizeSigned;
 }
 
@@ -354,10 +354,10 @@ uint32						CMathUtility::convertDiameterToRadius(uint32 uiDiameter)
 	return uiDiameter / 2;
 }
 
-CVector2ui32				CMathUtility::get2DSizeFromCircle(CVector2i32& vecPoint, float32 fRadius)
+CSize2D				CMathUtility::get2DSizeFromCircle(CPoint2D& vecPoint, float32 fRadius)
 {
 	float32 fDiameter = fRadius * 2;
-	return CVector2ui32(fDiameter, fDiameter);
+	return CSize2D(fDiameter, fDiameter);
 }
 
 uint32						CMathUtility::getCenterX(uint32 uiWidth)
@@ -365,7 +365,7 @@ uint32						CMathUtility::getCenterX(uint32 uiWidth)
 	return uiWidth / 2;
 }
 
-float32						CMathUtility::getDistanceBetweenPoints(CVector2i32& vecPoint1, CVector2i32& vecPoint2)
+float32						CMathUtility::getDistanceBetweenPoints(CPoint2D& vecPoint1, CPoint2D& vecPoint2)
 {
 	CVector2D vecDistance;
 	vecDistance.m_x = (float32) ((float32) (vecPoint2.m_x) - (float32) (vecPoint1.m_x));
@@ -373,7 +373,7 @@ float32						CMathUtility::getDistanceBetweenPoints(CVector2i32& vecPoint1, CVec
 	return sqrt(vecDistance.m_x*vecDistance.m_x + vecDistance.m_y*vecDistance.m_y);
 }
 
-float32						CMathUtility::getAngleBetweenPoints(CVector2i32& vecPoint1, CVector2i32& vecPoint2)
+float32						CMathUtility::getAngleBetweenPoints(CPoint2D& vecPoint1, CPoint2D& vecPoint2)
 {
 	CVector2D vecDistance;
 	vecDistance.m_x = (float32) ((float32) (vecPoint2.m_x) - (float32) (vecPoint1.m_x));
@@ -381,9 +381,9 @@ float32						CMathUtility::getAngleBetweenPoints(CVector2i32& vecPoint1, CVector
 	return atan2(vecDistance.m_y, vecDistance.m_x);
 }
 
-CVector2i32					CMathUtility::getPositionInFrontOfPosition(CVector2i32& vecPosition, float32 fAngleRad, float32 fRadius)
+CPoint2D					CMathUtility::getPositionInFrontOfPosition(CPoint2D& vecPosition, float32 fAngleRad, float32 fRadius)
 {
-	CVector2i32 vecOutPosition(vecPosition);
+	CPoint2D vecOutPosition(vecPosition);
 	vecOutPosition.m_x += (float32) (cos(fAngleRad) * fRadius);
 	vecOutPosition.m_y += (float32) (sin(fAngleRad) * fRadius);
 	return vecOutPosition;
@@ -409,34 +409,34 @@ float32						CMathUtility::multiply(float32 fValue1, float32 fValue2)
 	return fValue1 * fValue2;
 }
 
-CVector2i32					CMathUtility::getBoundingRectanglePositionForLine(CVector2i32& vecPoint1, CVector2i32& vecPoint2)
+CPoint2D					CMathUtility::getBoundingRectanglePositionForLine(CPoint2D& vecPoint1, CPoint2D& vecPoint2)
 {
-	return CVector2i32(
+	return CPoint2D(
 		min(vecPoint1.m_x, vecPoint2.m_x),
 		min(vecPoint1.m_y, vecPoint2.m_y)
 	);
 }
 
-CVector2ui32				CMathUtility::getBoundingRectangleSizeForLine(CVector2i32& vecPoint1, CVector2i32& vecPoint2)
+CSize2D				CMathUtility::getBoundingRectangleSizeForLine(CPoint2D& vecPoint1, CPoint2D& vecPoint2)
 {
-	CVector2i32 vecMinPoint(
+	CPoint2D vecMinPoint(
 		min(vecPoint1.m_x, vecPoint2.m_x),
 		min(vecPoint1.m_y, vecPoint2.m_y)
 	);
-	CVector2i32 vecMaxPoint(
+	CPoint2D vecMaxPoint(
 		max(vecPoint1.m_x, vecPoint2.m_x),
 		max(vecPoint1.m_y, vecPoint2.m_y)
 	);
-	return CVector2ui32(
+	return CSize2D(
 		vecMaxPoint.m_x - vecMinPoint.m_x,
 		vecMaxPoint.m_y - vecMinPoint.m_y
 	);
 }
 
-CVector2i32					CMathUtility::getBoundingRectanglePositionForPolygon(vector<CVector2i32>& vecPoints)
+CPoint2D					CMathUtility::getBoundingRectanglePositionForPolygon(vector<CPoint2D>& vecPoints)
 {
-	CVector2i32 vecMinPoint = CVector2i32(vecPoints[0]);
-	for (CVector2i32& vecPoint : vecPoints)
+	CPoint2D vecMinPoint = CPoint2D(vecPoints[0]);
+	for (CPoint2D& vecPoint : vecPoints)
 	{
 		if (vecPoint.m_x < vecMinPoint.m_x)
 		{
@@ -450,11 +450,11 @@ CVector2i32					CMathUtility::getBoundingRectanglePositionForPolygon(vector<CVec
 	return vecMinPoint;
 }
 
-CVector2ui32				CMathUtility::getBoundingRectangleSizeForPolygon(vector<CVector2i32>& vecPoints)
+CSize2D				CMathUtility::getBoundingRectangleSizeForPolygon(vector<CPoint2D>& vecPoints)
 {
 	// todo
 	// http://gamedev.stackexchange.com/questions/70077/how-to-calculate-a-bounding-rectangle-of-a-polygon
-	return CVector2ui32(100, 100);
+	return CSize2D(100, 100);
 }
 
 void						CMathUtility::getResizePositionAndSizeChange(CVector2i32& vecCursorChange, uint32 uiResizeEdges, CVector2i32& vecItemPositionChange, CVector2i32& vecItemSizeChange)
@@ -483,35 +483,35 @@ void						CMathUtility::getResizePositionAndSizeChange(CVector2i32& vecCursorCha
 	}
 }
 
-vector<CVector2i32>	CMathUtility::getEquilateralTrianglePoints(CVector2i32& vecPoint, float32 fSideLength, uint32 uiPointingDirection)
+vector<CPoint2D>	CMathUtility::getEquilateralTrianglePoints(CPoint2D& vecPoint, float32 fSideLength, uint32 uiPointingDirection)
 {
 	int32
 		iTriangleHeight = getEquilateralTriangleHeightFromSideLength(fSideLength),
 		iHalfSideLength = fSideLength / 2;
-	vector<CVector2i32>
+	vector<CPoint2D>
 		vecPoints;
 	vecPoints.resize(3);
 	switch (uiPointingDirection)
 	{
 	case 1: // left arrow
 		vecPoints[0] = vecPoint; // top right point
-		vecPoints[1] = vecPoint + CVector2i32(0, fSideLength);
-		vecPoints[2] = vecPoint + CVector2i32(-iTriangleHeight, iHalfSideLength);
+		vecPoints[1] = vecPoint + CPoint2D(0, fSideLength);
+		vecPoints[2] = vecPoint + CPoint2D(-iTriangleHeight, iHalfSideLength);
 		break;
 	case 2: // up arrow
 		vecPoints[0] = vecPoint; // bottom left point
-		vecPoints[1] = vecPoint + CVector2i32(fSideLength, 0);
-		vecPoints[2] = vecPoint + CVector2i32(iHalfSideLength, -iTriangleHeight);
+		vecPoints[1] = vecPoint + CPoint2D(fSideLength, 0);
+		vecPoints[2] = vecPoint + CPoint2D(iHalfSideLength, -iTriangleHeight);
 		break;
 	case 3: // right arrow
 		vecPoints[0] = vecPoint; // top left point
-		vecPoints[1] = vecPoint + CVector2i32(0, fSideLength);
-		vecPoints[2] = vecPoint + CVector2i32(iTriangleHeight, iHalfSideLength);
+		vecPoints[1] = vecPoint + CPoint2D(0, fSideLength);
+		vecPoints[2] = vecPoint + CPoint2D(iTriangleHeight, iHalfSideLength);
 		break;
 	case 4: // down arrow
 		vecPoints[0] = vecPoint; // top left point
-		vecPoints[1] = vecPoint + CVector2i32(fSideLength, 0);
-		vecPoints[2] = vecPoint + CVector2i32(iHalfSideLength, iTriangleHeight);
+		vecPoints[1] = vecPoint + CPoint2D(fSideLength, 0);
+		vecPoints[2] = vecPoint + CPoint2D(iHalfSideLength, iTriangleHeight);
 		break;
 	case 5: // top left arrow
 		// todo
@@ -529,15 +529,15 @@ vector<CVector2i32>	CMathUtility::getEquilateralTrianglePoints(CVector2i32& vecP
 	return vecPoints;
 }
 
-vector<CVector2i32>	CMathUtility::getEquilateralTrianglePoints(CVector2i32& vecBottomLeftPoint, CVector2i32& vecBottomRightPoint)
+vector<CPoint2D>	CMathUtility::getEquilateralTrianglePoints(CPoint2D& vecBottomLeftPoint, CPoint2D& vecBottomRightPoint)
 {
 	const float32
 		fSideLength = CMathUtility::getDistanceBetweenPoints(vecBottomLeftPoint, vecBottomRightPoint),
 		fBaseAngle = CMathUtility::getAngleBetweenPoints(vecBottomLeftPoint, vecBottomRightPoint),
 		fAngle = CMathUtility::convertDegreesToRadians(60.0f);
-	CVector2i32
+	CPoint2D
 		vecTipPoint = CMathUtility::getPositionInFrontOfPosition(vecBottomLeftPoint, fBaseAngle - fAngle, fSideLength);
-	vector<CVector2i32>
+	vector<CPoint2D>
 		vecShapePoints;
 	vecShapePoints.resize(3);
 	vecShapePoints[0] = vecBottomLeftPoint;
@@ -546,15 +546,15 @@ vector<CVector2i32>	CMathUtility::getEquilateralTrianglePoints(CVector2i32& vecB
 	return vecShapePoints;
 }
 
-vector<CVector2i32>	CMathUtility::getEquilateralTrianglePoints(CVector2i32& vecBottomLeftPoint, float32 fSideLength, float32 fBaseAngle)
+vector<CPoint2D>	CMathUtility::getEquilateralTrianglePoints(CPoint2D& vecBottomLeftPoint, float32 fSideLength, float32 fBaseAngle)
 {
 	const float32
 		fAngle = CMathUtility::convertDegreesToRadians(60.0f);
 	fBaseAngle = CMathUtility::convertDegreesToRadians(fBaseAngle);
-	CVector2i32
+	CPoint2D
 		vecBottomRightPoint = CMathUtility::getPositionInFrontOfPosition(vecBottomLeftPoint, fBaseAngle, fSideLength),
 		vecTopPoint = CMathUtility::getPositionInFrontOfPosition(vecBottomLeftPoint, fBaseAngle - fAngle, fSideLength);
-	vector<CVector2i32>
+	vector<CPoint2D>
 		vecShapePoints;
 	vecShapePoints.resize(3);
 	vecShapePoints[0] = vecBottomLeftPoint;
@@ -563,25 +563,25 @@ vector<CVector2i32>	CMathUtility::getEquilateralTrianglePoints(CVector2i32& vecB
 	return vecShapePoints;
 }
 
-vector<CVector2i32>	CMathUtility::getIsoscelesTrianglePoints(CVector2i32& vecPoint, float32 fBaseLength, float32 fLegLength, uint32 uiPointingDirection)
+vector<CPoint2D>	CMathUtility::getIsoscelesTrianglePoints(CPoint2D& vecPoint, float32 fBaseLength, float32 fLegLength, uint32 uiPointingDirection)
 {
-	vector<CVector2i32>
+	vector<CPoint2D>
 		vecPoints;
 	vecPoints.resize(3);
 	// todo - see CMathUtility::getEquilateralTrianglePoints
 	return vecPoints;
 }
 
-vector<CVector2i32>	CMathUtility::getIsoscelesTrianglePoints(CVector2i32& vecBaseCenterPoint, CVector2i32& vecTipPoint, uint32 uiBaseHalfWidth)
+vector<CPoint2D>	CMathUtility::getIsoscelesTrianglePoints(CPoint2D& vecBaseCenterPoint, CPoint2D& vecTipPoint, uint32 uiBaseHalfWidth)
 {
 	const float32
 		fBaseToTipDistance = CMathUtility::getDistanceBetweenPoints(vecBaseCenterPoint, vecTipPoint),
 		fBaseToTipAngle = CMathUtility::getAngleBetweenPoints(vecBaseCenterPoint, vecTipPoint),
 		f90DegreeAngle = CMathUtility::convertDegreesToRadians(90.0f);
-	CVector2i32
+	CPoint2D
 		vecBasePoint1 = CMathUtility::getPositionInFrontOfPosition(vecBaseCenterPoint, fBaseToTipAngle - f90DegreeAngle, uiBaseHalfWidth),
 		vecBasePoint2 = CMathUtility::getPositionInFrontOfPosition(vecBaseCenterPoint, fBaseToTipAngle + f90DegreeAngle, uiBaseHalfWidth);
-	vector<CVector2i32>
+	vector<CPoint2D>
 		vecShapePoints;
 	vecShapePoints.resize(3);
 	vecShapePoints[0] = vecBasePoint1;
@@ -590,7 +590,7 @@ vector<CVector2i32>	CMathUtility::getIsoscelesTrianglePoints(CVector2i32& vecBas
 	return vecShapePoints;
 }
 
-vector<CVector2i32>	CMathUtility::getIsoscelesTrianglePoints(CVector2i32& vecBottomLeftPoint, float32 fBaseLength, float32 fTipAngle, float32 fBaseAngle)
+vector<CPoint2D>	CMathUtility::getIsoscelesTrianglePoints(CPoint2D& vecBottomLeftPoint, float32 fBaseLength, float32 fTipAngle, float32 fBaseAngle)
 {
 	float32
 		fLinesAngle = (180.0f - fTipAngle) / 2.0f,
@@ -599,10 +599,10 @@ vector<CVector2i32>	CMathUtility::getIsoscelesTrianglePoints(CVector2i32& vecBot
 	fTipAngle = CMathUtility::convertDegreesToRadians(fTipAngle);
 	fBaseAngle = CMathUtility::convertDegreesToRadians(fBaseAngle);
 	fLinesAngle = CMathUtility::convertDegreesToRadians(fLinesAngle);
-	CVector2i32
+	CPoint2D
 		vecBottomRightPoint = CMathUtility::getPositionInFrontOfPosition(vecBottomLeftPoint, fBaseAngle, fBaseLength),
 		vecTipPoint = CMathUtility::getPositionInFrontOfPosition(vecBottomLeftPoint, fBaseAngle - fLinesAngle, fSideLength);
-	vector<CVector2i32>
+	vector<CPoint2D>
 		vecShapePoints;
 	vecShapePoints.resize(3);
 	vecShapePoints[0] = vecBottomLeftPoint;
