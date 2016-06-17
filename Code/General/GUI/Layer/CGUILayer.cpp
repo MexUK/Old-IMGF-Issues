@@ -3,6 +3,7 @@
 #include "GUI/Controls/CCheckControl.h"
 #include "GUI/Controls/CDropControl.h"
 #include "GUI/Controls/CEditControl.h"
+#include "GUI/Controls/CImageControl.h"
 #include "GUI/Controls/CListControl.h"
 #include "GUI/Controls/CMenuControl.h"
 #include "GUI/Controls/CProgressControl.h"
@@ -18,6 +19,9 @@
 #include "GUI/Shapes/CSquareShape.h"
 #include "GUI/Shapes/CTriangleShape.h"
 #include "Math/CMathUtility.h"
+#include "String/CStringUtility.h"
+#include "Data Stream/CDataReader.h"
+#include "Data Stream/CDataWriter.h"
 
 using namespace std;
 
@@ -49,6 +53,46 @@ void									CGUILayer::unbindAllEvents(void)
 	for (CGUIShape *pGUIShape : getShapes().getEntries())
 	{
 		pGUIShape->unbindEvents();
+	}
+}
+
+// serialization
+void									CGUILayer::unserialize(void)
+{
+	CDataReader *pDataReader = CDataReader::getInstance();
+
+	uint32
+		uiShapeCount = pDataReader->readUint32(),
+		uiControlCount = pDataReader->readUint32();
+	for (uint32 i = 0; i < uiShapeCount; i++)
+	{
+		eGUIShape eShapeId = (eGUIShape) pDataReader->readUint32();
+		CGUIShape *pShape = addShape(eShapeId);
+		pShape->unserialize(true);
+		getShapes().addEntry(pShape);
+	}
+	for (uint32 i = 0; i < uiControlCount; i++)
+	{
+		eGUIControl eControlId = (eGUIControl) pDataReader->readUint32();
+		CGUIControl *pControl = addControl(eControlId);
+		pControl->unserialize(true);
+		getControls().addEntry(pControl);
+	}
+}
+
+void									CGUILayer::serialize(void)
+{
+	CDataWriter *pDataWriter = CDataWriter::getInstance();
+
+	pDataWriter->writeUint32(getShapes().getEntryCount()); // shape count
+	pDataWriter->writeUint32(getControls().getEntryCount()); // control count
+	for (CGUIShape *pShape : getShapes().getEntries())
+	{
+		pShape->serialize();
+	}
+	for (CGUIControl *pControl : getControls().getEntries())
+	{
+		pControl->serialize();
 	}
 }
 
@@ -108,6 +152,19 @@ CEditControl*		CGUILayer::addEdit(CPoint2D& vecPosition, CSize2D& vecSize, strin
 {
 	CEditControl *pControl = new CEditControl;
 	// todo pControl->setText(strEditText);
+	_addControl(pControl, vecPosition, vecSize, pStyles);
+	return pControl;
+}
+
+CImageControl*		CGUILayer::addImage(CPoint2D& vecPosition, string& strImagePath, CSize2D vecSize, CGUIStyles *pStyles)
+{
+	CImageControl *pControl = new CImageControl;
+	Gdiplus::Image *pImage = new Gdiplus::Image(CStringUtility::convertStdStringToStdWString(strImagePath).c_str());
+	if (vecSize.width() == 0 && vecSize.height() == 0)
+	{
+		vecSize = CSize2D(pImage->GetWidth(), pImage->GetHeight());
+	}
+	pControl->setImage(pImage);
 	_addControl(pControl, vecPosition, vecSize, pStyles);
 	return pControl;
 }

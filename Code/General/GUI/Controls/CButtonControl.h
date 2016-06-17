@@ -14,6 +14,9 @@ public:
 	
 	void									bindEvents(void);
 
+	void									unserialize(bool bSkipControlId = false);
+	void									serialize(void);
+
 	void									onMouseDown(CPoint2D& vecCursorPosition);
 	void									onMouseUp(CPoint2D& vecCursorPosition);
 

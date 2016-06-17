@@ -6,6 +6,8 @@
 #include "GUI/CGUIManager.h"
 #include "GUI/GraphicsLibrary/CGraphicsLibrary.h"
 #include "GUI/Styles/CGUIStyles.h"
+#include "Data Stream/CDataReader.h"
+#include "Data Stream/CDataWriter.h"
 
 auto pOnMouseUp_Radio		= [](void *pControl, void *pTriggerArg) { ((CRadioControl*) pControl)->onMouseUp(*(CPoint2D*) pTriggerArg); };
 auto pOnRender_Radio		= [](void *pControl) { ((CRadioControl*) pControl)->render(); };
@@ -23,6 +25,25 @@ void		CRadioControl::bindEvents(void)
 {
 	storeEventBoundFunction(getWindow()->bindEvent(EVENT_onLeftMouseUp, pOnMouseUp_Radio, this));
 	storeEventBoundFunction(getWindow()->bindEvent(EVENT_onRender, pOnRender_Radio, this));
+}
+
+// serialization
+void		CRadioControl::unserialize(bool bSkipControlId)
+{
+	CDataReader *pDataReader = CDataReader::getInstance();
+
+	CGUIControl::unserialize(bSkipControlId);
+	setText(pDataReader->readStringWithLength()); // radio text
+	setMarked(pDataReader->readUint8() ? true : false); // marked status
+}
+
+void		CRadioControl::serialize(void)
+{
+	CDataWriter *pDataWriter = CDataWriter::getInstance();
+
+	CGUIControl::serialize();
+	pDataWriter->writeStringWithLengthRef(getText()); // radio text
+	pDataWriter->writeUint8(isMarked() ? 1 : 0); // marked status
 }
 
 // input

@@ -34,6 +34,9 @@ public:
 	void									bindAllEvents(void);
 	void									unbindAllEvents(void);
 	
+	void									unserialize(void);
+	void									serialize(void);
+
 	CEventBoundFunction*					bindEvent(uint32 uiEventId, void(*pFunction)(void*), void *pTriggerArgument = nullptr, int32 iZOrder = 0);
 	CEventBoundFunction*					bindEvent(uint32 uiEventId, void(*pFunction)(void*, void*), void *pTriggerArgument = nullptr, int32 iZOrder = 0);
 	CEventBoundFunction*					bindEvent(uint32 uiEventId, CInputEventCallbacks *pObject, void *pTriggerArgument = nullptr, int32 iZOrder = 0);

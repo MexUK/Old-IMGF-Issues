@@ -5,6 +5,8 @@
 #include "Math/CMathUtility.h"
 #include "GUI/CGUIManager.h"
 #include "GUI/GraphicsLibrary/CGraphicsLibrary.h"
+#include "Data Stream/CDataReader.h"
+#include "Data Stream/CDataWriter.h"
 
 auto pOnMouseDown_Scroll	= [](void *pControl, void *pTriggerArg) { ((CScrollControl*) pControl)->onMouseDown(*(CPoint2D*) pTriggerArg); };
 auto pOnMouseUp_Scroll		= [](void *pControl, void *pTriggerArg) { ((CScrollControl*) pControl)->onMouseUp(*(CPoint2D*) pTriggerArg); };
@@ -22,6 +24,17 @@ CScrollControl::CScrollControl(void) :
 {
 }
 
+CScrollControl::CScrollControl(e2DMirroredOrientation eOrientation) :
+	m_eScrollOrientation(eOrientation),
+	CGUIControl(GUI_CONTROL_SCROLL),
+	m_uiSeekBarLength(50),
+	m_uiSeekBarFillColour(0x008800FF),
+	m_uiSeekBarLineColour(0x000000FF),
+	m_fProgress(0.0f),
+	m_bSeekBarIsMoving(false)
+{
+}
+
 // event binding
 void									CScrollControl::bindEvents(void)
 {
@@ -29,6 +42,27 @@ void									CScrollControl::bindEvents(void)
 	storeEventBoundFunction(getWindow()->bindEvent(EVENT_onLeftMouseUp, pOnMouseUp_Scroll, this));
 	storeEventBoundFunction(getWindow()->bindEvent(EVENT_onMouseMove, pOnMouseMove_Scroll, this));
 	storeEventBoundFunction(getWindow()->bindEvent(EVENT_onRender, pOnRender_Scroll, this));
+}
+
+// serialization
+void									CScrollControl::unserialize(bool bSkipControlId)
+{
+	CDataReader *pDataReader = CDataReader::getInstance();
+
+	CGUIControl::unserialize(bSkipControlId);
+	setScrollOrientation((e2DMirroredOrientation) pDataReader->readUint8()); // scroll orientation
+	setProgress(pDataReader->readFloat32()); // scroll progress
+	setSeekBarLength(pDataReader->readUint32() ? true : false); // seek bar length
+}
+
+void									CScrollControl::serialize(void)
+{
+	CDataWriter *pDataWriter = CDataWriter::getInstance();
+
+	CGUIControl::serialize();
+	pDataWriter->writeUint8(getScrollOrientation()); // scroll orientation
+	pDataWriter->writeFloat32(getProgress()); // scroll progress
+	pDataWriter->writeUint32(getSeekBarLength()); // seek bar length
 }
 
 // input

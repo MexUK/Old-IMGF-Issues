@@ -126,6 +126,11 @@ string		CDataReader::readRemaining(void)
 	return readString(getRemainingDataLength());
 }
 
+string		CDataReader::readStringWithLength(void)
+{
+	return readString(readUint32());
+}
+
 // read int
 uint32		CDataReader::readUint32(void)
 {
@@ -155,6 +160,38 @@ int16		CDataReader::readInt16(void)
 int8		CDataReader::readInt8(void)
 {
 	return CStringUtility::unpackInt8(readString(1));
+}
+
+CPoint2D	CDataReader::readPoint2D(void)
+{
+	CPoint2D vecPoint;
+	vecPoint.m_x = readInt32();
+	vecPoint.m_y = readInt32();
+	return vecPoint;
+}
+
+CVector2i32	CDataReader::readVector2i32(void)
+{
+	CVector2i32 vecVector;
+	vecVector.m_x = readInt32();
+	vecVector.m_y = readInt32();
+	return vecVector;
+}
+
+CSize2D		CDataReader::readSize2D(void)
+{
+	CSize2D vecSize;
+	vecSize.m_x = readUint32();
+	vecSize.m_y = readUint32();
+	return vecSize;
+}
+
+CVector2ui32	CDataReader::readVector2ui32(void)
+{
+	CVector2ui32 vecVector;
+	vecVector.m_x = readUint32();
+	vecVector.m_y = readUint32();
+	return vecVector;
 }
 
 CVector4ui8	CDataReader::readVector4ui8(void)

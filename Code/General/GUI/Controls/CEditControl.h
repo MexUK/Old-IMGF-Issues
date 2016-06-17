@@ -19,6 +19,9 @@ public:
 
 	void									bindEvents(void);
 
+	void									unserialize(bool bSkipControlId = false);
+	void									serialize(void);
+
 	void									onKeyDown(uint8 uiCharCode);
 	void									onCharDown(uint8 uiCharCode);
 

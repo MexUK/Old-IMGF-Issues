@@ -11,8 +11,12 @@ class CScrollControl : public CGUIControl
 {
 public:
 	CScrollControl(void);
+	CScrollControl(e2DMirroredOrientation eOrientation);
 
 	void									bindEvents(void);
+
+	void									unserialize(bool bSkipControlId = false);
+	void									serialize(void);
 
 	void									onMouseDown(CPoint2D& vecCursorPosition);
 	void									onMouseUp(CPoint2D& vecCursorPosition);

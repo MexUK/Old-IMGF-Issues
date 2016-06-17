@@ -358,6 +358,26 @@ CSize2D					CGraphicsLibrary_GDIPlus::getTextSize(string& strText, CGUIStyles *p
 	return vecTextSize;
 }
 
+// image
+void					CGraphicsLibrary_GDIPlus::drawImage(CPoint2D& vecPosition, string& strImagePath, CSize2D vecSize)
+{
+	drawImage(vecPosition, new Image(CStringUtility::convertStdStringToStdWString(strImagePath).c_str()), vecSize);
+}
+
+void					CGraphicsLibrary_GDIPlus::drawImage(CPoint2D& vecPosition, Image *pImage, CSize2D vecSize)
+{
+	if (vecSize.width() == 0 && vecSize.height() == 0)
+	{
+		// size not specified
+		m_pGraphics->DrawImage(pImage, vecPosition.x(), vecPosition.y());
+	}
+	else
+	{
+		// size specified
+		m_pGraphics->DrawImage(pImage, vecPosition.x(), vecPosition.y(), vecSize.width(), vecSize.height());
+	}
+}
+
 // pen/brush creation
 Pen*					CGraphicsLibrary_GDIPlus::createPenFromStyles(CGUIStyles *pStyles)
 {

@@ -12,6 +12,9 @@ class CGUIShapeGeometry_1xPoint_1x1DSize : public CGUIShape
 public:
 	CGUIShapeGeometry_1xPoint_1x1DSize(eGUIShape eShapeType);
 
+	void							unserialize(bool bSkipShapeId = false);
+	void							serialize(void);
+
 	CPoint2D						getCenterPosition(void);
 
 	void							moveItem(CVector2i32& vecPositionChange) { m_vecPosition += vecPositionChange; }

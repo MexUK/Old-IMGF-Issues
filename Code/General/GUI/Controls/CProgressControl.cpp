@@ -4,6 +4,8 @@
 #include "Event/eEvent.h"
 #include "GUI/CGUIManager.h"
 #include "GUI/GraphicsLibrary/CGraphicsLibrary.h"
+#include "Data Stream/CDataReader.h"
+#include "Data Stream/CDataWriter.h"
 
 using namespace std;
 
@@ -20,6 +22,25 @@ CProgressControl::CProgressControl(void) :
 void			CProgressControl::bindEvents(void)
 {
 	storeEventBoundFunction(getWindow()->bindEvent(EVENT_onRender, pOnRender_Progress, this)); // todo - change to like CGUIControl::bindEvent(eEventId, func) which stores it
+}
+
+// serialization
+void			CProgressControl::unserialize(bool bSkipControlId)
+{
+	CDataReader *pDataReader = CDataReader::getInstance();
+
+	CGUIControl::unserialize(bSkipControlId);
+	setProgress(pDataReader->readFloat32()); // progress ratio
+	setCompletionPercentageShown(pDataReader->readUint8() ? true : false); // completion text shown
+}
+
+void			CProgressControl::serialize(void)
+{
+	CDataWriter *pDataWriter = CDataWriter::getInstance();
+
+	CGUIControl::serialize();
+	pDataWriter->writeFloat32(getProgress()); // progress ratio
+	pDataWriter->writeUint8(isCompletionPercentageShown() ? 1 : 0); // completion text shown
 }
 
 // render

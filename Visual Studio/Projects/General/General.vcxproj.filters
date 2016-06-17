@@ -321,6 +321,9 @@
     <ClCompile Include="..\..\..\Code\General\GUI\Controls\Components\CGUIControlComponent_Text.cpp">
       <Filter>Source Files\GUI\Controls\Components</Filter>
     </ClCompile>
+    <ClCompile Include="..\..\..\Code\General\GUI\Controls\CImageControl.cpp">
+      <Filter>Source Files\GUI\Controls</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\..\..\Code\General\Image\CImageFile.h">
@@ -547,6 +550,9 @@
     </ClInclude>
     <ClInclude Include="..\..\..\Code\General\GUI\String\CGUIString.h">
       <Filter>Header Files\GUI\String</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\Code\General\GUI\Controls\CImageControl.h">
+      <Filter>Header Files\GUI\Controls</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

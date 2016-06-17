@@ -53,6 +53,9 @@ public:
 	virtual void					drawText(CPoint2D& vecPosition, CSize2D& vecSize, CGUIString& gstrString, CGUIStyles *pStyles = nullptr) = 0;
 	virtual void					drawText(CPoint2D& vecPosition, CSize2D& vecSize, std::string& strText, CGUIStyles *pStyles = nullptr, CSize2D vecTextSize = CSize2D(0, 0)) = 0;
 	virtual CSize2D					getTextSize(std::string& strText, CGUIStyles *pStyles = nullptr) = 0;
+
+	virtual void					drawImage(CPoint2D& vecPosition, std::string& strImagePath, CSize2D vecSize = CSize2D(0, 0)) = 0; // size defaults to image size
+	virtual void					drawImage(CPoint2D& vecPosition, Gdiplus::Image *pImage, CSize2D vecSize = CSize2D(0, 0)) = 0; // size defaults to image size
 };
 
 #endif

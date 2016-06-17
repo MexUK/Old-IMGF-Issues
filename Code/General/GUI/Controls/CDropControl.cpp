@@ -7,6 +7,8 @@
 #include "GUI/Window/CWindow.h"
 #include "Entries/CDropControlEntry.h"
 #include "GUI/Styles/CGUIStyles.h"
+#include "Data Stream/CDataReader.h"
+#include "Data Stream/CDataWriter.h"
 
 using namespace std;
 
@@ -27,6 +29,40 @@ void				CDropControl::bindEvents(void)
 {
 	storeEventBoundFunction(getWindow()->bindEvent(EVENT_onLeftMouseUp, pOnMouseUp_Drop, this));
 	storeEventBoundFunction(getWindow()->bindEvent(EVENT_onRender, pOnRender_Drop, this));
+}
+
+// serialization
+void				CDropControl::unserialize(bool bSkipControlId)
+{
+	CDataReader *pDataReader = CDataReader::getInstance();
+
+	CGUIControl::unserialize(bSkipControlId);
+	uint32 uiItemCount = pDataReader->readUint32();
+	uint32 uiActiveIndex = pDataReader->readUint32();
+	setListWidth(pDataReader->readUint32());
+	setSelectionListOpen(pDataReader->readUint8() ? true : false); // todo - readBool8()
+	for (uint32 i = 0; i < uiItemCount; i++)
+	{
+		CDropControlEntry *pDropEntry = new CDropControlEntry;
+		pDropEntry->setText(pDataReader->readStringWithLength());
+		addEntry(pDropEntry);
+	}
+	setActiveItem(getEntryByIndex(uiActiveIndex));
+}
+
+void				CDropControl::serialize(void)
+{
+	CDataWriter *pDataWriter = CDataWriter::getInstance();
+
+	CGUIControl::serialize();
+	pDataWriter->writeUint32(getEntryCount()); // item count
+	pDataWriter->writeUint32(getActiveIndex()); // active index
+	pDataWriter->writeUint32(getListWidth()); // list width
+	pDataWriter->writeUint8(isSelectionListOpen() ? 1 : 0); // selection list open status - todo writeBool8(b)
+	for (CDropControlEntry *pItem : getEntries())
+	{
+		pDataWriter->writeStringWithLengthRef(pItem->getText()); // item text
+	}
 }
 
 // input
@@ -220,4 +256,17 @@ void				CDropControl::recalculateListWidth(void)
 		}
 	}
 	setListWidth(uiMaxWidth);
+}
+
+// active entry
+uint32				CDropControl::getActiveIndex(void)
+{
+	if (getActiveItem() == nullptr)
+	{
+		return -1;
+	}
+	else
+	{
+		return getIndexByEntry(getActiveItem());
+	}
 }

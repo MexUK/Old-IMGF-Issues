@@ -10,18 +10,19 @@
 #include <string>
 #include <vector>
 
-class CLineShape;
-class CTriangleShape;
-class CRectangleShape;
-class CEllipseShape;
-class CPolygonShape;
-class CSquareShape;
 class CCircleShape;
+class CEllipseShape;
+class CLineShape;
+class CPolygonShape;
+class CRectangleShape;
+class CSquareShape;
+class CTriangleShape;
 
 class CButtonControl;
 class CCheckControl;
 class CDropControl;
 class CEditControl;
+class CImageControl;
 class CListControl;
 class CMenuControl;
 class CProgressControl;
@@ -43,6 +44,9 @@ public:
 	void					bindAllEvents(void);
 	void					unbindAllEvents(void);
 
+	void					unserialize(void);
+	void					serialize(void);
+
 	void					setWindow(CWindow *pWindow) { m_pWindow = pWindow; }
 	CWindow*				getWindow(void) { return m_pWindow; }
 
@@ -58,6 +62,8 @@ public:
 	CCheckControl*			addCheck(CPoint2D& vecPosition, CSize2D& vecSize, std::string strCheckText, CGUIStyles *pStyles = nullptr);
 	CDropControl*			addDrop(CPoint2D& vecPosition, CSize2D& vecSize, CGUIStyles *pStyles = nullptr);
 	CEditControl*			addEdit(CPoint2D& vecPosition, CSize2D& vecSize, std::string strEditText = "", CGUIStyles *pStyles = nullptr);
+	CImageControl*			addImage(CPoint2D& vecPosition, std::string& strImagePath, CSize2D vecSize = CSize2D(0, 0), CGUIStyles *pStyles = nullptr);
+	// todo CImageControl*			addImageMem(CPoint2D& vecPosition, std::string& strImageData, CSize2D vecSize = CSize2D(0, 0), CGUIStyles *pStyles = nullptr);
 	CListControl*			addList(CPoint2D& vecPosition, CSize2D& vecSize, CGUIStyles *pStyles = nullptr);
 	CMenuControl*			addMenu(CPoint2D& vecPosition, CSize2D& vecSize, CGUIStyles *pStyles = nullptr);
 	CProgressControl*		addProgress(CPoint2D& vecPosition, CSize2D& vecSize, CGUIStyles *pStyles = nullptr);

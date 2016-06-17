@@ -5,6 +5,8 @@
 #include "GUI/GraphicsLibrary/CGraphicsLibrary.h"
 #include "GUI/Styles/CGUIStyles.h"
 #include "Math/CMathUtility.h"
+#include "Data Stream/CDataReader.h"
+#include "Data Stream/CDataWriter.h"
 
 using namespace std;
 
@@ -23,6 +25,35 @@ void					CTabControl::bindEvents(void)
 {
 	storeEventBoundFunction(getWindow()->bindEvent(EVENT_onLeftMouseDown, pOnLeftMouseDown_Tab, this));
 	storeEventBoundFunction(getWindow()->bindEvent(EVENT_onRender, pOnRender_Tab, this));
+}
+
+// serialization
+void					CTabControl::unserialize(bool bSkipControlId)
+{
+	CDataReader *pDataReader = CDataReader::getInstance();
+
+	CGUIControl::unserialize(bSkipControlId);
+	uint32 uiTabCount = pDataReader->readUint32(); // tab count
+	for (uint32 i = 0; i < uiTabCount; i++)
+	{
+		CTabControlEntry *pTab = new CTabControlEntry;
+		pTab->setText(pDataReader->readStringWithLength()); // tab text
+		addEntry(pTab);
+	}
+	setActiveTab(getEntryByIndex(pDataReader->readUint32())); // active tab index
+}
+
+void					CTabControl::serialize(void)
+{
+	CDataWriter *pDataWriter = CDataWriter::getInstance();
+
+	CGUIControl::serialize();
+	pDataWriter->writeUint32(getEntryCount()); // tab count
+	for (CTabControlEntry *pTab : getEntries())
+	{
+		pDataWriter->writeStringWithLengthRef(pTab->getText()); // tab text
+	}
+	pDataWriter->writeUint32(getActiveIndex()); // active tab index
 }
 
 // input
@@ -186,5 +217,18 @@ void					CTabControl::applyTabLayer(CTabControlEntry *pTab, CTabControlEntry *pP
 	{
 		CGUILayer *pNewLayer = m_umapTabLayers[pTab];
 		pNewLayer->setEnabled(true);
+	}
+}
+
+// active entry
+uint32				CTabControl::getActiveIndex(void)
+{
+	if (getActiveTab() == nullptr)
+	{
+		return -1;
+	}
+	else
+	{
+		return getIndexByEntry(getActiveTab());
 	}
 }

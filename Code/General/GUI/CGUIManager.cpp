@@ -7,6 +7,8 @@
 #include "GUI/Controls/CButtonControl.h"
 #include "GUI/Controls/CListControl.h"
 #include "GUI/CGUIUtility.h" // temp
+#include "Data Stream/CDataReader.h"
+#include "Data Stream/CDataWriter.h"
 #include <Windowsx.h>
 
 using namespace std;
@@ -40,6 +42,31 @@ void						CGUIManager::bindEvents(void)
 {
 	storeEventBoundFunction(getEntryByIndex(0)->bindEvent(EVENT_onMouseMove, pOnMouseMove_GUIManager, this, -1000000)); // bind first
 	storeEventBoundFunction(getEntryByIndex(1)->bindEvent(EVENT_onMouseMove, pOnMouseMove_GUIManager, this, -1000000)); // bind first
+}
+
+// serialization
+void						CGUIManager::unserialize(void)
+{
+	CDataReader *pDataReader = CDataReader::getInstance();
+
+	uint32 uiWindowCount = pDataReader->readUint32();
+	for (uint32 i = 0; i < uiWindowCount; i++)
+	{
+		CWindow *pWindow = new CWindow;
+		pWindow->unserialize();
+		addEntry(pWindow);
+	}
+}
+
+void						CGUIManager::serialize(void)
+{
+	CDataWriter *pDataWriter = CDataWriter::getInstance();
+
+	pDataWriter->writeUint32(getEntryCount()); // window count
+	for (CWindow *pWindow : getEntries())
+	{
+		pWindow->serialize();
+	}
 }
 
 // add window

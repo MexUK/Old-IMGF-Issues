@@ -16,6 +16,9 @@ public:
 
 	void									bindEvents(void);
 
+	void									unserialize(bool bSkipControlId = false);
+	void									serialize(void);
+
 	void									onMouseUp(CPoint2D& vecCursorPosition);
 
 	void									render(void);
@@ -33,6 +36,8 @@ public:
 	uint32									getSelectionListEntryFromPoint(CPoint2D& vecCursorPosition);
 
 	void									setSize(CSize2D& vecSize);
+
+	uint32									getActiveIndex(void);
 
 	void									setActiveItem(CDropControlEntry *pDropEntry) { m_pActiveItem = pDropEntry; }
 	CDropControlEntry*						getActiveItem(void) { return m_pActiveItem; }
@@ -54,7 +59,6 @@ private:
 	void									recalculateListWidth(void);
 
 private:
-	uint32									m_uiSelectedIndex;
 	uint32									m_uiListWidth;		// in pixels
 	uint32									m_uiListRowHeight;	// in pixels
 	uint8									m_bSelectionListOpen				: 1;

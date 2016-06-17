@@ -81,6 +81,18 @@ void					CDataWriter::writeString(uint32 uiZeroByteCount)
 	writeCString((char*)CStringUtility::zeroPad(uiZeroByteCount).c_str(), uiZeroByteCount);
 }
 
+void					CDataWriter::writeStringWithLengthRef(string& strData)
+{
+	writeUint32(strData.length());
+	writeStringRef(strData);
+}
+
+void					CDataWriter::writeStringWithLength(string strData)
+{
+	writeUint32(strData.length());
+	writeStringRef(strData);
+}
+
 void					CDataWriter::writeCString(char *pData, uint32 uiByteCount)
 {
 	switch (getStreamType())
@@ -142,10 +154,34 @@ void					CDataWriter::writeInt64(int64 iInt)
 	writeString(CStringUtility::packInt64(iInt, m_eEndian == BIG_ENDIAN));
 }
 
+void					CDataWriter::writePoint2D(CPoint2D& vecPoint)
+{
+	writeInt32(vecPoint.x());
+	writeInt32(vecPoint.y());
+}
+
+void					CDataWriter::writeVector2i32(CVector2i32& vecUints)
+{
+	writeInt32(vecUints.m_x);
+	writeInt32(vecUints.m_y);
+}
+
+void					CDataWriter::writeSize2D(CSize2D& vecSize)
+{
+	writeUint32(vecSize.width());
+	writeUint32(vecSize.height());
+}
+
 void					CDataWriter::writeVector2ui8(CVector2ui8& vecUints)
 {
 	writeUint8(vecUints.m_x);
 	writeUint8(vecUints.m_y);
+}
+
+void					CDataWriter::writeVector2ui32(CVector2ui32& vecUints)
+{
+	writeUint32(vecUints.m_x);
+	writeUint32(vecUints.m_y);
 }
 
 void					CDataWriter::writeVector3ui8(CVector3ui8& vecUints)
@@ -365,6 +401,16 @@ void					CDataWriter::write(int32 iInt)
 void					CDataWriter::write(int64 iInt)
 {
 	writeInt64(iInt);
+}
+
+void					CDataWriter::write(CPoint2D& vecPoint)
+{
+	writePoint2D(vecPoint);
+}
+
+void					CDataWriter::write(CSize2D& vecSize)
+{
+	writeSize2D(vecSize);
 }
 
 void					CDataWriter::write(CVector4ui8& vecUints)

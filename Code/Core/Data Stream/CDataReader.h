@@ -11,6 +11,8 @@
 #include "CVector4D.h"
 #include "CVector4ui8.h"
 #include "CVector4ui16.h"
+#include "CPoint2D.h"
+#include "CSize2D.h"
 #include "Pool/CVectorPool.h"
 #include <string>
 #include <vector>
@@ -36,6 +38,7 @@ public:
 	std::string				readString(uint32 uiByteCount = 0);
 	std::string				readStringUntilZero(void);
 	std::string				readRemaining(void);
+	std::string				readStringWithLength(void);
 	void					readCString(uint8* pDestination, uint32 uiByteCount);
 	uint8*					readCString(uint32 uiByteCount);
 
@@ -46,6 +49,10 @@ public:
 	int32					readInt32(void);
 	int16					readInt16(void);
 	int8					readInt8(void);
+	CPoint2D				readPoint2D(void);
+	CVector2i32				readVector2i32(void);
+	CSize2D					readSize2D(void);
+	CVector2ui32			readVector2ui32(void);
 	CVector4ui8				readVector4ui8(void);
 	std::vector<uint32>			readUint32ArrayAsStdVector(uint32 uiValueCount);
 	std::vector<CVector2D>		readVector2DArrayAsStdVector(uint32 uiValueCount);

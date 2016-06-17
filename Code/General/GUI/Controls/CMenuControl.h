@@ -14,6 +14,9 @@ public:
 
 	void									bindEvents(void);
 
+	void									unserialize(bool bSkipControlId = false);
+	void									serialize(void);
+
 	void									render(void);
 
 	bool									isPointInControl(CPoint2D& vecPoint) { return false; }

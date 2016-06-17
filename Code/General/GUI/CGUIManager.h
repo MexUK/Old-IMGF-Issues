@@ -23,6 +23,9 @@ public:
 
 	void						bindEvents(void);
 
+	void						unserialize(void);
+	void						serialize(void);
+
 	CWindow*					addWindow(CPoint2D& vecWindowPosition = CPoint2D(0,0), CSize2D& vecWindowSize = CSize2D(800,600));
 	template <class WindowClass>
 	WindowClass*				addTemplatedWindow(CPoint2D& vecWindowPosition = CPoint2D(0, 0), CSize2D& vecWindowSize = CSize2D(800, 600));

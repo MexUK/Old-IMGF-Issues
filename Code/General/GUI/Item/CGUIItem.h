@@ -16,6 +16,9 @@ public:
 
 	void									unload(void) {}
 
+	virtual void							unserialize(bool bSkipItemId = false)	= 0;
+	virtual void							serialize(void)							= 0;
+
 	virtual void							render(void)											= 0;
 	virtual bool							isPointInItem(CPoint2D& vecPoint)						= 0;
 	virtual CPoint2D						getBoundingRectanglePosition(void)						= 0;

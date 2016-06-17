@@ -13,6 +13,9 @@ class CGUIShapeGeometry_NxPoints : public CGUIShape
 public:
 	CGUIShapeGeometry_NxPoints(eGUIShape eShapeType);
 
+	void							unserialize(bool bSkipShapeId = false);
+	void							serialize(void);
+
 	void							moveItem(CVector2i32& vecPositionChange);
 	void							resizeItemViaOffsets(CVector2i32& vecItemSizeChange) {}
 

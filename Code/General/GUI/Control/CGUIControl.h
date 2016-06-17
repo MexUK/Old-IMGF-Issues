@@ -18,6 +18,7 @@ class CWindow;
 class CGUIScrollPool;
 class CGUILayer;
 class CGUIStyles;
+class CScrollControl;
 
 class CGUIControl : public CGUIItem, public CEventBinder
 {
@@ -27,6 +28,9 @@ public:
 
 	void									unload(void) {}
 
+	virtual void							unserialize(bool bSkipControlId = false);
+	virtual void							serialize(void);
+
 	virtual bool							isPointInItem(CPoint2D& vecPoint);
 	CPoint2D								getBoundingRectanglePosition(void) { return m_vecPosition; }
 	CSize2D									getBoundingRectangleSize(void) { return m_vecSize; }
@@ -34,6 +38,8 @@ public:
 	void									resizeItemViaOffsets(CVector2i32& vecItemSizeChange) { m_vecSize += CSize2D(vecItemSizeChange.m_x, vecItemSizeChange.m_y); }
 
 	bool									doesControlHaveFocus(void);
+
+	void									addScroll(CScrollControl *pScroll);
 
 	void									setControlType(eGUIControl eControlType) { m_eControlType = eControlType; }
 	eGUIControl								getControlType(void) { return m_eControlType; }

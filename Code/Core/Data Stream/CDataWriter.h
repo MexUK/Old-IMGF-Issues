@@ -14,6 +14,8 @@
 #include "CVector3ui32.h"
 #include "CVector4ui8.h"
 #include "CVector4ui16.h"
+#include "CPoint2D.h"
+#include "CSize2D.h"
 #include "Pool/CVectorPool.h"
 #include <string>
 #include <vector>
@@ -42,6 +44,8 @@ public:
 	void					writeString(std::string strData);
 	void					writeString(std::string strData, uint32 uiTotalByteCountPadded);
 	void					writeString(uint32 uiZeroByteCount);
+	void					writeStringWithLengthRef(std::string& strData);
+	void					writeStringWithLength(std::string strData);
 	void					writeCString(char *pData, uint32 uiByteCount);
 
 	// write int
@@ -53,7 +57,11 @@ public:
 	void					writeInt16(int16 iInt);
 	void					writeInt32(int32 iInt);
 	void					writeInt64(int64 iInt);
+	void					writePoint2D(CPoint2D& vecPoint);
+	void					writeVector2i32(CVector2i32& vecUints);
+	void					writeSize2D(CSize2D& vecSize);
 	void					writeVector2ui8(CVector2ui8& vecUints);
+	void					writeVector2ui32(CVector2ui32& vecUints);
 	void					writeVector3ui8(CVector3ui8& vecUints);
 	void					writeVector3ui32(CVector3ui32& vecUints);
 	void					writeVector4ui8(CVector4ui8& vecUints);
@@ -94,6 +102,8 @@ public:
 	void					write(int16 iInt);
 	void					write(int32 iInt);
 	void					write(int64 iInt);
+	void					write(CPoint2D& vecPoint);
+	void					write(CSize2D& vecSize);
 	void					write(CVector4ui8& vecUints);
 	void					write(std::vector<uint32>& vecUints);
 	void					write(std::vector<CVector2D>& vecVectors);

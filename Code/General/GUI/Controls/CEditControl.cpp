@@ -6,6 +6,8 @@
 #include "Event/eEvent.h"
 #include "GUI/CGUIManager.h"
 #include "GUI/GraphicsLibrary/CGraphicsLibrary.h"
+#include "Data Stream/CDataReader.h"
+#include "Data Stream/CDataWriter.h"
 
 using namespace std;
 
@@ -35,6 +37,49 @@ void					CEditControl::bindEvents(void)
 	storeEventBoundFunction(getWindow()->bindEvent(EVENT_onKeyDown, pOnKeyDown_Edit, this));
 	storeEventBoundFunction(getWindow()->bindEvent(EVENT_onCharacterDown, pOnCharDown_Edit, this));
 	storeEventBoundFunction(getWindow()->bindEvent(EVENT_onRender, pOnRender_Edit, this));
+}
+
+// serialization
+void					CEditControl::unserialize(bool bSkipControlId)
+{
+	CDataReader *pDataReader = CDataReader::getInstance();
+
+	CGUIControl::unserialize(bSkipControlId);
+	setMultiLine(pDataReader->readUint8() ? true : false);
+	setReadOnly(pDataReader->readUint8() ? true : false);
+	setCaretPosition(pDataReader->readVector2ui32());
+	uint32 uiLineCount;
+	if (isMultiLine())
+	{
+		uiLineCount = pDataReader->readUint32();
+	}
+	else
+	{
+		uiLineCount = 1;
+	}
+	getTextLines().resize(uiLineCount);
+	for (uint32 i = 0; i < uiLineCount; i++)
+	{
+		getTextLines()[i] = pDataReader->readStringWithLength();
+	}
+}
+
+void					CEditControl::serialize(void)
+{
+	CDataWriter *pDataWriter = CDataWriter::getInstance();
+
+	CGUIControl::serialize();
+	pDataWriter->writeUint8(isMultiLine() ? 1 : 0); // multi line status
+	pDataWriter->writeUint8(isReadOnly() ? 1 : 0); // read only status
+	pDataWriter->writeVector2ui32(getCaretPosition()); // caret position
+	if (isMultiLine())
+	{
+		pDataWriter->writeUint32(getLineCount()); // line count
+	}
+	for (string& strLineText : getTextLines())
+	{
+		pDataWriter->writeStringWithLengthRef(strLineText); // line text
+	}
 }
 
 // input

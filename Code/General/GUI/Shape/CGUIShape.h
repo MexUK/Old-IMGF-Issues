@@ -20,6 +20,9 @@ public:
 
 	void									unload(void) {}
 
+	virtual void							unserialize(bool bSkipShapeId = false);
+	virtual void							serialize(void);
+
 	void									setShapeGeometry(eGUIShapeGeometry eShapeGeometry) { m_eShapeGeometry = eShapeGeometry; }
 	eGUIShapeGeometry						getShapeGeometry(void) { return m_eShapeGeometry; }
 

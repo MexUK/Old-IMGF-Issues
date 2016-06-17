@@ -12,6 +12,9 @@ class CGUIShapeGeometry_2xPoints : public CGUIShape
 public:
 	CGUIShapeGeometry_2xPoints(eGUIShape eShapeType);
 
+	void							unserialize(bool bSkipShapeId = false);
+	void							serialize(void);
+
 	void							moveItem(CVector2i32& vecPositionChange);
 	void							resizeItemViaOffsets(CVector2i32& vecItemSizeChange) {}
 

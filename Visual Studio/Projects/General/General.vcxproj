@@ -96,6 +96,7 @@
     <ClCompile Include="..\..\..\Code\General\GUI\Controls\CCheckControl.cpp" />
     <ClCompile Include="..\..\..\Code\General\GUI\Controls\CDropControl.cpp" />
     <ClCompile Include="..\..\..\Code\General\GUI\Controls\CEditControl.cpp" />
+    <ClCompile Include="..\..\..\Code\General\GUI\Controls\CImageControl.cpp" />
     <ClCompile Include="..\..\..\Code\General\GUI\Controls\CListControl.cpp" />
     <ClCompile Include="..\..\..\Code\General\GUI\Controls\CMenuControl.cpp" />
     <ClCompile Include="..\..\..\Code\General\GUI\Controls\Components\CGUIControlComponent_Text.cpp" />
@@ -160,6 +161,7 @@
     <ClInclude Include="..\..\..\Code\General\Game\eGameFlag.h" />
     <ClInclude Include="..\..\..\Code\General\Game\ePlatformedGame.h" />
     <ClInclude Include="..\..\..\Code\General\GUI\CGUIManager.h" />
+    <ClInclude Include="..\..\..\Code\General\GUI\Controls\CImageControl.h" />
     <ClInclude Include="..\..\..\Code\General\GUI\Controls\Components\CGUIControlComponent_Text.h" />
     <ClInclude Include="..\..\..\Code\General\GUI\Controls\CButtonControl.h" />
     <ClInclude Include="..\..\..\Code\General\GUI\Controls\CCheckControl.h" />

@@ -12,6 +12,8 @@
 #include "Event/eEventType.h"
 #include "Localization/CLocalizationManager.h"
 #include "CColour.h"
+#include "Data Stream/CDataReader.h"
+#include "Data Stream/CDataWriter.h"
 
 using namespace std;
 
@@ -92,6 +94,35 @@ void									CWindow::unbindAllEvents(void)
 		}
 	}
 	unbindEvents();
+}
+
+// serialization
+void									CWindow::unserialize(void)
+{
+	CDataReader *pDataReader = CDataReader::getInstance();
+
+	setPosition(pDataReader->readPoint2D()); // window position
+	setSize(pDataReader->readSize2D()); // window size
+	uint32 uiLayerCount = pDataReader->readUint32();
+	for (uint32 i = 0; i < uiLayerCount; i++)
+	{
+		CGUILayer *pLayer = new CGUILayer;
+		pLayer->unserialize();
+		addEntry(pLayer);
+	}
+}
+
+void									CWindow::serialize(void)
+{
+	CDataWriter *pDataWriter = CDataWriter::getInstance();
+
+	pDataWriter->writePoint2D(getPosition()); // window position
+	pDataWriter->writeSize2D(getSize()); // window size
+	pDataWriter->writeUint32(getEntryCount()); // layer count
+	for (CGUILayer *pLayer : getEntries())
+	{
+		pLayer->serialize();
+	}
 }
 
 // event triggering

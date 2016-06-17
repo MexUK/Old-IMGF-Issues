@@ -56,6 +56,9 @@ public:
 	void					drawText(CPoint2D& vecPosition, CSize2D& vecSize, std::string& strText, CGUIStyles *pStyles = nullptr, CSize2D vecTextSize = CSize2D(0, 0));
 	CSize2D					getTextSize(std::string& strText, CGUIStyles *pStyles = nullptr);
 
+	void					drawImage(CPoint2D& vecPosition, std::string& strImagePath, CSize2D vecSize = CSize2D(0, 0));
+	void					drawImage(CPoint2D& vecPosition, Gdiplus::Image *pImage, CSize2D vecSize = CSize2D(0, 0));
+
 	void					setGraphics(Gdiplus::Graphics* pGraphics) { m_pGraphics = pGraphics; }
 	Gdiplus::Graphics*		getGraphics(void) { return m_pGraphics; }
 

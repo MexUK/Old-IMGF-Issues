@@ -7,7 +7,6 @@
 #include <string>
 #include <unordered_map>
 
-class CTabControlEntry;
 class CGUILayer;
 
 class CTabControl : public CGUIControl, public CVectorPool<CTabControlEntry*>
@@ -17,9 +16,14 @@ public:
 
 	void									bindEvents(void);
 
+	void									unserialize(bool bSkipControlId = false);
+	void									serialize(void);
+
 	void									onLeftMouseDown(CPoint2D& vecCursorPosition);
 
 	void									render(void);
+
+	uint32									getActiveIndex(void);
 
 	CTabControlEntry*						addTab(std::string strTabText, bool bSetActiveTab = false);
 	void									removeTab(CTabControlEntry *pTab);

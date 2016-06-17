@@ -13,6 +13,9 @@ public:
 
 	void									bindEvents(void);
 
+	void									unserialize(bool bSkipControlId = false);
+	void									serialize(void);
+
 	void									render(void);
 
 	CSize2D									getSeekBarSize(void);		// in pixels
