@@ -259,10 +259,10 @@ void			CBMPFormat::serializeVersion2(void)
 
 	if (m_bHasPalette)
 	{
-		pDataWriter->writeString(m_strPaletteData);
+		pDataWriter->writeStringRef(m_strPaletteData);
 	}
 
-	pDataWriter->writeString(m_strRasterData);
+	pDataWriter->writeStringRef(m_strRasterData);
 }
 
 void			CBMPFormat::serializeVersion3(void)
@@ -294,10 +294,10 @@ void			CBMPFormat::serializeVersion3(void)
 
 	if (m_bHasPalette)
 	{
-		pDataWriter->writeString(m_strPaletteData);
+		pDataWriter->writeStringRef(m_strPaletteData);
 	}
 
-	pDataWriter->writeString(m_strRasterData);
+	pDataWriter->writeStringRef(m_strRasterData);
 }
 
 void			CBMPFormat::serializeVersion4(void)
@@ -329,8 +329,8 @@ void			CBMPFormat::serializeVersion4(void)
 
 	if (m_bHasPalette)
 	{
-		pDataWriter->writeString(m_strPaletteData);
+		pDataWriter->writeStringRef(m_strPaletteData);
 	}
 
-	pDataWriter->writeString(m_strRasterData);
+	pDataWriter->writeStringRef(m_strRasterData);
 }

@@ -286,7 +286,7 @@ void					CWTDFormat::serialize(void)
 	{
 		string strEntryName = pWTDEntry->getEntryName();
 		strEntryName.append("\0", 1);
-		pDataWriter->writeString(strEntryName);
+		pDataWriter->writeStringRef(strEntryName);
 	}
 
 	// store graphics stream
@@ -295,7 +295,7 @@ void					CWTDFormat::serialize(void)
 	{
 		for (auto pMipmap : pWTDEntry->getEntries())
 		{
-			pDataWriter->writeString(pMipmap->getRasterData());
+			pDataWriter->writeStringRef(pMipmap->getRasterData());
 		}
 	}
 	uint32 uiGraphicsStreamSize = pDataWriter->getData().length() - uiSystemStreamSize;

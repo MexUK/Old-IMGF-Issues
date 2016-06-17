@@ -94,14 +94,14 @@ void				CRWSectionContainer::serialize(void)
 {
 	for (CRWSection *pRWSection : getEntries())
 	{
-		CDataWriter *pDataWriter = CDataWriter::addInstance();
+		CDataWriter *pDataWriter = nullptr; // todo CDataWriter::addInstance();
 		pDataWriter->setStreamType(DATA_STREAM_MEMORY);
 
 		pRWSection->CRWSection::serialize();	// base method,              RW section header
 		pRWSection->serialize();				// derived method (virtual), RW section body
 		pRWSection->fillPlaceholdersForSerialization();
 
-		CDataWriter::moveLatestInstanceDown();
+		// todo CDataWriter::moveLatestInstanceDown();
 	}
 }
 

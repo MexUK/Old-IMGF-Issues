@@ -259,7 +259,7 @@ void						CWDRFormat::serialize(void)
 
 	// todo - zlib compress and write header too?
 
-	pDataWriter->writeString(strWDRFileData);
+	pDataWriter->writeStringRef(strWDRFileData);
 }
 
 CWDRBlock_Geometry*			CWDRFormat::convertIntermediateGeometryToWDRGeometry(CIntermediateGeometry *pGeneralGeometry)

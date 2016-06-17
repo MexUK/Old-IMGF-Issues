@@ -27,5 +27,5 @@ void							CRWSection_UnknownSection::serialize(void)
 	pDataWriter->writeUint32(m_strData.length());
 	pDataWriter->writeUint32(uiRWVersionCC);
 
-	pDataWriter->writeString(m_strData);
+	pDataWriter->writeStringRef(m_strData);
 }

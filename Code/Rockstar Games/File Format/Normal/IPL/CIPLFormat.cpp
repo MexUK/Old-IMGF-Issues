@@ -144,7 +144,7 @@ void		CIPLFormat::serializeBinary(void)
 		uiSectionOffset_INST = 76,
 		uiSectionOffset_CARS = uiSectionOffset_INST + (uiEntryCount_INST * 40);
 
-	pDataWriter->writeString(strFourCC);
+	pDataWriter->writeStringRef(strFourCC);
 	pDataWriter->writeUint32(uiEntryCount_INST);
 	pDataWriter->writeUint32(0);
 	pDataWriter->writeUint32(0);

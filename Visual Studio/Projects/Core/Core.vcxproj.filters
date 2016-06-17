@@ -129,6 +129,9 @@
     <ClInclude Include="..\..\..\Code\Core\Event\CInputEventCallbacks.h">
       <Filter>Header Files\Event</Filter>
     </ClInclude>
+    <ClInclude Include="..\..\..\Code\Core\CIndexedInstance.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\..\..\Code\Core\Pool\CVectorPool.cpp">

@@ -72,8 +72,8 @@ void							CRWEntry_2dEffect_Light::serialize(void)
 	pDataWriter->writeUint8(m_ucCoronaFlareType);
 	pDataWriter->writeUint8(m_ucShadowColorMultiplier);
 	pDataWriter->writeUint8(m_ucFlags1);
-	pDataWriter->writeString(m_strCoronaTexName, 24);
-	pDataWriter->writeString(m_strShadowTexName, 24);
+	pDataWriter->writeStringRef(m_strCoronaTexName, 24);
+	pDataWriter->writeStringRef(m_strShadowTexName, 24);
 	pDataWriter->writeUint8(m_ucShadowZDistance);
 	pDataWriter->writeUint8(m_ucFlags2);
 	if (m_uiDataSize == 76)

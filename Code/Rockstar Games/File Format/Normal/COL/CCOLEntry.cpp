@@ -204,7 +204,7 @@ void			CCOLEntry::serialize(void)
 	// COL 1 2 3 & 4 header
 	pDataWriter->writeString(CCOLManager::getFourCCFromCOLVersion(eCOLVersionValue));
 	pDataWriter->writeUint32(calculateEntrySizeForPacking());
-	pDataWriter->writeString(m_strModelName, 22);
+	pDataWriter->writeStringRef(m_strModelName, 22);
 	pDataWriter->writeUint16(m_usModelId);
 	storeBoundingObjects();
 
@@ -360,7 +360,7 @@ void			CCOLEntry::serializeBody_Versions2_3_4(void)
 
 	if (((m_uiCollisionMeshVertexCount * 6) % 4) != 0)
 	{
-		pDataWriter->writeString("", 2); // 2 bytes padding
+		pDataWriter->writeString(2); // 2 bytes padding
 	}
 
 	if (m_uiFlags & 8) // has face groups
@@ -378,7 +378,7 @@ void			CCOLEntry::serializeBody_Versions2_3_4(void)
 
 		if (((m_uiShadowMeshVertexCount * 6) % 4) != 0)
 		{
-			pDataWriter->writeString("", 2); // 2 bytes padding
+			pDataWriter->writeString(2); // 2 bytes padding
 		}
 
 		storeShadowMeshFaces();

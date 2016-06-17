@@ -21,7 +21,7 @@ void				CDBEntry::serialize(void)
 	CDataWriter *pDataWriter = CDataWriter::getInstance();
 
 	pDataWriter->writeUint32(m_strEntryName.length());
-	pDataWriter->writeString(m_strEntryName);
+	pDataWriter->writeStringRef(m_strEntryName);
 	pDataWriter->writeUint32(m_uiEntrySize);
 	pDataWriter->writeUint32(m_uiEntryDataCRC);
 	pDataWriter->writeUint32(m_uiEntryCreationDate);

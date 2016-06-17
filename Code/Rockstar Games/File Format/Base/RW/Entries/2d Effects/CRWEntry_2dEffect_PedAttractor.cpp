@@ -41,7 +41,7 @@ void							CRWEntry_2dEffect_PedAttractor::serialize(void)
 	pDataWriter->writeVector3D(m_vecRotation[0]);
 	pDataWriter->writeVector3D(m_vecRotation[1]);
 	pDataWriter->writeVector3D(m_vecRotation[2]);
-	pDataWriter->writeString(m_strExternalScriptName, 8);
+	pDataWriter->writeStringRef(m_strExternalScriptName, 8);
 	pDataWriter->writeInt32(m_iPedExistingProbability);
 	pDataWriter->writeUint8(m_ucUnknown1);
 	pDataWriter->writeUint8(m_ucNotUsed1);

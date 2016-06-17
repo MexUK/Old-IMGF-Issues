@@ -33,6 +33,6 @@ void							CRWEntry_2dEffect_StreetSign::serialize(void)
 	pDataWriter->writeUint32(m_uiFlags);
 	for (uint32 i = 0; i < 4; i++)
 	{
-		pDataWriter->writeString(m_strText[i]);
+		pDataWriter->writeStringRef(m_strText[i]);
 	}
 }

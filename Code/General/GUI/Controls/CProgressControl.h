@@ -14,31 +14,23 @@ public:
 	void									bindEvents(void);
 
 	void									render(void);
-	
-	float32									getProgress(void);				// 0.0 to 1.0
-	std::string								getProgressPercentText(void);
-	CPoint2D								getProgressPosition(void);		// in pixels
-	int32									getProgressPositionX(void);		// in pixels
 
-	void									setMaxTicks(uint32 uiMaxTicks) { m_uiMaxTicks = uiMaxTicks; }
-	uint32									getMaxTicks(void) { return m_uiMaxTicks; }
-	
-	void									setCurrentTicks(uint32 uiCurrentTicks) { m_uiCurrentTicks = uiCurrentTicks; }
-	uint32									getCurrentTicks(void) { return m_uiCurrentTicks; }
+	CSize2D									getSeekBarSize(void);		// in pixels
+	uint32									getSeekBarSizeWidth(void);	// in pixels
+
+	std::string								getProgressPercentText(void);
+
+	void									setProgress(float32 fProgress) { m_fProgress = fProgress; }
+	float32									getProgress(void) { return m_fProgress; }
 
 	uint32									getProgressFillColour(void) { return getStyles()->getStyle<uint32>("progress-bar-fill-colour"); }	// RGBA
 
 	void									setCompletionPercentageShown(bool bCompletionPercentageShown) { m_bCompletionPercentageShown = bCompletionPercentageShown; }
 	bool									isCompletionPercentageShown(void) { return m_bCompletionPercentageShown; }
-	
-	void									setTextShown(bool bTextShown) { m_bTextShown = bTextShown; }
-	bool									isTextShown(void) { return m_bTextShown; }
 
 private:
-	uint32									m_uiMaxTicks;
-	uint32									m_uiCurrentTicks;
+	float32									m_fProgress;
 	uint8									m_bCompletionPercentageShown	: 1;
-	uint8									m_bTextShown					: 1;
 };
 
 #endif

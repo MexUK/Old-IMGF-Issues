@@ -127,7 +127,7 @@ void				CDDSFormat::serialize(void)
 	}
 	pDataWriter->writeUint32(uiSize2);
 	pDataWriter->writeUint32(uiFlags2);
-	pDataWriter->writeString(strFourCC);
+	pDataWriter->writeStringRef(strFourCC);
 	pDataWriter->writeUint32(uiRGBBitCount);
 	pDataWriter->writeUint32(uiRBitMask);
 	pDataWriter->writeUint32(uiGBitMask);
@@ -165,5 +165,5 @@ void				CDDSFormat::serialize(void)
 	pDataWriter->writeUint32(uiReserved2);
 
 	// data
-	pDataWriter->writeString(m_strRasterData);
+	pDataWriter->writeStringRef(m_strRasterData);
 }

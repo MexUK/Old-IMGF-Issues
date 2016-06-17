@@ -156,9 +156,8 @@ void									CThemeDesignerTab_AddItem::initDesign(void)
 	// todo pControl = (CGUIControl*) pLayer->addMenu(CPoint2D(uiControlIconX, uiControlIconY + 150), CSize2D(15, 15), pStyles_BlueBorder);
 
 	pControl = (CGUIControl*) pLayer->addProgress(CPoint2D(uiControlIconX, uiControlIconY + 180), CSize2D(15, 12), pStyles_Progress);
-	((CProgressControl*) pControl)->setMaxTicks(100);
-	((CProgressControl*) pControl)->setCurrentTicks(75);
-	((CProgressControl*) pControl)->setTextShown(false);
+	((CProgressControl*) pControl)->setProgress(0.7);
+	((CProgressControl*) pControl)->setCompletionPercentageShown(false);
 
 	pControl = (CGUIControl*) pLayer->addRadio(CPoint2D(uiControlIconX, uiControlIconY + 210), CSize2D(15, 15), "", pStyles_Radio);
 	((CRadioControl*) pControl)->setMarked(true);

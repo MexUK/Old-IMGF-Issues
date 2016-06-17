@@ -426,24 +426,24 @@ void							CRWSection_TextureNative::serializeHeader_Direct3D(void)
 	pDataWriter->writeUint32(m_uiPlatformId);
 	pDataWriter->writeUint8(m_ucFilterFlags);
 	pDataWriter->writeUint8(m_ucTextureWrapUV);
-	pDataWriter->writeString("", 2); // 2 bytes padding
+	pDataWriter->writeString(2); // 2 bytes padding
 	
 	if (doesHaveDiffuse())
 	{
-		pDataWriter->writeString(m_strDiffuseName, 32);
+		pDataWriter->writeStringRef(m_strDiffuseName, 32);
 	}
 	else
 	{
-		pDataWriter->writeString("", 32);
+		pDataWriter->writeString(32);
 	}
 
 	if (doesHaveAlpha())
 	{
-		pDataWriter->writeString(m_strAlphaName, 32);
+		pDataWriter->writeStringRef(m_strAlphaName, 32);
 	}
 	else
 	{
-		pDataWriter->writeString("", 32);
+		pDataWriter->writeString(32);
 	}
 
 	// struct RasterFormat
@@ -515,7 +515,7 @@ void							CRWSection_TextureNative::serializeBody_Direct3D(void)
 	for (auto pMipmap : getMipMaps().getEntries())
 	{
 		pDataWriter->writeUint32(pMipmap->getRasterData().length());
-		pDataWriter->writeString(pMipmap->getRasterData());
+		pDataWriter->writeStringRef(pMipmap->getRasterData());
 	}
 }
 

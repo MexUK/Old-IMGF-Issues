@@ -28,5 +28,5 @@ void							CRWSection_String::serialize(void)
 	uint32 uiStringLength = (uint32)(ceil(((float32)(m_strData.length() + 1)) / 4.0) * 4);
 	string strData = CStringUtility::zeroPad(m_strData, uiStringLength);
 
-	pDataWriter->writeString(strData);
+	pDataWriter->writeStringRef(strData);
 }

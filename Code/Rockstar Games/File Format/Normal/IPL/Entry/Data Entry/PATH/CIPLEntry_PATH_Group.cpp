@@ -42,7 +42,7 @@ void			CIPLEntry_PATH_Group::serialize(void)
 	case 0:
 		CIPLEntry_PATH::serialize();
 
-		pDataWriter->writeString(m_strGroupType);
+		pDataWriter->writeStringRef(m_strGroupType);
 		pDataWriter->writeInt32(m_iMinusOne);
 		break;
 	default:

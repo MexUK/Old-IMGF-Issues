@@ -19,5 +19,5 @@ void							CRWEntry_2dEffect_ParticleEffect::serialize(void)
 {
 	CDataWriter *pDataWriter = CDataWriter::getInstance();
 	
-	pDataWriter->writeString(m_strParticleEffectName, 24);
+	pDataWriter->writeStringRef(m_strParticleEffectName, 24);
 }

@@ -21,5 +21,5 @@ void							CRWSection_FrameList::serialize(void)
 	CDataWriter *pDataWriter = CDataWriter::getInstance();
 
 	pDataWriter->writeUint32(m_uiFrameCount);
-	pDataWriter->writeString(m_strFrameData);
+	pDataWriter->writeStringRef(m_strFrameData);
 }

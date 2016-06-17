@@ -13,44 +13,6 @@ CDataWriter::CDataWriter(void) :
 {
 }
 
-// static
-CDataWriter*			CDataWriter::getInstance(void)
-{
-	uint32 uiInstanceCount = m_vecDataWriters.size();
-	if (uiInstanceCount == 0)
-	{
-		return addInstance();
-	}
-	else
-	{
-		return m_vecDataWriters[uiInstanceCount - 1];
-	}
-}
-CDataWriter*			CDataWriter::addInstance(void)
-{
-	CDataWriter *pDataWriter = new CDataWriter;
-	m_vecDataWriters.push_back(pDataWriter);
-	return pDataWriter;
-}
-void					CDataWriter::removeLatestInstance(void)
-{
-	CDataWriter *pDataWriter = m_vecDataWriters[m_vecDataWriters.size() - 1];
-	m_vecDataWriters.pop_back();
-	delete pDataWriter;
-}
-void					CDataWriter::moveLatestInstanceDown(void)
-{
-	uint32 uiCurrentInstanceIndex = m_vecDataWriters.size() - 1;
-
-	CDataWriter *pDataWriterLatest = m_vecDataWriters[uiCurrentInstanceIndex];
-	CDataWriter *pDataWriterSecondLatest = m_vecDataWriters[uiCurrentInstanceIndex - 1];
-
-	pDataWriterSecondLatest->writeString(pDataWriterLatest->getData());
-
-	m_vecDataWriters.pop_back();
-	delete pDataWriterLatest;
-}
-
 // reset
 void					CDataWriter::reset(bool bHasError)
 {
@@ -94,6 +56,16 @@ void					CDataWriter::resetFile(void)
 }
 
 // write string
+void					CDataWriter::writeStringRef(string& strData)
+{
+	writeCString((char*) strData.c_str(), strData.length());
+}
+
+void					CDataWriter::writeStringRef(string& strData, uint32 uiTotalByteCountPadded)
+{
+	writeCString((char*) CStringUtility::zeroPad(CStringUtility::capLength(strData, uiTotalByteCountPadded), uiTotalByteCountPadded).c_str(), uiTotalByteCountPadded);
+}
+
 void					CDataWriter::writeString(string strData)
 {
 	writeCString((char*) strData.c_str(), strData.length());
@@ -102,6 +74,11 @@ void					CDataWriter::writeString(string strData)
 void					CDataWriter::writeString(string strData, uint32 uiTotalByteCountPadded)
 {
 	writeCString((char*)CStringUtility::zeroPad(CStringUtility::capLength(strData, uiTotalByteCountPadded), uiTotalByteCountPadded).c_str(), uiTotalByteCountPadded);
+}
+
+void					CDataWriter::writeString(uint32 uiZeroByteCount)
+{
+	writeCString((char*)CStringUtility::zeroPad(uiZeroByteCount).c_str(), uiZeroByteCount);
 }
 
 void					CDataWriter::writeCString(char *pData, uint32 uiByteCount)

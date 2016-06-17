@@ -11,10 +11,8 @@ auto pOnRender_Progress		= [](void *pControl) { ((CProgressControl*) pControl)->
 
 CProgressControl::CProgressControl(void) :
 	CGUIControl(GUI_CONTROL_PROGRESS),
-	m_uiMaxTicks(0),
-	m_uiCurrentTicks(0),
-	m_bCompletionPercentageShown(false),
-	m_bTextShown(false)
+	m_fProgress(0.0f),
+	m_bCompletionPercentageShown(false)
 {
 }
 
@@ -29,47 +27,39 @@ void			CProgressControl::render(void)
 {
 	CGraphicsLibrary *pGFX = CGUIManager::getInstance()->getGraphicsLibrary();
 
-	// todo - getStyles()->setComponentType
-
-	//getStyles()->setComponentType("default");
+	// item component: default
 	pGFX->drawRectangle(getPosition(), getSize(), getStyles());
 
-	//getStyles()->setComponentType("seek");
-	CPoint2D vecProgressPosition = getProgressPosition(); // todo
-	// todo getStyles()->setStyleNameOverwrite("fill-colour", "progress-bar-fill-colour");
-	pGFX->drawRectangle(getPosition(), CSize2D(vecProgressPosition.m_x, vecProgressPosition.m_y), getStyles());
-	// todo getStyles()->restoreStyleNameOverwrites();
+	// item component: seek-bar
+	CSize2D vecSeekBarSize = getSeekBarSize(); // todo
+	getStyles()->setItemComponent("seek-bar");
+	pGFX->drawRectangle(getPosition(), vecSeekBarSize, getStyles());
 
-	if (isTextShown())
+	// item component: default
+	if (isCompletionPercentageShown())
 	{
 		checkToRecalculateStringSize(getStyles());
 
-		//getStyles()->setComponentType("text");
+		getStyles()->resetItemComponent();
 		pGFX->drawText(getPosition(), getSize(), getProgressPercentText(), getStyles());
 	}
 
-	//getStyles()->resetComponentType();
+	getStyles()->restoreTemporaryStyleData();
 }
 
-// ratio
-float32			CProgressControl::getProgress(void)
+// seek bar
+CSize2D			CProgressControl::getSeekBarSize(void)
 {
-	return ((float32) getCurrentTicks()) / ((float32) getMaxTicks());
+	return CSize2D(getSeekBarSizeWidth(), getSize().m_y);
+}
+
+uint32			CProgressControl::getSeekBarSizeWidth(void)
+{
+	return ((float32) getSize().m_x) * getProgress();
 }
 
 // text
 string			CProgressControl::getProgressPercentText(void)
 {
 	return CStringUtility::toString(getProgress() * 100.0f) + "%";
-}
-
-// position
-CPoint2D		CProgressControl::getProgressPosition(void)
-{
-	return CPoint2D(getProgressPositionX(), getSize().m_y);
-}
-
-int32			CProgressControl::getProgressPositionX(void)
-{
-	return ((float32) getSize().m_x) * getProgress();
 }

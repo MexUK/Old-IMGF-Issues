@@ -2,7 +2,7 @@
 #define CDataReader_H
 
 #include "CDataStream.h"
-#include "CSingleton.h"
+#include "CIndexedInstance.h"
 #include "Types.h"
 #include "eDataStreamType.h"
 #include "eEndian.h"
@@ -16,7 +16,7 @@
 #include <vector>
 #include <fstream>
 
-class CDataReader : public CDataStream, public CSingleton<CDataReader>
+class CDataReader : public CDataStream, public CIndexedInstance<CDataReader>
 {
 public:
 	CDataReader(void);

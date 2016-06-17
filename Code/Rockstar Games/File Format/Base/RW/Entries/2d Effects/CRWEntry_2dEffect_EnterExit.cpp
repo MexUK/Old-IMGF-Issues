@@ -39,6 +39,6 @@ void							CRWEntry_2dEffect_EnterExit::serialize(void)
 	pDataWriter->writeFloat32(m_fExitMarkerAngleRotation);
 	pDataWriter->writeInt32(m_iInteriorCount);
 	pDataWriter->writeInt32(m_iFlags);
-	pDataWriter->writeString(m_strInteriorName, 8);
+	pDataWriter->writeStringRef(m_strInteriorName, 8);
 	pDataWriter->writeInt32(m_iSkyColour);
 }

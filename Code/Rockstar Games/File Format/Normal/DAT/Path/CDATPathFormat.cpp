@@ -466,7 +466,7 @@ void							CDATPathFormat::serializeDefault(void)
 	memcpy(pOutputData, pLinkLengths, uiSize);
 	pOutputData += uiSize;
 
-	pDataWriter->writeString(pOutputDataStart, uiSize2);
+	pDataWriter->writeCString(pOutputDataStart, uiSize2);
 	//uiSeek += uiSize2;
 	delete[] pOutputDataStart;
 
@@ -600,7 +600,7 @@ void							CDATPathFormat::serializeFastman92(void)
 
 	if (m_header.m_uiLinkCount > 0)
 	{
-		pDataWriter->writeString("", 768);
+		pDataWriter->writeString(768);
 	}
 
 	for (uint32 i = 0, j = m_header.m_uiLinkCount; i < j; i++)
@@ -627,17 +627,17 @@ void							CDATPathFormat::serializeFastman92(void)
 
 	if (m_header.m_uiLinkCount > 0)
 	{
-		pDataWriter->writeString("", 192);
+		pDataWriter->writeString(192);
 	}
 
 	if (m_header.m_uiLinkCount > 0)
 	{
-		pDataWriter->writeString("", 192);
+		pDataWriter->writeString(192);
 	}
 
 	string strEOF = "EOF";
 	strEOF.append(1, 0);
-	pDataWriter->writeString(strEOF);
+	pDataWriter->writeStringRef(strEOF);
 
 	/*
 	//////////////////////// commented
@@ -675,7 +675,7 @@ void							CDATPathFormat::serializeFastman92(void)
 	//////////////////////////// commented end
 	*/
 
-	//pDataWriter->writeString(string(pOutputDataStart, uiSize2));
+	//pDataWriter->writeCString(pOutputDataStart, uiSize2);
 	//delete[] pOutputDataStart;
 
 	delete[] pPathNodes;

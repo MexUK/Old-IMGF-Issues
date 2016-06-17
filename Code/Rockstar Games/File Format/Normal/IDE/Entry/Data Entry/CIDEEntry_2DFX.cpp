@@ -34,7 +34,7 @@ void			CIDEEntry_2DFX::serialize(void)
 
 	if (doesSupportFormatGame(GAME_FLAG_GTA_IV))
 	{
-		pDataWriter->writeString(m_strModelName);
+		pDataWriter->writeStringRef(m_strModelName);
 		pDataWriter->writeVector3D(m_vecPosition);
 		pDataWriter->writeUint32(m_uiUnknown1);
 		pDataWriter->writeVector4D(m_vecRotation);

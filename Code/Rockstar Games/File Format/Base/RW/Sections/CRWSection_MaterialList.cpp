@@ -21,5 +21,5 @@ void							CRWSection_MaterialList::serialize(void)
 	CDataWriter *pDataWriter = CDataWriter::getInstance();
 
 	pDataWriter->writeUint32(m_uiMaterialCount);
-	pDataWriter->writeString(m_strReservedValues);
+	pDataWriter->writeStringRef(m_strReservedValues);
 }

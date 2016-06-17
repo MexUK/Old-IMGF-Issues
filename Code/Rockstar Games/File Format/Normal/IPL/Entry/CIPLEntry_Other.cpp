@@ -13,5 +13,5 @@ void		CIPLEntry_Other::serialize(void)
 {
 	CDataWriter *pDataWriter = CDataWriter::getInstance();
 
-	pDataWriter->writeString(getLine());
+	pDataWriter->writeStringRef(getLine());
 }

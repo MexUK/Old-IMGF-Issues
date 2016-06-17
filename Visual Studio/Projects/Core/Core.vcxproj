@@ -85,6 +85,7 @@
     <ClInclude Include="..\..\..\Code\Core\CDataType.h" />
     <ClInclude Include="..\..\..\Code\Core\CFormat.h" />
     <ClInclude Include="..\..\..\Code\Core\CFormatManager.h" />
+    <ClInclude Include="..\..\..\Code\Core\CIndexedInstance.h" />
     <ClInclude Include="..\..\..\Code\Core\CManager.h" />
     <ClInclude Include="..\..\..\Code\Core\CSingleton.h" />
     <ClInclude Include="..\..\..\Code\Core\CTiming.h" />

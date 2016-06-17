@@ -2,7 +2,7 @@
 #define CDataWriter_H
 
 #include "CDataStream.h"
-#include "CSingleton.h"
+#include "CIndexedInstance.h"
 #include "Types.h"
 #include "eDataStreamType.h"
 #include "eEndian.h"
@@ -21,16 +21,10 @@
 
 class CDataWriter;
 
-class CDataWriter : public CDataStream // todo - move to singleton like before and how CDataReader is, and remove static-instance methods and update it to how the CDataReader works by using something like getIndexedInstance().
+class CDataWriter : public CDataStream, public CIndexedInstance<CDataWriter>
 {
 public:
 	CDataWriter(void);
-
-	// static
-	static CDataWriter*		getInstance(void);
-	static CDataWriter*		addInstance(void);
-	static void				removeLatestInstance(void);
-	static void				moveLatestInstanceDown(void);
 
 	// reset
 	void					close(bool bHasError = false);
@@ -43,8 +37,11 @@ public:
 	void					resetFile(void);
 
 	// write string
+	void					writeStringRef(std::string& strData);
+	void					writeStringRef(std::string& strData, uint32 uiTotalByteCountPadded);
 	void					writeString(std::string strData);
 	void					writeString(std::string strData, uint32 uiTotalByteCountPadded);
+	void					writeString(uint32 uiZeroByteCount);
 	void					writeCString(char *pData, uint32 uiByteCount);
 
 	// write int

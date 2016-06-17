@@ -18,5 +18,5 @@ void							CRWSection_Frame::serialize(void)
 {
 	CDataWriter *pDataWriter = CDataWriter::getInstance();
 
-	pDataWriter->writeString(m_strData);
+	pDataWriter->writeStringRef(m_strData);
 }

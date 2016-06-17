@@ -14,5 +14,5 @@ void			CIDEEntry_UnknownSection::serialize(void)
 {
 	CDataWriter *pDataWriter = CDataWriter::getInstance();
 
-	pDataWriter->writeString(m_strLine);
+	pDataWriter->writeStringRef(m_strLine);
 }
