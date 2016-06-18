@@ -107,6 +107,7 @@ void									CWindow::unserialize(void)
 	for (uint32 i = 0; i < uiLayerCount; i++)
 	{
 		CGUILayer *pLayer = new CGUILayer;
+		pLayer->setWindow(this);
 		pLayer->unserialize();
 		addEntry(pLayer);
 	}

@@ -5,6 +5,7 @@
 #include "GUI/CGUIManager.h"
 #include "GUI/GraphicsLibrary/CGraphicsLibrary.h"
 #include "GUI/Controls/CScrollControl.h"
+#include "GUI/Controls/Components/CListControlHeader.h"
 #include "Data Stream/CDataReader.h"
 #include "Data Stream/CDataWriter.h"
 
@@ -36,15 +37,12 @@ void					CListControl::unserialize(bool bSkipControlId)
 {
 	CDataReader *pDataReader = CDataReader::getInstance();
 
-	/*
-	todo - uncomment when list control is implemented
-
 	CGUIControl::unserialize(bSkipControlId);
 	uint32 uiColumnCount = pDataReader->readUint32(); // column count
 	for (uint32 i = 0; i < uiColumnCount; i++)
 	{
 		CListControlHeader *pListColumn = new CListControlHeader;
-		pListColumn->setWidth(pDataReader->readUint32()); // column header width
+		pListColumn->setColumnWidth(pDataReader->readUint32()); // column header width
 		pListColumn->setText(pDataReader->readStringWithLength()); // column header text
 		getHeaders().addEntry(pListColumn);
 	}
@@ -61,21 +59,17 @@ void					CListControl::unserialize(bool bSkipControlId)
 			}
 		}
 	}
-	*/
 }
 
 void					CListControl::serialize(void)
 {
 	CDataWriter *pDataWriter = CDataWriter::getInstance();
 
-	/*
-	todo - uncomment when list control is implemented
-
 	CGUIControl::serialize();
 	pDataWriter->writeUint32(getHeaders().getEntryCount()); // column count
 	for (CListControlHeader *pListColumn : getHeaders().getEntries())
 	{
-		pDataWriter->writeUint32(pListColumn->getWidth()); // column header width
+		pDataWriter->writeUint32(pListColumn->getColumnWidth()); // column header width
 		pDataWriter->writeStringWithLengthRef(pListColumn->getText()); // column header text
 	}
 	pDataWriter->writeUint32(getHeaders().getEntryCount()); // row count
@@ -90,7 +84,6 @@ void					CListControl::serialize(void)
 			}
 		}
 	}
-	*/
 }
 
 // input
@@ -116,12 +109,21 @@ void					CListControl::render(void)
 		uiRowIndex = 0,
 		uiTextRowIndex,
 		uiColumnIndex;
-	for(auto pListEntry : getEntries())
+	for(auto pListEntry : getEntries()) // todo - loop from displayed start row index to displayed end row index
 	{
-		pListEntry->checkToRecalculateStringSize(getStyles());
+		pListEntry->checkToRecalculateStringSize(getStyles()); // todo - calculate for each string not just for each row - maybe store CGUIString instead of std::string into vec<vec<str>>
 
-		uint32 uiRowFillColour = (uiRowIndex % 2) == 0 ? getRowFillColour1() : getRowFillColour2(); // todo - used?
+		getStyles()->setItemComponent("list-row");
 		pGFX->drawRectangleFill(getRowPosition(uiRowIndex), getRowSize(), getStyles());
+
+		getStyles()->setItemComponent("list-header-cell");
+		CPoint2D vecHeaderTextPosition = getPosition();
+		for (CListControlHeader *pListHeader : getHeaders().getEntries())
+		{
+			CSize2D vecTextSize = pGFX->getTextSize(pListHeader->getText(), getStyles()); // todo
+			pGFX->drawText(vecHeaderTextPosition, vecTextSize, pListHeader->getText(), getStyles(), vecTextSize);
+			vecHeaderTextPosition.m_x += pListHeader->getColumnWidth();
+		}
 
 		uiTextRowIndex = 0;
 		for(vector<string>& vecText : pListEntry->getText())
@@ -129,22 +131,24 @@ void					CListControl::render(void)
 			uiColumnIndex = 0;
 			for(string& strText : vecText)
 			{
+				getStyles()->setItemComponent("list-cell");
 				pGFX->drawText(getCellTextPosition(uiRowIndex, uiTextRowIndex, uiColumnIndex), getCellTextSize(uiRowIndex, uiTextRowIndex, uiColumnIndex), strText, getStyles());
 				uiColumnIndex++;
 			}
 
 			uiTextRowIndex++;
 		}
-		
-		if (uiRowIndex == 10) break; // todo - temp
 
 		uiRowIndex++;
 	}
 
 	if (getStyles()->doesHaveBorder())
 	{
+		getStyles()->resetItemComponent();
 		pGFX->drawRectangleBorder(getPosition(), getSize(), getStyles());
 	}
+
+	getStyles()->restoreTemporaryStyleData();
 }
 
 // row

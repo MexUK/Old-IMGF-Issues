@@ -151,7 +151,7 @@ void									CThemeDesignerTab_AddItem::initDesign(void)
 
 	pControl = (CGUIControl*) pLayer->addDrop(CPoint2D(uiControlIconX, uiControlIconY + 60), CSize2D(15, 10), pStyles_BlueBorder);
 
-	pControl = (CGUIControl*) pLayer->addEdit(CPoint2D(uiControlIconX, uiControlIconY + 90), CSize2D(15, 15), "", pStyles_Edit);
+	pControl = (CGUIControl*) pLayer->addEdit(CPoint2D(uiControlIconX, uiControlIconY + 90), CSize2D(15, 15), "", true, pStyles_Edit);
 	pControl = (CGUIControl*) pLayer->addList(CPoint2D(uiControlIconX, uiControlIconY + 120), CSize2D(15, 15), pStyles_BlueBorder);
 	// todo pControl = (CGUIControl*) pLayer->addMenu(CPoint2D(uiControlIconX, uiControlIconY + 150), CSize2D(15, 15), pStyles_BlueBorder);
 

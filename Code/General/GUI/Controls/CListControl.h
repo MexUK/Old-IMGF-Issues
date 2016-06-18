@@ -5,6 +5,7 @@
 #include "GUI/Control/CGUIControl.h"
 #include "GUI/Styles/CGUIStyles.h"
 #include "GUI/Controls/Entries/CListControlEntry.h"
+#include "GUI/Controls/Components/CListControlHeader.h"
 #include "Pool/CVectorPool.h"
 #include "CPoint2D.h"
 #include <string>
@@ -45,11 +46,14 @@ public:
 	void									setHasVerticalScrollBar(bool bHasVerticalScrollBar) { m_bHasVerticalScrollBar = bHasVerticalScrollBar; }
 	bool									doesHaveVerticalScrollBar(void) { return m_bHasVerticalScrollBar; }
 	
+	CVectorPool<CListControlHeader*>&		getHeaders(void) { return m_vecHeaders; }
+
 private:
 	uint32									m_uiRowHeight;				// in pixels
 	uint32									m_uiColumnWidth;			// in pixels
 	uint32									m_uiRowTextHeight;			// in pixels
 	uint8									m_bHasVerticalScrollBar		: 1;
+	CVectorPool<CListControlHeader*>		m_vecHeaders;
 };
 
 #endif

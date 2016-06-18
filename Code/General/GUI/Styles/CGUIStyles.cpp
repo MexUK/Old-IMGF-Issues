@@ -57,6 +57,8 @@ void					CGUIStyles::init(void)
 	getStyleDefaultValues().setEntry("list.line-colour", CColour(0, 0, 0));
 	getStyleDefaultValues().setEntry<int32>("markable-text-spacing", 0);
 	getStyleDefaultValues().setEntry("drop-list.fill-colour", CColour(0xFF, 0xFF, 0xFF));
+	getStyleDefaultValues().setEntry("edit-selected-text.fill-colour", CColour(111, 187, 248));
+	getStyleDefaultValues().setEntry("edit-selected-text.border-colour", CColour(0xFF, 0xFF, 0xFF));
 }
 
 void					CGUIStyles::uninit(void)

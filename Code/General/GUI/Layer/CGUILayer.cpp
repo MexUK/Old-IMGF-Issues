@@ -68,6 +68,7 @@ void									CGUILayer::unserialize(void)
 	{
 		eGUIShape eShapeId = (eGUIShape) pDataReader->readUint32();
 		CGUIShape *pShape = addShape(eShapeId);
+		pShape->setLayer(this);
 		pShape->unserialize(true);
 		getShapes().addEntry(pShape);
 	}
@@ -75,6 +76,7 @@ void									CGUILayer::unserialize(void)
 	{
 		eGUIControl eControlId = (eGUIControl) pDataReader->readUint32();
 		CGUIControl *pControl = addControl(eControlId);
+		pControl->setLayer(this);
 		pControl->unserialize(true);
 		getControls().addEntry(pControl);
 	}
@@ -148,10 +150,11 @@ CDropControl*		CGUILayer::addDrop(CPoint2D& vecPosition, CSize2D& vecSize, CGUIS
 	return pControl;
 }
 
-CEditControl*		CGUILayer::addEdit(CPoint2D& vecPosition, CSize2D& vecSize, string strEditText, CGUIStyles *pStyles)
+CEditControl*		CGUILayer::addEdit(CPoint2D& vecPosition, CSize2D& vecSize, string strEditText, bool bMultiLine, CGUIStyles *pStyles)
 {
 	CEditControl *pControl = new CEditControl;
 	// todo pControl->setText(strEditText);
+	pControl->setMultiLine(bMultiLine);
 	_addControl(pControl, vecPosition, vecSize, pStyles);
 	return pControl;
 }

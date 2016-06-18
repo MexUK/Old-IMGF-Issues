@@ -758,6 +758,42 @@ void				CStringUtility::setClipboardText(string& strText)
 	}
 }
 
+string				CStringUtility::getClipboardText(void)
+{
+	// Try opening the clipboard
+	if (!OpenClipboard(nullptr))
+	{
+		return "";
+	}
+
+	// Get handle of clipboard object for ANSI text
+	HANDLE hData = GetClipboardData(CF_TEXT);
+	if (hData == nullptr)
+	{
+		CloseClipboard();
+		return "";
+	}
+
+	// Lock the handle to get the actual text pointer
+	char *pszText = static_cast<char*>(GlobalLock(hData));
+	if (pszText == nullptr)
+	{
+		CloseClipboard();
+		return "";
+	}
+
+	// Save text in a string class instance
+	string strText(pszText);
+	
+	// Release the lock
+	GlobalUnlock(hData);
+	
+	// Release the clipboard
+	CloseClipboard();
+
+	return strText;
+}
+
 string				CStringUtility::capLength(string& strData, uint32 uiMaxLength)
 {
 	if (strData.length() > uiMaxLength)

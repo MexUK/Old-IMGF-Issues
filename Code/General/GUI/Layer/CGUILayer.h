@@ -61,7 +61,7 @@ public:
 	CButtonControl*			addButton(CPoint2D& vecPosition, CSize2D& vecSize, std::string strButtonText, CGUIStyles *pStyles = nullptr);
 	CCheckControl*			addCheck(CPoint2D& vecPosition, CSize2D& vecSize, std::string strCheckText, CGUIStyles *pStyles = nullptr);
 	CDropControl*			addDrop(CPoint2D& vecPosition, CSize2D& vecSize, CGUIStyles *pStyles = nullptr);
-	CEditControl*			addEdit(CPoint2D& vecPosition, CSize2D& vecSize, std::string strEditText = "", CGUIStyles *pStyles = nullptr);
+	CEditControl*			addEdit(CPoint2D& vecPosition, CSize2D& vecSize, std::string strEditText = "", bool bMultiLine = false, CGUIStyles *pStyles = nullptr);
 	CImageControl*			addImage(CPoint2D& vecPosition, std::string& strImagePath, CSize2D vecSize = CSize2D(0, 0), CGUIStyles *pStyles = nullptr);
 	// todo CImageControl*			addImageMem(CPoint2D& vecPosition, std::string& strImageData, CSize2D vecSize = CSize2D(0, 0), CGUIStyles *pStyles = nullptr);
 	CListControl*			addList(CPoint2D& vecPosition, CSize2D& vecSize, CGUIStyles *pStyles = nullptr);

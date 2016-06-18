@@ -89,6 +89,7 @@ public:
 	static uint32							getCRC(std::string& strData);
 	static bool								isAlphaNumericUnderscore(std::string& strData);
 	static void								setClipboardText(std::string& strText);
+	static std::string						getClipboardText(void);
 	static std::string						capLength(std::string& strData, uint32 uiMaxLength);
 	static uint32							getCurrentEpochTime(void);
 	static std::string						mergeStrings(std::string& strString1, std::string& strString2, uint32 uiCapLength);

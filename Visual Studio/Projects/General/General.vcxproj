@@ -100,6 +100,7 @@
     <ClCompile Include="..\..\..\Code\General\GUI\Controls\CListControl.cpp" />
     <ClCompile Include="..\..\..\Code\General\GUI\Controls\CMenuControl.cpp" />
     <ClCompile Include="..\..\..\Code\General\GUI\Controls\Components\CGUIControlComponent_Text.cpp" />
+    <ClCompile Include="..\..\..\Code\General\GUI\Controls\Components\CListControlHeader.cpp" />
     <ClCompile Include="..\..\..\Code\General\GUI\Controls\CProgressControl.cpp" />
     <ClCompile Include="..\..\..\Code\General\GUI\Controls\CRadioControl.cpp" />
     <ClCompile Include="..\..\..\Code\General\GUI\Controls\CScrollControl.cpp" />
@@ -169,6 +170,7 @@
     <ClInclude Include="..\..\..\Code\General\GUI\Controls\CEditControl.h" />
     <ClInclude Include="..\..\..\Code\General\GUI\Controls\CListControl.h" />
     <ClInclude Include="..\..\..\Code\General\GUI\Controls\CMenuControl.h" />
+    <ClInclude Include="..\..\..\Code\General\GUI\Controls\Components\CListControlHeader.h" />
     <ClInclude Include="..\..\..\Code\General\GUI\Controls\CProgressControl.h" />
     <ClInclude Include="..\..\..\Code\General\GUI\Controls\CRadioControl.h" />
     <ClInclude Include="..\..\..\Code\General\GUI\Controls\CScrollControl.h" />
