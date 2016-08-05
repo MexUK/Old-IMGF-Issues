@@ -42,6 +42,8 @@ CWindow::CWindow(void) :
 	m_vecSize.m_y = 0;
 	m_vecPreviousPosition.m_x = 0;
 	m_vecPreviousPosition.m_y = 0;
+	m_vecPreviousSize.m_x = 0;
+	m_vecPreviousSize.m_y = 0;
 }
 CWindow::~CWindow(void)
 {
@@ -259,9 +261,8 @@ void									CWindow::onMouseMove(CPoint2D& vecCursorPosition)
 
 		rect.left += vecCursorDiff.m_x;
 		rect.top += vecCursorDiff.m_y;
-
-		SetWindowPos(getWindowHandle(), NULL, rect.left, rect.top, 0, 0, SWP_NOSIZE | SWP_NOZORDER);
 		setPosition(CPoint2D(rect.left, rect.top));
+		
 		//MoveWindow(hwndWindow, rect.left, rect.top, rect.right, rect.bottom, false);
 		//InvalidateRect(hwndWindow, &rect, false);
 		return;
@@ -295,8 +296,10 @@ void									CWindow::onMouseMove(CPoint2D& vecCursorPosition)
 		{
 			rect.bottom += vecCursorDiff.m_y;
 		}
-
-		SetWindowPos(getWindowHandle(), NULL, rect.left, rect.top, rect.right - rect.left, rect.bottom - rect.top, SWP_NOZORDER);
+		
+		setPosition(CPoint2D(rect.left, rect.top));
+		setSize(CSize2D(rect.right - rect.left, rect.bottom - rect.top));
+		
 		return;
 	}
 }
@@ -412,28 +415,37 @@ void								CWindow::clearActiveItem(void)
 void									CWindow::setMaximized(bool bMaximized)
 {
 	m_bMaximized = bMaximized;
-
-	if (m_bMaximized)
+	
+	CPoint2D vecWindowNewPosition;
+	CSize2D vecWindowNewSize;
+	if (bMaximized)
 	{
-		// Don't use ShowWindow() because it does full screen rather than maximized. (It excludes and overlaps the bottom app bar)
-		// todo ShowWindow(getWindowHandle(), SW_MAXIMIZE);
+		// set the window maximized
 
+		// Note: Don't use ShowWindow() because it does full screen rather than maximized. (It excludes and overlaps the bottom app bar)
+		
 		RECT rectWorkArea;
 		SystemParametersInfo(SPI_GETWORKAREA, 0, &rectWorkArea, 0);
-		SetWindowPos(getWindowHandle(), NULL, rectWorkArea.left, rectWorkArea.top, rectWorkArea.right, rectWorkArea.bottom, NULL);
+		
+		setPreviousPosition(getPosition());
+		setPreviousSize(getSize());
+
+		vecWindowNewPosition.m_x = rectWorkArea.left;
+		vecWindowNewPosition.m_y = rectWorkArea.top;
+		vecWindowNewSize.m_x = rectWorkArea.right;
+		vecWindowNewSize.m_y = rectWorkArea.bottom;
 	}
 	else
 	{
-		// todo ShowWindow(getWindowHandle(), SW_RESTORE);
+		// restore the window from maximized
 
-		RECT rectWorkArea;
-		rectWorkArea.left = getPreviousPosition().m_x;
-		rectWorkArea.top = getPreviousPosition().m_y;
-		rectWorkArea.right = 1025; // todo - previous size
-		rectWorkArea.bottom = 698;
-		SetWindowPos(getWindowHandle(), NULL, rectWorkArea.left, rectWorkArea.top, rectWorkArea.right, rectWorkArea.bottom, NULL);
+		vecWindowNewPosition = getPreviousPosition();
+		vecWindowNewSize = getPreviousSize();
 	}
-
+	
+	setPosition(vecWindowNewPosition);
+	setSize(vecWindowNewSize);
+	
 	render();
 }
 
@@ -614,3 +626,17 @@ void		CKGM::init(void)
 	getRecentlyOpenManager()->init();
 	getSessionManager()->init();
 	*/
+
+// window position
+void									CWindow::setPosition(CPoint2D& vecPosition)
+{
+	m_vecPosition = vecPosition;
+	SetWindowPos(getWindowHandle(), NULL, vecPosition.m_x, vecPosition.m_y, 0, 0, SWP_NOSIZE | SWP_NOZORDER);
+}
+
+// window size
+void									CWindow::setSize(CSize2D& vecSize)
+{
+	m_vecSize = vecSize;
+	SetWindowPos(getWindowHandle(), NULL, 0, 0, vecSize.m_x, vecSize.m_y, SWP_NOMOVE | SWP_NOZORDER);
+}

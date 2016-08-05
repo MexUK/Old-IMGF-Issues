@@ -72,10 +72,10 @@ public:
 	void									setFocusedControl(CGUIControl *pWindowControl) { m_pFocusedControl = pWindowControl; }
 	CGUIControl*							getFocusedControl(void) { return m_pFocusedControl; }
 
-	void									setPosition(CPoint2D& vecPosition) { m_vecPosition = vecPosition; m_vecPreviousPosition = vecPosition; }
+	void									setPosition(CPoint2D& vecPosition);
 	CPoint2D&								getPosition(void) { return m_vecPosition; }
 
-	void									setSize(CSize2D& vecSize) { m_vecSize = vecSize; }
+	void									setSize(CSize2D& vecSize);
 	CSize2D&								getSize(void) { return m_vecSize; }
 
 	void									setMovingWindow(bool bMovingMainWindow) { m_bMovingWindow = bMovingMainWindow; }
@@ -99,6 +99,9 @@ public:
 	void									setPreviousPosition(CPoint2D& vecPreviousPosition) { m_vecPreviousPosition = vecPreviousPosition; }
 	CPoint2D&								getPreviousPosition(void) { return m_vecPreviousPosition; }
 
+	void									setPreviousSize(CSize2D& vecPreviousSize) { m_vecPreviousSize = vecPreviousSize; }
+	CSize2D&								getPreviousSize(void) { return m_vecPreviousSize; }
+
 private:
 	HWND									m_hwndWindow;
 	CWindow*								m_pParentWindow;
@@ -113,6 +116,7 @@ private:
 	uint8									m_bMarkedToRedraw				: 1;
 	uint8									m_bMaximized					: 1;
 	CPoint2D								m_vecPreviousPosition;
+	CSize2D									m_vecPreviousSize;
 	CGUIItem*								m_pActiveItem;
 	// todo CRectangleItemPlacement<CWindow>			m_placeableWindow;	// gui windows
 	CRectangleItemPlacement<CGUIItem>			m_placeableItem;	// gui items - e.g. shapes and controls
