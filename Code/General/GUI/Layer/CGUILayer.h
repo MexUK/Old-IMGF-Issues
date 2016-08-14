@@ -94,6 +94,9 @@ public:
 	CVectorPool<CGUIShape*>&	getShapes(void) { return m_vecShapes; }
 	CVectorPool<CGUIControl*>&	getControls(void) { return m_vecControls; }
 
+	CGUIControl*				getControlById(uint32 uiControlId);
+	CGUIShape*					getShapeById(uint32 uiShapeId);
+
 private:
 	void						_addControl(CGUIControl *pWindowControl, CPoint2D& vecPosition, CSize2D& vecSize, CGUIStyles *pStyles);
 	void						_addControl(CGUIControl *pWindowControl, CGUIStyles *pStyles);

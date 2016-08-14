@@ -276,6 +276,9 @@
     <ClCompile Include="..\..\..\Code\KGM\GUI\ThemeDesigner\Tab\CThemeDesignerTab.cpp">
       <Filter>Source Files\GUI\ThemeDesigner\Tab</Filter>
     </ClCompile>
+    <ClCompile Include="..\..\..\Code\KGM\GUI\ThemeDesigner\Tabs\CThemeDesignerTab_Save.cpp">
+      <Filter>Source Files\GUI\ThemeDesigner\Tabs</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\..\..\Code\KGM\Globals.h">
@@ -459,6 +462,9 @@
       <Filter>Header Files\GUI\ThemeDesigner\Tab</Filter>
     </ClInclude>
     <ClInclude Include="..\..\..\Code\KGM\GUI\ThemeDesigner\Tabs\CThemeDesignerTab_AddItem.h">
+      <Filter>Header Files\GUI\ThemeDesigner\Tabs</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\Code\KGM\GUI\ThemeDesigner\Tabs\CThemeDesignerTab_Save.h">
       <Filter>Header Files\GUI\ThemeDesigner\Tabs</Filter>
     </ClInclude>
   </ItemGroup>

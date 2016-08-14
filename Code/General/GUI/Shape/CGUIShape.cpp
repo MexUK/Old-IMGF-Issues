@@ -6,7 +6,8 @@
 
 CGUIShape::CGUIShape(eGUIShapeGeometry eShapeGeometry, eGUIShape eShapeType) :
 	m_eShapeGeometry(eShapeGeometry),
-	m_eShapeType(eShapeType)
+	m_eShapeType(eShapeType),
+	m_uiShapeId(0)
 {
 }
 

@@ -8,6 +8,7 @@
 #include "GUI/Styles/CGUIStyles.h"
 #include "GUI/Controls/CTabControl.h"
 #include "GUI/ThemeDesigner/Tabs/CThemeDesignerTab_AddItem.h"
+#include "GUI/ThemeDesigner/Tabs/CThemeDesignerTab_Save.h"
 #include "CColour.h"
 #include <vector>
 
@@ -60,13 +61,16 @@ void					CThemeDesigner::initWindow(void)
 	m_umapTabControlEntries["items"] = pTabControl->addTab("Items");
 	m_umapTabControlEntries["add_item"] = pTabControl->addTab("Add Item", true);
 	m_umapTabControlEntries["item"] = pTabControl->addTab("Item");
-	m_umapTabControlEntries["themes"] = pTabControl->addTab("Themes");
-	m_umapTabControlEntries["export"] = pTabControl->addTab("Export");
+	m_umapTabControlEntries["load"] = pTabControl->addTab("Load");
+	m_umapTabControlEntries["save"] = pTabControl->addTab("Save");
+	m_umapTabControlEntries["download"] = pTabControl->addTab("Download");
+	m_umapTabControlEntries["upload"] = pTabControl->addTab("Upload");
 }
 
 void					CThemeDesigner::initWindowDesign(void)
 {
 	addEntry(new CThemeDesignerTab_AddItem(this));
+	addEntry(new CThemeDesignerTab_Save(this));
 
 	for (CThemeDesignerTab *pThemeDesignerTab : getEntries())
 	{

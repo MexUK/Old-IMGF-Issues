@@ -29,9 +29,13 @@ public:
 	void									setShapeType(eGUIShape eShapeType) { m_eShapeType = eShapeType; }
 	eGUIShape								getShapeType(void) { return m_eShapeType; }
 
+	void									setShapeId(uint32 uiShapeId) { m_uiShapeId = uiShapeId; }
+	uint32									getShapeId(void) { return m_uiShapeId; }
+
 private:
 	eGUIShapeGeometry						m_eShapeGeometry;
 	eGUIShape								m_eShapeType;
+	uint32									m_uiShapeId;
 };
 
 #endif

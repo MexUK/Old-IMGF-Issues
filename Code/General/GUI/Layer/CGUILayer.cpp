@@ -419,3 +419,28 @@ void						CGUILayer::setEnabled(bool bEnabled)
 		}
 	}
 }
+
+// fetch by id
+CGUIControl*				CGUILayer::getControlById(uint32 uiControlId)
+{
+	for (CGUIControl *pControl : getControls().getEntries())
+	{
+		if (pControl->getControlId() == uiControlId)
+		{
+			return pControl;
+		}
+	}
+	return nullptr;
+}
+
+CGUIShape*					CGUILayer::getShapeById(uint32 uiShapeId)
+{
+	for (CGUIShape *pShape : getShapes().getEntries())
+	{
+		if (pShape->getShapeId() == uiShapeId)
+		{
+			return pShape;
+		}
+	}
+	return nullptr;
+}

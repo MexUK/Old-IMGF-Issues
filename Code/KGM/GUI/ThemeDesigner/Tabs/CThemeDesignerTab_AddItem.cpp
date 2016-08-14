@@ -38,7 +38,7 @@ CThemeDesignerTab_AddItem::CThemeDesignerTab_AddItem(CThemeDesigner *pThemeDesig
 {
 }
 
-// events
+// event binding
 void									CThemeDesignerTab_AddItem::bindEvents(void)
 {
 	getThemeDesigner()->getWindow()->bindEvent(EVENT_onLeftMouseDown, pOnLeftMouseDown_ThemeDesigner, this);

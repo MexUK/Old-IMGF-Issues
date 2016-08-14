@@ -163,7 +163,115 @@ vector<string>		CGUIUtility::openFileDialog(string strInitialDir, string strExte
 
 string				CGUIUtility::saveFileDialog(string strInitialDir, string strExtensionFilters, string strDefaultFileName)
 {
+	const uint32 uiDefaultFileNameBufferSize = 1000 * (_MAX_PATH + 1); // todo - lol? - no wonder its been lagging
+
+	wchar_t szInitialDirBuffer[_MAX_PATH];
+	wchar_t szDefaultFileNameBuffer[uiDefaultFileNameBufferSize];
+	wchar_t szDefaultExtensionBuffer[256];
+	wchar_t szExtensionFilters[256];
+	//wchar_t szFilePath[256]; // todo - fuck is this?
+
+	wchar_t wuiZeroChar = 0;
+	wmemchr(szInitialDirBuffer, wuiZeroChar, _MAX_PATH);
+	wmemchr(szDefaultFileNameBuffer, wuiZeroChar, uiDefaultFileNameBufferSize);
+	wmemchr(szDefaultExtensionBuffer, wuiZeroChar, 256);
+	wmemchr(szExtensionFilters, wuiZeroChar, 256);
+
+	vector<string> vecExtensionFilters = CStringUtility::split(strExtensionFilters, ",");
+	string strExtensionFilters2 = "*."+CStringUtility::join(vecExtensionFilters, ";*.");
+	uint32 uiExtensionFiltersLength = strExtensionFilters2.length();
+	/*
+	string strExtensionFilters2 = "";
+	string strZero = string(1, 0);
+	string strPart1, strPart2;
+	uint32 uiExtensionFiltersLength = 0;
+	for (uint32 i = 0, j = vecExtensionFilters.size(); i < j; i++)
+	{
+		strPart1 = vecExtensionFilters[i] + " files (*." + vecExtensionFilters[i] + ")";
+		strPart2 = "*." + vecExtensionFilters[i];
+		strExtensionFilters2 += strPart1 + strZero + strPart2 + strZero;
+		uiExtensionFiltersLength += strPart1.length() + strPart2.length() + 2;
+	}
+	strExtensionFilters2 += strZero;
+	uiExtensionFiltersLength++;
+	*/
+
+	wcscpy_s(szInitialDirBuffer, CStringUtility::convertStdStringToStdWString(strInitialDir).c_str());
+	wcscpy_s(szDefaultFileNameBuffer, CStringUtility::convertStdStringToStdWString(strDefaultFileName).c_str());
+	wcscpy_s(szDefaultExtensionBuffer, CStringUtility::convertStdStringToStdWString(CStringUtility::toLowerCase(CPathUtility::getFileExtension(strDefaultFileName))).c_str());
+	wcscpy_s(szExtensionFilters, CStringUtility::convertStdStringToStdWString(strExtensionFilters2).c_str());
+	//wcscpy_s(szFilePath, CStringUtility::convertStdStringToStdWString(CStringUtility::replace(CPathUtility::addSlashToEnd(strInitialDir), "/", "\\") + strDefaultFileName).c_str()); // todo - ?
+
+	OPENFILENAME ofn;
+	ofn.lStructSize = sizeof(OPENFILENAME);
+	ofn.hwndOwner = getParentWindowHwnd();
+	ofn.hInstance = NULL; // GetWindowLong(getParentWindowHwnd(), GWL_HINSTANCE);
+	ofn.lpstrFilter = szExtensionFilters;
+	ofn.lpstrCustomFilter = NULL;
+	ofn.nMaxCustFilter = 0;
+	ofn.nFilterIndex = 1;
+	ofn.lpstrFile = szDefaultFileNameBuffer;
+	ofn.nMaxFile = uiDefaultFileNameBufferSize;
+	ofn.lpstrFileTitle = NULL;
+	ofn.nMaxFileTitle = 0;
+	ofn.lpstrInitialDir = szInitialDirBuffer;
+	ofn.lpstrTitle = NULL;
+	ofn.Flags = OFN_EXPLORER | OFN_FILEMUSTEXIST;
+	ofn.nFileOffset = 0;
+	ofn.nFileExtension = 0;
+	ofn.lpstrDefExt = szDefaultExtensionBuffer;
+	ofn.lCustData = NULL;
+	ofn.lpfnHook = NULL;
+	ofn.lpTemplateName = L"";
+	ofn.pvReserved = 0;
+	ofn.dwReserved = 0;
+	ofn.FlagsEx = 0;
+
+	BOOL bFilesAreSelected = GetSaveFileName(&ofn);
+	if (bFilesAreSelected == FALSE)
+	{
+		return "";
+	}
+
+	uint32 uiStringStartByteIndex = 0;
+	WCHAR wszString[_MAX_PATH];
+	wmemchr(wszString, wuiZeroChar, _MAX_PATH);
+	wstring wstrString;
+	bool bPreviousByteWasZero = false; // todo - move to like CPathUtility::getFilePathsFromNullSeparatedEntries() and vice versa
+	for (uint32 uiByteIndex = 0; ; uiByteIndex++)
+	{
+		if (ofn.lpstrFile[uiByteIndex] == 0)
+		{
+			if (bPreviousByteWasZero)
+			{
+				break;
+			}
+			wmemcpy(wszString, ofn.lpstrFile + uiStringStartByteIndex, (uiByteIndex - uiStringStartByteIndex) + 1);
+			wstrString = wstring(wszString);
+			return CStringUtility::convertStdWStringToStdString(wstrString);
+
+			//vecFilePaths.push_back();
+			uiStringStartByteIndex = uiByteIndex + 1;
+			bPreviousByteWasZero = true;
+		}
+		else
+		{
+			bPreviousByteWasZero = false;
+		}
+	}
+
 	return "";
+
+
+
+
+
+
+
+
+
+
+	//return "";
 	/*
 	todo
 

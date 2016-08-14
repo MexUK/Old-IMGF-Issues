@@ -119,6 +119,7 @@ void									CWindow::unserialize(void)
 void									CWindow::serialize(void)
 {
 	CDataWriter *pDataWriter = CDataWriter::getInstance();
+	pDataWriter->setStreamType(DATA_STREAM_MEMORY);
 
 	pDataWriter->writePoint2D(getPosition()); // window position
 	pDataWriter->writeSize2D(getSize()); // window size
