@@ -39,7 +39,11 @@ public:
 	void									setActiveItemRectangle(CRectangleShape* pRectangle) { m_pActiveItemRectangle = pRectangle; }
 	CRectangleShape*						getActiveItemRectangle(void) { return m_pActiveItemRectangle; }
 
+	void									setThemeDesignerModeEnabled(bool bThemeDesignerModeEnabled);
+	bool									isThemeDesignerModeEnabled(void) { return m_bThemeDesignerModeEnabled; }
+
 private:
+	uint8													m_bThemeDesignerModeEnabled : 1;
 	CWindow*												m_pWindow;
 	CTabControl*											m_pTabControl;
 	CRectangleShape*										m_pItemHoverRectangle;

@@ -15,6 +15,7 @@
 #include "File/CFileUtility.h"
 #include "Path/CPathUtility.h"
 #include "String/CStringUtility.h"
+#include "GUI/ThemeDesigner/CThemeDesigner.h"
 #include "CColour.h"
 
 using namespace std;
@@ -104,7 +105,7 @@ void					CKGMWindow::renderTitleBar(void)
 	pGFX->drawRectangle(CPoint2D(0, 0), CSize2D(getSize().m_x, getTitleBarHeight()), &styles1);
 	pGFX->drawText(CPoint2D(uiTitleBarTextX, 1), CSize2D(uiTitleBarTextWidth, getTitleBarHeight()), strTitleBarText, &styles1);
 
-	if (CGUIManager::getInstance()->isThemeDesignerModeEnabled())
+	if (getKGM()->getThemeDesigner()->isThemeDesignerModeEnabled())
 	{
 		CGUIStyles stylesThemeDesigner;
 		stylesThemeDesigner.setStyle("text-colour", CColour(241, 155, 30));

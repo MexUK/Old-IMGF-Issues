@@ -19,8 +19,7 @@ auto pOnMouseMove_GUIManager		= [](void *pGUIManager, void *pTriggerArg) { ((CGU
 
 CGUIManager::CGUIManager(void) :
 	m_pGraphicsLibrary(nullptr),
-	m_pActiveWindow(nullptr),
-	m_bThemeDesignerModeEnabled(false)
+	m_pActiveWindow(nullptr)
 {
 	m_pGraphicsLibrary = new CGraphicsLibrary_GDIPlus;
 }
@@ -176,14 +175,6 @@ LRESULT CALLBACK			WndProc_Window(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lPa
 	void
 		*pTriggerArgument = nullptr;
 
-	if (pWindow == pGUIManager->getEntryByIndex(1) && pGUIManager->isThemeDesignerModeEnabled()) // check if event is for main window and if theme designer mode is enabled
-	{
- 		uiEventTypeId = EVENT_TYPE_THEME_DESIGNER;
-	}
-	else
-	{
-		uiEventTypeId = EVENT_TYPE_WINDOW;
-	}
 	uiEventTypeIndex = (uint32) pWindow->getWindowHandle();
 
 	switch (msg)
@@ -228,7 +219,7 @@ LRESULT CALLBACK			WndProc_Window(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lPa
 
 	if (eEventId != EVENT_UNKNOWN)
 	{
-		pEventManager->triggerEvent(uiEventTypeId, uiEventTypeIndex, eEventId, pTriggerArgument);
+		pEventManager->triggerEvent(pWindow->getEventTriggerEventTypeId(), uiEventTypeIndex, eEventId, pTriggerArgument);
 		
 		// redraw each window if needed
 		for (CWindow *pWindow2 : pGUIManager->getEntries())

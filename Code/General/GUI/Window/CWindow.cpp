@@ -34,7 +34,8 @@ CWindow::CWindow(void) :
 	m_pDropTarget(nullptr),
 	m_pParentWindow(nullptr),
 	m_uiTitleBarHeight(0),
-	m_pActiveItem(nullptr)
+	m_pActiveItem(nullptr),
+	m_eEventTriggerEventTypeId(EVENT_TYPE_WINDOW)
 {
 	m_vecPosition.m_x = 0;
 	m_vecPosition.m_y = 0;

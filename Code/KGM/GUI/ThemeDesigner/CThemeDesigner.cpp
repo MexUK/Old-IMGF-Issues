@@ -14,6 +14,7 @@
 using namespace std;
 
 CThemeDesigner::CThemeDesigner(void) :
+	m_bThemeDesignerModeEnabled(false),
 	m_pWindow(nullptr),
 	m_pTabControl(nullptr),
 	m_pItemHoverRectangle(nullptr),
@@ -82,4 +83,11 @@ CGUILayer*				CThemeDesigner::addLayer(string strLayerKey, bool bLayerIsEnabled)
 	m_umapTabLayers[strLayerKey] = pLayer;
 	getTabControl()->bindTabLayer(m_umapTabControlEntries[strLayerKey], pLayer);
 	return pLayer;
+}
+
+// enabled status
+void					CThemeDesigner::setThemeDesignerModeEnabled(bool bThemeDesignerModeEnabled)
+{
+	m_bThemeDesignerModeEnabled = bThemeDesignerModeEnabled;
+	CGUIManager::getInstance()->getEntryByIndex(1)->setEventTriggerEventTypeId(bThemeDesignerModeEnabled ? EVENT_TYPE_THEME_DESIGNER : EVENT_TYPE_WINDOW);
 }

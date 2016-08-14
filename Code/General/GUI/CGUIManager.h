@@ -46,16 +46,12 @@ public:
 	void						setActiveWindow(CWindow *pActiveWindow) { m_pActiveWindow = pActiveWindow; }
 	CWindow*					getActiveWindow(void) { return m_pActiveWindow; }
 
-	void						setThemeDesignerModeEnabled(bool bThemeDesignerModeEnabled) { m_bThemeDesignerModeEnabled = bThemeDesignerModeEnabled; }
-	bool						isThemeDesignerModeEnabled(void) { return m_bThemeDesignerModeEnabled; }
-
 private:
 	bool						createWindow(CWindow *pWindow);
 
 private:
 	CGraphicsLibrary*			m_pGraphicsLibrary;
 	CWindow*					m_pActiveWindow;
-	uint8						m_bThemeDesignerModeEnabled		: 1;
 };
 
 template <class WindowClass>

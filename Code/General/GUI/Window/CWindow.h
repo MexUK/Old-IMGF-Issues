@@ -102,6 +102,9 @@ public:
 	void									setPreviousSize(CSize2D& vecPreviousSize) { m_vecPreviousSize = vecPreviousSize; }
 	CSize2D&								getPreviousSize(void) { return m_vecPreviousSize; }
 
+	void									setEventTriggerEventTypeId(eEventType eEventTriggerEventTypeId) { m_eEventTriggerEventTypeId = eEventTriggerEventTypeId; }
+	eEventType								getEventTriggerEventTypeId(void) { return m_eEventTriggerEventTypeId; }
+
 private:
 	HWND									m_hwndWindow;
 	CWindow*								m_pParentWindow;
@@ -118,6 +121,7 @@ private:
 	CPoint2D								m_vecPreviousPosition;
 	CSize2D									m_vecPreviousSize;
 	CGUIItem*								m_pActiveItem;
+	eEventType								m_eEventTriggerEventTypeId;
 	// todo CRectangleItemPlacement<CWindow>			m_placeableWindow;	// gui windows
 	CRectangleItemPlacement<CGUIItem>			m_placeableItem;	// gui items - e.g. shapes and controls
 
