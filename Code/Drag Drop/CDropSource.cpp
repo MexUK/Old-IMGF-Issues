@@ -4,7 +4,7 @@
 #include "CDragListCtrl.h"
 #include "Type/String/CString2.h"
 #include "Globals.h"
-#include "CKGM.h"
+#include "CIMGF.h"
 #include "GUI/Editors/Tab/CIMGEditorTab.h"
 #include "Debug/CDebug.h"
 #include "Format/RockstarGames/IMG/CIMGEntry.h"
@@ -82,7 +82,7 @@ BOOL CDropSource::OnRenderFileData(LPFORMATETC lpFormatEtc, CFile* pFile)
 		if (!pDraggableFile->m_bLogged)
 		{
 			pDraggableFile->m_bLogged = true;
-			getKGM()->getEntryListTab()->log(CLocalizationManager::getInstance()->getTranslatedFormattedText("Log_1", m_vecDraggableFiles[lpFormatEtc->lindex]->m_strFileName.c_str()));
+			getIMGF()->getEntryListTab()->log(CLocalizationManager::getInstance()->getTranslatedFormattedText("Log_1", m_vecDraggableFiles[lpFormatEtc->lindex]->m_strFileName.c_str()));
 		}
 	}
 	*/

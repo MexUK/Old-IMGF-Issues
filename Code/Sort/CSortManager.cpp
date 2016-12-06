@@ -1,7 +1,7 @@
 #pragma warning(disable : 4005)
 
 #include "CSortManager.h"
-#include "CKGM.h"
+#include "CIMGF.h"
 #include "Globals.h"
 #include "Task/CTaskManager.h"
 #include "Task/CTaskDispatchManager.h"
@@ -128,7 +128,7 @@ void		CSortManager::sort(CIMGFormat *pIMGFile)
 
 bool		CSortManager::sortIMGEntries(CIMGEntry *p1, CIMGEntry *p2)
 {
-	CSortManager *pSortManager = getKGM()->getSortManager();
+	CSortManager *pSortManager = getIMGF()->getSortManager();
 	CSortPriority *pSortPriority = pSortManager->getSortPriorities()->getEntryByIndex((uint16)pSortManager->m_uiSortPriorityIndex);
 	if (!pSortPriority->isEnabled())
 	{
@@ -325,7 +325,7 @@ void		CSortManager::setMenuPriorityTypesUnchecked(CSortPriority *pSortPriority)
 	{
 		if (pSortMenuItem->m_pPriority == pSortPriority)
 		{
-			// todo CheckMenuItem(getKGM()->m_hMenu_Entry_Sort, pSortMenuItem->m_uiMenuHandle, MF_UNCHECKED);
+			// todo CheckMenuItem(getIMGF()->m_hMenu_Entry_Sort, pSortMenuItem->m_uiMenuHandle, MF_UNCHECKED);
 		}
 	}
 }
@@ -335,7 +335,7 @@ void		CSortManager::setMenuPriorityTypeChecked(CSortPriority *pSortPriority, CSo
 	{
 		if (pSortMenuItem->m_pPriority == pSortPriority && pSortMenuItem->m_pType == pSortType)
 		{
-			// todo CheckMenuItem(getKGM()->m_hMenu_Entry_Sort, pSortMenuItem->m_uiMenuHandle, bState ? MF_CHECKED : MF_UNCHECKED);
+			// todo CheckMenuItem(getIMGF()->m_hMenu_Entry_Sort, pSortMenuItem->m_uiMenuHandle, bState ? MF_CHECKED : MF_UNCHECKED);
 			break;
 		}
 	}
@@ -348,7 +348,7 @@ bool		CSortManager::isMenuHandleUsed(uint16 usMenuHandle)
 void		CSortManager::onClickMenuItem(uint16 usMenuHandle)
 {
 	bool bCancel = false;
-	bool bCurrentState = false; // todo (GetMenuState(getKGM()->m_hMenu_Entry_Sort, usMenuHandle, 0) & MF_CHECKED) == MF_CHECKED;
+	bool bCurrentState = false; // todo (GetMenuState(getIMGF()->m_hMenu_Entry_Sort, usMenuHandle, 0) & MF_CHECKED) == MF_CHECKED;
 	CSortMenuItem *pSortMenuItem = getSortMenuItems()->getEntryByMenuHandle(usMenuHandle);
 	CSortPriority *pSortPriority = pSortMenuItem->m_pPriority;
 
@@ -365,18 +365,18 @@ void		CSortManager::onClickMenuItem(uint16 usMenuHandle)
 		pSortPriority->setEnabled(true);
 		pSortPriority->setType(pSortMenuItem->m_pType);
 
-		// todo CMenu *pSortMenu = nullptr; // todo CMenu::FromHandle(getKGM()->m_hMenu_Entry_Sort);
+		// todo CMenu *pSortMenu = nullptr; // todo CMenu::FromHandle(getIMGF()->m_hMenu_Entry_Sort);
 
 		if (pSortMenuItem->m_pType->getType() == SORT_IDE_FILE)
 		{
-			vector<string> vecPaths = mcore::CGUIManager::openFileDialog(getKGM()->getLastUsedDirectory("SORT_IDE"), "IDE", false);
+			vector<string> vecPaths = mcore::CGUIManager::openFileDialog(getIMGF()->getLastUsedDirectory("SORT_IDE"), "IDE", false);
 			if (vecPaths.size() == 0)
 			{
 				bCancel = true;
 			}
 			else
 			{
-				getKGM()->setLastUsedDirectory("SORT_IDE", CPathManager::getDirectory(vecPaths[0]));
+				getIMGF()->setLastUsedDirectory("SORT_IDE", CPathManager::getDirectory(vecPaths[0]));
 
 				CIDEFormat *pIDEFile = CIDEManager::getInstance()->parseViaFile(vecPaths[0]);
 				if(!pIDEFile->doesHaveError())
@@ -395,14 +395,14 @@ void		CSortManager::onClickMenuItem(uint16 usMenuHandle)
 		}
 		else if (pSortMenuItem->m_pType->getType() == SORT_COL_FILE)
 		{
-			vector<string> vecPaths = mcore::CGUIManager::openFileDialog(getKGM()->getLastUsedDirectory("SORT_COL"), "COL", false);
+			vector<string> vecPaths = mcore::CGUIManager::openFileDialog(getIMGF()->getLastUsedDirectory("SORT_COL"), "COL", false);
 			if (vecPaths.size() == 0)
 			{
 				bCancel = true;
 			}
 			else
 			{
-				getKGM()->setLastUsedDirectory("SORT_COL", CPathManager::getDirectory(vecPaths[0]));
+				getIMGF()->setLastUsedDirectory("SORT_COL", CPathManager::getDirectory(vecPaths[0]));
 
 				CCOLFormat *pCOLFile = CCOLManager::getInstance()->parseViaFile(vecPaths[0]);
 				if(!pCOLFile->doesHaveError())
@@ -419,7 +419,7 @@ void		CSortManager::onClickMenuItem(uint16 usMenuHandle)
 		}
 		else if (pSortMenuItem->m_pType->getType() == SORT_FILE_EXTENSIONS)
 		{
-			string strText = getKGM()->getPopupGUIManager()->showTextInputDialog(CLocalizationManager::getInstance()->getTranslatedFormattedText("Sort_ByText", CLocalizationManager::getInstance()->getTranslatedTextW("Sort_Extensions").c_str()), CLocalizationManager::getInstance()->getTranslatedText("Window_TextInput_4_Message"));
+			string strText = getIMGF()->getPopupGUIManager()->showTextInputDialog(CLocalizationManager::getInstance()->getTranslatedFormattedText("Sort_ByText", CLocalizationManager::getInstance()->getTranslatedTextW("Sort_Extensions").c_str()), CLocalizationManager::getInstance()->getTranslatedText("Window_TextInput_4_Message"));
 			if (strText == "")
 			{
 				bCancel = true;
@@ -449,6 +449,6 @@ void		CSortManager::onClickMenuItem(uint16 usMenuHandle)
 
 	if (!bCancel)
 	{
-		getKGM()->getTaskManager()->getDispatch()->onRequestSortEntries();
+		getIMGF()->getTaskManager()->getDispatch()->onRequestSortEntries();
 	}
 }

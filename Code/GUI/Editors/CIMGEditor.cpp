@@ -1,6 +1,6 @@
 #include "CIMGEditor.h"
 #include "Globals.h"
-#include "CKGM.h"
+#include "CIMGF.h"
 #include "Format/RockstarGames/IMG/CIMGManager.h"
 #include "Type/String/CString2.h"
 #include "Path/CPathManager.h"
@@ -34,7 +34,7 @@ using namespace mcore;
 
 CIMGEditorTab*		CIMGEditor::addBlankTab(string strIMGPath, eIMGVersion eIMGVersionValue)
 {
-	getKGM()->getTaskManager()->setTaskMaxProgressTickCount(1);
+	getIMGF()->getTaskManager()->setTaskMaxProgressTickCount(1);
 
 	CIMGFormat *pIMGFormat = new CIMGFormat;
 	pIMGFormat->setFilePath(strIMGPath);
@@ -43,13 +43,13 @@ CIMGEditorTab*		CIMGEditor::addBlankTab(string strIMGPath, eIMGVersion eIMGVersi
 	CIMGEditorTab *pEditorTab = _addTab(pIMGFormat);
 	if (!pEditorTab)
 	{
-		getKGM()->getTaskManager()->onTaskProgressTick();
+		getIMGF()->getTaskManager()->onTaskProgressTick();
 		return nullptr;
 	}
 
 	pEditorTab->log(CLocalizationManager::getInstance()->getTranslatedFormattedText("Log_26", CPathManager::getFileName(strIMGPath).c_str()));
 	pEditorTab->log(CLocalizationManager::getInstance()->getTranslatedFormattedText("Log_27", CIMGManager::getIMGVersionNameWithGames(eIMGVersionValue, pIMGFormat->isEncrypted()).c_str()), true);
-	getKGM()->getTaskManager()->onTaskProgressTick();
+	getIMGF()->getTaskManager()->onTaskProgressTick();
 
 	return pEditorTab;
 }
@@ -57,14 +57,14 @@ CIMGEditorTab*		CIMGEditor::addBlankTab(string strIMGPath, eIMGVersion eIMGVersi
 CIMGEditorTab*		CIMGEditor::addTab(string strIMGPath, eIMGVersion eIMGVersionValue)
 {
 	uint32 uiMultiplier = eIMGVersionValue == IMG_3 ? 4 : 3; // x3 for: 1 for reading entry data (parsing), 1 for reading RW versions (parsing), and 1 for adding all entries to main list view. and x4 (+1) for version 3 entry names.
-	getKGM()->getTaskManager()->setTaskMaxProgressTickCount(CIMGManager::getIMGEntryCount(strIMGPath, eIMGVersionValue) * uiMultiplier);
+	getIMGF()->getTaskManager()->setTaskMaxProgressTickCount(CIMGManager::getIMGEntryCount(strIMGPath, eIMGVersionValue) * uiMultiplier);
 
 	CIMGFormat *pIMGFormat = CIMGManager::getInstance()->parseViaFile(strIMGPath/*, eIMGVersionValue - todo*/);
 
 	CIMGEditorTab *pEditorTab = _addTab(pIMGFormat);
 	if (!pEditorTab)
 	{
-		getKGM()->getTaskManager()->onTaskProgressComplete();
+		getIMGF()->getTaskManager()->onTaskProgressComplete();
 		return nullptr;
 	}
 
@@ -95,8 +95,8 @@ CIMGEditorTab*		CIMGEditor::_addTab(CIMGFormat *pIMGFormat)
 		pEditorTab->unload();
 		delete pEditorTab;
 
-		getKGM()->getTaskManager()->setTaskMaxProgressTickCount(1); // todo - have like getKGM()->getTaskManager()->setProgressComplete(void) instead of these 2 lines
-		getKGM()->getTaskManager()->onTaskProgressTick();
+		getIMGF()->getTaskManager()->setTaskMaxProgressTickCount(1); // todo - have like getIMGF()->getTaskManager()->setProgressComplete(void) instead of these 2 lines
+		getIMGF()->getTaskManager()->onTaskProgressTick();
 
 		return nullptr;
 	}
@@ -111,7 +111,7 @@ void				CIMGEditor::removeTab(CEditorTab *pEditorTab)
 	getTabs().removeEntry(pEditorTab);
 
 	// shift down higher indices by 1
-	//((CTabCtrl*)getKGM()->getDialog()->GetDlgItem(1))->DeleteItem(uiTabIndex);
+	//((CTabCtrl*)getIMGF()->getDialog()->GetDlgItem(1))->DeleteItem(uiTabIndex);
 	for (CEditorTab *pEditorTab2 : getTabs().getEntries())
 	{
 		if (pEditorTab2->getIndex() > uiTabIndex)
@@ -158,33 +158,33 @@ void				CIMGEditor::setActiveTab(CIMGEditorTab *pEditorTab)
 	{
 		/*
 		todo
-		getKGM()->getTaskManager()->setTaskMaxProgressTickCount(((CListCtrl*)getKGM()->getDialog()->GetDlgItem(37))->GetItemCount());
+		getIMGF()->getTaskManager()->setTaskMaxProgressTickCount(((CListCtrl*)getIMGF()->getDialog()->GetDlgItem(37))->GetItemCount());
 
 		// disable buttons
 		for (uint16 usButtonId : vecButtonIds)
 		{
-			((CButton*)getKGM()->getDialog()->GetDlgItem(usButtonId))->EnableWindow(0);
+			((CButton*)getIMGF()->getDialog()->GetDlgItem(usButtonId))->EnableWindow(0);
 		}
 
 		// IMG path
-		((CEdit*)getKGM()->getDialog()->GetDlgItem(38))->SetWindowTextW(_T(""));
+		((CEdit*)getIMGF()->getDialog()->GetDlgItem(38))->SetWindowTextW(_T(""));
 
 		// IMG entry count
-		((CStatic*)getKGM()->getDialog()->GetDlgItem(20))->SetWindowTextW(CLocalizationManager::getInstance()->getTranslatedFormattedTextW("Window_Main_Text_EntryCount", 0).c_str());
+		((CStatic*)getIMGF()->getDialog()->GetDlgItem(20))->SetWindowTextW(CLocalizationManager::getInstance()->getTranslatedFormattedTextW("Window_Main_Text_EntryCount", 0).c_str());
 
 		// selected entry count
-		((CStatic*)getKGM()->getDialog()->GetDlgItem(51))->SetWindowTextW(CLocalizationManager::getInstance()->getTranslatedFormattedTextW("Window_Main_Text_SelectedEntryCount", 0).c_str());
+		((CStatic*)getIMGF()->getDialog()->GetDlgItem(51))->SetWindowTextW(CLocalizationManager::getInstance()->getTranslatedFormattedTextW("Window_Main_Text_SelectedEntryCount", 0).c_str());
 
 		// IMG version
-		((CStatic*)getKGM()->getDialog()->GetDlgItem(19))->SetWindowTextW(CLocalizationManager::getInstance()->getTranslatedTextW("Window_Main_Text_IMGVersion").c_str());
+		((CStatic*)getIMGF()->getDialog()->GetDlgItem(19))->SetWindowTextW(CLocalizationManager::getInstance()->getTranslatedTextW("Window_Main_Text_IMGVersion").c_str());
 
 		// 6th column name in main list view
 		readdColumnsToMainListView(IMG_UNKNOWN);
 
 		// search text
-		((CEdit*)getKGM()->getDialog()->GetDlgItem(24))->SetWindowTextW(_T(""));
-		((CStatic*)getKGM()->getDialog()->GetDlgItem(0))->SetWindowTextW(CLocalizationManager::getInstance()->getTranslatedFormattedTextW("Window_Main_Text_SearchResult_ActiveTab", 0).c_str());
-		((CListCtrl*)getKGM()->getDialog()->GetDlgItem(22))->DeleteAllItems();
+		((CEdit*)getIMGF()->getDialog()->GetDlgItem(24))->SetWindowTextW(_T(""));
+		((CStatic*)getIMGF()->getDialog()->GetDlgItem(0))->SetWindowTextW(CLocalizationManager::getInstance()->getTranslatedFormattedTextW("Window_Main_Text_SearchResult_ActiveTab", 0).c_str());
+		((CListCtrl*)getIMGF()->getDialog()->GetDlgItem(22))->DeleteAllItems();
 		for (auto pSearchEntry : m_vecSearchEntries)
 		{
 			delete pSearchEntry;
@@ -196,15 +196,15 @@ void				CIMGEditor::setActiveTab(CIMGEditorTab *pEditorTab)
 		pEditorTab->unloadFilter_Version();
 
 		// log
-		((CEdit*)getKGM()->getDialog()->GetDlgItem(14))->SetWindowTextW(_T(""));
+		((CEdit*)getIMGF()->getDialog()->GetDlgItem(14))->SetWindowTextW(_T(""));
 
 		// IMG entries
 		//((CListCtrl*)m_pDialog->GetDlgItem(37))->DeleteAllItems();
-		CListCtrl *pMainListCtrl = ((CListCtrl*)getKGM()->getDialog()->GetDlgItem(37));
+		CListCtrl *pMainListCtrl = ((CListCtrl*)getIMGF()->getDialog()->GetDlgItem(37));
 		for (uint32 i = 0, j = pMainListCtrl->GetItemCount(); i < j; i++)
 		{
 			pMainListCtrl->DeleteItem((j - 1) - i);
-			getKGM()->getTaskManager()->onTaskProgressTick();
+			getIMGF()->getTaskManager()->onTaskProgressTick();
 		}
 		*/
 	}
@@ -215,21 +215,21 @@ void				CIMGEditor::setActiveTab(CIMGEditorTab *pEditorTab)
 		// enable buttons
 		for (uint16 usButtonId : vecButtonIds)
 		{
-			((CButton*)getKGM()->getDialog()->GetDlgItem(usButtonId))->EnableWindow(1);
+			((CButton*)getIMGF()->getDialog()->GetDlgItem(usButtonId))->EnableWindow(1);
 		}
 
 		// tab focus
-		((CTabCtrl*)getKGM()->getDialog()->GetDlgItem(1))->SetCurFocus(pEditorTab->getIndex());
+		((CTabCtrl*)getIMGF()->getDialog()->GetDlgItem(1))->SetCurFocus(pEditorTab->getIndex());
 
 		// IMG path
-		((CEdit*)getKGM()->getDialog()->GetDlgItem(38))->SetWindowTextW(CString2::convertStdStringToStdWString(pEditorTab->getIMGFile()->getFilePath()).c_str());
+		((CEdit*)getIMGF()->getDialog()->GetDlgItem(38))->SetWindowTextW(CString2::convertStdStringToStdWString(pEditorTab->getIMGFile()->getFilePath()).c_str());
 
 		// IMG entry count
 		pEditorTab->updateEntryCountText();
 
 		// selected entry count
 		m_uiSelectedEntryCount = 0;
-		((CStatic*)getKGM()->getDialog()->GetDlgItem(51))->SetWindowTextW(CLocalizationManager::getInstance()->getTranslatedFormattedTextW("Window_Main_Text_SelectedEntryCount", 0).c_str());
+		((CStatic*)getIMGF()->getDialog()->GetDlgItem(51))->SetWindowTextW(CLocalizationManager::getInstance()->getTranslatedFormattedTextW("Window_Main_Text_SelectedEntryCount", 0).c_str());
 
 		// IMG version
 		pEditorTab->updateIMGText();
@@ -238,9 +238,9 @@ void				CIMGEditor::setActiveTab(CIMGEditorTab *pEditorTab)
 		readdColumnsToMainListView(pEditorTab->getIMGFile()->getIMGVersion());
 
 		// search text
-		if (((CButton*)getKGM()->getDialog()->GetDlgItem(46))->GetCheck() == BST_UNCHECKED)
+		if (((CButton*)getIMGF()->getDialog()->GetDlgItem(46))->GetCheck() == BST_UNCHECKED)
 		{
-			((CEdit*)getKGM()->getDialog()->GetDlgItem(24))->SetWindowTextW(CString2::convertStdStringToStdWString(pEditorTab->getSearchText()).c_str());
+			((CEdit*)getIMGF()->getDialog()->GetDlgItem(24))->SetWindowTextW(CString2::convertStdStringToStdWString(pEditorTab->getSearchText()).c_str());
 			pEditorTab->searchText();
 		}
 
@@ -249,7 +249,7 @@ void				CIMGEditor::setActiveTab(CIMGEditorTab *pEditorTab)
 		pEditorTab->loadFilter_Version();
 
 		// log
-		CEdit *pEdit = ((CEdit*)getKGM()->getDialog()->GetDlgItem(14));
+		CEdit *pEdit = ((CEdit*)getIMGF()->getDialog()->GetDlgItem(14));
 		pEdit->SetWindowTextW(CString2::convertStdStringToStdWString(CString2::join(pEditorTab->getLogLinesGUI(), "\r\n")).c_str());
 		pEdit->LineScroll(pEdit->GetLineCount());
 
@@ -268,7 +268,7 @@ void					CIMGEditor::addColumnsToMainListView(eIMGVersion eIMGVersionValue)
 {
 	/*
 	todo
-	CListCtrl *pListCtrl = (CListCtrl*)getKGM()->getDialog()->GetDlgItem(37);
+	CListCtrl *pListCtrl = (CListCtrl*)getIMGF()->getDialog()->GetDlgItem(37);
 	pListCtrl->SendMessage(LVM_SETEXTENDEDLISTVIEWSTYLE, 0, LVS_EX_FULLROWSELECT);
 	pListCtrl->InsertColumn(0, CLocalizationManager::getInstance()->getTranslatedTextW("Window_Main_ListView_ColumnTitle_ID").c_str(), LVCFMT_LEFT, 45);
 	pListCtrl->InsertColumn(1, CLocalizationManager::getInstance()->getTranslatedTextW("Window_Main_ListView_ColumnTitle_Type").c_str(), LVCFMT_LEFT, 40);
@@ -298,7 +298,7 @@ void					CIMGEditor::removeColumnsFromMainListView(void)
 {
 	/*
 	todo
-	CListCtrl *pListCtrl = (CListCtrl*)getKGM()->getDialog()->GetDlgItem(37);
+	CListCtrl *pListCtrl = (CListCtrl*)getIMGF()->getDialog()->GetDlgItem(37);
 	while (pListCtrl->DeleteColumn(0) != 0)
 	{
 	}
@@ -308,7 +308,7 @@ int						CIMGEditor::getMainListControlItemByEntry(CIMGEntry *pIMGEntry)
 {
 	/*
 	todo
-	CListCtrl *pListControlMain = (CListCtrl*)getKGM()->getDialog()->GetDlgItem(37);
+	CListCtrl *pListControlMain = (CListCtrl*)getIMGF()->getDialog()->GetDlgItem(37);
 	for (uint32 i = 0, j = pListControlMain->GetItemCount(); i < j; i++)
 	{
 		if (pListControlMain->GetItemData(i) == (DWORD)pIMGEntry)
@@ -338,7 +338,7 @@ void					CIMGEditor::onSelectIMGEntry(bool bEntryIsSelected)
 
 void					CIMGEditor::updateSelectedEntryCountText(void)
 {
-	// todo ((CStatic*)getKGM()->getDialog()->GetDlgItem(51))->SetWindowTextW(CLocalizationManager::getInstance()->getTranslatedFormattedTextW("Window_Main_Text_SelectedEntryCount", m_uiSelectedEntryCount).c_str());
+	// todo ((CStatic*)getIMGF()->getDialog()->GetDlgItem(51))->SetWindowTextW(CLocalizationManager::getInstance()->getTranslatedFormattedTextW("Window_Main_Text_SelectedEntryCount", m_uiSelectedEntryCount).c_str());
 }
 
 void					CIMGEditor::logAllTabs(string strText, bool bExtendedModeOnly)
@@ -358,12 +358,12 @@ void					CIMGEditor::logWithNoTabsOpen(string strText, bool bExtendedModeOnly)
 		//m_vecLogLinesExtended.push_back(strLogEntryWithTimestampAndIMG);
 
 		// automatic logging to file
-		if (getKGM()->getSettingsManager()->getSettingString("AutomaticLoggingPath") != "")
+		if (getIMGF()->getSettingsManager()->getSettingString("AutomaticLoggingPath") != "")
 		{
 			// extended file
-			if (getKGM()->getSettingsManager()->getSettingBool("AutomaticLoggingExtended"))
+			if (getIMGF()->getSettingsManager()->getSettingBool("AutomaticLoggingExtended"))
 			{
-				string strExtendedLogPath = CPathManager::addSlashToEnd(getKGM()->getSettingsManager()->getSettingString("AutomaticLoggingPath"));
+				string strExtendedLogPath = CPathManager::addSlashToEnd(getIMGF()->getSettingsManager()->getSettingString("AutomaticLoggingPath"));
 				strExtendedLogPath += CString2::getDateTextForFolder() + "/" + CLocalizationManager::getInstance()->getTranslatedText("LogFilename_Extended");
 				CFileManager::storeFile(strExtendedLogPath, strLogEntryWithTimestampAndIMG + "\n", true, false);
 			}
@@ -376,20 +376,20 @@ void					CIMGEditor::logWithNoTabsOpen(string strText, bool bExtendedModeOnly)
 		//m_vecLogLinesExtended.push_back(strLogEntryWithTimestampAndIMG);
 
 		// automatic logging to file
-		if (getKGM()->getSettingsManager()->getSettingString("AutomaticLoggingPath") != "")
+		if (getIMGF()->getSettingsManager()->getSettingString("AutomaticLoggingPath") != "")
 		{
 			// basic file
-			if (getKGM()->getSettingsManager()->getSettingBool("AutomaticLoggingBasic"))
+			if (getIMGF()->getSettingsManager()->getSettingBool("AutomaticLoggingBasic"))
 			{
-				string strExtendedLogPath = CPathManager::addSlashToEnd(getKGM()->getSettingsManager()->getSettingString("AutomaticLoggingPath"));
+				string strExtendedLogPath = CPathManager::addSlashToEnd(getIMGF()->getSettingsManager()->getSettingString("AutomaticLoggingPath"));
 				strExtendedLogPath += CString2::getDateTextForFolder() + "/" + CLocalizationManager::getInstance()->getTranslatedText("LogFilename_Basic");
 				CFileManager::storeFile(strExtendedLogPath, strLogEntryWithTimestampAndIMG + "\n", true, false);
 			}
 
 			// extended file
-			if (getKGM()->getSettingsManager()->getSettingBool("AutomaticLoggingExtended"))
+			if (getIMGF()->getSettingsManager()->getSettingBool("AutomaticLoggingExtended"))
 			{
-				string strExtendedLogPath = CPathManager::addSlashToEnd(getKGM()->getSettingsManager()->getSettingString("AutomaticLoggingPath"));
+				string strExtendedLogPath = CPathManager::addSlashToEnd(getIMGF()->getSettingsManager()->getSettingString("AutomaticLoggingPath"));
 				strExtendedLogPath += CString2::getDateTextForFolder() + "/" + CLocalizationManager::getInstance()->getTranslatedText("LogFilename_Extended");
 				CFileManager::storeFile(strExtendedLogPath, strLogEntryWithTimestampAndIMG + "\n", true, false);
 			}
@@ -427,9 +427,9 @@ void					CIMGEditor::initMenu(void) // todo - move menu stuff to like CMenuManag
 	/*
 	HMENU hMenubar = CreateMenu();
 
-	getKGM()->m_hMenu_File = CreateMenu();
+	getIMGF()->m_hMenu_File = CreateMenu();
 	HMENU
-		hMenu_File = getKGM()->m_hMenu_File,
+		hMenu_File = getIMGF()->m_hMenu_File,
 		hMenu_Edit = CreateMenu(),
 		hMenu_DAT = CreateMenu(),
 		hMenu_IMG = CreateMenu(),
@@ -448,8 +448,8 @@ void					CIMGEditor::initMenu(void) // todo - move menu stuff to like CMenuManag
 	HMENU hMenu_File_SaveLog = CreatePopupMenu();
 	HMENU hMenu_File_SaveLog_ActiveTab = CreatePopupMenu();
 	HMENU hMenu_File_SaveLog_AllTabs = CreatePopupMenu();
-	getKGM()->m_hSubMenu_File_OpenRecent = CreatePopupMenu();
-	getKGM()->m_hSubMenu_File_Sessions = CreatePopupMenu();
+	getIMGF()->m_hSubMenu_File_OpenRecent = CreatePopupMenu();
+	getIMGF()->m_hSubMenu_File_Sessions = CreatePopupMenu();
 	HMENU hMenu_File_Sessions = CreateMenu();
 
 	HMENU hMenu_Edit_Select = CreatePopupMenu();
@@ -460,7 +460,7 @@ void					CIMGEditor::initMenu(void) // todo - move menu stuff to like CMenuManag
 	HMENU hMenu_IMG_Split = CreatePopupMenu();
 	HMENU hMenu_IMG_Validation = CreatePopupMenu();
 
-	getKGM()->m_hMenu_Entry_Sort = CreatePopupMenu();
+	getIMGF()->m_hMenu_Entry_Sort = CreatePopupMenu();
 	HMENU hMenu_Entry_Import = CreatePopupMenu();
 	HMENU hMenu_Entry_Export = CreatePopupMenu();
 	HMENU hMenu_Entry_Remove = CreatePopupMenu();
@@ -520,12 +520,12 @@ void					CIMGEditor::initMenu(void) // todo - move menu stuff to like CMenuManag
 	AppendMenu(hMenu_File, MF_STRING, 2084, CLocalizationManager::getInstance()->getTranslatedTextW("Menu_NewWindow").c_str());
 	AppendMenu(hMenu_File, MF_SEPARATOR, 1760, _T(""));
 	AppendMenu(hMenu_File, MF_STRING, 1100, CLocalizationManager::getInstance()->getTranslatedTextW("Open").c_str());
-	AppendMenu(hMenu_File, MF_STRING | MF_POPUP, (UINT_PTR)getKGM()->m_hSubMenu_File_OpenRecent, CLocalizationManager::getInstance()->getTranslatedTextW("Menu_OpenRecent").c_str());
-	AppendMenu(hMenu_File, MF_STRING, 1117, CString2::convertStdStringToStdWString(CLocalizationManager::getInstance()->getTranslatedText("Menu_OpenLast") + (getKGM()->getRecentlyOpenManager()->getLastOpenEntry() == "" ? "" : " (" + CPathManager::getFileName(getKGM()->getRecentlyOpenManager()->getLastOpenEntry()) + ")")).c_str());
+	AppendMenu(hMenu_File, MF_STRING | MF_POPUP, (UINT_PTR)getIMGF()->m_hSubMenu_File_OpenRecent, CLocalizationManager::getInstance()->getTranslatedTextW("Menu_OpenRecent").c_str());
+	AppendMenu(hMenu_File, MF_STRING, 1117, CString2::convertStdStringToStdWString(CLocalizationManager::getInstance()->getTranslatedText("Menu_OpenLast") + (getIMGF()->getRecentlyOpenManager()->getLastOpenEntry() == "" ? "" : " (" + CPathManager::getFileName(getIMGF()->getRecentlyOpenManager()->getLastOpenEntry()) + ")")).c_str());
 	AppendMenu(hMenu_File, MF_STRING, 1114, CLocalizationManager::getInstance()->getTranslatedTextW("Menu_Reopen").c_str());
 	//AppendMenu(hMenu_File, MF_STRING, 1109, _T("Associate IMG extension"));
 	AppendMenu(hMenu_File, MF_STRING | MF_POPUP, (UINT_PTR)hMenu_File_Sessions, CLocalizationManager::getInstance()->getTranslatedTextW("Menu_Sessions").c_str());
-	AppendMenu(hMenu_File_Sessions, MF_STRING | MF_POPUP, (UINT_PTR)getKGM()->m_hSubMenu_File_Sessions, CLocalizationManager::getInstance()->getTranslatedTextW("Menu_LoadSession").c_str());
+	AppendMenu(hMenu_File_Sessions, MF_STRING | MF_POPUP, (UINT_PTR)getIMGF()->m_hSubMenu_File_Sessions, CLocalizationManager::getInstance()->getTranslatedTextW("Menu_LoadSession").c_str());
 	AppendMenu(hMenu_File_Sessions, MF_STRING, 1111, CLocalizationManager::getInstance()->getTranslatedTextW("Menu_SaveSession").c_str());
 	AppendMenu(hMenu_File_Sessions, MF_STRING, 1118, CLocalizationManager::getInstance()->getTranslatedTextW("SessionManager").c_str());
 	AppendMenu(hMenu_File, MF_SEPARATOR, 1761, _T(""));
@@ -563,7 +563,7 @@ void					CIMGEditor::initMenu(void) // todo - move menu stuff to like CMenuManag
 	uint32 i = 0;
 	for (auto pRWVersion : CRWManager::getInstance()->getVersionManager()->getEntries())
 	{
-		getKGM()->m_umapMenuItemMapping_SelectRWVersion[1561 + i] = pRWVersion;
+		getIMGF()->m_umapMenuItemMapping_SelectRWVersion[1561 + i] = pRWVersion;
 		string strMenuText = CLocalizationManager::getInstance()->getTranslatedText("Menu_Select_RWVersion_Prefix") + " " + CString2::escapeMenuText((pRWVersion->getVersionName() + " (" + CLocalizationManager::getInstance()->getTranslatedText(pRWVersion->getLocalizationKey()) + ")").substr(0, 2)) + "&" + CString2::escapeMenuText((pRWVersion->getVersionName() + " (" + CLocalizationManager::getInstance()->getTranslatedText(pRWVersion->getLocalizationKey()) + ")").substr(2));
 		AppendMenu(hMenu_Edit_SelectViaRWVersion, MF_STRING, 1561 + i, CString2::convertStdStringToStdWString(strMenuText).c_str());
 		i++;
@@ -597,18 +597,18 @@ void					CIMGEditor::initMenu(void) // todo - move menu stuff to like CMenuManag
 	AppendMenu(hMenu_IMG_Split, MF_STRING, 1158, CLocalizationManager::getInstance()->getTranslatedTextW("Menu_SplitTextLines").c_str());
 	AppendMenu(hMenu_IMG, MF_SEPARATOR, 1741, _T(""));
 
-	AppendMenu(hMenu_IMG, MF_STRING | MF_POPUP, (UINT_PTR)getKGM()->m_hMenu_Entry_Sort, CLocalizationManager::getInstance()->getTranslatedTextW("Sort").c_str());
+	AppendMenu(hMenu_IMG, MF_STRING | MF_POPUP, (UINT_PTR)getIMGF()->m_hMenu_Entry_Sort, CLocalizationManager::getInstance()->getTranslatedTextW("Sort").c_str());
 	for (uint32 i = 0; i < 10; i++)
 	{
-		AppendMenu(getKGM()->m_hMenu_Entry_Sort, MF_STRING | MF_POPUP, (UINT_PTR)hMenu_Entry_Sort_Priorities[i], CLocalizationManager::getInstance()->getTranslatedFormattedTextW("Sort_Priority_N", (i + 1)).c_str());
+		AppendMenu(getIMGF()->m_hMenu_Entry_Sort, MF_STRING | MF_POPUP, (UINT_PTR)hMenu_Entry_Sort_Priorities[i], CLocalizationManager::getInstance()->getTranslatedFormattedTextW("Sort_Priority_N", (i + 1)).c_str());
 		uint32 i2 = 0;
-		for (auto pSortType : getKGM()->getSortManager()->getSortTypes()->getEntries())
+		for (auto pSortType : getIMGF()->getSortManager()->getSortTypes()->getEntries())
 		{
-			CSortPriority *pSortPriority = getKGM()->getSortManager()->getSortPriorities()->getEntryByIndex((uint16)i);
+			CSortPriority *pSortPriority = getIMGF()->getSortManager()->getSortPriorities()->getEntryByIndex((uint16)i);
 
 			uint32 uiMenuHandle = 1200 + (20 * i) + i2;
 			AppendMenu(hMenu_Entry_Sort_Priorities[i], MF_STRING, uiMenuHandle, CLocalizationManager::getInstance()->getTranslatedFormattedTextW("Sort_ByText", pSortType->getTextForMenu().c_str()).c_str());
-			getKGM()->getSortManager()->getSortMenuItems()->addEntry(new CSortMenuItem(uiMenuHandle, pSortPriority, pSortType));
+			getIMGF()->getSortManager()->getSortMenuItems()->addEntry(new CSortMenuItem(uiMenuHandle, pSortPriority, pSortType));
 			i2++;
 		}
 	}
@@ -644,7 +644,7 @@ void					CIMGEditor::initMenu(void) // todo - move menu stuff to like CMenuManag
 			continue;
 		}
 
-		getKGM()->m_umapMenuItemMapping_ConvertDFFtoRWVersion[1590 + i] = pRWVersion;
+		getIMGF()->m_umapMenuItemMapping_ConvertDFFtoRWVersion[1590 + i] = pRWVersion;
 		string strMenuText = "Convert DFF to " + CString2::escapeMenuText((pRWVersion->getVersionName() + " (" + CLocalizationManager::getInstance()->getTranslatedText(pRWVersion->getLocalizationKey()) + ")").substr(0, 2)) + "&" + CString2::escapeMenuText((pRWVersion->getVersionName() + " (" + CLocalizationManager::getInstance()->getTranslatedText(pRWVersion->getLocalizationKey()) + ")").substr(2));
 		AppendMenu(hMenu_Model_Convert_DFFRWVersion, MF_STRING, 1590 + i, CString2::convertStdStringToStdWString(strMenuText).c_str());
 		i++;
@@ -676,7 +676,7 @@ void					CIMGEditor::initMenu(void) // todo - move menu stuff to like CMenuManag
 			continue;
 		}
 
-		getKGM()->m_umapMenuItemMapping_ConvertTXDtoRWVersion[1660 + i] = pRWVersion;
+		getIMGF()->m_umapMenuItemMapping_ConvertTXDtoRWVersion[1660 + i] = pRWVersion;
 		string strString1 = CString2::escapeMenuText((pRWVersion->getVersionName() + " (" + CLocalizationManager::getInstance()->getTranslatedText(pRWVersion->getLocalizationKey()) + ")").substr(0, 2)) + "&" + CString2::escapeMenuText((pRWVersion->getVersionName() + " (" + CLocalizationManager::getInstance()->getTranslatedText(pRWVersion->getLocalizationKey()) + ")").substr(2));
 		string strMenuText = CLocalizationManager::getInstance()->getTranslatedFormattedText("Menu_Convert_TXD_To", strString1.c_str());
 		AppendMenu(hMenu_Texture_Convert_TXDRWVersion, MF_STRING, 1660 + i, CString2::convertStdStringToStdWString(strMenuText).c_str());
@@ -687,7 +687,7 @@ void					CIMGEditor::initMenu(void) // todo - move menu stuff to like CMenuManag
 	i = 0;
 	for (auto pRasterDataFormat : CImageManager::getInstance()->getRasterDataFormatManager()->getEntries())
 	{
-		getKGM()->m_umapMenuItemMapping_ConvertTXDtoTextureFormat[2100 + i] = pRasterDataFormat;
+		getIMGF()->m_umapMenuItemMapping_ConvertTXDtoTextureFormat[2100 + i] = pRasterDataFormat;
 		AppendMenu(hMenu_Texture_Convert_TXDTextureFormat, MF_STRING, 2100 + i, CLocalizationManager::getInstance()->getTranslatedFormattedTextW("Menu_Convert_TXD_To", pRasterDataFormat->getTextForMenu().c_str()).c_str());
 		i++;
 	}
@@ -706,7 +706,7 @@ void					CIMGEditor::initMenu(void) // todo - move menu stuff to like CMenuManag
 	i = 0;
 	for (auto pCOLVersion : CCOLManager::getInstance()->getVersionManager()->getEntries())
 	{
-		getKGM()->m_umapMenuItemMapping_ConvertCOLtoCOLVersion[2400 + i] = pCOLVersion;
+		getIMGF()->m_umapMenuItemMapping_ConvertCOLtoCOLVersion[2400 + i] = pCOLVersion;
 		AppendMenu(hMenu_Collision_Convert, MF_STRING, 2400 + i, CLocalizationManager::getInstance()->getTranslatedFormattedTextW("Menu_Convert_COL_COL", pCOLVersion->getText().c_str()).c_str());
 		i++;
 	}
@@ -796,7 +796,7 @@ void					CIMGEditor::initMenu(void) // todo - move menu stuff to like CMenuManag
 	AppendMenu(hMenu_Help, MF_SEPARATOR, 1574, _T(""));
 	AppendMenu(hMenu_Help, MF_STRING, 1573, CLocalizationManager::getInstance()->getTranslatedTextW("Credits").c_str());
 
-	::SetMenu(getKGM()->getDialog()->GetSafeHwnd(), hMenubar);
+	::SetMenu(getIMGF()->getDialog()->GetSafeHwnd(), hMenubar);
 	*/
 }
 
@@ -804,16 +804,16 @@ void					CIMGEditor::loadRightClickMenu(int xPos, int yPos)
 {
 	/*
 	todo
-	CListCtrl *pListCtrl = (CListCtrl*)getKGM()->getDialog()->GetDlgItem(37);
+	CListCtrl *pListCtrl = (CListCtrl*)getIMGF()->getDialog()->GetDlgItem(37);
 
 	RECT rect;
 	pListCtrl->GetWindowRect(&rect);
-	getKGM()->getDialog()->ScreenToClient(&rect);
+	getIMGF()->getDialog()->ScreenToClient(&rect);
 
 	POINT point;
 	point.x = xPos;
 	point.y = yPos;
-	ScreenToClient(getKGM()->getDialog()->GetSafeHwnd(), &point);
+	ScreenToClient(getIMGF()->getDialog()->GetSafeHwnd(), &point);
 	if (point.x >= rect.left &&
 		point.x <= rect.right &&
 		point.y >= rect.top &&
@@ -957,9 +957,9 @@ void					CIMGEditor::loadRightClickMenu(int xPos, int yPos)
 	AppendMenu(hMenu, MF_STRING, 1680, CLocalizationManager::getInstance()->getTranslatedTextW("Menu_CenterCOLMeshes").c_str());
 
 	// show menu
-	SetForegroundWindow(getKGM()->getDialog()->GetSafeHwnd());
-	TrackPopupMenu(hMenu, TPM_LEFTALIGN | TPM_TOPALIGN | TPM_RIGHTBUTTON, xPos, yPos, 0, getKGM()->getDialog()->GetSafeHwnd(), NULL);
-	PostMessage(getKGM()->getDialog()->GetSafeHwnd(), WM_NULL, 0, 0);
+	SetForegroundWindow(getIMGF()->getDialog()->GetSafeHwnd());
+	TrackPopupMenu(hMenu, TPM_LEFTALIGN | TPM_TOPALIGN | TPM_RIGHTBUTTON, xPos, yPos, 0, getIMGF()->getDialog()->GetSafeHwnd(), NULL);
+	PostMessage(getIMGF()->getDialog()->GetSafeHwnd(), WM_NULL, 0, 0);
 
 	// clean up
 	//DestroyMenu(hMenu);

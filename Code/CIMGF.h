@@ -1,5 +1,5 @@
-#ifndef CKGM_H
-#define CKGM_H
+#ifndef CIMGF_H
+#define CIMGF_H
 
 #include "Type/Types.h"
 #include "Globals.h"
@@ -34,11 +34,11 @@ class CThemeDesigner;
 
 class CWnd; // temp
 
-class CKGM : public mcore::CManager
+class CIMGF : public mcore::CManager
 {
 public:
-	CKGM(void);
-	~CKGM(void);
+	CIMGF(void);
+	~CIMGF(void);
 
 	void						init(void);
 	void						uninit(void);

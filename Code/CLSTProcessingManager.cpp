@@ -1,7 +1,7 @@
 #pragma warning(disable : 4005)
 
 #include "CLSTProcessingManager.h"
-#include "CKGM.h"
+#include "CIMGF.h"
 #include "Globals.h"
 #include "LST/CLSTFormat.h"
 #include "LST/CLSTSection.h"
@@ -43,14 +43,14 @@ void		CLSTProcessingManager::process(CLSTFormat *pLSTFile)
 	}
 	if (strGTARootFolderPath == "")
 	{
-		strGTARootFolderPath = mcore::CGUIManager::chooseFolderDialog(CLocalizationManager::getInstance()->getTranslatedText("ChooseFolderPopup_3"), getKGM()->getLastUsedDirectory("LST_GAME"));
+		strGTARootFolderPath = mcore::CGUIManager::chooseFolderDialog(CLocalizationManager::getInstance()->getTranslatedText("ChooseFolderPopup_3"), getIMGF()->getLastUsedDirectory("LST_GAME"));
 		if (strGTARootFolderPath == "")
 		{
 			mcore::CGUIManager::showMessage(CLocalizationManager::getInstance()->getTranslatedText("TextPopup_60"), CLocalizationManager::getInstance()->getTranslatedText("TextPopupTitle_60"), MB_OK);
 			return;
 		}
 		strGTARootFolderPath = CPathManager::addSlashToEnd(strGTARootFolderPath);
-		getKGM()->setLastUsedDirectory("LST_GAME", strGTARootFolderPath);
+		getIMGF()->setLastUsedDirectory("LST_GAME", strGTARootFolderPath);
 	}
 	strGTARootFolderPath = CPathManager::addSlashToEnd(strGTARootFolderPath);
 
@@ -71,7 +71,7 @@ void		CLSTProcessingManager::process(CLSTFormat *pLSTFile)
 			mcore::CGUIManager::showMessage(CLocalizationManager::getInstance()->getTranslatedFormattedText("TextPopup_27", strIMGPath.c_str()), CLocalizationManager::getInstance()->getTranslatedText("TextPopupTitle_LSTFileError"), MB_OK);
 			return;
 		}
-		getKGM()->getTaskManager()->getDispatch()->onRequestOpen2(strIMGPath);
+		getIMGF()->getTaskManager()->getDispatch()->onRequestOpen2(strIMGPath);
 
 		string strSourceFolderPath = "";
 		if (!pLSTFile->getEntryByName("cdimages")->doesEntryExistByName("source"))
@@ -94,39 +94,39 @@ void		CLSTProcessingManager::process(CLSTFormat *pLSTFile)
 				string strEntryPath = strGTARootFolderPath + strSourceFolderPath + strEntryFileName;
 				if (CFileManager::doesFileExist(strEntryPath))
 				{
-					getKGM()->getEntryListTab()->addOrReplaceEntryViaFileAndSettings(strEntryPath);
-					getKGM()->getEntryListTab()->log(CLocalizationManager::getInstance()->getTranslatedFormattedText("Log_30", strEntryFileName.c_str()));
+					getIMGF()->getEntryListTab()->addOrReplaceEntryViaFileAndSettings(strEntryPath);
+					getIMGF()->getEntryListTab()->log(CLocalizationManager::getInstance()->getTranslatedFormattedText("Log_30", strEntryFileName.c_str()));
 				}
 				else
 				{
-					getKGM()->getEntryListTab()->log(CLocalizationManager::getInstance()->getTranslatedFormattedText("Log_31", strEntryFileName.c_str()));
-					getKGM()->getEntryListTab()->log(CLocalizationManager::getInstance()->getTranslatedFormattedText("Log_32", strEntryPath.c_str()), true);
+					getIMGF()->getEntryListTab()->log(CLocalizationManager::getInstance()->getTranslatedFormattedText("Log_31", strEntryFileName.c_str()));
+					getIMGF()->getEntryListTab()->log(CLocalizationManager::getInstance()->getTranslatedFormattedText("Log_32", strEntryPath.c_str()), true);
 				}
 			}
 			else if (strCommandUpper == "DEL")
 			{
 				string strEntryFileName = CPathManager::getFileName(pLSTFileEntry->getValuesLine());
-				CIMGEntry *pIMGEntry = getKGM()->getEntryListTab()->getEntryByName(strEntryFileName);
+				CIMGEntry *pIMGEntry = getIMGF()->getEntryListTab()->getEntryByName(strEntryFileName);
 				if (pIMGEntry == nullptr)
 				{
-					getKGM()->getEntryListTab()->log(CLocalizationManager::getInstance()->getTranslatedFormattedText("Log_33", strEntryFileName.c_str()));
+					getIMGF()->getEntryListTab()->log(CLocalizationManager::getInstance()->getTranslatedFormattedText("Log_33", strEntryFileName.c_str()));
 				}
 				else
 				{
-					getKGM()->getEntryListTab()->removeEntry(pIMGEntry);
-					getKGM()->getEntryListTab()->log(CLocalizationManager::getInstance()->getTranslatedFormattedText("Log_34", strEntryFileName.c_str()));
+					getIMGF()->getEntryListTab()->removeEntry(pIMGEntry);
+					getIMGF()->getEntryListTab()->log(CLocalizationManager::getInstance()->getTranslatedFormattedText("Log_34", strEntryFileName.c_str()));
 				}
 			}
 			else if (strCommandUpper == "RESORT")
 			{
-				getKGM()->getSortManager()->sort(getKGM()->getEntryListTab()->getIMGFile());
-				getKGM()->getEntryListTab()->log(CLocalizationManager::getInstance()->getTranslatedText("Log_35"));
+				getIMGF()->getSortManager()->sort(getIMGF()->getEntryListTab()->getIMGFile());
+				getIMGF()->getEntryListTab()->log(CLocalizationManager::getInstance()->getTranslatedText("Log_35"));
 			}
 			else if (strCommandUpper == "REBUILD")
 			{
-				getKGM()->getEntryListTab()->rebuild();
-				getKGM()->getIMGEditor()->refreshActiveTab();
-				getKGM()->getEntryListTab()->log(CLocalizationManager::getInstance()->getTranslatedText("Log_36"));
+				getIMGF()->getEntryListTab()->rebuild();
+				getIMGF()->getIMGEditor()->refreshActiveTab();
+				getIMGF()->getEntryListTab()->log(CLocalizationManager::getInstance()->getTranslatedText("Log_36"));
 			}
 		}
 
@@ -165,12 +165,12 @@ void		CLSTProcessingManager::process(CLSTFormat *pLSTFile)
 					CCOLEntry *pCOLEntry = pCOLFile->getEntryByName(strCOLOldFileName);
 					if (pCOLEntry == nullptr)
 					{
-						getKGM()->getEntryListTab()->log(CLocalizationManager::getInstance()->getTranslatedFormattedText("Log_37", strCOLOldFileName.c_str()));
+						getIMGF()->getEntryListTab()->log(CLocalizationManager::getInstance()->getTranslatedFormattedText("Log_37", strCOLOldFileName.c_str()));
 					}
 					else
 					{
 						pCOLEntry->setModelName(strCOLNewFileName);
-						getKGM()->getEntryListTab()->log(CLocalizationManager::getInstance()->getTranslatedFormattedText("Log_38", strCOLOldFileName.c_str(), strCOLNewFileName.c_str()));
+						getIMGF()->getEntryListTab()->log(CLocalizationManager::getInstance()->getTranslatedFormattedText("Log_38", strCOLOldFileName.c_str(), strCOLNewFileName.c_str()));
 					}
 				}
 				else if (strCommandUpper == "ADD")
@@ -186,13 +186,13 @@ void		CLSTProcessingManager::process(CLSTFormat *pLSTFile)
 
 					if (CFileManager::doesFileExist(strEntryPath))
 					{
-						getKGM()->getEntryListTab()->addOrReplaceEntryViaFileAndSettings(strEntryPath);
-						getKGM()->getEntryListTab()->log(CLocalizationManager::getInstance()->getTranslatedFormattedText("Log_39", strEntryFileName.c_str()));
+						getIMGF()->getEntryListTab()->addOrReplaceEntryViaFileAndSettings(strEntryPath);
+						getIMGF()->getEntryListTab()->log(CLocalizationManager::getInstance()->getTranslatedFormattedText("Log_39", strEntryFileName.c_str()));
 					}
 					else
 					{
-						getKGM()->getEntryListTab()->log(CLocalizationManager::getInstance()->getTranslatedFormattedText("Log_40", strEntryFileName.c_str()));
-						getKGM()->getEntryListTab()->log(CLocalizationManager::getInstance()->getTranslatedFormattedText("Log_41", strEntryPath.c_str()), true);
+						getIMGF()->getEntryListTab()->log(CLocalizationManager::getInstance()->getTranslatedFormattedText("Log_40", strEntryFileName.c_str()));
+						getIMGF()->getEntryListTab()->log(CLocalizationManager::getInstance()->getTranslatedFormattedText("Log_41", strEntryPath.c_str()), true);
 					}
 				}
 				else if (strCommandUpper == "DEL")
@@ -201,19 +201,19 @@ void		CLSTProcessingManager::process(CLSTFormat *pLSTFile)
 					CCOLEntry *pCOLEntry = pCOLFile->getEntryByName(strEntryFileName);
 					if (pCOLEntry == nullptr)
 					{
-						getKGM()->getEntryListTab()->log(CLocalizationManager::getInstance()->getTranslatedFormattedText("Log_42", strEntryFileName.c_str()));
+						getIMGF()->getEntryListTab()->log(CLocalizationManager::getInstance()->getTranslatedFormattedText("Log_42", strEntryFileName.c_str()));
 					}
 					else
 					{
 						string strEntryActualFileName = pCOLEntry->getModelName();
 						pCOLFile->removeEntry(pCOLEntry);
-						getKGM()->getEntryListTab()->log("Removed COL entry: " + strEntryActualFileName);
+						getIMGF()->getEntryListTab()->log("Removed COL entry: " + strEntryActualFileName);
 					}
 				}
 				else if (strCommandUpper == "RESORT")
 				{
 					pCOLFile->sort();
-					getKGM()->getEntryListTab()->log(CLocalizationManager::getInstance()->getTranslatedText("Log_43"));
+					getIMGF()->getEntryListTab()->log(CLocalizationManager::getInstance()->getTranslatedText("Log_43"));
 				}
 			}
 			pCOLFile->serializeViaFile();
@@ -263,8 +263,8 @@ void		CLSTProcessingManager::process(CLSTFormat *pLSTFile)
 						string strCopyDestinationPath = strGTARootFolderPath + strGamePathFolderPath + strFileName;
 						CFileManager::copyFile(strCopySourcePath, strCopyDestinationPath);
 					}
-					getKGM()->getEntryListTab()->log(CLocalizationManager::getInstance()->getTranslatedText("Log_LSTCopy1"));
-					getKGM()->getEntryListTab()->log(CLocalizationManager::getInstance()->getTranslatedFormattedText("Log_LSTCopy2", strCopySourceFolder.c_str(), (strGTARootFolderPath + strGamePathFolderPath).c_str()), true);
+					getIMGF()->getEntryListTab()->log(CLocalizationManager::getInstance()->getTranslatedText("Log_LSTCopy1"));
+					getIMGF()->getEntryListTab()->log(CLocalizationManager::getInstance()->getTranslatedFormattedText("Log_LSTCopy2", strCopySourceFolder.c_str(), (strGTARootFolderPath + strGamePathFolderPath).c_str()), true);
 				}
 				else
 				{
@@ -272,8 +272,8 @@ void		CLSTProcessingManager::process(CLSTFormat *pLSTFile)
 					string strCopySourcePath = strGTARootFolderPath + strSourceFolderPath + strFileName;
 					string strCopyDestinationPath = strGTARootFolderPath + strGamePathFolderPath + strFileName;
 					CFileManager::copyFile(strCopySourcePath, strCopyDestinationPath);
-					getKGM()->getEntryListTab()->log(CLocalizationManager::getInstance()->getTranslatedFormattedText("Log_LSTCopy3", strFileName.c_str()));
-					getKGM()->getEntryListTab()->log(CLocalizationManager::getInstance()->getTranslatedFormattedText("Log_LSTCopy4", strFileName.c_str(), strCopySourcePath.c_str(), strCopyDestinationPath.c_str()), true);
+					getIMGF()->getEntryListTab()->log(CLocalizationManager::getInstance()->getTranslatedFormattedText("Log_LSTCopy3", strFileName.c_str()));
+					getIMGF()->getEntryListTab()->log(CLocalizationManager::getInstance()->getTranslatedFormattedText("Log_LSTCopy4", strFileName.c_str(), strCopySourcePath.c_str(), strCopyDestinationPath.c_str()), true);
 				}
 			}
 			else if (strCommandUpper == "DEL" || strCommandUpper == "DELETE")
@@ -299,8 +299,8 @@ void		CLSTProcessingManager::process(CLSTFormat *pLSTFile)
 						string strFilePath = strFolderPath + strFileName;
 						CFileManager::removeFile(strFilePath);
 					}
-					getKGM()->getEntryListTab()->log(CLocalizationManager::getInstance()->getTranslatedText("Log_LSTDelete1"));
-					getKGM()->getEntryListTab()->log(CLocalizationManager::getInstance()->getTranslatedFormattedText("Log_LSTDelete2", strFolderPath.c_str()), true);
+					getIMGF()->getEntryListTab()->log(CLocalizationManager::getInstance()->getTranslatedText("Log_LSTDelete1"));
+					getIMGF()->getEntryListTab()->log(CLocalizationManager::getInstance()->getTranslatedFormattedText("Log_LSTDelete2", strFolderPath.c_str()), true);
 				}
 				else
 				{
@@ -308,8 +308,8 @@ void		CLSTProcessingManager::process(CLSTFormat *pLSTFile)
 					string strFilePath = strGTARootFolderPath + strGamePathFolderPath + strFileName;
 					CFileManager::removeFile(strFilePath);
 
-					getKGM()->getEntryListTab()->log(CLocalizationManager::getInstance()->getTranslatedFormattedText("Log_LSTDelete3", strFileName.c_str()));
-					getKGM()->getEntryListTab()->log(CLocalizationManager::getInstance()->getTranslatedFormattedText("Log_LSTDelete4", strFilePath.c_str()), true);
+					getIMGF()->getEntryListTab()->log(CLocalizationManager::getInstance()->getTranslatedFormattedText("Log_LSTDelete3", strFileName.c_str()));
+					getIMGF()->getEntryListTab()->log(CLocalizationManager::getInstance()->getTranslatedFormattedText("Log_LSTDelete4", strFilePath.c_str()), true);
 				}
 			}
 		}

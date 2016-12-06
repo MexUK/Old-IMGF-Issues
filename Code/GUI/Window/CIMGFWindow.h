@@ -1,14 +1,14 @@
-#ifndef CKGMWindow_H
-#define CKGMWindow_H
+#ifndef CIMGFWindow_H
+#define CIMGFWindow_H
 
 #include "Window/CWindow.h"
 #include <string>
 #include <vector>
 
-class CKGMWindow : public CWindow
+class CIMGFWindow : public CWindow
 {
 public:
-	CKGMWindow(void);
+	CIMGFWindow(void);
 
 	void					initTabs(void);
 

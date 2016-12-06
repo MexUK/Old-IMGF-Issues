@@ -1,7 +1,7 @@
 #include "CHTTPManager.h"
 #include "CSocketUtility.h"
 #include "Globals.h"
-#include "CKGM.h"
+#include "CIMGF.h"
 #include "Format/RockstarGames/IMG/CIMGEntry.h"
 #include "Type/String/CString2.h"
 #include "Debug/CDebug.h"

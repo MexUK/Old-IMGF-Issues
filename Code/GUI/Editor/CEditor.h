@@ -5,14 +5,14 @@
 #include "Pool/CVectorPool.h"
 #include "GUI/Editor/Tab/CEditorTab.h"
 
-class CKGMWindow;
+class CIMGFWindow;
 
 class CEditor : public CGUILayer
 {
 public:
 	CEditor(void);
 
-	CKGMWindow*					getWindow(void) { return (CKGMWindow*) CGUILayer::getWindow(); }
+	CIMGFWindow*					getWindow(void) { return (CIMGFWindow*) CGUILayer::getWindow(); }
 
 	void						setActiveTab(CEditorTab *pActiveTab) { m_pActiveTab = pActiveTab; }
 	CEditorTab*					getActiveTab(void) { return m_pActiveTab; }

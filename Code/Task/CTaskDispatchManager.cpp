@@ -2,7 +2,7 @@
 
 #include "CTaskDispatchManager.h"
 #include "CTaskManager.h"
-#include "CKGM.h"
+#include "CIMGF.h"
 #include "Globals.h"
 #include "GUI/CGUIManager.h"
 #include "Type/String/CString2.h"
@@ -142,12 +142,12 @@ void		CTaskDispatchManager::uninit(void)
 
 void		CTaskDispatchManager::onRequestOpen(void)
 {
-	vector<string> vecPaths = mcore::CGUIManager::openFileDialog(getKGM()->getLastUsedDirectory("OPEN"), "IMG,DIR");
+	vector<string> vecPaths = mcore::CGUIManager::openFileDialog(getIMGF()->getLastUsedDirectory("OPEN"), "IMG,DIR");
 	if (vecPaths.size() == 0)
 	{
 		return;
 	}
-	getKGM()->setLastUsedDirectory("OPEN", CPathManager::getDirectory(vecPaths[0]));
+	getIMGF()->setLastUsedDirectory("OPEN", CPathManager::getDirectory(vecPaths[0]));
 
 	for (auto strPath : vecPaths)
 	{
@@ -156,33 +156,33 @@ void		CTaskDispatchManager::onRequestOpen(void)
 }
 void		CTaskDispatchManager::onRequestOpen2(string strPath)
 {
-	getKGM()->getLastUsedValueManager()->setLastUsedValue_Open2_IMGPath(strPath);
-	getKGM()->getTaskManager()->onTaskBegin("onRequestOpen2");
+	getIMGF()->getLastUsedValueManager()->setLastUsedValue_Open2_IMGPath(strPath);
+	getIMGF()->getTaskManager()->onTaskBegin("onRequestOpen2");
 	eIMGVersion eIMGVersionValue = CIMGManager::detectIMGVersion(strPath);
 	/*
 	todo
 	if (uiFileResult == FILE_NOT_FOUND)
 	{
-		getKGM()->getTaskManager()->onTaskPause();
+		getIMGF()->getTaskManager()->onTaskPause();
 		mcore::CGUIManager::showMessage(CLocalizationManager::getInstance()->getTranslatedText("TextPopup_32"), CLocalizationManager::getInstance()->getTranslatedText("FileNotFound"), MB_OK);
-		getKGM()->getTaskManager()->onTaskUnpause();
-		getKGM()->getTaskManager()->onTaskEnd("onRequestOpen2", true);
+		getIMGF()->getTaskManager()->onTaskUnpause();
+		getIMGF()->getTaskManager()->onTaskEnd("onRequestOpen2", true);
 		return;
 	}
 	else if (uiFileResult == FILE_BLANK)
 	{
-		getKGM()->getTaskManager()->onTaskPause();
+		getIMGF()->getTaskManager()->onTaskPause();
 		mcore::CGUIManager::showMessage(CLocalizationManager::getInstance()->getTranslatedText("TextPopup_33"), CLocalizationManager::getInstance()->getTranslatedText("TextPopupTitle_33"), MB_OK);
-		getKGM()->getTaskManager()->onTaskUnpause();
-		getKGM()->getTaskManager()->onTaskEnd("onRequestOpen2", true);
+		getIMGF()->getTaskManager()->onTaskUnpause();
+		getIMGF()->getTaskManager()->onTaskEnd("onRequestOpen2", true);
 		return;
 	}
 	else if (uiFileResult == FILE_UNKNOWN2)
 	{
-		getKGM()->getTaskManager()->onTaskPause();
+		getIMGF()->getTaskManager()->onTaskPause();
 		mcore::CGUIManager::showMessage(CLocalizationManager::getInstance()->getTranslatedText("TextPopup_34"), CLocalizationManager::getInstance()->getTranslatedText("UnableToOpenIMG"), MB_OK);
-		getKGM()->getTaskManager()->onTaskUnpause();
-		getKGM()->getTaskManager()->onTaskEnd("onRequestOpen2", true);
+		getIMGF()->getTaskManager()->onTaskUnpause();
+		getIMGF()->getTaskManager()->onTaskEnd("onRequestOpen2", true);
 		return;
 	}
 	*/
@@ -202,113 +202,113 @@ void		CTaskDispatchManager::onRequestOpen2(string strPath)
 		}
 	}
 
-	getKGM()->getIMGEditor()->addTab(strPath, eIMGVersionValue);
-	getKGM()->getTaskManager()->onTaskEnd("onRequestOpen2");
+	getIMGF()->getIMGEditor()->addTab(strPath, eIMGVersionValue);
+	getIMGF()->getTaskManager()->onTaskEnd("onRequestOpen2");
 }
 void		CTaskDispatchManager::onRequestClose(void)
 {
-	getKGM()->getTaskManager()->onTaskBegin("onRequestClose");
-	CIMGEditorTab *pEditorTab = getKGM()->getEntryListTab();
+	getIMGF()->getTaskManager()->onTaskBegin("onRequestClose");
+	CIMGEditorTab *pEditorTab = getIMGF()->getEntryListTab();
 	if (!pEditorTab)
 	{
 		return;
 	}
 
-	if (getKGM()->getSettingsManager()->getSettingBool("RebuildConfirmationOnClose"))
+	if (getIMGF()->getSettingsManager()->getSettingBool("RebuildConfirmationOnClose"))
 	{
-		getKGM()->getTaskManager()->onTaskPause();
+		getIMGF()->getTaskManager()->onTaskPause();
 		if (onRequestClose2(false) == true)
 		{
-			getKGM()->getTaskManager()->onTaskUnpause();
-			getKGM()->getTaskManager()->onTaskEnd("onRequestClose", true);
+			getIMGF()->getTaskManager()->onTaskUnpause();
+			getIMGF()->getTaskManager()->onTaskEnd("onRequestClose", true);
 			return;
 		}
-		getKGM()->getTaskManager()->onTaskUnpause();
+		getIMGF()->getTaskManager()->onTaskUnpause();
 	}
 
-	getKGM()->getIMGEditor()->removeTab(pEditorTab);
+	getIMGF()->getIMGEditor()->removeTab(pEditorTab);
 
-	getKGM()->getTaskManager()->onTaskEnd("onRequestClose");
+	getIMGF()->getTaskManager()->onTaskEnd("onRequestClose");
 }
 void		CTaskDispatchManager::onRequestCloseAll(void)
 {
-	getKGM()->getTaskManager()->onTaskBegin("onRequestCloseAll");
-	if (getKGM()->getSettingsManager()->getSettingBool("RebuildConfirmationOnClose"))
+	getIMGF()->getTaskManager()->onTaskBegin("onRequestCloseAll");
+	if (getIMGF()->getSettingsManager()->getSettingBool("RebuildConfirmationOnClose"))
 	{
-		getKGM()->getTaskManager()->onTaskPause();
+		getIMGF()->getTaskManager()->onTaskPause();
 		if (onRequestClose2(true) == true)
 		{
-			getKGM()->getTaskManager()->onTaskUnpause();
-			getKGM()->getTaskManager()->onTaskEnd("onRequestCloseAll", true);
+			getIMGF()->getTaskManager()->onTaskUnpause();
+			getIMGF()->getTaskManager()->onTaskEnd("onRequestCloseAll", true);
 			return;
 		}
-		getKGM()->getTaskManager()->onTaskUnpause();
+		getIMGF()->getTaskManager()->onTaskUnpause();
 	}
 
-	while (getKGM()->getIMGEditor()->getTabs().getEntryCount() > 0) // todo - change to removeAllEntries or something assuming all stuff in removeTab() still gets ran somewhere
+	while (getIMGF()->getIMGEditor()->getTabs().getEntryCount() > 0) // todo - change to removeAllEntries or something assuming all stuff in removeTab() still gets ran somewhere
 	{
-		getKGM()->getIMGEditor()->removeTab(getKGM()->getIMGEditor()->getTabs().getEntryByIndex(0));
+		getIMGF()->getIMGEditor()->removeTab(getIMGF()->getIMGEditor()->getTabs().getEntryByIndex(0));
 	}
 
-	getKGM()->getIMGEditor()->setActiveTab(nullptr);
-	getKGM()->getTaskManager()->onTaskEnd("onRequestCloseAll");
+	getIMGF()->getIMGEditor()->setActiveTab(nullptr);
+	getIMGF()->getTaskManager()->onTaskEnd("onRequestCloseAll");
 }
 void		CTaskDispatchManager::onRequestExitTool(void)
 {
-	getKGM()->getTaskManager()->onTaskBegin("onRequestExitTool");
-	DestroyWindow(getKGM()->getActiveWindow()->getWindowHandle());
-	getKGM()->getTaskManager()->onTaskEnd("onRequestExitTool");
+	getIMGF()->getTaskManager()->onTaskBegin("onRequestExitTool");
+	DestroyWindow(getIMGF()->getActiveWindow()->getWindowHandle());
+	getIMGF()->getTaskManager()->onTaskEnd("onRequestExitTool");
 }
 void		CTaskDispatchManager::onRequestImportViaFiles(void)
 {
-	getKGM()->getTaskManager()->onTaskBegin("onRequestImportViaFiles");
-	if (getKGM()->getEntryListTab() == nullptr)
+	getIMGF()->getTaskManager()->onTaskBegin("onRequestImportViaFiles");
+	if (getIMGF()->getEntryListTab() == nullptr)
 	{
-		getKGM()->getTaskManager()->onTaskEnd("onRequestImportViaFiles", true);
+		getIMGF()->getTaskManager()->onTaskEnd("onRequestImportViaFiles", true);
 		return;
 	}
 
-	getKGM()->getTaskManager()->onTaskPause();
-	vector<string> vecPaths = mcore::CGUIManager::openFileDialog(getKGM()->getLastUsedDirectory("IMPORT_FILES"));
-	getKGM()->getTaskManager()->onTaskUnpause();
+	getIMGF()->getTaskManager()->onTaskPause();
+	vector<string> vecPaths = mcore::CGUIManager::openFileDialog(getIMGF()->getLastUsedDirectory("IMPORT_FILES"));
+	getIMGF()->getTaskManager()->onTaskUnpause();
 	if (vecPaths.size() == 0)
 	{
-		getKGM()->getTaskManager()->onTaskEnd("onRequestImportViaFiles", true);
+		getIMGF()->getTaskManager()->onTaskEnd("onRequestImportViaFiles", true);
 		return;
 	}
-	getKGM()->setLastUsedDirectory("IMPORT_FILES", CPathManager::getDirectory(vecPaths[0]));
+	getIMGF()->setLastUsedDirectory("IMPORT_FILES", CPathManager::getDirectory(vecPaths[0]));
 
-	getKGM()->getTaskManager()->setTaskMaxProgressTickCount(vecPaths.size());
+	getIMGF()->getTaskManager()->setTaskMaxProgressTickCount(vecPaths.size());
 	for (auto strPath : vecPaths)
 	{
-		getKGM()->getEntryListTab()->addOrReplaceEntryViaFileAndSettings(strPath);
-		getKGM()->getTaskManager()->onTaskProgressTick();
+		getIMGF()->getEntryListTab()->addOrReplaceEntryViaFileAndSettings(strPath);
+		getIMGF()->getTaskManager()->onTaskProgressTick();
 	}
 
-	getKGM()->getEntryListTab()->log(CLocalizationManager::getInstance()->getTranslatedFormattedText("Log_23", vecPaths.size()));
-	getKGM()->getEntryListTab()->log(CLocalizationManager::getInstance()->getTranslatedText("EntryNames"), true);
+	getIMGF()->getEntryListTab()->log(CLocalizationManager::getInstance()->getTranslatedFormattedText("Log_23", vecPaths.size()));
+	getIMGF()->getEntryListTab()->log(CLocalizationManager::getInstance()->getTranslatedText("EntryNames"), true);
 	vector<string> vecFileNames;
 	for (auto strPath : vecPaths)
 	{
 		vecFileNames.push_back(strPath);
 	}
-	getKGM()->getEntryListTab()->log(CString2::join(vecFileNames, "\n"), true);
+	getIMGF()->getEntryListTab()->log(CString2::join(vecFileNames, "\n"), true);
 
-	getKGM()->getEntryListTab()->setIMGModifiedSinceRebuild(true);
-	getKGM()->getTaskManager()->onTaskEnd("onRequestImportViaFiles");
+	getIMGF()->getEntryListTab()->setIMGModifiedSinceRebuild(true);
+	getIMGF()->getTaskManager()->onTaskEnd("onRequestImportViaFiles");
 }
 void		CTaskDispatchManager::onRequestRemoveSelected(void)
 {
 	/*
 	todo
-	getKGM()->getTaskManager()->onTaskBegin("onRequestRemoveSelected");
-	if (getKGM()->getEntryListTab() == nullptr)
+	getIMGF()->getTaskManager()->onTaskBegin("onRequestRemoveSelected");
+	if (getIMGF()->getEntryListTab() == nullptr)
 	{
 		return;
 	}
 
-	CListCtrl *pListControl = (CListCtrl*)getKGM()->getDialog()->GetDlgItem(37);
-	getKGM()->getTaskManager()->setTaskMaxProgressTickCount(pListControl->GetSelectedCount());
+	CListCtrl *pListControl = (CListCtrl*)getIMGF()->getDialog()->GetDlgItem(37);
+	getIMGF()->getTaskManager()->setTaskMaxProgressTickCount(pListControl->GetSelectedCount());
 	POSITION pos = pListControl->GetFirstSelectedItemPosition();
 	if (pos == NULL)
 	{
@@ -323,49 +323,49 @@ void		CTaskDispatchManager::onRequestRemoveSelected(void)
 
 		pIMGEntry = (CIMGEntry*)pListControl->GetItemData(nItem);
 		vecEntryNames.push_back(pIMGEntry->getEntryName());
-		getKGM()->getEntryListTab()->removeEntry(pIMGEntry);
+		getIMGF()->getEntryListTab()->removeEntry(pIMGEntry);
 		pListControl->DeleteItem(nItem);
 
 		pos = pListControl->GetFirstSelectedItemPosition();
 
 		uiRemoveCount++;
-		getKGM()->getTaskManager()->onTaskProgressTick();
+		getIMGF()->getTaskManager()->onTaskProgressTick();
 	}
 
 	if (pListControl->GetItemCount() == 0)
 	{
-		getKGM()->getEntryListTab()->readdAllEntriesToMainListView();
+		getIMGF()->getEntryListTab()->readdAllEntriesToMainListView();
 	}
 
-	getKGM()->getEntryListTab()->searchText();
+	getIMGF()->getEntryListTab()->searchText();
 
-	getKGM()->getEntryListTab()->log(CLocalizationManager::getInstance()->getTranslatedFormattedText("Log_53", uiRemoveCount));
-	getKGM()->getEntryListTab()->log(CLocalizationManager::getInstance()->getTranslatedText("EntryNames"), true);
-	getKGM()->getEntryListTab()->log(CString2::join(vecEntryNames, "\n"), true);
+	getIMGF()->getEntryListTab()->log(CLocalizationManager::getInstance()->getTranslatedFormattedText("Log_53", uiRemoveCount));
+	getIMGF()->getEntryListTab()->log(CLocalizationManager::getInstance()->getTranslatedText("EntryNames"), true);
+	getIMGF()->getEntryListTab()->log(CString2::join(vecEntryNames, "\n"), true);
 
 	if (uiRemoveCount > 0)
 	{
-		getKGM()->getEntryListTab()->setIMGModifiedSinceRebuild(true);
+		getIMGF()->getEntryListTab()->setIMGModifiedSinceRebuild(true);
 	}
-	getKGM()->getTaskManager()->onTaskEnd("onRequestRemoveSelected");
+	getIMGF()->getTaskManager()->onTaskEnd("onRequestRemoveSelected");
 	*/
 }
 void		CTaskDispatchManager::onRequestRenameEntry(void)
 {
 	/*
 	todo
-	getKGM()->getTaskManager()->onTaskBegin("onRequestRenameEntry");
-	if (getKGM()->getEntryListTab() == nullptr)
+	getIMGF()->getTaskManager()->onTaskBegin("onRequestRenameEntry");
+	if (getIMGF()->getEntryListTab() == nullptr)
 	{
-		getKGM()->getTaskManager()->onTaskEnd("onRequestRenameEntry", true);
+		getIMGF()->getTaskManager()->onTaskEnd("onRequestRenameEntry", true);
 		return;
 	}
 
-	CListCtrl *pListControl = ((CListCtrl*)getKGM()->getDialog()->GetDlgItem(37));
+	CListCtrl *pListControl = ((CListCtrl*)getIMGF()->getDialog()->GetDlgItem(37));
 	POSITION pos = pListControl->GetFirstSelectedItemPosition();
 	if (pos == NULL)
 	{
-		getKGM()->getTaskManager()->onTaskEnd("onRequestRenameEntry", true);
+		getIMGF()->getTaskManager()->onTaskEnd("onRequestRenameEntry", true);
 		return;
 	}
 
@@ -377,55 +377,55 @@ void		CTaskDispatchManager::onRequestRenameEntry(void)
 	pos = pListControl->GetFirstSelectedItemPosition();
 	if (pos == NULL)
 	{
-		getKGM()->getTaskManager()->onTaskEnd("onRequestRenameEntry", true);
+		getIMGF()->getTaskManager()->onTaskEnd("onRequestRenameEntry", true);
 		return;
 	}
 
 	bool bMultipleEntries = pListControl->GetSelectedCount() > 1;
 	string strOldName = pIMGEntry->getEntryName();
-	getKGM()->getTaskManager()->onTaskPause();
-	string strNewName = getKGM()->getPopupGUIManager()->showTextInputDialog(CLocalizationManager::getInstance()->getTranslatedText("Window_TextInput_1_Title"), CLocalizationManager::getInstance()->getTranslatedFormattedText("Window_TextInput_1_Message", pListControl->GetSelectedCount()), pIMGEntry->getEntryName());
-	getKGM()->getTaskManager()->onTaskUnpause();
+	getIMGF()->getTaskManager()->onTaskPause();
+	string strNewName = getIMGF()->getPopupGUIManager()->showTextInputDialog(CLocalizationManager::getInstance()->getTranslatedText("Window_TextInput_1_Title"), CLocalizationManager::getInstance()->getTranslatedFormattedText("Window_TextInput_1_Message", pListControl->GetSelectedCount()), pIMGEntry->getEntryName());
+	getIMGF()->getTaskManager()->onTaskUnpause();
 	if (strNewName == "")
 	{
 		return;
 	}
 
-	getKGM()->getTaskManager()->setTaskMaxProgressTickCount(pListControl->GetSelectedCount());
+	getIMGF()->getTaskManager()->setTaskMaxProgressTickCount(pListControl->GetSelectedCount());
 	while (pos)
 	{
 		nItem = pListControl->GetNextSelectedItem(pos);
 		pIMGEntry = ((CIMGEntry*)pListControl->GetItemData(nItem));
 
 		pIMGEntry->setEntryName(strNewName);
-		getKGM()->getEntryListTab()->updateEntryInMainListView(pIMGEntry);
+		getIMGF()->getEntryListTab()->updateEntryInMainListView(pIMGEntry);
 
-		getKGM()->getEntryListTab()->onEntryChange(pIMGEntry);
-		getKGM()->getTaskManager()->onTaskProgressTick();
+		getIMGF()->getEntryListTab()->onEntryChange(pIMGEntry);
+		getIMGF()->getTaskManager()->onTaskProgressTick();
 	}
 
-	getKGM()->getEntryListTab()->log(CLocalizationManager::getInstance()->getTranslatedFormattedText("Log_54", strOldName.c_str(), strNewName.c_str()));
-	getKGM()->getEntryListTab()->log(CLocalizationManager::getInstance()->getTranslatedFormattedText("Log_55", strNewName.c_str(), getKGM()->getEntryListTab()->getIMGFile()->getEntryCountForName(strNewName)), true);
+	getIMGF()->getEntryListTab()->log(CLocalizationManager::getInstance()->getTranslatedFormattedText("Log_54", strOldName.c_str(), strNewName.c_str()));
+	getIMGF()->getEntryListTab()->log(CLocalizationManager::getInstance()->getTranslatedFormattedText("Log_55", strNewName.c_str(), getIMGF()->getEntryListTab()->getIMGFile()->getEntryCountForName(strNewName)), true);
 
-	getKGM()->getEntryListTab()->searchText();
+	getIMGF()->getEntryListTab()->searchText();
 
-	getKGM()->getEntryListTab()->setIMGModifiedSinceRebuild(true);
-	getKGM()->getTaskManager()->onTaskEnd("onRequestRenameEntry");
+	getIMGF()->getEntryListTab()->setIMGModifiedSinceRebuild(true);
+	getIMGF()->getTaskManager()->onTaskEnd("onRequestRenameEntry");
 	*/
 }
 void		CTaskDispatchManager::onRequestSelectAll(void)
 {
 	/*
 	todo
-	getKGM()->getTaskManager()->onTaskBegin("onRequestSelectAll");
-	if (getKGM()->getEntryListTab() == nullptr)
+	getIMGF()->getTaskManager()->onTaskBegin("onRequestSelectAll");
+	if (getIMGF()->getEntryListTab() == nullptr)
 	{
-		getKGM()->getTaskManager()->onTaskEnd("onRequestSelectAll", true);
+		getIMGF()->getTaskManager()->onTaskEnd("onRequestSelectAll", true);
 		return;
 	}
 
-	CListCtrl *pListControl = ((CListCtrl*)getKGM()->getDialog()->GetDlgItem(37));
-	getKGM()->getTaskManager()->setTaskMaxProgressTickCount(pListControl->GetItemCount());
+	CListCtrl *pListControl = ((CListCtrl*)getIMGF()->getDialog()->GetDlgItem(37));
+	getIMGF()->getTaskManager()->setTaskMaxProgressTickCount(pListControl->GetItemCount());
 	bool bNewSelectedState = true;
 	if (pListControl->GetItemState(0, LVIS_SELECTED) == LVIS_SELECTED)
 	{
@@ -443,34 +443,34 @@ void		CTaskDispatchManager::onRequestSelectAll(void)
 			pListControl->SetItemState(i, ~LVIS_SELECTED, LVIS_SELECTED);
 		}
 
-		getKGM()->getTaskManager()->onTaskProgressTick();
+		getIMGF()->getTaskManager()->onTaskProgressTick();
 	}
 
 	pListControl->SetFocus();
 	if(bNewSelectedState)
 	{
-		getKGM()->getEntryListTab()->log(CLocalizationManager::getInstance()->getTranslatedFormattedText("Log_56", pListControl->GetItemCount()));
+		getIMGF()->getEntryListTab()->log(CLocalizationManager::getInstance()->getTranslatedFormattedText("Log_56", pListControl->GetItemCount()));
 	}
 	else
 	{
-		getKGM()->getEntryListTab()->log(CLocalizationManager::getInstance()->getTranslatedFormattedText("Log_57", pListControl->GetItemCount()));
+		getIMGF()->getEntryListTab()->log(CLocalizationManager::getInstance()->getTranslatedFormattedText("Log_57", pListControl->GetItemCount()));
 	}
-	getKGM()->getTaskManager()->onTaskEnd("onRequestSelectAll");
+	getIMGF()->getTaskManager()->onTaskEnd("onRequestSelectAll");
 	*/
 }
 void		CTaskDispatchManager::onRequestSelectInverse(void)
 {
 	/*
 	todo
-	getKGM()->getTaskManager()->onTaskBegin("onRequestSelectInverse");
-	if (getKGM()->getEntryListTab() == nullptr)
+	getIMGF()->getTaskManager()->onTaskBegin("onRequestSelectInverse");
+	if (getIMGF()->getEntryListTab() == nullptr)
 	{
-		getKGM()->getTaskManager()->onTaskEnd("onRequestSelectInverse", true);
+		getIMGF()->getTaskManager()->onTaskEnd("onRequestSelectInverse", true);
 		return;
 	}
 
-	CListCtrl *pListControl = ((CListCtrl*)getKGM()->getDialog()->GetDlgItem(37));
-	getKGM()->getTaskManager()->setTaskMaxProgressTickCount(pListControl->GetItemCount());
+	CListCtrl *pListControl = ((CListCtrl*)getIMGF()->getDialog()->GetDlgItem(37));
+	getIMGF()->getTaskManager()->setTaskMaxProgressTickCount(pListControl->GetItemCount());
 	uint32 uiSelectedEntryCount = 0;
 	for (uint32 i = 0, j = pListControl->GetItemCount(); i < j; i++)
 	{
@@ -485,99 +485,99 @@ void		CTaskDispatchManager::onRequestSelectInverse(void)
 			pListControl->SetSelectionMark(i);
 		}
 
-		getKGM()->getTaskManager()->onTaskProgressTick();
+		getIMGF()->getTaskManager()->onTaskProgressTick();
 	}
 
 	pListControl->SetFocus();
-	getKGM()->getEntryListTab()->log(CLocalizationManager::getInstance()->getTranslatedFormattedText("Log_58", uiSelectedEntryCount, pListControl->GetItemCount()));
-	getKGM()->getTaskManager()->onTaskEnd("onRequestSelectInverse");
+	getIMGF()->getEntryListTab()->log(CLocalizationManager::getInstance()->getTranslatedFormattedText("Log_58", uiSelectedEntryCount, pListControl->GetItemCount()));
+	getIMGF()->getTaskManager()->onTaskEnd("onRequestSelectInverse");
 	*/
 }
 void		CTaskDispatchManager::onRequestRebuild(void)
 {
-	getKGM()->getTaskManager()->onTaskBegin("onRequestRebuild");
-	if (getKGM()->getEntryListTab() == nullptr)
+	getIMGF()->getTaskManager()->onTaskBegin("onRequestRebuild");
+	if (getIMGF()->getEntryListTab() == nullptr)
 	{
-		getKGM()->getTaskManager()->onTaskEnd("onRequestRebuild", true);
+		getIMGF()->getTaskManager()->onTaskEnd("onRequestRebuild", true);
 		return;
 	}
 
-	getKGM()->getEntryListTab()->rebuild();
-	getKGM()->getIMGEditor()->refreshActiveTab();
+	getIMGF()->getEntryListTab()->rebuild();
+	getIMGF()->getIMGEditor()->refreshActiveTab();
 
-	getKGM()->getEntryListTab()->checkForUnknownRWVersionEntries();
-	getKGM()->getTaskManager()->onTaskEnd("onRequestRebuild");
+	getIMGF()->getEntryListTab()->checkForUnknownRWVersionEntries();
+	getIMGF()->getTaskManager()->onTaskEnd("onRequestRebuild");
 }
 void		CTaskDispatchManager::onRequestRebuildAs(void)
 {
-	getKGM()->getTaskManager()->onTaskBegin("onRequestRebuildAs");
-	if (getKGM()->getEntryListTab() == nullptr)
+	getIMGF()->getTaskManager()->onTaskBegin("onRequestRebuildAs");
+	if (getIMGF()->getEntryListTab() == nullptr)
 	{
-		getKGM()->getTaskManager()->onTaskEnd("onRequestRebuildAs", true);
+		getIMGF()->getTaskManager()->onTaskEnd("onRequestRebuildAs", true);
 		return;
 	}
 
-	getKGM()->getTaskManager()->onTaskPause();
-	string strIMGPath = mcore::CGUIManager::saveFileDialog(getKGM()->getLastUsedDirectory("REBUILD_AS"), "IMG,DIR", "IMG.img");
-	getKGM()->getTaskManager()->onTaskUnpause();
+	getIMGF()->getTaskManager()->onTaskPause();
+	string strIMGPath = mcore::CGUIManager::saveFileDialog(getIMGF()->getLastUsedDirectory("REBUILD_AS"), "IMG,DIR", "IMG.img");
+	getIMGF()->getTaskManager()->onTaskUnpause();
 	if (strIMGPath == "")
 	{
-		getKGM()->getTaskManager()->onTaskEnd("onRequestRebuildAs", true);
+		getIMGF()->getTaskManager()->onTaskEnd("onRequestRebuildAs", true);
 		return;
 	}
-	getKGM()->setLastUsedDirectory("REBUILD_AS", strIMGPath);
+	getIMGF()->setLastUsedDirectory("REBUILD_AS", strIMGPath);
 
-	getKGM()->getEntryListTab()->rebuild(strIMGPath, false);
-	getKGM()->getEntryListTab()->log(CLocalizationManager::getInstance()->getTranslatedFormattedText("Log_59", CPathManager::getFileName(strIMGPath).c_str()));
-	getKGM()->getIMGEditor()->refreshActiveTab();
+	getIMGF()->getEntryListTab()->rebuild(strIMGPath, false);
+	getIMGF()->getEntryListTab()->log(CLocalizationManager::getInstance()->getTranslatedFormattedText("Log_59", CPathManager::getFileName(strIMGPath).c_str()));
+	getIMGF()->getIMGEditor()->refreshActiveTab();
 
-	getKGM()->getEntryListTab()->checkForUnknownRWVersionEntries();
-	getKGM()->getTaskManager()->onTaskEnd("onRequestRebuildAs");
+	getIMGF()->getEntryListTab()->checkForUnknownRWVersionEntries();
+	getIMGF()->getTaskManager()->onTaskEnd("onRequestRebuildAs");
 }
 void		CTaskDispatchManager::onRequestRebuildAll(void)
 {
-	getKGM()->getTaskManager()->onTaskBegin("onRequestRebuildAll");
-	if (getKGM()->getEntryListTab() == nullptr)
+	getIMGF()->getTaskManager()->onTaskBegin("onRequestRebuildAll");
+	if (getIMGF()->getEntryListTab() == nullptr)
 	{
-		getKGM()->getTaskManager()->onTaskEnd("onRequestRebuildAll", true);
+		getIMGF()->getTaskManager()->onTaskEnd("onRequestRebuildAll", true);
 		return;
 	}
 
 	vector<string> vecIMGPaths;
-	for (auto pEditorTab : getKGM()->getIMGEditor()->getTabs().getEntries())
+	for (auto pEditorTab : getIMGF()->getIMGEditor()->getTabs().getEntries())
 	{
 		vecIMGPaths.push_back(((CIMGEditorTab*)pEditorTab)->getIMGFile()->getFilePath());
 		((CIMGEditorTab*)pEditorTab)->rebuild("", false);
 	}
-	getKGM()->getIMGEditor()->logAllTabs(CLocalizationManager::getInstance()->getTranslatedFormattedText("LogAllTabs_1", getKGM()->getIMGEditor()->getTabs().getEntryCount()));
-	getKGM()->getIMGEditor()->logAllTabs(CLocalizationManager::getInstance()->getTranslatedText("LogAllTabs_2"), true);
-	getKGM()->getIMGEditor()->logAllTabs(CString2::join(vecIMGPaths, "\n"), true);
+	getIMGF()->getIMGEditor()->logAllTabs(CLocalizationManager::getInstance()->getTranslatedFormattedText("LogAllTabs_1", getIMGF()->getIMGEditor()->getTabs().getEntryCount()));
+	getIMGF()->getIMGEditor()->logAllTabs(CLocalizationManager::getInstance()->getTranslatedText("LogAllTabs_2"), true);
+	getIMGF()->getIMGEditor()->logAllTabs(CString2::join(vecIMGPaths, "\n"), true);
 
-	getKGM()->getIMGEditor()->refreshActiveTab();
+	getIMGF()->getIMGEditor()->refreshActiveTab();
 
-	getKGM()->getEntryListTab()->checkForUnknownRWVersionEntries();
-	getKGM()->getTaskManager()->onTaskEnd("onRequestRebuildAll");
+	getIMGF()->getEntryListTab()->checkForUnknownRWVersionEntries();
+	getIMGF()->getTaskManager()->onTaskEnd("onRequestRebuildAll");
 }
 void		CTaskDispatchManager::onRequestConvertIMGVersion(eIMGVersion eIMGVersionValue)
 {
-	getKGM()->getLastUsedValueManager()->setLastUsedValue_Convert_IMGVersion(eIMGVersionValue);
-	getKGM()->getTaskManager()->onTaskBegin("onRequestConvertIMGVersion");
-	if (getKGM()->getEntryListTab() == nullptr)
+	getIMGF()->getLastUsedValueManager()->setLastUsedValue_Convert_IMGVersion(eIMGVersionValue);
+	getIMGF()->getTaskManager()->onTaskBegin("onRequestConvertIMGVersion");
+	if (getIMGF()->getEntryListTab() == nullptr)
 	{
-		getKGM()->getTaskManager()->onTaskEnd("onRequestConvertIMGVersion", true);
+		getIMGF()->getTaskManager()->onTaskEnd("onRequestConvertIMGVersion", true);
 		return;
 	}
 
 	// fetch data
-	uint32 uiIMGEntryCount = getKGM()->getEntryListTab()->getIMGFile()->getEntryCount();
-	uint32 ePreviousIMGVersion = getKGM()->getEntryListTab()->getIMGFile()->getIMGVersion();
-	bool bPreviouslyEncrypted = getKGM()->getEntryListTab()->getIMGFile()->isEncrypted();
+	uint32 uiIMGEntryCount = getIMGF()->getEntryListTab()->getIMGFile()->getEntryCount();
+	uint32 ePreviousIMGVersion = getIMGF()->getEntryListTab()->getIMGFile()->getIMGVersion();
+	bool bPreviouslyEncrypted = getIMGF()->getEntryListTab()->getIMGFile()->isEncrypted();
 
 	// also convert entries to appropriate game version?
 	bool bConvertEntries = false;
 	if (ePreviousIMGVersion != IMG_FASTMAN92 && eIMGVersionValue != IMG_FASTMAN92)
 	{
-		bConvertEntries = getKGM()->getPopupGUIManager()->showConfirmDialog("Also convert entries to appropriate game version?", "Convert Entries?");
+		bConvertEntries = getIMGF()->getPopupGUIManager()->showConfirmDialog("Also convert entries to appropriate game version?", "Convert Entries?");
 	}
 
 	// calculate progress bar tick count
@@ -586,7 +586,7 @@ void		CTaskDispatchManager::onRequestConvertIMGVersion(eIMGVersion eIMGVersionVa
 	{
 		uiProgressMaxTicks += 1;
 	}
-	if (getKGM()->getSettingsManager()->getSettingBool("RebuildOnConvert"))
+	if (getIMGF()->getSettingsManager()->getSettingBool("RebuildOnConvert"))
 	{
 		uiProgressMaxTicks += uiIMGEntryCount;
 	}
@@ -594,13 +594,13 @@ void		CTaskDispatchManager::onRequestConvertIMGVersion(eIMGVersion eIMGVersionVa
 	{
 		uiProgressMaxTicks += uiIMGEntryCount;
 	}
-	getKGM()->getTaskManager()->setTaskMaxProgressTickCount(uiProgressMaxTicks);
+	getIMGF()->getTaskManager()->setTaskMaxProgressTickCount(uiProgressMaxTicks);
 
 	/*
 	// remove compression from entries body data in version Fastman92 IMG
 	if (ePreviousIMGVersion == IMG_FASTMAN92)
 	{
-		for (auto pIMGEntry : getKGM()->getEntryListTab()->getIMGFile()->getEntries())
+		for (auto pIMGEntry : getIMGF()->getEntryListTab()->getIMGFile()->getEntries())
 		{
 			if (pIMGEntry->isCompressed())
 			{
@@ -615,7 +615,7 @@ void		CTaskDispatchManager::onRequestConvertIMGVersion(eIMGVersion eIMGVersionVa
 					break;
 				}
 				pIMGEntry->setEntryData(strEntryNewData);
-				getKGM()->getEntryListTab()->updateEntryInMainListView(pIMGEntry);
+				getIMGF()->getEntryListTab()->updateEntryInMainListView(pIMGEntry);
 			}
 		}
 	}
@@ -623,7 +623,7 @@ void		CTaskDispatchManager::onRequestConvertIMGVersion(eIMGVersion eIMGVersionVa
 	// add compression to entries body data in version Fastman92 IMG
 	if (eIMGVersionValue == IMG_FASTMAN92)
 	{
-		for (auto pIMGEntry : getKGM()->getEntryListTab()->getIMGFile()->getEntries())
+		for (auto pIMGEntry : getIMGF()->getEntryListTab()->getIMGFile()->getEntries())
 		{
 			if (pIMGEntry->isCompressed())
 			{
@@ -638,7 +638,7 @@ void		CTaskDispatchManager::onRequestConvertIMGVersion(eIMGVersion eIMGVersionVa
 					break;
 				}
 				pIMGEntry->setEntryData(strEntryNewData);
-				getKGM()->getEntryListTab()->updateEntryInMainListView(pIMGEntry);
+				getIMGF()->getEntryListTab()->updateEntryInMainListView(pIMGEntry);
 			}
 		}
 	}
@@ -647,7 +647,7 @@ void		CTaskDispatchManager::onRequestConvertIMGVersion(eIMGVersion eIMGVersionVa
 	// re-apply compression type to entry data
 	if (ePreviousIMGVersion == IMG_FASTMAN92 && eIMGVersionValue != IMG_FASTMAN92)
 	{
-		for (auto pIMGEntry : getKGM()->getEntryListTab()->getIMGFile()->getEntries())
+		for (auto pIMGEntry : getIMGF()->getEntryListTab()->getIMGFile()->getEntries())
 		{
 			pIMGEntry->applyCompression(COMPRESSION_NONE);
 		}
@@ -656,21 +656,21 @@ void		CTaskDispatchManager::onRequestConvertIMGVersion(eIMGVersion eIMGVersionVa
 	// fetch RW versions or resource types
 	if (eIMGVersionValue == IMG_1 || eIMGVersionValue == IMG_2)
 	{
-		getKGM()->getEntryListTab()->getIMGFile()->unserializeRWVersions(); // todo - func name inconsitent with one below - RW / Rage
+		getIMGF()->getEntryListTab()->getIMGFile()->unserializeRWVersions(); // todo - func name inconsitent with one below - RW / Rage
 	}
 	else
 	{
-		getKGM()->getEntryListTab()->getIMGFile()->unserializeResourceTypes();
+		getIMGF()->getEntryListTab()->getIMGFile()->unserializeResourceTypes();
 	}
 
 	// set new IMG version
-	getKGM()->getEntryListTab()->getIMGFile()->setIMGVersion(eIMGVersionValue);
+	getIMGF()->getEntryListTab()->getIMGFile()->setIMGVersion(eIMGVersionValue);
 
 	// remove dir file?
 	if (ePreviousIMGVersion == IMG_1)
 	{
-		CFileManager::removeFile(CPathManager::replaceFileExtension(getKGM()->getEntryListTab()->getIMGFile()->getFilePath(), "dir"));
-		getKGM()->getTaskManager()->onTaskProgressTick();
+		CFileManager::removeFile(CPathManager::replaceFileExtension(getIMGF()->getEntryListTab()->getIMGFile()->getFilePath(), "dir"));
+		getIMGF()->getTaskManager()->onTaskProgressTick();
 	}
 
 	// check to convert entries aswell as IMG
@@ -699,14 +699,14 @@ void		CTaskDispatchManager::onRequestConvertIMGVersion(eIMGVersion eIMGVersionVa
 		}
 
 		// convert entries to appropriate version
-		for (auto pIMGEntry : getKGM()->getEntryListTab()->getIMGFile()->getEntries())
+		for (auto pIMGEntry : getIMGF()->getEntryListTab()->getIMGFile()->getEntries())
 		{
 			string strEntryExtensionUpper = CString2::toUpperCase(CPathManager::getFileExtension(pIMGEntry->getEntryName()));
 			if (CPathManager::isModelExtension(strEntryExtensionUpper))
 			{
 				if (eDestGame == PLATFORMED_GAME_UNKNOWN)
 				{
-					getKGM()->getTaskManager()->onTaskProgressTick();
+					getIMGF()->getTaskManager()->onTaskProgressTick();
 					continue;
 				}
 
@@ -715,14 +715,14 @@ void		CTaskDispatchManager::onRequestConvertIMGVersion(eIMGVersion eIMGVersionVa
 				{
 					pDFFFile->unload();
 					delete pDFFFile;
-					getKGM()->getTaskManager()->onTaskProgressTick();
+					getIMGF()->getTaskManager()->onTaskProgressTick();
 					continue;
 				}
 
 				pDFFFile->setRWVersion(pDestRWVersion);
 
 				pIMGEntry->setEntryData(pDFFFile->storeViaMemory());
-				getKGM()->getEntryListTab()->updateEntryInMainListView(pIMGEntry);
+				getIMGF()->getEntryListTab()->updateEntryInMainListView(pIMGEntry);
 				
 				pDFFFile->unload();
 				delete pDFFFile;
@@ -731,7 +731,7 @@ void		CTaskDispatchManager::onRequestConvertIMGVersion(eIMGVersion eIMGVersionVa
 			{
 				if (eDestGame == PLATFORMED_GAME_UNKNOWN)
 				{
-					getKGM()->getTaskManager()->onTaskProgressTick();
+					getIMGF()->getTaskManager()->onTaskProgressTick();
 					continue;
 				}
 
@@ -740,7 +740,7 @@ void		CTaskDispatchManager::onRequestConvertIMGVersion(eIMGVersion eIMGVersionVa
 				{
 					pTXDFile->unload();
 					delete pTXDFile;
-					getKGM()->getTaskManager()->onTaskProgressTick();
+					getIMGF()->getTaskManager()->onTaskProgressTick();
 					continue;
 				}
 
@@ -748,7 +748,7 @@ void		CTaskDispatchManager::onRequestConvertIMGVersion(eIMGVersion eIMGVersionVa
 				pTXDFile->convertToGame(eDestGame, vecMipmapsRemoved);
 
 				pIMGEntry->setEntryData(pTXDFile->serializeViaMemory());
-				getKGM()->getEntryListTab()->updateEntryInMainListView(pIMGEntry);
+				getIMGF()->getEntryListTab()->updateEntryInMainListView(pIMGEntry);
 				
 				pTXDFile->unload();
 				delete pTXDFile;
@@ -757,7 +757,7 @@ void		CTaskDispatchManager::onRequestConvertIMGVersion(eIMGVersion eIMGVersionVa
 			{
 				if (eDestCOLVersion == COL_UNKNOWN)
 				{
-					getKGM()->getTaskManager()->onTaskProgressTick();
+					getIMGF()->getTaskManager()->onTaskProgressTick();
 					continue;
 				}
 
@@ -766,7 +766,7 @@ void		CTaskDispatchManager::onRequestConvertIMGVersion(eIMGVersion eIMGVersionVa
 				{
 					pCOLFile->unload();
 					delete pCOLFile;
-					getKGM()->getTaskManager()->onTaskProgressTick();
+					getIMGF()->getTaskManager()->onTaskProgressTick();
 					continue;
 				}
 
@@ -776,86 +776,86 @@ void		CTaskDispatchManager::onRequestConvertIMGVersion(eIMGVersion eIMGVersionVa
 				}
 
 				pIMGEntry->setEntryData(pCOLFile->storeViaMemory());
-				getKGM()->getEntryListTab()->updateEntryInMainListView(pIMGEntry);
+				getIMGF()->getEntryListTab()->updateEntryInMainListView(pIMGEntry);
 				
 				pCOLFile->unload();
 				delete pCOLFile;
 			}
 
-			getKGM()->getTaskManager()->onTaskProgressTick();
+			getIMGF()->getTaskManager()->onTaskProgressTick();
 		}
 	}
 
 	// log
-	getKGM()->getEntryListTab()->log(CLocalizationManager::getInstance()->getTranslatedFormattedText("Log_60", CIMGManager::getIMGVersionNameWithGames((eIMGVersion)ePreviousIMGVersion, bPreviouslyEncrypted).c_str(), CIMGManager::getIMGVersionNameWithGames(eIMGVersionValue, false).c_str()).c_str());
+	getIMGF()->getEntryListTab()->log(CLocalizationManager::getInstance()->getTranslatedFormattedText("Log_60", CIMGManager::getIMGVersionNameWithGames((eIMGVersion)ePreviousIMGVersion, bPreviouslyEncrypted).c_str(), CIMGManager::getIMGVersionNameWithGames(eIMGVersionValue, false).c_str()).c_str());
 
 	// rebuild
-	if (getKGM()->getSettingsManager()->getSettingBool("RebuildOnConvert"))
+	if (getIMGF()->getSettingsManager()->getSettingBool("RebuildOnConvert"))
 	{
-		getKGM()->getEntryListTab()->rebuild();
+		getIMGF()->getEntryListTab()->rebuild();
 	}
 
 	// render
-	getKGM()->getIMGEditor()->refreshActiveTab();
+	getIMGF()->getIMGEditor()->refreshActiveTab();
 
 	// other
-	getKGM()->getEntryListTab()->setIMGModifiedSinceRebuild(true);
+	getIMGF()->getEntryListTab()->setIMGModifiedSinceRebuild(true);
 
-	getKGM()->getEntryListTab()->checkForUnknownRWVersionEntries();
-	getKGM()->getTaskManager()->onTaskEnd("onRequestConvertIMGVersion");
+	getIMGF()->getEntryListTab()->checkForUnknownRWVersionEntries();
+	getIMGF()->getTaskManager()->onTaskEnd("onRequestConvertIMGVersion");
 }
 void		CTaskDispatchManager::onRequestConvertIMGVersionViaButton(void)
 {
-	getKGM()->getTaskManager()->onTaskBegin("onRequestConvertIMGVersionViaButton");
-	if (getKGM()->getEntryListTab() == nullptr)
+	getIMGF()->getTaskManager()->onTaskBegin("onRequestConvertIMGVersionViaButton");
+	if (getIMGF()->getEntryListTab() == nullptr)
 	{
-		getKGM()->getTaskManager()->onTaskEnd("onRequestConvertIMGVersionViaButton", true);
+		getIMGF()->getTaskManager()->onTaskEnd("onRequestConvertIMGVersionViaButton", true);
 		return;
 	}
 
-	getKGM()->getTaskManager()->onTaskPause();
-	uint32 uiRadioButtonIndex = getKGM()->getPopupGUIManager()->showConvertDialog("Convert IMG Version", CLocalizationManager::getInstance()->getTranslatedText("Convert"));
-	getKGM()->getTaskManager()->onTaskUnpause(); 
+	getIMGF()->getTaskManager()->onTaskPause();
+	uint32 uiRadioButtonIndex = getIMGF()->getPopupGUIManager()->showConvertDialog("Convert IMG Version", CLocalizationManager::getInstance()->getTranslatedText("Convert"));
+	getIMGF()->getTaskManager()->onTaskUnpause(); 
 	if (uiRadioButtonIndex == 0xFFFFFFFF)
 	{
 		return;
 	}
 
 	onRequestConvertIMGVersion((eIMGVersion)uiRadioButtonIndex);
-	getKGM()->getTaskManager()->onTaskEnd("onRequestConvertIMGVersionViaButton");
+	getIMGF()->getTaskManager()->onTaskEnd("onRequestConvertIMGVersionViaButton");
 }
 void		CTaskDispatchManager::onRequestMerge(void)
 {
-	getKGM()->getTaskManager()->onTaskBegin("onRequestMerge");
-	if (getKGM()->getEntryListTab() == nullptr)
+	getIMGF()->getTaskManager()->onTaskBegin("onRequestMerge");
+	if (getIMGF()->getEntryListTab() == nullptr)
 	{
-		getKGM()->getTaskManager()->onTaskEnd("onRequestMerge", true);
+		getIMGF()->getTaskManager()->onTaskEnd("onRequestMerge", true);
 		return;
 	}
 
-	getKGM()->getTaskManager()->onTaskPause();
-	vector<string> vecPaths = mcore::CGUIManager::openFileDialog(getKGM()->getLastUsedDirectory("MERGE"), "IMG");
-	getKGM()->getTaskManager()->onTaskUnpause();
+	getIMGF()->getTaskManager()->onTaskPause();
+	vector<string> vecPaths = mcore::CGUIManager::openFileDialog(getIMGF()->getLastUsedDirectory("MERGE"), "IMG");
+	getIMGF()->getTaskManager()->onTaskUnpause();
 	if (vecPaths.size() == 0)
 	{
-		getKGM()->getTaskManager()->onTaskEnd("onRequestMerge", true);
+		getIMGF()->getTaskManager()->onTaskEnd("onRequestMerge", true);
 		return;
 	}
-	getKGM()->setLastUsedDirectory("MERGE", CPathManager::getDirectory(vecPaths[0]));
+	getIMGF()->setLastUsedDirectory("MERGE", CPathManager::getDirectory(vecPaths[0]));
 
 	uint32 uiMergeEntryCount = 0;
 	for (auto strPath : vecPaths)
 	{
 		uiMergeEntryCount += CIMGManager::getIMGEntryCount(strPath, CIMGManager::detectIMGVersion(strPath));
 	}
-	getKGM()->getTaskManager()->setTaskMaxProgressTickCount(uiMergeEntryCount);
+	getIMGF()->getTaskManager()->setTaskMaxProgressTickCount(uiMergeEntryCount);
 
 	uint32 uiImportedEntryCount = 0;
 	vector<string> vecImportedEntryNames;
 	string strExtendedLog = "";
 	for (auto strPath : vecPaths)
 	{
-		uiImportedEntryCount += getKGM()->getEntryListTab()->merge(strPath, vecImportedEntryNames);
+		uiImportedEntryCount += getIMGF()->getEntryListTab()->merge(strPath, vecImportedEntryNames);
 
 		strExtendedLog += "[" + CPathManager::getFileName(strPath) + "]\n";
 		strExtendedLog += CString2::join(vecImportedEntryNames, "\n");
@@ -865,35 +865,35 @@ void		CTaskDispatchManager::onRequestMerge(void)
 
 	if (vecPaths.size() == 1)
 	{
-		getKGM()->getEntryListTab()->log(CLocalizationManager::getInstance()->getTranslatedFormattedText("Log_61", CPathManager::getFileName(vecPaths[0]).c_str(), CPathManager::getFileName(getKGM()->getEntryListTab()->getIMGFile()->getFilePath()).c_str(), uiImportedEntryCount));
+		getIMGF()->getEntryListTab()->log(CLocalizationManager::getInstance()->getTranslatedFormattedText("Log_61", CPathManager::getFileName(vecPaths[0]).c_str(), CPathManager::getFileName(getIMGF()->getEntryListTab()->getIMGFile()->getFilePath()).c_str(), uiImportedEntryCount));
 	}
 	else
 	{
-		getKGM()->getEntryListTab()->log(CLocalizationManager::getInstance()->getTranslatedFormattedText("Log_62", vecPaths.size(), CPathManager::getFileName(getKGM()->getEntryListTab()->getIMGFile()->getFilePath()).c_str(), uiImportedEntryCount));
+		getIMGF()->getEntryListTab()->log(CLocalizationManager::getInstance()->getTranslatedFormattedText("Log_62", vecPaths.size(), CPathManager::getFileName(getIMGF()->getEntryListTab()->getIMGFile()->getFilePath()).c_str(), uiImportedEntryCount));
 	}
-	getKGM()->getEntryListTab()->log(CLocalizationManager::getInstance()->getTranslatedText("Log_63"), true);
-	getKGM()->getEntryListTab()->log(strExtendedLog, true);
+	getIMGF()->getEntryListTab()->log(CLocalizationManager::getInstance()->getTranslatedText("Log_63"), true);
+	getIMGF()->getEntryListTab()->log(strExtendedLog, true);
 
-	getKGM()->getIMGEditor()->refreshActiveTab();
+	getIMGF()->getIMGEditor()->refreshActiveTab();
 
-	getKGM()->getEntryListTab()->setIMGModifiedSinceRebuild(true);
-	getKGM()->getTaskManager()->onTaskEnd("onRequestMerge");
+	getIMGF()->getEntryListTab()->setIMGModifiedSinceRebuild(true);
+	getIMGF()->getTaskManager()->onTaskEnd("onRequestMerge");
 }
 void		CTaskDispatchManager::onRequestSplitViaButton(void)
 {
-	getKGM()->getTaskManager()->onTaskBegin("onRequestSplitViaButton");
-	if (getKGM()->getEntryListTab() == nullptr)
+	getIMGF()->getTaskManager()->onTaskBegin("onRequestSplitViaButton");
+	if (getIMGF()->getEntryListTab() == nullptr)
 	{
-		getKGM()->getTaskManager()->onTaskEnd("onRequestSplitViaButton", true);
+		getIMGF()->getTaskManager()->onTaskEnd("onRequestSplitViaButton", true);
 		return;
 	}
 
-	getKGM()->getTaskManager()->onTaskPause();
-	uint32 uiRadioButtonIndex = getKGM()->getPopupGUIManager()->showSplitViaDialog();
-	getKGM()->getTaskManager()->onTaskUnpause();
+	getIMGF()->getTaskManager()->onTaskPause();
+	uint32 uiRadioButtonIndex = getIMGF()->getPopupGUIManager()->showSplitViaDialog();
+	getIMGF()->getTaskManager()->onTaskUnpause();
 	if (uiRadioButtonIndex == 0xFFFFFFFF)
 	{
-		getKGM()->getTaskManager()->onTaskEnd("onRequestSplitViaButton", true);
+		getIMGF()->getTaskManager()->onTaskEnd("onRequestSplitViaButton", true);
 		return;
 	}
 
@@ -909,45 +909,45 @@ void		CTaskDispatchManager::onRequestSplitViaButton(void)
 		onRequestSplitViaTextLines();
 		break;
 	}
-	getKGM()->getTaskManager()->onTaskEnd("onRequestSplitViaButton", true);
+	getIMGF()->getTaskManager()->onTaskEnd("onRequestSplitViaButton", true);
 }
 void		CTaskDispatchManager::onRequestSplitSelectedEntries(void)
 {
-	getKGM()->getTaskManager()->onTaskBegin("onRequestSplitSelectedEntries");
-	if (getKGM()->getEntryListTab() == nullptr)
+	getIMGF()->getTaskManager()->onTaskBegin("onRequestSplitSelectedEntries");
+	if (getIMGF()->getEntryListTab() == nullptr)
 	{
-		getKGM()->getTaskManager()->onTaskEnd("onRequestSplitSelectedEntries", true);
+		getIMGF()->getTaskManager()->onTaskEnd("onRequestSplitSelectedEntries", true);
 		return;
 	}
 
-	if (getKGM()->getIMGEditor()->getSelectedEntryCount() == 0)
+	if (getIMGF()->getIMGEditor()->getSelectedEntryCount() == 0)
 	{
-		getKGM()->getTaskManager()->onTaskEnd("onRequestSplitSelectedEntries", true);
+		getIMGF()->getTaskManager()->onTaskEnd("onRequestSplitSelectedEntries", true);
 		return;
 	}
 
-	getKGM()->getTaskManager()->onTaskPause();
-	string strPath = mcore::CGUIManager::saveFileDialog(getKGM()->getLastUsedDirectory("SPLIT_SELECTED"), "IMG,DIR", "IMG.img");
-	getKGM()->getTaskManager()->onTaskUnpause();
+	getIMGF()->getTaskManager()->onTaskPause();
+	string strPath = mcore::CGUIManager::saveFileDialog(getIMGF()->getLastUsedDirectory("SPLIT_SELECTED"), "IMG,DIR", "IMG.img");
+	getIMGF()->getTaskManager()->onTaskUnpause();
 	if (strPath == "")
 	{
-		getKGM()->getTaskManager()->onTaskEnd("onRequestSplitSelectedEntries", true);
+		getIMGF()->getTaskManager()->onTaskEnd("onRequestSplitSelectedEntries", true);
 		return;
 	}
-	getKGM()->setLastUsedDirectory("SPLIT_SELECTED", strPath);
+	getIMGF()->setLastUsedDirectory("SPLIT_SELECTED", strPath);
 
-	getKGM()->getTaskManager()->onTaskPause();
-	uint32 uiRadioButtonIndex = getKGM()->getPopupGUIManager()->showConvertDialog("New IMG Version", CLocalizationManager::getInstance()->getTranslatedText("Save"));
-	getKGM()->getTaskManager()->onTaskUnpause();
+	getIMGF()->getTaskManager()->onTaskPause();
+	uint32 uiRadioButtonIndex = getIMGF()->getPopupGUIManager()->showConvertDialog("New IMG Version", CLocalizationManager::getInstance()->getTranslatedText("Save"));
+	getIMGF()->getTaskManager()->onTaskUnpause();
 	if (uiRadioButtonIndex == 0xFFFFFFFF)
 	{
-		getKGM()->getTaskManager()->onTaskEnd("onRequestSplitSelectedEntries", true);
+		getIMGF()->getTaskManager()->onTaskEnd("onRequestSplitSelectedEntries", true);
 		return;
 	}
 
-	getKGM()->getTaskManager()->onTaskPause();
-	bool bDeleteFromSource = getKGM()->getPopupGUIManager()->showConfirmDialog(CLocalizationManager::getInstance()->getTranslatedText("Window_Confirm_1_Message"), CLocalizationManager::getInstance()->getTranslatedText("Window_Confirm_1_Title"));
-	getKGM()->getTaskManager()->onTaskUnpause();
+	getIMGF()->getTaskManager()->onTaskPause();
+	bool bDeleteFromSource = getIMGF()->getPopupGUIManager()->showConfirmDialog(CLocalizationManager::getInstance()->getTranslatedText("Window_Confirm_1_Message"), CLocalizationManager::getInstance()->getTranslatedText("Window_Confirm_1_Title"));
+	getIMGF()->getTaskManager()->onTaskUnpause();
 
 	eIMGVersion eIMGVersionValue = IMG_UNKNOWN;
 	bool bIsEncrypted = false;
@@ -970,73 +970,73 @@ void		CTaskDispatchManager::onRequestSplitSelectedEntries(void)
 	}
 
 	vector<string> vecSplitEntryNames;
-	getKGM()->getEntryListTab()->splitSelectedEntries(strPath, eIMGVersionValue, bDeleteFromSource, vecSplitEntryNames);
+	getIMGF()->getEntryListTab()->splitSelectedEntries(strPath, eIMGVersionValue, bDeleteFromSource, vecSplitEntryNames);
 	if(bDeleteFromSource)
 	{
-		getKGM()->getEntryListTab()->log(CLocalizationManager::getInstance()->getTranslatedFormattedText("Log_66", getKGM()->getIMGEditor()->getSelectedEntryCount(), CPathManager::getFileName(strPath).c_str(), CIMGManager::getIMGVersionNameWithGames(eIMGVersionValue, bIsEncrypted).c_str(), CPathManager::getFileName(getKGM()->getEntryListTab()->getIMGFile()->getFilePath()).c_str()));
+		getIMGF()->getEntryListTab()->log(CLocalizationManager::getInstance()->getTranslatedFormattedText("Log_66", getIMGF()->getIMGEditor()->getSelectedEntryCount(), CPathManager::getFileName(strPath).c_str(), CIMGManager::getIMGVersionNameWithGames(eIMGVersionValue, bIsEncrypted).c_str(), CPathManager::getFileName(getIMGF()->getEntryListTab()->getIMGFile()->getFilePath()).c_str()));
 	}
 	else
 	{
-		getKGM()->getEntryListTab()->log(CLocalizationManager::getInstance()->getTranslatedFormattedText("Log_65", getKGM()->getIMGEditor()->getSelectedEntryCount(), CPathManager::getFileName(strPath).c_str(), CIMGManager::getIMGVersionNameWithGames(eIMGVersionValue, bIsEncrypted).c_str(), CPathManager::getFileName(getKGM()->getEntryListTab()->getIMGFile()->getFilePath()).c_str()));
+		getIMGF()->getEntryListTab()->log(CLocalizationManager::getInstance()->getTranslatedFormattedText("Log_65", getIMGF()->getIMGEditor()->getSelectedEntryCount(), CPathManager::getFileName(strPath).c_str(), CIMGManager::getIMGVersionNameWithGames(eIMGVersionValue, bIsEncrypted).c_str(), CPathManager::getFileName(getIMGF()->getEntryListTab()->getIMGFile()->getFilePath()).c_str()));
 	}
-	getKGM()->getEntryListTab()->log(CLocalizationManager::getInstance()->getTranslatedText("Log_67"), true);
-	getKGM()->getEntryListTab()->log(CString2::join(vecSplitEntryNames, "\n"), true);
+	getIMGF()->getEntryListTab()->log(CLocalizationManager::getInstance()->getTranslatedText("Log_67"), true);
+	getIMGF()->getEntryListTab()->log(CString2::join(vecSplitEntryNames, "\n"), true);
 
 	if (bDeleteFromSource)
 	{
-		getKGM()->getEntryListTab()->setIMGModifiedSinceRebuild(true);
+		getIMGF()->getEntryListTab()->setIMGModifiedSinceRebuild(true);
 	}
 
 	onRequestOpen2(strPath);
-	getKGM()->getTaskManager()->onTaskEnd("onRequestSplitSelectedEntries");
+	getIMGF()->getTaskManager()->onTaskEnd("onRequestSplitSelectedEntries");
 }
 void		CTaskDispatchManager::onRequestSplitViaIDEFile(void)
 {
-	getKGM()->getTaskManager()->onTaskBegin("onRequestSplitViaIDEFile");
-	if (getKGM()->getEntryListTab() == nullptr)
+	getIMGF()->getTaskManager()->onTaskBegin("onRequestSplitViaIDEFile");
+	if (getIMGF()->getEntryListTab() == nullptr)
 	{
-		getKGM()->getTaskManager()->onTaskEnd("onRequestSplitViaIDEFile", true);
+		getIMGF()->getTaskManager()->onTaskEnd("onRequestSplitViaIDEFile", true);
 		return;
 	}
 
-	getKGM()->getTaskManager()->onTaskPause();
-	string strPath = mcore::CGUIManager::saveFileDialog(getKGM()->getLastUsedDirectory("SPLIT_IDE"), "IMG,DIR", "IMG.img");
-	getKGM()->getTaskManager()->onTaskUnpause();
+	getIMGF()->getTaskManager()->onTaskPause();
+	string strPath = mcore::CGUIManager::saveFileDialog(getIMGF()->getLastUsedDirectory("SPLIT_IDE"), "IMG,DIR", "IMG.img");
+	getIMGF()->getTaskManager()->onTaskUnpause();
 	if (strPath == "")
 	{
-		getKGM()->getTaskManager()->onTaskEnd("onRequestSplitViaIDEFile", true);
+		getIMGF()->getTaskManager()->onTaskEnd("onRequestSplitViaIDEFile", true);
 		return;
 	}
-	getKGM()->setLastUsedDirectory("SPLIT_IDE", strPath);
+	getIMGF()->setLastUsedDirectory("SPLIT_IDE", strPath);
 
-	getKGM()->getTaskManager()->onTaskPause();
-	uint32 uiRadioButtonIndex = getKGM()->getPopupGUIManager()->showConvertDialog("New IMG Version", CLocalizationManager::getInstance()->getTranslatedText("Save"));
-	getKGM()->getTaskManager()->onTaskUnpause();
+	getIMGF()->getTaskManager()->onTaskPause();
+	uint32 uiRadioButtonIndex = getIMGF()->getPopupGUIManager()->showConvertDialog("New IMG Version", CLocalizationManager::getInstance()->getTranslatedText("Save"));
+	getIMGF()->getTaskManager()->onTaskUnpause();
 	if (uiRadioButtonIndex == 0xFFFFFFFF)
 	{
-		getKGM()->getTaskManager()->onTaskEnd("onRequestSplitViaIDEFile", true);
+		getIMGF()->getTaskManager()->onTaskEnd("onRequestSplitViaIDEFile", true);
 		return;
 	}
 
-	getKGM()->getTaskManager()->onTaskPause();
-	vector<string> vecPaths = mcore::CGUIManager::openFileDialog(getKGM()->getLastUsedDirectory("SPLIT_IDE"), "IDE");
-	getKGM()->getTaskManager()->onTaskUnpause();
+	getIMGF()->getTaskManager()->onTaskPause();
+	vector<string> vecPaths = mcore::CGUIManager::openFileDialog(getIMGF()->getLastUsedDirectory("SPLIT_IDE"), "IDE");
+	getIMGF()->getTaskManager()->onTaskUnpause();
 	if (vecPaths.size() == 0)
 	{
-		getKGM()->getTaskManager()->onTaskEnd("onRequestSplitViaIDEFile", true);
+		getIMGF()->getTaskManager()->onTaskEnd("onRequestSplitViaIDEFile", true);
 		return;
 	}
-	getKGM()->setLastUsedDirectory("SPLIT_IDE", CPathManager::getDirectory(vecPaths[0]));
+	getIMGF()->setLastUsedDirectory("SPLIT_IDE", CPathManager::getDirectory(vecPaths[0]));
 
-	getKGM()->getTaskManager()->onTaskPause();
-	bool bDeleteFromSource = getKGM()->getPopupGUIManager()->showConfirmDialog(CLocalizationManager::getInstance()->getTranslatedText("Window_Confirm_1_Message"), CLocalizationManager::getInstance()->getTranslatedText("Window_Confirm_1_Title"));
-	getKGM()->getTaskManager()->onTaskUnpause();
+	getIMGF()->getTaskManager()->onTaskPause();
+	bool bDeleteFromSource = getIMGF()->getPopupGUIManager()->showConfirmDialog(CLocalizationManager::getInstance()->getTranslatedText("Window_Confirm_1_Message"), CLocalizationManager::getInstance()->getTranslatedText("Window_Confirm_1_Title"));
+	getIMGF()->getTaskManager()->onTaskUnpause();
 	vector<string> vecEntryNamesWithoutExtension = CIDEManager::getIDEEntryNamesWithoutExtension(vecPaths);
 	vecEntryNamesWithoutExtension = CStdVector::toUpperCase(vecEntryNamesWithoutExtension);
 
 	vector<CIMGEntry*> vecIMGEntries;
 	vector<string> vecSplitEntryNames;
-	for (auto pIMGEntry : getKGM()->getEntryListTab()->getIMGFile()->getEntries())
+	for (auto pIMGEntry : getIMGF()->getEntryListTab()->getIMGFile()->getEntries())
 	{
 		string strEntryNameWithoutExtension = CString2::toUpperCase(CPathManager::removeFileExtension(pIMGEntry->getEntryName()));
 		auto it = std::find(vecEntryNamesWithoutExtension.begin(), vecEntryNamesWithoutExtension.end(), strEntryNameWithoutExtension);
@@ -1067,74 +1067,74 @@ void		CTaskDispatchManager::onRequestSplitViaIDEFile(void)
 		break;
 	}
 
-	getKGM()->getTaskManager()->setTaskMaxProgressTickCount(vecIMGEntries.size() * (bDeleteFromSource ? 2 : 1));
-	getKGM()->getEntryListTab()->getIMGFile()->split(vecIMGEntries, strPath, eIMGVersionValue);
+	getIMGF()->getTaskManager()->setTaskMaxProgressTickCount(vecIMGEntries.size() * (bDeleteFromSource ? 2 : 1));
+	getIMGF()->getEntryListTab()->getIMGFile()->split(vecIMGEntries, strPath, eIMGVersionValue);
 	
 	if(bDeleteFromSource)
 	{
-		getKGM()->getEntryListTab()->log(CLocalizationManager::getInstance()->getTranslatedFormattedText("Log_70", vecSplitEntryNames.size(), CPathManager::getFileName(strPath).c_str(), CIMGManager::getIMGVersionNameWithGames(eIMGVersionValue, bIsEncrypted).c_str(), CPathManager::getFileName(getKGM()->getEntryListTab()->getIMGFile()->getFilePath()).c_str()));
+		getIMGF()->getEntryListTab()->log(CLocalizationManager::getInstance()->getTranslatedFormattedText("Log_70", vecSplitEntryNames.size(), CPathManager::getFileName(strPath).c_str(), CIMGManager::getIMGVersionNameWithGames(eIMGVersionValue, bIsEncrypted).c_str(), CPathManager::getFileName(getIMGF()->getEntryListTab()->getIMGFile()->getFilePath()).c_str()));
 	}
 	else
 	{
-		getKGM()->getEntryListTab()->log(CLocalizationManager::getInstance()->getTranslatedFormattedText("Log_69", vecSplitEntryNames.size(), CPathManager::getFileName(strPath).c_str(), CIMGManager::getIMGVersionNameWithGames(eIMGVersionValue, bIsEncrypted).c_str(), CPathManager::getFileName(getKGM()->getEntryListTab()->getIMGFile()->getFilePath()).c_str()));
+		getIMGF()->getEntryListTab()->log(CLocalizationManager::getInstance()->getTranslatedFormattedText("Log_69", vecSplitEntryNames.size(), CPathManager::getFileName(strPath).c_str(), CIMGManager::getIMGVersionNameWithGames(eIMGVersionValue, bIsEncrypted).c_str(), CPathManager::getFileName(getIMGF()->getEntryListTab()->getIMGFile()->getFilePath()).c_str()));
 	}
-	getKGM()->getEntryListTab()->log(CLocalizationManager::getInstance()->getTranslatedText("Log_67"), true);
-	getKGM()->getEntryListTab()->log(CString2::join(vecSplitEntryNames, "\n"), true);
+	getIMGF()->getEntryListTab()->log(CLocalizationManager::getInstance()->getTranslatedText("Log_67"), true);
+	getIMGF()->getEntryListTab()->log(CString2::join(vecSplitEntryNames, "\n"), true);
 
 	if (bDeleteFromSource)
 	{
-		getKGM()->getEntryListTab()->setIMGModifiedSinceRebuild(true);
+		getIMGF()->getEntryListTab()->setIMGModifiedSinceRebuild(true);
 		for (auto pIMGEntry : vecIMGEntries)
 		{
-			getKGM()->getEntryListTab()->removeEntry(pIMGEntry);
+			getIMGF()->getEntryListTab()->removeEntry(pIMGEntry);
 
-			getKGM()->getTaskManager()->onTaskProgressTick();
+			getIMGF()->getTaskManager()->onTaskProgressTick();
 		}
 	}
 
 	onRequestOpen2(strPath);
-	getKGM()->getTaskManager()->onTaskEnd("onRequestSplitViaIDEFile");
+	getIMGF()->getTaskManager()->onTaskEnd("onRequestSplitViaIDEFile");
 }
 void		CTaskDispatchManager::onRequestSplitViaTextLines(void)
 {
-	getKGM()->getTaskManager()->onTaskBegin("onRequestSplitViaTextLines");
-	if (getKGM()->getEntryListTab() == nullptr)
+	getIMGF()->getTaskManager()->onTaskBegin("onRequestSplitViaTextLines");
+	if (getIMGF()->getEntryListTab() == nullptr)
 	{
-		getKGM()->getTaskManager()->onTaskEnd("onRequestSplitViaTextLines", true);
+		getIMGF()->getTaskManager()->onTaskEnd("onRequestSplitViaTextLines", true);
 		return;
 	}
 
-	getKGM()->getTaskManager()->onTaskPause();
-	string strPath = mcore::CGUIManager::saveFileDialog(getKGM()->getLastUsedDirectory("SPLIT_TEXTLINES"), "IMG,DIR", "IMG.img");
-	getKGM()->getTaskManager()->onTaskUnpause();
+	getIMGF()->getTaskManager()->onTaskPause();
+	string strPath = mcore::CGUIManager::saveFileDialog(getIMGF()->getLastUsedDirectory("SPLIT_TEXTLINES"), "IMG,DIR", "IMG.img");
+	getIMGF()->getTaskManager()->onTaskUnpause();
 	if (strPath == "")
 	{
-		getKGM()->getTaskManager()->onTaskEnd("onRequestSplitViaTextLines", true);
+		getIMGF()->getTaskManager()->onTaskEnd("onRequestSplitViaTextLines", true);
 		return;
 	}
-	getKGM()->setLastUsedDirectory("SPLIT_TEXTLINES", strPath);
+	getIMGF()->setLastUsedDirectory("SPLIT_TEXTLINES", strPath);
 
-	getKGM()->getTaskManager()->onTaskPause();
-	uint32 uiRadioButtonIndex = getKGM()->getPopupGUIManager()->showConvertDialog("New IMG Version", CLocalizationManager::getInstance()->getTranslatedText("Save"));
-	getKGM()->getTaskManager()->onTaskUnpause();
+	getIMGF()->getTaskManager()->onTaskPause();
+	uint32 uiRadioButtonIndex = getIMGF()->getPopupGUIManager()->showConvertDialog("New IMG Version", CLocalizationManager::getInstance()->getTranslatedText("Save"));
+	getIMGF()->getTaskManager()->onTaskUnpause();
 	if (uiRadioButtonIndex == 0xFFFFFFFF)
 	{
-		getKGM()->getTaskManager()->onTaskEnd("onRequestSplitViaTextLines", true);
+		getIMGF()->getTaskManager()->onTaskEnd("onRequestSplitViaTextLines", true);
 		return;
 	}
 
-	getKGM()->getTaskManager()->onTaskPause();
-	string strData = getKGM()->getPopupGUIManager()->showTextAreaDialog(CLocalizationManager::getInstance()->getTranslatedText("Window_TextArea_3_Title"), CLocalizationManager::getInstance()->getTranslatedText("Window_TextArea_3_Message"));
-	getKGM()->getTaskManager()->onTaskUnpause();
+	getIMGF()->getTaskManager()->onTaskPause();
+	string strData = getIMGF()->getPopupGUIManager()->showTextAreaDialog(CLocalizationManager::getInstance()->getTranslatedText("Window_TextArea_3_Title"), CLocalizationManager::getInstance()->getTranslatedText("Window_TextArea_3_Message"));
+	getIMGF()->getTaskManager()->onTaskUnpause();
 	if (strData == "")
 	{
-		getKGM()->getTaskManager()->onTaskEnd("onRequestSplitViaTextLines", true);
+		getIMGF()->getTaskManager()->onTaskEnd("onRequestSplitViaTextLines", true);
 		return;
 	}
 
-	getKGM()->getTaskManager()->onTaskPause();
-	bool bDeleteFromSource = getKGM()->getPopupGUIManager()->showConfirmDialog(CLocalizationManager::getInstance()->getTranslatedText("Window_Confirm_1_Message"), CLocalizationManager::getInstance()->getTranslatedText("Window_Confirm_1_Title"));
-	getKGM()->getTaskManager()->onTaskUnpause();
+	getIMGF()->getTaskManager()->onTaskPause();
+	bool bDeleteFromSource = getIMGF()->getPopupGUIManager()->showConfirmDialog(CLocalizationManager::getInstance()->getTranslatedText("Window_Confirm_1_Message"), CLocalizationManager::getInstance()->getTranslatedText("Window_Confirm_1_Title"));
+	getIMGF()->getTaskManager()->onTaskUnpause();
 
 	vector<string> vecEntryNames;
 	vector<string> vecLines = CString2::split(strData, "\r\n");
@@ -1152,7 +1152,7 @@ void		CTaskDispatchManager::onRequestSplitViaTextLines(void)
 
 	vector<CIMGEntry*> vecIMGEntries;
 	vector<string> vecSplitEntryNames;
-	for (auto pIMGEntry : getKGM()->getEntryListTab()->getIMGFile()->getEntries())
+	for (auto pIMGEntry : getIMGF()->getEntryListTab()->getIMGFile()->getEntries())
 	{
 		string strEntryNameWithoutExtension = CString2::toUpperCase(CPathManager::removeFileExtension(pIMGEntry->getEntryName()));
 		auto it = std::find(vecEntryNames.begin(), vecEntryNames.end(), strEntryNameWithoutExtension);
@@ -1183,46 +1183,46 @@ void		CTaskDispatchManager::onRequestSplitViaTextLines(void)
 		break;
 	}
 
-	getKGM()->getTaskManager()->setTaskMaxProgressTickCount(vecIMGEntries.size() * (bDeleteFromSource ? 2 : 1));
-	getKGM()->getEntryListTab()->getIMGFile()->split(vecIMGEntries, strPath, eIMGVersionValue);
+	getIMGF()->getTaskManager()->setTaskMaxProgressTickCount(vecIMGEntries.size() * (bDeleteFromSource ? 2 : 1));
+	getIMGF()->getEntryListTab()->getIMGFile()->split(vecIMGEntries, strPath, eIMGVersionValue);
 
 	if(bDeleteFromSource)
 	{
-		getKGM()->getEntryListTab()->log(CLocalizationManager::getInstance()->getTranslatedFormattedText("Log_73", vecSplitEntryNames.size(), CPathManager::getFileName(strPath).c_str(), CIMGManager::getIMGVersionNameWithGames(eIMGVersionValue, bIsEncrypted).c_str(), CPathManager::getFileName(getKGM()->getEntryListTab()->getIMGFile()->getFilePath()).c_str()));
+		getIMGF()->getEntryListTab()->log(CLocalizationManager::getInstance()->getTranslatedFormattedText("Log_73", vecSplitEntryNames.size(), CPathManager::getFileName(strPath).c_str(), CIMGManager::getIMGVersionNameWithGames(eIMGVersionValue, bIsEncrypted).c_str(), CPathManager::getFileName(getIMGF()->getEntryListTab()->getIMGFile()->getFilePath()).c_str()));
 	}
 	else
 	{
-		getKGM()->getEntryListTab()->log(CLocalizationManager::getInstance()->getTranslatedFormattedText("Log_72", vecSplitEntryNames.size(), CPathManager::getFileName(strPath).c_str(), CIMGManager::getIMGVersionNameWithGames(eIMGVersionValue, bIsEncrypted).c_str(), CPathManager::getFileName(getKGM()->getEntryListTab()->getIMGFile()->getFilePath()).c_str()));
+		getIMGF()->getEntryListTab()->log(CLocalizationManager::getInstance()->getTranslatedFormattedText("Log_72", vecSplitEntryNames.size(), CPathManager::getFileName(strPath).c_str(), CIMGManager::getIMGVersionNameWithGames(eIMGVersionValue, bIsEncrypted).c_str(), CPathManager::getFileName(getIMGF()->getEntryListTab()->getIMGFile()->getFilePath()).c_str()));
 	}
-	getKGM()->getEntryListTab()->log(CLocalizationManager::getInstance()->getTranslatedText("Log_67"), true);
-	getKGM()->getEntryListTab()->log(CString2::join(vecSplitEntryNames, "\n"), true);
+	getIMGF()->getEntryListTab()->log(CLocalizationManager::getInstance()->getTranslatedText("Log_67"), true);
+	getIMGF()->getEntryListTab()->log(CString2::join(vecSplitEntryNames, "\n"), true);
 
 	if (bDeleteFromSource)
 	{
-		getKGM()->getEntryListTab()->setIMGModifiedSinceRebuild(true);
+		getIMGF()->getEntryListTab()->setIMGModifiedSinceRebuild(true);
 		for (auto pIMGEntry : vecIMGEntries)
 		{
-			getKGM()->getEntryListTab()->removeEntry(pIMGEntry);
+			getIMGF()->getEntryListTab()->removeEntry(pIMGEntry);
 
-			getKGM()->getTaskManager()->onTaskProgressTick();
+			getIMGF()->getTaskManager()->onTaskProgressTick();
 		}
 	}
 
 	onRequestOpen2(strPath);
-	getKGM()->getTaskManager()->onTaskEnd("onRequestSplitViaTextLines");
+	getIMGF()->getTaskManager()->onTaskEnd("onRequestSplitViaTextLines");
 }
 void		CTaskDispatchManager::onRequestReplace(void)
 {
 	/*
 	todo
-	getKGM()->getTaskManager()->onTaskBegin("onRequestReplace");
-	if (getKGM()->getEntryListTab() == nullptr)
+	getIMGF()->getTaskManager()->onTaskBegin("onRequestReplace");
+	if (getIMGF()->getEntryListTab() == nullptr)
 	{
-		getKGM()->getTaskManager()->onTaskEnd("onRequestReplace", true);
+		getIMGF()->getTaskManager()->onTaskEnd("onRequestReplace", true);
 		return;
 	}
 
-	CListCtrl *pListControl = ((CListCtrl*)getKGM()->getDialog()->GetDlgItem(37));
+	CListCtrl *pListControl = ((CListCtrl*)getIMGF()->getDialog()->GetDlgItem(37));
 	POSITION pos = pListControl->GetFirstSelectedItemPosition();
 	string strEntryName;
 	if (pos != NULL)
@@ -1232,26 +1232,26 @@ void		CTaskDispatchManager::onRequestReplace(void)
 		strEntryName = pIMGEntry->getEntryName();
 	}
 
-	getKGM()->getTaskManager()->onTaskPause();
-	vector<string> vecPaths = mcore::CGUIManager::openFileDialog(getKGM()->getLastUsedDirectory("REPLACE"), "", "", strEntryName);
-	getKGM()->getTaskManager()->onTaskUnpause();
+	getIMGF()->getTaskManager()->onTaskPause();
+	vector<string> vecPaths = mcore::CGUIManager::openFileDialog(getIMGF()->getLastUsedDirectory("REPLACE"), "", "", strEntryName);
+	getIMGF()->getTaskManager()->onTaskUnpause();
 	if (vecPaths.size() == 0)
 	{
-		getKGM()->getTaskManager()->onTaskEnd("onRequestReplace", true);
+		getIMGF()->getTaskManager()->onTaskEnd("onRequestReplace", true);
 		return;
 	}
-	getKGM()->setLastUsedDirectory("REPLACE", CPathManager::getDirectory(vecPaths[0]));
+	getIMGF()->setLastUsedDirectory("REPLACE", CPathManager::getDirectory(vecPaths[0]));
 
-	vector<string> vecUniqueFilePaths = CPathManager::getUniqueFilePaths(vecPaths, getKGM()->getEntryListTab()->getIMGFile()->getEntryNames());
+	vector<string> vecUniqueFilePaths = CPathManager::getUniqueFilePaths(vecPaths, getIMGF()->getEntryListTab()->getIMGFile()->getEntryNames());
 	vector<string> vecReplaceFilePaths = CStdVector::getUniqueEntries(vecPaths, vecUniqueFilePaths);
 	uint32 uiReplaceEntryCount = vecReplaceFilePaths.size();
 
 	bool bOverwriteFiles = false;
-	if (getKGM()->getSettingsManager()->getSettingBool("AskBeforeOverwritingFiles"))
+	if (getIMGF()->getSettingsManager()->getSettingBool("AskBeforeOverwritingFiles"))
 	{
-		getKGM()->getTaskManager()->onTaskPause();
-		bOverwriteFiles = getKGM()->getPopupGUIManager()->showConfirmDialog("Replace " + CString2::toString(uiReplaceEntryCount) + " entr" + (uiReplaceEntryCount == 1 ? "y" : "ies") + "?", CLocalizationManager::getInstance()->getTranslatedText("Window_Confirm_2_Title"));
-		getKGM()->getTaskManager()->onTaskUnpause();
+		getIMGF()->getTaskManager()->onTaskPause();
+		bOverwriteFiles = getIMGF()->getPopupGUIManager()->showConfirmDialog("Replace " + CString2::toString(uiReplaceEntryCount) + " entr" + (uiReplaceEntryCount == 1 ? "y" : "ies") + "?", CLocalizationManager::getInstance()->getTranslatedText("Window_Confirm_2_Title"));
+		getIMGF()->getTaskManager()->onTaskUnpause();
 
 		if (!bOverwriteFiles)
 		{
@@ -1260,13 +1260,13 @@ void		CTaskDispatchManager::onRequestReplace(void)
 	}
 	else
 	{
-		//vector<string> vecA = CStdVector::getUniqueEntries(getKGM()->getEntryListTab()->getIMGFile()->getEntryNamesUpper(), CPathManager::getFileNamesFromFilePaths(vecPaths));
+		//vector<string> vecA = CStdVector::getUniqueEntries(getIMGF()->getEntryListTab()->getIMGFile()->getEntryNamesUpper(), CPathManager::getFileNamesFromFilePaths(vecPaths));
 
 		vector<string> vecNewReplacedFilePaths;
 		for (auto strFilePath : vecReplaceFilePaths)
 		{
 			bool bReplaceEntry = true;
-			CIMGEntry *pIMGEntry = getKGM()->getEntryListTab()->getIMGFile()->getEntryByName(CPathManager::getFileName(strFilePath));
+			CIMGEntry *pIMGEntry = getIMGF()->getEntryListTab()->getIMGFile()->getEntryByName(CPathManager::getFileName(strFilePath));
 
 			uint32
 				uiExistingEntryFileCreationDate = pIMGEntry->getFileCreationDate(),
@@ -1276,7 +1276,7 @@ void		CTaskDispatchManager::onRequestReplace(void)
 			{
 				// the existing entry is older than the new entry
 
-				if (getKGM()->getSettingsManager()->getSettingBool("OverwriteOlderFiles"))
+				if (getIMGF()->getSettingsManager()->getSettingBool("OverwriteOlderFiles"))
 				{
 					bReplaceEntry = true;
 				}
@@ -1289,7 +1289,7 @@ void		CTaskDispatchManager::onRequestReplace(void)
 			{
 				// the existing entry is newer than the new entry
 
-				if (getKGM()->getSettingsManager()->getSettingBool("OverwriteNewerFiles"))
+				if (getIMGF()->getSettingsManager()->getSettingBool("OverwriteNewerFiles"))
 				{
 					bReplaceEntry = true;
 				}
@@ -1303,7 +1303,7 @@ void		CTaskDispatchManager::onRequestReplace(void)
 			{
 				// the entry is protected
 
-				if (getKGM()->getSettingsManager()->getSettingBool("OverwriteProtectedFiles"))
+				if (getIMGF()->getSettingsManager()->getSettingBool("OverwriteProtectedFiles"))
 				{
 					bReplaceEntry = true;
 				}
@@ -1321,52 +1321,52 @@ void		CTaskDispatchManager::onRequestReplace(void)
 		vecPaths = CStdVector::combineVectors(vecUniqueFilePaths, vecNewReplacedFilePaths);
 	}
 
-	getKGM()->getTaskManager()->setTaskMaxProgressTickCount(vecPaths.size());
+	getIMGF()->getTaskManager()->setTaskMaxProgressTickCount(vecPaths.size());
 	vector<string> vecReplacedEntryNames;
-	getKGM()->getEntryListTab()->replace(vecPaths, vecReplacedEntryNames);
+	getIMGF()->getEntryListTab()->replace(vecPaths, vecReplacedEntryNames);
 
-	getKGM()->getEntryListTab()->setIMGModifiedSinceRebuild(true);
+	getIMGF()->getEntryListTab()->setIMGModifiedSinceRebuild(true);
 
-	getKGM()->getEntryListTab()->log(CLocalizationManager::getInstance()->getTranslatedFormattedText("ReplacedEntries", vecReplacedEntryNames.size()));
-	getKGM()->getEntryListTab()->log(CLocalizationManager::getInstance()->getTranslatedText("EntriesForReplace"), true);
-	getKGM()->getEntryListTab()->log(CString2::join(vecReplacedEntryNames, "\n"), true);
+	getIMGF()->getEntryListTab()->log(CLocalizationManager::getInstance()->getTranslatedFormattedText("ReplacedEntries", vecReplacedEntryNames.size()));
+	getIMGF()->getEntryListTab()->log(CLocalizationManager::getInstance()->getTranslatedText("EntriesForReplace"), true);
+	getIMGF()->getEntryListTab()->log(CString2::join(vecReplacedEntryNames, "\n"), true);
 
-	getKGM()->getIMGEditor()->refreshActiveTab();
-	getKGM()->getTaskManager()->onTaskEnd("onRequestReplace");
+	getIMGF()->getIMGEditor()->refreshActiveTab();
+	getIMGF()->getTaskManager()->onTaskEnd("onRequestReplace");
 	*/
 }
 void		CTaskDispatchManager::onRequestExportSelected(void)
 {
 	/*
 	todo
-	getKGM()->getTaskManager()->onTaskBegin("onRequestExportSelected");
-	if (getKGM()->getEntryListTab() == nullptr)
+	getIMGF()->getTaskManager()->onTaskBegin("onRequestExportSelected");
+	if (getIMGF()->getEntryListTab() == nullptr)
 	{
-		getKGM()->getTaskManager()->onTaskEnd("onRequestExportSelected", true);
+		getIMGF()->getTaskManager()->onTaskEnd("onRequestExportSelected", true);
 		return;
 	}
 
-	getKGM()->getTaskManager()->onTaskPause();
-	string strPath = mcore::CGUIManager::chooseFolderDialog(CLocalizationManager::getInstance()->getTranslatedText("ChooseFolderPopup_12"), getKGM()->getLastUsedDirectory("EXPORT_SELECTED"));
-	getKGM()->getTaskManager()->onTaskUnpause();
+	getIMGF()->getTaskManager()->onTaskPause();
+	string strPath = mcore::CGUIManager::chooseFolderDialog(CLocalizationManager::getInstance()->getTranslatedText("ChooseFolderPopup_12"), getIMGF()->getLastUsedDirectory("EXPORT_SELECTED"));
+	getIMGF()->getTaskManager()->onTaskUnpause();
 	if (strPath == "")
 	{
-		getKGM()->getTaskManager()->onTaskEnd("onRequestExportSelected", true);
+		getIMGF()->getTaskManager()->onTaskEnd("onRequestExportSelected", true);
 		return;
 	}
 	strPath = CPathManager::addSlashToEnd(strPath);
-	getKGM()->setLastUsedDirectory("EXPORT_SELECTED", strPath);
+	getIMGF()->setLastUsedDirectory("EXPORT_SELECTED", strPath);
 
 	vector<CIMGEntry*> vecIMGEntries;
 	vector<string> vecExportedEntryNames;
 
-	CListCtrl *pListControl = ((CListCtrl*)getKGM()->getDialog()->GetDlgItem(37));
-	getKGM()->getTaskManager()->setTaskMaxProgressTickCount(pListControl->GetSelectedCount());
+	CListCtrl *pListControl = ((CListCtrl*)getIMGF()->getDialog()->GetDlgItem(37));
+	getIMGF()->getTaskManager()->setTaskMaxProgressTickCount(pListControl->GetSelectedCount());
 	POSITION pos = pListControl->GetFirstSelectedItemPosition();
 	CIMGEntry *pIMGEntry = nullptr;
 	if (pos == NULL)
 	{
-		getKGM()->getTaskManager()->onTaskEnd("onRequestExportSelected", true);
+		getIMGF()->getTaskManager()->onTaskEnd("onRequestExportSelected", true);
 		return;
 	}
 	while (pos)
@@ -1376,82 +1376,82 @@ void		CTaskDispatchManager::onRequestExportSelected(void)
 		vecIMGEntries.push_back(pIMGEntry);
 		vecExportedEntryNames.push_back(pIMGEntry->getEntryName());
 
-		getKGM()->getTaskManager()->onTaskProgressTick();
+		getIMGF()->getTaskManager()->onTaskProgressTick();
 	}
 
-	getKGM()->getEntryListTab()->getIMGFile()->exportMultiple(vecIMGEntries, strPath);
-	getKGM()->getEntryListTab()->log(CLocalizationManager::getInstance()->getTranslatedFormattedText("Log_76", vecIMGEntries.size()));
-	getKGM()->getEntryListTab()->log(CLocalizationManager::getInstance()->getTranslatedText("Log_77"), true);
-	getKGM()->getEntryListTab()->log(CString2::join(vecExportedEntryNames, "\n"), true);
-	getKGM()->getTaskManager()->onTaskEnd("onRequestExportSelected");
+	getIMGF()->getEntryListTab()->getIMGFile()->exportMultiple(vecIMGEntries, strPath);
+	getIMGF()->getEntryListTab()->log(CLocalizationManager::getInstance()->getTranslatedFormattedText("Log_76", vecIMGEntries.size()));
+	getIMGF()->getEntryListTab()->log(CLocalizationManager::getInstance()->getTranslatedText("Log_77"), true);
+	getIMGF()->getEntryListTab()->log(CString2::join(vecExportedEntryNames, "\n"), true);
+	getIMGF()->getTaskManager()->onTaskEnd("onRequestExportSelected");
 	*/
 }
 void		CTaskDispatchManager::onRequestSearchText(void) // from search box
 {
 	/*
 	todo
-	getKGM()->getTaskManager()->onTaskBegin("onRequestSearchText");
-	if (getKGM()->getEntryListTab() == nullptr)
+	getIMGF()->getTaskManager()->onTaskBegin("onRequestSearchText");
+	if (getIMGF()->getEntryListTab() == nullptr)
 	{
-		getKGM()->getTaskManager()->onTaskEnd("onRequestSearchText", true);
+		getIMGF()->getTaskManager()->onTaskEnd("onRequestSearchText", true);
 		return;
 	}
 
 	CString strSearchText2;
-	((CEdit*)getKGM()->getDialog()->GetDlgItem(24))->GetWindowTextW(strSearchText2);
+	((CEdit*)getIMGF()->getDialog()->GetDlgItem(24))->GetWindowTextW(strSearchText2);
 	string strSearchText = CString2::convertCStringToStdString(strSearchText2);
 	if (strSearchText == "")
 	{
-		CListCtrl *pListControlSearch = (CListCtrl*)getKGM()->getDialog()->GetDlgItem(22);
+		CListCtrl *pListControlSearch = (CListCtrl*)getIMGF()->getDialog()->GetDlgItem(22);
 		pListControlSearch->DeleteAllItems();
-		((CStatic*)getKGM()->getDialog()->GetDlgItem(0))->SetWindowTextW(CLocalizationManager::getInstance()->getTranslatedFormattedTextW("Window_Main_Text_SearchResult_ActiveTab", 0).c_str());
+		((CStatic*)getIMGF()->getDialog()->GetDlgItem(0))->SetWindowTextW(CLocalizationManager::getInstance()->getTranslatedFormattedTextW("Window_Main_Text_SearchResult_ActiveTab", 0).c_str());
 
-		getKGM()->getTaskManager()->onTaskEnd("onRequestSearchText", true);
+		getIMGF()->getTaskManager()->onTaskEnd("onRequestSearchText", true);
 		return;
 	}
 
-	bool bSearchInAllTabs = ((CButton*)getKGM()->getDialog()->GetDlgItem(46))->GetCheck() == BST_CHECKED;
+	bool bSearchInAllTabs = ((CButton*)getIMGF()->getDialog()->GetDlgItem(46))->GetCheck() == BST_CHECKED;
 	if(bSearchInAllTabs)
 	{
-		getKGM()->getEntryListTab()->log(CLocalizationManager::getInstance()->getTranslatedFormattedText("Log_79", strSearchText.c_str()), bSearchInAllTabs);
+		getIMGF()->getEntryListTab()->log(CLocalizationManager::getInstance()->getTranslatedFormattedText("Log_79", strSearchText.c_str()), bSearchInAllTabs);
 	}
 	else
 	{
-		getKGM()->getEntryListTab()->log(CLocalizationManager::getInstance()->getTranslatedFormattedText("Log_78", strSearchText.c_str()), bSearchInAllTabs);
+		getIMGF()->getEntryListTab()->log(CLocalizationManager::getInstance()->getTranslatedFormattedText("Log_78", strSearchText.c_str()), bSearchInAllTabs);
 	}
 
-	getKGM()->getEntryListTab()->setSearchText(strSearchText);
-	getKGM()->getEntryListTab()->searchText();
+	getIMGF()->getEntryListTab()->setSearchText(strSearchText);
+	getIMGF()->getEntryListTab()->searchText();
 
 	if (bSearchInAllTabs)
 	{
-		getKGM()->getIMGEditor()->logAllTabs(CLocalizationManager::getInstance()->getTranslatedFormattedText("LogAllTabs_3", getKGM()->getIMGEditor()->getSearchHitCount(), getKGM()->getIMGEditor()->getSearchFileCount()), true);
+		getIMGF()->getIMGEditor()->logAllTabs(CLocalizationManager::getInstance()->getTranslatedFormattedText("LogAllTabs_3", getIMGF()->getIMGEditor()->getSearchHitCount(), getIMGF()->getIMGEditor()->getSearchFileCount()), true);
 	}
 	else
 	{
-		getKGM()->getEntryListTab()->log(CLocalizationManager::getInstance()->getTranslatedFormattedText("LogAllTabs_3", getKGM()->getIMGEditor()->getSearchHitCount(), getKGM()->getIMGEditor()->getSearchFileCount()), true);
+		getIMGF()->getEntryListTab()->log(CLocalizationManager::getInstance()->getTranslatedFormattedText("LogAllTabs_3", getIMGF()->getIMGEditor()->getSearchHitCount(), getIMGF()->getIMGEditor()->getSearchFileCount()), true);
 	}
-	getKGM()->getTaskManager()->onTaskEnd("onRequestSearchText");
+	getIMGF()->getTaskManager()->onTaskEnd("onRequestSearchText");
 	*/
 }
 void		CTaskDispatchManager::onRequestSearchSelection(void)
 {
 	/*
 	todo
-	getKGM()->getTaskManager()->onTaskBegin("onRequestSearchSelection");
-	if (getKGM()->getEntryListTab() == nullptr)
+	getIMGF()->getTaskManager()->onTaskBegin("onRequestSearchSelection");
+	if (getIMGF()->getEntryListTab() == nullptr)
 	{
-		getKGM()->getTaskManager()->onTaskEnd("onRequestSearchSelection", true);
+		getIMGF()->getTaskManager()->onTaskEnd("onRequestSearchSelection", true);
 		return;
 	}
 
-	CListCtrl *pListControlSearch = ((CListCtrl*)getKGM()->getDialog()->GetDlgItem(22));
-	CListCtrl *pListControlMain = ((CListCtrl*)getKGM()->getDialog()->GetDlgItem(37));
+	CListCtrl *pListControlSearch = ((CListCtrl*)getIMGF()->getDialog()->GetDlgItem(22));
+	CListCtrl *pListControlMain = ((CListCtrl*)getIMGF()->getDialog()->GetDlgItem(37));
 	CSearchEntry *pSearchEntry;
 	POSITION pos = pListControlSearch->GetFirstSelectedItemPosition();
 	if (pos == NULL)
 	{
-		getKGM()->getTaskManager()->onTaskEnd("onRequestSearchSelection", true);
+		getIMGF()->getTaskManager()->onTaskEnd("onRequestSearchSelection", true);
 		return;
 	}
 	int nItem2 = -1;
@@ -1460,11 +1460,11 @@ void		CTaskDispatchManager::onRequestSearchSelection(void)
 		int nItem = pListControlSearch->GetNextSelectedItem(pos);
 		pSearchEntry = (CSearchEntry*)pListControlSearch->GetItemData(nItem);
 
-		if (pSearchEntry->getWindowTab() != getKGM()->getEntryListTab())
+		if (pSearchEntry->getWindowTab() != getIMGF()->getEntryListTab())
 		{
-			getKGM()->getIMGEditor()->setActiveTab(pSearchEntry->getWindowTab());
+			getIMGF()->getIMGEditor()->setActiveTab(pSearchEntry->getWindowTab());
 		}
-		nItem2 = getKGM()->getIMGEditor()->getMainListControlItemByEntry(pSearchEntry->getIMGEntry());
+		nItem2 = getIMGF()->getIMGEditor()->getMainListControlItemByEntry(pSearchEntry->getIMGEntry());
 		pListControlMain->SetItemState(nItem2, LVIS_SELECTED, LVIS_SELECTED);
 		pListControlMain->SetSelectionMark(nItem2);
 	}
@@ -1480,82 +1480,82 @@ void		CTaskDispatchManager::onRequestSearchSelection(void)
 
 		pListControlMain->Scroll(CSize(0, (nItem2 - uiCurrentScroll) * uiHeight));
 	}
-	getKGM()->getTaskManager()->onTaskEnd("onRequestSearchSelection");
+	getIMGF()->getTaskManager()->onTaskEnd("onRequestSearchSelection");
 	*/
 }
 void		CTaskDispatchManager::onRequestFilter(void)
 {
-	getKGM()->getTaskManager()->onTaskBegin("onRequestFilter");
-	if (getKGM()->getEntryListTab() == nullptr)
+	getIMGF()->getTaskManager()->onTaskBegin("onRequestFilter");
+	if (getIMGF()->getEntryListTab() == nullptr)
 	{
-		getKGM()->getTaskManager()->onTaskEnd("onRequestFilter", true);
+		getIMGF()->getTaskManager()->onTaskEnd("onRequestFilter", true);
 		return;
 	}
 
-	if (getKGM()->getEntryListTab()->isRestoringFilterOptions())
+	if (getIMGF()->getEntryListTab()->isRestoringFilterOptions())
 	{
-		getKGM()->getTaskManager()->onTaskEnd("onRequestFilter", true);
+		getIMGF()->getTaskManager()->onTaskEnd("onRequestFilter", true);
 		return;
 	}
 
-	getKGM()->getTaskManager()->setTaskMaxProgressTickCount(getKGM()->getEntryListTab()->getIMGFile()->getEntryCount());
+	getIMGF()->getTaskManager()->setTaskMaxProgressTickCount(getIMGF()->getEntryListTab()->getIMGFile()->getEntryCount());
 
-	getKGM()->getEntryListTab()->storeFilterOptions();
-	getKGM()->getEntryListTab()->readdAllEntriesToMainListView();
-	getKGM()->getTaskManager()->onTaskEnd("onRequestFilter");
+	getIMGF()->getEntryListTab()->storeFilterOptions();
+	getIMGF()->getEntryListTab()->readdAllEntriesToMainListView();
+	getIMGF()->getTaskManager()->onTaskEnd("onRequestFilter");
 }
 void		CTaskDispatchManager::onRequestFind(bool bFindInAllOpenedFiles) // from menu
 {
 	/*
 	todo
-	getKGM()->getTaskManager()->onTaskBegin("onRequestFind");
-	if (getKGM()->getEntryListTab() == nullptr)
+	getIMGF()->getTaskManager()->onTaskBegin("onRequestFind");
+	if (getIMGF()->getEntryListTab() == nullptr)
 	{
-		getKGM()->getTaskManager()->onTaskEnd("onRequestFind", true);
+		getIMGF()->getTaskManager()->onTaskEnd("onRequestFind", true);
 		return;
 	}
 
-	getKGM()->getTaskManager()->onTaskPause();
-	string strSearchText = getKGM()->getPopupGUIManager()->showTextInputDialog(CLocalizationManager::getInstance()->getTranslatedText("Window_TextInput_2_Title"), CLocalizationManager::getInstance()->getTranslatedText("Window_TextInput_2_Message"));
-	getKGM()->getTaskManager()->onTaskUnpause();
+	getIMGF()->getTaskManager()->onTaskPause();
+	string strSearchText = getIMGF()->getPopupGUIManager()->showTextInputDialog(CLocalizationManager::getInstance()->getTranslatedText("Window_TextInput_2_Title"), CLocalizationManager::getInstance()->getTranslatedText("Window_TextInput_2_Message"));
+	getIMGF()->getTaskManager()->onTaskUnpause();
 	
 	if (strSearchText == "")
 	{
-		CListCtrl *pListControlSearch = (CListCtrl*)getKGM()->getDialog()->GetDlgItem(22);
+		CListCtrl *pListControlSearch = (CListCtrl*)getIMGF()->getDialog()->GetDlgItem(22);
 		pListControlSearch->DeleteAllItems();
-		((CStatic*)getKGM()->getDialog()->GetDlgItem(0))->SetWindowTextW(CLocalizationManager::getInstance()->getTranslatedFormattedTextW("Window_Main_Text_SearchResult_ActiveTab", 0).c_str());
+		((CStatic*)getIMGF()->getDialog()->GetDlgItem(0))->SetWindowTextW(CLocalizationManager::getInstance()->getTranslatedFormattedTextW("Window_Main_Text_SearchResult_ActiveTab", 0).c_str());
 
-		getKGM()->getTaskManager()->onTaskEnd("onRequestFind", true);
+		getIMGF()->getTaskManager()->onTaskEnd("onRequestFind", true);
 		return;
 	}
 
-	((CEdit*)getKGM()->getDialog()->GetDlgItem(24))->SetWindowTextW(CString2::convertStdStringToStdWString(strSearchText).c_str());
+	((CEdit*)getIMGF()->getDialog()->GetDlgItem(24))->SetWindowTextW(CString2::convertStdStringToStdWString(strSearchText).c_str());
 
 	if (bFindInAllOpenedFiles)
 	{
-		((CButton*)getKGM()->getDialog()->GetDlgItem(46))->SetCheck(BST_CHECKED);
+		((CButton*)getIMGF()->getDialog()->GetDlgItem(46))->SetCheck(BST_CHECKED);
 	}
 
-	getKGM()->getEntryListTab()->setSearchText(strSearchText);
-	getKGM()->getEntryListTab()->searchText();
-	getKGM()->getTaskManager()->onTaskEnd("onRequestFind");
+	getIMGF()->getEntryListTab()->setSearchText(strSearchText);
+	getIMGF()->getEntryListTab()->searchText();
+	getIMGF()->getTaskManager()->onTaskEnd("onRequestFind");
 	*/
 }
 void		CTaskDispatchManager::onRequestExportViaButton(void)
 {
-	getKGM()->getTaskManager()->onTaskBegin("onRequestExportViaButton");
-	if (getKGM()->getEntryListTab() == nullptr)
+	getIMGF()->getTaskManager()->onTaskBegin("onRequestExportViaButton");
+	if (getIMGF()->getEntryListTab() == nullptr)
 	{
-		getKGM()->getTaskManager()->onTaskEnd("onRequestExportViaButton", true);
+		getIMGF()->getTaskManager()->onTaskEnd("onRequestExportViaButton", true);
 		return;
 	}
 
-	getKGM()->getTaskManager()->onTaskPause();
-	uint32 uiRadioButtonIndex = getKGM()->getPopupGUIManager()->showExportViaDialog();
-	getKGM()->getTaskManager()->onTaskUnpause();
+	getIMGF()->getTaskManager()->onTaskPause();
+	uint32 uiRadioButtonIndex = getIMGF()->getPopupGUIManager()->showExportViaDialog();
+	getIMGF()->getTaskManager()->onTaskUnpause();
 	if (uiRadioButtonIndex == 0xFFFFFFFF)
 	{
-		getKGM()->getTaskManager()->onTaskEnd("onRequestExportViaButton", true);
+		getIMGF()->getTaskManager()->onTaskEnd("onRequestExportViaButton", true);
 		return;
 	}
 
@@ -1574,44 +1574,44 @@ void		CTaskDispatchManager::onRequestExportViaButton(void)
 		onRequestExportViaIPLFile();
 		break;
 	}
-	getKGM()->getTaskManager()->onTaskEnd("onRequestExportViaButton");
+	getIMGF()->getTaskManager()->onTaskEnd("onRequestExportViaButton");
 }
 void		CTaskDispatchManager::onRequestExportViaIDEFile(void)
 {
-	getKGM()->getTaskManager()->onTaskBegin("onRequestExportViaIDEFile");
-	if (getKGM()->getEntryListTab() == nullptr)
+	getIMGF()->getTaskManager()->onTaskBegin("onRequestExportViaIDEFile");
+	if (getIMGF()->getEntryListTab() == nullptr)
 	{
-		getKGM()->getTaskManager()->onTaskEnd("onRequestExportViaIDEFile", true);
+		getIMGF()->getTaskManager()->onTaskEnd("onRequestExportViaIDEFile", true);
 		return;
 	}
 
-	getKGM()->getTaskManager()->onTaskPause();
-	vector<string> vecPaths = mcore::CGUIManager::openFileDialog(getKGM()->getLastUsedDirectory("EXPORT_IDE__IDE"), "IDE");
-	getKGM()->getTaskManager()->onTaskUnpause();
+	getIMGF()->getTaskManager()->onTaskPause();
+	vector<string> vecPaths = mcore::CGUIManager::openFileDialog(getIMGF()->getLastUsedDirectory("EXPORT_IDE__IDE"), "IDE");
+	getIMGF()->getTaskManager()->onTaskUnpause();
 	if (vecPaths.size() == 0)
 	{
-		getKGM()->getTaskManager()->onTaskEnd("onRequestExportViaIDEFile", true);
+		getIMGF()->getTaskManager()->onTaskEnd("onRequestExportViaIDEFile", true);
 		return;
 	}
-	getKGM()->setLastUsedDirectory("EXPORT_IDE__IDE", CPathManager::getDirectory(vecPaths[0]));
+	getIMGF()->setLastUsedDirectory("EXPORT_IDE__IDE", CPathManager::getDirectory(vecPaths[0]));
 
-	getKGM()->getTaskManager()->onTaskPause();
-	string strPath = mcore::CGUIManager::chooseFolderDialog(CLocalizationManager::getInstance()->getTranslatedText("ChooseFolderPopup_12"), getKGM()->getLastUsedDirectory("EXPORT_IDE__DESTINATION"));
-	getKGM()->getTaskManager()->onTaskUnpause();
+	getIMGF()->getTaskManager()->onTaskPause();
+	string strPath = mcore::CGUIManager::chooseFolderDialog(CLocalizationManager::getInstance()->getTranslatedText("ChooseFolderPopup_12"), getIMGF()->getLastUsedDirectory("EXPORT_IDE__DESTINATION"));
+	getIMGF()->getTaskManager()->onTaskUnpause();
 	if (strPath == "")
 	{
-		getKGM()->getTaskManager()->onTaskEnd("onRequestExportViaIDEFile", true);
+		getIMGF()->getTaskManager()->onTaskEnd("onRequestExportViaIDEFile", true);
 		return;
 	}
 	strPath = CPathManager::addSlashToEnd(strPath);
-	getKGM()->setLastUsedDirectory("EXPORT_IDE__DESTINATION", strPath);
+	getIMGF()->setLastUsedDirectory("EXPORT_IDE__DESTINATION", strPath);
 
 	vector<string> vecEntryNamesWithoutExtension = CIDEManager::getIDEEntryNamesWithoutExtension(vecPaths);
 	vecEntryNamesWithoutExtension = CStdVector::toUpperCase(vecEntryNamesWithoutExtension);
 
 	vector<CIMGEntry*> vecIMGEntries;
 	vector<string> vecExportedEntryNames;
-	for (auto pIMGEntry : getKGM()->getEntryListTab()->getIMGFile()->getEntries())
+	for (auto pIMGEntry : getIMGF()->getEntryListTab()->getIMGFile()->getEntries())
 	{
 		string strEntryNameWithoutExtension = CString2::toUpperCase(CPathManager::removeFileExtension(pIMGEntry->getEntryName()));
 		auto it = std::find(vecEntryNamesWithoutExtension.begin(), vecEntryNamesWithoutExtension.end(), strEntryNameWithoutExtension);
@@ -1622,41 +1622,41 @@ void		CTaskDispatchManager::onRequestExportViaIDEFile(void)
 		}
 	}
 
-	getKGM()->getTaskManager()->setTaskMaxProgressTickCount(vecIMGEntries.size());
-	getKGM()->getEntryListTab()->getIMGFile()->exportMultiple(vecIMGEntries, strPath);
-	getKGM()->getEntryListTab()->log(CLocalizationManager::getInstance()->getTranslatedFormattedText("Log_80", vecIMGEntries.size(), getKGM()->getEntryListTab()->getIMGFile()->getEntryCount()));
-	getKGM()->getEntryListTab()->log(CLocalizationManager::getInstance()->getTranslatedText("Log_77"), true);
-	getKGM()->getEntryListTab()->log(CString2::join(vecExportedEntryNames, "\n"), true);
-	getKGM()->getTaskManager()->onTaskEnd("onRequestExportViaIDEFile");
+	getIMGF()->getTaskManager()->setTaskMaxProgressTickCount(vecIMGEntries.size());
+	getIMGF()->getEntryListTab()->getIMGFile()->exportMultiple(vecIMGEntries, strPath);
+	getIMGF()->getEntryListTab()->log(CLocalizationManager::getInstance()->getTranslatedFormattedText("Log_80", vecIMGEntries.size(), getIMGF()->getEntryListTab()->getIMGFile()->getEntryCount()));
+	getIMGF()->getEntryListTab()->log(CLocalizationManager::getInstance()->getTranslatedText("Log_77"), true);
+	getIMGF()->getEntryListTab()->log(CString2::join(vecExportedEntryNames, "\n"), true);
+	getIMGF()->getTaskManager()->onTaskEnd("onRequestExportViaIDEFile");
 }
 void		CTaskDispatchManager::onRequestExportViaTextLines(void)
 {
-	getKGM()->getTaskManager()->onTaskBegin("onRequestExportViaTextLines");
-	if (getKGM()->getEntryListTab() == nullptr)
+	getIMGF()->getTaskManager()->onTaskBegin("onRequestExportViaTextLines");
+	if (getIMGF()->getEntryListTab() == nullptr)
 	{
-		getKGM()->getTaskManager()->onTaskEnd("onRequestExportViaTextLines", true);
+		getIMGF()->getTaskManager()->onTaskEnd("onRequestExportViaTextLines", true);
 		return;
 	}
 
-	getKGM()->getTaskManager()->onTaskPause();
-	string strData = getKGM()->getPopupGUIManager()->showTextAreaDialog(CLocalizationManager::getInstance()->getTranslatedText("Window_TextArea_3_Title"), CLocalizationManager::getInstance()->getTranslatedText("Window_TextArea_3_Message"));
-	getKGM()->getTaskManager()->onTaskUnpause();
+	getIMGF()->getTaskManager()->onTaskPause();
+	string strData = getIMGF()->getPopupGUIManager()->showTextAreaDialog(CLocalizationManager::getInstance()->getTranslatedText("Window_TextArea_3_Title"), CLocalizationManager::getInstance()->getTranslatedText("Window_TextArea_3_Message"));
+	getIMGF()->getTaskManager()->onTaskUnpause();
 	if (strData == "")
 	{
-		getKGM()->getTaskManager()->onTaskEnd("onRequestExportViaTextLines", true);
+		getIMGF()->getTaskManager()->onTaskEnd("onRequestExportViaTextLines", true);
 		return;
 	}
 
-	getKGM()->getTaskManager()->onTaskPause();
-	string strPath = mcore::CGUIManager::chooseFolderDialog(CLocalizationManager::getInstance()->getTranslatedText("ChooseFolderPopup_12"), getKGM()->getLastUsedDirectory("EXPORT_TEXTLINES"));
-	getKGM()->getTaskManager()->onTaskUnpause();
+	getIMGF()->getTaskManager()->onTaskPause();
+	string strPath = mcore::CGUIManager::chooseFolderDialog(CLocalizationManager::getInstance()->getTranslatedText("ChooseFolderPopup_12"), getIMGF()->getLastUsedDirectory("EXPORT_TEXTLINES"));
+	getIMGF()->getTaskManager()->onTaskUnpause();
 	if (strPath == "")
 	{
-		getKGM()->getTaskManager()->onTaskEnd("onRequestExportViaTextLines", true);
+		getIMGF()->getTaskManager()->onTaskEnd("onRequestExportViaTextLines", true);
 		return;
 	}
 	strPath = CPathManager::addSlashToEnd(strPath);
-	getKGM()->setLastUsedDirectory("EXPORT_TEXTLINES", strPath);
+	getIMGF()->setLastUsedDirectory("EXPORT_TEXTLINES", strPath);
 
 	vector<string> vecEntryNames;
 	vector<string> vecLines = CString2::split(strData, "\r\n");
@@ -1674,7 +1674,7 @@ void		CTaskDispatchManager::onRequestExportViaTextLines(void)
 
 	vector<CIMGEntry*> vecIMGEntries;
 	vector<string> vecExportedEntryNames;
-	for (auto pIMGEntry : getKGM()->getEntryListTab()->getIMGFile()->getEntries())
+	for (auto pIMGEntry : getIMGF()->getEntryListTab()->getIMGFile()->getEntries())
 	{
 		string strEntryNameWithoutExtension = CString2::toUpperCase(CPathManager::removeFileExtension(pIMGEntry->getEntryName()));
 		auto it = std::find(vecEntryNames.begin(), vecEntryNames.end(), strEntryNameWithoutExtension);
@@ -1685,37 +1685,37 @@ void		CTaskDispatchManager::onRequestExportViaTextLines(void)
 		}
 	}
 
-	getKGM()->getTaskManager()->setTaskMaxProgressTickCount(vecIMGEntries.size());
-	getKGM()->getEntryListTab()->getIMGFile()->exportMultiple(vecIMGEntries, strPath);
-	getKGM()->getEntryListTab()->log(CLocalizationManager::getInstance()->getTranslatedFormattedText("Log_81", vecIMGEntries.size(), vecEntryNames.size()));
-	getKGM()->getEntryListTab()->log(CLocalizationManager::getInstance()->getTranslatedText("Log_77"), true);
-	getKGM()->getEntryListTab()->log(CString2::join(vecExportedEntryNames, "\n"), true);
-	getKGM()->getTaskManager()->onTaskEnd("onRequestExportViaTextLines");
+	getIMGF()->getTaskManager()->setTaskMaxProgressTickCount(vecIMGEntries.size());
+	getIMGF()->getEntryListTab()->getIMGFile()->exportMultiple(vecIMGEntries, strPath);
+	getIMGF()->getEntryListTab()->log(CLocalizationManager::getInstance()->getTranslatedFormattedText("Log_81", vecIMGEntries.size(), vecEntryNames.size()));
+	getIMGF()->getEntryListTab()->log(CLocalizationManager::getInstance()->getTranslatedText("Log_77"), true);
+	getIMGF()->getEntryListTab()->log(CString2::join(vecExportedEntryNames, "\n"), true);
+	getIMGF()->getTaskManager()->onTaskEnd("onRequestExportViaTextLines");
 }
 void		CTaskDispatchManager::onRequestSortEntries(void)
 {
-	getKGM()->getTaskManager()->onTaskBegin("onRequestSortEntries");
-	if (getKGM()->getEntryListTab() == nullptr)
+	getIMGF()->getTaskManager()->onTaskBegin("onRequestSortEntries");
+	if (getIMGF()->getEntryListTab() == nullptr)
 	{
-		getKGM()->getTaskManager()->onTaskEnd("onRequestSortEntries", true);
+		getIMGF()->getTaskManager()->onTaskEnd("onRequestSortEntries", true);
 		return;
 	}
 
-	getKGM()->getEntryListTab()->sortEntries();
-	getKGM()->getTaskManager()->onTaskEnd("onRequestSortEntries");
+	getIMGF()->getEntryListTab()->sortEntries();
+	getIMGF()->getTaskManager()->onTaskEnd("onRequestSortEntries");
 }
 void		CTaskDispatchManager::onRequestSortButton(void)
 {
-	getKGM()->getTaskManager()->onTaskBegin("onRequestSortButton");
-	if (getKGM()->getEntryListTab() == nullptr)
+	getIMGF()->getTaskManager()->onTaskBegin("onRequestSortButton");
+	if (getIMGF()->getEntryListTab() == nullptr)
 	{
-		getKGM()->getTaskManager()->onTaskEnd("onRequestSortButton", true);
+		getIMGF()->getTaskManager()->onTaskEnd("onRequestSortButton", true);
 		return;
 	}
 
-	getKGM()->getTaskManager()->onTaskPause();
-	vector<int> vecSortOptions = getKGM()->getPopupGUIManager()->showSortOptionsDialog();
-	getKGM()->getTaskManager()->onTaskUnpause();
+	getIMGF()->getTaskManager()->onTaskPause();
+	vector<int> vecSortOptions = getIMGF()->getPopupGUIManager()->showSortOptionsDialog();
+	getIMGF()->getTaskManager()->onTaskUnpause();
 	if (vecSortOptions[10] == -1)
 	{
 		return;
@@ -1726,30 +1726,30 @@ void		CTaskDispatchManager::onRequestSortButton(void)
 	{
 		for (uint32 i2 = 0; i2 < 9; i2++)
 		{
-			// todo CheckMenuItem(getKGM()->m_hMenu_Entry_Sort, 1200 + (20 * i) + i2, MF_UNCHECKED);
+			// todo CheckMenuItem(getIMGF()->m_hMenu_Entry_Sort, 1200 + (20 * i) + i2, MF_UNCHECKED);
 		}
 
 		if (vecSortOptions[i] != -1)
 		{
-			// todo CheckMenuItem(getKGM()->m_hMenu_Entry_Sort, 1200 + (20 * i) + vecSortOptions[i], MF_CHECKED);
+			// todo CheckMenuItem(getIMGF()->m_hMenu_Entry_Sort, 1200 + (20 * i) + vecSortOptions[i], MF_CHECKED);
 		}
 
 		uint32 uiPriority = i;
-		// todo CMenu *pSortMenu = nullptr; // todo CMenu::FromHandle(getKGM()->m_hMenu_Entry_Sort);
+		// todo CMenu *pSortMenu = nullptr; // todo CMenu::FromHandle(getIMGF()->m_hMenu_Entry_Sort);
 		uint32 wp = 1200 + (20 * i) + vecSortOptions[i];
 
 		if (vecSortOptions[i] == 6) // sort by IDE file
 		{
-			getKGM()->getTaskManager()->onTaskPause();
-			vector<string> vecPaths = mcore::CGUIManager::openFileDialog(getKGM()->getLastUsedDirectory("SORT_IDE"), "IDE", false);
-			getKGM()->getTaskManager()->onTaskUnpause();
+			getIMGF()->getTaskManager()->onTaskPause();
+			vector<string> vecPaths = mcore::CGUIManager::openFileDialog(getIMGF()->getLastUsedDirectory("SORT_IDE"), "IDE", false);
+			getIMGF()->getTaskManager()->onTaskUnpause();
 			if (vecPaths.size() == 0)
 			{
 				bCancel = true;
 			}
 			else
 			{
-				getKGM()->setLastUsedDirectory("SORT_IDE", CPathManager::getDirectory(vecPaths[0]));
+				getIMGF()->setLastUsedDirectory("SORT_IDE", CPathManager::getDirectory(vecPaths[0]));
 
 				CIDEFormat *pIDEFile = CIDEManager::getInstance()->parseViaFile(vecPaths[0]);
 				if(!pIDEFile->doesHaveError())
@@ -1757,7 +1757,7 @@ void		CTaskDispatchManager::onRequestSortButton(void)
 					vector<string> vecModelNames = pIDEFile->getModelNames();
 					vector<string> vecTextureNames = pIDEFile->getTXDNames();
 					vector<string> vecEntryNames = CStdVector::toUpperCase(CStdVector::combineVectors(vecModelNames, vecTextureNames));
-					getKGM()->getSortManager()->getSortPriorities()->getEntryByIndex((uint16)uiPriority)->setData(vecEntryNames);
+					getIMGF()->getSortManager()->getSortPriorities()->getEntryByIndex((uint16)uiPriority)->setData(vecEntryNames);
 
 					// todo pSortMenu->ModifyMenuW(LOWORD(wp), 0, LOWORD(wp), CLocalizationManager::getInstance()->getTranslatedFormattedTextW("Sort_ByText_WithFilename", "IDE file", CPathManager::getFileName(pIDEFile->getFilePath()).c_str()).c_str());
 				}
@@ -1767,22 +1767,22 @@ void		CTaskDispatchManager::onRequestSortButton(void)
 		}
 		else if (vecSortOptions[i] == 7) // sort by COL file
 		{
-			getKGM()->getTaskManager()->onTaskPause();
-			vector<string> vecPaths = mcore::CGUIManager::openFileDialog(getKGM()->getLastUsedDirectory("SORT_COL"), "COL", false);
-			getKGM()->getTaskManager()->onTaskUnpause();
+			getIMGF()->getTaskManager()->onTaskPause();
+			vector<string> vecPaths = mcore::CGUIManager::openFileDialog(getIMGF()->getLastUsedDirectory("SORT_COL"), "COL", false);
+			getIMGF()->getTaskManager()->onTaskUnpause();
 			if (vecPaths.size() == 0)
 			{
 				bCancel = true;
 			}
 			else
 			{
-				getKGM()->setLastUsedDirectory("SORT_COL", CPathManager::getDirectory(vecPaths[0]));
+				getIMGF()->setLastUsedDirectory("SORT_COL", CPathManager::getDirectory(vecPaths[0]));
 
 				CCOLFormat *pCOLFile = CCOLManager::getInstance()->parseViaFile(vecPaths[0]);
 				if(!pCOLFile->doesHaveError())
 				{
 					vector<string> vecEntryNames = CStdVector::toUpperCase(pCOLFile->getModelNames());
-					getKGM()->getSortManager()->getSortPriorities()->getEntryByIndex((uint16)uiPriority)->setData(vecEntryNames);
+					getIMGF()->getSortManager()->getSortPriorities()->getEntryByIndex((uint16)uiPriority)->setData(vecEntryNames);
 
 					// todo pSortMenu->ModifyMenuW(LOWORD(wp), 0, LOWORD(wp), CLocalizationManager::getInstance()->getTranslatedFormattedTextW("Sort_ByText_WithFilename", "COL file", CPathManager::getFileName(pCOLFile->getFilePath()).c_str()).c_str());
 				}
@@ -1792,9 +1792,9 @@ void		CTaskDispatchManager::onRequestSortButton(void)
 		}
 		else if (vecSortOptions[i] == 8) // sort by file extensions
 		{
-			getKGM()->getTaskManager()->onTaskPause();
-			string strText = getKGM()->getPopupGUIManager()->showTextInputDialog(CLocalizationManager::getInstance()->getTranslatedText("Window_TextInput_3_Title"), CLocalizationManager::getInstance()->getTranslatedText("Window_TextInput_4_Message"));
-			getKGM()->getTaskManager()->onTaskUnpause();
+			getIMGF()->getTaskManager()->onTaskPause();
+			string strText = getIMGF()->getPopupGUIManager()->showTextInputDialog(CLocalizationManager::getInstance()->getTranslatedText("Window_TextInput_3_Title"), CLocalizationManager::getInstance()->getTranslatedText("Window_TextInput_4_Message"));
+			getIMGF()->getTaskManager()->onTaskUnpause();
 			if (strText == "")
 			{
 				bCancel = true;
@@ -1810,52 +1810,52 @@ void		CTaskDispatchManager::onRequestSortButton(void)
 						vecFileExtensions[i] = vecFileExtensions[i].substr(1);
 					}
 				}
-				getKGM()->getSortManager()->getSortPriorities()->getEntryByIndex((uint16)uiPriority)->setData(vecFileExtensions);
+				getIMGF()->getSortManager()->getSortPriorities()->getEntryByIndex((uint16)uiPriority)->setData(vecFileExtensions);
 				// todo pSortMenu->ModifyMenuW(LOWORD(wp), 0, LOWORD(wp), CLocalizationManager::getInstance()->getTranslatedFormattedTextW("Sort_ByText_WithFilename", CLocalizationManager::getInstance()->getTranslatedTextW("Sort_Extensions").c_str(), CString2::join(vecFileExtensions, ", ").c_str()).c_str());
 			}
 		}
 
 		if (!bCancel)
 		{
-			// todo CheckMenuItem(getKGM()->m_hMenu_Entry_Sort, LOWORD(wp), MF_CHECKED);
+			// todo CheckMenuItem(getIMGF()->m_hMenu_Entry_Sort, LOWORD(wp), MF_CHECKED);
 		}
 	}
 
 	if (bCancel)
 	{
-		getKGM()->getTaskManager()->onTaskEnd("onRequestSortButton", true);
+		getIMGF()->getTaskManager()->onTaskEnd("onRequestSortButton", true);
 		return;
 	}
 
-	getKGM()->getEntryListTab()->sortEntries();
-	getKGM()->getTaskManager()->onTaskEnd("onRequestSortButton");
+	getIMGF()->getEntryListTab()->sortEntries();
+	getIMGF()->getTaskManager()->onTaskEnd("onRequestSortButton");
 }
 void		CTaskDispatchManager::onRequestRemoveViaIDEFile(void)
 {
 	/*
 	todo
-	getKGM()->getTaskManager()->onTaskBegin("onRequestRemoveViaIDEFile");
-	if (getKGM()->getEntryListTab() == nullptr)
+	getIMGF()->getTaskManager()->onTaskBegin("onRequestRemoveViaIDEFile");
+	if (getIMGF()->getEntryListTab() == nullptr)
 	{
-		getKGM()->getTaskManager()->onTaskEnd("onRequestRemoveViaIDEFile", true);
+		getIMGF()->getTaskManager()->onTaskEnd("onRequestRemoveViaIDEFile", true);
 		return;
 	}
 
-	getKGM()->getTaskManager()->onTaskPause();
-	vector<string> vecPaths = mcore::CGUIManager::openFileDialog(getKGM()->getLastUsedDirectory("REMOVE_IDE"), "IDE");
-	getKGM()->getTaskManager()->onTaskUnpause();
+	getIMGF()->getTaskManager()->onTaskPause();
+	vector<string> vecPaths = mcore::CGUIManager::openFileDialog(getIMGF()->getLastUsedDirectory("REMOVE_IDE"), "IDE");
+	getIMGF()->getTaskManager()->onTaskUnpause();
 	if (vecPaths.size() == 0)
 	{
-		getKGM()->getTaskManager()->onTaskEnd("onRequestRemoveViaIDEFile", true);
+		getIMGF()->getTaskManager()->onTaskEnd("onRequestRemoveViaIDEFile", true);
 		return;
 	}
-	getKGM()->setLastUsedDirectory("REMOVE_IDE", CPathManager::getDirectory(vecPaths[0]));
+	getIMGF()->setLastUsedDirectory("REMOVE_IDE", CPathManager::getDirectory(vecPaths[0]));
 
 	vector<string> vecEntryNamesWithoutExtension = CIDEManager::getIDEEntryNamesWithoutExtension(vecPaths);
 	vecEntryNamesWithoutExtension = CStdVector::toUpperCase(vecEntryNamesWithoutExtension);
 
 	vector<CIMGEntry*> vecIMGEntries;
-	for (auto pIMGEntry : getKGM()->getEntryListTab()->getIMGFile()->getEntries())
+	for (auto pIMGEntry : getIMGF()->getEntryListTab()->getIMGFile()->getEntries())
 	{
 		string strEntryNameWithoutExtension = CString2::toUpperCase(CPathManager::removeFileExtension(pIMGEntry->getEntryName()));
 		auto it = std::find(vecEntryNamesWithoutExtension.begin(), vecEntryNamesWithoutExtension.end(), strEntryNameWithoutExtension);
@@ -1865,56 +1865,56 @@ void		CTaskDispatchManager::onRequestRemoveViaIDEFile(void)
 		}
 	}
 
-	getKGM()->getTaskManager()->setTaskMaxProgressTickCount(getKGM()->getEntryListTab()->getIMGFile()->getEntryCount());
+	getIMGF()->getTaskManager()->setTaskMaxProgressTickCount(getIMGF()->getEntryListTab()->getIMGFile()->getEntryCount());
 
-	CListCtrl *pListControl = ((CListCtrl*)getKGM()->getDialog()->GetDlgItem(37));
+	CListCtrl *pListControl = ((CListCtrl*)getIMGF()->getDialog()->GetDlgItem(37));
 	vector<string> vecRemovedEntryNames;
 	for (auto pIMGEntry : vecIMGEntries)
 	{
-		int nItem = getKGM()->getEntryListTab()->getIMGFile()->getIndexByEntry(pIMGEntry);
+		int nItem = getIMGF()->getEntryListTab()->getIMGFile()->getIndexByEntry(pIMGEntry);
 		pListControl->DeleteItem(nItem);
 
 		vecRemovedEntryNames.push_back(pIMGEntry->getEntryName());
-		getKGM()->getEntryListTab()->removeEntry(pIMGEntry);
+		getIMGF()->getEntryListTab()->removeEntry(pIMGEntry);
 
-		getKGM()->getTaskManager()->onTaskProgressTick();
+		getIMGF()->getTaskManager()->onTaskProgressTick();
 	}
 
 	if (pListControl->GetItemCount() == 0)
 	{
-		getKGM()->getEntryListTab()->readdAllEntriesToMainListView();
+		getIMGF()->getEntryListTab()->readdAllEntriesToMainListView();
 	}
 
-	getKGM()->getEntryListTab()->searchText();
+	getIMGF()->getEntryListTab()->searchText();
 
-	getKGM()->getEntryListTab()->log(CLocalizationManager::getInstance()->getTranslatedFormattedText("Log_82", vecIMGEntries.size(), vecEntryNamesWithoutExtension.size()));
-	getKGM()->getEntryListTab()->log(CLocalizationManager::getInstance()->getTranslatedText("Log_83"), true);
-	getKGM()->getEntryListTab()->log(CString2::join(vecRemovedEntryNames, "\n"), true);
+	getIMGF()->getEntryListTab()->log(CLocalizationManager::getInstance()->getTranslatedFormattedText("Log_82", vecIMGEntries.size(), vecEntryNamesWithoutExtension.size()));
+	getIMGF()->getEntryListTab()->log(CLocalizationManager::getInstance()->getTranslatedText("Log_83"), true);
+	getIMGF()->getEntryListTab()->log(CString2::join(vecRemovedEntryNames, "\n"), true);
 
 	if (vecIMGEntries.size() > 0)
 	{
-		getKGM()->getEntryListTab()->setIMGModifiedSinceRebuild(true);
+		getIMGF()->getEntryListTab()->setIMGModifiedSinceRebuild(true);
 	}
-	getKGM()->getTaskManager()->onTaskEnd("onRequestRemoveViaIDEFile");
+	getIMGF()->getTaskManager()->onTaskEnd("onRequestRemoveViaIDEFile");
 	*/
 }
 void		CTaskDispatchManager::onRequestRemoveViaTextLines(void)
 {
 	/*
 	todo
-	getKGM()->getTaskManager()->onTaskBegin("onRequestRemoveViaTextLines");
-	if (getKGM()->getEntryListTab() == nullptr)
+	getIMGF()->getTaskManager()->onTaskBegin("onRequestRemoveViaTextLines");
+	if (getIMGF()->getEntryListTab() == nullptr)
 	{
-		getKGM()->getTaskManager()->onTaskEnd("onRequestRemoveViaTextLines", true);
+		getIMGF()->getTaskManager()->onTaskEnd("onRequestRemoveViaTextLines", true);
 		return;
 	}
 
-	getKGM()->getTaskManager()->onTaskPause();
-	string strData = getKGM()->getPopupGUIManager()->showTextAreaDialog(CLocalizationManager::getInstance()->getTranslatedText("Window_TextArea_4_Title"), CLocalizationManager::getInstance()->getTranslatedText("Window_TextArea_3_Message"));
-	getKGM()->getTaskManager()->onTaskUnpause();
+	getIMGF()->getTaskManager()->onTaskPause();
+	string strData = getIMGF()->getPopupGUIManager()->showTextAreaDialog(CLocalizationManager::getInstance()->getTranslatedText("Window_TextArea_4_Title"), CLocalizationManager::getInstance()->getTranslatedText("Window_TextArea_3_Message"));
+	getIMGF()->getTaskManager()->onTaskUnpause();
 	if (strData == "")
 	{
-		getKGM()->getTaskManager()->onTaskEnd("onRequestRemoveViaTextLines", true);
+		getIMGF()->getTaskManager()->onTaskEnd("onRequestRemoveViaTextLines", true);
 		return;
 	}
 
@@ -1932,62 +1932,62 @@ void		CTaskDispatchManager::onRequestRemoveViaTextLines(void)
 	}
 	vecEntryNames = CStdVector::toUpperCase(vecEntryNames);
 
-	getKGM()->getTaskManager()->setTaskMaxProgressTickCount(vecEntryNames.size());
+	getIMGF()->getTaskManager()->setTaskMaxProgressTickCount(vecEntryNames.size());
 
-	CListCtrl *pListControl = ((CListCtrl*)getKGM()->getDialog()->GetDlgItem(37));
+	CListCtrl *pListControl = ((CListCtrl*)getIMGF()->getDialog()->GetDlgItem(37));
 	uint32 uiRemoveCount = 0;
 	vector<string> vecRemovedEntryNames;
 	for (auto strEntryName : vecEntryNames)
 	{
-		CIMGEntry *pIMGEntry = getKGM()->getEntryListTab()->getIMGFile()->getEntryByNameWithoutExtension(strEntryName);
+		CIMGEntry *pIMGEntry = getIMGF()->getEntryListTab()->getIMGFile()->getEntryByNameWithoutExtension(strEntryName);
 		if (pIMGEntry != nullptr)
 		{
-			int nItem = getKGM()->getEntryListTab()->getIMGFile()->getIndexByEntry(pIMGEntry);
+			int nItem = getIMGF()->getEntryListTab()->getIMGFile()->getIndexByEntry(pIMGEntry);
 			pListControl->DeleteItem(nItem);
 
 			vecRemovedEntryNames.push_back(pIMGEntry->getEntryName());
 
-			getKGM()->getEntryListTab()->removeEntry(pIMGEntry);
+			getIMGF()->getEntryListTab()->removeEntry(pIMGEntry);
 
 			uiRemoveCount++;
 		}
 
-		getKGM()->getTaskManager()->onTaskProgressTick();
+		getIMGF()->getTaskManager()->onTaskProgressTick();
 	}
 
 	if (pListControl->GetItemCount() == 0)
 	{
-		getKGM()->getEntryListTab()->readdAllEntriesToMainListView();
+		getIMGF()->getEntryListTab()->readdAllEntriesToMainListView();
 	}
 
-	getKGM()->getEntryListTab()->searchText();
+	getIMGF()->getEntryListTab()->searchText();
 
-	getKGM()->getEntryListTab()->log(CLocalizationManager::getInstance()->getTranslatedFormattedText("Log_82", uiRemoveCount, vecEntryNames.size()));
-	getKGM()->getEntryListTab()->log(CLocalizationManager::getInstance()->getTranslatedText("Log_83"), true);
-	getKGM()->getEntryListTab()->log(CString2::join(vecRemovedEntryNames, "\n"), true);
+	getIMGF()->getEntryListTab()->log(CLocalizationManager::getInstance()->getTranslatedFormattedText("Log_82", uiRemoveCount, vecEntryNames.size()));
+	getIMGF()->getEntryListTab()->log(CLocalizationManager::getInstance()->getTranslatedText("Log_83"), true);
+	getIMGF()->getEntryListTab()->log(CString2::join(vecRemovedEntryNames, "\n"), true);
 
 	if (uiRemoveCount > 0)
 	{
-		getKGM()->getEntryListTab()->setIMGModifiedSinceRebuild(true);
+		getIMGF()->getEntryListTab()->setIMGModifiedSinceRebuild(true);
 	}
-	getKGM()->getTaskManager()->onTaskEnd("onRequestRemoveViaTextLines");
+	getIMGF()->getTaskManager()->onTaskEnd("onRequestRemoveViaTextLines");
 	*/
 }
 void		CTaskDispatchManager::onRequestRemoveViaButton(void)
 {
-	getKGM()->getTaskManager()->onTaskBegin("onRequestRemoveViaButton");
-	if (getKGM()->getEntryListTab() == nullptr)
+	getIMGF()->getTaskManager()->onTaskBegin("onRequestRemoveViaButton");
+	if (getIMGF()->getEntryListTab() == nullptr)
 	{
-		getKGM()->getTaskManager()->onTaskEnd("onRequestRemoveViaButton", true);
+		getIMGF()->getTaskManager()->onTaskEnd("onRequestRemoveViaButton", true);
 		return;
 	}
 
-	getKGM()->getTaskManager()->onTaskPause();
-	uint32 uiRadioButtonIndex = getKGM()->getPopupGUIManager()->showRemoveViaDialog();
-	getKGM()->getTaskManager()->onTaskUnpause();
+	getIMGF()->getTaskManager()->onTaskPause();
+	uint32 uiRadioButtonIndex = getIMGF()->getPopupGUIManager()->showRemoveViaDialog();
+	getIMGF()->getTaskManager()->onTaskUnpause();
 	if (uiRadioButtonIndex == 0xFFFFFFFF)
 	{
-		getKGM()->getTaskManager()->onTaskEnd("onRequestRemoveViaButton", true);
+		getIMGF()->getTaskManager()->onTaskEnd("onRequestRemoveViaButton", true);
 		return;
 	}
 
@@ -2003,23 +2003,23 @@ void		CTaskDispatchManager::onRequestRemoveViaButton(void)
 		onRequestRemoveViaTextLines();
 		break;
 	}
-	getKGM()->getTaskManager()->onTaskEnd("onRequestRemoveViaButton");
+	getIMGF()->getTaskManager()->onTaskEnd("onRequestRemoveViaButton");
 }
 void		CTaskDispatchManager::onRequestImportViaButton(void)
 {
-	getKGM()->getTaskManager()->onTaskBegin("onRequestImportViaButton");
-	if (getKGM()->getEntryListTab() == nullptr)
+	getIMGF()->getTaskManager()->onTaskBegin("onRequestImportViaButton");
+	if (getIMGF()->getEntryListTab() == nullptr)
 	{
-		getKGM()->getTaskManager()->onTaskEnd("onRequestImportViaButton", true);
+		getIMGF()->getTaskManager()->onTaskEnd("onRequestImportViaButton", true);
 		return;
 	}
 
-	getKGM()->getTaskManager()->onTaskPause();
-	uint32 uiRadioButtonIndex = getKGM()->getPopupGUIManager()->showImportViaDialog();
-	getKGM()->getTaskManager()->onTaskUnpause();
+	getIMGF()->getTaskManager()->onTaskPause();
+	uint32 uiRadioButtonIndex = getIMGF()->getPopupGUIManager()->showImportViaDialog();
+	getIMGF()->getTaskManager()->onTaskUnpause();
 	if (uiRadioButtonIndex == 0xFFFFFFFF)
 	{
-		getKGM()->getTaskManager()->onTaskEnd("onRequestImportViaButton", true);
+		getIMGF()->getTaskManager()->onTaskEnd("onRequestImportViaButton", true);
 		return;
 	}
 
@@ -2038,37 +2038,37 @@ void		CTaskDispatchManager::onRequestImportViaButton(void)
 		onRequestImportViaFolder();
 		break;
 	}
-	getKGM()->getTaskManager()->onTaskEnd("onRequestImportViaButton");
+	getIMGF()->getTaskManager()->onTaskEnd("onRequestImportViaButton");
 }
 void		CTaskDispatchManager::onRequestImportViaIDEFile(void)
 {
-	getKGM()->getTaskManager()->onTaskBegin("onRequestImportViaIDEFile");
-	if (getKGM()->getEntryListTab() == nullptr)
+	getIMGF()->getTaskManager()->onTaskBegin("onRequestImportViaIDEFile");
+	if (getIMGF()->getEntryListTab() == nullptr)
 	{
-		getKGM()->getTaskManager()->onTaskEnd("onRequestImportViaIDEFile", true);
+		getIMGF()->getTaskManager()->onTaskEnd("onRequestImportViaIDEFile", true);
 		return;
 	}
 
-	getKGM()->getTaskManager()->onTaskPause();
-	vector<string> vecPaths = mcore::CGUIManager::openFileDialog(getKGM()->getLastUsedDirectory("IMPORT_IDE__IDE"), "IDE");
-	getKGM()->getTaskManager()->onTaskUnpause();
+	getIMGF()->getTaskManager()->onTaskPause();
+	vector<string> vecPaths = mcore::CGUIManager::openFileDialog(getIMGF()->getLastUsedDirectory("IMPORT_IDE__IDE"), "IDE");
+	getIMGF()->getTaskManager()->onTaskUnpause();
 	if (vecPaths.size() == 0)
 	{
-		getKGM()->getTaskManager()->onTaskEnd("onRequestImportViaIDEFile", true);
+		getIMGF()->getTaskManager()->onTaskEnd("onRequestImportViaIDEFile", true);
 		return;
 	}
-	getKGM()->setLastUsedDirectory("IMPORT_IDE__IDE", CPathManager::getDirectory(vecPaths[0]));
+	getIMGF()->setLastUsedDirectory("IMPORT_IDE__IDE", CPathManager::getDirectory(vecPaths[0]));
 
-	getKGM()->getTaskManager()->onTaskPause();
-	string strFolderPath = mcore::CGUIManager::chooseFolderDialog(CLocalizationManager::getInstance()->getTranslatedText("ChooseFolderPopup_13"), getKGM()->getLastUsedDirectory("IMPORT_IDE__SOURCE"));
-	getKGM()->getTaskManager()->onTaskUnpause();
+	getIMGF()->getTaskManager()->onTaskPause();
+	string strFolderPath = mcore::CGUIManager::chooseFolderDialog(CLocalizationManager::getInstance()->getTranslatedText("ChooseFolderPopup_13"), getIMGF()->getLastUsedDirectory("IMPORT_IDE__SOURCE"));
+	getIMGF()->getTaskManager()->onTaskUnpause();
 	if (strFolderPath == "")
 	{
-		getKGM()->getTaskManager()->onTaskEnd("onRequestImportViaIDEFile", true);
+		getIMGF()->getTaskManager()->onTaskEnd("onRequestImportViaIDEFile", true);
 		return;
 	}
 	strFolderPath = CPathManager::addSlashToEnd(strFolderPath);
-	getKGM()->setLastUsedDirectory("IMPORT_IDE__SOURCE", strFolderPath);
+	getIMGF()->setLastUsedDirectory("IMPORT_IDE__SOURCE", strFolderPath);
 
 	vector<string> vecEntryNamesInAllFiles;
 	for (auto strPath : vecPaths)
@@ -2098,7 +2098,7 @@ void		CTaskDispatchManager::onRequestImportViaIDEFile(void)
 	}
 	vecEntryNamesInAllFiles = CStdVector::removeDuplicates(vecEntryNamesInAllFiles);
 
-	getKGM()->getTaskManager()->setTaskMaxProgressTickCount(vecEntryNamesInAllFiles.size());
+	getIMGF()->getTaskManager()->setTaskMaxProgressTickCount(vecEntryNamesInAllFiles.size());
 	uint32 uiImportCount = 0;
 	vector<string> vecImportedEntryNames;
 	for (auto strEntryName : vecEntryNamesInAllFiles)
@@ -2107,51 +2107,51 @@ void		CTaskDispatchManager::onRequestImportViaIDEFile(void)
 		if (CFileManager::doesFileExist(strEntryPath))
 		{
 			uiImportCount++;
-			getKGM()->getEntryListTab()->addOrReplaceEntryViaFileAndSettings(strEntryPath);
+			getIMGF()->getEntryListTab()->addOrReplaceEntryViaFileAndSettings(strEntryPath);
 			vecImportedEntryNames.push_back(strEntryName);
 		}
 
-		getKGM()->getTaskManager()->onTaskProgressTick();
+		getIMGF()->getTaskManager()->onTaskProgressTick();
 	}
 
-	getKGM()->getEntryListTab()->log(CLocalizationManager::getInstance()->getTranslatedFormattedText("Log_84", uiImportCount, vecEntryNamesInAllFiles.size()));
-	getKGM()->getEntryListTab()->log(CLocalizationManager::getInstance()->getTranslatedText("EntriesForImport"), true);
-	getKGM()->getEntryListTab()->log(CString2::join(vecImportedEntryNames, "\n"), true);
+	getIMGF()->getEntryListTab()->log(CLocalizationManager::getInstance()->getTranslatedFormattedText("Log_84", uiImportCount, vecEntryNamesInAllFiles.size()));
+	getIMGF()->getEntryListTab()->log(CLocalizationManager::getInstance()->getTranslatedText("EntriesForImport"), true);
+	getIMGF()->getEntryListTab()->log(CString2::join(vecImportedEntryNames, "\n"), true);
 
 	if (uiImportCount > 0)
 	{
-		getKGM()->getEntryListTab()->setIMGModifiedSinceRebuild(true);
+		getIMGF()->getEntryListTab()->setIMGModifiedSinceRebuild(true);
 	}
-	getKGM()->getTaskManager()->onTaskEnd("onRequestImportViaIDEFile");
+	getIMGF()->getTaskManager()->onTaskEnd("onRequestImportViaIDEFile");
 }
 void		CTaskDispatchManager::onRequestImportViaTextLines(void)
 {
-	getKGM()->getTaskManager()->onTaskBegin("onRequestImportViaTextLines");
-	if (getKGM()->getEntryListTab() == nullptr)
+	getIMGF()->getTaskManager()->onTaskBegin("onRequestImportViaTextLines");
+	if (getIMGF()->getEntryListTab() == nullptr)
 	{
-		getKGM()->getTaskManager()->onTaskEnd("onRequestImportViaTextLines", true);
+		getIMGF()->getTaskManager()->onTaskEnd("onRequestImportViaTextLines", true);
 		return;
 	}
 
-	getKGM()->getTaskManager()->onTaskPause();
-	string strData = getKGM()->getPopupGUIManager()->showTextAreaDialog(CLocalizationManager::getInstance()->getTranslatedText("Window_TextArea_5_Title"), CLocalizationManager::getInstance()->getTranslatedText("Window_TextArea_3_Message"));
-	getKGM()->getTaskManager()->onTaskUnpause();
+	getIMGF()->getTaskManager()->onTaskPause();
+	string strData = getIMGF()->getPopupGUIManager()->showTextAreaDialog(CLocalizationManager::getInstance()->getTranslatedText("Window_TextArea_5_Title"), CLocalizationManager::getInstance()->getTranslatedText("Window_TextArea_3_Message"));
+	getIMGF()->getTaskManager()->onTaskUnpause();
 	if (strData == "")
 	{
-		getKGM()->getTaskManager()->onTaskEnd("onRequestImportViaTextLines", true);
+		getIMGF()->getTaskManager()->onTaskEnd("onRequestImportViaTextLines", true);
 		return;
 	}
 
-	getKGM()->getTaskManager()->onTaskPause();
-	string strPath = mcore::CGUIManager::chooseFolderDialog(CLocalizationManager::getInstance()->getTranslatedText("ChooseFolderPopup_13"), getKGM()->getLastUsedDirectory("IMPORT_TEXTLINES"));
-	getKGM()->getTaskManager()->onTaskUnpause();
+	getIMGF()->getTaskManager()->onTaskPause();
+	string strPath = mcore::CGUIManager::chooseFolderDialog(CLocalizationManager::getInstance()->getTranslatedText("ChooseFolderPopup_13"), getIMGF()->getLastUsedDirectory("IMPORT_TEXTLINES"));
+	getIMGF()->getTaskManager()->onTaskUnpause();
 	if (strPath == "")
 	{
-		getKGM()->getTaskManager()->onTaskEnd("onRequestImportViaTextLines", true);
+		getIMGF()->getTaskManager()->onTaskEnd("onRequestImportViaTextLines", true);
 		return;
 	}
 	strPath = CPathManager::addSlashToEnd(strPath);
-	getKGM()->setLastUsedDirectory("IMPORT_TEXTLINES", strPath);
+	getIMGF()->setLastUsedDirectory("IMPORT_TEXTLINES", strPath);
 
 	vector<string> vecEntryNamesWithoutExtension, vecImportedEntryNames;
 	vector<string> vecLines = CString2::split(strData, "\r\n");
@@ -2168,7 +2168,7 @@ void		CTaskDispatchManager::onRequestImportViaTextLines(void)
 	}
 	vecEntryNamesWithoutExtension = CStdVector::removeDuplicates(CStdVector::toUpperCase(vecEntryNamesWithoutExtension));
 
-	getKGM()->getTaskManager()->setTaskMaxProgressTickCount(vecEntryNamesWithoutExtension.size());
+	getIMGF()->getTaskManager()->setTaskMaxProgressTickCount(vecEntryNamesWithoutExtension.size());
 	uint32 uiImportCount = 0;
 	for (auto strEntryNameWithoutExtension : vecEntryNamesWithoutExtension)
 	{
@@ -2176,27 +2176,27 @@ void		CTaskDispatchManager::onRequestImportViaTextLines(void)
 		if (strFileName != "")
 		{
 			uiImportCount++;
-			getKGM()->getEntryListTab()->addOrReplaceEntryViaFileAndSettings(strPath + strFileName);
+			getIMGF()->getEntryListTab()->addOrReplaceEntryViaFileAndSettings(strPath + strFileName);
 			vecImportedEntryNames.push_back(strFileName);
 		}
 
-		getKGM()->getTaskManager()->onTaskProgressTick();
+		getIMGF()->getTaskManager()->onTaskProgressTick();
 	}
 
-	getKGM()->getEntryListTab()->log(CLocalizationManager::getInstance()->getTranslatedFormattedText("Log_84", uiImportCount, vecEntryNamesWithoutExtension.size()));
-	getKGM()->getEntryListTab()->log(CLocalizationManager::getInstance()->getTranslatedText("EntriesForImport"), true);
-	getKGM()->getEntryListTab()->log(CString2::join(vecImportedEntryNames, "\n"), true);
+	getIMGF()->getEntryListTab()->log(CLocalizationManager::getInstance()->getTranslatedFormattedText("Log_84", uiImportCount, vecEntryNamesWithoutExtension.size()));
+	getIMGF()->getEntryListTab()->log(CLocalizationManager::getInstance()->getTranslatedText("EntriesForImport"), true);
+	getIMGF()->getEntryListTab()->log(CString2::join(vecImportedEntryNames, "\n"), true);
 
 	if (uiImportCount > 0)
 	{
-		getKGM()->getEntryListTab()->setIMGModifiedSinceRebuild(true);
+		getIMGF()->getEntryListTab()->setIMGModifiedSinceRebuild(true);
 	}
-	getKGM()->getTaskManager()->onTaskEnd("onRequestImportViaTextLines");
+	getIMGF()->getTaskManager()->onTaskEnd("onRequestImportViaTextLines");
 }
 void		CTaskDispatchManager::onRequestNew(eIMGVersion eIMGVersion)
 {
-	getKGM()->getLastUsedValueManager()->setLastUsedValue_New_IMGVersion(eIMGVersion);
-	getKGM()->getTaskManager()->onTaskBegin("onRequestNew");
+	getIMGF()->getLastUsedValueManager()->setLastUsedValue_New_IMGVersion(eIMGVersion);
+	getIMGF()->getTaskManager()->onTaskBegin("onRequestNew");
 	//TCHAR szCurrentDirectory[MAX_PATH];
 	//GetCurrentDirectory(MAX_PATH, szCurrentDirectory);
 
@@ -2204,37 +2204,37 @@ void		CTaskDispatchManager::onRequestNew(eIMGVersion eIMGVersion)
 	//strFilePath = CFileManager::getNextIncrementingFileName(strFilePath);
 
 	/*
-	getKGM()->getTaskManager()->onTaskPause();
-	string strFilePath = mcore::CGUIManager::saveFileDialog(getKGM()->getLastUsedDirectory("NEW"), "IMG,DIR", "IMG.img");
-	getKGM()->getTaskManager()->onTaskUnpause();
+	getIMGF()->getTaskManager()->onTaskPause();
+	string strFilePath = mcore::CGUIManager::saveFileDialog(getIMGF()->getLastUsedDirectory("NEW"), "IMG,DIR", "IMG.img");
+	getIMGF()->getTaskManager()->onTaskUnpause();
 	if (strFilePath == "")
 	{
-		getKGM()->getTaskManager()->onTaskEnd("onRequestNew", true);
+		getIMGF()->getTaskManager()->onTaskEnd("onRequestNew", true);
 		return;
 	}
-	getKGM()->setLastUsedDirectory("NEW", strFilePath);
+	getIMGF()->setLastUsedDirectory("NEW", strFilePath);
 	*/
 
-	string strFilePath = getKGM()->getInstallationMeta().getLocalAppPath() + "New/IMG/New.img";
+	string strFilePath = getIMGF()->getInstallationMeta().getLocalAppPath() + "New/IMG/New.img";
 	strFilePath = CFileManager::getNextIncrementingFileName(strFilePath);
 	CFileManager::createFoldersForPath(strFilePath);
 	strFilePath = CString2::replace(strFilePath, "/", "\\");
-	getKGM()->getIMGEditor()->addBlankTab(strFilePath, eIMGVersion);
-	getKGM()->getTaskManager()->onTaskEnd("onRequestNew");
+	getIMGF()->getIMGEditor()->addBlankTab(strFilePath, eIMGVersion);
+	getIMGF()->getTaskManager()->onTaskEnd("onRequestNew");
 }
 void		CTaskDispatchManager::onRequestStats(void)
 {
-	getKGM()->getTaskManager()->onTaskBegin("onRequestStats");
-	if (getKGM()->getEntryListTab() == nullptr)
+	getIMGF()->getTaskManager()->onTaskBegin("onRequestStats");
+	if (getIMGF()->getEntryListTab() == nullptr)
 	{
-		getKGM()->getTaskManager()->onTaskEnd("onRequestStats", true);
+		getIMGF()->getTaskManager()->onTaskEnd("onRequestStats", true);
 		return;
 	}
 
 	unordered_map<uint32, uint32> umapStatsRWVersions;
 	unordered_map<string, uint32> umapStatsExtensions;
 
-	for (CIMGEntry *pIMGEntry : getKGM()->getEntryListTab()->getIMGFile()->getEntries())
+	for (CIMGEntry *pIMGEntry : getIMGF()->getEntryListTab()->getIMGFile()->getEntries())
 	{
 		if (pIMGEntry->getRWVersion() != nullptr)
 		{
@@ -2277,33 +2277,33 @@ void		CTaskDispatchManager::onRequestStats(void)
 		umapVersionNames2[uiVersionCC] = strVersionName + " (" + CLocalizationManager::getInstance()->getTranslatedText(strLocalizationKey) + ")";
 	}
 	
-	getKGM()->getTaskManager()->onTaskPause();
-	getKGM()->getPopupGUIManager()->showStatsDialog(umapStatsRWVersions, umapStatsExtensions, umapVersionNames2);
-	getKGM()->getTaskManager()->onTaskUnpause();
-	getKGM()->getTaskManager()->onTaskEnd("onRequestStats");
+	getIMGF()->getTaskManager()->onTaskPause();
+	getIMGF()->getPopupGUIManager()->showStatsDialog(umapStatsRWVersions, umapStatsExtensions, umapVersionNames2);
+	getIMGF()->getTaskManager()->onTaskUnpause();
+	getIMGF()->getTaskManager()->onTaskEnd("onRequestStats");
 }
 void		CTaskDispatchManager::onRequestNameCase(uint8 ucCaseType, uint8 ucFilenameType)
 {
 	/*
 	todo
-	getKGM()->getLastUsedValueManager()->setLastUsedValue_NameCase_CaseType(ucCaseType);
-	getKGM()->getLastUsedValueManager()->setLastUsedValue_NameCase_FilenameType(ucFilenameType);
-	getKGM()->getTaskManager()->onTaskBegin("onRequestNameCase");
-	if (getKGM()->getEntryListTab() == nullptr)
+	getIMGF()->getLastUsedValueManager()->setLastUsedValue_NameCase_CaseType(ucCaseType);
+	getIMGF()->getLastUsedValueManager()->setLastUsedValue_NameCase_FilenameType(ucFilenameType);
+	getIMGF()->getTaskManager()->onTaskBegin("onRequestNameCase");
+	if (getIMGF()->getEntryListTab() == nullptr)
 	{
-		getKGM()->getTaskManager()->onTaskEnd("onRequestNameCase", true);
+		getIMGF()->getTaskManager()->onTaskEnd("onRequestNameCase", true);
 		return;
 	}
 
-	CListCtrl *pListControl = ((CListCtrl*)getKGM()->getDialog()->GetDlgItem(37));
+	CListCtrl *pListControl = ((CListCtrl*)getIMGF()->getDialog()->GetDlgItem(37));
 	POSITION pos = pListControl->GetFirstSelectedItemPosition();
 	CIMGEntry *pIMGEntry;
 	if (pos == NULL)
 	{
-		getKGM()->getTaskManager()->onTaskEnd("onRequestNameCase", true);
+		getIMGF()->getTaskManager()->onTaskEnd("onRequestNameCase", true);
 		return;
 	}
-	getKGM()->getTaskManager()->setTaskMaxProgressTickCount(pListControl->GetSelectedCount());
+	getIMGF()->getTaskManager()->setTaskMaxProgressTickCount(pListControl->GetSelectedCount());
 	while (pos)
 	{
 		int nItem = pListControl->GetNextSelectedItem(pos);
@@ -2355,39 +2355,39 @@ void		CTaskDispatchManager::onRequestNameCase(uint8 ucCaseType, uint8 ucFilename
 			}
 		}
 
-		getKGM()->getEntryListTab()->updateEntryInMainListView(pIMGEntry);
+		getIMGF()->getEntryListTab()->updateEntryInMainListView(pIMGEntry);
 
-		getKGM()->getTaskManager()->onTaskProgressTick();
+		getIMGF()->getTaskManager()->onTaskProgressTick();
 	}
 
-	getKGM()->getEntryListTab()->searchText();
+	getIMGF()->getEntryListTab()->searchText();
 
-	getKGM()->getEntryListTab()->setIMGModifiedSinceRebuild(true);
-	getKGM()->getTaskManager()->onTaskEnd("onRequestNameCase");
+	getIMGF()->getEntryListTab()->setIMGModifiedSinceRebuild(true);
+	getIMGF()->getTaskManager()->onTaskEnd("onRequestNameCase");
 	*/
 }
 void		CTaskDispatchManager::onRequestCopyEntryData(eIMGEntryProperty eIMGEntryProperty)
 {
 	/*
 	todo
-	getKGM()->getLastUsedValueManager()->setLastUsedValue_Copy_IMGEntryProperty(eIMGEntryProperty);
-	getKGM()->getTaskManager()->onTaskBegin("onRequestCopyEntryData");
-	if (getKGM()->getEntryListTab() == nullptr)
+	getIMGF()->getLastUsedValueManager()->setLastUsedValue_Copy_IMGEntryProperty(eIMGEntryProperty);
+	getIMGF()->getTaskManager()->onTaskBegin("onRequestCopyEntryData");
+	if (getIMGF()->getEntryListTab() == nullptr)
 	{
-		getKGM()->getTaskManager()->onTaskEnd("onRequestCopyEntryData", true);
+		getIMGF()->getTaskManager()->onTaskEnd("onRequestCopyEntryData", true);
 		return;
 	}
 
-	CListCtrl *pListControl = ((CListCtrl*)getKGM()->getDialog()->GetDlgItem(37));
+	CListCtrl *pListControl = ((CListCtrl*)getIMGF()->getDialog()->GetDlgItem(37));
 	POSITION pos = pListControl->GetFirstSelectedItemPosition();
 	CIMGEntry *pIMGEntry;
 	vector<string> vecCopyLines;
 	if (pos == NULL)
 	{
-		getKGM()->getTaskManager()->onTaskEnd("onRequestCopyEntryData", true);
+		getIMGF()->getTaskManager()->onTaskEnd("onRequestCopyEntryData", true);
 		return;
 	}
-	getKGM()->getTaskManager()->setTaskMaxProgressTickCount(pListControl->GetSelectedCount());
+	getIMGF()->getTaskManager()->setTaskMaxProgressTickCount(pListControl->GetSelectedCount());
 	while (pos)
 	{
 		int nItem = pListControl->GetNextSelectedItem(pos);
@@ -2396,7 +2396,7 @@ void		CTaskDispatchManager::onRequestCopyEntryData(eIMGEntryProperty eIMGEntryPr
 		switch (eIMGEntryProperty)
 		{
 		case IMG_ENTRY_ID:
-			vecCopyLines.push_back(CString2::toString(getKGM()->getEntryListTab()->getIMGFile()->getIndexByEntry(pIMGEntry) + 1));
+			vecCopyLines.push_back(CString2::toString(getIMGF()->getEntryListTab()->getIMGFile()->getIndexByEntry(pIMGEntry) + 1));
 			break;
 		case IMG_ENTRY_NAME:
 			vecCopyLines.push_back(pIMGEntry->getEntryName());
@@ -2418,32 +2418,32 @@ void		CTaskDispatchManager::onRequestCopyEntryData(eIMGEntryProperty eIMGEntryPr
 			break;
 		}
 
-		getKGM()->getTaskManager()->onTaskProgressTick();
+		getIMGF()->getTaskManager()->onTaskProgressTick();
 	}
 
 	CString2::setClipboardText(CString2::join(vecCopyLines, "\r\n"));
-	getKGM()->getTaskManager()->onTaskEnd("onRequestCopyEntryData");
+	getIMGF()->getTaskManager()->onTaskEnd("onRequestCopyEntryData");
 	*/
 }
 void		CTaskDispatchManager::onRequestShift(uint8 ucDirection)
 {
 	/*
 	todo
-	getKGM()->getLastUsedValueManager()->setLastUsedValue_Shift_Direction(ucDirection);
-	getKGM()->getTaskManager()->onTaskBegin("onRequestShift");
-	if (getKGM()->getEntryListTab() == nullptr)
+	getIMGF()->getLastUsedValueManager()->setLastUsedValue_Shift_Direction(ucDirection);
+	getIMGF()->getTaskManager()->onTaskBegin("onRequestShift");
+	if (getIMGF()->getEntryListTab() == nullptr)
 	{
-		getKGM()->getTaskManager()->onTaskEnd("onRequestShift", true);
+		getIMGF()->getTaskManager()->onTaskEnd("onRequestShift", true);
 		return;
 	}
 
-	CListCtrl *pListControl = ((CListCtrl*)getKGM()->getDialog()->GetDlgItem(37));
+	CListCtrl *pListControl = ((CListCtrl*)getIMGF()->getDialog()->GetDlgItem(37));
 	POSITION pos = pListControl->GetFirstSelectedItemPosition();
 	CIMGEntry *pIMGEntry = nullptr;
 	int nItem;
 	if (pos == NULL)
 	{
-		getKGM()->getTaskManager()->onTaskEnd("onRequestShift", true);
+		getIMGF()->getTaskManager()->onTaskEnd("onRequestShift", true);
 		return;
 	}
 	while (pos)
@@ -2457,7 +2457,7 @@ void		CTaskDispatchManager::onRequestShift(uint8 ucDirection)
 	{
 		if (nItem == 0)
 		{
-			getKGM()->getTaskManager()->onTaskEnd("onRequestShift", true);
+			getIMGF()->getTaskManager()->onTaskEnd("onRequestShift", true);
 			return;
 		}
 	}
@@ -2465,7 +2465,7 @@ void		CTaskDispatchManager::onRequestShift(uint8 ucDirection)
 	{
 		if (nItem == (pListControl->GetItemCount() - 1))
 		{
-			getKGM()->getTaskManager()->onTaskEnd("onRequestShift", true);
+			getIMGF()->getTaskManager()->onTaskEnd("onRequestShift", true);
 			return;
 		}
 	}
@@ -2482,62 +2482,62 @@ void		CTaskDispatchManager::onRequestShift(uint8 ucDirection)
 		uiIMGEntry2Index = nItem + 1;
 	}
 
-	getKGM()->getTaskManager()->setTaskMaxProgressTickCount(4);
+	getIMGF()->getTaskManager()->setTaskMaxProgressTickCount(4);
 
-	pIMGEntry2 = getKGM()->getEntryListTab()->getIMGFile()->getEntryByIndex(uiIMGEntry2Index);
-	getKGM()->getEntryListTab()->getIMGFile()->swapEntries(pIMGEntry, pIMGEntry2);
-	getKGM()->getTaskManager()->onTaskProgressTick();
+	pIMGEntry2 = getIMGF()->getEntryListTab()->getIMGFile()->getEntryByIndex(uiIMGEntry2Index);
+	getIMGF()->getEntryListTab()->getIMGFile()->swapEntries(pIMGEntry, pIMGEntry2);
+	getIMGF()->getTaskManager()->onTaskProgressTick();
 
 	pListControl->SetItemData(uiIMGEntry1Index, (DWORD)pIMGEntry2);
 	pListControl->SetItemData(uiIMGEntry2Index, (DWORD)pIMGEntry);
-	getKGM()->getTaskManager()->onTaskProgressTick();
+	getIMGF()->getTaskManager()->onTaskProgressTick();
 
-	getKGM()->getEntryListTab()->updateEntryInMainListView(pIMGEntry2);
-	getKGM()->getTaskManager()->onTaskProgressTick();
+	getIMGF()->getEntryListTab()->updateEntryInMainListView(pIMGEntry2);
+	getIMGF()->getTaskManager()->onTaskProgressTick();
 
-	getKGM()->getEntryListTab()->updateEntryInMainListView(pIMGEntry);
-	getKGM()->getTaskManager()->onTaskProgressTick();
+	getIMGF()->getEntryListTab()->updateEntryInMainListView(pIMGEntry);
+	getIMGF()->getTaskManager()->onTaskProgressTick();
 
-	getKGM()->getEntryListTab()->setIMGModifiedSinceRebuild(true);
-	getKGM()->getTaskManager()->onTaskEnd("onRequestShift");
+	getIMGF()->getEntryListTab()->setIMGModifiedSinceRebuild(true);
+	getIMGF()->getTaskManager()->onTaskEnd("onRequestShift");
 	*/
 }
 void		CTaskDispatchManager::onRequestQuickExport(void)
 {
 	/*
 	todo
-	getKGM()->getTaskManager()->onTaskBegin("onRequestQuickExport");
-	if (getKGM()->getEntryListTab() == nullptr)
+	getIMGF()->getTaskManager()->onTaskBegin("onRequestQuickExport");
+	if (getIMGF()->getEntryListTab() == nullptr)
 	{
-		getKGM()->getTaskManager()->onTaskEnd("onRequestQuickExport", true);
+		getIMGF()->getTaskManager()->onTaskEnd("onRequestQuickExport", true);
 		return;
 	}
 
-	if (getKGM()->getSettingsManager()->getSettingString("QuickExportPath") == "")
+	if (getIMGF()->getSettingsManager()->getSettingString("QuickExportPath") == "")
 	{
-		getKGM()->getTaskManager()->onTaskPause();
-		string strQuickExportPath = mcore::CGUIManager::chooseFolderDialog(CLocalizationManager::getInstance()->getTranslatedText("ChooseFolderPopup_1"), getKGM()->getLastUsedDirectory("QUICK_EXPORT"));
-		getKGM()->getTaskManager()->onTaskUnpause();
+		getIMGF()->getTaskManager()->onTaskPause();
+		string strQuickExportPath = mcore::CGUIManager::chooseFolderDialog(CLocalizationManager::getInstance()->getTranslatedText("ChooseFolderPopup_1"), getIMGF()->getLastUsedDirectory("QUICK_EXPORT"));
+		getIMGF()->getTaskManager()->onTaskUnpause();
 	
 		if (strQuickExportPath == "")
 		{
-			getKGM()->getTaskManager()->onTaskEnd("onRequestQuickExport", true);
+			getIMGF()->getTaskManager()->onTaskEnd("onRequestQuickExport", true);
 			return;
 		}
 		
-		getKGM()->setLastUsedDirectory("QUICK_EXPORT", strQuickExportPath);
-		getKGM()->getSettingsManager()->setSettingString("QuickExportPath", strQuickExportPath);
+		getIMGF()->setLastUsedDirectory("QUICK_EXPORT", strQuickExportPath);
+		getIMGF()->getSettingsManager()->setSettingString("QuickExportPath", strQuickExportPath);
 	}
 
 	vector<CIMGEntry*> vecIMGEntries;
 	vector<string> vecExportedEntryNames;
-	CListCtrl *pListControl = ((CListCtrl*)getKGM()->getDialog()->GetDlgItem(37));
+	CListCtrl *pListControl = ((CListCtrl*)getIMGF()->getDialog()->GetDlgItem(37));
 	POSITION pos = pListControl->GetFirstSelectedItemPosition();
-	getKGM()->getTaskManager()->setTaskMaxProgressTickCount(pListControl->GetSelectedCount());
+	getIMGF()->getTaskManager()->setTaskMaxProgressTickCount(pListControl->GetSelectedCount());
 	CIMGEntry *pIMGEntry = nullptr;
 	if (pos == NULL)
 	{
-		getKGM()->getTaskManager()->onTaskEnd("onRequestQuickExport", true);
+		getIMGF()->getTaskManager()->onTaskEnd("onRequestQuickExport", true);
 		return;
 	}
 	while (pos)
@@ -2547,40 +2547,40 @@ void		CTaskDispatchManager::onRequestQuickExport(void)
 		vecIMGEntries.push_back(pIMGEntry);
 		vecExportedEntryNames.push_back(pIMGEntry->getEntryName());
 
-		getKGM()->getTaskManager()->onTaskProgressTick();
+		getIMGF()->getTaskManager()->onTaskProgressTick();
 	}
 
-	getKGM()->getEntryListTab()->getIMGFile()->exportMultiple(vecIMGEntries, getKGM()->getSettingsManager()->getSettingString("QuickExportPath"));
+	getIMGF()->getEntryListTab()->getIMGFile()->exportMultiple(vecIMGEntries, getIMGF()->getSettingsManager()->getSettingString("QuickExportPath"));
 	if (vecIMGEntries.size() == 1)
 	{
-		getKGM()->getEntryListTab()->log(CLocalizationManager::getInstance()->getTranslatedFormattedText("Log_86", vecIMGEntries[0]->getEntryName().c_str(), vecIMGEntries[0]->getEntrySize()));
+		getIMGF()->getEntryListTab()->log(CLocalizationManager::getInstance()->getTranslatedFormattedText("Log_86", vecIMGEntries[0]->getEntryName().c_str(), vecIMGEntries[0]->getEntrySize()));
 	}
 	else
 	{
-		getKGM()->getEntryListTab()->log(CLocalizationManager::getInstance()->getTranslatedFormattedText("Log_87", vecIMGEntries.size()));
+		getIMGF()->getEntryListTab()->log(CLocalizationManager::getInstance()->getTranslatedFormattedText("Log_87", vecIMGEntries.size()));
 	}
-	getKGM()->getEntryListTab()->log(CLocalizationManager::getInstance()->getTranslatedText("Log_88"), true);
-	getKGM()->getEntryListTab()->log(CString2::join(vecExportedEntryNames, "\n"), true);
-	getKGM()->getTaskManager()->onTaskEnd("onRequestQuickExport");
+	getIMGF()->getEntryListTab()->log(CLocalizationManager::getInstance()->getTranslatedText("Log_88"), true);
+	getIMGF()->getEntryListTab()->log(CString2::join(vecExportedEntryNames, "\n"), true);
+	getIMGF()->getTaskManager()->onTaskEnd("onRequestQuickExport");
 	*/
 }
 void		CTaskDispatchManager::onRequestSelectViaFileExtension(void)
 {
 	/*
 	todo
-	getKGM()->getTaskManager()->onTaskBegin("onRequestSelectViaFileExtension");
-	if (getKGM()->getEntryListTab() == nullptr)
+	getIMGF()->getTaskManager()->onTaskBegin("onRequestSelectViaFileExtension");
+	if (getIMGF()->getEntryListTab() == nullptr)
 	{
-		getKGM()->getTaskManager()->onTaskEnd("onRequestSelectViaFileExtension", true);
+		getIMGF()->getTaskManager()->onTaskEnd("onRequestSelectViaFileExtension", true);
 		return;
 	}
 
-	getKGM()->getTaskManager()->onTaskPause();
-	string strText = getKGM()->getPopupGUIManager()->showTextInputDialog(CLocalizationManager::getInstance()->getTranslatedText("Window_TextInput_4_Title"), CLocalizationManager::getInstance()->getTranslatedText("Window_TextInput_4_Message"));
-	getKGM()->getTaskManager()->onTaskUnpause();
+	getIMGF()->getTaskManager()->onTaskPause();
+	string strText = getIMGF()->getPopupGUIManager()->showTextInputDialog(CLocalizationManager::getInstance()->getTranslatedText("Window_TextInput_4_Title"), CLocalizationManager::getInstance()->getTranslatedText("Window_TextInput_4_Message"));
+	getIMGF()->getTaskManager()->onTaskUnpause();
 	if (strText == "")
 	{
-		getKGM()->getTaskManager()->onTaskEnd("onRequestSelectViaFileExtension", true);
+		getIMGF()->getTaskManager()->onTaskEnd("onRequestSelectViaFileExtension", true);
 		return;
 	}
 
@@ -2594,79 +2594,79 @@ void		CTaskDispatchManager::onRequestSelectViaFileExtension(void)
 		}
 	}
 
-	CListCtrl *pListControl = ((CListCtrl*)getKGM()->getDialog()->GetDlgItem(37));
+	CListCtrl *pListControl = ((CListCtrl*)getIMGF()->getDialog()->GetDlgItem(37));
 	uint32 uiSelectedEntryCount = 0;
-	getKGM()->getTaskManager()->setTaskMaxProgressTickCount(pListControl->GetItemCount());
+	getIMGF()->getTaskManager()->setTaskMaxProgressTickCount(pListControl->GetItemCount());
 	for (uint32 i = 0; i < (uint32)pListControl->GetItemCount(); i++)
 	{
-		if (std::find(vecFileExtensions.begin(), vecFileExtensions.end(), CString2::toUpperCase(CPathManager::getFileExtension(getKGM()->getEntryListTab()->getIMGFile()->getEntryByIndex(i)->getEntryName()))) != vecFileExtensions.end())
+		if (std::find(vecFileExtensions.begin(), vecFileExtensions.end(), CString2::toUpperCase(CPathManager::getFileExtension(getIMGF()->getEntryListTab()->getIMGFile()->getEntryByIndex(i)->getEntryName()))) != vecFileExtensions.end())
 		{
 			uiSelectedEntryCount++;
 			pListControl->SetItemState(i, LVIS_SELECTED, LVIS_SELECTED);
 			pListControl->SetSelectionMark(i);
 		}
 
-		getKGM()->getTaskManager()->onTaskProgressTick();
+		getIMGF()->getTaskManager()->onTaskProgressTick();
 	}
 
-	getKGM()->getEntryListTab()->log(CLocalizationManager::getInstance()->getTranslatedFormattedText("Log_89", uiSelectedEntryCount));
+	getIMGF()->getEntryListTab()->log(CLocalizationManager::getInstance()->getTranslatedFormattedText("Log_89", uiSelectedEntryCount));
 
 	pListControl->SetFocus();
-	getKGM()->getTaskManager()->onTaskEnd("onRequestSelectViaFileExtension");
+	getIMGF()->getTaskManager()->onTaskEnd("onRequestSelectViaFileExtension");
 	*/
 }
 void		CTaskDispatchManager::onRequestSelectViaRWVersion(CRWVersion *pRWVersion)
 {
 	/*
 	todo
-	getKGM()->getLastUsedValueManager()->setLastUsedValue_Select_RWVersion(pRWVersion);
-	getKGM()->getTaskManager()->onTaskBegin("onRequestSelectViaRWVersion");
-	if (getKGM()->getEntryListTab() == nullptr)
+	getIMGF()->getLastUsedValueManager()->setLastUsedValue_Select_RWVersion(pRWVersion);
+	getIMGF()->getTaskManager()->onTaskBegin("onRequestSelectViaRWVersion");
+	if (getIMGF()->getEntryListTab() == nullptr)
 	{
-		getKGM()->getTaskManager()->onTaskEnd("onRequestSelectViaRWVersion", true);
+		getIMGF()->getTaskManager()->onTaskEnd("onRequestSelectViaRWVersion", true);
 		return;
 	}
 
-	CListCtrl *pListControl = ((CListCtrl*)getKGM()->getDialog()->GetDlgItem(37));
+	CListCtrl *pListControl = ((CListCtrl*)getIMGF()->getDialog()->GetDlgItem(37));
 	uint32 uiSelectedEntryCount = 0;
-	getKGM()->getTaskManager()->setTaskMaxProgressTickCount(pListControl->GetItemCount());
+	getIMGF()->getTaskManager()->setTaskMaxProgressTickCount(pListControl->GetItemCount());
 	for (uint32 i = 0; i < (uint32)pListControl->GetItemCount(); i++)
 	{
-		CRWVersion *pEntryRWVersion = getKGM()->getEntryListTab()->getIMGFile()->getEntryByIndex(i)->getRWVersion();
+		CRWVersion *pEntryRWVersion = getIMGF()->getEntryListTab()->getIMGFile()->getEntryByIndex(i)->getRWVersion();
 		if (pRWVersion == pEntryRWVersion || (pRWVersion->getVersionCC() == 0x0 && pEntryRWVersion == nullptr))
 		{
 			uiSelectedEntryCount++;
 			pListControl->SetItemState(i, LVIS_SELECTED, LVIS_SELECTED);
 			pListControl->SetSelectionMark(i);
 		}
-		getKGM()->getTaskManager()->onTaskProgressTick();
+		getIMGF()->getTaskManager()->onTaskProgressTick();
 	}
 
-	getKGM()->getEntryListTab()->log(CLocalizationManager::getInstance()->getTranslatedFormattedText("Log_90", uiSelectedEntryCount));
-	getKGM()->getEntryListTab()->log(CLocalizationManager::getInstance()->getTranslatedFormattedText("Log_91", (pRWVersion->getVersionName() + " (" + CLocalizationManager::getInstance()->getTranslatedText(pRWVersion->getLocalizationKey()) + ")").c_str()), true);
+	getIMGF()->getEntryListTab()->log(CLocalizationManager::getInstance()->getTranslatedFormattedText("Log_90", uiSelectedEntryCount));
+	getIMGF()->getEntryListTab()->log(CLocalizationManager::getInstance()->getTranslatedFormattedText("Log_91", (pRWVersion->getVersionName() + " (" + CLocalizationManager::getInstance()->getTranslatedText(pRWVersion->getLocalizationKey()) + ")").c_str()), true);
 
 	pListControl->SetFocus();
-	getKGM()->getTaskManager()->onTaskEnd("onRequestSelectViaRWVersion");
+	getIMGF()->getTaskManager()->onTaskEnd("onRequestSelectViaRWVersion");
 	*/
 }
 void		CTaskDispatchManager::onRequestVersion(void)
 {
-	getKGM()->getTaskManager()->onTaskBegin("onRequestVersion");
-	mcore::CGUIManager::showMessage(CLocalizationManager::getInstance()->getTranslatedFormattedText("TextPopup_36", getKGM()->getBuildMeta().getCurrentVersionString().c_str(), BUILDNUMBER_STR), CLocalizationManager::getInstance()->getTranslatedText("Version"), MB_OK);
-	getKGM()->getTaskManager()->onTaskEnd("onRequestVersion");
+	getIMGF()->getTaskManager()->onTaskBegin("onRequestVersion");
+	mcore::CGUIManager::showMessage(CLocalizationManager::getInstance()->getTranslatedFormattedText("TextPopup_36", getIMGF()->getBuildMeta().getCurrentVersionString().c_str(), BUILDNUMBER_STR), CLocalizationManager::getInstance()->getTranslatedText("Version"), MB_OK);
+	getIMGF()->getTaskManager()->onTaskEnd("onRequestVersion");
 }
 void		CTaskDispatchManager::onRequestTextureList(void)
 {
 	/*
 	todo
-	getKGM()->getTaskManager()->onTaskBegin("onRequestTextureList");
-	if (getKGM()->getEntryListTab() == nullptr)
+	getIMGF()->getTaskManager()->onTaskBegin("onRequestTextureList");
+	if (getIMGF()->getEntryListTab() == nullptr)
 	{
-		getKGM()->getTaskManager()->onTaskEnd("onRequestTextureList", true);
+		getIMGF()->getTaskManager()->onTaskEnd("onRequestTextureList", true);
 		return;
 	}
 
-	CListCtrl *pListControl = ((CListCtrl*)getKGM()->getDialog()->GetDlgItem(37));
+	CListCtrl *pListControl = ((CListCtrl*)getIMGF()->getDialog()->GetDlgItem(37));
 	POSITION pos = pListControl->GetFirstSelectedItemPosition();
 	CIMGEntry *pIMGEntry = nullptr;
 	int nItem;
@@ -2674,10 +2674,10 @@ void		CTaskDispatchManager::onRequestTextureList(void)
 	uint32 uiEntryCount = 0;
 	if (pos == NULL)
 	{
-		getKGM()->getTaskManager()->onTaskEnd("onRequestTextureList", true);
+		getIMGF()->getTaskManager()->onTaskEnd("onRequestTextureList", true);
 		return;
 	}
-	getKGM()->getTaskManager()->setTaskMaxProgressTickCount(pListControl->GetSelectedCount());
+	getIMGF()->getTaskManager()->setTaskMaxProgressTickCount(pListControl->GetSelectedCount());
 	while (pos)
 	{
 		nItem = pListControl->GetNextSelectedItem(pos);
@@ -2728,12 +2728,12 @@ void		CTaskDispatchManager::onRequestTextureList(void)
 			uiEntryCount++;
 		}
 
-		getKGM()->getTaskManager()->onTaskProgressTick();
+		getIMGF()->getTaskManager()->onTaskProgressTick();
 	}
 
-	getKGM()->getTaskManager()->onTaskPause();
-	CTextureListDialogData *pTextureListDialogData = getKGM()->getPopupGUIManager()->showTextureListDialog("Texture List", "Showing " + CString2::toString(vecTextureNames.size()) + " texture name" + (vecTextureNames.size() == 1 ? "" : "s") + " for " + CString2::toString(uiEntryCount) + " IMG entr" + (uiEntryCount == 1 ? "y" : "ies") + ".", "Texture Name", vecTextureNames);
-	getKGM()->getTaskManager()->onTaskUnpause();
+	getIMGF()->getTaskManager()->onTaskPause();
+	CTextureListDialogData *pTextureListDialogData = getIMGF()->getPopupGUIManager()->showTextureListDialog("Texture List", "Showing " + CString2::toString(vecTextureNames.size()) + " texture name" + (vecTextureNames.size() == 1 ? "" : "s") + " for " + CString2::toString(uiEntryCount) + " IMG entr" + (uiEntryCount == 1 ? "y" : "ies") + ".", "Texture Name", vecTextureNames);
+	getIMGF()->getTaskManager()->onTaskUnpause();
 	if (pTextureListDialogData->m_bSaveTexturesFormat2)
 	{
 		string strData = "";
@@ -2746,20 +2746,20 @@ void		CTaskDispatchManager::onRequestTextureList(void)
 			strData += "path=" + vecTextureNames[i] + "\n\n";
 		}
 
-		getKGM()->getTaskManager()->onTaskPause();
-		string strFilePath = mcore::CGUIManager::saveFileDialog(getKGM()->getLastUsedDirectory("SAVE_TEXTURE_LIST"), "TXT", CLocalizationManager::getInstance()->getTranslatedText("SaveFilePopup_2_InitialFilename"));
-		getKGM()->getTaskManager()->onTaskUnpause();
+		getIMGF()->getTaskManager()->onTaskPause();
+		string strFilePath = mcore::CGUIManager::saveFileDialog(getIMGF()->getLastUsedDirectory("SAVE_TEXTURE_LIST"), "TXT", CLocalizationManager::getInstance()->getTranslatedText("SaveFilePopup_2_InitialFilename"));
+		getIMGF()->getTaskManager()->onTaskUnpause();
 		if (strFilePath == "")
 		{
-			getKGM()->getTaskManager()->onTaskEnd("onRequestTextureList", true);
+			getIMGF()->getTaskManager()->onTaskEnd("onRequestTextureList", true);
 			return;
 		}
-		getKGM()->setLastUsedDirectory("SAVE_TEXTURE_LIST", strFilePath);
+		getIMGF()->setLastUsedDirectory("SAVE_TEXTURE_LIST", strFilePath);
 
 		CFileManager::storeFile(strFilePath, strData, true, false);
 	}
 	delete pTextureListDialogData;
-	getKGM()->getTaskManager()->onTaskEnd("onRequestTextureList");
+	getIMGF()->getTaskManager()->onTaskEnd("onRequestTextureList");
 	*/
 }
 void		CTaskDispatchManager::onRequestAssociateIMGExtension(void)
@@ -2773,34 +2773,34 @@ void		CTaskDispatchManager::onRequestAssociateIMGExtension(void)
 }
 string		CTaskDispatchManager::onRequestSaveLog(bool bActiveTab, bool bNormalFormat)
 {
-	getKGM()->getLastUsedValueManager()->setLastUsedValue_SaveLog_ActiveTab(bActiveTab);
-	getKGM()->getLastUsedValueManager()->setLastUsedValue_SaveLog_NormalFormat(bNormalFormat);
-	getKGM()->getTaskManager()->onTaskBegin("onRequestSaveLog");
-	if (getKGM()->getEntryListTab() == nullptr)
+	getIMGF()->getLastUsedValueManager()->setLastUsedValue_SaveLog_ActiveTab(bActiveTab);
+	getIMGF()->getLastUsedValueManager()->setLastUsedValue_SaveLog_NormalFormat(bNormalFormat);
+	getIMGF()->getTaskManager()->onTaskBegin("onRequestSaveLog");
+	if (getIMGF()->getEntryListTab() == nullptr)
 	{
-		getKGM()->getTaskManager()->onTaskEnd("onRequestSaveLog", true);
+		getIMGF()->getTaskManager()->onTaskEnd("onRequestSaveLog", true);
 		return "";
 	}
 
-	getKGM()->getTaskManager()->onTaskPause();
-	string strSaveFilePath = mcore::CGUIManager::saveFileDialog(getKGM()->getLastUsedDirectory("SAVE_LOG"), "TXT", CLocalizationManager::getInstance()->getTranslatedText("SaveFilePopup_8_InitialFilename"));
-	getKGM()->getTaskManager()->onTaskUnpause();
+	getIMGF()->getTaskManager()->onTaskPause();
+	string strSaveFilePath = mcore::CGUIManager::saveFileDialog(getIMGF()->getLastUsedDirectory("SAVE_LOG"), "TXT", CLocalizationManager::getInstance()->getTranslatedText("SaveFilePopup_8_InitialFilename"));
+	getIMGF()->getTaskManager()->onTaskUnpause();
 	if (strSaveFilePath == "")
 	{
-		getKGM()->getTaskManager()->onTaskEnd("onRequestSaveLog", true);
+		getIMGF()->getTaskManager()->onTaskEnd("onRequestSaveLog", true);
 		return "";
 	}
-	getKGM()->setLastUsedDirectory("SAVE_LOG", strSaveFilePath);
+	getIMGF()->setLastUsedDirectory("SAVE_LOG", strSaveFilePath);
 
 	if (bActiveTab)
 	{
 		if (bNormalFormat)
 		{
-			CFileManager::storeFile(strSaveFilePath, CString2::join(getKGM()->getEntryListTab()->getLogLinesBasic(), "\n"), false, false);
+			CFileManager::storeFile(strSaveFilePath, CString2::join(getIMGF()->getEntryListTab()->getLogLinesBasic(), "\n"), false, false);
 		}
 		else
 		{
-			CFileManager::storeFile(strSaveFilePath, CString2::join(getKGM()->getEntryListTab()->getLogLinesExtended(), "\n"), false, false);
+			CFileManager::storeFile(strSaveFilePath, CString2::join(getIMGF()->getEntryListTab()->getLogLinesExtended(), "\n"), false, false);
 		}
 	}
 	else
@@ -2808,21 +2808,21 @@ string		CTaskDispatchManager::onRequestSaveLog(bool bActiveTab, bool bNormalForm
 		string strLogData = "";
 		if (bNormalFormat)
 		{
-			for (auto pEditorTab : getKGM()->getIMGEditor()->getTabs().getEntries())
+			for (auto pEditorTab : getIMGF()->getIMGEditor()->getTabs().getEntries())
 			{
 				strLogData += "[[" + ((CIMGEditorTab*)pEditorTab)->getIMGFile()->getFilePath() + "]]\n" + CString2::join(((CIMGEditorTab*)pEditorTab)->getLogLinesBasic(), "\n") + "\n\n";
 			}
 		}
 		else
 		{
-			for (auto pEditorTab : getKGM()->getIMGEditor()->getTabs().getEntries())
+			for (auto pEditorTab : getIMGF()->getIMGEditor()->getTabs().getEntries())
 			{
 				strLogData += "[[" + ((CIMGEditorTab*)pEditorTab)->getIMGFile()->getFilePath() + "]]\n" + CString2::join(((CIMGEditorTab*)pEditorTab)->getLogLinesExtended(), "\n") + "\n\n";
 			}
 		}
 		CFileManager::storeFile(strSaveFilePath, strLogData, false, false);
 	}
-	getKGM()->getTaskManager()->onTaskEnd("onRequestSaveLog");
+	getIMGF()->getTaskManager()->onTaskEnd("onRequestSaveLog");
 
 	return strSaveFilePath;
 }
@@ -2830,10 +2830,10 @@ void		CTaskDispatchManager::onRequestSaveSession(void)
 {
 	/*
 	todo
-	getKGM()->getTaskManager()->onTaskBegin("onRequestSaveSession");
-	if (getKGM()->getIMGEditor()->getEntryCount() == 0)
+	getIMGF()->getTaskManager()->onTaskBegin("onRequestSaveSession");
+	if (getIMGF()->getIMGEditor()->getEntryCount() == 0)
 	{
-		getKGM()->getTaskManager()->onTaskEnd("onRequestSaveSession", true);
+		getIMGF()->getTaskManager()->onTaskEnd("onRequestSaveSession", true);
 		return;
 	}
 
@@ -2841,66 +2841,66 @@ void		CTaskDispatchManager::onRequestSaveSession(void)
 	bool bSemiColonFound;
 	do
 	{
-		getKGM()->getTaskManager()->onTaskPause();
-		strSessionName = getKGM()->getPopupGUIManager()->showTextInputDialog(CLocalizationManager::getInstance()->getTranslatedText("SessionName"), CLocalizationManager::getInstance()->getTranslatedFormattedText("Window_TextInput_5_Message", getKGM()->getIMGEditor()->getEntryCount()));
-		getKGM()->getTaskManager()->onTaskUnpause();
+		getIMGF()->getTaskManager()->onTaskPause();
+		strSessionName = getIMGF()->getPopupGUIManager()->showTextInputDialog(CLocalizationManager::getInstance()->getTranslatedText("SessionName"), CLocalizationManager::getInstance()->getTranslatedFormattedText("Window_TextInput_5_Message", getIMGF()->getIMGEditor()->getEntryCount()));
+		getIMGF()->getTaskManager()->onTaskUnpause();
 		if (strSessionName == "")
 		{
-			getKGM()->getTaskManager()->onTaskEnd("onRequestSaveSession", true);
+			getIMGF()->getTaskManager()->onTaskEnd("onRequestSaveSession", true);
 			return;
 		}
 
 		bSemiColonFound = CString2::isIn(strSessionName, ";");
 		if (bSemiColonFound)
 		{
-			getKGM()->getTaskManager()->onTaskPause();
+			getIMGF()->getTaskManager()->onTaskPause();
 			mcore::CGUIManager::showMessage(CLocalizationManager::getInstance()->getTranslatedText("TextPopup_37"), CLocalizationManager::getInstance()->getTranslatedText("TextPopupTitle_37"), MB_OK);
-			getKGM()->getTaskManager()->onTaskUnpause();
+			getIMGF()->getTaskManager()->onTaskUnpause();
 		}
 	} while (bSemiColonFound);
 
 	vector<string> vecPaths;
-	for (auto pEditorTab : getKGM()->getIMGEditor()->getEntries())
+	for (auto pEditorTab : getIMGF()->getIMGEditor()->getEntries())
 	{
 		vecPaths.push_back(((CIMGEditorTab*)pEditorTab)->getIMGFile()->getFilePath());
 	}
 
-	getKGM()->getSessionManager()->addSession(strSessionName, vecPaths);
-	getKGM()->getSessionManager()->loadSessions();
+	getIMGF()->getSessionManager()->addSession(strSessionName, vecPaths);
+	getIMGF()->getSessionManager()->loadSessions();
 
-	getKGM()->getIMGEditor()->logAllTabs(CLocalizationManager::getInstance()->getTranslatedFormattedText("LogAllTabs_4", getKGM()->getIMGEditor()->getEntryCount(), strSessionName));
-	getKGM()->getIMGEditor()->logAllTabs(CLocalizationManager::getInstance()->getTranslatedText("LogAllTabs_5"), true);
-	getKGM()->getIMGEditor()->logAllTabs(CString2::join(vecPaths, "\n"), true);
-	getKGM()->getTaskManager()->onTaskEnd("onRequestSaveSession");
+	getIMGF()->getIMGEditor()->logAllTabs(CLocalizationManager::getInstance()->getTranslatedFormattedText("LogAllTabs_4", getIMGF()->getIMGEditor()->getEntryCount(), strSessionName));
+	getIMGF()->getIMGEditor()->logAllTabs(CLocalizationManager::getInstance()->getTranslatedText("LogAllTabs_5"), true);
+	getIMGF()->getIMGEditor()->logAllTabs(CString2::join(vecPaths, "\n"), true);
+	getIMGF()->getTaskManager()->onTaskEnd("onRequestSaveSession");
 	*/
 }
 void		CTaskDispatchManager::onRequestOrphanDFFEntriesNotInCOL(void)
 {
-	getKGM()->getTaskManager()->onTaskBegin("onRequestOrphanDFFEntriesNotInCOL");
-	if (getKGM()->getEntryListTab() == nullptr)
+	getIMGF()->getTaskManager()->onTaskBegin("onRequestOrphanDFFEntriesNotInCOL");
+	if (getIMGF()->getEntryListTab() == nullptr)
 	{
-		getKGM()->getTaskManager()->onTaskEnd("onRequestOrphanDFFEntriesNotInCOL", true);
+		getIMGF()->getTaskManager()->onTaskEnd("onRequestOrphanDFFEntriesNotInCOL", true);
 		return;
 	}
 
 	// fetch DFF model names
 	/*
-	getKGM()->getTaskManager()->onTaskPause();
-	vector<string> vecDFFPaths = mcore::CGUIManager::openFileDialog(getKGM()->getLastUsedDirectory("ORPHAN_DFF_COL__DFF"), "DFF,BSP");
-	getKGM()->getTaskManager()->onTaskUnpause();
+	getIMGF()->getTaskManager()->onTaskPause();
+	vector<string> vecDFFPaths = mcore::CGUIManager::openFileDialog(getIMGF()->getLastUsedDirectory("ORPHAN_DFF_COL__DFF"), "DFF,BSP");
+	getIMGF()->getTaskManager()->onTaskUnpause();
 	if (vecDFFPaths.size() == 0)
 	{
-	getKGM()->getTaskManager()->onTaskEnd("onRequestOrphanDFFEntriesNotInCOL", true);
+	getIMGF()->getTaskManager()->onTaskEnd("onRequestOrphanDFFEntriesNotInCOL", true);
 	return;
 	}
-	getKGM()->setLastUsedDirectory("ORPHAN_DFF_COL__DFF", CPathManager::getDirectory(vecDFFPaths[0]));
+	getIMGF()->setLastUsedDirectory("ORPHAN_DFF_COL__DFF", CPathManager::getDirectory(vecDFFPaths[0]));
 	*/
 
 
 	vector<string> vecDFFEntryNamesWithoutExtension;
 	/*
 	todo
-	CListCtrl *pListControl = ((CListCtrl*)getKGM()->getDialog()->GetDlgItem(37));
+	CListCtrl *pListControl = ((CListCtrl*)getIMGF()->getDialog()->GetDlgItem(37));
 	for (uint32 i = 0, j = pListControl->GetItemCount(); i < j; i++)
 	{
 		CIMGEntry *pIMGEntry = (CIMGEntry*)pListControl->GetItemData(i);
@@ -2913,15 +2913,15 @@ void		CTaskDispatchManager::onRequestOrphanDFFEntriesNotInCOL(void)
 	*/
 
 	// choose COL files
-	getKGM()->getTaskManager()->onTaskPause();
-	vector<string> vecCOLPaths = mcore::CGUIManager::openFileDialog(getKGM()->getLastUsedDirectory("ORPHAN_DFF_COL__COL"), "COL");
-	getKGM()->getTaskManager()->onTaskUnpause();
+	getIMGF()->getTaskManager()->onTaskPause();
+	vector<string> vecCOLPaths = mcore::CGUIManager::openFileDialog(getIMGF()->getLastUsedDirectory("ORPHAN_DFF_COL__COL"), "COL");
+	getIMGF()->getTaskManager()->onTaskUnpause();
 	if (vecCOLPaths.size() == 0)
 	{
-		getKGM()->getTaskManager()->onTaskEnd("onRequestOrphanDFFEntriesNotInCOL", true);
+		getIMGF()->getTaskManager()->onTaskEnd("onRequestOrphanDFFEntriesNotInCOL", true);
 		return;
 	}
-	getKGM()->setLastUsedDirectory("ORPHAN_DFF_COL__COL", CPathManager::getDirectory(vecCOLPaths[0]));
+	getIMGF()->setLastUsedDirectory("ORPHAN_DFF_COL__COL", CPathManager::getDirectory(vecCOLPaths[0]));
 
 	// fetch COL model names
 	vector<string> vecCOLEntryNamesWithoutExtension;
@@ -2941,7 +2941,7 @@ void		CTaskDispatchManager::onRequestOrphanDFFEntriesNotInCOL(void)
 	vector<string>
 		vecEntryNamesMissingFromCOL,
 		vecEntryNamesMissingFromCOLUpper;
-	getKGM()->getTaskManager()->setTaskMaxProgressTickCount(vecDFFEntryNamesWithoutExtension.size());
+	getIMGF()->getTaskManager()->setTaskMaxProgressTickCount(vecDFFEntryNamesWithoutExtension.size());
 	for (auto strDFFEntryNameWithoutExtension : vecDFFEntryNamesWithoutExtension)
 	{
 		if (std::find(vecCOLEntryNamesWithoutExtension.begin(), vecCOLEntryNamesWithoutExtension.end(), strDFFEntryNameWithoutExtension) == vecCOLEntryNamesWithoutExtension.end())
@@ -2949,56 +2949,56 @@ void		CTaskDispatchManager::onRequestOrphanDFFEntriesNotInCOL(void)
 			vecEntryNamesMissingFromCOL.push_back(strDFFEntryNameWithoutExtension);
 			vecEntryNamesMissingFromCOLUpper.push_back(CString2::toUpperCase(strDFFEntryNameWithoutExtension));
 		}
-		getKGM()->getTaskManager()->onTaskProgressTick();
+		getIMGF()->getTaskManager()->onTaskProgressTick();
 	}
 
-	if (getKGM()->getIMGEditor()->getTabs().getEntryCount() > 0)
+	if (getIMGF()->getIMGEditor()->getTabs().getEntryCount() > 0)
 	{
-		getKGM()->getEntryListTab()->log(CLocalizationManager::getInstance()->getTranslatedFormattedText("Log_125", vecEntryNamesMissingFromCOL.size()));
-		getKGM()->getEntryListTab()->log(CLocalizationManager::getInstance()->getTranslatedText("Log_93"), true);
-		getKGM()->getEntryListTab()->log(CString2::join(vecEntryNamesMissingFromCOL, "\n"), true);
+		getIMGF()->getEntryListTab()->log(CLocalizationManager::getInstance()->getTranslatedFormattedText("Log_125", vecEntryNamesMissingFromCOL.size()));
+		getIMGF()->getEntryListTab()->log(CLocalizationManager::getInstance()->getTranslatedText("Log_93"), true);
+		getIMGF()->getEntryListTab()->log(CString2::join(vecEntryNamesMissingFromCOL, "\n"), true);
 	}
 	else
 	{
-		getKGM()->getIMGEditor()->logWithNoTabsOpen(CLocalizationManager::getInstance()->getTranslatedFormattedText("Log_125", vecEntryNamesMissingFromCOL.size()));
-		getKGM()->getIMGEditor()->logWithNoTabsOpen(CLocalizationManager::getInstance()->getTranslatedText("Log_93"), true);
-		getKGM()->getIMGEditor()->logWithNoTabsOpen(CString2::join(vecEntryNamesMissingFromCOL, "\n"), true);
+		getIMGF()->getIMGEditor()->logWithNoTabsOpen(CLocalizationManager::getInstance()->getTranslatedFormattedText("Log_125", vecEntryNamesMissingFromCOL.size()));
+		getIMGF()->getIMGEditor()->logWithNoTabsOpen(CLocalizationManager::getInstance()->getTranslatedText("Log_93"), true);
+		getIMGF()->getIMGEditor()->logWithNoTabsOpen(CString2::join(vecEntryNamesMissingFromCOL, "\n"), true);
 	}
 
-	getKGM()->getTaskManager()->onTaskPause();
-	getKGM()->getPopupGUIManager()->showOrphanEntriesDialog(vecEntryNamesMissingFromCOL, "DFF Entries missing from COL:");
-	getKGM()->getTaskManager()->onTaskUnpause();
+	getIMGF()->getTaskManager()->onTaskPause();
+	getIMGF()->getPopupGUIManager()->showOrphanEntriesDialog(vecEntryNamesMissingFromCOL, "DFF Entries missing from COL:");
+	getIMGF()->getTaskManager()->onTaskUnpause();
 
-	getKGM()->getTaskManager()->onTaskEnd("onRequestOrphanDFFEntriesNotInCOL");
+	getIMGF()->getTaskManager()->onTaskEnd("onRequestOrphanDFFEntriesNotInCOL");
 }
 void		CTaskDispatchManager::onRequestOrphanIDEEntriesNotInCOL(void)
 {
-	getKGM()->getTaskManager()->onTaskBegin("onRequestOrphanIDEEntriesNotInCOL");
-	if (getKGM()->getEntryListTab() == nullptr)
+	getIMGF()->getTaskManager()->onTaskBegin("onRequestOrphanIDEEntriesNotInCOL");
+	if (getIMGF()->getEntryListTab() == nullptr)
 	{
-		getKGM()->getTaskManager()->onTaskEnd("onRequestOrphanIDEEntriesNotInCOL", true);
+		getIMGF()->getTaskManager()->onTaskEnd("onRequestOrphanIDEEntriesNotInCOL", true);
 		return;
 	}
 
-	getKGM()->getTaskManager()->onTaskPause();
-	vector<string> vecIDEPaths = mcore::CGUIManager::openFileDialog(getKGM()->getLastUsedDirectory("ORPHAN_IDE_COL__IDE"), "IDE");
-	getKGM()->getTaskManager()->onTaskUnpause();
+	getIMGF()->getTaskManager()->onTaskPause();
+	vector<string> vecIDEPaths = mcore::CGUIManager::openFileDialog(getIMGF()->getLastUsedDirectory("ORPHAN_IDE_COL__IDE"), "IDE");
+	getIMGF()->getTaskManager()->onTaskUnpause();
 	if (vecIDEPaths.size() == 0)
 	{
-		getKGM()->getTaskManager()->onTaskEnd("onRequestOrphanIDEEntriesNotInCOL", true);
+		getIMGF()->getTaskManager()->onTaskEnd("onRequestOrphanIDEEntriesNotInCOL", true);
 		return;
 	}
-	getKGM()->setLastUsedDirectory("ORPHAN_IDE_COL__IDE", CPathManager::getDirectory(vecIDEPaths[0]));
+	getIMGF()->setLastUsedDirectory("ORPHAN_IDE_COL__IDE", CPathManager::getDirectory(vecIDEPaths[0]));
 
-	getKGM()->getTaskManager()->onTaskPause();
-	vector<string> vecCOLPaths = mcore::CGUIManager::openFileDialog(getKGM()->getLastUsedDirectory("ORPHAN_IDE_COL__COL"), "COL");
-	getKGM()->getTaskManager()->onTaskUnpause();
+	getIMGF()->getTaskManager()->onTaskPause();
+	vector<string> vecCOLPaths = mcore::CGUIManager::openFileDialog(getIMGF()->getLastUsedDirectory("ORPHAN_IDE_COL__COL"), "COL");
+	getIMGF()->getTaskManager()->onTaskUnpause();
 	if (vecCOLPaths.size() == 0)
 	{
-		getKGM()->getTaskManager()->onTaskEnd("onRequestOrphanIDEEntriesNotInCOL", true);
+		getIMGF()->getTaskManager()->onTaskEnd("onRequestOrphanIDEEntriesNotInCOL", true);
 		return;
 	}
-	getKGM()->setLastUsedDirectory("ORPHAN_IDE_COL__COL", CPathManager::getDirectory(vecCOLPaths[0]));
+	getIMGF()->setLastUsedDirectory("ORPHAN_IDE_COL__COL", CPathManager::getDirectory(vecCOLPaths[0]));
 
 	vector<string> vecIDEEntryNamesWithoutExtension = CIDEManager::getIDEEntryNamesWithoutExtension(vecIDEPaths, true, false);
 	vecIDEEntryNamesWithoutExtension = CStdVector::toUpperCase(vecIDEEntryNamesWithoutExtension);
@@ -3021,35 +3021,35 @@ void		CTaskDispatchManager::onRequestOrphanIDEEntriesNotInCOL(void)
 	vecCOLEntryNamesWithoutExtension = CStdVector::removeDuplicates(vecCOLEntryNamesWithoutExtension);
 
 	vector<string> vecEntryNamesMissingFromCOL;
-	getKGM()->getTaskManager()->setTaskMaxProgressTickCount(vecIDEEntryNamesWithoutExtension.size());
+	getIMGF()->getTaskManager()->setTaskMaxProgressTickCount(vecIDEEntryNamesWithoutExtension.size());
 	for (auto strIDEEntryNameWithoutExtension : vecIDEEntryNamesWithoutExtension)
 	{
 		if (std::find(vecCOLEntryNamesWithoutExtension.begin(), vecCOLEntryNamesWithoutExtension.end(), strIDEEntryNameWithoutExtension) == vecCOLEntryNamesWithoutExtension.end())
 		{
 			vecEntryNamesMissingFromCOL.push_back(strIDEEntryNameWithoutExtension);
 		}
-		getKGM()->getTaskManager()->onTaskProgressTick();
+		getIMGF()->getTaskManager()->onTaskProgressTick();
 	}
 
-	getKGM()->getEntryListTab()->log(CLocalizationManager::getInstance()->getTranslatedFormattedText("Log_112", vecEntryNamesMissingFromCOL.size()));
-	getKGM()->getEntryListTab()->log(CLocalizationManager::getInstance()->getTranslatedText("Log_93"), true);
-	getKGM()->getEntryListTab()->log(CString2::join(vecEntryNamesMissingFromCOL, "\n"), true);
+	getIMGF()->getEntryListTab()->log(CLocalizationManager::getInstance()->getTranslatedFormattedText("Log_112", vecEntryNamesMissingFromCOL.size()));
+	getIMGF()->getEntryListTab()->log(CLocalizationManager::getInstance()->getTranslatedText("Log_93"), true);
+	getIMGF()->getEntryListTab()->log(CString2::join(vecEntryNamesMissingFromCOL, "\n"), true);
 
-	getKGM()->getTaskManager()->onTaskPause();
-	bool bImportEntries = getKGM()->getPopupGUIManager()->showOrphanEntriesDialog(vecEntryNamesMissingFromCOL, "IDE Entries missing from COL:", "Import into IMG");
-	getKGM()->getTaskManager()->onTaskUnpause();
+	getIMGF()->getTaskManager()->onTaskPause();
+	bool bImportEntries = getIMGF()->getPopupGUIManager()->showOrphanEntriesDialog(vecEntryNamesMissingFromCOL, "IDE Entries missing from COL:", "Import into IMG");
+	getIMGF()->getTaskManager()->onTaskUnpause();
 	if (bImportEntries)
 	{
-		getKGM()->getTaskManager()->onTaskPause();
-		string strFolderPath = mcore::CGUIManager::chooseFolderDialog(CLocalizationManager::getInstance()->getTranslatedText("ChooseFolderPopup_17"), getKGM()->getLastUsedDirectory("ORPHAN_IDE_COL__IMPORT"));
-		getKGM()->getTaskManager()->onTaskUnpause();
+		getIMGF()->getTaskManager()->onTaskPause();
+		string strFolderPath = mcore::CGUIManager::chooseFolderDialog(CLocalizationManager::getInstance()->getTranslatedText("ChooseFolderPopup_17"), getIMGF()->getLastUsedDirectory("ORPHAN_IDE_COL__IMPORT"));
+		getIMGF()->getTaskManager()->onTaskUnpause();
 		if (strFolderPath == "")
 		{
-			getKGM()->getTaskManager()->onTaskEnd("onRequestOrphanIDEEntriesNotInCOL", true);
+			getIMGF()->getTaskManager()->onTaskEnd("onRequestOrphanIDEEntriesNotInCOL", true);
 			return;
 		}
 		strFolderPath = CPathManager::addSlashToEnd(strFolderPath);
-		getKGM()->setLastUsedDirectory("ORPHAN_IDE_COL__IMPORT", strFolderPath);
+		getIMGF()->setLastUsedDirectory("ORPHAN_IDE_COL__IMPORT", strFolderPath);
 
 		uint32 uiImportedFileCount = 0;
 		for (auto strEntryNameMissingFromCOL : vecEntryNamesMissingFromCOL)
@@ -3057,48 +3057,48 @@ void		CTaskDispatchManager::onRequestOrphanIDEEntriesNotInCOL(void)
 			string strEntryFilePath = strFolderPath + CFileManager::getFileNameFromNameWithoutExtension(strFolderPath, strEntryNameMissingFromCOL);
 			if (CFileManager::doesFileExist(strEntryFilePath))
 			{
-				getKGM()->getEntryListTab()->addOrReplaceEntryViaFileAndSettings(strEntryFilePath);
+				getIMGF()->getEntryListTab()->addOrReplaceEntryViaFileAndSettings(strEntryFilePath);
 				uiImportedFileCount++;
 			}
 		}
 
-		getKGM()->getEntryListTab()->log(CLocalizationManager::getInstance()->getTranslatedFormattedText("Log_84", uiImportedFileCount, vecEntryNamesMissingFromCOL.size()));
+		getIMGF()->getEntryListTab()->log(CLocalizationManager::getInstance()->getTranslatedFormattedText("Log_84", uiImportedFileCount, vecEntryNamesMissingFromCOL.size()));
 
 		if (uiImportedFileCount > 0)
 		{
-			getKGM()->getEntryListTab()->setIMGModifiedSinceRebuild(true);
+			getIMGF()->getEntryListTab()->setIMGModifiedSinceRebuild(true);
 		}
 	}
-	getKGM()->getTaskManager()->onTaskEnd("onRequestOrphanIDEEntriesNotInCOL");
+	getIMGF()->getTaskManager()->onTaskEnd("onRequestOrphanIDEEntriesNotInCOL");
 }
 void		CTaskDispatchManager::onRequestOrphanDFFEntriesNotInIDE(void)
 {
-	getKGM()->getTaskManager()->onTaskBegin("onRequestOrphanDFFEntriesNotInIDE");
-	if (getKGM()->getEntryListTab() == nullptr)
+	getIMGF()->getTaskManager()->onTaskBegin("onRequestOrphanDFFEntriesNotInIDE");
+	if (getIMGF()->getEntryListTab() == nullptr)
 	{
-		getKGM()->getTaskManager()->onTaskEnd("onRequestOrphanDFFEntriesNotInIDE", true);
+		getIMGF()->getTaskManager()->onTaskEnd("onRequestOrphanDFFEntriesNotInIDE", true);
 		return;
 	}
 
-	getKGM()->getTaskManager()->onTaskPause();
-	vector<string> vecIDEPaths = mcore::CGUIManager::openFileDialog(getKGM()->getLastUsedDirectory("ORPHAN_DFF_IDE__IDE"), "IDE");
-	getKGM()->getTaskManager()->onTaskUnpause();
+	getIMGF()->getTaskManager()->onTaskPause();
+	vector<string> vecIDEPaths = mcore::CGUIManager::openFileDialog(getIMGF()->getLastUsedDirectory("ORPHAN_DFF_IDE__IDE"), "IDE");
+	getIMGF()->getTaskManager()->onTaskUnpause();
 	if (vecIDEPaths.size() == 0)
 	{
-		getKGM()->getTaskManager()->onTaskEnd("onRequestOrphanDFFEntriesNotInIDE", true);
+		getIMGF()->getTaskManager()->onTaskEnd("onRequestOrphanDFFEntriesNotInIDE", true);
 		return;
 	}
-	getKGM()->setLastUsedDirectory("ORPHAN_DFF_IDE__IDE", CPathManager::getDirectory(vecIDEPaths[0]));
+	getIMGF()->setLastUsedDirectory("ORPHAN_DFF_IDE__IDE", CPathManager::getDirectory(vecIDEPaths[0]));
 
-	getKGM()->getTaskManager()->onTaskPause();
-	vector<string> vecDFFPaths = mcore::CGUIManager::openFileDialog(getKGM()->getLastUsedDirectory("ORPHAN_DFF_IDE__DFF"), "DFF");
-	getKGM()->getTaskManager()->onTaskUnpause();
+	getIMGF()->getTaskManager()->onTaskPause();
+	vector<string> vecDFFPaths = mcore::CGUIManager::openFileDialog(getIMGF()->getLastUsedDirectory("ORPHAN_DFF_IDE__DFF"), "DFF");
+	getIMGF()->getTaskManager()->onTaskUnpause();
 	if (vecDFFPaths.size() == 0)
 	{
-		getKGM()->getTaskManager()->onTaskEnd("onRequestOrphanDFFEntriesNotInIDE", true);
+		getIMGF()->getTaskManager()->onTaskEnd("onRequestOrphanDFFEntriesNotInIDE", true);
 		return;
 	}
-	getKGM()->setLastUsedDirectory("ORPHAN_DFF_IDE__DFF", CPathManager::getDirectory(vecDFFPaths[0]));
+	getIMGF()->setLastUsedDirectory("ORPHAN_DFF_IDE__DFF", CPathManager::getDirectory(vecDFFPaths[0]));
 
 	vector<string> vecIDEEntryNamesWithoutExtension = CIDEManager::getIDEEntryNamesWithoutExtension(vecIDEPaths, true, false);
 	vecIDEEntryNamesWithoutExtension = CStdVector::toUpperCase(vecIDEEntryNamesWithoutExtension);
@@ -3118,53 +3118,53 @@ void		CTaskDispatchManager::onRequestOrphanDFFEntriesNotInIDE(void)
 	vecDFFEntryNamesWithoutExtension = CStdVector::removeDuplicates(vecDFFEntryNamesWithoutExtension);
 
 	vector<string> vecEntryNamesMissingFromIDE;
-	getKGM()->getTaskManager()->setTaskMaxProgressTickCount(vecDFFEntryNamesWithoutExtension.size());
+	getIMGF()->getTaskManager()->setTaskMaxProgressTickCount(vecDFFEntryNamesWithoutExtension.size());
 	for (auto strDFFEntryNameWithoutExtension : vecDFFEntryNamesWithoutExtension)
 	{
 		if (std::find(vecIDEEntryNamesWithoutExtension.begin(), vecIDEEntryNamesWithoutExtension.end(), strDFFEntryNameWithoutExtension) == vecIDEEntryNamesWithoutExtension.end())
 		{
 			vecEntryNamesMissingFromIDE.push_back(strDFFEntryNameWithoutExtension);
 		}
-		getKGM()->getTaskManager()->onTaskProgressTick();
+		getIMGF()->getTaskManager()->onTaskProgressTick();
 	}
 
-	getKGM()->getEntryListTab()->log(CLocalizationManager::getInstance()->getTranslatedFormattedText("Log_126", vecEntryNamesMissingFromIDE.size()));
-	getKGM()->getEntryListTab()->log(CLocalizationManager::getInstance()->getTranslatedText("Log_93"), true);
-	getKGM()->getEntryListTab()->log(CString2::join(vecEntryNamesMissingFromIDE, "\n"), true);
+	getIMGF()->getEntryListTab()->log(CLocalizationManager::getInstance()->getTranslatedFormattedText("Log_126", vecEntryNamesMissingFromIDE.size()));
+	getIMGF()->getEntryListTab()->log(CLocalizationManager::getInstance()->getTranslatedText("Log_93"), true);
+	getIMGF()->getEntryListTab()->log(CString2::join(vecEntryNamesMissingFromIDE, "\n"), true);
 
-	getKGM()->getTaskManager()->onTaskPause();
-	getKGM()->getPopupGUIManager()->showOrphanEntriesDialog(vecEntryNamesMissingFromIDE, "DFF Entries missing from IDE:");
-	getKGM()->getTaskManager()->onTaskUnpause();
-	getKGM()->getTaskManager()->onTaskEnd("onRequestOrphanDFFEntriesNotInIDE");
+	getIMGF()->getTaskManager()->onTaskPause();
+	getIMGF()->getPopupGUIManager()->showOrphanEntriesDialog(vecEntryNamesMissingFromIDE, "DFF Entries missing from IDE:");
+	getIMGF()->getTaskManager()->onTaskUnpause();
+	getIMGF()->getTaskManager()->onTaskEnd("onRequestOrphanDFFEntriesNotInIDE");
 }
 void		CTaskDispatchManager::onRequestOrphanCOLEntriesNotInIDE(void)
 {
-	getKGM()->getTaskManager()->onTaskBegin("onRequestOrphanCOLEntriesNotInIDE");
-	if (getKGM()->getEntryListTab() == nullptr)
+	getIMGF()->getTaskManager()->onTaskBegin("onRequestOrphanCOLEntriesNotInIDE");
+	if (getIMGF()->getEntryListTab() == nullptr)
 	{
-		getKGM()->getTaskManager()->onTaskEnd("onRequestOrphanCOLEntriesNotInIDE", true);
+		getIMGF()->getTaskManager()->onTaskEnd("onRequestOrphanCOLEntriesNotInIDE", true);
 		return;
 	}
 
-	getKGM()->getTaskManager()->onTaskPause();
-	vector<string> vecIDEPaths = mcore::CGUIManager::openFileDialog(getKGM()->getLastUsedDirectory("ORPHAN_COL_IDE__IDE"), "IDE");
-	getKGM()->getTaskManager()->onTaskUnpause();
+	getIMGF()->getTaskManager()->onTaskPause();
+	vector<string> vecIDEPaths = mcore::CGUIManager::openFileDialog(getIMGF()->getLastUsedDirectory("ORPHAN_COL_IDE__IDE"), "IDE");
+	getIMGF()->getTaskManager()->onTaskUnpause();
 	if (vecIDEPaths.size() == 0)
 	{
-		getKGM()->getTaskManager()->onTaskEnd("onRequestOrphanCOLEntriesNotInIDE", true);
+		getIMGF()->getTaskManager()->onTaskEnd("onRequestOrphanCOLEntriesNotInIDE", true);
 		return;
 	}
-	getKGM()->setLastUsedDirectory("ORPHAN_COL_IDE__IDE", CPathManager::getDirectory(vecIDEPaths[0]));
+	getIMGF()->setLastUsedDirectory("ORPHAN_COL_IDE__IDE", CPathManager::getDirectory(vecIDEPaths[0]));
 
-	getKGM()->getTaskManager()->onTaskPause();
-	vector<string> vecCOLPaths = mcore::CGUIManager::openFileDialog(getKGM()->getLastUsedDirectory("ORPHAN_COL_IDE__COL"), "COL");
-	getKGM()->getTaskManager()->onTaskUnpause();
+	getIMGF()->getTaskManager()->onTaskPause();
+	vector<string> vecCOLPaths = mcore::CGUIManager::openFileDialog(getIMGF()->getLastUsedDirectory("ORPHAN_COL_IDE__COL"), "COL");
+	getIMGF()->getTaskManager()->onTaskUnpause();
 	if (vecCOLPaths.size() == 0)
 	{
-		getKGM()->getTaskManager()->onTaskEnd("onRequestOrphanCOLEntriesNotInIDE", true);
+		getIMGF()->getTaskManager()->onTaskEnd("onRequestOrphanCOLEntriesNotInIDE", true);
 		return;
 	}
-	getKGM()->setLastUsedDirectory("ORPHAN_COL_IDE__COL", CPathManager::getDirectory(vecCOLPaths[0]));
+	getIMGF()->setLastUsedDirectory("ORPHAN_COL_IDE__COL", CPathManager::getDirectory(vecCOLPaths[0]));
 
 	vector<string> vecIDEEntryNamesWithoutExtension = CIDEManager::getIDEEntryNamesWithoutExtension(vecIDEPaths, true, false);
 	vecIDEEntryNamesWithoutExtension = CStdVector::toUpperCase(vecIDEEntryNamesWithoutExtension);
@@ -3184,121 +3184,121 @@ void		CTaskDispatchManager::onRequestOrphanCOLEntriesNotInIDE(void)
 	vecCOLEntryNamesWithoutExtension = CStdVector::removeDuplicates(vecCOLEntryNamesWithoutExtension);
 
 	vector<string> vecEntryNamesMissingFromIDE;
-	getKGM()->getTaskManager()->setTaskMaxProgressTickCount(vecCOLEntryNamesWithoutExtension.size());
+	getIMGF()->getTaskManager()->setTaskMaxProgressTickCount(vecCOLEntryNamesWithoutExtension.size());
 	for (auto strCOLEntryNameWithoutExtension : vecCOLEntryNamesWithoutExtension)
 	{
 		if (std::find(vecIDEEntryNamesWithoutExtension.begin(), vecIDEEntryNamesWithoutExtension.end(), strCOLEntryNameWithoutExtension) == vecIDEEntryNamesWithoutExtension.end())
 		{
 			vecEntryNamesMissingFromIDE.push_back(strCOLEntryNameWithoutExtension);
 		}
-		getKGM()->getTaskManager()->onTaskProgressTick();
+		getIMGF()->getTaskManager()->onTaskProgressTick();
 	}
 
-	getKGM()->getEntryListTab()->log(CLocalizationManager::getInstance()->getTranslatedFormattedText("Log_113", vecEntryNamesMissingFromIDE.size()));
-	getKGM()->getEntryListTab()->log(CLocalizationManager::getInstance()->getTranslatedText("Log_93"), true);
-	getKGM()->getEntryListTab()->log(CString2::join(vecEntryNamesMissingFromIDE, "\n"), true);
+	getIMGF()->getEntryListTab()->log(CLocalizationManager::getInstance()->getTranslatedFormattedText("Log_113", vecEntryNamesMissingFromIDE.size()));
+	getIMGF()->getEntryListTab()->log(CLocalizationManager::getInstance()->getTranslatedText("Log_93"), true);
+	getIMGF()->getEntryListTab()->log(CString2::join(vecEntryNamesMissingFromIDE, "\n"), true);
 
-	getKGM()->getTaskManager()->onTaskPause();
-	getKGM()->getPopupGUIManager()->showOrphanEntriesDialog(vecEntryNamesMissingFromIDE, "COL Entries missing from IDE:");
-	getKGM()->getTaskManager()->onTaskUnpause();
-	getKGM()->getTaskManager()->onTaskEnd("onRequestOrphanCOLEntriesNotInIDE");
+	getIMGF()->getTaskManager()->onTaskPause();
+	getIMGF()->getPopupGUIManager()->showOrphanEntriesDialog(vecEntryNamesMissingFromIDE, "COL Entries missing from IDE:");
+	getIMGF()->getTaskManager()->onTaskUnpause();
+	getIMGF()->getTaskManager()->onTaskEnd("onRequestOrphanCOLEntriesNotInIDE");
 }
 void		CTaskDispatchManager::onRequestOrphanIMGEntriesNotInIDE(void)
 {
 	/*
 	todo
-	getKGM()->getTaskManager()->onTaskBegin("onRequestOrphanIMGEntriesNotInIDE");
-	if (getKGM()->getEntryListTab() == nullptr)
+	getIMGF()->getTaskManager()->onTaskBegin("onRequestOrphanIMGEntriesNotInIDE");
+	if (getIMGF()->getEntryListTab() == nullptr)
 	{
-		getKGM()->getTaskManager()->onTaskEnd("onRequestOrphanIMGEntriesNotInIDE", true);
+		getIMGF()->getTaskManager()->onTaskEnd("onRequestOrphanIMGEntriesNotInIDE", true);
 		return;
 	}
 
-	getKGM()->getTaskManager()->onTaskPause();
-	vector<string> vecPaths = mcore::CGUIManager::openFileDialog(getKGM()->getLastUsedDirectory("ORPHAN_IMG_IDE__IDE"), "IDE");
-	getKGM()->getTaskManager()->onTaskUnpause();
+	getIMGF()->getTaskManager()->onTaskPause();
+	vector<string> vecPaths = mcore::CGUIManager::openFileDialog(getIMGF()->getLastUsedDirectory("ORPHAN_IMG_IDE__IDE"), "IDE");
+	getIMGF()->getTaskManager()->onTaskUnpause();
 	if (vecPaths.size() == 0)
 	{
-		getKGM()->getTaskManager()->onTaskEnd("onRequestOrphanIMGEntriesNotInIDE", true);
+		getIMGF()->getTaskManager()->onTaskEnd("onRequestOrphanIMGEntriesNotInIDE", true);
 		return;
 	}
-	getKGM()->setLastUsedDirectory("ORPHAN_IMG_IDE__IDE", CPathManager::getDirectory(vecPaths[0]));
+	getIMGF()->setLastUsedDirectory("ORPHAN_IMG_IDE__IDE", CPathManager::getDirectory(vecPaths[0]));
 
 	vector<string> vecEntryNamesWithoutExtension = CIDEManager::getIDEEntryNamesWithoutExtension(vecPaths);
 	vecEntryNamesWithoutExtension = CStdVector::toUpperCase(vecEntryNamesWithoutExtension);
 
 	vector<string> vecEntryNamesMissingFromIDE;
-	getKGM()->getTaskManager()->setTaskMaxProgressTickCount(getKGM()->getEntryListTab()->getIMGFile()->getEntries().size());
-	for (auto pIMGEntry : getKGM()->getEntryListTab()->getIMGFile()->getEntries())
+	getIMGF()->getTaskManager()->setTaskMaxProgressTickCount(getIMGF()->getEntryListTab()->getIMGFile()->getEntries().size());
+	for (auto pIMGEntry : getIMGF()->getEntryListTab()->getIMGFile()->getEntries())
 	{
 		if (std::find(vecEntryNamesWithoutExtension.begin(), vecEntryNamesWithoutExtension.end(), CString2::toUpperCase(CPathManager::removeFileExtension(pIMGEntry->getEntryName()))) == vecEntryNamesWithoutExtension.end())
 		{
 			vecEntryNamesMissingFromIDE.push_back(pIMGEntry->getEntryName());
 		}
-		getKGM()->getTaskManager()->onTaskProgressTick();
+		getIMGF()->getTaskManager()->onTaskProgressTick();
 	}
 
-	getKGM()->getEntryListTab()->log(CLocalizationManager::getInstance()->getTranslatedFormattedText("Log_92", vecEntryNamesMissingFromIDE.size()));
-	getKGM()->getEntryListTab()->log(CLocalizationManager::getInstance()->getTranslatedText("Log_93"), true);
-	getKGM()->getEntryListTab()->log(CString2::join(vecEntryNamesMissingFromIDE, "\n"), true);
+	getIMGF()->getEntryListTab()->log(CLocalizationManager::getInstance()->getTranslatedFormattedText("Log_92", vecEntryNamesMissingFromIDE.size()));
+	getIMGF()->getEntryListTab()->log(CLocalizationManager::getInstance()->getTranslatedText("Log_93"), true);
+	getIMGF()->getEntryListTab()->log(CString2::join(vecEntryNamesMissingFromIDE, "\n"), true);
 
-	getKGM()->getTaskManager()->onTaskPause();
-	bool bRemoveEntries = getKGM()->getPopupGUIManager()->showOrphanEntriesDialog(vecEntryNamesMissingFromIDE, "IMG Entries missing from IDE:", "Remove from IMG");
-	getKGM()->getTaskManager()->onTaskUnpause();
+	getIMGF()->getTaskManager()->onTaskPause();
+	bool bRemoveEntries = getIMGF()->getPopupGUIManager()->showOrphanEntriesDialog(vecEntryNamesMissingFromIDE, "IMG Entries missing from IDE:", "Remove from IMG");
+	getIMGF()->getTaskManager()->onTaskUnpause();
 	if (bRemoveEntries)
 	{
-		CListCtrl *pListControl = ((CListCtrl*)getKGM()->getDialog()->GetDlgItem(37));
+		CListCtrl *pListControl = ((CListCtrl*)getIMGF()->getDialog()->GetDlgItem(37));
 		for (auto strEntryNameMissingFromIDE : vecEntryNamesMissingFromIDE)
 		{
-			CIMGEntry *pIMGEntry = getKGM()->getEntryListTab()->getIMGFile()->getEntryByName(strEntryNameMissingFromIDE);
-			int nItem = getKGM()->getEntryListTab()->getIMGFile()->getIndexByEntry(pIMGEntry);
+			CIMGEntry *pIMGEntry = getIMGF()->getEntryListTab()->getIMGFile()->getEntryByName(strEntryNameMissingFromIDE);
+			int nItem = getIMGF()->getEntryListTab()->getIMGFile()->getIndexByEntry(pIMGEntry);
 			pListControl->DeleteItem(nItem);
 
-			getKGM()->getEntryListTab()->removeEntry(pIMGEntry);
+			getIMGF()->getEntryListTab()->removeEntry(pIMGEntry);
 		}
 
-		getKGM()->getEntryListTab()->log(CLocalizationManager::getInstance()->getTranslatedFormattedText("Log_53", vecEntryNamesMissingFromIDE.size()));
+		getIMGF()->getEntryListTab()->log(CLocalizationManager::getInstance()->getTranslatedFormattedText("Log_53", vecEntryNamesMissingFromIDE.size()));
 
 		if (vecEntryNamesMissingFromIDE.size() > 0)
 		{
-			getKGM()->getEntryListTab()->setIMGModifiedSinceRebuild(true);
+			getIMGF()->getEntryListTab()->setIMGModifiedSinceRebuild(true);
 		}
 
-		getKGM()->getEntryListTab()->searchText();
+		getIMGF()->getEntryListTab()->searchText();
 	}
-	getKGM()->getTaskManager()->onTaskEnd("onRequestOrphanIMGEntriesNotInIDE");
+	getIMGF()->getTaskManager()->onTaskEnd("onRequestOrphanIMGEntriesNotInIDE");
 	*/
 }
 void		CTaskDispatchManager::onRequestOrphanIPLEntriesNotInIDE(void)
 {
-	getKGM()->getTaskManager()->onTaskBegin("onRequestOrphanIPLEntriesNotInIDE");
-	if (getKGM()->getEntryListTab() == nullptr)
+	getIMGF()->getTaskManager()->onTaskBegin("onRequestOrphanIPLEntriesNotInIDE");
+	if (getIMGF()->getEntryListTab() == nullptr)
 	{
-		getKGM()->getTaskManager()->onTaskEnd("onRequestOrphanIPLEntriesNotInIDE", true);
+		getIMGF()->getTaskManager()->onTaskEnd("onRequestOrphanIPLEntriesNotInIDE", true);
 		return;
 	}
 
 	// IDE files input
-	getKGM()->getTaskManager()->onTaskPause();
-	vector<string> vecIDEPaths = mcore::CGUIManager::openFileDialog(getKGM()->getLastUsedDirectory("ORPHAN_IPL_IDE__IDE"), "IDE");
-	getKGM()->getTaskManager()->onTaskUnpause();
+	getIMGF()->getTaskManager()->onTaskPause();
+	vector<string> vecIDEPaths = mcore::CGUIManager::openFileDialog(getIMGF()->getLastUsedDirectory("ORPHAN_IPL_IDE__IDE"), "IDE");
+	getIMGF()->getTaskManager()->onTaskUnpause();
 	if (vecIDEPaths.size() == 0)
 	{
-		getKGM()->getTaskManager()->onTaskEnd("onRequestOrphanIPLEntriesNotInIDE", true);
+		getIMGF()->getTaskManager()->onTaskEnd("onRequestOrphanIPLEntriesNotInIDE", true);
 		return;
 	}
-	getKGM()->setLastUsedDirectory("ORPHAN_IPL_IDE__IDE", CPathManager::getDirectory(vecIDEPaths[0]));
+	getIMGF()->setLastUsedDirectory("ORPHAN_IPL_IDE__IDE", CPathManager::getDirectory(vecIDEPaths[0]));
 
 	// IPL files input
-	getKGM()->getTaskManager()->onTaskPause();
-	vector<string> vecIPLPaths = mcore::CGUIManager::openFileDialog(getKGM()->getLastUsedDirectory("ORPHAN_IPL_IDE__IPL"), "IPL");
-	getKGM()->getTaskManager()->onTaskUnpause();
+	getIMGF()->getTaskManager()->onTaskPause();
+	vector<string> vecIPLPaths = mcore::CGUIManager::openFileDialog(getIMGF()->getLastUsedDirectory("ORPHAN_IPL_IDE__IPL"), "IPL");
+	getIMGF()->getTaskManager()->onTaskUnpause();
 	if (vecIPLPaths.size() == 0)
 	{
-		getKGM()->getTaskManager()->onTaskEnd("onRequestOrphanIPLEntriesNotInIDE", true);
+		getIMGF()->getTaskManager()->onTaskEnd("onRequestOrphanIPLEntriesNotInIDE", true);
 		return;
 	}
-	getKGM()->setLastUsedDirectory("ORPHAN_IPL_IDE__IPL", CPathManager::getDirectory(vecIPLPaths[0]));
+	getIMGF()->setLastUsedDirectory("ORPHAN_IPL_IDE__IPL", CPathManager::getDirectory(vecIPLPaths[0]));
 
 	// fetch DFF names in IDE files
 	vector<string> vecDFFNamesWithoutExtensionInIDE = CIDEManager::getIDEEntryNamesWithoutExtension(vecIDEPaths, true, false);
@@ -3323,7 +3323,7 @@ void		CTaskDispatchManager::onRequestOrphanIPLEntriesNotInIDE(void)
 
 	// find DFF names in IPL files but not found in IDE files
 	vector<string> vecEntryNamesMissingFromIDE;
-	getKGM()->getTaskManager()->setTaskMaxProgressTickCount(vecDFFNamesWithoutExtensionInIPL.size());
+	getIMGF()->getTaskManager()->setTaskMaxProgressTickCount(vecDFFNamesWithoutExtensionInIPL.size());
 	for (auto strDFFEntryNameWithoutExtension : vecDFFNamesWithoutExtensionInIPL)
 	{
 		string strDFFEntryNameWithoutExtensionUpper = CString2::toUpperCase(strDFFEntryNameWithoutExtension);
@@ -3331,50 +3331,50 @@ void		CTaskDispatchManager::onRequestOrphanIPLEntriesNotInIDE(void)
 		{
 			vecEntryNamesMissingFromIDE.push_back(strDFFEntryNameWithoutExtension);
 		}
-		getKGM()->getTaskManager()->onTaskProgressTick();
+		getIMGF()->getTaskManager()->onTaskProgressTick();
 	}
 
 	// log
-	getKGM()->getEntryListTab()->log(CLocalizationManager::getInstance()->getTranslatedFormattedText("Log_141", vecEntryNamesMissingFromIDE.size()));
-	getKGM()->getEntryListTab()->log(CLocalizationManager::getInstance()->getTranslatedText("Log_93"), true);
-	getKGM()->getEntryListTab()->log(CString2::join(vecEntryNamesMissingFromIDE, "\n"), true);
+	getIMGF()->getEntryListTab()->log(CLocalizationManager::getInstance()->getTranslatedFormattedText("Log_141", vecEntryNamesMissingFromIDE.size()));
+	getIMGF()->getEntryListTab()->log(CLocalizationManager::getInstance()->getTranslatedText("Log_93"), true);
+	getIMGF()->getEntryListTab()->log(CString2::join(vecEntryNamesMissingFromIDE, "\n"), true);
 
 	// popup
-	getKGM()->getTaskManager()->onTaskPause();
-	getKGM()->getPopupGUIManager()->showOrphanEntriesDialog(vecEntryNamesMissingFromIDE, "IPL Entries missing from IDE:");
-	getKGM()->getTaskManager()->onTaskUnpause();
+	getIMGF()->getTaskManager()->onTaskPause();
+	getIMGF()->getPopupGUIManager()->showOrphanEntriesDialog(vecEntryNamesMissingFromIDE, "IPL Entries missing from IDE:");
+	getIMGF()->getTaskManager()->onTaskUnpause();
 
 	// end
-	getKGM()->getTaskManager()->onTaskEnd("onRequestOrphanIPLEntriesNotInIDE");
+	getIMGF()->getTaskManager()->onTaskEnd("onRequestOrphanIPLEntriesNotInIDE");
 }
 void		CTaskDispatchManager::onRequestOrphanTXDEntriesNotInIDE(void)
 {
-	getKGM()->getTaskManager()->onTaskBegin("onRequestOrphanTXDEntriesNotInIDE");
-	if (getKGM()->getEntryListTab() == nullptr)
+	getIMGF()->getTaskManager()->onTaskBegin("onRequestOrphanTXDEntriesNotInIDE");
+	if (getIMGF()->getEntryListTab() == nullptr)
 	{
-		getKGM()->getTaskManager()->onTaskEnd("onRequestOrphanTXDEntriesNotInIDE", true);
+		getIMGF()->getTaskManager()->onTaskEnd("onRequestOrphanTXDEntriesNotInIDE", true);
 		return;
 	}
 
-	getKGM()->getTaskManager()->onTaskPause();
-	vector<string> vecIDEPaths = mcore::CGUIManager::openFileDialog(getKGM()->getLastUsedDirectory("ORPHAN_TXD_IDE__IDE"), "IDE");
-	getKGM()->getTaskManager()->onTaskUnpause();
+	getIMGF()->getTaskManager()->onTaskPause();
+	vector<string> vecIDEPaths = mcore::CGUIManager::openFileDialog(getIMGF()->getLastUsedDirectory("ORPHAN_TXD_IDE__IDE"), "IDE");
+	getIMGF()->getTaskManager()->onTaskUnpause();
 	if (vecIDEPaths.size() == 0)
 	{
-		getKGM()->getTaskManager()->onTaskEnd("onRequestOrphanTXDEntriesNotInIDE", true);
+		getIMGF()->getTaskManager()->onTaskEnd("onRequestOrphanTXDEntriesNotInIDE", true);
 		return;
 	}
-	getKGM()->setLastUsedDirectory("ORPHAN_TXD_IDE__IDE", CPathManager::getDirectory(vecIDEPaths[0]));
+	getIMGF()->setLastUsedDirectory("ORPHAN_TXD_IDE__IDE", CPathManager::getDirectory(vecIDEPaths[0]));
 
-	getKGM()->getTaskManager()->onTaskPause();
-	vector<string> vecTXDPaths = mcore::CGUIManager::openFileDialog(getKGM()->getLastUsedDirectory("ORPHAN_TXD_IDE__TXD"), "TXD");
-	getKGM()->getTaskManager()->onTaskUnpause();
+	getIMGF()->getTaskManager()->onTaskPause();
+	vector<string> vecTXDPaths = mcore::CGUIManager::openFileDialog(getIMGF()->getLastUsedDirectory("ORPHAN_TXD_IDE__TXD"), "TXD");
+	getIMGF()->getTaskManager()->onTaskUnpause();
 	if (vecTXDPaths.size() == 0)
 	{
-		getKGM()->getTaskManager()->onTaskEnd("onRequestOrphanTXDEntriesNotInIDE", true);
+		getIMGF()->getTaskManager()->onTaskEnd("onRequestOrphanTXDEntriesNotInIDE", true);
 		return;
 	}
-	getKGM()->setLastUsedDirectory("ORPHAN_TXD_IDE__TXD", CPathManager::getDirectory(vecTXDPaths[0]));
+	getIMGF()->setLastUsedDirectory("ORPHAN_TXD_IDE__TXD", CPathManager::getDirectory(vecTXDPaths[0]));
 
 	vector<string> vecIDEEntryNamesWithoutExtension = CIDEManager::getIDEEntryNamesWithoutExtension(vecIDEPaths, false, true);
 	vecIDEEntryNamesWithoutExtension = CStdVector::toUpperCase(vecIDEEntryNamesWithoutExtension);
@@ -3394,78 +3394,78 @@ void		CTaskDispatchManager::onRequestOrphanTXDEntriesNotInIDE(void)
 	vecTXDEntryNamesWithoutExtension = CStdVector::removeDuplicates(vecTXDEntryNamesWithoutExtension);
 
 	vector<string> vecEntryNamesMissingFromIDE;
-	getKGM()->getTaskManager()->setTaskMaxProgressTickCount(vecTXDEntryNamesWithoutExtension.size());
+	getIMGF()->getTaskManager()->setTaskMaxProgressTickCount(vecTXDEntryNamesWithoutExtension.size());
 	for (auto strTXDEntryNameWithoutExtension : vecTXDEntryNamesWithoutExtension)
 	{
 		if (std::find(vecIDEEntryNamesWithoutExtension.begin(), vecIDEEntryNamesWithoutExtension.end(), strTXDEntryNameWithoutExtension) == vecIDEEntryNamesWithoutExtension.end())
 		{
 			vecEntryNamesMissingFromIDE.push_back(strTXDEntryNameWithoutExtension);
 		}
-		getKGM()->getTaskManager()->onTaskProgressTick();
+		getIMGF()->getTaskManager()->onTaskProgressTick();
 	}
 
-	getKGM()->getEntryListTab()->log(CLocalizationManager::getInstance()->getTranslatedFormattedText("Log_140", vecEntryNamesMissingFromIDE.size()));
-	getKGM()->getEntryListTab()->log(CLocalizationManager::getInstance()->getTranslatedText("Log_93"), true);
-	getKGM()->getEntryListTab()->log(CString2::join(vecEntryNamesMissingFromIDE, "\n"), true);
+	getIMGF()->getEntryListTab()->log(CLocalizationManager::getInstance()->getTranslatedFormattedText("Log_140", vecEntryNamesMissingFromIDE.size()));
+	getIMGF()->getEntryListTab()->log(CLocalizationManager::getInstance()->getTranslatedText("Log_93"), true);
+	getIMGF()->getEntryListTab()->log(CString2::join(vecEntryNamesMissingFromIDE, "\n"), true);
 
-	getKGM()->getTaskManager()->onTaskPause();
-	getKGM()->getPopupGUIManager()->showOrphanEntriesDialog(vecEntryNamesMissingFromIDE, "TXD Entries missing from IDE:");
-	getKGM()->getTaskManager()->onTaskUnpause();
-	getKGM()->getTaskManager()->onTaskEnd("onRequestOrphanTXDEntriesNotInIDE");
+	getIMGF()->getTaskManager()->onTaskPause();
+	getIMGF()->getPopupGUIManager()->showOrphanEntriesDialog(vecEntryNamesMissingFromIDE, "TXD Entries missing from IDE:");
+	getIMGF()->getTaskManager()->onTaskUnpause();
+	getIMGF()->getTaskManager()->onTaskEnd("onRequestOrphanTXDEntriesNotInIDE");
 }
 void		CTaskDispatchManager::onRequestOrphanIDEEntriesNotInIMG(void)
 {
-	getKGM()->getTaskManager()->onTaskBegin("onRequestOrphanIDEEntriesNotInIMG");
-	if (getKGM()->getEntryListTab() == nullptr)
+	getIMGF()->getTaskManager()->onTaskBegin("onRequestOrphanIDEEntriesNotInIMG");
+	if (getIMGF()->getEntryListTab() == nullptr)
 	{
-		getKGM()->getTaskManager()->onTaskEnd("onRequestOrphanIDEEntriesNotInIMG", true);
+		getIMGF()->getTaskManager()->onTaskEnd("onRequestOrphanIDEEntriesNotInIMG", true);
 		return;
 	}
 
-	getKGM()->getTaskManager()->onTaskPause();
-	vector<string> vecPaths = mcore::CGUIManager::openFileDialog(getKGM()->getLastUsedDirectory("ORPHAN_IDE_IMG__IDE"), "IDE");
-	getKGM()->getTaskManager()->onTaskUnpause();
+	getIMGF()->getTaskManager()->onTaskPause();
+	vector<string> vecPaths = mcore::CGUIManager::openFileDialog(getIMGF()->getLastUsedDirectory("ORPHAN_IDE_IMG__IDE"), "IDE");
+	getIMGF()->getTaskManager()->onTaskUnpause();
 	if (vecPaths.size() == 0)
 	{
-		getKGM()->getTaskManager()->onTaskEnd("onRequestOrphanIDEEntriesNotInIMG", true);
+		getIMGF()->getTaskManager()->onTaskEnd("onRequestOrphanIDEEntriesNotInIMG", true);
 		return;
 	}
-	getKGM()->setLastUsedDirectory("ORPHAN_IDE_IMG__IDE", CPathManager::getDirectory(vecPaths[0]));
+	getIMGF()->setLastUsedDirectory("ORPHAN_IDE_IMG__IDE", CPathManager::getDirectory(vecPaths[0]));
 
 	vector<string> vecEntryNamesWithoutExtension = CIDEManager::getIDEEntryNamesWithoutExtension(vecPaths);
 	vecEntryNamesWithoutExtension = CStdVector::toUpperCase(vecEntryNamesWithoutExtension);
 
 	vector<string> vecEntryNamesMissingFromIMG;
-	getKGM()->getTaskManager()->setTaskMaxProgressTickCount(vecEntryNamesWithoutExtension.size());
+	getIMGF()->getTaskManager()->setTaskMaxProgressTickCount(vecEntryNamesWithoutExtension.size());
 	for (auto strEntryNameWithoutExtension : vecEntryNamesWithoutExtension)
 	{
-		CIMGEntry *pIMGEntry = getKGM()->getEntryListTab()->getIMGFile()->getEntryByNameWithoutExtension(strEntryNameWithoutExtension);
+		CIMGEntry *pIMGEntry = getIMGF()->getEntryListTab()->getIMGFile()->getEntryByNameWithoutExtension(strEntryNameWithoutExtension);
 		if (pIMGEntry == nullptr)
 		{
 			vecEntryNamesMissingFromIMG.push_back(strEntryNameWithoutExtension);
 		}
-		getKGM()->getTaskManager()->onTaskProgressTick();
+		getIMGF()->getTaskManager()->onTaskProgressTick();
 	}
 
-	getKGM()->getEntryListTab()->log(CLocalizationManager::getInstance()->getTranslatedFormattedText("Log_94", vecEntryNamesMissingFromIMG.size()));
-	getKGM()->getEntryListTab()->log(CLocalizationManager::getInstance()->getTranslatedText("Log_93"), true);
-	getKGM()->getEntryListTab()->log(CString2::join(vecEntryNamesMissingFromIMG, "\n"), true);
+	getIMGF()->getEntryListTab()->log(CLocalizationManager::getInstance()->getTranslatedFormattedText("Log_94", vecEntryNamesMissingFromIMG.size()));
+	getIMGF()->getEntryListTab()->log(CLocalizationManager::getInstance()->getTranslatedText("Log_93"), true);
+	getIMGF()->getEntryListTab()->log(CString2::join(vecEntryNamesMissingFromIMG, "\n"), true);
 
-	getKGM()->getTaskManager()->onTaskPause();
-	bool bImportEntries = getKGM()->getPopupGUIManager()->showOrphanEntriesDialog(vecEntryNamesMissingFromIMG, "IDE Entries missing from IMG:", "Import into IMG");
-	getKGM()->getTaskManager()->onTaskUnpause();
+	getIMGF()->getTaskManager()->onTaskPause();
+	bool bImportEntries = getIMGF()->getPopupGUIManager()->showOrphanEntriesDialog(vecEntryNamesMissingFromIMG, "IDE Entries missing from IMG:", "Import into IMG");
+	getIMGF()->getTaskManager()->onTaskUnpause();
 	if (bImportEntries)
 	{
-		getKGM()->getTaskManager()->onTaskPause();
-		string strFolderPath = mcore::CGUIManager::chooseFolderDialog(CLocalizationManager::getInstance()->getTranslatedText("ChooseFolderPopup_17"), getKGM()->getLastUsedDirectory("ORPHAN_IDE_IMG__IMPORT"));
-		getKGM()->getTaskManager()->onTaskUnpause();
+		getIMGF()->getTaskManager()->onTaskPause();
+		string strFolderPath = mcore::CGUIManager::chooseFolderDialog(CLocalizationManager::getInstance()->getTranslatedText("ChooseFolderPopup_17"), getIMGF()->getLastUsedDirectory("ORPHAN_IDE_IMG__IMPORT"));
+		getIMGF()->getTaskManager()->onTaskUnpause();
 		if (strFolderPath == "")
 		{
-			getKGM()->getTaskManager()->onTaskEnd("onRequestOrphanIDEEntriesNotInIMG", true);
+			getIMGF()->getTaskManager()->onTaskEnd("onRequestOrphanIDEEntriesNotInIMG", true);
 			return;
 		}
 		strFolderPath = CPathManager::addSlashToEnd(strFolderPath);
-		getKGM()->setLastUsedDirectory("ORPHAN_IDE_IMG__IMPORT", strFolderPath);
+		getIMGF()->setLastUsedDirectory("ORPHAN_IDE_IMG__IMPORT", strFolderPath);
 
 		uint32 uiImportedFileCount = 0;
 		for (auto strEntryNameMissingFromIMG : vecEntryNamesMissingFromIMG)
@@ -3473,78 +3473,78 @@ void		CTaskDispatchManager::onRequestOrphanIDEEntriesNotInIMG(void)
 			string strEntryFilePath = strFolderPath + CFileManager::getFileNameFromNameWithoutExtension(strFolderPath, strEntryNameMissingFromIMG);
 			if (CFileManager::doesFileExist(strEntryFilePath))
 			{
-				getKGM()->getEntryListTab()->addOrReplaceEntryViaFileAndSettings(strEntryFilePath);
+				getIMGF()->getEntryListTab()->addOrReplaceEntryViaFileAndSettings(strEntryFilePath);
 				uiImportedFileCount++;
 			}
 		}
 
-		getKGM()->getEntryListTab()->log(CLocalizationManager::getInstance()->getTranslatedFormattedText("Log_84", uiImportedFileCount, vecEntryNamesMissingFromIMG.size()));
+		getIMGF()->getEntryListTab()->log(CLocalizationManager::getInstance()->getTranslatedFormattedText("Log_84", uiImportedFileCount, vecEntryNamesMissingFromIMG.size()));
 
 		if (uiImportedFileCount > 0)
 		{
-			getKGM()->getEntryListTab()->setIMGModifiedSinceRebuild(true);
+			getIMGF()->getEntryListTab()->setIMGModifiedSinceRebuild(true);
 		}
 	}
-	getKGM()->getTaskManager()->onTaskEnd("onRequestOrphanIDEEntriesNotInIMG");
+	getIMGF()->getTaskManager()->onTaskEnd("onRequestOrphanIDEEntriesNotInIMG");
 }
 void		CTaskDispatchManager::onRequestSettings(void)
 {
-	getKGM()->getTaskManager()->onTaskBegin("onRequestSettings");
-	getKGM()->getTaskManager()->onTaskPause();
-	bool bSave = getKGM()->getPopupGUIManager()->showSettingsDialog();
-	getKGM()->getTaskManager()->onTaskUnpause();
+	getIMGF()->getTaskManager()->onTaskBegin("onRequestSettings");
+	getIMGF()->getTaskManager()->onTaskPause();
+	bool bSave = getIMGF()->getPopupGUIManager()->showSettingsDialog();
+	getIMGF()->getTaskManager()->onTaskUnpause();
 	if (!bSave)
 	{
-		getKGM()->getTaskManager()->onTaskEnd("onRequestSettings", true);
+		getIMGF()->getTaskManager()->onTaskEnd("onRequestSettings", true);
 		return;
 	}
 
-	getKGM()->getSettingsManager()->reloadSettings();
+	getIMGF()->getSettingsManager()->reloadSettings();
 	
-	getKGM()->getTaskManager()->onTaskEnd("onRequestSettings");
-	if (getKGM()->getSettingsManager()->getSettingBool("NewLanguageApplied"))
+	getIMGF()->getTaskManager()->onTaskEnd("onRequestSettings");
+	if (getIMGF()->getSettingsManager()->getSettingBool("NewLanguageApplied"))
 	{
 		exit(EXIT_SUCCESS);
 	}
 }
 void		CTaskDispatchManager::onRequestReopen(void)
 {
-	getKGM()->getTaskManager()->onTaskBegin("onRequestReopen");
-	if (getKGM()->getEntryListTab() == nullptr)
+	getIMGF()->getTaskManager()->onTaskBegin("onRequestReopen");
+	if (getIMGF()->getEntryListTab() == nullptr)
 	{
-		getKGM()->getTaskManager()->onTaskEnd("onRequestReopen", true);
+		getIMGF()->getTaskManager()->onTaskEnd("onRequestReopen", true);
 		return;
 	}
 
-	string strIMGPath = getKGM()->getEntryListTab()->getIMGFile()->getFilePath();
+	string strIMGPath = getIMGF()->getEntryListTab()->getIMGFile()->getFilePath();
 	if (onRequestClose2(false) == true)
 	{
 		// cancelled
-		getKGM()->getTaskManager()->onTaskEnd("onRequestReopen", true);
+		getIMGF()->getTaskManager()->onTaskEnd("onRequestReopen", true);
 		return;
 	}
-	getKGM()->getIMGEditor()->removeTab(getKGM()->getEntryListTab());
+	getIMGF()->getIMGEditor()->removeTab(getIMGF()->getEntryListTab());
 	onRequestOpen2(strIMGPath);
-	getKGM()->getTaskManager()->onTaskEnd("onRequestReopen");
+	getIMGF()->getTaskManager()->onTaskEnd("onRequestReopen");
 }
 void		CTaskDispatchManager::onRequestConvertDFFToRWVersion(CRWVersion *pRWVersion)
 {
 	/*
 	todo
-	getKGM()->getLastUsedValueManager()->setLastUsedValue_ConvertDFF_RWVersion(pRWVersion);
-	getKGM()->getTaskManager()->onTaskBegin("onRequestConvertDFFToRWVersion");
-	if (getKGM()->getEntryListTab() == nullptr)
+	getIMGF()->getLastUsedValueManager()->setLastUsedValue_ConvertDFF_RWVersion(pRWVersion);
+	getIMGF()->getTaskManager()->onTaskBegin("onRequestConvertDFFToRWVersion");
+	if (getIMGF()->getEntryListTab() == nullptr)
 	{
-		getKGM()->getTaskManager()->onTaskEnd("onRequestConvertDFFToRWVersion", true);
+		getIMGF()->getTaskManager()->onTaskEnd("onRequestConvertDFFToRWVersion", true);
 		return;
 	}
 
-	getKGM()->getTaskManager()->onTaskPause();
-	CDFFConversionDialogData *pDFFConversionDialogData = getKGM()->getPopupGUIManager()->showDFFConversionDialog();
-	getKGM()->getTaskManager()->onTaskUnpause();
+	getIMGF()->getTaskManager()->onTaskPause();
+	CDFFConversionDialogData *pDFFConversionDialogData = getIMGF()->getPopupGUIManager()->showDFFConversionDialog();
+	getIMGF()->getTaskManager()->onTaskUnpause();
 	if (!pDFFConversionDialogData->m_bConvert) // cancel button
 	{
-		getKGM()->getTaskManager()->onTaskEnd("onRequestConvertDFFToRWVersion", true);
+		getIMGF()->getTaskManager()->onTaskEnd("onRequestConvertDFFToRWVersion", true);
 		delete pDFFConversionDialogData;
 		return;
 	}
@@ -3554,11 +3554,11 @@ void		CTaskDispatchManager::onRequestConvertDFFToRWVersion(CRWVersion *pRWVersio
 	vector<CIDEFormat*> veCIDEFormats;
 	bool bSelectedDFFsContainIIIOrVC = false;
 
-	CListCtrl *pListControl = ((CListCtrl*)getKGM()->getDialog()->GetDlgItem(37));
+	CListCtrl *pListControl = ((CListCtrl*)getIMGF()->getDialog()->GetDlgItem(37));
 	POSITION pos = pListControl->GetFirstSelectedItemPosition();
 	if (pos == NULL)
 	{
-		getKGM()->getTaskManager()->onTaskEnd("onRequestConvertDFFToRWVersion", true);
+		getIMGF()->getTaskManager()->onTaskEnd("onRequestConvertDFFToRWVersion", true);
 		delete pDFFConversionDialogData;
 		return;
 	}
@@ -3588,25 +3588,25 @@ void		CTaskDispatchManager::onRequestConvertDFFToRWVersion(CRWVersion *pRWVersio
 		// The selected DFFs in the active IMG tab contains at least 1 DFF IMG entry with a RW version of III or VC, and the target RW version to convert to is SA.
 		vector<uint32> vecExtendedLogLines_MissingObjectIds;
 		bool bDidCancel = false;
-		bConvert2DFXFromIIIOrVCToSA = getKGM()->getPopupGUIManager()->showConfirmDialog("Do you want to also convert 2DFX sections in DFF files from GTA III/VC format to GTA SA format? (Requires IDE input)", "Convert 2DFX Too?", bDidCancel);
+		bConvert2DFXFromIIIOrVCToSA = getIMGF()->getPopupGUIManager()->showConfirmDialog("Do you want to also convert 2DFX sections in DFF files from GTA III/VC format to GTA SA format? (Requires IDE input)", "Convert 2DFX Too?", bDidCancel);
 		if (bDidCancel)
 		{
-			getKGM()->getTaskManager()->onTaskEnd("onRequestConvertDFFToRWVersion", true);
+			getIMGF()->getTaskManager()->onTaskEnd("onRequestConvertDFFToRWVersion", true);
 			delete pDFFConversionDialogData;
 			return;
 		}
 
 		if (bConvert2DFXFromIIIOrVCToSA)
 		{
-			getKGM()->getTaskManager()->onTaskPause();
-			vector<string> vecIDEPaths = mcore::CGUIManager::openFileDialog(getKGM()->getLastUsedDirectory("CONVERT_DFF_RWVERSION_IDE"), "IDE");
-			getKGM()->getTaskManager()->onTaskUnpause();
+			getIMGF()->getTaskManager()->onTaskPause();
+			vector<string> vecIDEPaths = mcore::CGUIManager::openFileDialog(getIMGF()->getLastUsedDirectory("CONVERT_DFF_RWVERSION_IDE"), "IDE");
+			getIMGF()->getTaskManager()->onTaskUnpause();
 			if (vecIDEPaths.size() == 0)
 			{
-				getKGM()->getTaskManager()->onTaskEnd("onRequestConvertDFFToRWVersion", true);
+				getIMGF()->getTaskManager()->onTaskEnd("onRequestConvertDFFToRWVersion", true);
 				return;
 			}
-			getKGM()->setLastUsedDirectory("CONVERT_DFF_RWVERSION_IDE", CPathManager::getDirectory(vecIDEPaths[0]));
+			getIMGF()->setLastUsedDirectory("CONVERT_DFF_RWVERSION_IDE", CPathManager::getDirectory(vecIDEPaths[0]));
 
 			for (string strIDEPath : vecIDEPaths)
 			{
@@ -3704,22 +3704,22 @@ void		CTaskDispatchManager::onRequestConvertDFFToRWVersion(CRWVersion *pRWVersio
 			}
 		}
 
-		getKGM()->getEntryListTab()->log("[Convert 2DFX from IDE (GTA III/VC) to DFF (GTA SA)] IDE 2DFX object IDs entries not having an IDE entry linked by object ID:", true);
+		getIMGF()->getEntryListTab()->log("[Convert 2DFX from IDE (GTA III/VC) to DFF (GTA SA)] IDE 2DFX object IDs entries not having an IDE entry linked by object ID:", true);
 		vector<string> vecExtendedLogLines_MissingObjectIds2;
 		for (uint32 uiValue : vecExtendedLogLines_MissingObjectIds)
 		{
 			vecExtendedLogLines_MissingObjectIds2.push_back(CString2::toString(uiValue));
 		}
-		getKGM()->getEntryListTab()->log(CString2::join(vecExtendedLogLines_MissingObjectIds2, "\n"), true);
+		getIMGF()->getEntryListTab()->log(CString2::join(vecExtendedLogLines_MissingObjectIds2, "\n"), true);
 		vecExtendedLogLines_MissingObjectIds.clear();
 		vecExtendedLogLines_MissingObjectIds2.clear();
 	}
 
-	pListControl = ((CListCtrl*)getKGM()->getDialog()->GetDlgItem(37));
+	pListControl = ((CListCtrl*)getIMGF()->getDialog()->GetDlgItem(37));
 	pos = pListControl->GetFirstSelectedItemPosition();
 	if (pos == NULL)
 	{
-		getKGM()->getTaskManager()->onTaskEnd("onRequestConvertDFFToRWVersion", true);
+		getIMGF()->getTaskManager()->onTaskEnd("onRequestConvertDFFToRWVersion", true);
 		delete pDFFConversionDialogData;
 		for (auto pIDEFile : veCIDEFormats)
 		{
@@ -3731,7 +3731,7 @@ void		CTaskDispatchManager::onRequestConvertDFFToRWVersion(CRWVersion *pRWVersio
 
 	pIMGEntry = nullptr;
 	vector<string> vecConvertedDFFEntryNames;
-	getKGM()->getTaskManager()->setTaskMaxProgressTickCount(pListControl->GetSelectedCount());
+	getIMGF()->getTaskManager()->setTaskMaxProgressTickCount(pListControl->GetSelectedCount());
 	while (pos)
 	{
 		int nItem = pListControl->GetNextSelectedItem(pos);
@@ -3739,7 +3739,7 @@ void		CTaskDispatchManager::onRequestConvertDFFToRWVersion(CRWVersion *pRWVersio
 
 		if (!CPathManager::isModelExtension(CString2::toUpperCase(CPathManager::getFileExtension(pIMGEntry->getEntryName()))))
 		{
-			getKGM()->getTaskManager()->onTaskProgressTick();
+			getIMGF()->getTaskManager()->onTaskProgressTick();
 			continue;
 		}
 
@@ -3985,21 +3985,21 @@ void		CTaskDispatchManager::onRequestConvertDFFToRWVersion(CRWVersion *pRWVersio
 		
 		pIMGEntry->setEntryData(strFileData);
 
-		getKGM()->getEntryListTab()->updateEntryInMainListView(pIMGEntry);
+		getIMGF()->getEntryListTab()->updateEntryInMainListView(pIMGEntry);
 
-		getKGM()->getTaskManager()->onTaskProgressTick();
+		getIMGF()->getTaskManager()->onTaskProgressTick();
 	}
 	
-	getKGM()->getEntryListTab()->log(CLocalizationManager::getInstance()->getTranslatedFormattedText("Log_95", vecConvertedDFFEntryNames.size(), (pRWVersion->getVersionName() + " (" + CLocalizationManager::getInstance()->getTranslatedText(pRWVersion->getLocalizationKey()) + ")").c_str()));
-	getKGM()->getEntryListTab()->log(CLocalizationManager::getInstance()->getTranslatedText("Log_96"), true);
-	getKGM()->getEntryListTab()->log(CString2::join(vecConvertedDFFEntryNames, "\n"), true);
+	getIMGF()->getEntryListTab()->log(CLocalizationManager::getInstance()->getTranslatedFormattedText("Log_95", vecConvertedDFFEntryNames.size(), (pRWVersion->getVersionName() + " (" + CLocalizationManager::getInstance()->getTranslatedText(pRWVersion->getLocalizationKey()) + ")").c_str()));
+	getIMGF()->getEntryListTab()->log(CLocalizationManager::getInstance()->getTranslatedText("Log_96"), true);
+	getIMGF()->getEntryListTab()->log(CString2::join(vecConvertedDFFEntryNames, "\n"), true);
 
 	if (pIMGEntry != nullptr)
 	{
-		getKGM()->getEntryListTab()->setIMGModifiedSinceRebuild(true);
+		getIMGF()->getEntryListTab()->setIMGModifiedSinceRebuild(true);
 	}
 
-	getKGM()->getEntryListTab()->checkForUnknownRWVersionEntries();
+	getIMGF()->getEntryListTab()->checkForUnknownRWVersionEntries();
 
 	delete pDFFConversionDialogData;
 	for (auto pIDEFile : veCIDEFormats)
@@ -4007,38 +4007,38 @@ void		CTaskDispatchManager::onRequestConvertDFFToRWVersion(CRWVersion *pRWVersio
 		pIDEFile->unload();
 		delete pIDEFile;
 	}
-	getKGM()->getTaskManager()->onTaskEnd("onRequestConvertDFFToRWVersion");
+	getIMGF()->getTaskManager()->onTaskEnd("onRequestConvertDFFToRWVersion");
 	*/
 }
 void		CTaskDispatchManager::onRequestMissingTextures(void)
 {
 	/*
 	todo
-	getKGM()->getTaskManager()->onTaskBegin("onRequestMissingTextures");
-	if (getKGM()->getEntryListTab() == nullptr)
+	getIMGF()->getTaskManager()->onTaskBegin("onRequestMissingTextures");
+	if (getIMGF()->getEntryListTab() == nullptr)
 	{
-		getKGM()->getTaskManager()->onTaskEnd("onRequestMissingTextures", true);
+		getIMGF()->getTaskManager()->onTaskEnd("onRequestMissingTextures", true);
 		return;
 	}
 
-	CListCtrl *pListControl = ((CListCtrl*)getKGM()->getDialog()->GetDlgItem(37));
+	CListCtrl *pListControl = ((CListCtrl*)getIMGF()->getDialog()->GetDlgItem(37));
 	POSITION pos = pListControl->GetFirstSelectedItemPosition();
 	if (pos == NULL)
 	{
-		getKGM()->getTaskManager()->onTaskEnd("onRequestMissingTextures", true);
+		getIMGF()->getTaskManager()->onTaskEnd("onRequestMissingTextures", true);
 		return;
 	}
 
 	vector<CIMGEntry*> vecSelectedDFFs;
 	vector<string> vecSelectedDFFsFilenames;
 	CIMGEntry *pIMGEntry = nullptr;
-	getKGM()->getTaskManager()->setTaskMaxProgressTickCount(pListControl->GetSelectedCount());
+	getIMGF()->getTaskManager()->setTaskMaxProgressTickCount(pListControl->GetSelectedCount());
 	while (pos)
 	{
 		int nItem = pListControl->GetNextSelectedItem(pos);
 		pIMGEntry = (CIMGEntry*)pListControl->GetItemData(nItem);
 
-		getKGM()->getTaskManager()->onTaskProgressTick();
+		getIMGF()->getTaskManager()->onTaskProgressTick();
 		if (!CPathManager::isModelExtension(CString2::toUpperCase(CPathManager::getFileExtension(pIMGEntry->getEntryName()))))
 		{
 			continue;
@@ -4049,22 +4049,22 @@ void		CTaskDispatchManager::onRequestMissingTextures(void)
 	}
 	if (pIMGEntry == nullptr)
 	{
-		getKGM()->getTaskManager()->onTaskPause();
+		getIMGF()->getTaskManager()->onTaskPause();
 		mcore::CGUIManager::showMessage(CLocalizationManager::getInstance()->getTranslatedText("TextPopup_38"), CLocalizationManager::getInstance()->getTranslatedText("TextPopupTitle_38"), MB_OK);
-		getKGM()->getTaskManager()->onTaskUnpause();
-		getKGM()->getTaskManager()->onTaskEnd("onRequestMissingTextures", true);
+		getIMGF()->getTaskManager()->onTaskUnpause();
+		getIMGF()->getTaskManager()->onTaskEnd("onRequestMissingTextures", true);
 		return;
 	}
 
-	getKGM()->getTaskManager()->onTaskPause();
-	vector<string> vecPaths = mcore::CGUIManager::openFileDialog(getKGM()->getLastUsedDirectory("MISSING_TEXTURES_IDE"), "IDE");
-	getKGM()->getTaskManager()->onTaskUnpause();
+	getIMGF()->getTaskManager()->onTaskPause();
+	vector<string> vecPaths = mcore::CGUIManager::openFileDialog(getIMGF()->getLastUsedDirectory("MISSING_TEXTURES_IDE"), "IDE");
+	getIMGF()->getTaskManager()->onTaskUnpause();
 	if (vecPaths.size() == 0)
 	{
-		getKGM()->getTaskManager()->onTaskEnd("onRequestMissingTextures", true);
+		getIMGF()->getTaskManager()->onTaskEnd("onRequestMissingTextures", true);
 		return;
 	}
-	getKGM()->setLastUsedDirectory("MISSING_TEXTURES_IDE", CPathManager::getDirectory(vecPaths[0]));
+	getIMGF()->setLastUsedDirectory("MISSING_TEXTURES_IDE", CPathManager::getDirectory(vecPaths[0]));
 
 	vector<string> vecTextureNames;
 	for (auto strPath : vecPaths)
@@ -4081,20 +4081,20 @@ void		CTaskDispatchManager::onRequestMissingTextures(void)
 	vector<string> vecDFFTexturesMissingFromTXD;
 	for (uint32 i = 0; i < vecSelectedDFFs.size(); i++)
 	{
-		CIMGEntry *pIMGEntry2 = getKGM()->getEntryListTab()->getIMGFile()->getEntryByNameWithoutExtension(vecTextureNames[i]);
+		CIMGEntry *pIMGEntry2 = getIMGF()->getEntryListTab()->getIMGFile()->getEntryByNameWithoutExtension(vecTextureNames[i]);
 		string strTXDContent;
 		if (pIMGEntry2 == nullptr)
 		{
-			getKGM()->getTaskManager()->onTaskPause();
+			getIMGF()->getTaskManager()->onTaskPause();
 			mcore::CGUIManager::showMessage(CLocalizationManager::getInstance()->getTranslatedFormattedText("TextPopup_39", vecSelectedDFFsFilenames[i]), CLocalizationManager::getInstance()->getTranslatedText("TextPopupTitle_39"), MB_OK);
-			vector<string> vecPaths2 = mcore::CGUIManager::openFileDialog(getKGM()->getLastUsedDirectory("MISSING_TEXTURES_TXD"), "TXD", false);
-			getKGM()->getTaskManager()->onTaskUnpause();
+			vector<string> vecPaths2 = mcore::CGUIManager::openFileDialog(getIMGF()->getLastUsedDirectory("MISSING_TEXTURES_TXD"), "TXD", false);
+			getIMGF()->getTaskManager()->onTaskUnpause();
 			if (vecPaths2.size() == 0)
 			{
-				getKGM()->getTaskManager()->onTaskEnd("onRequestMissingTextures", true);
+				getIMGF()->getTaskManager()->onTaskEnd("onRequestMissingTextures", true);
 				return;
 			}
-			getKGM()->setLastUsedDirectory("MISSING_TEXTURES_TXD", CPathManager::getDirectory(vecPaths2[0]));
+			getIMGF()->setLastUsedDirectory("MISSING_TEXTURES_TXD", CPathManager::getDirectory(vecPaths2[0]));
 
 			strTXDContent = CFileManager::getFileContent(vecPaths2[0]);
 		}
@@ -4133,25 +4133,25 @@ void		CTaskDispatchManager::onRequestMissingTextures(void)
 		}
 	}
 
-	getKGM()->getEntryListTab()->log(CLocalizationManager::getInstance()->getTranslatedFormattedText("Log_97", vecDFFTexturesMissingFromTXD.size()));
-	getKGM()->getEntryListTab()->log(CLocalizationManager::getInstance()->getTranslatedText("Log_98"), true);
-	getKGM()->getEntryListTab()->log(CString2::join(vecDFFTexturesMissingFromTXD, "\n"), true);
+	getIMGF()->getEntryListTab()->log(CLocalizationManager::getInstance()->getTranslatedFormattedText("Log_97", vecDFFTexturesMissingFromTXD.size()));
+	getIMGF()->getEntryListTab()->log(CLocalizationManager::getInstance()->getTranslatedText("Log_98"), true);
+	getIMGF()->getEntryListTab()->log(CString2::join(vecDFFTexturesMissingFromTXD, "\n"), true);
 
-	getKGM()->getTaskManager()->onTaskPause();
-	getKGM()->getPopupGUIManager()->showListViewDialog("Missing Textures", "Textures missing:", "Texture Name", vecDFFTexturesMissingFromTXD, CLocalizationManager::getInstance()->getTranslatedFormattedText("SaveFilePopup_4_InitialFilename", CPathManager::replaceFileExtension(CPathManager::getFileName(getKGM()->getEntryListTab()->getIMGFile()->getFilePath()), "txt").c_str()), "MISSINGTEXTURES");
-	getKGM()->getTaskManager()->onTaskUnpause();
-	getKGM()->getTaskManager()->onTaskEnd("onRequestMissingTextures");
+	getIMGF()->getTaskManager()->onTaskPause();
+	getIMGF()->getPopupGUIManager()->showListViewDialog("Missing Textures", "Textures missing:", "Texture Name", vecDFFTexturesMissingFromTXD, CLocalizationManager::getInstance()->getTranslatedFormattedText("SaveFilePopup_4_InitialFilename", CPathManager::replaceFileExtension(CPathManager::getFileName(getIMGF()->getEntryListTab()->getIMGFile()->getFilePath()), "txt").c_str()), "MISSINGTEXTURES");
+	getIMGF()->getTaskManager()->onTaskUnpause();
+	getIMGF()->getTaskManager()->onTaskEnd("onRequestMissingTextures");
 	*/
 }
 bool		CTaskDispatchManager::onRequestClose2(bool bCloseAll)
 {
-	getKGM()->getLastUsedValueManager()->setLastUsedValue_Close2_CloseAll(bCloseAll);
-	getKGM()->getTaskManager()->onTaskBegin("onRequestClose2");
+	getIMGF()->getLastUsedValueManager()->setLastUsedValue_Close2_CloseAll(bCloseAll);
+	getIMGF()->getTaskManager()->onTaskBegin("onRequestClose2");
 	string strText = "";
 	if (bCloseAll)
 	{
 		uint32 uiModifiedSinceRebuildCount = 0;
-		for (auto pEditorTab : getKGM()->getIMGEditor()->getTabs().getEntries())
+		for (auto pEditorTab : getIMGF()->getIMGEditor()->getTabs().getEntries())
 		{
 			if (((CIMGEditorTab*)pEditorTab)->getIMGModifiedSinceRebuild())
 			{
@@ -4165,36 +4165,36 @@ bool		CTaskDispatchManager::onRequestClose2(bool bCloseAll)
 	}
 	else
 	{
-		if (getKGM()->getEntryListTab()->getIMGModifiedSinceRebuild())
+		if (getIMGF()->getEntryListTab()->getIMGModifiedSinceRebuild())
 		{
-			strText = CLocalizationManager::getInstance()->getTranslatedFormattedText("Window_Confirm_4_Message", CPathManager::getFileName(getKGM()->getEntryListTab()->getIMGFile()->getFilePath()).c_str());
+			strText = CLocalizationManager::getInstance()->getTranslatedFormattedText("Window_Confirm_4_Message", CPathManager::getFileName(getIMGF()->getEntryListTab()->getIMGFile()->getFilePath()).c_str());
 		}
 	}
 
 	if (strText == "")
 	{
-		getKGM()->getTaskManager()->onTaskEnd("onRequestClose2", true);
+		getIMGF()->getTaskManager()->onTaskEnd("onRequestClose2", true);
 		return false;
 	}
 
 	bool bDidCancel = false;
-	getKGM()->getTaskManager()->onTaskPause();
-	bool bResult = getKGM()->getPopupGUIManager()->showConfirmDialog(strText, CLocalizationManager::getInstance()->getTranslatedText("Window_Confirm_3_Title"), bDidCancel);
-	getKGM()->getTaskManager()->onTaskUnpause();
+	getIMGF()->getTaskManager()->onTaskPause();
+	bool bResult = getIMGF()->getPopupGUIManager()->showConfirmDialog(strText, CLocalizationManager::getInstance()->getTranslatedText("Window_Confirm_3_Title"), bDidCancel);
+	getIMGF()->getTaskManager()->onTaskUnpause();
 	if (bDidCancel)
 	{
-		getKGM()->getTaskManager()->onTaskEnd("onRequestClose2", true);
+		getIMGF()->getTaskManager()->onTaskEnd("onRequestClose2", true);
 		return true;
 	}
 	if (!bResult)
 	{
-		getKGM()->getTaskManager()->onTaskEnd("onRequestClose2", true);
+		getIMGF()->getTaskManager()->onTaskEnd("onRequestClose2", true);
 		return false;
 	}
 
 	if (bCloseAll)
 	{
-		for (auto pEditorTab : getKGM()->getIMGEditor()->getTabs().getEntries())
+		for (auto pEditorTab : getIMGF()->getIMGEditor()->getTabs().getEntries())
 		{
 			if (((CIMGEditorTab*)pEditorTab)->getIMGModifiedSinceRebuild())
 			{
@@ -4204,30 +4204,30 @@ bool		CTaskDispatchManager::onRequestClose2(bool bCloseAll)
 	}
 	else
 	{
-		getKGM()->getEntryListTab()->rebuild();
+		getIMGF()->getEntryListTab()->rebuild();
 	}
-	getKGM()->getTaskManager()->onTaskEnd("onRequestClose2");
+	getIMGF()->getTaskManager()->onTaskEnd("onRequestClose2");
 	return true;
 }
 void		CTaskDispatchManager::onRequestReplaceAllFromFolder(void)
 {
-	getKGM()->getTaskManager()->onTaskBegin("onRequestReplaceAllFromFolder");
-	if (getKGM()->getEntryListTab() == nullptr)
+	getIMGF()->getTaskManager()->onTaskBegin("onRequestReplaceAllFromFolder");
+	if (getIMGF()->getEntryListTab() == nullptr)
 	{
-		getKGM()->getTaskManager()->onTaskEnd("onRequestReplaceAllFromFolder", true);
+		getIMGF()->getTaskManager()->onTaskEnd("onRequestReplaceAllFromFolder", true);
 		return;
 	}
 
-	getKGM()->getTaskManager()->onTaskPause();
-	string strFolderPath = mcore::CGUIManager::chooseFolderDialog(CLocalizationManager::getInstance()->getTranslatedText("ChooseFolderPopup_14"), getKGM()->getLastUsedDirectory("REPLACE_ALL_FOLDER"));
-	getKGM()->getTaskManager()->onTaskUnpause();
+	getIMGF()->getTaskManager()->onTaskPause();
+	string strFolderPath = mcore::CGUIManager::chooseFolderDialog(CLocalizationManager::getInstance()->getTranslatedText("ChooseFolderPopup_14"), getIMGF()->getLastUsedDirectory("REPLACE_ALL_FOLDER"));
+	getIMGF()->getTaskManager()->onTaskUnpause();
 	if (strFolderPath == "")
 	{
-		getKGM()->getTaskManager()->onTaskEnd("onRequestReplaceAllFromFolder", true);
+		getIMGF()->getTaskManager()->onTaskEnd("onRequestReplaceAllFromFolder", true);
 		return;
 	}
 	strFolderPath = CPathManager::addSlashToEnd(strFolderPath);
-	getKGM()->setLastUsedDirectory("REPLACE_ALL_FOLDER", strFolderPath);
+	getIMGF()->setLastUsedDirectory("REPLACE_ALL_FOLDER", strFolderPath);
 
 	vector<string> vecFileNames = CFileManager::getFileNames(strFolderPath);
 	vector<string> vecFilePaths;
@@ -4236,16 +4236,16 @@ void		CTaskDispatchManager::onRequestReplaceAllFromFolder(void)
 		vecFilePaths[i] = strFolderPath + vecFileNames[i];
 	}
 
-	vector<string> vecUniqueFilePaths = CPathManager::getUniqueFilePaths(vecFilePaths, getKGM()->getEntryListTab()->getIMGFile()->getEntryNames());
+	vector<string> vecUniqueFilePaths = CPathManager::getUniqueFilePaths(vecFilePaths, getIMGF()->getEntryListTab()->getIMGFile()->getEntryNames());
 	vector<string> vecReplaceFilePaths = CStdVector::getUniqueEntries(vecFilePaths, vecUniqueFilePaths);
 	uint32 uiReplaceEntryCount = vecReplaceFilePaths.size();
 
 	bool bOverwriteFiles = false;
-	if (getKGM()->getSettingsManager()->getSettingBool("AskBeforeOverwritingFiles"))
+	if (getIMGF()->getSettingsManager()->getSettingBool("AskBeforeOverwritingFiles"))
 	{
-		getKGM()->getTaskManager()->onTaskPause();
-		bOverwriteFiles = getKGM()->getPopupGUIManager()->showConfirmDialog(CLocalizationManager::getInstance()->getTranslatedFormattedText("Window_Confirm_2_Message", uiReplaceEntryCount), CLocalizationManager::getInstance()->getTranslatedText("Window_Confirm_2_Title"));
-		getKGM()->getTaskManager()->onTaskUnpause();
+		getIMGF()->getTaskManager()->onTaskPause();
+		bOverwriteFiles = getIMGF()->getPopupGUIManager()->showConfirmDialog(CLocalizationManager::getInstance()->getTranslatedFormattedText("Window_Confirm_2_Message", uiReplaceEntryCount), CLocalizationManager::getInstance()->getTranslatedText("Window_Confirm_2_Title"));
+		getIMGF()->getTaskManager()->onTaskUnpause();
 
 		if (!bOverwriteFiles)
 		{
@@ -4254,13 +4254,13 @@ void		CTaskDispatchManager::onRequestReplaceAllFromFolder(void)
 	}
 	else
 	{
-		//vector<string> vecA = CStdVector::getUniqueEntries(getKGM()->getEntryListTab()->getIMGFile()->getEntryNamesUpper(), CPathManager::getFileNamesFromFilePaths(vecPaths));
+		//vector<string> vecA = CStdVector::getUniqueEntries(getIMGF()->getEntryListTab()->getIMGFile()->getEntryNamesUpper(), CPathManager::getFileNamesFromFilePaths(vecPaths));
 
 		vector<string> vecNewReplacedFilePaths;
 		for (auto strFilePath : vecReplaceFilePaths)
 		{
 			bool bReplaceEntry = true;
-			CIMGEntry *pIMGEntry = getKGM()->getEntryListTab()->getIMGFile()->getEntryByName(CPathManager::getFileName(strFilePath));
+			CIMGEntry *pIMGEntry = getIMGF()->getEntryListTab()->getIMGFile()->getEntryByName(CPathManager::getFileName(strFilePath));
 
 			uint32
 				uiExistingEntryFileCreationDate = pIMGEntry->getFileCreationDate(),
@@ -4270,7 +4270,7 @@ void		CTaskDispatchManager::onRequestReplaceAllFromFolder(void)
 			{
 				// the existing entry is older than the new entry
 
-				if (getKGM()->getSettingsManager()->getSettingBool("OverwriteOlderFiles"))
+				if (getIMGF()->getSettingsManager()->getSettingBool("OverwriteOlderFiles"))
 				{
 					bReplaceEntry = true;
 				}
@@ -4283,7 +4283,7 @@ void		CTaskDispatchManager::onRequestReplaceAllFromFolder(void)
 			{
 				// the existing entry is newer than the new entry
 
-				if (getKGM()->getSettingsManager()->getSettingBool("OverwriteNewerFiles"))
+				if (getIMGF()->getSettingsManager()->getSettingBool("OverwriteNewerFiles"))
 				{
 					bReplaceEntry = true;
 				}
@@ -4297,7 +4297,7 @@ void		CTaskDispatchManager::onRequestReplaceAllFromFolder(void)
 			{
 				// the entry is protected
 
-				if (getKGM()->getSettingsManager()->getSettingBool("OverwriteProtectedFiles"))
+				if (getIMGF()->getSettingsManager()->getSettingBool("OverwriteProtectedFiles"))
 				{
 					bReplaceEntry = true;
 				}
@@ -4316,44 +4316,44 @@ void		CTaskDispatchManager::onRequestReplaceAllFromFolder(void)
 	}
 
 	vector<string> vecReplacedEntryNames;
-	getKGM()->getEntryListTab()->replace(vecFilePaths, vecReplacedEntryNames);
+	getIMGF()->getEntryListTab()->replace(vecFilePaths, vecReplacedEntryNames);
 
-	getKGM()->getEntryListTab()->log(CLocalizationManager::getInstance()->getTranslatedFormattedText("ReplacedEntries", vecReplacedEntryNames.size()));
-	getKGM()->getEntryListTab()->log(CLocalizationManager::getInstance()->getTranslatedText("EntriesForReplace"), true);
-	getKGM()->getEntryListTab()->log(CString2::join(vecReplacedEntryNames, "\n"), true);
+	getIMGF()->getEntryListTab()->log(CLocalizationManager::getInstance()->getTranslatedFormattedText("ReplacedEntries", vecReplacedEntryNames.size()));
+	getIMGF()->getEntryListTab()->log(CLocalizationManager::getInstance()->getTranslatedText("EntriesForReplace"), true);
+	getIMGF()->getEntryListTab()->log(CString2::join(vecReplacedEntryNames, "\n"), true);
 
-	getKGM()->getEntryListTab()->setIMGModifiedSinceRebuild(true);
-	getKGM()->getTaskManager()->onTaskEnd("onRequestReplaceAllFromFolder");
+	getIMGF()->getEntryListTab()->setIMGModifiedSinceRebuild(true);
+	getIMGF()->getTaskManager()->onTaskEnd("onRequestReplaceAllFromFolder");
 }
 void		CTaskDispatchManager::onRequestExportAllEntriesFromAllTabs(void)
 {
-	getKGM()->getTaskManager()->onTaskBegin("onRequestExportAllEntriesFromAllTabs");
-	if (getKGM()->getEntryListTab() == nullptr)
+	getIMGF()->getTaskManager()->onTaskBegin("onRequestExportAllEntriesFromAllTabs");
+	if (getIMGF()->getEntryListTab() == nullptr)
 	{
-		getKGM()->getTaskManager()->onTaskEnd("onRequestExportAllEntriesFromAllTabs", true);
+		getIMGF()->getTaskManager()->onTaskEnd("onRequestExportAllEntriesFromAllTabs", true);
 		return;
 	}
 
-	getKGM()->getTaskManager()->onTaskPause();
-	string strPath = mcore::CGUIManager::chooseFolderDialog(CLocalizationManager::getInstance()->getTranslatedText("ChooseFolderPopup_12"), getKGM()->getLastUsedDirectory("EXPORT_ALL_ALL"));
-	getKGM()->getTaskManager()->onTaskUnpause();
+	getIMGF()->getTaskManager()->onTaskPause();
+	string strPath = mcore::CGUIManager::chooseFolderDialog(CLocalizationManager::getInstance()->getTranslatedText("ChooseFolderPopup_12"), getIMGF()->getLastUsedDirectory("EXPORT_ALL_ALL"));
+	getIMGF()->getTaskManager()->onTaskUnpause();
 	if (strPath == "")
 	{
-		getKGM()->getTaskManager()->onTaskEnd("onRequestExportAllEntriesFromAllTabs", true);
+		getIMGF()->getTaskManager()->onTaskEnd("onRequestExportAllEntriesFromAllTabs", true);
 		return;
 	}
 	strPath = CPathManager::addSlashToEnd(strPath);
-	getKGM()->setLastUsedDirectory("EXPORT_ALL_ALL", strPath);
+	getIMGF()->setLastUsedDirectory("EXPORT_ALL_ALL", strPath);
 
 	uint32 uiTotalEntryCount = 0;
-	for (auto pEditorTab : getKGM()->getIMGEditor()->getTabs().getEntries())
+	for (auto pEditorTab : getIMGF()->getIMGEditor()->getTabs().getEntries())
 	{
 		uiTotalEntryCount += ((CIMGEditorTab*)pEditorTab)->getIMGFile()->getEntryCount();
 	}
-	getKGM()->getTaskManager()->setTaskMaxProgressTickCount(uiTotalEntryCount);
+	getIMGF()->getTaskManager()->setTaskMaxProgressTickCount(uiTotalEntryCount);
 
 	vector<string> vecIMGPaths;
-	for (auto pEditorTab : getKGM()->getIMGEditor()->getTabs().getEntries())
+	for (auto pEditorTab : getIMGF()->getIMGEditor()->getTabs().getEntries())
 	{
 		vecIMGPaths.push_back(((CIMGEditorTab*)pEditorTab)->getIMGFile()->getFilePath());
 
@@ -4361,54 +4361,54 @@ void		CTaskDispatchManager::onRequestExportAllEntriesFromAllTabs(void)
 		//pEditorTab->log("Exported all " + CString2::toString(pEditorTab->getIMGFile()->m_vecEntries.size()) + " entr" + (pEditorTab->getIMGFile()->m_vecEntries.size() == 1 ? "y" : "ies") + ".");
 	}
 
-	getKGM()->getIMGEditor()->logAllTabs(CLocalizationManager::getInstance()->getTranslatedFormattedText("LogAllTabs_6", uiTotalEntryCount, getKGM()->getIMGEditor()->getTabs().getEntryCount()));
-	getKGM()->getIMGEditor()->logAllTabs(CLocalizationManager::getInstance()->getTranslatedText("LogAllTabs_7"), true);
-	getKGM()->getIMGEditor()->logAllTabs(CString2::join(vecIMGPaths, "\n"), true);
-	getKGM()->getTaskManager()->onTaskEnd("onRequestExportAllEntriesFromAllTabs");
+	getIMGF()->getIMGEditor()->logAllTabs(CLocalizationManager::getInstance()->getTranslatedFormattedText("LogAllTabs_6", uiTotalEntryCount, getIMGF()->getIMGEditor()->getTabs().getEntryCount()));
+	getIMGF()->getIMGEditor()->logAllTabs(CLocalizationManager::getInstance()->getTranslatedText("LogAllTabs_7"), true);
+	getIMGF()->getIMGEditor()->logAllTabs(CString2::join(vecIMGPaths, "\n"), true);
+	getIMGF()->getTaskManager()->onTaskEnd("onRequestExportAllEntriesFromAllTabs");
 }
 void		CTaskDispatchManager::onRequestExportEntriesViaIDEFileFromAllTabs(void)
 {
-	getKGM()->getTaskManager()->onTaskBegin("onRequestExportEntriesViaIDEFileFromAllTabs");
-	if (getKGM()->getEntryListTab() == nullptr)
+	getIMGF()->getTaskManager()->onTaskBegin("onRequestExportEntriesViaIDEFileFromAllTabs");
+	if (getIMGF()->getEntryListTab() == nullptr)
 	{
-		getKGM()->getTaskManager()->onTaskEnd("onRequestExportEntriesViaIDEFileFromAllTabs", true);
+		getIMGF()->getTaskManager()->onTaskEnd("onRequestExportEntriesViaIDEFileFromAllTabs", true);
 		return;
 	}
 
-	getKGM()->getTaskManager()->onTaskPause();
-	vector<string> vecPaths = mcore::CGUIManager::openFileDialog(getKGM()->getLastUsedDirectory("EXPORT_IDE_ALL__IDE"), "IDE");
-	getKGM()->getTaskManager()->onTaskUnpause(); 
+	getIMGF()->getTaskManager()->onTaskPause();
+	vector<string> vecPaths = mcore::CGUIManager::openFileDialog(getIMGF()->getLastUsedDirectory("EXPORT_IDE_ALL__IDE"), "IDE");
+	getIMGF()->getTaskManager()->onTaskUnpause(); 
 	if (vecPaths.size() == 0)
 	{
-		getKGM()->getTaskManager()->onTaskEnd("onRequestExportEntriesViaIDEFileFromAllTabs", true);
+		getIMGF()->getTaskManager()->onTaskEnd("onRequestExportEntriesViaIDEFileFromAllTabs", true);
 		return;
 	}
-	getKGM()->setLastUsedDirectory("EXPORT_IDE_ALL__IDE", CPathManager::getDirectory(vecPaths[0]));
+	getIMGF()->setLastUsedDirectory("EXPORT_IDE_ALL__IDE", CPathManager::getDirectory(vecPaths[0]));
 
-	getKGM()->getTaskManager()->onTaskPause();
-	string strPath = mcore::CGUIManager::chooseFolderDialog(CLocalizationManager::getInstance()->getTranslatedText("ChooseFolderPopup_12"), getKGM()->getLastUsedDirectory("EXPORT_IDE_ALL__DEST"));
-	getKGM()->getTaskManager()->onTaskUnpause();
+	getIMGF()->getTaskManager()->onTaskPause();
+	string strPath = mcore::CGUIManager::chooseFolderDialog(CLocalizationManager::getInstance()->getTranslatedText("ChooseFolderPopup_12"), getIMGF()->getLastUsedDirectory("EXPORT_IDE_ALL__DEST"));
+	getIMGF()->getTaskManager()->onTaskUnpause();
 	if (strPath == "")
 	{
-		getKGM()->getTaskManager()->onTaskEnd("onRequestExportEntriesViaIDEFileFromAllTabs", true);
+		getIMGF()->getTaskManager()->onTaskEnd("onRequestExportEntriesViaIDEFileFromAllTabs", true);
 		return;
 	}
 	strPath = CPathManager::addSlashToEnd(strPath);
-	getKGM()->setLastUsedDirectory("EXPORT_IDE_ALL__DEST", strPath);
+	getIMGF()->setLastUsedDirectory("EXPORT_IDE_ALL__DEST", strPath);
 
 	vector<string> vecEntryNamesWithoutExtension = CIDEManager::getIDEEntryNamesWithoutExtension(vecPaths);
 	vecEntryNamesWithoutExtension = CStdVector::toUpperCase(vecEntryNamesWithoutExtension);
 	
 	uint32 uiTotalEntryCount = 0;
-	for (auto pEditorTab : getKGM()->getIMGEditor()->getTabs().getEntries())
+	for (auto pEditorTab : getIMGF()->getIMGEditor()->getTabs().getEntries())
 	{
 		uiTotalEntryCount += ((CIMGEditorTab*)pEditorTab)->getIMGFile()->getEntryCount();
 	}
-	getKGM()->getTaskManager()->setTaskMaxProgressTickCount(uiTotalEntryCount);
+	getIMGF()->getTaskManager()->setTaskMaxProgressTickCount(uiTotalEntryCount);
 
 	uint32 uiTotalEntryExportedCount = 0;
 	vector<string> vecIMGPaths;
-	for (auto pEditorTab : getKGM()->getIMGEditor()->getTabs().getEntries())
+	for (auto pEditorTab : getIMGF()->getIMGEditor()->getTabs().getEntries())
 	{
 		vecIMGPaths.push_back(((CIMGEditorTab*)pEditorTab)->getIMGFile()->getFilePath());
 
@@ -4423,45 +4423,45 @@ void		CTaskDispatchManager::onRequestExportEntriesViaIDEFileFromAllTabs(void)
 				vecIMGEntries.push_back(pIMGEntry);
 			}
 
-			getKGM()->getTaskManager()->onTaskProgressTick();
+			getIMGF()->getTaskManager()->onTaskProgressTick();
 		}
 
 		((CIMGEditorTab*)pEditorTab)->getIMGFile()->exportMultiple(vecIMGEntries, strPath);
 	}
 
-	getKGM()->getIMGEditor()->logAllTabs(CLocalizationManager::getInstance()->getTranslatedFormattedText("Log_108", uiTotalEntryExportedCount, getKGM()->getIMGEditor()->getTabs().getEntryCount()));
-	getKGM()->getIMGEditor()->logAllTabs(CLocalizationManager::getInstance()->getTranslatedText("LogAllTabs_7"), true);
-	getKGM()->getIMGEditor()->logAllTabs(CString2::join(vecIMGPaths, "\n"), true);
-	getKGM()->getTaskManager()->onTaskEnd("onRequestExportEntriesViaIDEFileFromAllTabs");
+	getIMGF()->getIMGEditor()->logAllTabs(CLocalizationManager::getInstance()->getTranslatedFormattedText("Log_108", uiTotalEntryExportedCount, getIMGF()->getIMGEditor()->getTabs().getEntryCount()));
+	getIMGF()->getIMGEditor()->logAllTabs(CLocalizationManager::getInstance()->getTranslatedText("LogAllTabs_7"), true);
+	getIMGF()->getIMGEditor()->logAllTabs(CString2::join(vecIMGPaths, "\n"), true);
+	getIMGF()->getTaskManager()->onTaskEnd("onRequestExportEntriesViaIDEFileFromAllTabs");
 }
 void		CTaskDispatchManager::onRequestExportEntriesViaTextLinesFromAllTabs(void)
 {
-	getKGM()->getTaskManager()->onTaskBegin("onRequestExportEntriesViaTextLinesFromAllTabs");
-	if (getKGM()->getEntryListTab() == nullptr)
+	getIMGF()->getTaskManager()->onTaskBegin("onRequestExportEntriesViaTextLinesFromAllTabs");
+	if (getIMGF()->getEntryListTab() == nullptr)
 	{
-		getKGM()->getTaskManager()->onTaskEnd("onRequestExportEntriesViaTextLinesFromAllTabs", true);
+		getIMGF()->getTaskManager()->onTaskEnd("onRequestExportEntriesViaTextLinesFromAllTabs", true);
 		return;
 	}
 
-	getKGM()->getTaskManager()->onTaskPause();
-	string strData = getKGM()->getPopupGUIManager()->showTextAreaDialog(CLocalizationManager::getInstance()->getTranslatedText("Window_TextArea_3_Title"), CLocalizationManager::getInstance()->getTranslatedText("Window_TextArea_3_Message"));
-	getKGM()->getTaskManager()->onTaskUnpause();
+	getIMGF()->getTaskManager()->onTaskPause();
+	string strData = getIMGF()->getPopupGUIManager()->showTextAreaDialog(CLocalizationManager::getInstance()->getTranslatedText("Window_TextArea_3_Title"), CLocalizationManager::getInstance()->getTranslatedText("Window_TextArea_3_Message"));
+	getIMGF()->getTaskManager()->onTaskUnpause();
 	if (strData == "")
 	{
-		getKGM()->getTaskManager()->onTaskEnd("onRequestExportEntriesViaTextLinesFromAllTabs", true);
+		getIMGF()->getTaskManager()->onTaskEnd("onRequestExportEntriesViaTextLinesFromAllTabs", true);
 		return;
 	}
 
-	getKGM()->getTaskManager()->onTaskPause();
-	string strPath = mcore::CGUIManager::chooseFolderDialog(CLocalizationManager::getInstance()->getTranslatedText("ChooseFolderPopup_12"), getKGM()->getLastUsedDirectory("EXPORT_TEXTLINES_ALL"));
-	getKGM()->getTaskManager()->onTaskUnpause();
+	getIMGF()->getTaskManager()->onTaskPause();
+	string strPath = mcore::CGUIManager::chooseFolderDialog(CLocalizationManager::getInstance()->getTranslatedText("ChooseFolderPopup_12"), getIMGF()->getLastUsedDirectory("EXPORT_TEXTLINES_ALL"));
+	getIMGF()->getTaskManager()->onTaskUnpause();
 	if (strPath == "")
 	{
-		getKGM()->getTaskManager()->onTaskEnd("onRequestExportEntriesViaTextLinesFromAllTabs", true);
+		getIMGF()->getTaskManager()->onTaskEnd("onRequestExportEntriesViaTextLinesFromAllTabs", true);
 		return;
 	}
 	strPath = CPathManager::addSlashToEnd(strPath);
-	getKGM()->setLastUsedDirectory("EXPORT_TEXTLINES_ALL", strPath);
+	getIMGF()->setLastUsedDirectory("EXPORT_TEXTLINES_ALL", strPath);
 
 	vector<string> vecEntryNames;
 	vector<string> vecLines = CString2::split(strData, "\r\n");
@@ -4478,15 +4478,15 @@ void		CTaskDispatchManager::onRequestExportEntriesViaTextLinesFromAllTabs(void)
 	vecEntryNames = CStdVector::toUpperCase(vecEntryNames);
 
 	uint32 uiTotalEntryCount = 0;
-	for (auto pEditorTab : getKGM()->getIMGEditor()->getTabs().getEntries())
+	for (auto pEditorTab : getIMGF()->getIMGEditor()->getTabs().getEntries())
 	{
 		uiTotalEntryCount += ((CIMGEditorTab*)pEditorTab)->getIMGFile()->getEntryCount();
 	}
-	getKGM()->getTaskManager()->setTaskMaxProgressTickCount(uiTotalEntryCount);
+	getIMGF()->getTaskManager()->setTaskMaxProgressTickCount(uiTotalEntryCount);
 
 	uint32 uiTotalEntryExportedCount = 0;
 	vector<string> vecIMGPaths;
-	for (auto pEditorTab : getKGM()->getIMGEditor()->getTabs().getEntries())
+	for (auto pEditorTab : getIMGF()->getIMGEditor()->getTabs().getEntries())
 	{
 		vecIMGPaths.push_back(((CIMGEditorTab*)pEditorTab)->getIMGFile()->getFilePath());
 
@@ -4501,68 +4501,68 @@ void		CTaskDispatchManager::onRequestExportEntriesViaTextLinesFromAllTabs(void)
 				vecIMGEntries.push_back(pIMGEntry);
 			}
 
-			getKGM()->getTaskManager()->onTaskProgressTick();
+			getIMGF()->getTaskManager()->onTaskProgressTick();
 		}
 
 		((CIMGEditorTab*)pEditorTab)->getIMGFile()->exportMultiple(vecIMGEntries, strPath);
 	}
 
-	getKGM()->getIMGEditor()->logAllTabs(CLocalizationManager::getInstance()->getTranslatedFormattedText("LogAllTabs_8", uiTotalEntryExportedCount, getKGM()->getIMGEditor()->getTabs().getEntryCount()));
-	getKGM()->getIMGEditor()->logAllTabs(CLocalizationManager::getInstance()->getTranslatedText("LogAllTabs_7"), true);
-	getKGM()->getIMGEditor()->logAllTabs(CString2::join(vecIMGPaths, "\n"), true);
-	getKGM()->getTaskManager()->onTaskEnd("onRequestExportEntriesViaTextLinesFromAllTabs");
+	getIMGF()->getIMGEditor()->logAllTabs(CLocalizationManager::getInstance()->getTranslatedFormattedText("LogAllTabs_8", uiTotalEntryExportedCount, getIMGF()->getIMGEditor()->getTabs().getEntryCount()));
+	getIMGF()->getIMGEditor()->logAllTabs(CLocalizationManager::getInstance()->getTranslatedText("LogAllTabs_7"), true);
+	getIMGF()->getIMGEditor()->logAllTabs(CString2::join(vecIMGPaths, "\n"), true);
+	getIMGF()->getTaskManager()->onTaskEnd("onRequestExportEntriesViaTextLinesFromAllTabs");
 }
 void		CTaskDispatchManager::onRequestImportViaFolder(void)
 {
-	getKGM()->getTaskManager()->onTaskBegin("onRequestImportViaFolder");
-	if (getKGM()->getEntryListTab() == nullptr)
+	getIMGF()->getTaskManager()->onTaskBegin("onRequestImportViaFolder");
+	if (getIMGF()->getEntryListTab() == nullptr)
 	{
-		getKGM()->getTaskManager()->onTaskEnd("onRequestImportViaFolder", true);
+		getIMGF()->getTaskManager()->onTaskEnd("onRequestImportViaFolder", true);
 		return;
 	}
 
-	getKGM()->getTaskManager()->onTaskPause();
-	string strPath = mcore::CGUIManager::chooseFolderDialog(CLocalizationManager::getInstance()->getTranslatedText("ChooseFolderPopup_15"), getKGM()->getLastUsedDirectory("IMPORT_FOLDER"));
-	getKGM()->getTaskManager()->onTaskUnpause();
+	getIMGF()->getTaskManager()->onTaskPause();
+	string strPath = mcore::CGUIManager::chooseFolderDialog(CLocalizationManager::getInstance()->getTranslatedText("ChooseFolderPopup_15"), getIMGF()->getLastUsedDirectory("IMPORT_FOLDER"));
+	getIMGF()->getTaskManager()->onTaskUnpause();
 	if (strPath == "")
 	{
-		getKGM()->getTaskManager()->onTaskEnd("onRequestImportViaFolder", true);
+		getIMGF()->getTaskManager()->onTaskEnd("onRequestImportViaFolder", true);
 		return;
 	}
 	strPath = CPathManager::addSlashToEnd(strPath);
-	getKGM()->setLastUsedDirectory("IMPORT_FOLDER", strPath);
+	getIMGF()->setLastUsedDirectory("IMPORT_FOLDER", strPath);
 
 	vector<string> vecFileNames = CFileManager::getFileNames(strPath);
-	getKGM()->getTaskManager()->setTaskMaxProgressTickCount(vecFileNames.size());
+	getIMGF()->getTaskManager()->setTaskMaxProgressTickCount(vecFileNames.size());
 	for (auto strFileName : vecFileNames)
 	{
-		getKGM()->getEntryListTab()->addOrReplaceEntryViaFileAndSettings(strPath + strFileName);
-		getKGM()->getTaskManager()->onTaskProgressTick();
+		getIMGF()->getEntryListTab()->addOrReplaceEntryViaFileAndSettings(strPath + strFileName);
+		getIMGF()->getTaskManager()->onTaskProgressTick();
 	}
 
-	getKGM()->getEntryListTab()->log(CLocalizationManager::getInstance()->getTranslatedFormattedText("Log_99", vecFileNames.size(), CPathManager::getFolderName(strPath).c_str()));
-	getKGM()->getEntryListTab()->log(CLocalizationManager::getInstance()->getTranslatedText("Log_100"), true);
-	getKGM()->getEntryListTab()->log(strPath, true);
-	getKGM()->getEntryListTab()->log(CLocalizationManager::getInstance()->getTranslatedText("EntriesForImport"), true);
-	getKGM()->getEntryListTab()->log(CString2::join(vecFileNames, "\n"), true);
+	getIMGF()->getEntryListTab()->log(CLocalizationManager::getInstance()->getTranslatedFormattedText("Log_99", vecFileNames.size(), CPathManager::getFolderName(strPath).c_str()));
+	getIMGF()->getEntryListTab()->log(CLocalizationManager::getInstance()->getTranslatedText("Log_100"), true);
+	getIMGF()->getEntryListTab()->log(strPath, true);
+	getIMGF()->getEntryListTab()->log(CLocalizationManager::getInstance()->getTranslatedText("EntriesForImport"), true);
+	getIMGF()->getEntryListTab()->log(CString2::join(vecFileNames, "\n"), true);
 
 	if (vecFileNames.size() > 0)
 	{
-		getKGM()->getEntryListTab()->setIMGModifiedSinceRebuild(true);
+		getIMGF()->getEntryListTab()->setIMGModifiedSinceRebuild(true);
 	}
-	getKGM()->getTaskManager()->onTaskEnd("onRequestImportViaFolder");
+	getIMGF()->getTaskManager()->onTaskEnd("onRequestImportViaFolder");
 }
 void		CTaskDispatchManager::onRequestDuplicateEntries(void)
 {
-	getKGM()->getTaskManager()->onTaskBegin("onRequestDuplicateEntries");
+	getIMGF()->getTaskManager()->onTaskBegin("onRequestDuplicateEntries");
 
 	// show window
-	getKGM()->getTaskManager()->onTaskPause();
-	CDuplicateEntriesDialogData *pDuplicateEntriesDialogData = getKGM()->getPopupGUIManager()->showDuplicateEntriesDialog();
-	getKGM()->getTaskManager()->onTaskUnpause();
+	getIMGF()->getTaskManager()->onTaskPause();
+	CDuplicateEntriesDialogData *pDuplicateEntriesDialogData = getIMGF()->getPopupGUIManager()->showDuplicateEntriesDialog();
+	getIMGF()->getTaskManager()->onTaskUnpause();
 	if (!pDuplicateEntriesDialogData->m_bCheck)
 	{
-		getKGM()->getTaskManager()->onTaskEnd("onRequestDuplicateEntries", true);
+		getIMGF()->getTaskManager()->onTaskEnd("onRequestDuplicateEntries", true);
 		return;
 	}
 
@@ -4570,33 +4570,33 @@ void		CTaskDispatchManager::onRequestDuplicateEntries(void)
 	vector<CIMGFormat*> veCIMGFormats;
 	if (pDuplicateEntriesDialogData->m_ucEntriesType == 0) // all entries in active tab
 	{
-		if (getKGM()->getEntryListTab() == nullptr)
+		if (getIMGF()->getEntryListTab() == nullptr)
 		{
-			getKGM()->getTaskManager()->onTaskEnd("onRequestDuplicateEntries", true);
+			getIMGF()->getTaskManager()->onTaskEnd("onRequestDuplicateEntries", true);
 			return;
 		}
 
-		veCIMGFormats.push_back(getKGM()->getEntryListTab()->getIMGFile());
+		veCIMGFormats.push_back(getIMGF()->getEntryListTab()->getIMGFile());
 	}
 	else if (pDuplicateEntriesDialogData->m_ucEntriesType == 1) // selected entries in active tab
 	{
-		if (getKGM()->getEntryListTab() == nullptr)
+		if (getIMGF()->getEntryListTab() == nullptr)
 		{
-			getKGM()->getTaskManager()->onTaskEnd("onRequestDuplicateEntries", true);
+			getIMGF()->getTaskManager()->onTaskEnd("onRequestDuplicateEntries", true);
 			return;
 		}
 
-		veCIMGFormats.push_back(getKGM()->getEntryListTab()->getIMGFile());
+		veCIMGFormats.push_back(getIMGF()->getEntryListTab()->getIMGFile());
 	}
 	else if (pDuplicateEntriesDialogData->m_ucEntriesType == 2) // all entries in all tabs
 	{
-		if (getKGM()->getEntryListTab() == nullptr)
+		if (getIMGF()->getEntryListTab() == nullptr)
 		{
-			getKGM()->getTaskManager()->onTaskEnd("onRequestDuplicateEntries", true);
+			getIMGF()->getTaskManager()->onTaskEnd("onRequestDuplicateEntries", true);
 			return;
 		}
 
-		veCIMGFormats = getKGM()->getIMGEditor()->getAllMainWindowTabsIMGFiles();
+		veCIMGFormats = getIMGF()->getIMGEditor()->getAllMainWindowTabsIMGFiles();
 	}
 	else if (pDuplicateEntriesDialogData->m_ucEntriesType == 3) // DAT file
 	{
@@ -4650,13 +4650,13 @@ void		CTaskDispatchManager::onRequestDuplicateEntries(void)
 	{
 		uiTickCount += pIMGFile->getEntryCount();
 	}
-	getKGM()->getTaskManager()->setTaskMaxProgressTickCount(uiTickCount);
+	getIMGF()->getTaskManager()->setTaskMaxProgressTickCount(uiTickCount);
 
 	// fetch selected entries
 	vector<CIMGEntry*> vecSelectedIMGEntries;
 	if (pDuplicateEntriesDialogData->m_ucEntriesType == 1) // selected entries
 	{
-		vecSelectedIMGEntries = getKGM()->getEntryListTab()->getSelectedEntries();
+		vecSelectedIMGEntries = getIMGF()->getEntryListTab()->getSelectedEntries();
 	}
 
 	// find duplicate entries
@@ -4682,7 +4682,7 @@ void		CTaskDispatchManager::onRequestDuplicateEntries(void)
 		{
 			umapIMGEntries[CString2::toUpperCase(pIMGEntry->getEntryName())].push_back(pIMGEntry);
 
-			getKGM()->getTaskManager()->onTaskProgressTick();
+			getIMGF()->getTaskManager()->onTaskProgressTick();
 		}
 	}
 	for (auto it : umapIMGEntries)
@@ -4702,11 +4702,11 @@ void		CTaskDispatchManager::onRequestDuplicateEntries(void)
 	umapIMGEntries.clear();
 
 	// log
-	if (getKGM()->getEntryListTab())
+	if (getIMGF()->getEntryListTab())
 	{
-		getKGM()->getEntryListTab()->log(CLocalizationManager::getInstance()->getTranslatedFormattedText("Log_102", vecEntryDuplicateNames.size()));
-		getKGM()->getEntryListTab()->log(CLocalizationManager::getInstance()->getTranslatedText("Log_103"), true);
-		getKGM()->getEntryListTab()->log(CString2::join(vecEntryDuplicateNames, "\n"), true);
+		getIMGF()->getEntryListTab()->log(CLocalizationManager::getInstance()->getTranslatedFormattedText("Log_102", vecEntryDuplicateNames.size()));
+		getIMGF()->getEntryListTab()->log(CLocalizationManager::getInstance()->getTranslatedText("Log_103"), true);
+		getIMGF()->getEntryListTab()->log(CString2::join(vecEntryDuplicateNames, "\n"), true);
 	}
 
 	// results window
@@ -4717,11 +4717,11 @@ void		CTaskDispatchManager::onRequestDuplicateEntries(void)
 	}
 	else
 	{
-		strSaveFileName = CLocalizationManager::getInstance()->getTranslatedFormattedText("SaveFilePopup_6_InitialFilename", CPathManager::replaceFileExtension(CPathManager::getFileName(getKGM()->getEntryListTab()->getIMGFile()->getFilePath()), "txt").c_str());
+		strSaveFileName = CLocalizationManager::getInstance()->getTranslatedFormattedText("SaveFilePopup_6_InitialFilename", CPathManager::replaceFileExtension(CPathManager::getFileName(getIMGF()->getEntryListTab()->getIMGFile()->getFilePath()), "txt").c_str());
 	}
-	getKGM()->getTaskManager()->onTaskPause();
-	getKGM()->getPopupGUIManager()->showListViewDialog(CLocalizationManager::getInstance()->getTranslatedText("DuplicateEntries"), "Showing " + CString2::toString(vecEntryDuplicateNames.size()) + " duplicate entr" + (vecEntryDuplicateNames.size() == 1 ? "y" : "ies") + ".", CLocalizationManager::getInstance()->getTranslatedText("Window_OrphanEntries_EntryName"), vecEntryDuplicateNames, strSaveFileName, "DUPLICATEENTRIES");
-	getKGM()->getTaskManager()->onTaskUnpause();
+	getIMGF()->getTaskManager()->onTaskPause();
+	getIMGF()->getPopupGUIManager()->showListViewDialog(CLocalizationManager::getInstance()->getTranslatedText("DuplicateEntries"), "Showing " + CString2::toString(vecEntryDuplicateNames.size()) + " duplicate entr" + (vecEntryDuplicateNames.size() == 1 ? "y" : "ies") + ".", CLocalizationManager::getInstance()->getTranslatedText("Window_OrphanEntries_EntryName"), vecEntryDuplicateNames, strSaveFileName, "DUPLICATEENTRIES");
+	getIMGF()->getTaskManager()->onTaskUnpause();
 
 	// clean up
 	vecEntryDuplicateNames.clear();
@@ -4734,76 +4734,76 @@ void		CTaskDispatchManager::onRequestDuplicateEntries(void)
 		}
 	}
 	delete pDuplicateEntriesDialogData;
-	getKGM()->getTaskManager()->onTaskEnd("onRequestDuplicateEntries");
+	getIMGF()->getTaskManager()->onTaskEnd("onRequestDuplicateEntries");
 }
 void		CTaskDispatchManager::onRequestExportAllEntriesFromAllTabsIntoMultipleFolders(void)
 {
-	getKGM()->getTaskManager()->onTaskBegin("onRequestExportAllEntriesFromAllTabsIntoMultipleFolders");
-	if (getKGM()->getEntryListTab() == nullptr)
+	getIMGF()->getTaskManager()->onTaskBegin("onRequestExportAllEntriesFromAllTabsIntoMultipleFolders");
+	if (getIMGF()->getEntryListTab() == nullptr)
 	{
-		getKGM()->getTaskManager()->onTaskEnd("onRequestExportAllEntriesFromAllTabsIntoMultipleFolders", true);
+		getIMGF()->getTaskManager()->onTaskEnd("onRequestExportAllEntriesFromAllTabsIntoMultipleFolders", true);
 		return;
 	}
 
-	getKGM()->getTaskManager()->onTaskPause();
-	string strPath = mcore::CGUIManager::chooseFolderDialog(CLocalizationManager::getInstance()->getTranslatedText("ChooseFolderPopup_16"), getKGM()->getLastUsedDirectory("EXPORT_ALL_FOLDERS"));
-	getKGM()->getTaskManager()->onTaskUnpause();
+	getIMGF()->getTaskManager()->onTaskPause();
+	string strPath = mcore::CGUIManager::chooseFolderDialog(CLocalizationManager::getInstance()->getTranslatedText("ChooseFolderPopup_16"), getIMGF()->getLastUsedDirectory("EXPORT_ALL_FOLDERS"));
+	getIMGF()->getTaskManager()->onTaskUnpause();
 	if (strPath == "")
 	{
-		getKGM()->getTaskManager()->onTaskEnd("onRequestExportAllEntriesFromAllTabsIntoMultipleFolders", true);
+		getIMGF()->getTaskManager()->onTaskEnd("onRequestExportAllEntriesFromAllTabsIntoMultipleFolders", true);
 		return;
 	}
 	strPath = CPathManager::addSlashToEnd(strPath);
-	getKGM()->setLastUsedDirectory("EXPORT_ALL_FOLDERS", strPath);
+	getIMGF()->setLastUsedDirectory("EXPORT_ALL_FOLDERS", strPath);
 
 	uint32 uiTotalEntryCount = 0;
-	for (auto pEditorTab : getKGM()->getIMGEditor()->getTabs().getEntries())
+	for (auto pEditorTab : getIMGF()->getIMGEditor()->getTabs().getEntries())
 	{
 		uiTotalEntryCount += ((CIMGEditorTab*)pEditorTab)->getIMGFile()->getEntryCount();
 	}
-	getKGM()->getTaskManager()->setTaskMaxProgressTickCount(uiTotalEntryCount);
+	getIMGF()->getTaskManager()->setTaskMaxProgressTickCount(uiTotalEntryCount);
 
 	vector<string> vecIMGPaths;
-	for (auto pEditorTab : getKGM()->getIMGEditor()->getTabs().getEntries())
+	for (auto pEditorTab : getIMGF()->getIMGEditor()->getTabs().getEntries())
 	{
 		vecIMGPaths.push_back(((CIMGEditorTab*)pEditorTab)->getIMGFile()->getFilePath());
 
 		((CIMGEditorTab*)pEditorTab)->getIMGFile()->exportMultiple(((CIMGEditorTab*)pEditorTab)->getIMGFile()->getEntries(), strPath + CPathManager::getFileName(((CIMGEditorTab*)pEditorTab)->getIMGFile()->getFilePath()) + "/");
 	}
 
-	getKGM()->getIMGEditor()->logAllTabs(CLocalizationManager::getInstance()->getTranslatedFormattedText("LogAllTabs_9", uiTotalEntryCount, getKGM()->getIMGEditor()->getTabs().getEntries()));
-	getKGM()->getIMGEditor()->logAllTabs(CLocalizationManager::getInstance()->getTranslatedText("LogAllTabs_7"), true);
-	getKGM()->getIMGEditor()->logAllTabs(CString2::join(vecIMGPaths, "\n"), true);
-	getKGM()->getTaskManager()->onTaskEnd("onRequestExportAllEntriesFromAllTabsIntoMultipleFolders");
+	getIMGF()->getIMGEditor()->logAllTabs(CLocalizationManager::getInstance()->getTranslatedFormattedText("LogAllTabs_9", uiTotalEntryCount, getIMGF()->getIMGEditor()->getTabs().getEntries()));
+	getIMGF()->getIMGEditor()->logAllTabs(CLocalizationManager::getInstance()->getTranslatedText("LogAllTabs_7"), true);
+	getIMGF()->getIMGEditor()->logAllTabs(CString2::join(vecIMGPaths, "\n"), true);
+	getIMGF()->getTaskManager()->onTaskEnd("onRequestExportAllEntriesFromAllTabsIntoMultipleFolders");
 }
 void		CTaskDispatchManager::onRequestOpenLast(void)
 {
-	getKGM()->getTaskManager()->onTaskBegin("onRequestOpenLast");
-	uint32 uiRecentlyOpenedCount = CRegistryManager::getSoftwareValueInt("KGM\\RecentlyOpened", "Count");
+	getIMGF()->getTaskManager()->onTaskBegin("onRequestOpenLast");
+	uint32 uiRecentlyOpenedCount = CRegistryManager::getSoftwareValueInt("IMGF\\RecentlyOpened", "Count");
 	if (uiRecentlyOpenedCount > 0)
 	{
-		string strIMGPath = CRegistryManager::getSoftwareValueString("KGM\\RecentlyOpened", "Data_" + CString2::toString(uiRecentlyOpenedCount));
+		string strIMGPath = CRegistryManager::getSoftwareValueString("IMGF\\RecentlyOpened", "Data_" + CString2::toString(uiRecentlyOpenedCount));
 		onRequestOpen2(strIMGPath);
 	}
-	getKGM()->getTaskManager()->onTaskEnd("onRequestOpenLast");
+	getIMGF()->getTaskManager()->onTaskEnd("onRequestOpenLast");
 }
 void		CTaskDispatchManager::onRequestConvertTXDToGame(ePlatformedGame ePlatformedGame)
 {
 	/*
 	todo
-	getKGM()->getLastUsedValueManager()->setLastUsedValue_ConvertTXD_Game(ePlatformedGame);
-	getKGM()->getTaskManager()->onTaskBegin("onRequestConvertTXDToGame");
-	if (getKGM()->getEntryListTab() == nullptr)
+	getIMGF()->getLastUsedValueManager()->setLastUsedValue_ConvertTXD_Game(ePlatformedGame);
+	getIMGF()->getTaskManager()->onTaskBegin("onRequestConvertTXDToGame");
+	if (getIMGF()->getEntryListTab() == nullptr)
 	{
-		getKGM()->getTaskManager()->onTaskEnd("onRequestConvertTXDToGame", true);
+		getIMGF()->getTaskManager()->onTaskEnd("onRequestConvertTXDToGame", true);
 		return;
 	}
 
-	CListCtrl *pListControl = ((CListCtrl*)getKGM()->getDialog()->GetDlgItem(37));
+	CListCtrl *pListControl = ((CListCtrl*)getIMGF()->getDialog()->GetDlgItem(37));
 	POSITION pos = pListControl->GetFirstSelectedItemPosition();
 	if (pos == NULL)
 	{
-		getKGM()->getTaskManager()->onTaskEnd("onRequestConvertTXDToGame", true);
+		getIMGF()->getTaskManager()->onTaskEnd("onRequestConvertTXDToGame", true);
 		return;
 	}
 
@@ -4812,7 +4812,7 @@ void		CTaskDispatchManager::onRequestConvertTXDToGame(ePlatformedGame ePlatforme
 	vector<string>
 		vecConvertedTXDNames,
 		vecMipmapsRemoved;
-	getKGM()->getTaskManager()->setTaskMaxProgressTickCount(pListControl->GetSelectedCount());
+	getIMGF()->getTaskManager()->setTaskMaxProgressTickCount(pListControl->GetSelectedCount());
 	while (pos)
 	{
 		int nItem = pListControl->GetNextSelectedItem(pos);
@@ -4820,7 +4820,7 @@ void		CTaskDispatchManager::onRequestConvertTXDToGame(ePlatformedGame ePlatforme
 
 		if (CString2::toUpperCase(CPathManager::getFileExtension(pIMGEntry->getEntryName())) != "TXD")
 		{
-			getKGM()->getTaskManager()->onTaskProgressTick();
+			getIMGF()->getTaskManager()->onTaskProgressTick();
 			continue;
 		}
 
@@ -4829,7 +4829,7 @@ void		CTaskDispatchManager::onRequestConvertTXDToGame(ePlatformedGame ePlatforme
 		{
 			pTXDFile->unload();
 			delete pTXDFile;
-			getKGM()->getTaskManager()->onTaskProgressTick();
+			getIMGF()->getTaskManager()->onTaskProgressTick();
 			continue;
 		}
 		uiConvertedTXDCount++;
@@ -4846,41 +4846,41 @@ void		CTaskDispatchManager::onRequestConvertTXDToGame(ePlatformedGame ePlatforme
 		
 		pIMGEntry->setEntryData(strFileData);
 
-		getKGM()->getEntryListTab()->updateEntryInMainListView(pIMGEntry);
+		getIMGF()->getEntryListTab()->updateEntryInMainListView(pIMGEntry);
 		
-		getKGM()->getTaskManager()->onTaskProgressTick();
+		getIMGF()->getTaskManager()->onTaskProgressTick();
 	}
 
-	getKGM()->getEntryListTab()->log(CLocalizationManager::getInstance()->getTranslatedFormattedText("Log_104", uiConvertedTXDCount, CRWManager::getInstance()->getGameName(ePlatformedGame).c_str(), vecMipmapsRemoved.size()));
-	getKGM()->getEntryListTab()->log(CLocalizationManager::getInstance()->getTranslatedText("Log_105"), true);
-	getKGM()->getEntryListTab()->log(CString2::join(vecConvertedTXDNames, "\n"), true);
-	getKGM()->getEntryListTab()->log(CLocalizationManager::getInstance()->getTranslatedText("MipmapsRemoved"), true);
-	getKGM()->getEntryListTab()->log(CString2::join(vecMipmapsRemoved, "\n"), true);
+	getIMGF()->getEntryListTab()->log(CLocalizationManager::getInstance()->getTranslatedFormattedText("Log_104", uiConvertedTXDCount, CRWManager::getInstance()->getGameName(ePlatformedGame).c_str(), vecMipmapsRemoved.size()));
+	getIMGF()->getEntryListTab()->log(CLocalizationManager::getInstance()->getTranslatedText("Log_105"), true);
+	getIMGF()->getEntryListTab()->log(CString2::join(vecConvertedTXDNames, "\n"), true);
+	getIMGF()->getEntryListTab()->log(CLocalizationManager::getInstance()->getTranslatedText("MipmapsRemoved"), true);
+	getIMGF()->getEntryListTab()->log(CString2::join(vecMipmapsRemoved, "\n"), true);
 
 	if (pIMGEntry != nullptr)
 	{
-		getKGM()->getEntryListTab()->setIMGModifiedSinceRebuild(true);
+		getIMGF()->getEntryListTab()->setIMGModifiedSinceRebuild(true);
 	}
-	getKGM()->getTaskManager()->onTaskEnd("onRequestConvertTXDToGame");
+	getIMGF()->getTaskManager()->onTaskEnd("onRequestConvertTXDToGame");
 	*/
 }
 void		CTaskDispatchManager::onRequestConvertTXDToRWVersion(CRWVersion *pRWVersion)
 {
 	/*
 	todo
-	getKGM()->getLastUsedValueManager()->setLastUsedValue_ConvertTXD_RWVersion(pRWVersion);
-	getKGM()->getTaskManager()->onTaskBegin("onRequestConvertTXDToRWVersion");
-	if (getKGM()->getEntryListTab() == nullptr)
+	getIMGF()->getLastUsedValueManager()->setLastUsedValue_ConvertTXD_RWVersion(pRWVersion);
+	getIMGF()->getTaskManager()->onTaskBegin("onRequestConvertTXDToRWVersion");
+	if (getIMGF()->getEntryListTab() == nullptr)
 	{
-		getKGM()->getTaskManager()->onTaskEnd("onRequestConvertTXDToRWVersion", true);
+		getIMGF()->getTaskManager()->onTaskEnd("onRequestConvertTXDToRWVersion", true);
 		return;
 	}
 
-	CListCtrl *pListControl = ((CListCtrl*)getKGM()->getDialog()->GetDlgItem(37));
+	CListCtrl *pListControl = ((CListCtrl*)getIMGF()->getDialog()->GetDlgItem(37));
 	POSITION pos = pListControl->GetFirstSelectedItemPosition();
 	if (pos == NULL)
 	{
-		getKGM()->getTaskManager()->onTaskEnd("onRequestConvertTXDToRWVersion", true);
+		getIMGF()->getTaskManager()->onTaskEnd("onRequestConvertTXDToRWVersion", true);
 		return;
 	}
 
@@ -4918,44 +4918,44 @@ void		CTaskDispatchManager::onRequestConvertTXDToRWVersion(CRWVersion *pRWVersio
 		
 		pIMGEntry->setEntryData(strFileData);
 		
-		getKGM()->getEntryListTab()->updateEntryInMainListView(pIMGEntry);
+		getIMGF()->getEntryListTab()->updateEntryInMainListView(pIMGEntry);
 	}
 
-	getKGM()->getEntryListTab()->log(CLocalizationManager::getInstance()->getTranslatedFormattedText("Log_107", vecConvertedTXDEntryNames.size(), (pRWVersion->getVersionName() + " (" + CLocalizationManager::getInstance()->getTranslatedText(pRWVersion->getLocalizationKey()) + ")").c_str()));
-	getKGM()->getEntryListTab()->log(CLocalizationManager::getInstance()->getTranslatedText("Log_105"), true);
-	getKGM()->getEntryListTab()->log(CString2::join(vecConvertedTXDEntryNames, "\n"), true);
+	getIMGF()->getEntryListTab()->log(CLocalizationManager::getInstance()->getTranslatedFormattedText("Log_107", vecConvertedTXDEntryNames.size(), (pRWVersion->getVersionName() + " (" + CLocalizationManager::getInstance()->getTranslatedText(pRWVersion->getLocalizationKey()) + ")").c_str()));
+	getIMGF()->getEntryListTab()->log(CLocalizationManager::getInstance()->getTranslatedText("Log_105"), true);
+	getIMGF()->getEntryListTab()->log(CString2::join(vecConvertedTXDEntryNames, "\n"), true);
 
 	if (pIMGEntry != nullptr)
 	{
-		getKGM()->getEntryListTab()->setIMGModifiedSinceRebuild(true);
+		getIMGF()->getEntryListTab()->setIMGModifiedSinceRebuild(true);
 	}
-	getKGM()->getTaskManager()->onTaskEnd("onRequestConvertTXDToRWVersion");
+	getIMGF()->getTaskManager()->onTaskEnd("onRequestConvertTXDToRWVersion");
 	*/
 }
 void		CTaskDispatchManager::onRequestDump(void)
 {
-	getKGM()->getTaskManager()->onTaskBegin("onRequestDump");
-	getKGM()->getDumpManager()->process();
-	getKGM()->getTaskManager()->onTaskEnd("onRequestDump");
+	getIMGF()->getTaskManager()->onTaskBegin("onRequestDump");
+	getIMGF()->getDumpManager()->process();
+	getIMGF()->getTaskManager()->onTaskEnd("onRequestDump");
 }
 void		CTaskDispatchManager::onRequestSessionManager(void)
 {
-	getKGM()->getTaskManager()->onTaskBegin("onRequestSessionManager");
+	getIMGF()->getTaskManager()->onTaskBegin("onRequestSessionManager");
 	CSessionManagerDialogData *pSessionManagerDialogData = nullptr;
 	bool bReopenWindow;
 	do
 	{
 		vector<string> vecSessionsData;
-		uint32 uiSessionCount = CRegistryManager::getSoftwareValueInt("KGM\\Sessions", "Count");
+		uint32 uiSessionCount = CRegistryManager::getSoftwareValueInt("IMGF\\Sessions", "Count");
 		for (int32 i = uiSessionCount; i >= 1; i--)
 		{
-			string strIMGPaths = CRegistryManager::getSoftwareValueString("KGM\\Sessions", "Data_" + CString2::toString(i));
+			string strIMGPaths = CRegistryManager::getSoftwareValueString("IMGF\\Sessions", "Data_" + CString2::toString(i));
 			vecSessionsData.push_back(strIMGPaths);
 		}
 
-		getKGM()->getTaskManager()->onTaskPause();
-		pSessionManagerDialogData = getKGM()->getPopupGUIManager()->showSessionManagerDialog(vecSessionsData);
-		getKGM()->getTaskManager()->onTaskUnpause();
+		getIMGF()->getTaskManager()->onTaskPause();
+		pSessionManagerDialogData = getIMGF()->getPopupGUIManager()->showSessionManagerDialog(vecSessionsData);
+		getIMGF()->getTaskManager()->onTaskUnpause();
 		bReopenWindow = pSessionManagerDialogData->m_vecSessionsToRemove.size() > 0 || pSessionManagerDialogData->m_vecSessionsToAdd.size() > 0 || pSessionManagerDialogData->m_strSessionNameToUpdate != "";
 
 		for (auto strSessionName : pSessionManagerDialogData->m_vecSessionsToRemove)
@@ -4965,7 +4965,7 @@ void		CTaskDispatchManager::onRequestSessionManager(void)
 			sprintf_s(zz, "strSessionName: %s", strSessionName.c_str());
 			CDebugger::log(zz);
 			*/
-			getKGM()->getSessionManager()->removeSession(getKGM()->getSessionManager()->getSessionByName(strSessionName));
+			getIMGF()->getSessionManager()->removeSession(getIMGF()->getSessionManager()->getSessionByName(strSessionName));
 		}
 		for (auto strSessionData : pSessionManagerDialogData->m_vecSessionsToAdd)
 		{
@@ -4979,7 +4979,7 @@ void		CTaskDispatchManager::onRequestSessionManager(void)
 				vecIMGPaths.push_back(strIMGPath);
 			}
 
-			getKGM()->getSessionManager()->addSession(strSessionName, vecIMGPaths);
+			getIMGF()->getSessionManager()->addSession(strSessionName, vecIMGPaths);
 		}
 		if (pSessionManagerDialogData->m_strSessionNameToUpdate != "")
 		{
@@ -4994,105 +4994,105 @@ void		CTaskDispatchManager::onRequestSessionManager(void)
 				vecIMGPaths.push_back(strIMGPath);
 			}
 
-			getKGM()->getSessionManager()->getSessionByName(pSessionManagerDialogData->m_strSessionNameToUpdate)->setName(strNewSessionName);
-			getKGM()->getSessionManager()->getSessionByName(pSessionManagerDialogData->m_strSessionNameToUpdate)->setPaths(vecIMGPaths);
+			getIMGF()->getSessionManager()->getSessionByName(pSessionManagerDialogData->m_strSessionNameToUpdate)->setName(strNewSessionName);
+			getIMGF()->getSessionManager()->getSessionByName(pSessionManagerDialogData->m_strSessionNameToUpdate)->setPaths(vecIMGPaths);
 		}
 
 		delete pSessionManagerDialogData;
-		getKGM()->getSessionManager()->loadSessions();
+		getIMGF()->getSessionManager()->loadSessions();
 	} while (bReopenWindow);
-	getKGM()->getTaskManager()->onTaskEnd("onRequestSessionManager");
+	getIMGF()->getTaskManager()->onTaskEnd("onRequestSessionManager");
 }
 void		CTaskDispatchManager::onRequestWebsite(void)
 {
-	getKGM()->getTaskManager()->onTaskBegin("onRequestWebsite");
+	getIMGF()->getTaskManager()->onTaskBegin("onRequestWebsite");
 	//ShellExecute(NULL, L"open", L"http://imgfactory.mvec.io/", NULL, NULL, SW_SHOWNORMAL);
-	ShellExecute(NULL, L"open", L"http://kgm.io/", NULL, NULL, SW_SHOWNORMAL);
-	getKGM()->getTaskManager()->onTaskEnd("onRequestWebsite");
+	ShellExecute(NULL, L"open", L"http://mvec.io/", NULL, NULL, SW_SHOWNORMAL);
+	getIMGF()->getTaskManager()->onTaskEnd("onRequestWebsite");
 }
 void		CTaskDispatchManager::onRequestOpenLogBasic(void)
 {
-	getKGM()->getTaskManager()->onTaskBegin("onRequestOpenLogBasic");
-	ShellExecute(NULL, NULL, CString2::convertStdStringToStdWString(getKGM()->getSettingsManager()->getSettingString("AutomaticLoggingPath") + CString2::getDateTextForFolder() + " / " + CLocalizationManager::getInstance()->getTranslatedText("LogFilename_Basic")).c_str(), NULL, NULL, SW_SHOWNORMAL);
-	getKGM()->getTaskManager()->onTaskEnd("onRequestOpenLogBasic");
+	getIMGF()->getTaskManager()->onTaskBegin("onRequestOpenLogBasic");
+	ShellExecute(NULL, NULL, CString2::convertStdStringToStdWString(getIMGF()->getSettingsManager()->getSettingString("AutomaticLoggingPath") + CString2::getDateTextForFolder() + " / " + CLocalizationManager::getInstance()->getTranslatedText("LogFilename_Basic")).c_str(), NULL, NULL, SW_SHOWNORMAL);
+	getIMGF()->getTaskManager()->onTaskEnd("onRequestOpenLogBasic");
 }
 void		CTaskDispatchManager::onRequestOpenLogExtended(void)
 {
-	getKGM()->getTaskManager()->onTaskBegin("onRequestOpenLogExtended");
-	ShellExecute(NULL, NULL, CString2::convertStdStringToStdWString(getKGM()->getSettingsManager()->getSettingString("AutomaticLoggingPath") + CString2::getDateTextForFolder() + " / " + CLocalizationManager::getInstance()->getTranslatedText("LogFilename_Extended")).c_str(), NULL, NULL, SW_SHOWNORMAL);
-	getKGM()->getTaskManager()->onTaskEnd("onRequestOpenLogExtended");
+	getIMGF()->getTaskManager()->onTaskBegin("onRequestOpenLogExtended");
+	ShellExecute(NULL, NULL, CString2::convertStdStringToStdWString(getIMGF()->getSettingsManager()->getSettingString("AutomaticLoggingPath") + CString2::getDateTextForFolder() + " / " + CLocalizationManager::getInstance()->getTranslatedText("LogFilename_Extended")).c_str(), NULL, NULL, SW_SHOWNORMAL);
+	getIMGF()->getTaskManager()->onTaskEnd("onRequestOpenLogExtended");
 }
 void		CTaskDispatchManager::onRequestOpenLogFolder(void)
 {
-	getKGM()->getTaskManager()->onTaskBegin("onRequestOpenLogFolder");
-	ShellExecute(NULL, NULL, CString2::convertStdStringToStdWString(getKGM()->getSettingsManager()->getSettingString("AutomaticLoggingPath")).c_str(), NULL, NULL, SW_SHOWNORMAL);
-	getKGM()->getTaskManager()->onTaskEnd("onRequestOpenLogFolder");
+	getIMGF()->getTaskManager()->onTaskBegin("onRequestOpenLogFolder");
+	ShellExecute(NULL, NULL, CString2::convertStdStringToStdWString(getIMGF()->getSettingsManager()->getSettingString("AutomaticLoggingPath")).c_str(), NULL, NULL, SW_SHOWNORMAL);
+	getIMGF()->getTaskManager()->onTaskEnd("onRequestOpenLogFolder");
 }
 void		CTaskDispatchManager::onRequestProcessLSTFile(void)
 {
-	getKGM()->getTaskManager()->onTaskBegin("onRequestProcessLSTFile");
+	getIMGF()->getTaskManager()->onTaskBegin("onRequestProcessLSTFile");
 	/*
-	getKGM()->getTaskManager()->onTaskPause();
-	string strGameDirectoryPath = mcore::CGUIManager::chooseFolderDialog(CLocalizationManager::getInstance()->getTranslatedText("ChooseFolderPopup_3"), getKGM()->getLastUsedDirectory("PROCESS_LST__GAME"));
-	getKGM()->getTaskManager()->onTaskUnpause();
+	getIMGF()->getTaskManager()->onTaskPause();
+	string strGameDirectoryPath = mcore::CGUIManager::chooseFolderDialog(CLocalizationManager::getInstance()->getTranslatedText("ChooseFolderPopup_3"), getIMGF()->getLastUsedDirectory("PROCESS_LST__GAME"));
+	getIMGF()->getTaskManager()->onTaskUnpause();
 	if (strGameDirectoryPath == "")
 	{
-		getKGM()->getTaskManager()->onTaskEnd("onRequestProcessLSTFile", true);
+		getIMGF()->getTaskManager()->onTaskEnd("onRequestProcessLSTFile", true);
 		return;
 	}
 	strGameDirectoryPath = CPathManager::addSlashToEnd(strGameDirectoryPath);
-	getKGM()->setLastUsedDirectory("PROCESS_LST__GAME", strGameDirectoryPath);
+	getIMGF()->setLastUsedDirectory("PROCESS_LST__GAME", strGameDirectoryPath);
 	*/
 
-	getKGM()->getTaskManager()->onTaskPause();
-	vector<string> vecPaths = mcore::CGUIManager::openFileDialog(getKGM()->getLastUsedDirectory("PROCESS_LST__LST"), "LST", false);
-	getKGM()->getTaskManager()->onTaskUnpause();
+	getIMGF()->getTaskManager()->onTaskPause();
+	vector<string> vecPaths = mcore::CGUIManager::openFileDialog(getIMGF()->getLastUsedDirectory("PROCESS_LST__LST"), "LST", false);
+	getIMGF()->getTaskManager()->onTaskUnpause();
 	if (vecPaths.size() == 0)
 	{
-		getKGM()->getTaskManager()->onTaskEnd("onRequestProcessLSTFile", true);
+		getIMGF()->getTaskManager()->onTaskEnd("onRequestProcessLSTFile", true);
 		return;
 	}
-	getKGM()->setLastUsedDirectory("PROCESS_LST__LST", CPathManager::getDirectory(vecPaths[0]));
+	getIMGF()->setLastUsedDirectory("PROCESS_LST__LST", CPathManager::getDirectory(vecPaths[0]));
 
 	CLSTFormat *pLSTFile = CLSTManager::getInstance()->parseViaFile(vecPaths[0]);
 	if(!pLSTFile->doesHaveError())
 	{
-		getKGM()->getLSTProcessingManager()->process(pLSTFile);
+		getIMGF()->getLSTProcessingManager()->process(pLSTFile);
 	}
 	
 	pLSTFile->unload();
 	delete pLSTFile;
 	
-	getKGM()->getTaskManager()->onTaskEnd("onRequestProcessLSTFile");
+	getIMGF()->getTaskManager()->onTaskEnd("onRequestProcessLSTFile");
 }
 void		CTaskDispatchManager::onRequestSelectViaIDE(void)
 {
 	/*
 	todo
-	getKGM()->getTaskManager()->onTaskBegin("onRequestSelectViaIDE");
-	if (getKGM()->getEntryListTab() == nullptr)
+	getIMGF()->getTaskManager()->onTaskBegin("onRequestSelectViaIDE");
+	if (getIMGF()->getEntryListTab() == nullptr)
 	{
-		getKGM()->getTaskManager()->onTaskEnd("onRequestSelectViaIDE", true);
+		getIMGF()->getTaskManager()->onTaskEnd("onRequestSelectViaIDE", true);
 		return;
 	}
 
-	getKGM()->getTaskManager()->onTaskPause();
-	vector<string> vecPaths = mcore::CGUIManager::openFileDialog(getKGM()->getLastUsedDirectory("SELECT_IDE"), "IDE");
-	getKGM()->getTaskManager()->onTaskUnpause();
+	getIMGF()->getTaskManager()->onTaskPause();
+	vector<string> vecPaths = mcore::CGUIManager::openFileDialog(getIMGF()->getLastUsedDirectory("SELECT_IDE"), "IDE");
+	getIMGF()->getTaskManager()->onTaskUnpause();
 	if (vecPaths.size() == 0)
 	{
-		getKGM()->getTaskManager()->onTaskEnd("onRequestSelectViaIDE", true);
+		getIMGF()->getTaskManager()->onTaskEnd("onRequestSelectViaIDE", true);
 		return;
 	}
-	getKGM()->setLastUsedDirectory("SELECT_IDE", CPathManager::getDirectory(vecPaths[0]));
+	getIMGF()->setLastUsedDirectory("SELECT_IDE", CPathManager::getDirectory(vecPaths[0]));
 
 	vector<string> vecEntryNamesWithoutExtension = CIDEManager::getIDEEntryNamesWithoutExtension(vecPaths);
 	vecEntryNamesWithoutExtension = CStdVector::toUpperCase(vecEntryNamesWithoutExtension);
 
-	CListCtrl *pListControl = ((CListCtrl*)getKGM()->getDialog()->GetDlgItem(37));
+	CListCtrl *pListControl = ((CListCtrl*)getIMGF()->getDialog()->GetDlgItem(37));
 	bool bSelectEntry;
 	uint32 uiSelectedEntryCount = 0;
-	getKGM()->getTaskManager()->setTaskMaxProgressTickCount(pListControl->GetItemCount());
+	getIMGF()->getTaskManager()->setTaskMaxProgressTickCount(pListControl->GetItemCount());
 	for (uint32 i = 0, j = pListControl->GetItemCount(); i < j; i++)
 	{
 		CIMGEntry *pIMGEntry = (CIMGEntry*)pListControl->GetItemData(i);
@@ -5113,44 +5113,44 @@ void		CTaskDispatchManager::onRequestSelectViaIDE(void)
 			pListControl->SetSelectionMark(i);
 		}
 
-		getKGM()->getTaskManager()->onTaskProgressTick();
+		getIMGF()->getTaskManager()->onTaskProgressTick();
 	}
 
-	getKGM()->getEntryListTab()->log("Selected " + CString2::toString(uiSelectedEntryCount) + " entr" + (uiSelectedEntryCount == 1 ? "y" : "ies") + " (vie IDE file).");
+	getIMGF()->getEntryListTab()->log("Selected " + CString2::toString(uiSelectedEntryCount) + " entr" + (uiSelectedEntryCount == 1 ? "y" : "ies") + " (vie IDE file).");
 
 	pListControl->SetFocus();
-	getKGM()->getTaskManager()->onTaskEnd("onRequestSelectViaIDE");
+	getIMGF()->getTaskManager()->onTaskEnd("onRequestSelectViaIDE");
 	*/
 }
 void		CTaskDispatchManager::onRequestExportViaIPLFile(void)
 {
-	getKGM()->getTaskManager()->onTaskBegin("onRequestExportViaIPLFile");
-	if (getKGM()->getEntryListTab() == nullptr)
+	getIMGF()->getTaskManager()->onTaskBegin("onRequestExportViaIPLFile");
+	if (getIMGF()->getEntryListTab() == nullptr)
 	{
-		getKGM()->getTaskManager()->onTaskEnd("onRequestExportViaIPLFile", true);
+		getIMGF()->getTaskManager()->onTaskEnd("onRequestExportViaIPLFile", true);
 		return;
 	}
 
-	getKGM()->getTaskManager()->onTaskPause();
-	vector<string> vecPaths = mcore::CGUIManager::openFileDialog(getKGM()->getLastUsedDirectory("EXPORT_IPL__IPL"), "IPL");
-	getKGM()->getTaskManager()->onTaskUnpause();
+	getIMGF()->getTaskManager()->onTaskPause();
+	vector<string> vecPaths = mcore::CGUIManager::openFileDialog(getIMGF()->getLastUsedDirectory("EXPORT_IPL__IPL"), "IPL");
+	getIMGF()->getTaskManager()->onTaskUnpause();
 	if (vecPaths.size() == 0)
 	{
-		getKGM()->getTaskManager()->onTaskEnd("onRequestExportViaIPLFile", true);
+		getIMGF()->getTaskManager()->onTaskEnd("onRequestExportViaIPLFile", true);
 		return;
 	}
-	getKGM()->setLastUsedDirectory("EXPORT_IPL__IPL", CPathManager::getDirectory(vecPaths[0]));
+	getIMGF()->setLastUsedDirectory("EXPORT_IPL__IPL", CPathManager::getDirectory(vecPaths[0]));
 
-	getKGM()->getTaskManager()->onTaskPause();
-	string strPath = mcore::CGUIManager::chooseFolderDialog(CLocalizationManager::getInstance()->getTranslatedText("ChooseFolderPopup_12"), getKGM()->getLastUsedDirectory("EXPORT_IPL__DESTINATION"));
-	getKGM()->getTaskManager()->onTaskUnpause();
+	getIMGF()->getTaskManager()->onTaskPause();
+	string strPath = mcore::CGUIManager::chooseFolderDialog(CLocalizationManager::getInstance()->getTranslatedText("ChooseFolderPopup_12"), getIMGF()->getLastUsedDirectory("EXPORT_IPL__DESTINATION"));
+	getIMGF()->getTaskManager()->onTaskUnpause();
 	if (strPath == "")
 	{
-		getKGM()->getTaskManager()->onTaskEnd("onRequestExportViaIPLFile", true);
+		getIMGF()->getTaskManager()->onTaskEnd("onRequestExportViaIPLFile", true);
 		return;
 	}
 	strPath = CPathManager::addSlashToEnd(strPath);
-	getKGM()->setLastUsedDirectory("EXPORT_IPL__DESTINATION", strPath);
+	getIMGF()->setLastUsedDirectory("EXPORT_IPL__DESTINATION", strPath);
 
 	vector<string> vecEntryNamesWithoutExtension;
 	for (auto strPath : vecPaths)
@@ -5167,7 +5167,7 @@ void		CTaskDispatchManager::onRequestExportViaIPLFile(void)
 
 	vector<CIMGEntry*> vecIMGEntries;
 	vector<string> vecIMGEntryNames;
-	for (auto pIMGEntry : getKGM()->getEntryListTab()->getIMGFile()->getEntries())
+	for (auto pIMGEntry : getIMGF()->getEntryListTab()->getIMGFile()->getEntries())
 	{
 		string strEntryNameWithoutExtension = CString2::toUpperCase(CPathManager::removeFileExtension(pIMGEntry->getEntryName()));
 		auto it = std::find(vecEntryNamesWithoutExtension.begin(), vecEntryNamesWithoutExtension.end(), strEntryNameWithoutExtension);
@@ -5180,79 +5180,79 @@ void		CTaskDispatchManager::onRequestExportViaIPLFile(void)
 	
 	for (auto pIMGEntry : vecIMGEntries)
 	{
-		getKGM()->getEntryListTab()->log(CLocalizationManager::getInstance()->getTranslatedFormattedText("Log_109", pIMGEntry->getEntryName().c_str()), true);
+		getIMGF()->getEntryListTab()->log(CLocalizationManager::getInstance()->getTranslatedFormattedText("Log_109", pIMGEntry->getEntryName().c_str()), true);
 	}
 
-	getKGM()->getTaskManager()->setTaskMaxProgressTickCount(vecIMGEntries.size());
-	getKGM()->getEntryListTab()->getIMGFile()->exportMultiple(vecIMGEntries, strPath);
-	getKGM()->getEntryListTab()->log(CLocalizationManager::getInstance()->getTranslatedFormattedText("Log_110", vecIMGEntries.size(), getKGM()->getEntryListTab()->getIMGFile()->getEntryCount()));
-	getKGM()->getEntryListTab()->log(CLocalizationManager::getInstance()->getTranslatedText("Log_77"), true);
-	getKGM()->getEntryListTab()->log(CString2::join(vecIMGEntryNames, "\n"), true);
-	getKGM()->getTaskManager()->onTaskEnd("onRequestExportViaIPLFile");
+	getIMGF()->getTaskManager()->setTaskMaxProgressTickCount(vecIMGEntries.size());
+	getIMGF()->getEntryListTab()->getIMGFile()->exportMultiple(vecIMGEntries, strPath);
+	getIMGF()->getEntryListTab()->log(CLocalizationManager::getInstance()->getTranslatedFormattedText("Log_110", vecIMGEntries.size(), getIMGF()->getEntryListTab()->getIMGFile()->getEntryCount()));
+	getIMGF()->getEntryListTab()->log(CLocalizationManager::getInstance()->getTranslatedText("Log_77"), true);
+	getIMGF()->getEntryListTab()->log(CString2::join(vecIMGEntryNames, "\n"), true);
+	getIMGF()->getTaskManager()->onTaskEnd("onRequestExportViaIPLFile");
 }
 void		CTaskDispatchManager::onRequestRenameIMG(void)
 {
 	/*
 	todo
-	getKGM()->getTaskManager()->onTaskBegin("onRequestRenameIMG");
-	if (getKGM()->getEntryListTab() == nullptr)
+	getIMGF()->getTaskManager()->onTaskBegin("onRequestRenameIMG");
+	if (getIMGF()->getEntryListTab() == nullptr)
 	{
-		getKGM()->getTaskManager()->onTaskEnd("onRequestRenameIMG", true);
+		getIMGF()->getTaskManager()->onTaskEnd("onRequestRenameIMG", true);
 		return;
 	}
 
-	string strCurrentIMGFileName = CPathManager::getFileName(getKGM()->getEntryListTab()->getIMGFile()->getFilePath());
-	getKGM()->getTaskManager()->onTaskPause();
-	string strNewIMGFileName = getKGM()->getPopupGUIManager()->showTextInputDialog("Rename IMG", CLocalizationManager::getInstance()->getTranslatedText("Window_TextInput_6_Message"), strCurrentIMGFileName);
-	getKGM()->getTaskManager()->onTaskUnpause();
+	string strCurrentIMGFileName = CPathManager::getFileName(getIMGF()->getEntryListTab()->getIMGFile()->getFilePath());
+	getIMGF()->getTaskManager()->onTaskPause();
+	string strNewIMGFileName = getIMGF()->getPopupGUIManager()->showTextInputDialog("Rename IMG", CLocalizationManager::getInstance()->getTranslatedText("Window_TextInput_6_Message"), strCurrentIMGFileName);
+	getIMGF()->getTaskManager()->onTaskUnpause();
 	if (strNewIMGFileName == "")
 	{
-		getKGM()->getTaskManager()->onTaskEnd("onRequestRenameIMG", true);
+		getIMGF()->getTaskManager()->onTaskEnd("onRequestRenameIMG", true);
 		return;
 	}
 
-	getKGM()->getTaskManager()->setTaskMaxProgressTickCount(5);
+	getIMGF()->getTaskManager()->setTaskMaxProgressTickCount(5);
 
-	string strFolderPath = CPathManager::addSlashToEnd(CPathManager::removeFileName(getKGM()->getEntryListTab()->getIMGFile()->getFilePath()));
+	string strFolderPath = CPathManager::addSlashToEnd(CPathManager::removeFileName(getIMGF()->getEntryListTab()->getIMGFile()->getFilePath()));
 	CFileManager::renameFile(strFolderPath + strCurrentIMGFileName, strFolderPath + strNewIMGFileName);
-	getKGM()->getTaskManager()->onTaskProgressTick();
+	getIMGF()->getTaskManager()->onTaskProgressTick();
 
-	if (getKGM()->getEntryListTab()->getIMGFile()->getIMGVersion() == IMG_1)
+	if (getIMGF()->getEntryListTab()->getIMGFile()->getIMGVersion() == IMG_1)
 	{
 		CFileManager::renameFile(CPathManager::replaceFileExtension(strFolderPath + strCurrentIMGFileName, "dir"), CPathManager::replaceFileExtension(strFolderPath + strNewIMGFileName, "dir"));
 	}
-	getKGM()->getTaskManager()->onTaskProgressTick();
+	getIMGF()->getTaskManager()->onTaskProgressTick();
 
-	getKGM()->getEntryListTab()->getIMGFile()->setFilePath(strFolderPath + strNewIMGFileName);
-	getKGM()->getTaskManager()->onTaskProgressTick();
+	getIMGF()->getEntryListTab()->getIMGFile()->setFilePath(strFolderPath + strNewIMGFileName);
+	getIMGF()->getTaskManager()->onTaskProgressTick();
 
-	((CEdit*)getKGM()->getDialog()->GetDlgItem(38))->SetWindowTextW(CString2::convertStdStringToStdWString(getKGM()->getEntryListTab()->getIMGFile()->getFilePath()).c_str());
-	getKGM()->getTaskManager()->onTaskProgressTick();
+	((CEdit*)getIMGF()->getDialog()->GetDlgItem(38))->SetWindowTextW(CString2::convertStdStringToStdWString(getIMGF()->getEntryListTab()->getIMGFile()->getFilePath()).c_str());
+	getIMGF()->getTaskManager()->onTaskProgressTick();
 
-	getKGM()->getEntryListTab()->searchText();
-	getKGM()->getTaskManager()->onTaskProgressTick();
+	getIMGF()->getEntryListTab()->searchText();
+	getIMGF()->getTaskManager()->onTaskProgressTick();
 
 	wstring wstrNewIMGFileName = CString2::convertStdStringToStdWString(strNewIMGFileName);
 	TCITEM ltag;
 	ltag.mask = TCIF_TEXT;
 	ltag.pszText = &wstrNewIMGFileName[0];
-	((CTabCtrl*)getKGM()->getDialog()->GetDlgItem(1))->SetItem(getKGM()->getEntryListTab()->getIndex(), &ltag);
+	((CTabCtrl*)getIMGF()->getDialog()->GetDlgItem(1))->SetItem(getIMGF()->getEntryListTab()->getIndex(), &ltag);
 
-	getKGM()->getEntryListTab()->log(CLocalizationManager::getInstance()->getTranslatedFormattedText("Log_111", strCurrentIMGFileName.c_str(), strNewIMGFileName.c_str()));
-	getKGM()->getTaskManager()->onTaskEnd("onRequestRenameIMG");
+	getIMGF()->getEntryListTab()->log(CLocalizationManager::getInstance()->getTranslatedFormattedText("Log_111", strCurrentIMGFileName.c_str(), strNewIMGFileName.c_str()));
+	getIMGF()->getTaskManager()->onTaskEnd("onRequestRenameIMG");
 	*/
 }
 void		CTaskDispatchManager::onRequestUpdate(void)
 {
-	getKGM()->getTaskManager()->onTaskBegin("onRequestUpdate");
+	getIMGF()->getTaskManager()->onTaskBegin("onRequestUpdate");
 
 	//vector<CUpdateConnection*> vecUpdateConnections;
-	if (getKGM()->getBuildMeta().isAlphaBuild())
+	if (getIMGF()->getBuildMeta().isAlphaBuild())
 	{
 		// alpha version
 		string strFileContent;
 		CUpdateConnection *pActiveUpdateConnection = nullptr;
-		for (auto pUpdateConnection : getKGM()->getUpdateManager()->getUpdateConnectionManager()->getEntries())
+		for (auto pUpdateConnection : getIMGF()->getUpdateManager()->getUpdateConnectionManager()->getEntries())
 		{
 			if (!pUpdateConnection->isAlpha())
 			{
@@ -5270,11 +5270,11 @@ void		CTaskDispatchManager::onRequestUpdate(void)
 		}
 		if (strFileContent == "")
 		{
-			getKGM()->getTaskManager()->onTaskPause();
-			uint32 uiMirrorCount = getKGM()->getUpdateManager()->getUpdateConnectionManager()->getEntryCount();
+			getIMGF()->getTaskManager()->onTaskPause();
+			uint32 uiMirrorCount = getIMGF()->getUpdateManager()->getUpdateConnectionManager()->getEntryCount();
 			mcore::CGUIManager::showMessage(CLocalizationManager::getInstance()->getTranslatedFormattedText("TextPopup_40", uiMirrorCount), CLocalizationManager::getInstance()->getTranslatedText("UnableToCheckForUpdates"), MB_OK);
-			getKGM()->getTaskManager()->onTaskUnpause();
-			getKGM()->getTaskManager()->onTaskEnd("onRequestUpdate", true);
+			getIMGF()->getTaskManager()->onTaskUnpause();
+			getIMGF()->getTaskManager()->onTaskEnd("onRequestUpdate", true);
 			return;
 		}
 
@@ -5287,9 +5287,9 @@ void		CTaskDispatchManager::onRequestUpdate(void)
 
 		if (uiLatestBuildNumber > BUILDNUMBER)
 		{
-			getKGM()->getTaskManager()->onTaskPause();
-			uint32 uiResult = mcore::CGUIManager::showMessage(CLocalizationManager::getInstance()->getTranslatedFormattedText("TextPopup_41", strLatestVersion.c_str(), strLatestBuildNumber.c_str(), getKGM()->getBuildMeta().getCurrentVersionString().c_str(), BUILDNUMBER_STR), CLocalizationManager::getInstance()->getTranslatedText("TextPopupTitle_41"), MB_OKCANCEL);
-			getKGM()->getTaskManager()->onTaskUnpause();
+			getIMGF()->getTaskManager()->onTaskPause();
+			uint32 uiResult = mcore::CGUIManager::showMessage(CLocalizationManager::getInstance()->getTranslatedFormattedText("TextPopup_41", strLatestVersion.c_str(), strLatestBuildNumber.c_str(), getIMGF()->getBuildMeta().getCurrentVersionString().c_str(), BUILDNUMBER_STR), CLocalizationManager::getInstance()->getTranslatedText("TextPopupTitle_41"), MB_OKCANCEL);
+			getIMGF()->getTaskManager()->onTaskUnpause();
 			if (uiResult == IDOK)
 			{
 				string strNewProgramData = CHTTPManager::getInstance()->getFileContent(pActiveUpdateConnection->getDownloadFolderURL() + strLatestVersionFileName);
@@ -5307,20 +5307,20 @@ void		CTaskDispatchManager::onRequestUpdate(void)
 				CFileManager::storeFile(strNewProgramPath, strNewProgramData, false, true);
 
 				// delete previous version's exe file
-				if (getKGM()->getSettingsManager()->getSettingBool("RemoveOldVersionOnUpdate"))
+				if (getIMGF()->getSettingsManager()->getSettingBool("RemoveOldVersionOnUpdate"))
 				{
 					TCHAR szModuleName[MAX_PATH];
 					GetModuleFileName(NULL, szModuleName, MAX_PATH);
 					string strExePath = CString2::convertStdWStringToStdString(szModuleName);
 					if (strNewProgramPath != strExePath)
 					{
-						CRegistryManager::setSoftwareValueString("KGM\\InternalSettings", "DeletePreviousVersionOnNextLaunch", strExePath);
+						CRegistryManager::setSoftwareValueString("IMGF\\InternalSettings", "DeletePreviousVersionOnNextLaunch", strExePath);
 					}
 				}
 
-				getKGM()->getTaskManager()->onTaskPause();
+				getIMGF()->getTaskManager()->onTaskPause();
 				uint32 uiResult2 = mcore::CGUIManager::showMessage(CLocalizationManager::getInstance()->getTranslatedText("TextPopup_42"), CLocalizationManager::getInstance()->getTranslatedText("TextPopupTitle_42"), MB_OKCANCEL);
-				getKGM()->getTaskManager()->onTaskUnpause();
+				getIMGF()->getTaskManager()->onTaskUnpause();
 				if (uiResult2 == IDOK)
 				{
 					ShellExecute(NULL, NULL, CString2::convertStdStringToStdWString(strNewProgramPath).c_str(), NULL, NULL, SW_SHOWNORMAL);
@@ -5328,16 +5328,16 @@ void		CTaskDispatchManager::onRequestUpdate(void)
 
 				if (uiResult2 == IDOK)
 				{
-					getKGM()->getTaskManager()->onTaskEnd("onRequestUpdate");
+					getIMGF()->getTaskManager()->onTaskEnd("onRequestUpdate");
 					ExitProcess(0);
 				}
 			}
 		}
 		else
 		{
-			getKGM()->getTaskManager()->onTaskPause();
-			mcore::CGUIManager::showMessage(CLocalizationManager::getInstance()->getTranslatedFormattedText("TextPopup_43", getKGM()->getBuildMeta().getCurrentVersionString().c_str(), BUILDNUMBER_STR), CLocalizationManager::getInstance()->getTranslatedText("UpToDate"), MB_OK);
-			getKGM()->getTaskManager()->onTaskUnpause();
+			getIMGF()->getTaskManager()->onTaskPause();
+			mcore::CGUIManager::showMessage(CLocalizationManager::getInstance()->getTranslatedFormattedText("TextPopup_43", getIMGF()->getBuildMeta().getCurrentVersionString().c_str(), BUILDNUMBER_STR), CLocalizationManager::getInstance()->getTranslatedText("UpToDate"), MB_OK);
+			getIMGF()->getTaskManager()->onTaskUnpause();
 		}
 	}
 	else
@@ -5345,7 +5345,7 @@ void		CTaskDispatchManager::onRequestUpdate(void)
 		// non-alpha version
 		string strFileContent;
 		CUpdateConnection *pActiveUpdateConnection = nullptr;
-		for (auto pUpdateConnection : getKGM()->getUpdateManager()->getUpdateConnectionManager()->getEntries())
+		for (auto pUpdateConnection : getIMGF()->getUpdateManager()->getUpdateConnectionManager()->getEntries())
 		{
 			if (pUpdateConnection->isAlpha())
 			{
@@ -5363,11 +5363,11 @@ void		CTaskDispatchManager::onRequestUpdate(void)
 		}
 		if (strFileContent == "")
 		{
-			getKGM()->getTaskManager()->onTaskPause();
-			uint32 uiMirrorCount = getKGM()->getUpdateManager()->getUpdateConnectionManager()->getEntryCount();
+			getIMGF()->getTaskManager()->onTaskPause();
+			uint32 uiMirrorCount = getIMGF()->getUpdateManager()->getUpdateConnectionManager()->getEntryCount();
 			mcore::CGUIManager::showMessage(CLocalizationManager::getInstance()->getTranslatedFormattedText("TextPopup_44", uiMirrorCount), CLocalizationManager::getInstance()->getTranslatedText("UnableToCheckForUpdates"), MB_OK);
-			getKGM()->getTaskManager()->onTaskUnpause();
-			getKGM()->getTaskManager()->onTaskEnd("onRequestUpdate", true);
+			getIMGF()->getTaskManager()->onTaskUnpause();
+			getIMGF()->getTaskManager()->onTaskEnd("onRequestUpdate", true);
 			return;
 		}
 
@@ -5377,11 +5377,11 @@ void		CTaskDispatchManager::onRequestUpdate(void)
 
 		float32 fLatestVersion = CString2::toFloat32(vecData[0]);
 
-		if (fLatestVersion > getKGM()->getBuildMeta().getCurrentVersion())
+		if (fLatestVersion > getIMGF()->getBuildMeta().getCurrentVersion())
 		{
-			getKGM()->getTaskManager()->onTaskPause();
-			uint32 uiResult = mcore::CGUIManager::showMessage(CLocalizationManager::getInstance()->getTranslatedFormattedText("TextPopup_45", strLatestVersion.c_str(), getKGM()->getBuildMeta().getCurrentVersionString().c_str()), CLocalizationManager::getInstance()->getTranslatedText("TextPopupTitle_45"), MB_OKCANCEL);
-			getKGM()->getTaskManager()->onTaskUnpause();
+			getIMGF()->getTaskManager()->onTaskPause();
+			uint32 uiResult = mcore::CGUIManager::showMessage(CLocalizationManager::getInstance()->getTranslatedFormattedText("TextPopup_45", strLatestVersion.c_str(), getIMGF()->getBuildMeta().getCurrentVersionString().c_str()), CLocalizationManager::getInstance()->getTranslatedText("TextPopupTitle_45"), MB_OKCANCEL);
+			getIMGF()->getTaskManager()->onTaskUnpause();
 			if (uiResult == IDOK)
 			{
 				string strNewProgramData = CHTTPManager::getInstance()->getFileContent(pActiveUpdateConnection->getDownloadFolderURL() + strLatestVersionFileName);
@@ -5398,20 +5398,20 @@ void		CTaskDispatchManager::onRequestUpdate(void)
 				CFileManager::storeFile(strNewProgramPath, strNewProgramData, false, true);
 
 				// delete previous version's exe file
-				if (getKGM()->getSettingsManager()->getSettingBool("RemoveOldVersionOnUpdate"))
+				if (getIMGF()->getSettingsManager()->getSettingBool("RemoveOldVersionOnUpdate"))
 				{
 					TCHAR szModuleName[MAX_PATH];
 					GetModuleFileName(NULL, szModuleName, MAX_PATH);
 					string strExePath = CString2::convertStdWStringToStdString(szModuleName);
 					if (strNewProgramPath != strExePath)
 					{
-						CRegistryManager::setSoftwareValueString("KGM\\InternalSettings", "DeletePreviousVersionOnNextLaunch", strExePath);
+						CRegistryManager::setSoftwareValueString("IMGF\\InternalSettings", "DeletePreviousVersionOnNextLaunch", strExePath);
 					}
 				}
 
-				getKGM()->getTaskManager()->onTaskPause();
+				getIMGF()->getTaskManager()->onTaskPause();
 				uint32 uiResult2 = mcore::CGUIManager::showMessage(CLocalizationManager::getInstance()->getTranslatedText("TextPopup_42"), CLocalizationManager::getInstance()->getTranslatedText("TextPopupTitle_42"), MB_OKCANCEL);
-				getKGM()->getTaskManager()->onTaskUnpause();
+				getIMGF()->getTaskManager()->onTaskUnpause();
 				if (uiResult2 == IDOK)
 				{
 					ShellExecute(NULL, NULL, CString2::convertStdStringToStdWString(strNewProgramPath).c_str(), NULL, NULL, SW_SHOWNORMAL);
@@ -5419,29 +5419,29 @@ void		CTaskDispatchManager::onRequestUpdate(void)
 
 				if (uiResult2 == IDOK)
 				{
-					getKGM()->getTaskManager()->onTaskEnd("onRequestUpdate");
+					getIMGF()->getTaskManager()->onTaskEnd("onRequestUpdate");
 					ExitProcess(0);
 				}
 			}
 		}
 		else
 		{
-			getKGM()->getTaskManager()->onTaskPause();
-			mcore::CGUIManager::showMessage(CLocalizationManager::getInstance()->getTranslatedFormattedText("TextPopup_46", getKGM()->getBuildMeta().getCurrentVersionString().c_str()), CLocalizationManager::getInstance()->getTranslatedText("UpToDate"), MB_OK);
-			getKGM()->getTaskManager()->onTaskUnpause();
+			getIMGF()->getTaskManager()->onTaskPause();
+			mcore::CGUIManager::showMessage(CLocalizationManager::getInstance()->getTranslatedFormattedText("TextPopup_46", getIMGF()->getBuildMeta().getCurrentVersionString().c_str()), CLocalizationManager::getInstance()->getTranslatedText("UpToDate"), MB_OK);
+			getIMGF()->getTaskManager()->onTaskUnpause();
 		}
 	}
 
-	getKGM()->getTaskManager()->onTaskEnd("onRequestUpdate");
+	getIMGF()->getTaskManager()->onTaskEnd("onRequestUpdate");
 }
 void		CTaskDispatchManager::onRequestAutoUpdate(void)
 {
-	getKGM()->getTaskManager()->onTaskBegin("onRequestAutoUpdate");
+	getIMGF()->getTaskManager()->onTaskBegin("onRequestAutoUpdate");
 	vector<string> vecData = CString2::split(CHTTPManager::getInstance()->getFileContent("http://updater.imgfactory.mvec.io/latest-version.txt"), "\n");
 	if (vecData.size() == 0)
 	{
 		// e.g. no network connection
-		getKGM()->getTaskManager()->onTaskEnd("onRequestAutoUpdate", true);
+		getIMGF()->getTaskManager()->onTaskEnd("onRequestAutoUpdate", true);
 		return;
 	}
 	string strLatestVersion = vecData[0];
@@ -5449,11 +5449,11 @@ void		CTaskDispatchManager::onRequestAutoUpdate(void)
 
 	float32 fLatestVersion = CString2::toFloat32(vecData[0]);
 
-	if (fLatestVersion > getKGM()->getBuildMeta().getCurrentVersion())
+	if (fLatestVersion > getIMGF()->getBuildMeta().getCurrentVersion())
 	{
-		getKGM()->getTaskManager()->onTaskPause();
-		uint32 uiResult = mcore::CGUIManager::showMessage(CLocalizationManager::getInstance()->getTranslatedFormattedText("TextPopup_45", strLatestVersion.c_str(), getKGM()->getBuildMeta().getCurrentVersionString().c_str()), CLocalizationManager::getInstance()->getTranslatedText("TextPopupTitle_45"), MB_OKCANCEL);
-		getKGM()->getTaskManager()->onTaskUnpause();
+		getIMGF()->getTaskManager()->onTaskPause();
+		uint32 uiResult = mcore::CGUIManager::showMessage(CLocalizationManager::getInstance()->getTranslatedFormattedText("TextPopup_45", strLatestVersion.c_str(), getIMGF()->getBuildMeta().getCurrentVersionString().c_str()), CLocalizationManager::getInstance()->getTranslatedText("TextPopupTitle_45"), MB_OKCANCEL);
+		getIMGF()->getTaskManager()->onTaskUnpause();
 		if (uiResult == IDOK)
 		{
 			string strNewProgramData = CHTTPManager::getInstance()->getFileContent("http://updater.imgfactory.mvec.io/versions/" + strLatestVersionFileName);
@@ -5470,17 +5470,17 @@ void		CTaskDispatchManager::onRequestAutoUpdate(void)
 			CFileManager::storeFile(strNewProgramPath, strNewProgramData, false, true);
 
 			// delete previous version's exe file
-			if (getKGM()->getSettingsManager()->getSettingBool("RemoveOldVersionOnUpdate"))
+			if (getIMGF()->getSettingsManager()->getSettingBool("RemoveOldVersionOnUpdate"))
 			{
 				TCHAR szModuleName[MAX_PATH];
 				GetModuleFileName(NULL, szModuleName, MAX_PATH);
 				string strExePath = CString2::convertStdWStringToStdString(szModuleName);
-				CRegistryManager::setSoftwareValueString("KGM\\InternalSettings", "DeletePreviousVersionOnNextLaunch", strExePath);
+				CRegistryManager::setSoftwareValueString("IMGF\\InternalSettings", "DeletePreviousVersionOnNextLaunch", strExePath);
 			}
 
-			getKGM()->getTaskManager()->onTaskPause();
+			getIMGF()->getTaskManager()->onTaskPause();
 			uint32 uiResult2 = mcore::CGUIManager::showMessage(CLocalizationManager::getInstance()->getTranslatedText("TextPopup_42"), CLocalizationManager::getInstance()->getTranslatedText("TextPopupTitle_42"), MB_OKCANCEL);
-			getKGM()->getTaskManager()->onTaskUnpause();
+			getIMGF()->getTaskManager()->onTaskUnpause();
 			if (uiResult2 == IDOK)
 			{
 				ShellExecute(NULL, NULL, CString2::convertStdStringToStdWString(strNewProgramPath).c_str(), NULL, NULL, SW_SHOWNORMAL);
@@ -5489,49 +5489,49 @@ void		CTaskDispatchManager::onRequestAutoUpdate(void)
 			// close the currently open program
 			if (uiResult2 == IDOK)
 			{
-				getKGM()->getTaskManager()->onTaskEnd("onRequestAutoUpdate");
+				getIMGF()->getTaskManager()->onTaskEnd("onRequestAutoUpdate");
 				ExitProcess(0);
 			}
 		}
 	}
-	getKGM()->getTaskManager()->onTaskEnd("onRequestAutoUpdate");
+	getIMGF()->getTaskManager()->onTaskEnd("onRequestAutoUpdate");
 }
 void		CTaskDispatchManager::onRequestSaveIMGSignature(void)
 {
-	getKGM()->getTaskManager()->onTaskBegin("onRequestSaveIMGSignature");
-	if (getKGM()->getEntryListTab() == nullptr)
+	getIMGF()->getTaskManager()->onTaskBegin("onRequestSaveIMGSignature");
+	if (getIMGF()->getEntryListTab() == nullptr)
 	{
-		getKGM()->getTaskManager()->onTaskEnd("onRequestSaveIMGSignature", true);
+		getIMGF()->getTaskManager()->onTaskEnd("onRequestSaveIMGSignature", true);
 		return;
 	}
 
-	CIMGFormat *pIMGFile = getKGM()->getEntryListTab()->getIMGFile();
+	CIMGFormat *pIMGFile = getIMGF()->getEntryListTab()->getIMGFile();
 	CDBFormat *pDBFile = CDBManager::getInstance()->createDBFileFromIMGFile(pIMGFile);
-	//CDBFormat *pDBFile = getKGM()->getEntryListTab()->m_pDBFile;
+	//CDBFormat *pDBFile = getIMGF()->getEntryListTab()->m_pDBFile;
 	string strDBPath = CPathManager::replaceFileExtension(pIMGFile->getFilePath(), "db");
 	pDBFile->storeViaFile(strDBPath);
 
-	if (getKGM()->getEntryListTab()->m_pDBFile != nullptr)
+	if (getIMGF()->getEntryListTab()->m_pDBFile != nullptr)
 	{
-		delete getKGM()->getEntryListTab()->m_pDBFile;
+		delete getIMGF()->getEntryListTab()->m_pDBFile;
 	}
-	getKGM()->getEntryListTab()->m_pDBFile = pDBFile;
-	getKGM()->getEntryListTab()->loadProtectedEntryStates();
-	getKGM()->getEntryListTab()->readdAllEntriesToMainListView();
+	getIMGF()->getEntryListTab()->m_pDBFile = pDBFile;
+	getIMGF()->getEntryListTab()->loadProtectedEntryStates();
+	getIMGF()->getEntryListTab()->readdAllEntriesToMainListView();
 
-	getKGM()->getEntryListTab()->log(CLocalizationManager::getInstance()->getTranslatedFormattedText("Log_114", CPathManager::getFileName(strDBPath).c_str()));
-	getKGM()->getTaskManager()->onTaskEnd("onRequestSaveIMGSignature");
+	getIMGF()->getEntryListTab()->log(CLocalizationManager::getInstance()->getTranslatedFormattedText("Log_114", CPathManager::getFileName(strDBPath).c_str()));
+	getIMGF()->getTaskManager()->onTaskEnd("onRequestSaveIMGSignature");
 }
 void		CTaskDispatchManager::onRequestVerifyIMGSignature(void)
 {
-	getKGM()->getTaskManager()->onTaskBegin("onRequestVerifyIMGSignature");
-	if (getKGM()->getEntryListTab() == nullptr)
+	getIMGF()->getTaskManager()->onTaskBegin("onRequestVerifyIMGSignature");
+	if (getIMGF()->getEntryListTab() == nullptr)
 	{
-		getKGM()->getTaskManager()->onTaskEnd("onRequestVerifyIMGSignature", true);
+		getIMGF()->getTaskManager()->onTaskEnd("onRequestVerifyIMGSignature", true);
 		return;
 	}
 
-	CIMGFormat *pIMGFile = getKGM()->getEntryListTab()->getIMGFile();
+	CIMGFormat *pIMGFile = getIMGF()->getEntryListTab()->getIMGFile();
 	CDBFormat *pDBFileForIMGTab = CDBManager::getInstance()->createDBFileFromIMGFile(pIMGFile);
 
 	string strDBPath = CPathManager::replaceFileExtension(pIMGFile->getFilePath(), "db");
@@ -5541,79 +5541,79 @@ void		CTaskDispatchManager::onRequestVerifyIMGSignature(void)
 	{
 		delete pDBFileForIMGTab;
 		delete pDBFileForIMGFile;
-		getKGM()->getTaskManager()->onTaskEnd("onRequestVerifyIMGSignature", true);
+		getIMGF()->getTaskManager()->onTaskEnd("onRequestVerifyIMGSignature", true);
 		return;
 	}
 	
 	if (!CFileManager::doesFileExist(strDBPath))
 	{
-		getKGM()->getTaskManager()->onTaskPause();
+		getIMGF()->getTaskManager()->onTaskPause();
 		mcore::CGUIManager::showMessage(CLocalizationManager::getInstance()->getTranslatedFormattedText("TextPopup_54", CPathManager::getFileName(strDBPath).c_str(), CPathManager::getDirectory(strDBPath).c_str()), CLocalizationManager::getInstance()->getTranslatedText("FileNotFound"), MB_OK);
-		getKGM()->getTaskManager()->onTaskUnpause();
+		getIMGF()->getTaskManager()->onTaskUnpause();
 	}
 	else if (CDBManager::getInstance()->compareDBFiles(pDBFileForIMGTab, pDBFileForIMGFile))
 	{
-		getKGM()->getTaskManager()->onTaskPause();
+		getIMGF()->getTaskManager()->onTaskPause();
 		mcore::CGUIManager::showMessage(CLocalizationManager::getInstance()->getTranslatedFormattedText("TextPopup_55", CPathManager::getFileName(pIMGFile->getFilePath()).c_str(), CPathManager::getFileName(strDBPath).c_str()), CLocalizationManager::getInstance()->getTranslatedText("TextPopupTitle_55"), MB_OK);
-		getKGM()->getTaskManager()->onTaskUnpause();
+		getIMGF()->getTaskManager()->onTaskUnpause();
 	}
 	else
 	{
-		getKGM()->getTaskManager()->onTaskPause();
+		getIMGF()->getTaskManager()->onTaskPause();
 		mcore::CGUIManager::showMessage(CLocalizationManager::getInstance()->getTranslatedFormattedText("TextPopup_56", CPathManager::getFileName(pIMGFile->getFilePath()).c_str(), CPathManager::getFileName(strDBPath).c_str()), CLocalizationManager::getInstance()->getTranslatedText("TextPopupTitle_56"), MB_OK);
-		getKGM()->getTaskManager()->onTaskUnpause();
+		getIMGF()->getTaskManager()->onTaskUnpause();
 	}
 
 	delete pDBFileForIMGTab;
 	delete pDBFileForIMGFile;
-	getKGM()->getTaskManager()->onTaskEnd("onRequestVerifyIMGSignature");
+	getIMGF()->getTaskManager()->onTaskEnd("onRequestVerifyIMGSignature");
 }
 void		CTaskDispatchManager::onRequestCompareIMG(void)
 {
-	getKGM()->getTaskManager()->onTaskBegin("onRequestCompareIMG");
-	if (getKGM()->getEntryListTab() == nullptr)
+	getIMGF()->getTaskManager()->onTaskBegin("onRequestCompareIMG");
+	if (getIMGF()->getEntryListTab() == nullptr)
 	{
-		getKGM()->getTaskManager()->onTaskEnd("onRequestCompareIMG", true);
+		getIMGF()->getTaskManager()->onTaskEnd("onRequestCompareIMG", true);
 		return;
 	}
 
-	getKGM()->getTaskManager()->onTaskPause();
-	vector<string> vecPaths = mcore::CGUIManager::openFileDialog(getKGM()->getLastUsedDirectory("COMPAREIMG"), "IMG", false);
-	getKGM()->getTaskManager()->onTaskUnpause();
+	getIMGF()->getTaskManager()->onTaskPause();
+	vector<string> vecPaths = mcore::CGUIManager::openFileDialog(getIMGF()->getLastUsedDirectory("COMPAREIMG"), "IMG", false);
+	getIMGF()->getTaskManager()->onTaskUnpause();
 	if (vecPaths.size() == 0)
 	{
-		getKGM()->getTaskManager()->onTaskEnd("onRequestCompareIMG", true);
+		getIMGF()->getTaskManager()->onTaskEnd("onRequestCompareIMG", true);
 		return;
 	}
-	getKGM()->setLastUsedDirectory("COMPAREIMG", CPathManager::getDirectory(vecPaths[0]));
+	getIMGF()->setLastUsedDirectory("COMPAREIMG", CPathManager::getDirectory(vecPaths[0]));
 
-	CIMGFormat *pIMGFile1 = getKGM()->getEntryListTab()->getIMGFile();
+	CIMGFormat *pIMGFile1 = getIMGF()->getEntryListTab()->getIMGFile();
 
 	eIMGVersion eIMGVersionValue = CIMGManager::detectIMGVersion(vecPaths[0]);
 	/*
 	todo
 	if (uiFileResult == FILE_NOT_FOUND)
 	{
-		getKGM()->getTaskManager()->onTaskPause();
+		getIMGF()->getTaskManager()->onTaskPause();
 		mcore::CGUIManager::showMessage(CLocalizationManager::getInstance()->getTranslatedText("TextPopup_32"), CLocalizationManager::getInstance()->getTranslatedText("FileNotFound"), MB_OK);
-		getKGM()->getTaskManager()->onTaskUnpause();
-		getKGM()->getTaskManager()->onTaskEnd("onRequestCompareIMG", true);
+		getIMGF()->getTaskManager()->onTaskUnpause();
+		getIMGF()->getTaskManager()->onTaskEnd("onRequestCompareIMG", true);
 		return;
 	}
 	else if (uiFileResult == FILE_BLANK)
 	{
-		getKGM()->getTaskManager()->onTaskPause();
+		getIMGF()->getTaskManager()->onTaskPause();
 		mcore::CGUIManager::showMessage(CLocalizationManager::getInstance()->getTranslatedText("TextPopup_33"), CLocalizationManager::getInstance()->getTranslatedText("TextPopupTitle_33"), MB_OK);
-		getKGM()->getTaskManager()->onTaskUnpause();
-		getKGM()->getTaskManager()->onTaskEnd("onRequestCompareIMG", true);
+		getIMGF()->getTaskManager()->onTaskUnpause();
+		getIMGF()->getTaskManager()->onTaskEnd("onRequestCompareIMG", true);
 		return;
 	}
 	else if (uiFileResult == FILE_UNKNOWN2)
 	{
-		getKGM()->getTaskManager()->onTaskPause();
+		getIMGF()->getTaskManager()->onTaskPause();
 		mcore::CGUIManager::showMessage(CLocalizationManager::getInstance()->getTranslatedText("TextPopup_34"), CLocalizationManager::getInstance()->getTranslatedText("UnableToOpenIMG"), MB_OK);
-		getKGM()->getTaskManager()->onTaskUnpause();
-		getKGM()->getTaskManager()->onTaskEnd("onRequestCompareIMG", true);
+		getIMGF()->getTaskManager()->onTaskUnpause();
+		getIMGF()->getTaskManager()->onTaskEnd("onRequestCompareIMG", true);
 		return;
 	}
 	*/
@@ -5621,14 +5621,14 @@ void		CTaskDispatchManager::onRequestCompareIMG(void)
 	CIMGFormat *pIMGFile2 = CIMGManager::getInstance()->parseViaFile(vecPaths[0]/* todo ?? -, (eIMGVersion)uiFileResult */);
 	if (pIMGFile2->doesHaveError())
 	{
-		getKGM()->getTaskManager()->onTaskPause();
+		getIMGF()->getTaskManager()->onTaskPause();
 		mcore::CGUIManager::showMessage(CLocalizationManager::getInstance()->getTranslatedFormattedText("TextPopup_47", CPathManager::getFileName(vecPaths[0]).c_str()), CLocalizationManager::getInstance()->getTranslatedText("UnableToOpenIMG"), MB_OK);
-		getKGM()->getTaskManager()->onTaskUnpause();
+		getIMGF()->getTaskManager()->onTaskUnpause();
 		
 		pIMGFile2->unload();
 		delete pIMGFile2;
 		
-		getKGM()->getTaskManager()->onTaskEnd("onRequestCompareIMG", true);
+		getIMGF()->getTaskManager()->onTaskEnd("onRequestCompareIMG", true);
 		return;
 	}
 
@@ -5696,8 +5696,8 @@ void		CTaskDispatchManager::onRequestCompareIMG(void)
 	uiEntryCountInBothFiles = vecEntriesInBothFiles.size();
 	vecEntriesInBothFiles.clear();
 
-	getKGM()->getTaskManager()->onTaskPause();
-	getKGM()->getPopupGUIManager()->showListViewDialog(
+	getIMGF()->getTaskManager()->onTaskPause();
+	getIMGF()->getPopupGUIManager()->showListViewDialog(
 		"Compare IMG",
 		CString2::toString(uiEntryCountInFile1NotInFile2) + " entr" + (uiEntryCountInFile1NotInFile2 == 1 ? "y" : "ies") + " not in " + CPathManager::getFileName(pIMGFile2->getFilePath()) + ", "
 		+ CString2::toString(uiEntryCountInFile2NotInFile1) + " entr" + (uiEntryCountInFile2NotInFile1 == 1 ? "y" : "ies") + " not in " + CPathManager::getFileName(pIMGFile1->getFilePath()) + ", "
@@ -5707,30 +5707,30 @@ void		CTaskDispatchManager::onRequestCompareIMG(void)
 		CLocalizationManager::getInstance()->getTranslatedText("SaveFilePopup_7_InitialFilename"),
 		"COMPAREIMG__SAVE"
 	);
-	getKGM()->getTaskManager()->onTaskUnpause();
+	getIMGF()->getTaskManager()->onTaskUnpause();
 
 	pIMGFile2->unload();
 	delete pIMGFile2;
-	getKGM()->getTaskManager()->onTaskEnd("onRequestCompareIMG");
+	getIMGF()->getTaskManager()->onTaskEnd("onRequestCompareIMG");
 }
 
 void			CTaskDispatchManager::onRequestConvertTXDToTextureFormat(CRasterDataFormat *pRasterDataFormat)
 {
 	/*
 	todo
-	getKGM()->getLastUsedValueManager()->setLastUsedValue_ConvertTXD_TextureFormat(pRasterDataFormat);
-	getKGM()->getTaskManager()->onTaskBegin("onRequestConvertTXDToTextureFormat");
-	if (getKGM()->getEntryListTab() == nullptr)
+	getIMGF()->getLastUsedValueManager()->setLastUsedValue_ConvertTXD_TextureFormat(pRasterDataFormat);
+	getIMGF()->getTaskManager()->onTaskBegin("onRequestConvertTXDToTextureFormat");
+	if (getIMGF()->getEntryListTab() == nullptr)
 	{
-		getKGM()->getTaskManager()->onTaskEnd("onRequestConvertTXDToTextureFormat", true);
+		getIMGF()->getTaskManager()->onTaskEnd("onRequestConvertTXDToTextureFormat", true);
 		return;
 	}
 
-	CListCtrl *pListControl = ((CListCtrl*)getKGM()->getDialog()->GetDlgItem(37));
+	CListCtrl *pListControl = ((CListCtrl*)getIMGF()->getDialog()->GetDlgItem(37));
 	POSITION pos = pListControl->GetFirstSelectedItemPosition();
 	if (pos == NULL)
 	{
-		getKGM()->getTaskManager()->onTaskEnd("onRequestConvertTXDToTextureFormat", true);
+		getIMGF()->getTaskManager()->onTaskEnd("onRequestConvertTXDToTextureFormat", true);
 		return;
 	}
 
@@ -5770,58 +5770,58 @@ void			CTaskDispatchManager::onRequestConvertTXDToTextureFormat(CRasterDataForma
 		pIMGEntry->setEntrySize(uiFileSize);
 		pIMGEntry->setEntryData(strFileData);
 
-		getKGM()->getEntryListTab()->updateEntryInMainListView(pIMGEntry);
+		getIMGF()->getEntryListTab()->updateEntryInMainListView(pIMGEntry);
 	}
 
-	getKGM()->getEntryListTab()->log(CLocalizationManager::getInstance()->getTranslatedFormattedText("Log_115", vecConvertedTXDEntryNames.size(), CLocalizationManager::getInstance()->getTranslatedText(pRasterDataFormat->getLocalizationKey()).c_str(), vecMipmapsRemoved.size()));
-	getKGM()->getEntryListTab()->log(CLocalizationManager::getInstance()->getTranslatedText("Log_105"), true);
-	getKGM()->getEntryListTab()->log(CString2::join(vecConvertedTXDEntryNames, "\n"), true);
-	getKGM()->getEntryListTab()->log(CLocalizationManager::getInstance()->getTranslatedText("MipmapsRemoved"), true);
-	getKGM()->getEntryListTab()->log(CString2::join(vecMipmapsRemoved, "\n"), true);
+	getIMGF()->getEntryListTab()->log(CLocalizationManager::getInstance()->getTranslatedFormattedText("Log_115", vecConvertedTXDEntryNames.size(), CLocalizationManager::getInstance()->getTranslatedText(pRasterDataFormat->getLocalizationKey()).c_str(), vecMipmapsRemoved.size()));
+	getIMGF()->getEntryListTab()->log(CLocalizationManager::getInstance()->getTranslatedText("Log_105"), true);
+	getIMGF()->getEntryListTab()->log(CString2::join(vecConvertedTXDEntryNames, "\n"), true);
+	getIMGF()->getEntryListTab()->log(CLocalizationManager::getInstance()->getTranslatedText("MipmapsRemoved"), true);
+	getIMGF()->getEntryListTab()->log(CString2::join(vecMipmapsRemoved, "\n"), true);
 
 	if (pIMGEntry != nullptr)
 	{
-		getKGM()->getEntryListTab()->setIMGModifiedSinceRebuild(true);
+		getIMGF()->getEntryListTab()->setIMGModifiedSinceRebuild(true);
 	}
-	getKGM()->getTaskManager()->onTaskEnd("onRequestConvertTXDToTextureFormat");
+	getIMGF()->getTaskManager()->onTaskEnd("onRequestConvertTXDToTextureFormat");
 	*/
 }
 
 void			CTaskDispatchManager::onRequestClearLogs(bool bAllTabs)
 {
-	getKGM()->getLastUsedValueManager()->setLastUsedValue_ClearLogs_AllTabs(bAllTabs);
-	getKGM()->getTaskManager()->onTaskBegin("onRequestClearLogs");
+	getIMGF()->getLastUsedValueManager()->setLastUsedValue_ClearLogs_AllTabs(bAllTabs);
+	getIMGF()->getTaskManager()->onTaskBegin("onRequestClearLogs");
 	vector<CIMGEditorTab*> veCIMGEditorTabs;
 	if (bAllTabs)
 	{
-		for (auto pEntryListWindowTab : getKGM()->getIMGEditor()->getTabs().getEntries())
+		for (auto pEntryListWindowTab : getIMGF()->getIMGEditor()->getTabs().getEntries())
 		{
 			veCIMGEditorTabs.push_back((CIMGEditorTab*)pEntryListWindowTab);
 		}
 	}
 	else
 	{
-		veCIMGEditorTabs.push_back(getKGM()->getEntryListTab());
+		veCIMGEditorTabs.push_back(getIMGF()->getEntryListTab());
 	}
 
 	for (auto pEditorTab : veCIMGEditorTabs)
 	{
 		pEditorTab->clearLogs();
 	}
-	getKGM()->getTaskManager()->onTaskEnd("onRequestClearLogs");
+	getIMGF()->getTaskManager()->onTaskEnd("onRequestClearLogs");
 }
 
 void			CTaskDispatchManager::onRequestValidateAllDFFInActiveTab(void)
 {
-	getKGM()->getTaskManager()->onTaskBegin("onRequestValidateAllDFFInActiveTab");
-	if (getKGM()->getEntryListTab() == nullptr)
+	getIMGF()->getTaskManager()->onTaskBegin("onRequestValidateAllDFFInActiveTab");
+	if (getIMGF()->getEntryListTab() == nullptr)
 	{
-		getKGM()->getTaskManager()->onTaskEnd("onRequestValidateAllDFFInActiveTab", true);
+		getIMGF()->getTaskManager()->onTaskEnd("onRequestValidateAllDFFInActiveTab", true);
 		return;
 	}
 
 	vector<string> vecCorruptDFFEntryLines;
-	for (auto pIMGEntry : getKGM()->getEntryListTab()->getIMGFile()->getEntries())
+	for (auto pIMGEntry : getIMGF()->getEntryListTab()->getIMGFile()->getEntries())
 	{
 		if (CPathManager::isModelExtension(CString2::toUpperCase(CPathManager::getFileExtension(pIMGEntry->getEntryName()))))
 		{
@@ -5837,30 +5837,30 @@ void			CTaskDispatchManager::onRequestValidateAllDFFInActiveTab(void)
 
 	if (vecCorruptDFFEntryLines.size() == 0)
 	{
-		getKGM()->getTaskManager()->onTaskPause();
+		getIMGF()->getTaskManager()->onTaskPause();
 		mcore::CGUIManager::showMessage(CLocalizationManager::getInstance()->getTranslatedText("TextPopup_48"), CLocalizationManager::getInstance()->getTranslatedText("DFFValidationComplete"), MB_OK);
-		getKGM()->getTaskManager()->onTaskUnpause();
+		getIMGF()->getTaskManager()->onTaskUnpause();
 	}
 	else
 	{
-		getKGM()->getTaskManager()->onTaskPause();
-		getKGM()->getPopupGUIManager()->showTextAreaDialog(CLocalizationManager::getInstance()->getTranslatedText("DFFValidationComplete"), CLocalizationManager::getInstance()->getTranslatedFormattedText("Window_TextArea_6_Message", vecCorruptDFFEntryLines.size()), CString2::join(vecCorruptDFFEntryLines, "\n"));
-		getKGM()->getTaskManager()->onTaskUnpause();
+		getIMGF()->getTaskManager()->onTaskPause();
+		getIMGF()->getPopupGUIManager()->showTextAreaDialog(CLocalizationManager::getInstance()->getTranslatedText("DFFValidationComplete"), CLocalizationManager::getInstance()->getTranslatedFormattedText("Window_TextArea_6_Message", vecCorruptDFFEntryLines.size()), CString2::join(vecCorruptDFFEntryLines, "\n"));
+		getIMGF()->getTaskManager()->onTaskUnpause();
 	}
-	getKGM()->getTaskManager()->onTaskEnd("onRequestValidateAllDFFInActiveTab");
+	getIMGF()->getTaskManager()->onTaskEnd("onRequestValidateAllDFFInActiveTab");
 }
 
 void			CTaskDispatchManager::onRequestValidateAllTXDInActiveTab(void)
 {
-	getKGM()->getTaskManager()->onTaskBegin("onRequestValidateAllTXDInActiveTab");
-	if (getKGM()->getEntryListTab() == nullptr)
+	getIMGF()->getTaskManager()->onTaskBegin("onRequestValidateAllTXDInActiveTab");
+	if (getIMGF()->getEntryListTab() == nullptr)
 	{
-		getKGM()->getTaskManager()->onTaskEnd("onRequestValidateAllTXDInActiveTab", true);
+		getIMGF()->getTaskManager()->onTaskEnd("onRequestValidateAllTXDInActiveTab", true);
 		return;
 	}
 
 	vector<string> vecCorruptTXDEntryLines;
-	for (auto pIMGEntry : getKGM()->getEntryListTab()->getIMGFile()->getEntries())
+	for (auto pIMGEntry : getIMGF()->getEntryListTab()->getIMGFile()->getEntries())
 	{
 		if (CString2::toUpperCase(CPathManager::getFileExtension(pIMGEntry->getEntryName())) == "TXD")
 		{
@@ -5911,45 +5911,45 @@ void			CTaskDispatchManager::onRequestValidateAllTXDInActiveTab(void)
 
 	if (vecCorruptTXDEntryLines.size() == 0)
 	{
-		getKGM()->getTaskManager()->onTaskPause();
+		getIMGF()->getTaskManager()->onTaskPause();
 		mcore::CGUIManager::showMessage(CLocalizationManager::getInstance()->getTranslatedText("TextPopup_49"), CLocalizationManager::getInstance()->getTranslatedText("TXDValidationComplete"), MB_OK);
-		getKGM()->getTaskManager()->onTaskUnpause();
+		getIMGF()->getTaskManager()->onTaskUnpause();
 	}
 	else
 	{
-		getKGM()->getTaskManager()->onTaskPause();
-		getKGM()->getPopupGUIManager()->showTextAreaDialog(CLocalizationManager::getInstance()->getTranslatedText("TXDValidationComplete"), CLocalizationManager::getInstance()->getTranslatedFormattedText("Window_TextArea_7_Message", vecCorruptTXDEntryLines.size()), CString2::join(vecCorruptTXDEntryLines, "\n"));
-		getKGM()->getTaskManager()->onTaskUnpause();
+		getIMGF()->getTaskManager()->onTaskPause();
+		getIMGF()->getPopupGUIManager()->showTextAreaDialog(CLocalizationManager::getInstance()->getTranslatedText("TXDValidationComplete"), CLocalizationManager::getInstance()->getTranslatedFormattedText("Window_TextArea_7_Message", vecCorruptTXDEntryLines.size()), CString2::join(vecCorruptTXDEntryLines, "\n"));
+		getIMGF()->getTaskManager()->onTaskUnpause();
 	}
-	getKGM()->getTaskManager()->onTaskEnd("onRequestValidateAllTXDInActiveTab");
+	getIMGF()->getTaskManager()->onTaskEnd("onRequestValidateAllTXDInActiveTab");
 }
 
 void			CTaskDispatchManager::onRequestCredits(void)
 {
-	getKGM()->getTaskManager()->onTaskBegin("onRequestCredits");
-	getKGM()->getTaskManager()->onTaskPause();
-	getKGM()->getPopupGUIManager()->showCreditsDialog();
-	getKGM()->getTaskManager()->onTaskUnpause();
-	getKGM()->getTaskManager()->onTaskEnd("onRequestCredits");
+	getIMGF()->getTaskManager()->onTaskBegin("onRequestCredits");
+	getIMGF()->getTaskManager()->onTaskPause();
+	getIMGF()->getPopupGUIManager()->showCreditsDialog();
+	getIMGF()->getTaskManager()->onTaskUnpause();
+	getIMGF()->getTaskManager()->onTaskEnd("onRequestCredits");
 }
 
 void			CTaskDispatchManager::onRequestEntryViewer(bool bDontOpenWindow)
 {
 	/*
 	todo
-	getKGM()->getTaskManager()->onTaskBegin("onRequestEntryViewer");
-	if (getKGM()->getEntryListTab() == nullptr)
+	getIMGF()->getTaskManager()->onTaskBegin("onRequestEntryViewer");
+	if (getIMGF()->getEntryListTab() == nullptr)
 	{
-		getKGM()->getTaskManager()->onTaskEnd("onRequestEntryViewer", true);
+		getIMGF()->getTaskManager()->onTaskEnd("onRequestEntryViewer", true);
 		return;
 	}
 
 	// fetch selected IMG entry
-	CListCtrl *pListControl = ((CListCtrl*)getKGM()->getDialog()->GetDlgItem(37));
+	CListCtrl *pListControl = ((CListCtrl*)getIMGF()->getDialog()->GetDlgItem(37));
 	POSITION pos = pListControl->GetFirstSelectedItemPosition();
 	if (pos == NULL)
 	{
-		getKGM()->getTaskManager()->onTaskEnd("onRequestEntryViewer", true);
+		getIMGF()->getTaskManager()->onTaskEnd("onRequestEntryViewer", true);
 		return;
 	}
 	int nItem = pListControl->GetNextSelectedItem(pos);
@@ -5958,11 +5958,11 @@ void			CTaskDispatchManager::onRequestEntryViewer(bool bDontOpenWindow)
 	// check the entry type
 	if (pIMGEntry->isTextureFile())
 	{
-		CTextureViewer *pTextureViewer = getKGM()->getEntryViewerManager()->getTextureViewer();
+		CTextureViewer *pTextureViewer = getIMGF()->getEntryViewerManager()->getTextureViewer();
 
 		if (bDontOpenWindow && !pTextureViewer->isWindowOpen())
 		{
-			getKGM()->getTaskManager()->onTaskEnd("onRequestEntryViewer", true);
+			getIMGF()->getTaskManager()->onTaskEnd("onRequestEntryViewer", true);
 			return;
 		}
 
@@ -5977,7 +5977,7 @@ void			CTaskDispatchManager::onRequestEntryViewer(bool bDontOpenWindow)
 			{
 				mcore::CGUIManager::showMessage(CLocalizationManager::getInstance()->getTranslatedText(pIMGEntry->isTXDFile() ? "TXDReadError" : "WTDReadError"), CLocalizationManager::getInstance()->getTranslatedText("TextPopup_Title52"), MB_OK);
 			}
-			getKGM()->getTaskManager()->onTaskEnd("onRequestEntryViewer", true);
+			getIMGF()->getTaskManager()->onTaskEnd("onRequestEntryViewer", true);
 			return;
 		}
 
@@ -6002,17 +6002,17 @@ void			CTaskDispatchManager::onRequestEntryViewer(bool bDontOpenWindow)
 	/*
 	else if (pIMGEntry->isCOLFile())
 	{
-		CCollisionViewer *pCollisionViewer = getKGM()->getEntryViewerManager()->getCollisionViewer();
+		CCollisionViewer *pCollisionViewer = getIMGF()->getEntryViewerManager()->getCollisionViewer();
 
 		if (pCollisionViewer->isWindowOpening())
 		{
-			getKGM()->getTaskManager()->onTaskEnd("onRequestEntryViewer", true);
+			getIMGF()->getTaskManager()->onTaskEnd("onRequestEntryViewer", true);
 			return;
 		}
 
 		if (bDontOpenWindow && !pCollisionViewer->isWindowOpen())
 		{
-			getKGM()->getTaskManager()->onTaskEnd("onRequestEntryViewer", true);
+			getIMGF()->getTaskManager()->onTaskEnd("onRequestEntryViewer", true);
 			return;
 		}
 
@@ -6025,7 +6025,7 @@ void			CTaskDispatchManager::onRequestEntryViewer(bool bDontOpenWindow)
 			}
 			pCOLFile->unload();
 			delete pCOLFile;
-			getKGM()->getTaskManager()->onTaskEnd("onRequestEntryViewer", true);
+			getIMGF()->getTaskManager()->onTaskEnd("onRequestEntryViewer", true);
 			return;
 		}
 
@@ -6068,34 +6068,34 @@ void			CTaskDispatchManager::onRequestEntryViewer(bool bDontOpenWindow)
 	else
 	{
 		// entry viewer does not support the type of file
-		getKGM()->getTaskManager()->onTaskEnd("onRequestEntryViewer", true);
+		getIMGF()->getTaskManager()->onTaskEnd("onRequestEntryViewer", true);
 		return;
 	}
 
-	getKGM()->getTaskManager()->onTaskEnd("onRequestEntryViewer");
+	getIMGF()->getTaskManager()->onTaskEnd("onRequestEntryViewer");
 	*/
 }
 
 void			CTaskDispatchManager::onRequestRenamer(void)
 {
-	getKGM()->getTaskManager()->onTaskBegin("onRequestRenamer");
-	getKGM()->getTaskManager()->onTaskPause();
-	CRenamerDialogData *pRenamerDialogData = getKGM()->getPopupGUIManager()->showRenamerDialog();
-	getKGM()->getTaskManager()->onTaskUnpause();
+	getIMGF()->getTaskManager()->onTaskBegin("onRequestRenamer");
+	getIMGF()->getTaskManager()->onTaskPause();
+	CRenamerDialogData *pRenamerDialogData = getIMGF()->getPopupGUIManager()->showRenamerDialog();
+	getIMGF()->getTaskManager()->onTaskUnpause();
 
 	if (!pRenamerDialogData->m_bRename)
 	{
 		delete pRenamerDialogData;
-		getKGM()->getTaskManager()->onTaskEnd("onRequestRenamer", true);
+		getIMGF()->getTaskManager()->onTaskEnd("onRequestRenamer", true);
 		return;
 	}
 
 	// ensure a tab is open
-	if (getKGM()->getEntryListTab() == nullptr)
+	if (getIMGF()->getEntryListTab() == nullptr)
 	{
 		mcore::CGUIManager::showMessage(CLocalizationManager::getInstance()->getTranslatedText("TextPopup_50"), CLocalizationManager::getInstance()->getTranslatedText("TextPopupTitle_50"), MB_OK);
 		delete pRenamerDialogData;
-		getKGM()->getTaskManager()->onTaskEnd("onRequestRenamer", true);
+		getIMGF()->getTaskManager()->onTaskEnd("onRequestRenamer", true);
 		return;
 	}
 
@@ -6103,14 +6103,14 @@ void			CTaskDispatchManager::onRequestRenamer(void)
 	vector<CIMGEntry*> vecIMGEntries;
 	if (pRenamerDialogData->m_ucEntriesType == 0) // all entries
 	{
-		vecIMGEntries = getKGM()->getEntryListTab()->getIMGFile()->getEntries();
+		vecIMGEntries = getIMGF()->getEntryListTab()->getIMGFile()->getEntries();
 	}
 	else if (pRenamerDialogData->m_ucEntriesType == 1) // selected entries
 	{
-		vecIMGEntries = getKGM()->getEntryListTab()->getSelectedEntries();
+		vecIMGEntries = getIMGF()->getEntryListTab()->getSelectedEntries();
 	}
 
-	getKGM()->getTaskManager()->setTaskMaxProgressTickCount(vecIMGEntries.size() * 2); // x1 for the main loop, and x1 for the refreshing the main list view display
+	getIMGF()->getTaskManager()->setTaskMaxProgressTickCount(vecIMGEntries.size() * 2); // x1 for the main loop, and x1 for the refreshing the main list view display
 
 	vector<CRenamedIMGEntry*> vecIMGEntriesWithNewNames;
 
@@ -6122,7 +6122,7 @@ void			CTaskDispatchManager::onRequestRenamer(void)
 		{
 			if (CString2::toUpperCase(pIMGEntry->getEntryName().substr(0, 3)) == "LOD")
 			{
-				getKGM()->getTaskManager()->onTaskProgressTick();
+				getIMGF()->getTaskManager()->onTaskProgressTick();
 				continue;
 			}
 		}
@@ -6302,7 +6302,7 @@ void			CTaskDispatchManager::onRequestRenamer(void)
 		if (pRenamerDialogData->m_bUpdateLODNamesToMatch)
 		{
 			string strLODPreviousName = "LOD" + strEntryPreviousName.substr(3);
-			CIMGEntry *pIMGEntryLOD = getKGM()->getEntryListTab()->getIMGFile()->getEntryByName(strLODPreviousName);
+			CIMGEntry *pIMGEntryLOD = getIMGF()->getEntryListTab()->getIMGFile()->getEntryByName(strLODPreviousName);
 			if (pIMGEntryLOD != nullptr)
 			{
 				string strLODNewName = pIMGEntryLOD->getEntryName().substr(0, 3) + pIMGEntry->getEntryName().substr(3);
@@ -6320,7 +6320,7 @@ void			CTaskDispatchManager::onRequestRenamer(void)
 		}
 
 		// progress bar
-		getKGM()->getTaskManager()->onTaskProgressTick();
+		getIMGF()->getTaskManager()->onTaskProgressTick();
 	}
 
 	// matching entries
@@ -6473,15 +6473,15 @@ void			CTaskDispatchManager::onRequestRenamer(void)
 	}
 
 	// log
-	getKGM()->getEntryListTab()->log(CLocalizationManager::getInstance()->getTranslatedFormattedText("Log_116", vecIMGEntriesWithNewNames.size()));
-	getKGM()->getEntryListTab()->log(CLocalizationManager::getInstance()->getTranslatedText("Log_117"), true);
-	getKGM()->getEntryListTab()->log(CString2::join(vecCorruptCOLFiles, "\n"), true);
+	getIMGF()->getEntryListTab()->log(CLocalizationManager::getInstance()->getTranslatedFormattedText("Log_116", vecIMGEntriesWithNewNames.size()));
+	getIMGF()->getEntryListTab()->log(CLocalizationManager::getInstance()->getTranslatedText("Log_117"), true);
+	getIMGF()->getEntryListTab()->log(CString2::join(vecCorruptCOLFiles, "\n"), true);
 
 	// mark tab as modified
-	getKGM()->getEntryListTab()->setIMGModifiedSinceRebuild(true);
+	getIMGF()->getEntryListTab()->setIMGModifiedSinceRebuild(true);
 
 	// refresh tab's main list view
-	getKGM()->getIMGEditor()->refreshActiveTab();
+	getIMGF()->getIMGEditor()->refreshActiveTab();
 
 	// clean up
 	for (auto pRenamedIMGEntry : vecIMGEntriesWithNewNames)
@@ -6490,27 +6490,27 @@ void			CTaskDispatchManager::onRequestRenamer(void)
 	}
 	vecIMGEntriesWithNewNames.clear();
 	delete pRenamerDialogData;
-	getKGM()->getTaskManager()->onTaskEnd("onRequestRenamer");
+	getIMGF()->getTaskManager()->onTaskEnd("onRequestRenamer");
 }
 
 void		CTaskDispatchManager::onRequestClearRecentlyOpenedList(void)
 {
-	getKGM()->getTaskManager()->onTaskBegin("onRequestClearRecentlyOpenedList");
-	getKGM()->getRecentlyOpenManager()->removeRecentlyOpenedEntries();
-	getKGM()->getTaskManager()->onTaskEnd("onRequestClearRecentlyOpenedList");
+	getIMGF()->getTaskManager()->onTaskBegin("onRequestClearRecentlyOpenedList");
+	getIMGF()->getRecentlyOpenManager()->removeRecentlyOpenedEntries();
+	getIMGF()->getTaskManager()->onTaskEnd("onRequestClearRecentlyOpenedList");
 }
 
 void		CTaskDispatchManager::onRequestBuildTXD(void)
 {
-	getKGM()->getTaskManager()->onTaskBegin("onRequestBuildTXD");
+	getIMGF()->getTaskManager()->onTaskBegin("onRequestBuildTXD");
 
-	getKGM()->getTaskManager()->onTaskPause();
-	CBuildTXDDialogData *pBuildTXDDialogData = getKGM()->getPopupGUIManager()->showBuildTXDDialog();
-	getKGM()->getTaskManager()->onTaskUnpause();
+	getIMGF()->getTaskManager()->onTaskPause();
+	CBuildTXDDialogData *pBuildTXDDialogData = getIMGF()->getPopupGUIManager()->showBuildTXDDialog();
+	getIMGF()->getTaskManager()->onTaskUnpause();
 
 	if (!pBuildTXDDialogData->m_bBuild) // cancel
 	{
-		getKGM()->getTaskManager()->onTaskEnd("onRequestBuildTXD", true);
+		getIMGF()->getTaskManager()->onTaskEnd("onRequestBuildTXD", true);
 		delete pBuildTXDDialogData;
 		return;
 	}
@@ -6520,15 +6520,15 @@ void		CTaskDispatchManager::onRequestBuildTXD(void)
 	unordered_map<CDFFFormat*, string> umapDFFEntries;
 	if (pBuildTXDDialogData->m_uCDFFFormatsType == 0) // All DFF entries in active tab
 	{
-		if (!getKGM()->getEntryListTab())
+		if (!getIMGF()->getEntryListTab())
 		{
-			getKGM()->getTaskManager()->onTaskEnd("onRequestBuildTXD", true);
+			getIMGF()->getTaskManager()->onTaskEnd("onRequestBuildTXD", true);
 			delete pBuildTXDDialogData;
 			return;
 		}
 
-		vector<CIMGEntry*> vecIMGEntries = getKGM()->getEntryListTab()->getIMGFile()->getEntriesByExtension("DFF");
-		vector<CIMGEntry*> vecIMGEntries_BSP = getKGM()->getEntryListTab()->getIMGFile()->getEntriesByExtension("BSP");
+		vector<CIMGEntry*> vecIMGEntries = getIMGF()->getEntryListTab()->getIMGFile()->getEntriesByExtension("DFF");
+		vector<CIMGEntry*> vecIMGEntries_BSP = getIMGF()->getEntryListTab()->getIMGFile()->getEntriesByExtension("BSP");
 		for (auto pIMGEntry : vecIMGEntries_BSP)
 		{
 			vecIMGEntries.push_back(pIMGEntry);
@@ -6541,14 +6541,14 @@ void		CTaskDispatchManager::onRequestBuildTXD(void)
 	}
 	else if (pBuildTXDDialogData->m_uCDFFFormatsType == 1) // Selected DFF entries in active tab
 	{
-		if (!getKGM()->getEntryListTab())
+		if (!getIMGF()->getEntryListTab())
 		{
-			getKGM()->getTaskManager()->onTaskEnd("onRequestBuildTXD", true);
+			getIMGF()->getTaskManager()->onTaskEnd("onRequestBuildTXD", true);
 			delete pBuildTXDDialogData;
 			return;
 		}
 
-		vector<CIMGEntry*> vecIMGEntries = getKGM()->getEntryListTab()->getSelectedEntries();
+		vector<CIMGEntry*> vecIMGEntries = getIMGF()->getEntryListTab()->getSelectedEntries();
 		
 		for(auto pIMGEntry : vecIMGEntries)
 		{
@@ -6561,14 +6561,14 @@ void		CTaskDispatchManager::onRequestBuildTXD(void)
 	}
 	else if (pBuildTXDDialogData->m_uCDFFFormatsType == 2) // All DFF entries in all tabs
 	{
-		if (!getKGM()->getEntryListTab())
+		if (!getIMGF()->getEntryListTab())
 		{
-			getKGM()->getTaskManager()->onTaskEnd("onRequestBuildTXD", true);
+			getIMGF()->getTaskManager()->onTaskEnd("onRequestBuildTXD", true);
 			delete pBuildTXDDialogData;
 			return;
 		}
 
-		for (auto pEditorTab : getKGM()->getIMGEditor()->getTabs().getEntries())
+		for (auto pEditorTab : getIMGF()->getIMGEditor()->getTabs().getEntries())
 		{
 			vector<CIMGEntry*> vecIMGEntries = ((CIMGEditorTab*)pEditorTab)->getIMGFile()->getEntriesByExtension("DFF");
 			vector<CIMGEntry*> vecIMGEntries_BSP = ((CIMGEditorTab*)pEditorTab)->getIMGFile()->getEntriesByExtension("BSP");
@@ -6627,7 +6627,7 @@ void		CTaskDispatchManager::onRequestBuildTXD(void)
 	vector<string>
 		vecTextureImagesNotFound,
 		veCTXDFormatNames;
-	getKGM()->getTaskManager()->setTaskMaxProgressTickCount(umapDFFEntries.size());
+	getIMGF()->getTaskManager()->setTaskMaxProgressTickCount(umapDFFEntries.size());
 	for (auto it : umapDFFEntries)
 	{
 		CDFFFormat *pDFFFile = it.first;
@@ -6635,7 +6635,7 @@ void		CTaskDispatchManager::onRequestBuildTXD(void)
 
 		if (pDFFFile->doesHaveError())
 		{
-			getKGM()->getTaskManager()->onTaskProgressTick();
+			getIMGF()->getTaskManager()->onTaskProgressTick();
 			continue;
 		}
 
@@ -6692,15 +6692,15 @@ void		CTaskDispatchManager::onRequestBuildTXD(void)
 			delete pTXDFile;
 		}
 
-		getKGM()->getTaskManager()->onTaskProgressTick();
+		getIMGF()->getTaskManager()->onTaskProgressTick();
 	}
 
 	// log
-	getKGM()->getEntryListTab()->log(CLocalizationManager::getInstance()->getTranslatedFormattedText("Log_118", uiTotalTXDFileCount, uiTotalTextureCountUsed));
-	getKGM()->getEntryListTab()->log(CLocalizationManager::getInstance()->getTranslatedFormattedText("Log_119", pBuildTXDDialogData->m_strTexturesFolderPath.c_str()), true);
-	getKGM()->getEntryListTab()->log(CString2::join(vecTextureImagesNotFound, "\n"), true);
-	getKGM()->getEntryListTab()->log(CLocalizationManager::getInstance()->getTranslatedText("Log_120"), true);
-	getKGM()->getEntryListTab()->log(CString2::join(veCTXDFormatNames, "\n"), true);
+	getIMGF()->getEntryListTab()->log(CLocalizationManager::getInstance()->getTranslatedFormattedText("Log_118", uiTotalTXDFileCount, uiTotalTextureCountUsed));
+	getIMGF()->getEntryListTab()->log(CLocalizationManager::getInstance()->getTranslatedFormattedText("Log_119", pBuildTXDDialogData->m_strTexturesFolderPath.c_str()), true);
+	getIMGF()->getEntryListTab()->log(CString2::join(vecTextureImagesNotFound, "\n"), true);
+	getIMGF()->getEntryListTab()->log(CLocalizationManager::getInstance()->getTranslatedText("Log_120"), true);
+	getIMGF()->getEntryListTab()->log(CString2::join(veCTXDFormatNames, "\n"), true);
 
 	// clean up
 	//for (CDFFFormat *pDFFFile : veCDFFFormats)
@@ -6713,49 +6713,49 @@ void		CTaskDispatchManager::onRequestBuildTXD(void)
 	//veCDFFFormats.clear();
 	umapDFFEntries.clear();
 	delete pBuildTXDDialogData;
-	getKGM()->getTaskManager()->onTaskEnd("onRequestBuildTXD");
+	getIMGF()->getTaskManager()->onTaskEnd("onRequestBuildTXD");
 }
 
 void		CTaskDispatchManager::onRequestIMGVersionSettings(void)
 {
-	getKGM()->getTaskManager()->onTaskBegin("onRequestIMGVersionSettings");
+	getIMGF()->getTaskManager()->onTaskBegin("onRequestIMGVersionSettings");
 
 	// ensure a tab is open
-	if (getKGM()->getEntryListTab() == nullptr)
+	if (getIMGF()->getEntryListTab() == nullptr)
 	{
 		mcore::CGUIManager::showMessage(CLocalizationManager::getInstance()->getTranslatedText("TextPopup_50"), CLocalizationManager::getInstance()->getTranslatedText("TextPopupTitle_50"), MB_OK);
-		getKGM()->getTaskManager()->onTaskEnd("onRequestIMGVersionSettings", true);
+		getIMGF()->getTaskManager()->onTaskEnd("onRequestIMGVersionSettings", true);
 		return;
 	}
 
 	// ensure IMG version has settings
-	if (getKGM()->getEntryListTab()->getIMGFile()->getIMGVersion() != IMG_FASTMAN92)
+	if (getIMGF()->getEntryListTab()->getIMGFile()->getIMGVersion() != IMG_FASTMAN92)
 	{
 		mcore::CGUIManager::showMessage(CLocalizationManager::getInstance()->getTranslatedText("TextPopup_51"), CLocalizationManager::getInstance()->getTranslatedText("TextPopupTitle_51"), MB_OK);
-		getKGM()->getTaskManager()->onTaskEnd("onRequestIMGVersionSettings", true);
+		getIMGF()->getTaskManager()->onTaskEnd("onRequestIMGVersionSettings", true);
 		return;
 	}
 
 	// show IMG Version Settings window
-	getKGM()->getTaskManager()->onTaskPause();
-	CIMGVersionSettingsDialogData *pIMGVersionSettingsDialogData = getKGM()->getPopupGUIManager()->showIMGVersionSettingsDialog();
-	getKGM()->getTaskManager()->onTaskUnpause();
+	getIMGF()->getTaskManager()->onTaskPause();
+	CIMGVersionSettingsDialogData *pIMGVersionSettingsDialogData = getIMGF()->getPopupGUIManager()->showIMGVersionSettingsDialog();
+	getIMGF()->getTaskManager()->onTaskUnpause();
 
 	if (!pIMGVersionSettingsDialogData->m_bSave)
 	{
 		delete pIMGVersionSettingsDialogData;
-		getKGM()->getTaskManager()->onTaskEnd("onRequestIMGVersionSettings", true);
+		getIMGF()->getTaskManager()->onTaskEnd("onRequestIMGVersionSettings", true);
 		return;
 	}
 
 	// fetch selected entries
-	vector<CIMGEntry*> vecSelectedIMGEntries = getKGM()->getEntryListTab()->getSelectedEntries();
+	vector<CIMGEntry*> vecSelectedIMGEntries = getIMGF()->getEntryListTab()->getSelectedEntries();
 	
 	// choose IMG entries
 	vector<CIMGEntry*> vecIMGEntries;
 	if (pIMGVersionSettingsDialogData->m_ucEntriesType == 0) // All entries in active tab
 	{
-		vecIMGEntries = getKGM()->getEntryListTab()->getIMGFile()->getEntries();
+		vecIMGEntries = getIMGF()->getEntryListTab()->getIMGFile()->getEntries();
 	}
 	else if (pIMGVersionSettingsDialogData->m_ucEntriesType == 1) // Selected entries in active tab
 	{
@@ -6763,32 +6763,32 @@ void		CTaskDispatchManager::onRequestIMGVersionSettings(void)
 	}
 
 	// apply new compression type to IMG entries
-	getKGM()->getTaskManager()->setTaskMaxProgressTickCount(vecIMGEntries.size());
+	getIMGF()->getTaskManager()->setTaskMaxProgressTickCount(vecIMGEntries.size());
 	vector<string> vecEntryNames;
 	for (auto pIMGEntry : vecIMGEntries)
 	{
 		pIMGEntry->applyCompression(pIMGVersionSettingsDialogData->m_eCompressionAlgorithm, pIMGVersionSettingsDialogData->m_uiCompressionLevel);
-		getKGM()->getEntryListTab()->updateEntryInMainListView(pIMGEntry);
+		getIMGF()->getEntryListTab()->updateEntryInMainListView(pIMGEntry);
 		vecEntryNames.push_back(pIMGEntry->getEntryName());
 
-		getKGM()->getTaskManager()->onTaskProgressTick();
+		getIMGF()->getTaskManager()->onTaskProgressTick();
 	}
 
 	// update IMG version text in main window
-	getKGM()->getEntryListTab()->updateIMGText();
+	getIMGF()->getEntryListTab()->updateIMGText();
 
 	// log
 	// todo rename getCompressionTypeText to alrogrfirmtm
-	getKGM()->getEntryListTab()->log(CLocalizationManager::getInstance()->getTranslatedFormattedText("Log_121", CIMGManager::getCompressionTypeText(pIMGVersionSettingsDialogData->m_eCompressionAlgorithm).c_str(), vecIMGEntries.size()));
-	getKGM()->getEntryListTab()->log(CLocalizationManager::getInstance()->getTranslatedText("Log_122"), true);
-	getKGM()->getEntryListTab()->log(CString2::join(vecEntryNames, "\n"), true);
+	getIMGF()->getEntryListTab()->log(CLocalizationManager::getInstance()->getTranslatedFormattedText("Log_121", CIMGManager::getCompressionTypeText(pIMGVersionSettingsDialogData->m_eCompressionAlgorithm).c_str(), vecIMGEntries.size()));
+	getIMGF()->getEntryListTab()->log(CLocalizationManager::getInstance()->getTranslatedText("Log_122"), true);
+	getIMGF()->getEntryListTab()->log(CString2::join(vecEntryNames, "\n"), true);
 
 	// mark as modified since rebuild
-	getKGM()->getEntryListTab()->setIMGModifiedSinceRebuild(true);
+	getIMGF()->getEntryListTab()->setIMGModifiedSinceRebuild(true);
 
 	// clean up
 	delete pIMGVersionSettingsDialogData;
-	getKGM()->getTaskManager()->onTaskEnd("onRequestIMGVersionSettings");
+	getIMGF()->getTaskManager()->onTaskEnd("onRequestIMGVersionSettings");
 }
 
 void		CTaskDispatchManager::onRequestFeatureByName(string strFeatureName)
@@ -6802,7 +6802,7 @@ void		CTaskDispatchManager::onRequestFeatureByName(string strFeatureName)
 	}
 	else if (strFeatureName == "onRequestOpen2")
 	{
-		onRequestOpen2(getKGM()->getLastUsedValueManager()->getLastUsedValue_Open2_IMGPath());
+		onRequestOpen2(getIMGF()->getLastUsedValueManager()->getLastUsedValue_Open2_IMGPath());
 	}
 	else if (strFeatureName == "onRequestClose")
 	{
@@ -6850,7 +6850,7 @@ void		CTaskDispatchManager::onRequestFeatureByName(string strFeatureName)
 	}
 	else if (strFeatureName == "onRequestConvertIMGVersion")
 	{
-		onRequestConvertIMGVersion(getKGM()->getLastUsedValueManager()->getLastUsedValue_Convert_IMGVersion());
+		onRequestConvertIMGVersion(getIMGF()->getLastUsedValueManager()->getLastUsedValue_Convert_IMGVersion());
 	}
 	else if (strFeatureName == "onRequestConvertIMGVersionViaButton")
 	{
@@ -6946,7 +6946,7 @@ void		CTaskDispatchManager::onRequestFeatureByName(string strFeatureName)
 	}
 	else if (strFeatureName == "onRequestNew")
 	{
-		onRequestNew(getKGM()->getLastUsedValueManager()->getLastUsedValue_New_IMGVersion());
+		onRequestNew(getIMGF()->getLastUsedValueManager()->getLastUsedValue_New_IMGVersion());
 	}
 	else if (strFeatureName == "onRequestStats")
 	{
@@ -6954,15 +6954,15 @@ void		CTaskDispatchManager::onRequestFeatureByName(string strFeatureName)
 	}
 	else if (strFeatureName == "onRequestNameCase")
 	{
-		onRequestNameCase(getKGM()->getLastUsedValueManager()->getLastUsedValue_NameCase_CaseType(), getKGM()->getLastUsedValueManager()->getLastUsedValue_NameCase_FilenameType());
+		onRequestNameCase(getIMGF()->getLastUsedValueManager()->getLastUsedValue_NameCase_CaseType(), getIMGF()->getLastUsedValueManager()->getLastUsedValue_NameCase_FilenameType());
 	}
 	else if (strFeatureName == "onRequestCopyEntryData")
 	{
-		onRequestCopyEntryData(getKGM()->getLastUsedValueManager()->getLastUsedValue_Copy_IMGEntryProperty());
+		onRequestCopyEntryData(getIMGF()->getLastUsedValueManager()->getLastUsedValue_Copy_IMGEntryProperty());
 	}
 	else if (strFeatureName == "onRequestShift")
 	{
-		onRequestShift(getKGM()->getLastUsedValueManager()->getLastUsedValue_Shift_Direction());
+		onRequestShift(getIMGF()->getLastUsedValueManager()->getLastUsedValue_Shift_Direction());
 	}
 	else if (strFeatureName == "onRequestQuickExport")
 	{
@@ -6974,7 +6974,7 @@ void		CTaskDispatchManager::onRequestFeatureByName(string strFeatureName)
 	}
 	else if (strFeatureName == "onRequestSelectViaRWVersion")
 	{
-		onRequestSelectViaRWVersion(getKGM()->getLastUsedValueManager()->getLastUsedValue_Select_RWVersion());
+		onRequestSelectViaRWVersion(getIMGF()->getLastUsedValueManager()->getLastUsedValue_Select_RWVersion());
 	}
 	else if (strFeatureName == "onRequestVersion")
 	{
@@ -6990,7 +6990,7 @@ void		CTaskDispatchManager::onRequestFeatureByName(string strFeatureName)
 	}
 	else if (strFeatureName == "onRequestSaveLog")
 	{
-		onRequestSaveLog(getKGM()->getLastUsedValueManager()->getLastUsedValue_SaveLog_ActiveTab(), getKGM()->getLastUsedValueManager()->getLastUsedValue_SaveLog_NormalFormat());
+		onRequestSaveLog(getIMGF()->getLastUsedValueManager()->getLastUsedValue_SaveLog_ActiveTab(), getIMGF()->getLastUsedValueManager()->getLastUsedValue_SaveLog_NormalFormat());
 	}
 	else if (strFeatureName == "onRequestSaveSession")
 	{
@@ -7006,7 +7006,7 @@ void		CTaskDispatchManager::onRequestFeatureByName(string strFeatureName)
 	}
 	else if (strFeatureName == "onRequestConvertDFFToRWVersion")
 	{
-		onRequestConvertDFFToRWVersion(getKGM()->getLastUsedValueManager()->getLastUsedValue_ConvertDFF_RWVersion());
+		onRequestConvertDFFToRWVersion(getIMGF()->getLastUsedValueManager()->getLastUsedValue_ConvertDFF_RWVersion());
 	}
 	else if (strFeatureName == "onRequestMissingTextures")
 	{
@@ -7014,7 +7014,7 @@ void		CTaskDispatchManager::onRequestFeatureByName(string strFeatureName)
 	}
 	else if (strFeatureName == "onRequestClose2")
 	{
-		onRequestClose2(getKGM()->getLastUsedValueManager()->getLastUsedValue_Close2_CloseAll());
+		onRequestClose2(getIMGF()->getLastUsedValueManager()->getLastUsedValue_Close2_CloseAll());
 	}
 	else if (strFeatureName == "onRequestReplaceAllFromFolder")
 	{
@@ -7050,11 +7050,11 @@ void		CTaskDispatchManager::onRequestFeatureByName(string strFeatureName)
 	}
 	else if (strFeatureName == "onRequestConvertTXDToGame")
 	{
-		onRequestConvertTXDToGame(getKGM()->getLastUsedValueManager()->getLastUsedValue_ConvertTXD_Game());
+		onRequestConvertTXDToGame(getIMGF()->getLastUsedValueManager()->getLastUsedValue_ConvertTXD_Game());
 	}
 	else if (strFeatureName == "onRequestConvertTXDToRWVersion")
 	{
-		onRequestConvertTXDToRWVersion(getKGM()->getLastUsedValueManager()->getLastUsedValue_ConvertTXD_RWVersion());
+		onRequestConvertTXDToRWVersion(getIMGF()->getLastUsedValueManager()->getLastUsedValue_ConvertTXD_RWVersion());
 	}
 	else if (strFeatureName == "onRequestDump")
 	{
@@ -7118,11 +7118,11 @@ void		CTaskDispatchManager::onRequestFeatureByName(string strFeatureName)
 	}
 	else if (strFeatureName == "onRequestConvertTXDToTextureFormat")
 	{
-		onRequestConvertTXDToTextureFormat(getKGM()->getLastUsedValueManager()->getLastUsedValue_ConvertTXD_TextureFormat());
+		onRequestConvertTXDToTextureFormat(getIMGF()->getLastUsedValueManager()->getLastUsedValue_ConvertTXD_TextureFormat());
 	}
 	else if (strFeatureName == "onRequestClearLogs")
 	{
-		onRequestClearLogs(getKGM()->getLastUsedValueManager()->getLastUsedValue_ClearLogs_AllTabs());
+		onRequestClearLogs(getIMGF()->getLastUsedValueManager()->getLastUsedValue_ClearLogs_AllTabs());
 	}
 	else if (strFeatureName == "onRequestValidateAllDFFInActiveTab")
 	{
@@ -7158,7 +7158,7 @@ void		CTaskDispatchManager::onRequestFeatureByName(string strFeatureName)
 	}
 	else if (strFeatureName == "onRequestConvertCOLtoCOLVersion")
 	{
-		onRequestConvertCOLtoCOLVersion(getKGM()->getLastUsedValueManager()->getLastUsedValue_ConvertCOL_COLVersion());
+		onRequestConvertCOLtoCOLVersion(getIMGF()->getLastUsedValueManager()->getLastUsedValue_ConvertCOL_COLVersion());
 	}
 	else if (strFeatureName == "onRequestReportIssueOrIdea")
 	{
@@ -7166,7 +7166,7 @@ void		CTaskDispatchManager::onRequestFeatureByName(string strFeatureName)
 	}
 	else if (strFeatureName == "onRequestSortViaColumn")
 	{
-		onRequestSortViaColumn(getKGM()->getLastUsedValueManager()->getLastUsedValue_SortViaColumn_Column());
+		onRequestSortViaColumn(getIMGF()->getLastUsedValueManager()->getLastUsedValue_SortViaColumn_Column());
 	}
 	else if (strFeatureName == "onRequestCenterCOLCollisionMeshes")
 	{
@@ -7276,7 +7276,7 @@ void		CTaskDispatchManager::onRequestFeatureByName(string strFeatureName)
 
 void		CTaskDispatchManager::onRequestLastFeatureUsed(void)
 {
-	string strPreviousTaskName = getKGM()->getTaskManager()->getPreviousTaskName();
+	string strPreviousTaskName = getIMGF()->getTaskManager()->getPreviousTaskName();
 	if (strPreviousTaskName == "")
 	{
 		return;
@@ -7289,24 +7289,24 @@ void		CTaskDispatchManager::onRequestConvertCOLtoCOLVersion(CCOLVersion *pCOLVer
 {
 	/*
 	todo
-	getKGM()->getLastUsedValueManager()->setLastUsedValue_ConvertCOL_COLVersion(pCOLVersion);
-	getKGM()->getTaskManager()->onTaskBegin("onRequestConvertCOLtoCOLVersion");
-	if (getKGM()->getEntryListTab() == nullptr)
+	getIMGF()->getLastUsedValueManager()->setLastUsedValue_ConvertCOL_COLVersion(pCOLVersion);
+	getIMGF()->getTaskManager()->onTaskBegin("onRequestConvertCOLtoCOLVersion");
+	if (getIMGF()->getEntryListTab() == nullptr)
 	{
-		getKGM()->getTaskManager()->onTaskEnd("onRequestConvertCOLtoCOLVersion", true);
+		getIMGF()->getTaskManager()->onTaskEnd("onRequestConvertCOLtoCOLVersion", true);
 		return;
 	}
 
 	// fetch selected entries
-	CListCtrl *pListControl = ((CListCtrl*)getKGM()->getDialog()->GetDlgItem(37));
+	CListCtrl *pListControl = ((CListCtrl*)getIMGF()->getDialog()->GetDlgItem(37));
 	POSITION pos = pListControl->GetFirstSelectedItemPosition();
 	if (pos == NULL)
 	{
-		getKGM()->getTaskManager()->onTaskEnd("onRequestConvertCOLtoCOLVersion", true);
+		getIMGF()->getTaskManager()->onTaskEnd("onRequestConvertCOLtoCOLVersion", true);
 		return;
 	}
 	uint32 uiEntryCount = 0;
-	getKGM()->getTaskManager()->setTaskMaxProgressTickCount(pListControl->GetItemCount());
+	getIMGF()->getTaskManager()->setTaskMaxProgressTickCount(pListControl->GetItemCount());
 
 	CIMGEntry *pIMGEntry = nullptr;
 	while (pos)
@@ -7316,7 +7316,7 @@ void		CTaskDispatchManager::onRequestConvertCOLtoCOLVersion(CCOLVersion *pCOLVer
 
 		if (CString2::toUpperCase(CPathManager::getFileExtension(pIMGEntry->getEntryName())) != "COL")
 		{
-			getKGM()->getTaskManager()->onTaskProgressTick();
+			getIMGF()->getTaskManager()->onTaskProgressTick();
 			continue;
 		}
 
@@ -7325,7 +7325,7 @@ void		CTaskDispatchManager::onRequestConvertCOLtoCOLVersion(CCOLVersion *pCOLVer
 		{
 			pCOLFile->unload();
 			delete pCOLFile;
-			getKGM()->getTaskManager()->onTaskProgressTick();
+			getIMGF()->getTaskManager()->onTaskProgressTick();
 			continue;
 		}
 		for (auto pCOLEntry : pCOLFile->getEntries())
@@ -7339,25 +7339,25 @@ void		CTaskDispatchManager::onRequestConvertCOLtoCOLVersion(CCOLVersion *pCOLVer
 
 		pIMGEntry->setEntryData(strNewEntryData);
 
-		getKGM()->getEntryListTab()->updateEntryInMainListView(pIMGEntry);
+		getIMGF()->getEntryListTab()->updateEntryInMainListView(pIMGEntry);
 
-		getKGM()->getTaskManager()->onTaskProgressTick();
+		getIMGF()->getTaskManager()->onTaskProgressTick();
 		uiEntryCount++;
 	}
 
-	getKGM()->getEntryListTab()->log(CLocalizationManager::getInstance()->getTranslatedFormattedText("Log_123", uiEntryCount, pCOLVersion->getText().c_str()));
+	getIMGF()->getEntryListTab()->log(CLocalizationManager::getInstance()->getTranslatedFormattedText("Log_123", uiEntryCount, pCOLVersion->getText().c_str()));
 
-	getKGM()->getEntryListTab()->setIMGModifiedSinceRebuild(true);
+	getIMGF()->getEntryListTab()->setIMGModifiedSinceRebuild(true);
 
-	getKGM()->getTaskManager()->onTaskEnd("onRequestConvertCOLtoCOLVersion");
+	getIMGF()->getTaskManager()->onTaskEnd("onRequestConvertCOLtoCOLVersion");
 	*/
 }
 
 void			CTaskDispatchManager::onRequestReportIssueOrIdea(void)
 {
-	getKGM()->getTaskManager()->onTaskBegin("onRequestReportIssueOrIdea");
+	getIMGF()->getTaskManager()->onTaskBegin("onRequestReportIssueOrIdea");
 	ShellExecute(NULL, L"open", L"http://mvec.io/todo/project/4", NULL, NULL, SW_SHOWNORMAL);
-	getKGM()->getTaskManager()->onTaskEnd("onRequestReportIssueOrIdea");
+	getIMGF()->getTaskManager()->onTaskEnd("onRequestReportIssueOrIdea");
 }
 
 uint32 uiSortPreviousColumnIndex;
@@ -7369,7 +7369,7 @@ int CALLBACK		CTaskDispatchManager::sortMainListView(LPARAM lParam1, LPARAM lPar
 	todo
 	int nRetVal = 0;
 
-	CListCtrl *pListCtrl = (CListCtrl*)getKGM()->getDialog()->GetDlgItem(37);
+	CListCtrl *pListCtrl = (CListCtrl*)getIMGF()->getDialog()->GetDlgItem(37);
 
 	CIMGEntry *pIMGEntry1 = (CIMGEntry*)lParam1;
 	CIMGEntry *pIMGEntry2 = (CIMGEntry*)lParam2;
@@ -7467,13 +7467,13 @@ void			CTaskDispatchManager::onRequestSortViaColumn(uint32 uiColumnIndex)
 {
 	/*
 	todo
-	getKGM()->getTaskManager()->onTaskBegin("onRequestSortViaColumn");
+	getIMGF()->getTaskManager()->onTaskBegin("onRequestSortViaColumn");
 	if (uiColumnIndex == uiSortPreviousColumnIndex)
 	{
 		bSortDirectionIsAscending = !bSortDirectionIsAscending;
 	}
-	CListCtrl *pListCtrl = (CListCtrl*)getKGM()->getDialog()->GetDlgItem(37);
-	CIMGFormat *pIMGFile = getKGM()->getEntryListTab()->getIMGFile();
+	CListCtrl *pListCtrl = (CListCtrl*)getIMGF()->getDialog()->GetDlgItem(37);
+	CIMGFormat *pIMGFile = getIMGF()->getEntryListTab()->getIMGFile();
 	if (uiColumnIndex == 1) // Type
 	{
 		std::sort(pIMGFile->getEntries().begin(), pIMGFile->getEntries().end(), sortViaColumn_Type);
@@ -7495,10 +7495,10 @@ void			CTaskDispatchManager::onRequestSortViaColumn(uint32 uiColumnIndex)
 		//std::sort(pIMGFile->getEntries().begin(), pIMGFile->getEntries().end(), sortViaColumn_ExtraInfo);
 	}
 	pListCtrl->SortItems(sortMainListView, uiColumnIndex);
-	getKGM()->getEntryListTab()->reassignEntryIds();
+	getIMGF()->getEntryListTab()->reassignEntryIds();
 	uiSortPreviousColumnIndex = uiColumnIndex;
-	getKGM()->getEntryListTab()->setIMGModifiedSinceRebuild(true);
-	getKGM()->getTaskManager()->onTaskEnd("onRequestSortViaColumn");
+	getIMGF()->getEntryListTab()->setIMGModifiedSinceRebuild(true);
+	getIMGF()->getTaskManager()->onTaskEnd("onRequestSortViaColumn");
 	*/
 }
 
@@ -7506,23 +7506,23 @@ void			CTaskDispatchManager::onRequestCenterCOLCollisionMeshes(void)
 {
 	/*
 	todo
-	getKGM()->getTaskManager()->onTaskBegin("onRequestCenterCOLCollisionMeshes");
-	if (getKGM()->getEntryListTab() == nullptr)
+	getIMGF()->getTaskManager()->onTaskBegin("onRequestCenterCOLCollisionMeshes");
+	if (getIMGF()->getEntryListTab() == nullptr)
 	{
-		getKGM()->getTaskManager()->onTaskEnd("onRequestCenterCOLCollisionMeshes", true);
+		getIMGF()->getTaskManager()->onTaskEnd("onRequestCenterCOLCollisionMeshes", true);
 		return;
 	}
 
 	// fetch selected entries
-	CListCtrl *pListControl = ((CListCtrl*)getKGM()->getDialog()->GetDlgItem(37));
+	CListCtrl *pListControl = ((CListCtrl*)getIMGF()->getDialog()->GetDlgItem(37));
 	POSITION pos = pListControl->GetFirstSelectedItemPosition();
 	if (pos == NULL)
 	{
-		getKGM()->getTaskManager()->onTaskEnd("onRequestCenterCOLCollisionMeshes", true);
+		getIMGF()->getTaskManager()->onTaskEnd("onRequestCenterCOLCollisionMeshes", true);
 		return;
 	}
 	uint32 uiEntryCount = 0;
-	getKGM()->getTaskManager()->setTaskMaxProgressTickCount(pListControl->GetSelectedCount());
+	getIMGF()->getTaskManager()->setTaskMaxProgressTickCount(pListControl->GetSelectedCount());
 
 	CIMGEntry *pIMGEntry = nullptr;
 	while (pos)
@@ -7532,7 +7532,7 @@ void			CTaskDispatchManager::onRequestCenterCOLCollisionMeshes(void)
 
 		if (CString2::toUpperCase(CPathManager::getFileExtension(pIMGEntry->getEntryName())) != "COL")
 		{
-			getKGM()->getTaskManager()->onTaskProgressTick();
+			getIMGF()->getTaskManager()->onTaskProgressTick();
 			continue;
 		}
 
@@ -7540,7 +7540,7 @@ void			CTaskDispatchManager::onRequestCenterCOLCollisionMeshes(void)
 		if (pCOLFile->doesHaveError())
 		{
 			delete pCOLFile;
-			getKGM()->getTaskManager()->onTaskProgressTick();
+			getIMGF()->getTaskManager()->onTaskProgressTick();
 			continue;
 		}
 		for (auto pCOLEntry : pCOLFile->getEntries())
@@ -7562,47 +7562,47 @@ void			CTaskDispatchManager::onRequestCenterCOLCollisionMeshes(void)
 
 		pIMGEntry->setEntryData(strNewEntryData);
 		
-		getKGM()->getEntryListTab()->updateEntryInMainListView(pIMGEntry);
+		getIMGF()->getEntryListTab()->updateEntryInMainListView(pIMGEntry);
 
-		getKGM()->getTaskManager()->onTaskProgressTick();
+		getIMGF()->getTaskManager()->onTaskProgressTick();
 		uiEntryCount++;
 	}
 
-	getKGM()->getEntryListTab()->log(CLocalizationManager::getInstance()->getTranslatedFormattedText("Log_124", uiEntryCount));
+	getIMGF()->getEntryListTab()->log(CLocalizationManager::getInstance()->getTranslatedFormattedText("Log_124", uiEntryCount));
 
-	getKGM()->getEntryListTab()->setIMGModifiedSinceRebuild(true);
+	getIMGF()->getEntryListTab()->setIMGModifiedSinceRebuild(true);
 
-	getKGM()->getTaskManager()->onTaskEnd("onRequestCenterCOLCollisionMeshes");
+	getIMGF()->getTaskManager()->onTaskEnd("onRequestCenterCOLCollisionMeshes");
 	*/
 }
 
 void			CTaskDispatchManager::onRequestAlignCOLCollisionMeshesToDFFMesh(void)
 {
-	getKGM()->getTaskManager()->onTaskBegin("onRequestAlignCOLCollisionMeshesToDFFMesh");
+	getIMGF()->getTaskManager()->onTaskBegin("onRequestAlignCOLCollisionMeshesToDFFMesh");
 
 	// choose DFFs folder
-	getKGM()->getTaskManager()->onTaskPause();
-	string strDFFFolderPath = mcore::CGUIManager::chooseFolderDialog(CLocalizationManager::getInstance()->getTranslatedText("ChooseFolderPopup_8"), getKGM()->getLastUsedDirectory("ALIGNCOLMESHTODFFMESH_DFF"));
-	getKGM()->getTaskManager()->onTaskUnpause();
+	getIMGF()->getTaskManager()->onTaskPause();
+	string strDFFFolderPath = mcore::CGUIManager::chooseFolderDialog(CLocalizationManager::getInstance()->getTranslatedText("ChooseFolderPopup_8"), getIMGF()->getLastUsedDirectory("ALIGNCOLMESHTODFFMESH_DFF"));
+	getIMGF()->getTaskManager()->onTaskUnpause();
 	if (strDFFFolderPath == "")
 	{
-		getKGM()->getTaskManager()->onTaskEnd("onRequestAlignCOLCollisionMeshesToDFFMesh", true);
+		getIMGF()->getTaskManager()->onTaskEnd("onRequestAlignCOLCollisionMeshesToDFFMesh", true);
 		return;
 	}
 	strDFFFolderPath = CPathManager::addSlashToEnd(strDFFFolderPath);
-	getKGM()->setLastUsedDirectory("ALIGNCOLMESHTODFFMESH_DFF", strDFFFolderPath);
+	getIMGF()->setLastUsedDirectory("ALIGNCOLMESHTODFFMESH_DFF", strDFFFolderPath);
 
 	// choose COLs folder
-	getKGM()->getTaskManager()->onTaskPause();
-	string strCOLFolderPath = mcore::CGUIManager::chooseFolderDialog(CLocalizationManager::getInstance()->getTranslatedText("ChooseFolderPopup_7"), getKGM()->getLastUsedDirectory("ALIGNCOLMESHTODFFMESH_COL"));
-	getKGM()->getTaskManager()->onTaskUnpause();
+	getIMGF()->getTaskManager()->onTaskPause();
+	string strCOLFolderPath = mcore::CGUIManager::chooseFolderDialog(CLocalizationManager::getInstance()->getTranslatedText("ChooseFolderPopup_7"), getIMGF()->getLastUsedDirectory("ALIGNCOLMESHTODFFMESH_COL"));
+	getIMGF()->getTaskManager()->onTaskUnpause();
 	if (strCOLFolderPath == "")
 	{
-		getKGM()->getTaskManager()->onTaskEnd("onRequestAlignCOLCollisionMeshesToDFFMesh", true);
+		getIMGF()->getTaskManager()->onTaskEnd("onRequestAlignCOLCollisionMeshesToDFFMesh", true);
 		return;
 	}
 	strCOLFolderPath = CPathManager::addSlashToEnd(strCOLFolderPath);
-	getKGM()->setLastUsedDirectory("ALIGNCOLMESHTODFFMESH_COL", strCOLFolderPath);
+	getIMGF()->setLastUsedDirectory("ALIGNCOLMESHTODFFMESH_COL", strCOLFolderPath);
 
 	// initialize
 	unordered_map<string, CVector3D> umapGeometryPolygonCenters;
@@ -7611,7 +7611,7 @@ void			CTaskDispatchManager::onRequestAlignCOLCollisionMeshesToDFFMesh(void)
 		vecFilePaths_BSP = CFileManager::getFileNamesByExtension(strDFFFolderPath, "bsp"),
 		vecFilePaths_COL = CFileManager::getFileNamesByExtension(strCOLFolderPath, "col");
 
-	getKGM()->getTaskManager()->setTaskMaxProgressTickCount(vecFilePaths_DFF.size() + vecFilePaths_COL.size());
+	getIMGF()->getTaskManager()->setTaskMaxProgressTickCount(vecFilePaths_DFF.size() + vecFilePaths_COL.size());
 
 	vecFilePaths_DFF = CStdVector::combineVectors(vecFilePaths_DFF, vecFilePaths_BSP);
 	
@@ -7623,7 +7623,7 @@ void			CTaskDispatchManager::onRequestAlignCOLCollisionMeshesToDFFMesh(void)
 		{
 			pDFFFile->unload();
 			delete pDFFFile;
-			getKGM()->getTaskManager()->onTaskProgressTick();
+			getIMGF()->getTaskManager()->onTaskProgressTick();
 			continue;
 		}
 		
@@ -7641,7 +7641,7 @@ void			CTaskDispatchManager::onRequestAlignCOLCollisionMeshesToDFFMesh(void)
 		pDFFFile->unload();
 		delete pDFFFile;
 
-		getKGM()->getTaskManager()->onTaskProgressTick();
+		getIMGF()->getTaskManager()->onTaskProgressTick();
 	}
 
 	// check if COL mesh centers are the same as DFF mesh centers, if not then align the COLs to match DFFs
@@ -7652,7 +7652,7 @@ void			CTaskDispatchManager::onRequestAlignCOLCollisionMeshesToDFFMesh(void)
 		{
 			pCOLFile->unload();
 			delete pCOLFile;
-			getKGM()->getTaskManager()->onTaskProgressTick();
+			getIMGF()->getTaskManager()->onTaskProgressTick();
 			continue;
 		}
 		pCOLFile->setFilePath(strFilePath);
@@ -7681,43 +7681,43 @@ void			CTaskDispatchManager::onRequestAlignCOLCollisionMeshesToDFFMesh(void)
 		pCOLFile->unload();
 		delete pCOLFile;
 
-		getKGM()->getTaskManager()->onTaskProgressTick();
+		getIMGF()->getTaskManager()->onTaskProgressTick();
 	}
 	
 	string strLogText = CLocalizationManager::getInstance()->getTranslatedFormattedText("Log_AlignMeshes_COL_DFF", vecFilePaths_COL.size());
-	if (getKGM()->getIMGEditor()->getTabs().getEntryCount() > 0)
+	if (getIMGF()->getIMGEditor()->getTabs().getEntryCount() > 0)
 	{
-		getKGM()->getEntryListTab()->log(strLogText);
+		getIMGF()->getEntryListTab()->log(strLogText);
 	}
 	else
 	{
-		getKGM()->getIMGEditor()->logWithNoTabsOpen(strLogText);
+		getIMGF()->getIMGEditor()->logWithNoTabsOpen(strLogText);
 	}
 
-	getKGM()->getTaskManager()->onTaskEnd("onRequestAlignCOLCollisionMeshesToDFFMesh");
+	getIMGF()->getTaskManager()->onTaskEnd("onRequestAlignCOLCollisionMeshesToDFFMesh");
 }
 
 void			CTaskDispatchManager::onRequestConvertDFFFileToWDRFile(void)
 {
 	/*
 	todo
-	getKGM()->getTaskManager()->onTaskBegin("onRequestConvertDFFFileToWDRFile");
-	if (getKGM()->getEntryListTab() == nullptr)
+	getIMGF()->getTaskManager()->onTaskBegin("onRequestConvertDFFFileToWDRFile");
+	if (getIMGF()->getEntryListTab() == nullptr)
 	{
-		getKGM()->getTaskManager()->onTaskEnd("onRequestConvertDFFFileToWDRFile", true);
+		getIMGF()->getTaskManager()->onTaskEnd("onRequestConvertDFFFileToWDRFile", true);
 		return;
 	}
 
 	// fetch selected entries
-	CListCtrl *pListControl = ((CListCtrl*)getKGM()->getDialog()->GetDlgItem(37));
+	CListCtrl *pListControl = ((CListCtrl*)getIMGF()->getDialog()->GetDlgItem(37));
 	POSITION pos = pListControl->GetFirstSelectedItemPosition();
 	if (pos == NULL)
 	{
-		getKGM()->getTaskManager()->onTaskEnd("onRequestConvertDFFFileToWDRFile", true);
+		getIMGF()->getTaskManager()->onTaskEnd("onRequestConvertDFFFileToWDRFile", true);
 		return;
 	}
 	uint32 uiEntryCount = 0;
-	getKGM()->getTaskManager()->setTaskMaxProgressTickCount(pListControl->GetSelectedCount());
+	getIMGF()->getTaskManager()->setTaskMaxProgressTickCount(pListControl->GetSelectedCount());
 
 	CIMGEntry *pIMGEntry = nullptr;
 	while (pos)
@@ -7727,7 +7727,7 @@ void			CTaskDispatchManager::onRequestConvertDFFFileToWDRFile(void)
 
 		if (!pIMGEntry->isModelFile())
 		{
-			getKGM()->getTaskManager()->onTaskProgressTick();
+			getIMGF()->getTaskManager()->onTaskProgressTick();
 			continue;
 		}
 
@@ -7736,7 +7736,7 @@ void			CTaskDispatchManager::onRequestConvertDFFFileToWDRFile(void)
 		{
 			pDFFFile->unload();
 			delete pDFFFile;
-			getKGM()->getTaskManager()->onTaskProgressTick();
+			getIMGF()->getTaskManager()->onTaskProgressTick();
 			continue;
 		}
 
@@ -7751,19 +7751,19 @@ void			CTaskDispatchManager::onRequestConvertDFFFileToWDRFile(void)
 		pIMGEntry->setEntryName(CPathManager::replaceFileExtension(pIMGEntry->getEntryName(), "wdr"));
 		pIMGEntry->setEntryData(strWDRFileData);
 		
-		getKGM()->getEntryListTab()->updateEntryInMainListView(pIMGEntry);
+		getIMGF()->getEntryListTab()->updateEntryInMainListView(pIMGEntry);
 		
 		pDFFFile->unload();
 		delete pDFFFile;
 		
-		getKGM()->getTaskManager()->onTaskProgressTick();
+		getIMGF()->getTaskManager()->onTaskProgressTick();
 		uiEntryCount++;
 	}
 
-	getKGM()->getEntryListTab()->log(CLocalizationManager::getInstance()->getTranslatedFormattedText("Log_Convert_DFF_WDR", uiEntryCount));
+	getIMGF()->getEntryListTab()->log(CLocalizationManager::getInstance()->getTranslatedFormattedText("Log_Convert_DFF_WDR", uiEntryCount));
 
-	getKGM()->getEntryListTab()->setIMGModifiedSinceRebuild(true);
-	getKGM()->getTaskManager()->onTaskEnd("onRequestConvertDFFFileToWDRFile");
+	getIMGF()->getEntryListTab()->setIMGModifiedSinceRebuild(true);
+	getIMGF()->getTaskManager()->onTaskEnd("onRequestConvertDFFFileToWDRFile");
 	*/
 }
 
@@ -7771,18 +7771,18 @@ void				CTaskDispatchManager::onRequestTXDOrganizer(void)
 {
 	/*
 	todo
-	getKGM()->getTaskManager()->onTaskBegin("onRequestTXDOrganizer");
-	if (getKGM()->getEntryListTab() == nullptr)
+	getIMGF()->getTaskManager()->onTaskBegin("onRequestTXDOrganizer");
+	if (getIMGF()->getEntryListTab() == nullptr)
 	{
-		getKGM()->getTaskManager()->onTaskEnd("onRequestTXDOrganizer", true);
+		getIMGF()->getTaskManager()->onTaskEnd("onRequestTXDOrganizer", true);
 		return;
 	}
 
-	CTXDOrganizerDialogData *pTXDOrganizerDialogData = getKGM()->getPopupGUIManager()->showTXDOrganizerDialog();
+	CTXDOrganizerDialogData *pTXDOrganizerDialogData = getIMGF()->getPopupGUIManager()->showTXDOrganizerDialog();
 
 	if (!pTXDOrganizerDialogData->m_bOrganize)
 	{
-		getKGM()->getTaskManager()->onTaskEnd("onRequestTXDOrganizer", true);
+		getIMGF()->getTaskManager()->onTaskEnd("onRequestTXDOrganizer", true);
 		return;
 	}
 
@@ -7792,8 +7792,8 @@ void				CTaskDispatchManager::onRequestTXDOrganizer(void)
 		vecFilePaths = CFileManager::getFilePaths(pTXDOrganizerDialogData->m_strIDEUpdateFolderPath, true);
 	}
 
-	CListCtrl *pListControl = ((CListCtrl*)getKGM()->getDialog()->GetDlgItem(37));
-	getKGM()->getTaskManager()->setTaskMaxProgressTickCount(pListControl->GetItemCount() + (pTXDOrganizerDialogData->m_bIDEUpdate ? vecFilePaths.size() : 0));
+	CListCtrl *pListControl = ((CListCtrl*)getIMGF()->getDialog()->GetDlgItem(37));
+	getIMGF()->getTaskManager()->setTaskMaxProgressTickCount(pListControl->GetItemCount() + (pTXDOrganizerDialogData->m_bIDEUpdate ? vecFilePaths.size() : 0));
 
 	uint32 uiTXDCount = 0;
 	CTXDFormat *pTXDFile = CTXDManager::getInstance()->createFormat();
@@ -7813,7 +7813,7 @@ void				CTaskDispatchManager::onRequestTXDOrganizer(void)
 
 		if (!pIMGEntry->isModelFile())
 		{
-			getKGM()->getTaskManager()->onTaskProgressTick();
+			getIMGF()->getTaskManager()->onTaskProgressTick();
 			continue;
 		}
 
@@ -7822,7 +7822,7 @@ void				CTaskDispatchManager::onRequestTXDOrganizer(void)
 		{
 			pDFFFile->unload();
 			delete pDFFFile;
-			getKGM()->getTaskManager()->onTaskProgressTick();
+			getIMGF()->getTaskManager()->onTaskProgressTick();
 			continue;
 		}
 
@@ -7877,7 +7877,7 @@ void				CTaskDispatchManager::onRequestTXDOrganizer(void)
 		pDFFFile->unload();
 		delete pDFFFile;
 		
-		getKGM()->getTaskManager()->onTaskProgressTick();
+		getIMGF()->getTaskManager()->onTaskProgressTick();
 		uiEntryCount++;
 	}
 
@@ -7912,7 +7912,7 @@ void				CTaskDispatchManager::onRequestTXDOrganizer(void)
 
 			if (pIDEFile->doesHaveError())
 			{
-				getKGM()->getTaskManager()->onTaskProgressTick();
+				getIMGF()->getTaskManager()->onTaskProgressTick();
 				continue;
 			}
 
@@ -7947,16 +7947,16 @@ void				CTaskDispatchManager::onRequestTXDOrganizer(void)
 
 			pIDEFile->unload();
 			delete pIDEFile;
-			getKGM()->getTaskManager()->onTaskProgressTick();
+			getIMGF()->getTaskManager()->onTaskProgressTick();
 		}
 	}
 
 	// log
-	getKGM()->getEntryListTab()->log(CLocalizationManager::getInstance()->getTranslatedFormattedText("Log_TXDOrganizer", uiEntryCount, uiTXDCount));
+	getIMGF()->getEntryListTab()->log(CLocalizationManager::getInstance()->getTranslatedFormattedText("Log_TXDOrganizer", uiEntryCount, uiTXDCount));
 
 	// clean up
 	delete pTXDOrganizerDialogData;
-	getKGM()->getTaskManager()->onTaskEnd("onRequestTXDOrganizer");
+	getIMGF()->getTaskManager()->onTaskEnd("onRequestTXDOrganizer");
 	*/
 }
 
@@ -7964,23 +7964,23 @@ void			CTaskDispatchManager::onRequestConvertWTDFileToTXDFile(void)
 {
 	/*
 	todo
-	getKGM()->getTaskManager()->onTaskBegin("onRequestConvertWTDFileToTXDFile");
-	if (getKGM()->getEntryListTab() == nullptr)
+	getIMGF()->getTaskManager()->onTaskBegin("onRequestConvertWTDFileToTXDFile");
+	if (getIMGF()->getEntryListTab() == nullptr)
 	{
-		getKGM()->getTaskManager()->onTaskEnd("onRequestConvertWTDFileToTXDFile", true);
+		getIMGF()->getTaskManager()->onTaskEnd("onRequestConvertWTDFileToTXDFile", true);
 		return;
 	}
 
 	// fetch selected entries
-	CListCtrl *pListControl = ((CListCtrl*)getKGM()->getDialog()->GetDlgItem(37));
+	CListCtrl *pListControl = ((CListCtrl*)getIMGF()->getDialog()->GetDlgItem(37));
 	POSITION pos = pListControl->GetFirstSelectedItemPosition();
 	if (pos == NULL)
 	{
-		getKGM()->getTaskManager()->onTaskEnd("onRequestConvertWTDFileToTXDFile", true);
+		getIMGF()->getTaskManager()->onTaskEnd("onRequestConvertWTDFileToTXDFile", true);
 		return;
 	}
 	uint32 uiEntryCount = 0;
-	getKGM()->getTaskManager()->setTaskMaxProgressTickCount(pListControl->GetSelectedCount());
+	getIMGF()->getTaskManager()->setTaskMaxProgressTickCount(pListControl->GetSelectedCount());
 
 	CIMGEntry *pIMGEntry = nullptr;
 	while (pos)
@@ -7990,7 +7990,7 @@ void			CTaskDispatchManager::onRequestConvertWTDFileToTXDFile(void)
 
 		if (!pIMGEntry->isWTDFile())
 		{
-			getKGM()->getTaskManager()->onTaskProgressTick();
+			getIMGF()->getTaskManager()->onTaskProgressTick();
 			continue;
 		}
 
@@ -8000,7 +8000,7 @@ void			CTaskDispatchManager::onRequestConvertWTDFileToTXDFile(void)
 		{
 			pWTDFile->unload();
 			delete pWTDFile;
-			getKGM()->getTaskManager()->onTaskProgressTick();
+			getIMGF()->getTaskManager()->onTaskProgressTick();
 			continue;
 		}
 
@@ -8017,16 +8017,16 @@ void			CTaskDispatchManager::onRequestConvertWTDFileToTXDFile(void)
 		pIMGEntry->setEntryName(CPathManager::replaceFileExtension(pIMGEntry->getEntryName(), "txd"));
 		pIMGEntry->setEntryData(strTXDFileData);
 		
-		getKGM()->getEntryListTab()->updateEntryInMainListView(pIMGEntry);
+		getIMGF()->getEntryListTab()->updateEntryInMainListView(pIMGEntry);
 
-		getKGM()->getTaskManager()->onTaskProgressTick();
+		getIMGF()->getTaskManager()->onTaskProgressTick();
 		uiEntryCount++;
 	}
 
-	getKGM()->getEntryListTab()->log("Converted " + CString2::toString(uiEntryCount) + " WTD file" + (uiEntryCount == 1 ? "" : "s") + " to TXD file" + (uiEntryCount == 1 ? "" : "s") + ".");
+	getIMGF()->getEntryListTab()->log("Converted " + CString2::toString(uiEntryCount) + " WTD file" + (uiEntryCount == 1 ? "" : "s") + " to TXD file" + (uiEntryCount == 1 ? "" : "s") + ".");
 
-	getKGM()->getEntryListTab()->setIMGModifiedSinceRebuild(true);
-	getKGM()->getTaskManager()->onTaskEnd("onRequestConvertWTDFileToTXDFile");
+	getIMGF()->getEntryListTab()->setIMGModifiedSinceRebuild(true);
+	getIMGF()->getTaskManager()->onTaskEnd("onRequestConvertWTDFileToTXDFile");
 	*/
 }
 
@@ -8048,15 +8048,15 @@ bool			sortDATPathsEntries(CDATEntry_Paths_General_PathNode &pathNode1, CDATEntr
 }
 void			CTaskDispatchManager::onRequestDATPathsMover(void)
 {
-	getKGM()->getTaskManager()->onTaskBegin("onRequestDATPathsMover");
+	getIMGF()->getTaskManager()->onTaskBegin("onRequestDATPathsMover");
 	
-	getKGM()->getTaskManager()->onTaskPause();
-	CDATPathsMoverDialogData *pDATPathsMoverDialogData = getKGM()->getPopupGUIManager()->showDATPathsMoverDialogData();
-	getKGM()->getTaskManager()->onTaskUnpause();
+	getIMGF()->getTaskManager()->onTaskPause();
+	CDATPathsMoverDialogData *pDATPathsMoverDialogData = getIMGF()->getPopupGUIManager()->showDATPathsMoverDialogData();
+	getIMGF()->getTaskManager()->onTaskUnpause();
 
 	if (!pDATPathsMoverDialogData->m_bMove)
 	{
-		getKGM()->getTaskManager()->onTaskEnd("onRequestDATPathsMover", true);
+		getIMGF()->getTaskManager()->onTaskEnd("onRequestDATPathsMover", true);
 		return;
 	}
 
@@ -8085,13 +8085,13 @@ void			CTaskDispatchManager::onRequestDATPathsMover(void)
 	
 	std::sort(vecDATInputFiles.begin(), vecDATInputFiles.end(), sortDATFiles);
 
-	getKGM()->getTaskManager()->setTaskMaxProgressTickCount((vecDATInputFiles.size() * 2) + (vecDATOutputFiles.size() * 4));
+	getIMGF()->getTaskManager()->setTaskMaxProgressTickCount((vecDATInputFiles.size() * 2) + (vecDATOutputFiles.size() * 4));
 
 	for (auto pDATFile : vecDATInputFiles)
 	{
 		pDATFile->applyOffsetToPositions(pDATPathsMoverDialogData->m_vecPositionOffset);
 
-		getKGM()->getTaskManager()->onTaskProgressTick();
+		getIMGF()->getTaskManager()->onTaskProgressTick();
 	}
 
 	// process
@@ -8131,14 +8131,14 @@ void			CTaskDispatchManager::onRequestDATPathsMover(void)
 			i++;
 		}
 
-		getKGM()->getTaskManager()->onTaskProgressTick();
+		getIMGF()->getTaskManager()->onTaskProgressTick();
 	}
 
 	for (auto pDATFile : vecDATOutputFiles)
 	{
 		std::sort(pDATFile->m_vecPathNodes.begin(), pDATFile->m_vecPathNodes.end(), sortDATPathsEntries);
 
-		getKGM()->getTaskManager()->onTaskProgressTick();
+		getIMGF()->getTaskManager()->onTaskProgressTick();
 	}
 
 	for (auto pDATFile : vecDATOutputFiles)
@@ -8159,7 +8159,7 @@ void			CTaskDispatchManager::onRequestDATPathsMover(void)
 			}
 		}
 
-		getKGM()->getTaskManager()->onTaskProgressTick();
+		getIMGF()->getTaskManager()->onTaskProgressTick();
 	}
 	
 	for (auto pDATFile : vecDATOutputFiles)
@@ -8198,7 +8198,7 @@ void			CTaskDispatchManager::onRequestDATPathsMover(void)
 			}
 		}
 
-		getKGM()->getTaskManager()->onTaskProgressTick();
+		getIMGF()->getTaskManager()->onTaskProgressTick();
 	}
 
 	// update target nodes of navi nodes to always be the "lower" node
@@ -8272,7 +8272,7 @@ void			CTaskDispatchManager::onRequestDATPathsMover(void)
 	for (auto pDATFile : vecDATOutputFiles)
 	{
 		CFileManager::storeFile(pDATPathsMoverDialogData->m_strOutputFolderPath + "nodes" + CString2::toString(i) + ".dat", pDATFile->serializeViaMemory(), false, true);
-		getKGM()->getTaskManager()->onTaskProgressTick();
+		getIMGF()->getTaskManager()->onTaskProgressTick();
 		i++;
 	}
 
@@ -8289,40 +8289,40 @@ void			CTaskDispatchManager::onRequestDATPathsMover(void)
 	}
 	delete pDATPathsMoverDialogData;
 
-	getKGM()->getTaskManager()->onTaskEnd("onRequestDATPathsMover");
+	getIMGF()->getTaskManager()->onTaskEnd("onRequestDATPathsMover");
 }
 
 void			CTaskDispatchManager::onRequestExportViaDATFile(void)
 {
-	getKGM()->getTaskManager()->onTaskBegin("onRequestExportViaDATFile");
-	if (getKGM()->getEntryListTab() == nullptr)
+	getIMGF()->getTaskManager()->onTaskBegin("onRequestExportViaDATFile");
+	if (getIMGF()->getEntryListTab() == nullptr)
 	{
-		getKGM()->getTaskManager()->onTaskEnd("onRequestExportViaDATFile", true);
+		getIMGF()->getTaskManager()->onTaskEnd("onRequestExportViaDATFile", true);
 		return;
 	}
 
 	// choose input DAT GTA files
-	getKGM()->getTaskManager()->onTaskPause();
-	vector<string> vecDATPaths = mcore::CGUIManager::openFileDialog(getKGM()->getLastUsedDirectory("EXPORTVIADAT_DAT"), "DAT", true);
-	getKGM()->getTaskManager()->onTaskUnpause();
+	getIMGF()->getTaskManager()->onTaskPause();
+	vector<string> vecDATPaths = mcore::CGUIManager::openFileDialog(getIMGF()->getLastUsedDirectory("EXPORTVIADAT_DAT"), "DAT", true);
+	getIMGF()->getTaskManager()->onTaskUnpause();
 	if (vecDATPaths.size() == 0)
 	{
-		getKGM()->getTaskManager()->onTaskEnd("onRequestExportViaDATFile", true);
+		getIMGF()->getTaskManager()->onTaskEnd("onRequestExportViaDATFile", true);
 		return;
 	}
-	getKGM()->setLastUsedDirectory("EXPORTVIADAT_DAT", CPathManager::getDirectory(vecDATPaths[0]));
+	getIMGF()->setLastUsedDirectory("EXPORTVIADAT_DAT", CPathManager::getDirectory(vecDATPaths[0]));
 
 	// choose input game folder
-	getKGM()->getTaskManager()->onTaskPause();
-	string strGameFolderPath = mcore::CGUIManager::chooseFolderDialog(CLocalizationManager::getInstance()->getTranslatedText("ChooseFolderPopup_3"), getKGM()->getLastUsedDirectory("EXPORTVIADAT_GAME"));
-	getKGM()->getTaskManager()->onTaskUnpause();
+	getIMGF()->getTaskManager()->onTaskPause();
+	string strGameFolderPath = mcore::CGUIManager::chooseFolderDialog(CLocalizationManager::getInstance()->getTranslatedText("ChooseFolderPopup_3"), getIMGF()->getLastUsedDirectory("EXPORTVIADAT_GAME"));
+	getIMGF()->getTaskManager()->onTaskUnpause();
 	if (vecDATPaths.size() == 0)
 	{
-		getKGM()->getTaskManager()->onTaskEnd("onRequestExportViaDATFile", true);
+		getIMGF()->getTaskManager()->onTaskEnd("onRequestExportViaDATFile", true);
 		return;
 	}
 	strGameFolderPath = CPathManager::addSlashToEnd(strGameFolderPath);
-	getKGM()->setLastUsedDirectory("EXPORTVIADAT_GAME", strGameFolderPath);
+	getIMGF()->setLastUsedDirectory("EXPORTVIADAT_GAME", strGameFolderPath);
 
 	// fetch IDE paths from DAT files
 	vector<string> vecIDEPaths;
@@ -8342,26 +8342,26 @@ void			CTaskDispatchManager::onRequestExportViaDATFile(void)
 	}
 
 	// choose input IDE files to export entries from
-	getKGM()->getTaskManager()->onTaskPause();
-	string strData = getKGM()->getPopupGUIManager()->showTextAreaDialog(CLocalizationManager::getInstance()->getTranslatedText("Window_TextArea_8_Title"), CLocalizationManager::getInstance()->getTranslatedText("Window_TextArea_8_Message"), CString2::join(vecIDEPaths, "\r\n"));
+	getIMGF()->getTaskManager()->onTaskPause();
+	string strData = getIMGF()->getPopupGUIManager()->showTextAreaDialog(CLocalizationManager::getInstance()->getTranslatedText("Window_TextArea_8_Title"), CLocalizationManager::getInstance()->getTranslatedText("Window_TextArea_8_Message"), CString2::join(vecIDEPaths, "\r\n"));
 	if (strData == "")
 	{
-		getKGM()->getTaskManager()->onTaskEnd("onRequestExportViaDATFile", true);
+		getIMGF()->getTaskManager()->onTaskEnd("onRequestExportViaDATFile", true);
 		return;
 	}
-	getKGM()->getTaskManager()->onTaskUnpause();
+	getIMGF()->getTaskManager()->onTaskUnpause();
 
 	// choose output folder
-	getKGM()->getTaskManager()->onTaskPause();
-	string strOutputFolderPath = mcore::CGUIManager::chooseFolderDialog(CLocalizationManager::getInstance()->getTranslatedText("ChooseFolderPopup_12"), getKGM()->getLastUsedDirectory("EXPORTVIADAT_OUTPUT"));
-	getKGM()->getTaskManager()->onTaskUnpause();
+	getIMGF()->getTaskManager()->onTaskPause();
+	string strOutputFolderPath = mcore::CGUIManager::chooseFolderDialog(CLocalizationManager::getInstance()->getTranslatedText("ChooseFolderPopup_12"), getIMGF()->getLastUsedDirectory("EXPORTVIADAT_OUTPUT"));
+	getIMGF()->getTaskManager()->onTaskUnpause();
 	if (strOutputFolderPath == "")
 	{
-		getKGM()->getTaskManager()->onTaskEnd("onRequestExportViaDATFile", true);
+		getIMGF()->getTaskManager()->onTaskEnd("onRequestExportViaDATFile", true);
 		return;
 	}
 	strOutputFolderPath = CPathManager::addSlashToEnd(strOutputFolderPath);
-	getKGM()->setLastUsedDirectory("EXPORTVIADAT_OUTPUT", strOutputFolderPath);
+	getIMGF()->setLastUsedDirectory("EXPORTVIADAT_OUTPUT", strOutputFolderPath);
 
 	// generate input IDE file objects
 	vector<string> vecEntryNames;
@@ -8397,7 +8397,7 @@ void			CTaskDispatchManager::onRequestExportViaDATFile(void)
 
 	vector<CIMGEntry*> vecIMGEntriesToExport;
 	vector<string> vecExportedEntryNames;
-	for (auto pIMGEntry : getKGM()->getEntryListTab()->getIMGFile()->getEntries())
+	for (auto pIMGEntry : getIMGF()->getEntryListTab()->getIMGFile()->getEntries())
 	{
 		string strEntryNameUpperWithoutExtension = CString2::toUpperCase(CPathManager::removeFileExtension(pIMGEntry->getEntryName()));
 
@@ -8408,11 +8408,11 @@ void			CTaskDispatchManager::onRequestExportViaDATFile(void)
 		}
 	}
 
-	getKGM()->getTaskManager()->setTaskMaxProgressTickCount(vecIMGEntriesToExport.size());
-	getKGM()->getEntryListTab()->getIMGFile()->exportMultiple(vecIMGEntriesToExport, strOutputFolderPath);
-	getKGM()->getEntryListTab()->log(CLocalizationManager::getInstance()->getTranslatedFormattedText("Log_Export_DAT", vecIMGEntriesToExport.size()));
-	getKGM()->getEntryListTab()->log(CLocalizationManager::getInstance()->getTranslatedText("Log_77"), true);
-	getKGM()->getEntryListTab()->log(CString2::join(vecExportedEntryNames, "\n"), true);
+	getIMGF()->getTaskManager()->setTaskMaxProgressTickCount(vecIMGEntriesToExport.size());
+	getIMGF()->getEntryListTab()->getIMGFile()->exportMultiple(vecIMGEntriesToExport, strOutputFolderPath);
+	getIMGF()->getEntryListTab()->log(CLocalizationManager::getInstance()->getTranslatedFormattedText("Log_Export_DAT", vecIMGEntriesToExport.size()));
+	getIMGF()->getEntryListTab()->log(CLocalizationManager::getInstance()->getTranslatedText("Log_77"), true);
+	getIMGF()->getEntryListTab()->log(CString2::join(vecExportedEntryNames, "\n"), true);
 	
 	for (auto pIDEFile : veCIDEFormats)
 	{
@@ -8420,24 +8420,24 @@ void			CTaskDispatchManager::onRequestExportViaDATFile(void)
 		delete pIDEFile;
 	}
 	
-	getKGM()->getTaskManager()->onTaskEnd("onRequestExportViaDATFile");
+	getIMGF()->getTaskManager()->onTaskEnd("onRequestExportViaDATFile");
 }
 
 void						CTaskDispatchManager::onRequestMapMoverAndIDShifter(void)
 {
-	getKGM()->getTaskManager()->onTaskBegin("onRequestMapMoverAndIDShifter");
+	getIMGF()->getTaskManager()->onTaskBegin("onRequestMapMoverAndIDShifter");
 
-	CMapMoverAndIDShifterDialogData *pMapMoverAndIDShifterDialogData = getKGM()->getPopupGUIManager()->showMapMoverAndIDShifterDialog();
+	CMapMoverAndIDShifterDialogData *pMapMoverAndIDShifterDialogData = getIMGF()->getPopupGUIManager()->showMapMoverAndIDShifterDialog();
 	if (!pMapMoverAndIDShifterDialogData->m_bGo)
 	{
-		getKGM()->getTaskManager()->onTaskEnd("onRequestMapMoverAndIDShifter", true);
+		getIMGF()->getTaskManager()->onTaskEnd("onRequestMapMoverAndIDShifter", true);
 		return;
 	}
 
 	unordered_map<ePlatformedGame, vector<string>>
 		umapIgnoreDefaultObjectFileNamesVector;
 	string
-		strDefaultModelNamesFolder = getKGM()->getInstallationMeta().getProgramFilesPath() + "Default Files/Model Names/",
+		strDefaultModelNamesFolder = getIMGF()->getInstallationMeta().getProgramFilesPath() + "Default Files/Model Names/",
 		strModelNamesPath_PC_GTA_III = strDefaultModelNamesFolder + "Model Names - PC GTA III.txt",
 		strModelNamesPath_PC_GTA_VC = strDefaultModelNamesFolder + "Model Names - PC GTA VC.txt",
 		strModelNamesPath_PC_GTA_SA = strDefaultModelNamesFolder + "Model Names - PC GTA SA.txt"
@@ -8468,7 +8468,7 @@ void						CTaskDispatchManager::onRequestMapMoverAndIDShifter(void)
 	CDATLoaderFormat *pDATFile = CDATLoaderManager::getInstance()->parseViaFile(pMapMoverAndIDShifterDialogData->m_strDATFilePath);
 	if(pDATFile->doesHaveError())
 	{
-		getKGM()->getTaskManager()->onTaskEnd("onRequestMapMoverAndIDShifter", true);
+		getIMGF()->getTaskManager()->onTaskEnd("onRequestMapMoverAndIDShifter", true);
 		return;
 	}
 	vector<string>
@@ -8506,7 +8506,7 @@ void						CTaskDispatchManager::onRequestMapMoverAndIDShifter(void)
 		vecIPLPaths = CStdVector::combineVectors(vecIPLPaths, CFileManager::getFilePaths(pMapMoverAndIDShifterDialogData->m_strUpdateIPLInFolderPath, true, false, "IPL"));
 	}
 
-	getKGM()->getTaskManager()->setTaskMaxProgressTickCount(vecIDEPaths.size() + vecIPLPaths.size());
+	getIMGF()->getTaskManager()->setTaskMaxProgressTickCount(vecIDEPaths.size() + vecIPLPaths.size());
 
 	uint32 uiIDEEntryNewObjectId = pMapMoverAndIDShifterDialogData->m_uiIDStart;
 	unordered_map<uint32, uint32> umapNewObjectIds;
@@ -8546,7 +8546,7 @@ void						CTaskDispatchManager::onRequestMapMoverAndIDShifter(void)
 			pIDEFile->unload();
 			delete pIDEFile;
 
-			getKGM()->getTaskManager()->onTaskProgressTick();
+			getIMGF()->getTaskManager()->onTaskProgressTick();
 		}
 	}
 
@@ -8705,37 +8705,37 @@ void						CTaskDispatchManager::onRequestMapMoverAndIDShifter(void)
 		pIPLFile->unload();
 		delete pIPLFile;
 
-		getKGM()->getTaskManager()->onTaskProgressTick();
+		getIMGF()->getTaskManager()->onTaskProgressTick();
 	}
 
-	if (getKGM()->getEntryListTab() == nullptr)
+	if (getIMGF()->getEntryListTab() == nullptr)
 	{
-		getKGM()->getIMGEditor()->logWithNoTabsOpen("Moved and ID shifted " + CString2::toString(vecIDEPaths.size()) + " IDE files and " + CString2::toString(vecIPLPaths.size()) + " IPL files (" + CString2::toString(uiIPLCount_Text) + " text, " + CString2::toString(uiIPLCount_Binary) + " binary) in " + CPathManager::getFileName(pMapMoverAndIDShifterDialogData->m_strDATFilePath));
+		getIMGF()->getIMGEditor()->logWithNoTabsOpen("Moved and ID shifted " + CString2::toString(vecIDEPaths.size()) + " IDE files and " + CString2::toString(vecIPLPaths.size()) + " IPL files (" + CString2::toString(uiIPLCount_Text) + " text, " + CString2::toString(uiIPLCount_Binary) + " binary) in " + CPathManager::getFileName(pMapMoverAndIDShifterDialogData->m_strDATFilePath));
 	}
 	else
 	{
-		getKGM()->getEntryListTab()->log("Moved and ID shifted " + CString2::toString(vecIDEPaths.size()) + " IDE files and " + CString2::toString(vecIPLPaths.size()) + " IPL files in " + CPathManager::getFileName(pMapMoverAndIDShifterDialogData->m_strDATFilePath));
+		getIMGF()->getEntryListTab()->log("Moved and ID shifted " + CString2::toString(vecIDEPaths.size()) + " IDE files and " + CString2::toString(vecIPLPaths.size()) + " IPL files in " + CPathManager::getFileName(pMapMoverAndIDShifterDialogData->m_strDATFilePath));
 	}
 
 	delete pMapMoverAndIDShifterDialogData;
-	getKGM()->getTaskManager()->onTaskEnd("onRequestMapMoverAndIDShifter");
+	getIMGF()->getTaskManager()->onTaskEnd("onRequestMapMoverAndIDShifter");
 }
 
 void						CTaskDispatchManager::onRequestDATModelList(void)
 {
-	getKGM()->getTaskManager()->onTaskBegin("onRequestModelListFromDAT");
+	getIMGF()->getTaskManager()->onTaskBegin("onRequestModelListFromDAT");
 
-	CDATModelListDialogData *pDATModelListDialogData = getKGM()->getPopupGUIManager()->showDATModelListDialog();
+	CDATModelListDialogData *pDATModelListDialogData = getIMGF()->getPopupGUIManager()->showDATModelListDialog();
 	if (!pDATModelListDialogData->m_bFetch)
 	{
-		getKGM()->getTaskManager()->onTaskEnd("onRequestModelListFromDAT", true);
+		getIMGF()->getTaskManager()->onTaskEnd("onRequestModelListFromDAT", true);
 		return;
 	}
 
 	CDATLoaderFormat *pDATFile = CDATLoaderManager::getInstance()->parseViaFile(pDATModelListDialogData->m_strDATFilePath);
 	if(pDATFile->doesHaveError())
 	{
-		getKGM()->getTaskManager()->onTaskEnd("onRequestModelListFromDAT", true);
+		getIMGF()->getTaskManager()->onTaskEnd("onRequestModelListFromDAT", true);
 		return;
 	}
 	
@@ -8745,7 +8745,7 @@ void						CTaskDispatchManager::onRequestDATModelList(void)
 	pDATFile->unload();
 	delete pDATFile;
 
-	getKGM()->getTaskManager()->setTaskMaxProgressTickCount(vecRelativeIDEPaths.size() + vecRelativeIPLPaths.size() + 1);
+	getIMGF()->getTaskManager()->setTaskMaxProgressTickCount(vecRelativeIDEPaths.size() + vecRelativeIPLPaths.size() + 1);
 
 	vector<string> vecModelNames;
 	for (string& strRelativeIDEPath : vecRelativeIDEPaths)
@@ -8760,7 +8760,7 @@ void						CTaskDispatchManager::onRequestDATModelList(void)
 		pIDEFile->unload();
 		delete pIDEFile;
 
-		getKGM()->getTaskManager()->onTaskProgressTick();
+		getIMGF()->getTaskManager()->onTaskProgressTick();
 	}
 
 	for (string& strRelativeIPLPath : vecRelativeIPLPaths)
@@ -8775,62 +8775,62 @@ void						CTaskDispatchManager::onRequestDATModelList(void)
 		pIPLFile->unload();
 		delete pIPLFile;
 
-		getKGM()->getTaskManager()->onTaskProgressTick();
+		getIMGF()->getTaskManager()->onTaskProgressTick();
 	}
 
 	vecModelNames = CStdVector::removeDuplicates(vecModelNames);
-	getKGM()->getTaskManager()->onTaskProgressTick();
+	getIMGF()->getTaskManager()->onTaskProgressTick();
 
-	if (getKGM()->getEntryListTab() == nullptr)
+	if (getIMGF()->getEntryListTab() == nullptr)
 	{
-		getKGM()->getIMGEditor()->logWithNoTabsOpen("Found " + CString2::toString(vecModelNames.size()) + " unique model names in IDE/IPL files in " + CPathManager::getFileName(pDATModelListDialogData->m_strDATFilePath));
+		getIMGF()->getIMGEditor()->logWithNoTabsOpen("Found " + CString2::toString(vecModelNames.size()) + " unique model names in IDE/IPL files in " + CPathManager::getFileName(pDATModelListDialogData->m_strDATFilePath));
 	}
 	else
 	{
-		getKGM()->getEntryListTab()->log("Found " + CString2::toString(vecModelNames.size()) + " unique model names in IDE/IPL files in " + CPathManager::getFileName(pDATModelListDialogData->m_strDATFilePath));
+		getIMGF()->getEntryListTab()->log("Found " + CString2::toString(vecModelNames.size()) + " unique model names in IDE/IPL files in " + CPathManager::getFileName(pDATModelListDialogData->m_strDATFilePath));
 	}
 
 	/*
-	string strFilePath = mcore::CGUIManager::saveFileDialog(getKGM()->getLastUsedDirectory("DATMODELLIST"), "TXT", "Model Names for " + CPathManager::removeFileExtension(CPathManager::getFileName(strDATFilePath)) + ".txt");
+	string strFilePath = mcore::CGUIManager::saveFileDialog(getIMGF()->getLastUsedDirectory("DATMODELLIST"), "TXT", "Model Names for " + CPathManager::removeFileExtension(CPathManager::getFileName(strDATFilePath)) + ".txt");
 	if (strFilePath == "")
 	{
-		getKGM()->getTaskManager()->onTaskEnd("onRequestModelListFromDAT", true);
+		getIMGF()->getTaskManager()->onTaskEnd("onRequestModelListFromDAT", true);
 		return;
 	}
-	getKGM()->setLastUsedDirectory("DATMODELLIST", CPathManager::getDirectory(strFilePath));
+	getIMGF()->setLastUsedDirectory("DATMODELLIST", CPathManager::getDirectory(strFilePath));
 	*/
 
 	CFileManager::storeFile(pDATModelListDialogData->m_strOutputFilePath, CString2::join(vecModelNames, "\n"), false, false);
 
 	delete pDATModelListDialogData;
-	getKGM()->getTaskManager()->onTaskEnd("onRequestModelListFromDAT");
+	getIMGF()->getTaskManager()->onTaskEnd("onRequestModelListFromDAT");
 }
 
 void						CTaskDispatchManager::onRequestFindTXDMissingFromIMGFoundInIDE(void)
 {
-	getKGM()->getTaskManager()->onTaskBegin("onRequestFindTXDMissingFromIMGFoundInIDE");
-	if (getKGM()->getEntryListTab() == nullptr)
+	getIMGF()->getTaskManager()->onTaskBegin("onRequestFindTXDMissingFromIMGFoundInIDE");
+	if (getIMGF()->getEntryListTab() == nullptr)
 	{
-		getKGM()->getTaskManager()->onTaskEnd("onRequestFindTXDMissingFromIMGFoundInIDE", true);
+		getIMGF()->getTaskManager()->onTaskEnd("onRequestFindTXDMissingFromIMGFoundInIDE", true);
 		return;
 	}
 
 	// fetch TXD names in IDE files
-	getKGM()->getTaskManager()->onTaskPause();
-	vector<string> vecIDEPaths = mcore::CGUIManager::openFileDialog(getKGM()->getLastUsedDirectory("MISSINGENTRIES_IDE_IMG_TXD__IDE"), "IDE");
-	getKGM()->getTaskManager()->onTaskUnpause();
+	getIMGF()->getTaskManager()->onTaskPause();
+	vector<string> vecIDEPaths = mcore::CGUIManager::openFileDialog(getIMGF()->getLastUsedDirectory("MISSINGENTRIES_IDE_IMG_TXD__IDE"), "IDE");
+	getIMGF()->getTaskManager()->onTaskUnpause();
 	if (vecIDEPaths.size() == 0)
 	{
-		getKGM()->getTaskManager()->onTaskEnd("onRequestFindTXDMissingFromIMGFoundInIDE", true);
+		getIMGF()->getTaskManager()->onTaskEnd("onRequestFindTXDMissingFromIMGFoundInIDE", true);
 		return;
 	}
-	getKGM()->setLastUsedDirectory("MISSINGENTRIES_IDE_IMG_TXD__IDE", CPathManager::getDirectory(vecIDEPaths[0]));
+	getIMGF()->setLastUsedDirectory("MISSINGENTRIES_IDE_IMG_TXD__IDE", CPathManager::getDirectory(vecIDEPaths[0]));
 
 	vector<string> vecTXDNamesWithoutExtensionInIDE = CIDEManager::getIDEEntryNamesWithoutExtension(vecIDEPaths, false, true);
 
 	// fetch TXD names in active IMG file
 	vector<string> vecTXDNamesWithoutExtensionInIMG;
-	for (CIMGEntry *pIMGEntry : getKGM()->getEntryListTab()->getIMGFile()->getEntries())
+	for (CIMGEntry *pIMGEntry : getIMGF()->getEntryListTab()->getIMGFile()->getEntries())
 	{
 		if (pIMGEntry->isTXDFile())
 		{
@@ -8843,62 +8843,62 @@ void						CTaskDispatchManager::onRequestFindTXDMissingFromIMGFoundInIDE(void)
 
 	// find TXD names found in IDE but not found in IMG
 	vector<string> vecTXDNamesWithoutExtensionMissingFromIMG;
-	getKGM()->getTaskManager()->setTaskMaxProgressTickCount(vecTXDNamesWithoutExtensionInIDE.size());
+	getIMGF()->getTaskManager()->setTaskMaxProgressTickCount(vecTXDNamesWithoutExtensionInIDE.size());
 	for (string& strTXDName : vecTXDNamesWithoutExtensionInIDE)
 	{
 		if (umapTXDNamesWithoutExtensionInIMG.count(CString2::toUpperCase(strTXDName)) == 0)
 		{
 			vecTXDNamesWithoutExtensionMissingFromIMG.push_back(strTXDName);
 		}
-		getKGM()->getTaskManager()->onTaskProgressTick();
+		getIMGF()->getTaskManager()->onTaskProgressTick();
 	}
 
 	// log
-	string strIMGFileName = CPathManager::getFileName(getKGM()->getEntryListTab()->getIMGFile()->getFilePath());
-	getKGM()->getEntryListTab()->log(CLocalizationManager::getInstance()->getTranslatedFormattedText("Log_132", vecTXDNamesWithoutExtensionMissingFromIMG.size(), strIMGFileName.c_str()));
-	getKGM()->getEntryListTab()->log(CLocalizationManager::getInstance()->getTranslatedText("Log_135"), true);
-	getKGM()->getEntryListTab()->log(CString2::join(vecTXDNamesWithoutExtensionMissingFromIMG, "\n"), true);
+	string strIMGFileName = CPathManager::getFileName(getIMGF()->getEntryListTab()->getIMGFile()->getFilePath());
+	getIMGF()->getEntryListTab()->log(CLocalizationManager::getInstance()->getTranslatedFormattedText("Log_132", vecTXDNamesWithoutExtensionMissingFromIMG.size(), strIMGFileName.c_str()));
+	getIMGF()->getEntryListTab()->log(CLocalizationManager::getInstance()->getTranslatedText("Log_135"), true);
+	getIMGF()->getEntryListTab()->log(CString2::join(vecTXDNamesWithoutExtensionMissingFromIMG, "\n"), true);
 
 	// popup
-	string strInitialFilename = CLocalizationManager::getInstance()->getTranslatedFormattedText("SaveFilePopup_9_InitialFilename", CPathManager::replaceFileExtension(CPathManager::getFileName(getKGM()->getEntryListTab()->getIMGFile()->getFilePath()), "txt").c_str());
+	string strInitialFilename = CLocalizationManager::getInstance()->getTranslatedFormattedText("SaveFilePopup_9_InitialFilename", CPathManager::replaceFileExtension(CPathManager::getFileName(getIMGF()->getEntryListTab()->getIMGFile()->getFilePath()), "txt").c_str());
 	string strTitle = CLocalizationManager::getInstance()->getTranslatedFormattedText("Log_132", vecTXDNamesWithoutExtensionMissingFromIMG.size(), strIMGFileName.c_str());
-	getKGM()->getTaskManager()->onTaskPause();
-	getKGM()->getPopupGUIManager()->showListViewDialog("Missing Entries", strTitle, "TXD Name", vecTXDNamesWithoutExtensionMissingFromIMG, strInitialFilename, "MISSINGENTRIES");
-	getKGM()->getTaskManager()->onTaskUnpause();
-	getKGM()->getTaskManager()->onTaskEnd("onRequestFindTXDMissingFromIMGFoundInIDE");
+	getIMGF()->getTaskManager()->onTaskPause();
+	getIMGF()->getPopupGUIManager()->showListViewDialog("Missing Entries", strTitle, "TXD Name", vecTXDNamesWithoutExtensionMissingFromIMG, strInitialFilename, "MISSINGENTRIES");
+	getIMGF()->getTaskManager()->onTaskUnpause();
+	getIMGF()->getTaskManager()->onTaskEnd("onRequestFindTXDMissingFromIMGFoundInIDE");
 }
 void						CTaskDispatchManager::onRequestFindCOLMissingFromCOLFoundInIDE(void)
 {
-	getKGM()->getTaskManager()->onTaskBegin("onRequestFindCOLMissingFromCOLFoundInIDE");
-	if (getKGM()->getEntryListTab() == nullptr)
+	getIMGF()->getTaskManager()->onTaskBegin("onRequestFindCOLMissingFromCOLFoundInIDE");
+	if (getIMGF()->getEntryListTab() == nullptr)
 	{
-		getKGM()->getTaskManager()->onTaskEnd("onRequestFindCOLMissingFromCOLFoundInIDE", true);
+		getIMGF()->getTaskManager()->onTaskEnd("onRequestFindCOLMissingFromCOLFoundInIDE", true);
 		return;
 	}
 
 	// fetch DFF names in IDE files (these DFF names will be compared with COL names)
-	getKGM()->getTaskManager()->onTaskPause();
-	vector<string> vecIDEPaths = mcore::CGUIManager::openFileDialog(getKGM()->getLastUsedDirectory("MISSINGENTRIES_IDE_COL_COL__IDE"), "IDE");
-	getKGM()->getTaskManager()->onTaskUnpause();
+	getIMGF()->getTaskManager()->onTaskPause();
+	vector<string> vecIDEPaths = mcore::CGUIManager::openFileDialog(getIMGF()->getLastUsedDirectory("MISSINGENTRIES_IDE_COL_COL__IDE"), "IDE");
+	getIMGF()->getTaskManager()->onTaskUnpause();
 	if (vecIDEPaths.size() == 0)
 	{
-		getKGM()->getTaskManager()->onTaskEnd("onRequestFindCOLMissingFromCOLFoundInIDE", true);
+		getIMGF()->getTaskManager()->onTaskEnd("onRequestFindCOLMissingFromCOLFoundInIDE", true);
 		return;
 	}
-	getKGM()->setLastUsedDirectory("MISSINGENTRIES_IDE_COL_COL__IDE", CPathManager::getDirectory(vecIDEPaths[0]));
+	getIMGF()->setLastUsedDirectory("MISSINGENTRIES_IDE_COL_COL__IDE", CPathManager::getDirectory(vecIDEPaths[0]));
 
 	vector<string> vecDFFNamesWithoutExtensionInIDE = CIDEManager::getIDEEntryNamesWithoutExtension(vecIDEPaths, true, false);
 
 	// fetch COL names in COL file
-	getKGM()->getTaskManager()->onTaskPause();
-	vector<string> vecCOLPaths = mcore::CGUIManager::openFileDialog(getKGM()->getLastUsedDirectory("MISSINGENTRIES_IDE_COL_COL__COL"), "COL");
-	getKGM()->getTaskManager()->onTaskUnpause();
+	getIMGF()->getTaskManager()->onTaskPause();
+	vector<string> vecCOLPaths = mcore::CGUIManager::openFileDialog(getIMGF()->getLastUsedDirectory("MISSINGENTRIES_IDE_COL_COL__COL"), "COL");
+	getIMGF()->getTaskManager()->onTaskUnpause();
 	if (vecCOLPaths.size() == 0)
 	{
-		getKGM()->getTaskManager()->onTaskEnd("onRequestMissingCOLEntriesInIDE", true);
+		getIMGF()->getTaskManager()->onTaskEnd("onRequestMissingCOLEntriesInIDE", true);
 		return;
 	}
-	getKGM()->setLastUsedDirectory("MISSINGENTRIES_IDE_COL_COL__COL", CPathManager::getDirectory(vecCOLPaths[0]));
+	getIMGF()->setLastUsedDirectory("MISSINGENTRIES_IDE_COL_COL__COL", CPathManager::getDirectory(vecCOLPaths[0]));
 
 	vector<string> vecCOLNamesWithoutExtensionInCOL;
 	for (string& strCOLPath : vecCOLPaths)
@@ -8921,55 +8921,55 @@ void						CTaskDispatchManager::onRequestFindCOLMissingFromCOLFoundInIDE(void)
 
 	// find COL names found in IDE but not found in COL
 	vector<string> vecCOLNamesWithoutExtensionMissingFromIMG;
-	getKGM()->getTaskManager()->setTaskMaxProgressTickCount(vecDFFNamesWithoutExtensionInIDE.size());
+	getIMGF()->getTaskManager()->setTaskMaxProgressTickCount(vecDFFNamesWithoutExtensionInIDE.size());
 	for (string& strDFFName : vecDFFNamesWithoutExtensionInIDE)
 	{
 		if (umapCOLNamesWithoutExtensionInCOL.count(CString2::toUpperCase(strDFFName)) == 0)
 		{
 			vecCOLNamesWithoutExtensionMissingFromIMG.push_back(strDFFName);
 		}
-		getKGM()->getTaskManager()->onTaskProgressTick();
+		getIMGF()->getTaskManager()->onTaskProgressTick();
 	}
 
 	// log
-	string strIMGFileName = CPathManager::getFileName(getKGM()->getEntryListTab()->getIMGFile()->getFilePath());
-	getKGM()->getEntryListTab()->log(CLocalizationManager::getInstance()->getTranslatedFormattedText("Log_133", vecCOLNamesWithoutExtensionMissingFromIMG.size(), strIMGFileName.c_str()));
-	getKGM()->getEntryListTab()->log(CLocalizationManager::getInstance()->getTranslatedText("Log_135"), true);
-	getKGM()->getEntryListTab()->log(CString2::join(vecCOLNamesWithoutExtensionMissingFromIMG, "\n"), true);
+	string strIMGFileName = CPathManager::getFileName(getIMGF()->getEntryListTab()->getIMGFile()->getFilePath());
+	getIMGF()->getEntryListTab()->log(CLocalizationManager::getInstance()->getTranslatedFormattedText("Log_133", vecCOLNamesWithoutExtensionMissingFromIMG.size(), strIMGFileName.c_str()));
+	getIMGF()->getEntryListTab()->log(CLocalizationManager::getInstance()->getTranslatedText("Log_135"), true);
+	getIMGF()->getEntryListTab()->log(CString2::join(vecCOLNamesWithoutExtensionMissingFromIMG, "\n"), true);
 
 	// popup
-	string strInitialFilename = CLocalizationManager::getInstance()->getTranslatedFormattedText("SaveFilePopup_9_InitialFilename", CPathManager::replaceFileExtension(CPathManager::getFileName(getKGM()->getEntryListTab()->getIMGFile()->getFilePath()), "txt").c_str());
+	string strInitialFilename = CLocalizationManager::getInstance()->getTranslatedFormattedText("SaveFilePopup_9_InitialFilename", CPathManager::replaceFileExtension(CPathManager::getFileName(getIMGF()->getEntryListTab()->getIMGFile()->getFilePath()), "txt").c_str());
 	string strTitle = CLocalizationManager::getInstance()->getTranslatedFormattedText("Log_133", vecCOLNamesWithoutExtensionMissingFromIMG.size(), strIMGFileName.c_str());
-	getKGM()->getTaskManager()->onTaskPause();
-	getKGM()->getPopupGUIManager()->showListViewDialog("Missing Entries", strTitle, "TXD Name", vecCOLNamesWithoutExtensionMissingFromIMG, strInitialFilename, "MISSINGENTRIES");
-	getKGM()->getTaskManager()->onTaskUnpause();
-	getKGM()->getTaskManager()->onTaskEnd("onRequestFindCOLMissingFromCOLFoundInIDE");
+	getIMGF()->getTaskManager()->onTaskPause();
+	getIMGF()->getPopupGUIManager()->showListViewDialog("Missing Entries", strTitle, "TXD Name", vecCOLNamesWithoutExtensionMissingFromIMG, strInitialFilename, "MISSINGENTRIES");
+	getIMGF()->getTaskManager()->onTaskUnpause();
+	getIMGF()->getTaskManager()->onTaskEnd("onRequestFindCOLMissingFromCOLFoundInIDE");
 }
 void						CTaskDispatchManager::onRequestFindDFFMissingFromIMGFoundInIDE(void)
 {
-	getKGM()->getTaskManager()->onTaskBegin("onRequestFindDFFMissingFromIMGFoundInIDE");
-	if (getKGM()->getEntryListTab() == nullptr)
+	getIMGF()->getTaskManager()->onTaskBegin("onRequestFindDFFMissingFromIMGFoundInIDE");
+	if (getIMGF()->getEntryListTab() == nullptr)
 	{
-		getKGM()->getTaskManager()->onTaskEnd("onRequestFindDFFMissingFromIMGFoundInIDE", true);
+		getIMGF()->getTaskManager()->onTaskEnd("onRequestFindDFFMissingFromIMGFoundInIDE", true);
 		return;
 	}
 
 	// fetch DFF names in IDE files
-	getKGM()->getTaskManager()->onTaskPause();
-	vector<string> vecIDEPaths = mcore::CGUIManager::openFileDialog(getKGM()->getLastUsedDirectory("MISSINGENTRIES_IDE_IMG_DFF__IDE"), "IDE");
-	getKGM()->getTaskManager()->onTaskUnpause();
+	getIMGF()->getTaskManager()->onTaskPause();
+	vector<string> vecIDEPaths = mcore::CGUIManager::openFileDialog(getIMGF()->getLastUsedDirectory("MISSINGENTRIES_IDE_IMG_DFF__IDE"), "IDE");
+	getIMGF()->getTaskManager()->onTaskUnpause();
 	if (vecIDEPaths.size() == 0)
 	{
-		getKGM()->getTaskManager()->onTaskEnd("onRequestFindDFFMissingFromIMGFoundInIDE", true);
+		getIMGF()->getTaskManager()->onTaskEnd("onRequestFindDFFMissingFromIMGFoundInIDE", true);
 		return;
 	}
-	getKGM()->setLastUsedDirectory("MISSINGENTRIES_IDE_IMG_DFF__IDE", CPathManager::getDirectory(vecIDEPaths[0]));
+	getIMGF()->setLastUsedDirectory("MISSINGENTRIES_IDE_IMG_DFF__IDE", CPathManager::getDirectory(vecIDEPaths[0]));
 
 	vector<string> vecDFFNamesWithoutExtensionInIDE = CIDEManager::getIDEEntryNamesWithoutExtension(vecIDEPaths, true, false);
 
 	// fetch DFF names in active IMG file
 	vector<string> vecDFFNamesWithoutExtensionInIMG;
-	for (CIMGEntry *pIMGEntry : getKGM()->getEntryListTab()->getIMGFile()->getEntries())
+	for (CIMGEntry *pIMGEntry : getIMGF()->getEntryListTab()->getIMGFile()->getEntries())
 	{
 		if (pIMGEntry->isDFFFile())
 		{
@@ -8982,42 +8982,42 @@ void						CTaskDispatchManager::onRequestFindDFFMissingFromIMGFoundInIDE(void)
 
 	// find DFF names found in IDE but not found in IMG
 	vector<string> vecDFFNamesWithoutExtensionMissingFromIMG;
-	getKGM()->getTaskManager()->setTaskMaxProgressTickCount(vecDFFNamesWithoutExtensionInIDE.size());
+	getIMGF()->getTaskManager()->setTaskMaxProgressTickCount(vecDFFNamesWithoutExtensionInIDE.size());
 	for (string& strDFFName : vecDFFNamesWithoutExtensionInIDE)
 	{
 		if (umapDFFNamesWithoutExtensionInIMG.count(CString2::toUpperCase(strDFFName)) == 0)
 		{
 			vecDFFNamesWithoutExtensionMissingFromIMG.push_back(strDFFName);
 		}
-		getKGM()->getTaskManager()->onTaskProgressTick();
+		getIMGF()->getTaskManager()->onTaskProgressTick();
 	}
 
 	// log
-	string strIMGFileName = CPathManager::getFileName(getKGM()->getEntryListTab()->getIMGFile()->getFilePath());
-	getKGM()->getEntryListTab()->log(CLocalizationManager::getInstance()->getTranslatedFormattedText("Log_134", vecDFFNamesWithoutExtensionMissingFromIMG.size(), strIMGFileName.c_str()));
-	getKGM()->getEntryListTab()->log(CLocalizationManager::getInstance()->getTranslatedText("Log_135"), true);
-	getKGM()->getEntryListTab()->log(CString2::join(vecDFFNamesWithoutExtensionMissingFromIMG, "\n"), true);
+	string strIMGFileName = CPathManager::getFileName(getIMGF()->getEntryListTab()->getIMGFile()->getFilePath());
+	getIMGF()->getEntryListTab()->log(CLocalizationManager::getInstance()->getTranslatedFormattedText("Log_134", vecDFFNamesWithoutExtensionMissingFromIMG.size(), strIMGFileName.c_str()));
+	getIMGF()->getEntryListTab()->log(CLocalizationManager::getInstance()->getTranslatedText("Log_135"), true);
+	getIMGF()->getEntryListTab()->log(CString2::join(vecDFFNamesWithoutExtensionMissingFromIMG, "\n"), true);
 
 	// popup
-	string strInitialFilename = CLocalizationManager::getInstance()->getTranslatedFormattedText("SaveFilePopup_9_InitialFilename", CPathManager::replaceFileExtension(CPathManager::getFileName(getKGM()->getEntryListTab()->getIMGFile()->getFilePath()), "txt").c_str());
+	string strInitialFilename = CLocalizationManager::getInstance()->getTranslatedFormattedText("SaveFilePopup_9_InitialFilename", CPathManager::replaceFileExtension(CPathManager::getFileName(getIMGF()->getEntryListTab()->getIMGFile()->getFilePath()), "txt").c_str());
 	string strTitle = CLocalizationManager::getInstance()->getTranslatedFormattedText("Log_134", vecDFFNamesWithoutExtensionMissingFromIMG.size(), strIMGFileName.c_str());
-	getKGM()->getTaskManager()->onTaskPause();
-	getKGM()->getPopupGUIManager()->showListViewDialog("Missing Entries", strTitle, "TXD Name", vecDFFNamesWithoutExtensionMissingFromIMG, strInitialFilename, "MISSINGENTRIES");
-	getKGM()->getTaskManager()->onTaskUnpause();
+	getIMGF()->getTaskManager()->onTaskPause();
+	getIMGF()->getPopupGUIManager()->showListViewDialog("Missing Entries", strTitle, "TXD Name", vecDFFNamesWithoutExtensionMissingFromIMG, strInitialFilename, "MISSINGENTRIES");
+	getIMGF()->getTaskManager()->onTaskUnpause();
 	
-	getKGM()->getTaskManager()->onTaskEnd("onRequestFindDFFMissingFromIMGFoundInIDE");
+	getIMGF()->getTaskManager()->onTaskEnd("onRequestFindDFFMissingFromIMGFoundInIDE");
 }
 
 void						CTaskDispatchManager::onRequestCloneIMG(void)
 {
-	getKGM()->getTaskManager()->onTaskBegin("onRequestCloneIMG");
-	if (getKGM()->getEntryListTab() == nullptr)
+	getIMGF()->getTaskManager()->onTaskBegin("onRequestCloneIMG");
+	if (getIMGF()->getEntryListTab() == nullptr)
 	{
-		getKGM()->getTaskManager()->onTaskEnd("onRequestCloneIMG", true);
+		getIMGF()->getTaskManager()->onTaskEnd("onRequestCloneIMG", true);
 		return;
 	}
 
-	CIMGFormat *pIMGFile = getKGM()->getEntryListTab()->getIMGFile();
+	CIMGFormat *pIMGFile = getIMGF()->getEntryListTab()->getIMGFile();
 	
 	string strIMGFileExtension = CPathManager::getFileExtension(pIMGFile->getFilePath());
 	string strClonedIMGPath = CPathManager::getDirectory(pIMGFile->getFilePath()) + CPathManager::removeFileExtension(CPathManager::getFileName(pIMGFile->getFilePath())) + "-cloned." + strIMGFileExtension;
@@ -9025,76 +9025,76 @@ void						CTaskDispatchManager::onRequestCloneIMG(void)
 	CIMGFormat *pClonedIMGFile = pIMGFile->clone(strClonedIMGPath);
 	if (!pClonedIMGFile)
 	{
-		getKGM()->getTaskManager()->onTaskEnd("onRequestCloneIMG", true);
+		getIMGF()->getTaskManager()->onTaskEnd("onRequestCloneIMG", true);
 		return;
 	}
 
-	getKGM()->getTaskManager()->setTaskMaxProgressTickCount(pIMGFile->getEntryCount() * 3);
+	getIMGF()->getTaskManager()->setTaskMaxProgressTickCount(pIMGFile->getEntryCount() * 3);
 
-	CIMGEditorTab *pNewTab = getKGM()->getIMGEditor()->addTab(strClonedIMGPath, pIMGFile->getIMGVersion());
-	getKGM()->getIMGEditor()->setActiveTab(pNewTab);
+	CIMGEditorTab *pNewTab = getIMGF()->getIMGEditor()->addTab(strClonedIMGPath, pIMGFile->getIMGVersion());
+	getIMGF()->getIMGEditor()->setActiveTab(pNewTab);
 
-	getKGM()->getTaskManager()->onTaskEnd("onRequestCloneIMG");
+	getIMGF()->getTaskManager()->onTaskEnd("onRequestCloneIMG");
 }
 
 void						CTaskDispatchManager::onRequestOpenIMGFolder(void)
 {
-	getKGM()->getTaskManager()->onTaskBegin("onRequestOpenIMGFolder");
-	if (getKGM()->getEntryListTab() == nullptr)
+	getIMGF()->getTaskManager()->onTaskBegin("onRequestOpenIMGFolder");
+	if (getIMGF()->getEntryListTab() == nullptr)
 	{
-		getKGM()->getTaskManager()->onTaskEnd("onRequestOpenIMGFolder", true);
+		getIMGF()->getTaskManager()->onTaskEnd("onRequestOpenIMGFolder", true);
 		return;
 	}
 
-	getKGM()->getTaskManager()->setTaskMaxProgressTickCount(2);
+	getIMGF()->getTaskManager()->setTaskMaxProgressTickCount(2);
 
-	CIMGFormat *pIMGFile = getKGM()->getEntryListTab()->getIMGFile();
+	CIMGFormat *pIMGFile = getIMGF()->getEntryListTab()->getIMGFile();
 	string strFolderPath = CPathManager::getDirectory(pIMGFile->getFilePath());
-	getKGM()->getTaskManager()->onTaskProgressTick();
+	getIMGF()->getTaskManager()->onTaskProgressTick();
 
 	ShellExecute(NULL, NULL, CString2::convertStdStringToStdWString(strFolderPath).c_str(), NULL, NULL, SW_SHOWNORMAL);
-	getKGM()->getTaskManager()->onTaskProgressTick();
+	getIMGF()->getTaskManager()->onTaskProgressTick();
 
-	getKGM()->getTaskManager()->onTaskEnd("onRequestOpenIMGFolder");
+	getIMGF()->getTaskManager()->onTaskEnd("onRequestOpenIMGFolder");
 }
 
 void						CTaskDispatchManager::onRequestRemoveOrphanTexturesFromModel(void)
 {
-	getKGM()->getTaskManager()->onTaskBegin("onRequestRemoveOrphanTexturesFromModel");
-	if (getKGM()->getEntryListTab() == nullptr)
+	getIMGF()->getTaskManager()->onTaskBegin("onRequestRemoveOrphanTexturesFromModel");
+	if (getIMGF()->getEntryListTab() == nullptr)
 	{
-		getKGM()->getTaskManager()->onTaskEnd("onRequestRemoveOrphanTexturesFromModel", true);
+		getIMGF()->getTaskManager()->onTaskEnd("onRequestRemoveOrphanTexturesFromModel", true);
 		return;
 	}
 
 	// input - txd
-	getKGM()->getTaskManager()->onTaskPause();
-	vector<string> vecTXDPaths = mcore::CGUIManager::openFileDialog(getKGM()->getLastUsedDirectory("REMOVEORPHANTEXTURESFROMMODEL_TXD"), "TXD");
-	getKGM()->getTaskManager()->onTaskUnpause();
+	getIMGF()->getTaskManager()->onTaskPause();
+	vector<string> vecTXDPaths = mcore::CGUIManager::openFileDialog(getIMGF()->getLastUsedDirectory("REMOVEORPHANTEXTURESFROMMODEL_TXD"), "TXD");
+	getIMGF()->getTaskManager()->onTaskUnpause();
 	if (vecTXDPaths.size() == 0)
 	{
-		getKGM()->getTaskManager()->onTaskEnd("onRequestRemoveOrphanTexturesFromModel", true);
+		getIMGF()->getTaskManager()->onTaskEnd("onRequestRemoveOrphanTexturesFromModel", true);
 		return;
 	}
-	getKGM()->setLastUsedDirectory("REMOVEORPHANTEXTURESFROMMODEL_TXD", CPathManager::getDirectory(vecTXDPaths[0]));
+	getIMGF()->setLastUsedDirectory("REMOVEORPHANTEXTURESFROMMODEL_TXD", CPathManager::getDirectory(vecTXDPaths[0]));
 
 	// progess bar
 	uint32 uiSelectedDFFCount = 0;
-	for (CIMGEntry *pIMGEntry : getKGM()->getEntryListTab()->getSelectedEntries())
+	for (CIMGEntry *pIMGEntry : getIMGF()->getEntryListTab()->getSelectedEntries())
 	{
 		if (pIMGEntry->isDFFFile())
 		{
 			uiSelectedDFFCount++;
 		}
 	}
-	getKGM()->getTaskManager()->setTaskMaxProgressTickCount((uiSelectedDFFCount  * 2) + vecTXDPaths.size());
+	getIMGF()->getTaskManager()->setTaskMaxProgressTickCount((uiSelectedDFFCount  * 2) + vecTXDPaths.size());
 
 	// fetch texture names from DFF files (selected IMG entries)
 	vector<string> vecDFFTextureNames;
 	vector<CDFFFormat*> vecDFFFormatsInput;
 	vector<CIMGEntry*> vecIMGEntries;
 	uint32 uiProgressMaxTicksDecudctionForCorruptDFFFiles = 0;
-	for (CIMGEntry *pIMGEntry : getKGM()->getEntryListTab()->getSelectedEntries())
+	for (CIMGEntry *pIMGEntry : getIMGF()->getEntryListTab()->getSelectedEntries())
 	{
 		if (pIMGEntry->isDFFFile())
 		{
@@ -9103,7 +9103,7 @@ void						CTaskDispatchManager::onRequestRemoveOrphanTexturesFromModel(void)
 			{
 				pDFFFile->unload();
 				delete pDFFFile;
-				getKGM()->getTaskManager()->onTaskProgressTick();
+				getIMGF()->getTaskManager()->onTaskProgressTick();
 				uiProgressMaxTicksDecudctionForCorruptDFFFiles++;
 				continue;
 			}
@@ -9112,10 +9112,10 @@ void						CTaskDispatchManager::onRequestRemoveOrphanTexturesFromModel(void)
 			vecDFFFormatsInput.push_back(pDFFFile);
 			vecIMGEntries.push_back(pIMGEntry);
 
-			getKGM()->getTaskManager()->onTaskProgressTick();
+			getIMGF()->getTaskManager()->onTaskProgressTick();
 		}
 	}
-	getKGM()->getTaskManager()->setTaskMaxProgressTickCount(getKGM()->getTaskManager()->getTaskMaxProgressTickCount() - uiProgressMaxTicksDecudctionForCorruptDFFFiles, false); // for below
+	getIMGF()->getTaskManager()->setTaskMaxProgressTickCount(getIMGF()->getTaskManager()->getTaskMaxProgressTickCount() - uiProgressMaxTicksDecudctionForCorruptDFFFiles, false); // for below
 
 	// fetch texture names from TXD files (files input)
 	vector<string> vecTXDTextureNames;
@@ -9126,7 +9126,7 @@ void						CTaskDispatchManager::onRequestRemoveOrphanTexturesFromModel(void)
 		{
 			pTXDFile->unload();
 			delete pTXDFile;
-			getKGM()->getTaskManager()->onTaskProgressTick();
+			getIMGF()->getTaskManager()->onTaskProgressTick();
 			continue;
 		}
 
@@ -9135,10 +9135,10 @@ void						CTaskDispatchManager::onRequestRemoveOrphanTexturesFromModel(void)
 		pTXDFile->unload();
 		delete pTXDFile;
 
-		getKGM()->getTaskManager()->onTaskProgressTick();
+		getIMGF()->getTaskManager()->onTaskProgressTick();
 	}
 
-	// find texture names found in DFF files getKGM()->getEntryListTab()but not found in TXD files
+	// find texture names found in DFF files getIMGF()->getEntryListTab()but not found in TXD files
 	vecTXDTextureNames = CStdVector::toUpperCase(vecTXDTextureNames);
 	unordered_map<string, bool> umapTXDTextureNames = CStdVector::convertVectorToUnorderedMap(vecTXDTextureNames);
 	vecTXDTextureNames.clear();
@@ -9179,22 +9179,22 @@ void						CTaskDispatchManager::onRequestRemoveOrphanTexturesFromModel(void)
 
 		CIMGEntry *pIMGEntry = vecIMGEntries[i];
 		pIMGEntry->setEntryData(pDFFFile->storeViaMemory());
-		getKGM()->getEntryListTab()->updateEntryInMainListView(pIMGEntry);
+		getIMGF()->getEntryListTab()->updateEntryInMainListView(pIMGEntry);
 
 		if (bRemovedSection)
 		{
 			uiDFFFileCountWithRemovedSections++;
 		}
 
-		getKGM()->getTaskManager()->onTaskProgressTick();
+		getIMGF()->getTaskManager()->onTaskProgressTick();
 
 		i++;
 	}
 
 	// log
-	getKGM()->getEntryListTab()->log("Removed orphan textures from " + CString2::toString(uiDFFFileCountWithRemovedSections) + " of " + CString2::toString(vecDFFFormatsInput.size()) + " DFF files.");
-	getKGM()->getEntryListTab()->log("Textures in DFF files missing from TXD files:", true);
-	getKGM()->getEntryListTab()->log(CString2::join(vecTexturesInDFFMissingFromTXD, "\n"), true);
+	getIMGF()->getEntryListTab()->log("Removed orphan textures from " + CString2::toString(uiDFFFileCountWithRemovedSections) + " of " + CString2::toString(vecDFFFormatsInput.size()) + " DFF files.");
+	getIMGF()->getEntryListTab()->log("Textures in DFF files missing from TXD files:", true);
+	getIMGF()->getEntryListTab()->log(CString2::join(vecTexturesInDFFMissingFromTXD, "\n"), true);
 
 	// clean up
 	for (auto pDFFFile : vecDFFFormatsInput)
@@ -9202,11 +9202,11 @@ void						CTaskDispatchManager::onRequestRemoveOrphanTexturesFromModel(void)
 		pDFFFile->unload();
 		delete pDFFFile;
 	}
-	getKGM()->getTaskManager()->onTaskEnd("onRequestRemoveOrphanTexturesFromModel");
+	getIMGF()->getTaskManager()->onTaskEnd("onRequestRemoveOrphanTexturesFromModel");
 }
 void						CTaskDispatchManager::onRequestNewWindow(void)
 {
-	getKGM()->getTaskManager()->onTaskBegin("onRequestNewWindow");
+	getIMGF()->getTaskManager()->onTaskBegin("onRequestNewWindow");
 
 	TCHAR wszRunningProgramPath[MAX_PATH];
 	wmemset(wszRunningProgramPath, 0, MAX_PATH);
@@ -9214,36 +9214,36 @@ void						CTaskDispatchManager::onRequestNewWindow(void)
 
 	ShellExecute(NULL, L"open", wszRunningProgramPath, NULL, NULL, SW_SHOWNORMAL);
 
-	getKGM()->getTaskManager()->onTaskEnd("onRequestNewWindow");
+	getIMGF()->getTaskManager()->onTaskEnd("onRequestNewWindow");
 }
 
 void						CTaskDispatchManager::onRequestFindDFFMissingFromIDEFoundInIPL(void)
 {
-	getKGM()->getTaskManager()->onTaskBegin("onRequestFindDFFMissingFromIDEFoundInIPL");
+	getIMGF()->getTaskManager()->onTaskBegin("onRequestFindDFFMissingFromIDEFoundInIPL");
 
 	// fetch DFF names in IDE files
-	getKGM()->getTaskManager()->onTaskPause();
-	vector<string> vecIDEPaths = mcore::CGUIManager::openFileDialog(getKGM()->getLastUsedDirectory("MISSINGENTRIES_IPL_IDE_DFF__IDE"), "IDE");
-	getKGM()->getTaskManager()->onTaskUnpause();
+	getIMGF()->getTaskManager()->onTaskPause();
+	vector<string> vecIDEPaths = mcore::CGUIManager::openFileDialog(getIMGF()->getLastUsedDirectory("MISSINGENTRIES_IPL_IDE_DFF__IDE"), "IDE");
+	getIMGF()->getTaskManager()->onTaskUnpause();
 	if (vecIDEPaths.size() == 0)
 	{
-		getKGM()->getTaskManager()->onTaskEnd("onRequestFindDFFMissingFromIDEFoundInIPL", true);
+		getIMGF()->getTaskManager()->onTaskEnd("onRequestFindDFFMissingFromIDEFoundInIPL", true);
 		return;
 	}
-	getKGM()->setLastUsedDirectory("MISSINGENTRIES_IPL_IDE_DFF__IDE", CPathManager::getDirectory(vecIDEPaths[0]));
+	getIMGF()->setLastUsedDirectory("MISSINGENTRIES_IPL_IDE_DFF__IDE", CPathManager::getDirectory(vecIDEPaths[0]));
 
 	vector<string> vecDFFNamesWithoutExtensionInIDE = CIDEManager::getIDEEntryNamesWithoutExtension(vecIDEPaths, true, false);
 
 	// fetch DFF names in IPL files
-	getKGM()->getTaskManager()->onTaskPause();
-	vector<string> vecIPLPaths = mcore::CGUIManager::openFileDialog(getKGM()->getLastUsedDirectory("MISSINGENTRIES_IPL_IDE_DFF__IPL"), "IPL");
-	getKGM()->getTaskManager()->onTaskUnpause();
+	getIMGF()->getTaskManager()->onTaskPause();
+	vector<string> vecIPLPaths = mcore::CGUIManager::openFileDialog(getIMGF()->getLastUsedDirectory("MISSINGENTRIES_IPL_IDE_DFF__IPL"), "IPL");
+	getIMGF()->getTaskManager()->onTaskUnpause();
 	if (vecIDEPaths.size() == 0)
 	{
-		getKGM()->getTaskManager()->onTaskEnd("onRequestFindDFFMissingFromIDEFoundInIPL", true);
+		getIMGF()->getTaskManager()->onTaskEnd("onRequestFindDFFMissingFromIDEFoundInIPL", true);
 		return;
 	}
-	getKGM()->setLastUsedDirectory("MISSINGENTRIES_IPL_IDE_DFF__IPL", CPathManager::getDirectory(vecIPLPaths[0]));
+	getIMGF()->setLastUsedDirectory("MISSINGENTRIES_IPL_IDE_DFF__IPL", CPathManager::getDirectory(vecIPLPaths[0]));
 
 	vector<string> vecDFFNamesWithoutExtensionInIPL;
 	for (string& strIPLPath : vecIPLPaths)
@@ -9265,79 +9265,79 @@ void						CTaskDispatchManager::onRequestFindDFFMissingFromIDEFoundInIPL(void)
 
 	// find DFF names found in IPL but not found in IDE
 	vector<string> vecDFFNamesWithoutExtensionMissingFromIDE;
-	getKGM()->getTaskManager()->setTaskMaxProgressTickCount(vecDFFNamesWithoutExtensionInIDE.size());
+	getIMGF()->getTaskManager()->setTaskMaxProgressTickCount(vecDFFNamesWithoutExtensionInIDE.size());
 	for (string& strDFFName : vecDFFNamesWithoutExtensionInIPL)
 	{
 		if (umapDFFNamesWithoutExtensionInIDE.count(CString2::toUpperCase(strDFFName)) == 0)
 		{
 			vecDFFNamesWithoutExtensionMissingFromIDE.push_back(strDFFName);
 		}
-		getKGM()->getTaskManager()->onTaskProgressTick();
+		getIMGF()->getTaskManager()->onTaskProgressTick();
 	}
 
 	// log
-	if (getKGM()->getEntryListTab())
+	if (getIMGF()->getEntryListTab())
 	{
-		getKGM()->getEntryListTab()->log(CLocalizationManager::getInstance()->getTranslatedFormattedText("Log_136", vecDFFNamesWithoutExtensionMissingFromIDE.size()));
-		getKGM()->getEntryListTab()->log(CLocalizationManager::getInstance()->getTranslatedText("Log_135"), true);
-		getKGM()->getEntryListTab()->log(CString2::join(vecDFFNamesWithoutExtensionMissingFromIDE, "\n"), true);
+		getIMGF()->getEntryListTab()->log(CLocalizationManager::getInstance()->getTranslatedFormattedText("Log_136", vecDFFNamesWithoutExtensionMissingFromIDE.size()));
+		getIMGF()->getEntryListTab()->log(CLocalizationManager::getInstance()->getTranslatedText("Log_135"), true);
+		getIMGF()->getEntryListTab()->log(CString2::join(vecDFFNamesWithoutExtensionMissingFromIDE, "\n"), true);
 	}
 	else
 	{
-		getKGM()->getIMGEditor()->logWithNoTabsOpen(CLocalizationManager::getInstance()->getTranslatedFormattedText("Log_136", vecDFFNamesWithoutExtensionMissingFromIDE.size()));
-		getKGM()->getIMGEditor()->logWithNoTabsOpen(CLocalizationManager::getInstance()->getTranslatedText("Log_135"), true);
-		getKGM()->getIMGEditor()->logWithNoTabsOpen(CString2::join(vecDFFNamesWithoutExtensionMissingFromIDE, "\n"), true);
+		getIMGF()->getIMGEditor()->logWithNoTabsOpen(CLocalizationManager::getInstance()->getTranslatedFormattedText("Log_136", vecDFFNamesWithoutExtensionMissingFromIDE.size()));
+		getIMGF()->getIMGEditor()->logWithNoTabsOpen(CLocalizationManager::getInstance()->getTranslatedText("Log_135"), true);
+		getIMGF()->getIMGEditor()->logWithNoTabsOpen(CString2::join(vecDFFNamesWithoutExtensionMissingFromIDE, "\n"), true);
 	}
 
 	// popup
 	string strInitialFilename = CLocalizationManager::getInstance()->getTranslatedFormattedText("SaveFilePopup_9_InitialFilename", "DFF not in IDE found in IPL");
 	string strTitle = CLocalizationManager::getInstance()->getTranslatedFormattedText("Log_136", vecDFFNamesWithoutExtensionMissingFromIDE.size());
-	getKGM()->getTaskManager()->onTaskPause();
-	getKGM()->getPopupGUIManager()->showListViewDialog("Missing Entries", strTitle, "TXD Name", vecDFFNamesWithoutExtensionMissingFromIDE, strInitialFilename, "MISSINGENTRIES");
-	getKGM()->getTaskManager()->onTaskUnpause();
+	getIMGF()->getTaskManager()->onTaskPause();
+	getIMGF()->getPopupGUIManager()->showListViewDialog("Missing Entries", strTitle, "TXD Name", vecDFFNamesWithoutExtensionMissingFromIDE, strInitialFilename, "MISSINGENTRIES");
+	getIMGF()->getTaskManager()->onTaskUnpause();
 
-	getKGM()->getTaskManager()->onTaskEnd("onRequestFindDFFMissingFromIDEFoundInIPL");
+	getIMGF()->getTaskManager()->onTaskEnd("onRequestFindDFFMissingFromIDEFoundInIPL");
 }
 
 void				CTaskDispatchManager::onRequestSortIDEAndIPLFilesByObjectId(void)
 {
-	getKGM()->getTaskManager()->onTaskBegin("onRequestSortIDEAndIPLFilesByObjectId");
+	getIMGF()->getTaskManager()->onTaskBegin("onRequestSortIDEAndIPLFilesByObjectId");
 
 	// choose DAT file
-	getKGM()->getTaskManager()->onTaskPause();
-	vector<string> vecDATPaths = mcore::CGUIManager::openFileDialog(getKGM()->getLastUsedDirectory("SORTIDEANDIPL_OBJECTID_DAT"), "DAT", false);
-	getKGM()->getTaskManager()->onTaskUnpause();
+	getIMGF()->getTaskManager()->onTaskPause();
+	vector<string> vecDATPaths = mcore::CGUIManager::openFileDialog(getIMGF()->getLastUsedDirectory("SORTIDEANDIPL_OBJECTID_DAT"), "DAT", false);
+	getIMGF()->getTaskManager()->onTaskUnpause();
 	if (vecDATPaths.size() == 0)
 	{
-		getKGM()->getTaskManager()->onTaskEnd("onRequestSortIDEAndIPLFilesByObjectId", true);
+		getIMGF()->getTaskManager()->onTaskEnd("onRequestSortIDEAndIPLFilesByObjectId", true);
 		return;
 	}
-	getKGM()->setLastUsedDirectory("SORTIDEANDIPL_OBJECTID_DAT", CPathManager::getDirectory(vecDATPaths[0]));
+	getIMGF()->setLastUsedDirectory("SORTIDEANDIPL_OBJECTID_DAT", CPathManager::getDirectory(vecDATPaths[0]));
 	string strDATFilePath = vecDATPaths[0];
 
 	// choose game folder
-	getKGM()->getTaskManager()->onTaskPause();
-	string strGameDirectoryPath = mcore::CGUIManager::chooseFolderDialog(CLocalizationManager::getInstance()->getTranslatedText("ChooseFolderPopup_3"), getKGM()->getLastUsedDirectory("SORTIDEANDIPL_OBJECTID_GAME"));
-	getKGM()->getTaskManager()->onTaskUnpause();
+	getIMGF()->getTaskManager()->onTaskPause();
+	string strGameDirectoryPath = mcore::CGUIManager::chooseFolderDialog(CLocalizationManager::getInstance()->getTranslatedText("ChooseFolderPopup_3"), getIMGF()->getLastUsedDirectory("SORTIDEANDIPL_OBJECTID_GAME"));
+	getIMGF()->getTaskManager()->onTaskUnpause();
 	if (strGameDirectoryPath == "")
 	{
-		getKGM()->getTaskManager()->onTaskEnd("onRequestSortIDEAndIPLFilesByObjectId", true);
+		getIMGF()->getTaskManager()->onTaskEnd("onRequestSortIDEAndIPLFilesByObjectId", true);
 		return;
 	}
 	strGameDirectoryPath = CPathManager::addSlashToEnd(strGameDirectoryPath);
-	getKGM()->setLastUsedDirectory("SORTIDEANDIPL_OBJECTID_GAME", strGameDirectoryPath);
+	getIMGF()->setLastUsedDirectory("SORTIDEANDIPL_OBJECTID_GAME", strGameDirectoryPath);
 
 	// choose output folder
-	getKGM()->getTaskManager()->onTaskPause();
-	string strOutputFolderPath = mcore::CGUIManager::chooseFolderDialog(CLocalizationManager::getInstance()->getTranslatedText("ChooseFolderPopup_23"), getKGM()->getLastUsedDirectory("SORTIDEANDIPL_OBJECTID_OUTPUT"));
-	getKGM()->getTaskManager()->onTaskUnpause();
+	getIMGF()->getTaskManager()->onTaskPause();
+	string strOutputFolderPath = mcore::CGUIManager::chooseFolderDialog(CLocalizationManager::getInstance()->getTranslatedText("ChooseFolderPopup_23"), getIMGF()->getLastUsedDirectory("SORTIDEANDIPL_OBJECTID_OUTPUT"));
+	getIMGF()->getTaskManager()->onTaskUnpause();
 	if (strOutputFolderPath == "")
 	{
-		getKGM()->getTaskManager()->onTaskEnd("onRequestSortIDEAndIPLFilesByObjectId", true);
+		getIMGF()->getTaskManager()->onTaskEnd("onRequestSortIDEAndIPLFilesByObjectId", true);
 		return;
 	}
 	strOutputFolderPath = CPathManager::addSlashToEnd(strOutputFolderPath);
-	getKGM()->setLastUsedDirectory("SORTIDEANDIPL_OBJECTID_OUTPUT", strOutputFolderPath);
+	getIMGF()->setLastUsedDirectory("SORTIDEANDIPL_OBJECTID_OUTPUT", strOutputFolderPath);
 
 	// parse DAT file
 	CDATLoaderFormat *pDATFile_GTA = CDATLoaderManager::getInstance()->parseViaFile(strDATFilePath);
@@ -9345,7 +9345,7 @@ void				CTaskDispatchManager::onRequestSortIDEAndIPLFilesByObjectId(void)
 	{
 		pDATFile_GTA->unload();
 		delete pDATFile_GTA;
-		getKGM()->getTaskManager()->onTaskEnd("onRequestSortIDEAndIPLFilesByObjectId", true);
+		getIMGF()->getTaskManager()->onTaskEnd("onRequestSortIDEAndIPLFilesByObjectId", true);
 		return;
 	}
 
@@ -9356,7 +9356,7 @@ void				CTaskDispatchManager::onRequestSortIDEAndIPLFilesByObjectId(void)
 	pDATFile_GTA->unload();
 	delete pDATFile_GTA;
 
-	getKGM()->getTaskManager()->setTaskMaxProgressTickCount(veCIDEFormats.size() + veCIPLFormats.size());
+	getIMGF()->getTaskManager()->setTaskMaxProgressTickCount(veCIDEFormats.size() + veCIPLFormats.size());
 
 	// sort and store IDE files
 	for (CIDEFormat *pIDEFile : veCIDEFormats)
@@ -9367,7 +9367,7 @@ void				CTaskDispatchManager::onRequestSortIDEAndIPLFilesByObjectId(void)
 		pIDEFile->unload();
 		delete pIDEFile;
 
-		getKGM()->getTaskManager()->onTaskProgressTick();
+		getIMGF()->getTaskManager()->onTaskProgressTick();
 	}
 
 	// sort and store IPL files
@@ -9379,71 +9379,71 @@ void				CTaskDispatchManager::onRequestSortIDEAndIPLFilesByObjectId(void)
 		pIPLFile->unload();
 		delete pIPLFile;
 
-		getKGM()->getTaskManager()->onTaskProgressTick();
+		getIMGF()->getTaskManager()->onTaskProgressTick();
 	}
 
 	// log
-	if (getKGM()->getEntryListTab())
+	if (getIMGF()->getEntryListTab())
 	{
-		getKGM()->getEntryListTab()->log(CLocalizationManager::getInstance()->getTranslatedFormattedText("Log_137", veCIDEFormats.size(), veCIPLFormats.size(), CPathManager::getFileName(strDATFilePath).c_str()));
+		getIMGF()->getEntryListTab()->log(CLocalizationManager::getInstance()->getTranslatedFormattedText("Log_137", veCIDEFormats.size(), veCIPLFormats.size(), CPathManager::getFileName(strDATFilePath).c_str()));
 	}
 	else
 	{
-		getKGM()->getIMGEditor()->logWithNoTabsOpen(CLocalizationManager::getInstance()->getTranslatedFormattedText("Log_137", veCIDEFormats.size(), veCIPLFormats.size(), CPathManager::getFileName(strDATFilePath).c_str()));
+		getIMGF()->getIMGEditor()->logWithNoTabsOpen(CLocalizationManager::getInstance()->getTranslatedFormattedText("Log_137", veCIDEFormats.size(), veCIPLFormats.size(), CPathManager::getFileName(strDATFilePath).c_str()));
 	}
 
-	getKGM()->getTaskManager()->onTaskEnd("onRequestSortIDEAndIPLFilesByObjectId");
+	getIMGF()->getTaskManager()->onTaskEnd("onRequestSortIDEAndIPLFilesByObjectId");
 }
 
 void				CTaskDispatchManager::onRequestExtractDVCAndNVCColoursIntoDFFs(void)
 {
 	// begin
-	getKGM()->getTaskManager()->onTaskBegin("onRequestExtractDVCAndNVCColoursIntoDFFs");
+	getIMGF()->getTaskManager()->onTaskBegin("onRequestExtractDVCAndNVCColoursIntoDFFs");
 
 	// choose DVC, NVC, or both
-	uint32 uiUpdateType = getKGM()->getPopupGUIManager()->show3ButtonDialog("DVC / NVC Action", "Extract DVC, NVC, or both?", "DVC", "NVC", "Both");
+	uint32 uiUpdateType = getIMGF()->getPopupGUIManager()->show3ButtonDialog("DVC / NVC Action", "Extract DVC, NVC, or both?", "DVC", "NVC", "Both");
 	if (uiUpdateType == 0)
 	{
 		// user pressed cancel
-		getKGM()->getTaskManager()->onTaskEnd("onRequestExtractDVCAndNVCColoursIntoDFFs", true);
+		getIMGF()->getTaskManager()->onTaskEnd("onRequestExtractDVCAndNVCColoursIntoDFFs", true);
 		return;
 	}
 
 	// choose DFF input folder for colours
-	getKGM()->getTaskManager()->onTaskPause();
-	string strDFFInputFolderForColours = mcore::CGUIManager::chooseFolderDialog(CLocalizationManager::getInstance()->getTranslatedText("ChooseFolderPopup_24"), getKGM()->getLastUsedDirectory("EXTRACTNVCDVC_DFFCOLOURINPUT"));
-	getKGM()->getTaskManager()->onTaskUnpause();
+	getIMGF()->getTaskManager()->onTaskPause();
+	string strDFFInputFolderForColours = mcore::CGUIManager::chooseFolderDialog(CLocalizationManager::getInstance()->getTranslatedText("ChooseFolderPopup_24"), getIMGF()->getLastUsedDirectory("EXTRACTNVCDVC_DFFCOLOURINPUT"));
+	getIMGF()->getTaskManager()->onTaskUnpause();
 	if (strDFFInputFolderForColours == "")
 	{
-		getKGM()->getTaskManager()->onTaskEnd("onRequestExtractDVCAndNVCColoursIntoDFFs", true);
+		getIMGF()->getTaskManager()->onTaskEnd("onRequestExtractDVCAndNVCColoursIntoDFFs", true);
 		return;
 	}
 	strDFFInputFolderForColours = CPathManager::addSlashToEnd(strDFFInputFolderForColours);
-	getKGM()->setLastUsedDirectory("EXTRACTNVCDVC_DFFCOLOURINPUT", strDFFInputFolderForColours);
+	getIMGF()->setLastUsedDirectory("EXTRACTNVCDVC_DFFCOLOURINPUT", strDFFInputFolderForColours);
 
 	// choose DFF input folder for models
-	getKGM()->getTaskManager()->onTaskPause();
-	string strDFFInputFolderForModels = mcore::CGUIManager::chooseFolderDialog(CLocalizationManager::getInstance()->getTranslatedText("ChooseFolderPopup_25"), getKGM()->getLastUsedDirectory("EXTRACTNVCDVC_DFFMODELINPUT"));
-	getKGM()->getTaskManager()->onTaskUnpause();
+	getIMGF()->getTaskManager()->onTaskPause();
+	string strDFFInputFolderForModels = mcore::CGUIManager::chooseFolderDialog(CLocalizationManager::getInstance()->getTranslatedText("ChooseFolderPopup_25"), getIMGF()->getLastUsedDirectory("EXTRACTNVCDVC_DFFMODELINPUT"));
+	getIMGF()->getTaskManager()->onTaskUnpause();
 	if (strDFFInputFolderForModels == "")
 	{
-		getKGM()->getTaskManager()->onTaskEnd("onRequestExtractDVCAndNVCColoursIntoDFFs", true);
+		getIMGF()->getTaskManager()->onTaskEnd("onRequestExtractDVCAndNVCColoursIntoDFFs", true);
 		return;
 	}
 	strDFFInputFolderForModels = CPathManager::addSlashToEnd(strDFFInputFolderForModels);
-	getKGM()->setLastUsedDirectory("EXTRACTNVCDVC_DFFMODELINPUT", strDFFInputFolderForModels);
+	getIMGF()->setLastUsedDirectory("EXTRACTNVCDVC_DFFMODELINPUT", strDFFInputFolderForModels);
 
 	// choose output folder
-	getKGM()->getTaskManager()->onTaskPause();
-	string strOutputFolderPath = mcore::CGUIManager::chooseFolderDialog(CLocalizationManager::getInstance()->getTranslatedText("ChooseFolderPopup_23"), getKGM()->getLastUsedDirectory("EXTRACTNVCDVC_OUTPUT"));
-	getKGM()->getTaskManager()->onTaskUnpause();
+	getIMGF()->getTaskManager()->onTaskPause();
+	string strOutputFolderPath = mcore::CGUIManager::chooseFolderDialog(CLocalizationManager::getInstance()->getTranslatedText("ChooseFolderPopup_23"), getIMGF()->getLastUsedDirectory("EXTRACTNVCDVC_OUTPUT"));
+	getIMGF()->getTaskManager()->onTaskUnpause();
 	if (strOutputFolderPath == "")
 	{
-		getKGM()->getTaskManager()->onTaskEnd("onRequestExtractDVCAndNVCColoursIntoDFFs", true);
+		getIMGF()->getTaskManager()->onTaskEnd("onRequestExtractDVCAndNVCColoursIntoDFFs", true);
 		return;
 	}
 	strOutputFolderPath = CPathManager::addSlashToEnd(strOutputFolderPath);
-	getKGM()->setLastUsedDirectory("EXTRACTNVCDVC_OUTPUT", strOutputFolderPath);
+	getIMGF()->setLastUsedDirectory("EXTRACTNVCDVC_OUTPUT", strOutputFolderPath);
 
 	// fetch DFF file paths
 	vector<string> vecDFFInputFilenamesForColours = CFileManager::getFileNamesByExtension(strDFFInputFolderForColours, "DFF");
@@ -9454,7 +9454,7 @@ void				CTaskDispatchManager::onRequestExtractDVCAndNVCColoursIntoDFFs(void)
 
 	unordered_map<string, bool> umapDFFInputFilenamesUpperForModels = CStdVector::convertVectorToUnorderedMap(CStdVector::toUpperCase(vecDFFInputFilenamesForModels));
 
-	getKGM()->getTaskManager()->setTaskMaxProgressTickCount(vecDFFInputFilenamesForColours.size());
+	getIMGF()->getTaskManager()->setTaskMaxProgressTickCount(vecDFFInputFilenamesForColours.size());
 
 	// iterate around input DFFs
 	uint32 uiDFFUpdatedFileCount = 0;
@@ -9462,7 +9462,7 @@ void				CTaskDispatchManager::onRequestExtractDVCAndNVCColoursIntoDFFs(void)
 	{
 		if (umapDFFInputFilenamesUpperForModels.count(CString2::toUpperCase(strDFFFilename_Colours)) == 0)
 		{
-			getKGM()->getTaskManager()->onTaskProgressTick();
+			getIMGF()->getTaskManager()->onTaskProgressTick();
 			continue;
 		}
 		string& strDFFFilename_Model = strDFFFilename_Colours;
@@ -9472,7 +9472,7 @@ void				CTaskDispatchManager::onRequestExtractDVCAndNVCColoursIntoDFFs(void)
 		{
 			pDFFFile_Colours->unload();
 			delete pDFFFile_Colours;
-			getKGM()->getTaskManager()->onTaskProgressTick();
+			getIMGF()->getTaskManager()->onTaskProgressTick();
 			continue;
 		}
 
@@ -9500,7 +9500,7 @@ void				CTaskDispatchManager::onRequestExtractDVCAndNVCColoursIntoDFFs(void)
 		{
 			pDFFFile_Model->unload();
 			delete pDFFFile_Model;
-			getKGM()->getTaskManager()->onTaskProgressTick();
+			getIMGF()->getTaskManager()->onTaskProgressTick();
 			continue;
 		}
 
@@ -9523,64 +9523,64 @@ void				CTaskDispatchManager::onRequestExtractDVCAndNVCColoursIntoDFFs(void)
 
 		pDFFFile_Model->unload();
 		delete pDFFFile_Model;
-		getKGM()->getTaskManager()->onTaskProgressTick();
+		getIMGF()->getTaskManager()->onTaskProgressTick();
 		uiDFFUpdatedFileCount++;
 	}
 
 	// log
-	if (getKGM()->getEntryListTab())
+	if (getIMGF()->getEntryListTab())
 	{
-		getKGM()->getEntryListTab()->log(CLocalizationManager::getInstance()->getTranslatedFormattedText("Log_138", uiDFFUpdatedFileCount));
+		getIMGF()->getEntryListTab()->log(CLocalizationManager::getInstance()->getTranslatedFormattedText("Log_138", uiDFFUpdatedFileCount));
 	}
 	else
 	{
-		getKGM()->getIMGEditor()->logWithNoTabsOpen(CLocalizationManager::getInstance()->getTranslatedFormattedText("Log_138", uiDFFUpdatedFileCount));
+		getIMGF()->getIMGEditor()->logWithNoTabsOpen(CLocalizationManager::getInstance()->getTranslatedFormattedText("Log_138", uiDFFUpdatedFileCount));
 	}
 
 	// end
-	getKGM()->getTaskManager()->onTaskEnd("onRequestExtractDVCAndNVCColoursIntoDFFs");
+	getIMGF()->getTaskManager()->onTaskEnd("onRequestExtractDVCAndNVCColoursIntoDFFs");
 }
 
 void				CTaskDispatchManager::onRequestExtract2DFXIntoDFFs(void)
 {
 	// begin
-	getKGM()->getTaskManager()->onTaskBegin("onRequestExtract2DFXIntoDFFs");
+	getIMGF()->getTaskManager()->onTaskBegin("onRequestExtract2DFXIntoDFFs");
 
 	// choose DFF input folder for colours
-	getKGM()->getTaskManager()->onTaskPause();
-	string strDFFInputFolderFor2DFX = mcore::CGUIManager::chooseFolderDialog(CLocalizationManager::getInstance()->getTranslatedText("ChooseFolderPopup_26"), getKGM()->getLastUsedDirectory("EXTRACTDFF2DFX_INPUT2DFX"));
-	getKGM()->getTaskManager()->onTaskUnpause();
+	getIMGF()->getTaskManager()->onTaskPause();
+	string strDFFInputFolderFor2DFX = mcore::CGUIManager::chooseFolderDialog(CLocalizationManager::getInstance()->getTranslatedText("ChooseFolderPopup_26"), getIMGF()->getLastUsedDirectory("EXTRACTDFF2DFX_INPUT2DFX"));
+	getIMGF()->getTaskManager()->onTaskUnpause();
 	if (strDFFInputFolderFor2DFX == "")
 	{
-		getKGM()->getTaskManager()->onTaskEnd("onRequestExtract2DFXIntoDFFs", true);
+		getIMGF()->getTaskManager()->onTaskEnd("onRequestExtract2DFXIntoDFFs", true);
 		return;
 	}
 	strDFFInputFolderFor2DFX = CPathManager::addSlashToEnd(strDFFInputFolderFor2DFX);
-	getKGM()->setLastUsedDirectory("EXTRACTDFF2DFX_INPUT2DFX", strDFFInputFolderFor2DFX);
+	getIMGF()->setLastUsedDirectory("EXTRACTDFF2DFX_INPUT2DFX", strDFFInputFolderFor2DFX);
 
 	// choose DFF input folder for models
-	getKGM()->getTaskManager()->onTaskPause();
-	string strDFFInputFolderForModels = mcore::CGUIManager::chooseFolderDialog(CLocalizationManager::getInstance()->getTranslatedText("ChooseFolderPopup_25"), getKGM()->getLastUsedDirectory("EXTRACTDFF2DFX_INPUTMODEL"));
-	getKGM()->getTaskManager()->onTaskUnpause();
+	getIMGF()->getTaskManager()->onTaskPause();
+	string strDFFInputFolderForModels = mcore::CGUIManager::chooseFolderDialog(CLocalizationManager::getInstance()->getTranslatedText("ChooseFolderPopup_25"), getIMGF()->getLastUsedDirectory("EXTRACTDFF2DFX_INPUTMODEL"));
+	getIMGF()->getTaskManager()->onTaskUnpause();
 	if (strDFFInputFolderForModels == "")
 	{
-		getKGM()->getTaskManager()->onTaskEnd("onRequestExtract2DFXIntoDFFs", true);
+		getIMGF()->getTaskManager()->onTaskEnd("onRequestExtract2DFXIntoDFFs", true);
 		return;
 	}
 	strDFFInputFolderForModels = CPathManager::addSlashToEnd(strDFFInputFolderForModels);
-	getKGM()->setLastUsedDirectory("EXTRACTDFF2DFX_INPUTMODEL", strDFFInputFolderForModels);
+	getIMGF()->setLastUsedDirectory("EXTRACTDFF2DFX_INPUTMODEL", strDFFInputFolderForModels);
 
 	// choose output folder
-	getKGM()->getTaskManager()->onTaskPause();
-	string strOutputFolderPath = mcore::CGUIManager::chooseFolderDialog(CLocalizationManager::getInstance()->getTranslatedText("ChooseFolderPopup_23"), getKGM()->getLastUsedDirectory("EXTRACTDFF2DFX_OUTPUT"));
-	getKGM()->getTaskManager()->onTaskUnpause();
+	getIMGF()->getTaskManager()->onTaskPause();
+	string strOutputFolderPath = mcore::CGUIManager::chooseFolderDialog(CLocalizationManager::getInstance()->getTranslatedText("ChooseFolderPopup_23"), getIMGF()->getLastUsedDirectory("EXTRACTDFF2DFX_OUTPUT"));
+	getIMGF()->getTaskManager()->onTaskUnpause();
 	if (strOutputFolderPath == "")
 	{
-		getKGM()->getTaskManager()->onTaskEnd("onRequestExtract2DFXIntoDFFs", true);
+		getIMGF()->getTaskManager()->onTaskEnd("onRequestExtract2DFXIntoDFFs", true);
 		return;
 	}
 	strOutputFolderPath = CPathManager::addSlashToEnd(strOutputFolderPath);
-	getKGM()->setLastUsedDirectory("EXTRACTDFF2DFX_OUTPUT", strOutputFolderPath);
+	getIMGF()->setLastUsedDirectory("EXTRACTDFF2DFX_OUTPUT", strOutputFolderPath);
 
 	// fetch DFF file paths
 	vector<string> vecDFFInputFilenamesFor2DFX = CFileManager::getFileNamesByExtension(strDFFInputFolderFor2DFX, "DFF");
@@ -9591,7 +9591,7 @@ void				CTaskDispatchManager::onRequestExtract2DFXIntoDFFs(void)
 
 	unordered_map<string, bool> umapDFFInputFilenamesUpperForModels = CStdVector::convertVectorToUnorderedMap(CStdVector::toUpperCase(vecDFFInputFilenamesForModels));
 
-	getKGM()->getTaskManager()->setTaskMaxProgressTickCount(vecDFFInputFilenamesFor2DFX.size());
+	getIMGF()->getTaskManager()->setTaskMaxProgressTickCount(vecDFFInputFilenamesFor2DFX.size());
 
 	// iterate around input DFFs
 	uint32 uiDFFUpdatedFileCount = 0;
@@ -9599,7 +9599,7 @@ void				CTaskDispatchManager::onRequestExtract2DFXIntoDFFs(void)
 	{
 		if (umapDFFInputFilenamesUpperForModels.count(CString2::toUpperCase(strDFFFilename_2DFX)) == 0)
 		{
-			getKGM()->getTaskManager()->onTaskProgressTick();
+			getIMGF()->getTaskManager()->onTaskProgressTick();
 			continue;
 		}
 		string& strDFFFilename_Model = strDFFFilename_2DFX;
@@ -9609,7 +9609,7 @@ void				CTaskDispatchManager::onRequestExtract2DFXIntoDFFs(void)
 		{
 			pDFFFile_2DFX->unload();
 			delete pDFFFile_2DFX;
-			getKGM()->getTaskManager()->onTaskProgressTick();
+			getIMGF()->getTaskManager()->onTaskProgressTick();
 			continue;
 		}
 
@@ -9622,7 +9622,7 @@ void				CTaskDispatchManager::onRequestExtract2DFXIntoDFFs(void)
 			delete pDFFFile_2DFX;
 			pDFFFile_Model->unload();
 			delete pDFFFile_Model;
-			getKGM()->getTaskManager()->onTaskProgressTick();
+			getIMGF()->getTaskManager()->onTaskProgressTick();
 			continue;
 		}
 
@@ -9634,20 +9634,20 @@ void				CTaskDispatchManager::onRequestExtract2DFXIntoDFFs(void)
 		delete pDFFFile_2DFX;
 		pDFFFile_Model->unload();
 		delete pDFFFile_Model;
-		getKGM()->getTaskManager()->onTaskProgressTick();
+		getIMGF()->getTaskManager()->onTaskProgressTick();
 		uiDFFUpdatedFileCount++;
 	}
 
 	// log
-	if (getKGM()->getEntryListTab())
+	if (getIMGF()->getEntryListTab())
 	{
-		getKGM()->getEntryListTab()->log(CLocalizationManager::getInstance()->getTranslatedFormattedText("Log_139", uiDFFUpdatedFileCount));
+		getIMGF()->getEntryListTab()->log(CLocalizationManager::getInstance()->getTranslatedFormattedText("Log_139", uiDFFUpdatedFileCount));
 	}
 	else
 	{
-		getKGM()->getIMGEditor()->logWithNoTabsOpen(CLocalizationManager::getInstance()->getTranslatedFormattedText("Log_139", uiDFFUpdatedFileCount));
+		getIMGF()->getIMGEditor()->logWithNoTabsOpen(CLocalizationManager::getInstance()->getTranslatedFormattedText("Log_139", uiDFFUpdatedFileCount));
 	}
 
 	// end
-	getKGM()->getTaskManager()->onTaskEnd("onRequestExtract2DFXIntoDFFs");
+	getIMGF()->getTaskManager()->onTaskEnd("onRequestExtract2DFXIntoDFFs");
 }

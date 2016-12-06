@@ -1,7 +1,7 @@
 #include "CWindowManager.h"
 #include "gui.h"
 #include "CGUIManager.h"
-#include "Window/CKGMWindow.h"
+#include "Window/CIMGFWindow.h"
 #include "Editors/CIMGEditor.h"
 
 using namespace mcore;
@@ -19,7 +19,7 @@ CWindow*				CWindowManager::openWindow(void)
 {
 	CPoint2D vecWindowPosition = CPoint2D((int32)150, 150);
 	CSize2D vecWindowSize = CSize2D(1025, 698);
-	CKGMWindow *pWindow = gui::CGUIManager::getInstance()->addTemplatedWindow<CKGMWindow>(vecWindowPosition, vecWindowSize);
+	CIMGFWindow *pWindow = gui::CGUIManager::getInstance()->addTemplatedWindow<CIMGFWindow>(vecWindowPosition, vecWindowSize);
 	
 	CIMGEditor *pIMGEditor = new CIMGEditor; // CIMGEditor eventually extends CGUILayer - todo use pWindow->addTempatedGroup<CIMGEditor>() instead?
 	pIMGEditor->setWindow(pWindow);

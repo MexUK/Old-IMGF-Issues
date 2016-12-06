@@ -2,7 +2,7 @@
 
 #include "mcore.h"
 #include "CSettingsManager.h"
-#include "CKGM.h"
+#include "CIMGF.h"
 #include "Globals.h"
 #include "CPopupGUIManager.h"
 #include "Registry/CRegistryManager.h"
@@ -16,11 +16,11 @@ using namespace mcore;
 void			CSettingsManager::init(void)
 {
 	setUsesINIStorage(true);
-	setINIFilePath(getKGM()->getInstallationMeta().getLocalAppPath() + "Settings.ini");
+	setINIFilePath(getIMGF()->getInstallationMeta().getLocalAppPath() + "Settings.ini");
 
 	/*
 	setUsesINIStorage(false);
-	setRegistryKey("KGM\\Settings");
+	setRegistryKey("IMGF\\Settings");
 	*/
 }
 void			CSettingsManager::uninit(void)
@@ -84,16 +84,16 @@ void			CSettingsManager::loadSettings(void)
 	if (getSettingBool("ColouredTabs"))
 	{
 		// todo
-		//((CTabCtrl*)getKGM()->getDialog()->GetDlgItem(1))->ModifyStyle(0, TCS_OWNERDRAWFIXED, 0);
+		//((CTabCtrl*)getIMGF()->getDialog()->GetDlgItem(1))->ModifyStyle(0, TCS_OWNERDRAWFIXED, 0);
 	}
 	else
 	{
-		//((CTabCtrl*)getKGM()->getDialog()->GetDlgItem(1))->ModifyStyle(TCS_OWNERDRAWFIXED, 0, 0);
+		//((CTabCtrl*)getIMGF()->getDialog()->GetDlgItem(1))->ModifyStyle(TCS_OWNERDRAWFIXED, 0, 0);
 	}
 
 	// todo
-	//getKGM()->getDialog()->Invalidate();
-	//getKGM()->getDialog()->UpdateWindow();
+	//getIMGF()->getDialog()->Invalidate();
+	//getIMGF()->getDialog()->UpdateWindow();
 }
 void			CSettingsManager::unloadSettings(void)
 {
@@ -186,7 +186,7 @@ void			CSettingsManager::setSettingInt_PermanentStroage(string strSettingName, i
 	}
 	else
 	{
-		CRegistryManager::setSoftwareValueInt("KGM\\Settings", strSettingName, iValue);
+		CRegistryManager::setSoftwareValueInt("IMGF\\Settings", strSettingName, iValue);
 	}
 }
 void			CSettingsManager::setSettingString_PermanentStroage(string strSettingName, string strValue)
@@ -197,7 +197,7 @@ void			CSettingsManager::setSettingString_PermanentStroage(string strSettingName
 	}
 	else
 	{
-		CRegistryManager::setSoftwareValueString("KGM\\Settings", strSettingName, strValue);
+		CRegistryManager::setSoftwareValueString("IMGF\\Settings", strSettingName, strValue);
 	}
 }
 
@@ -209,7 +209,7 @@ bool			CSettingsManager::getSettingBool_PermanentStroage(string strSettingName)
 	}
 	else
 	{
-		return CRegistryManager::getSoftwareValueInt("KGM\\Settings", strSettingName) == 1;
+		return CRegistryManager::getSoftwareValueInt("IMGF\\Settings", strSettingName) == 1;
 	}
 }
 int				CSettingsManager::getSettingInt_PermanentStroage(string strSettingName)
@@ -220,7 +220,7 @@ int				CSettingsManager::getSettingInt_PermanentStroage(string strSettingName)
 	}
 	else
 	{
-		return CRegistryManager::getSoftwareValueInt("KGM\\Settings", strSettingName);
+		return CRegistryManager::getSoftwareValueInt("IMGF\\Settings", strSettingName);
 	}
 }
 string			CSettingsManager::getSettingString_PermanentStroage(string strSettingName)
@@ -231,6 +231,6 @@ string			CSettingsManager::getSettingString_PermanentStroage(string strSettingNa
 	}
 	else
 	{
-		return CRegistryManager::getSoftwareValueString("KGM\\Settings", strSettingName);
+		return CRegistryManager::getSoftwareValueString("IMGF\\Settings", strSettingName);
 	}
 }

@@ -4,7 +4,7 @@
 #include "Type/StdVector/CStdVector.h"
 #include "Registry/CRegistryManager.h"
 #include "Globals.h"
-#include "CKGM.h"
+#include "CIMGF.h"
 #include "Format/RockstarGames/IMG/CIMGEntry.h"
 #include "Localization/CLocalizationManager.h"
 
@@ -27,17 +27,17 @@ void		CSessionManager::loadSessions(void)
 
 	removeAllEntries();
 
-	for (auto it : getKGM()->getSessionManager()->getSessionsContainer())
+	for (auto it : getIMGF()->getSessionManager()->getSessionsContainer())
 	{
-		// todo DeleteMenu(getKGM()->m_hSubMenu_File_Sessions, it.first, 0);
+		// todo DeleteMenu(getIMGF()->m_hSubMenu_File_Sessions, it.first, 0);
 	}
-	getKGM()->getSessionManager()->getSessionsContainer().clear();
-	// todo DeleteMenu(getKGM()->m_hSubMenu_File_Sessions, 1981, 0);
+	getIMGF()->getSessionManager()->getSessionsContainer().clear();
+	// todo DeleteMenu(getIMGF()->m_hSubMenu_File_Sessions, 1981, 0);
 
-	uint32 uiSessionCount = CRegistryManager::getSoftwareValueInt("KGM\\Sessions", "Count"); // todo - use like getKGM()->getInstallationMeta().getSessionsRegistryKey(); - same for all CRegistryUtility calls.
+	uint32 uiSessionCount = CRegistryManager::getSoftwareValueInt("IMGF\\Sessions", "Count"); // todo - use like getIMGF()->getInstallationMeta().getSessionsRegistryKey(); - same for all CRegistryUtility calls.
 	for (int32 i = uiSessionCount; i >= 1; i--)
 	{
-		string strIMGPaths = CRegistryManager::getSoftwareValueString("KGM\\Sessions", "Data_" + CString2::toString(i));
+		string strIMGPaths = CRegistryManager::getSoftwareValueString("IMGF\\Sessions", "Data_" + CString2::toString(i));
 		deque<string> deqIMGPaths = CStdVector::convertVectorToDeque(CString2::split(strIMGPaths, "; "));
 		string strSessionName = deqIMGPaths[0];
 		deqIMGPaths.pop_front();
@@ -48,9 +48,9 @@ void		CSessionManager::loadSessions(void)
 			vecIMGPaths.push_back(deqIMGPaths[i2]);
 			deqIMGPaths[i2] = CPathManager::getFileName(deqIMGPaths[i2]);
 		}
-		// todo AppendMenu(getKGM()->m_hSubMenu_File_Sessions, MF_STRING, 1900 + i, CString2::convertStdStringToStdWString(CString2::toString((uiSessionCount - i) + 1) + ") " + CString2::escapeMenuText(strSessionName) + " (" + CString2::toString(j2) + " tab" + (j2 == 1 ? "" : "s") + ")").c_str());
+		// todo AppendMenu(getIMGF()->m_hSubMenu_File_Sessions, MF_STRING, 1900 + i, CString2::convertStdStringToStdWString(CString2::toString((uiSessionCount - i) + 1) + ") " + CString2::escapeMenuText(strSessionName) + " (" + CString2::toString(j2) + " tab" + (j2 == 1 ? "" : "s") + ")").c_str());
 
-		getKGM()->getSessionManager()->getSessionsContainer()[1900 + i] = strIMGPaths;
+		getIMGF()->getSessionManager()->getSessionsContainer()[1900 + i] = strIMGPaths;
 
 		CSession *pSession = new CSession;
 		pSession->m_strName = strSessionName;
@@ -60,7 +60,7 @@ void		CSessionManager::loadSessions(void)
 
 	if (uiSessionCount == 0)
 	{
-		// todo AppendMenu(getKGM()->m_hSubMenu_File_Sessions, MF_STRING | MF_DISABLED, 1981, CLocalizationManager::getInstance()->getTranslatedTextW("Menu_Sessions_NoSessions").c_str());
+		// todo AppendMenu(getIMGF()->m_hSubMenu_File_Sessions, MF_STRING | MF_DISABLED, 1981, CLocalizationManager::getInstance()->getTranslatedTextW("Menu_Sessions_NoSessions").c_str());
 	}
 }
 void		CSessionManager::unloadSessions(void)
@@ -77,8 +77,8 @@ CSession*	CSessionManager::addSession(string strSessionName, vector<string>& vec
 	pSession->m_vecPaths = vecPaths;
 	addEntry(pSession);
 
-	CRegistryManager::setSoftwareValueInt("KGM\\Sessions", "Count", uiSessionIndex);
-	CRegistryManager::setSoftwareValueString("KGM\\Sessions", "Data_" + CString2::toString(uiSessionIndex), pSession->serialize());
+	CRegistryManager::setSoftwareValueInt("IMGF\\Sessions", "Count", uiSessionIndex);
+	CRegistryManager::setSoftwareValueString("IMGF\\Sessions", "Data_" + CString2::toString(uiSessionIndex), pSession->serialize());
 
 	return pSession;
 }
@@ -88,16 +88,16 @@ void		CSessionManager::removeSession(CSession *pSession)
 	removeEntry(pSession);
 	
 	uint32 uiSessionIndex = getIndexByEntry(pSession);
-	CRegistryManager::removeSoftwareValue("KGM\\Sessions", "Data_" + CString2::toString(uiSessionIndex));
+	CRegistryManager::removeSoftwareValue("IMGF\\Sessions", "Data_" + CString2::toString(uiSessionIndex));
 
-	uint32 uiSessionCount = CRegistryManager::getSoftwareValueInt("KGM\\Sessions", "Count");
+	uint32 uiSessionCount = CRegistryManager::getSoftwareValueInt("IMGF\\Sessions", "Count");
 	for (uint32 i = uiSessionIndex; i < uiSessionCount; i++)
 	{
-		string strIMGPaths2 = CRegistryManager::getSoftwareValueString("KGM\\Sessions", "Data_" + CString2::toString(i + 1));
-		CRegistryManager::setSoftwareValueString("KGM\\Sessions", "Data_" + CString2::toString(i), strIMGPaths2);
+		string strIMGPaths2 = CRegistryManager::getSoftwareValueString("IMGF\\Sessions", "Data_" + CString2::toString(i + 1));
+		CRegistryManager::setSoftwareValueString("IMGF\\Sessions", "Data_" + CString2::toString(i), strIMGPaths2);
 	}
-	CRegistryManager::removeSoftwareValue("KGM\\Sessions", "Data_" + CString2::toString(uiSessionCount));
-	CRegistryManager::setSoftwareValueInt("KGM\\Sessions", "Count", uiSessionCount - 1);
+	CRegistryManager::removeSoftwareValue("IMGF\\Sessions", "Data_" + CString2::toString(uiSessionCount));
+	CRegistryManager::setSoftwareValueInt("IMGF\\Sessions", "Count", uiSessionCount - 1);
 }
 
 CSession*		CSessionManager::getSessionByName(string strSessionName)

@@ -16,7 +16,7 @@
 #include "Controls/CDropControl.h"
 #include "GUI/ThemeDesigner/CThemeDesigner.h"
 #include "Type/Vector/CColour.h"
-#include "CKGM.h"
+#include "CIMGF.h"
 #include "GUI/ThemeDesigner/CThemeDesigner.h"
 #include "GUI/CGUIManager.h"
 #include "File/CFileManager.h"
@@ -48,7 +48,7 @@ void									CThemeDesignerTab_Save::onPressButton(CButtonControl *pButton)
 	if (pButton)
 	{
 		string strInitialDir = "";
-		string strExtensionFilter = "kgm-theme";
+		string strExtensionFilter = "imgf-theme";
 		string strDefaultFileName = ((CEditControl*)pButton->getLayer()->getControlById(10))->getTextLines()[0] + "." + strExtensionFilter;
 		string strFilePath = mcore::CGUIManager::saveFileDialog(strInitialDir, strExtensionFilter, strDefaultFileName);
 		if (strFilePath == "")

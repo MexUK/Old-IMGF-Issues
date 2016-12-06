@@ -10,7 +10,7 @@ using namespace mcore;
 
 string				CInstallationMeta::getProgramFilesPath(void)
 {
-	return CPathManager::addSlashToEnd(CRegistryManager::getSoftwareValueString("KGM\\InternalSettings", "InstallationPath"));
+	return CPathManager::addSlashToEnd(CRegistryManager::getSoftwareValueString("IMGF\\InternalSettings", "InstallationPath"));
 }
 
 string				CInstallationMeta::getLocalAppPath(void)
@@ -21,5 +21,5 @@ string				CInstallationMeta::getLocalAppPath(void)
 	ss << pLocalAppDataFolderPath;
 	string strLocalAppFolderPath = CPathManager::addSlashToEnd(CString2::convertStdWStringToStdString(ss.str()));
 	CoTaskMemFree(static_cast<void*>(pLocalAppDataFolderPath));
-	return CPathManager::addSlashToEnd(strLocalAppFolderPath) + "KGM/";
+	return CPathManager::addSlashToEnd(strLocalAppFolderPath) + "IMGF/";
 }

@@ -1,5 +1,5 @@
 #include "Globals.h"
 
-CKGM*			g_pKGM = nullptr;
+CIMGF*			g_pIMGF = nullptr;
 
-CKGM*			getKGM(void) { return g_pKGM; }
+CIMGF*			getIMGF(void) { return g_pIMGF; }

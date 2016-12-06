@@ -1,6 +1,6 @@
 #include "CTextureViewer.h"
 #include "Globals.h"
-#include "CKGM.h"
+#include "CIMGF.h"
 #include "Format/RenderWare/Helper/BinaryStream/Sections/CRWSection_TextureNative.h"
 #include "CEntryViewerManager.h"
 #include "Format/RockstarGames/IMG/CIMGEntry.h"
@@ -412,7 +412,7 @@ void				CTextureViewer::openWindow(void)
 
 	// calculate window position and size
 	//RECT rect;
-	//GetWindowRect(getKGM()->getDialog()->GetSafeHwnd(), &rect);
+	//GetWindowRect(getIMGF()->getDialog()->GetSafeHwnd(), &rect);
 
 	RECT screenRect;
 	GetWindowRect(GetDesktopWindow(), &screenRect);
@@ -424,7 +424,7 @@ void				CTextureViewer::openWindow(void)
 	WNDCLASSEX wc = { 0 };
 	HWND hwndEntryViewerWindow;
 
-	wchar_t *szClassName = L"KGM_EntryViewer";
+	wchar_t *szClassName = L"IMGF_EntryViewer";
 	HINSTANCE hInstance = GetModuleHandle(NULL);
 
 	wc.cbSize = sizeof(wc);
@@ -500,14 +500,14 @@ void				CTextureViewer::openWindow(void)
 	UpdateWindow(hwndEntryViewerWindow);
 
 	// restore focus to the main window (as the focus will be automatically changed to the entry viewer window)
-	//SetForegroundWindow(getKGM()->getDialog()->GetSafeHwnd());
+	//SetForegroundWindow(getIMGF()->getDialog()->GetSafeHwnd());
 }
 
 void				CTextureViewer::closeWindow(void)
 {
 	setWindowIsOpen(false);
 	DestroyWindow(getWindowHwnd());
-	UnregisterClass(L"KGM_EntryViewer", (HINSTANCE)GetModuleHandle(NULL));
+	UnregisterClass(L"IMGF_EntryViewer", (HINSTANCE)GetModuleHandle(NULL));
 	reset();
 	TerminateThread(getThread(), 0);
 }
@@ -518,7 +518,7 @@ void				CTextureViewer::repositionWindow(void)
 	todo
 
 	RECT rect;
-	GetWindowRect(getKGM()->getDialog()->GetSafeHwnd(), &rect);
+	GetWindowRect(getIMGF()->getDialog()->GetSafeHwnd(), &rect);
 
 	uint32 uiEntryViewerWindowX = rect.right + 1;
 	uint32 uiEntryViewerWindowY = rect.top;
@@ -541,8 +541,8 @@ LRESULT CALLBACK WndProc_ComboBox(
 	if (uMsg == WM_COMMAND)
 	{
 		int iCurSel = ((CComboBox*)CWnd::FromHandle(hWndComboBox))->GetCurSel();
-		getKGM()->getEntryViewerManager()->getTextureViewer()->setZoomLevel((float32)uiZoomLevels[iCurSel] / 100.0f);
-		getKGM()->getEntryViewerManager()->getTextureViewer()->forceRender();
+		getIMGF()->getEntryViewerManager()->getTextureViewer()->setZoomLevel((float32)uiZoomLevels[iCurSel] / 100.0f);
+		getIMGF()->getEntryViewerManager()->getTextureViewer()->forceRender();
 	}
 
 	return DefSubclassProc(hWnd, uMsg, wParam, lParam);
@@ -568,8 +568,8 @@ LRESULT CALLBACK WndProc_ComboBox(
 		if ((HWND)lParam == hWndComboBox)
 		{
 			int iCurSel = ((CComboBox*)CWnd::FromHandle(hWndComboBox))->GetCurSel();
-			getKGM()->getEntryViewerManager()->setZoomLevel((float32)uiZoomLevels[iCurSel] / 100.0f);
-			getKGM()->getEntryViewerManager()->redrawWindow();
+			getIMGF()->getEntryViewerManager()->setZoomLevel((float32)uiZoomLevels[iCurSel] / 100.0f);
+			getIMGF()->getEntryViewerManager()->redrawWindow();
 		}
 	}
 
@@ -681,7 +681,7 @@ void				CTextureViewer::uninitDisplayType(void)
 
 LRESULT CALLBACK	WndProc_EntryViewer(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lParam)
 {
-	CTextureViewer *pTextureViewer = getKGM()->getEntryViewerManager()->getTextureViewer();
+	CTextureViewer *pTextureViewer = getIMGF()->getEntryViewerManager()->getTextureViewer();
 
 	// vertical scrollbar variables
 	SCROLLINFO si;
@@ -856,25 +856,25 @@ LRESULT CALLBACK	WndProc_EntryViewer(HWND hwnd, UINT msg, WPARAM wParam, LPARAM 
 		}
 		else
 		{
-			//SetWindowPos(getKGM()->getEntryViewerManager()->getSingleDisplayTypeTopScrollbarHwnd(), NULL, 0, 0, 16, clientRect.bottom, SWP_NOMOVE);
+			//SetWindowPos(getIMGF()->getEntryViewerManager()->getSingleDisplayTypeTopScrollbarHwnd(), NULL, 0, 0, 16, clientRect.bottom, SWP_NOMOVE);
 		}
 
 		//RECT clientRect2;
-		//GetClientRect(getKGM()->getEntryViewerManager()->getEntryViewerWindow(), &clientRect2);
-		//InvalidateRect(getKGM()->getEntryViewerManager()->getEntryViewerWindow(), &clientRect2, true);
+		//GetClientRect(getIMGF()->getEntryViewerManager()->getEntryViewerWindow(), &clientRect2);
+		//InvalidateRect(getIMGF()->getEntryViewerManager()->getEntryViewerWindow(), &clientRect2, true);
 
 		/*
 		// set seek position of the horizontal scrollbar for display type Single
 		SCROLLINFO si2;
-		uiSingleDisplayTypeTopScrollbarXMaxScroll = max(getKGM()->getEntryViewerManager()->getSingleDisplayTypeTopScrollbarMaxXPosition() - xNewSize, 0);
+		uiSingleDisplayTypeTopScrollbarXMaxScroll = max(getIMGF()->getEntryViewerManager()->getSingleDisplayTypeTopScrollbarMaxXPosition() - xNewSize, 0);
 		uiSingleDisplayTypeTopScrollbarXCurrentScroll = min(uiSingleDisplayTypeTopScrollbarXCurrentScroll, uiSingleDisplayTypeTopScrollbarXMaxScroll);
 		si2.cbSize = sizeof(si2);
 		si2.fMask = SIF_RANGE | SIF_PAGE | SIF_POS;
 		si2.nMin = uiSingleDisplayTypeTopScrollbarXMinScroll;
-		si2.nMax = getKGM()->getEntryViewerManager()->getSingleDisplayTypeTopScrollbarMaxXPosition();
+		si2.nMax = getIMGF()->getEntryViewerManager()->getSingleDisplayTypeTopScrollbarMaxXPosition();
 		si2.nPage = xNewSize;
 		si2.nPos = uiSingleDisplayTypeTopScrollbarXCurrentScroll;
-		SetScrollInfo(getKGM()->getEntryViewerManager()->getSingleDisplayTypeTopScrollbarHwnd(), SB_HORZ, &si2, TRUE);
+		SetScrollInfo(getIMGF()->getEntryViewerManager()->getSingleDisplayTypeTopScrollbarHwnd(), SB_HORZ, &si2, TRUE);
 		*/
 
 		break;
@@ -1216,18 +1216,18 @@ LRESULT CALLBACK	WndProc_EntryViewer(HWND hwnd, UINT msg, WPARAM wParam, LPARAM 
 void			CTextureViewer::forceRender(void)
 {
 	RECT rect;
-	GetClientRect(getKGM()->getEntryViewerManager()->getTextureViewer()->getWindowHwnd(), &rect);
+	GetClientRect(getIMGF()->getEntryViewerManager()->getTextureViewer()->getWindowHwnd(), &rect);
 
-	//CWnd *pWnd = CWnd::FromHandle(getKGM()->getEntryViewerManager()->getEntryViewerWindow());
+	//CWnd *pWnd = CWnd::FromHandle(getIMGF()->getEntryViewerManager()->getEntryViewerWindow());
 	//pWnd->Invalidate(true);
-	//UpdateWindow(getKGM()->getEntryViewerManager()->getEntryViewerWindow());
-	RedrawWindow(getKGM()->getEntryViewerManager()->getTextureViewer()->getWindowHwnd(), NULL, NULL, RDW_INVALIDATE | RDW_INTERNALPAINT);
+	//UpdateWindow(getIMGF()->getEntryViewerManager()->getEntryViewerWindow());
+	RedrawWindow(getIMGF()->getEntryViewerManager()->getTextureViewer()->getWindowHwnd(), NULL, NULL, RDW_INVALIDATE | RDW_INTERNALPAINT);
 
-	SendMessage(getKGM()->getEntryViewerManager()->getTextureViewer()->getWindowHwnd(), WM_SIZE, 0L, 0L); // this function call is here to trigger redrawing and the scrollbar displaying
+	SendMessage(getIMGF()->getEntryViewerManager()->getTextureViewer()->getWindowHwnd(), WM_SIZE, 0L, 0L); // this function call is here to trigger redrawing and the scrollbar displaying
 
 	int yNewSize = rect.bottom;
 
-	yMaxScroll = max(getKGM()->getEntryViewerManager()->getTextureViewer()->getWindowScrollbarMaxRange() - yNewSize, 0);
+	yMaxScroll = max(getIMGF()->getEntryViewerManager()->getTextureViewer()->getWindowScrollbarMaxRange() - yNewSize, 0);
 	yCurrentScroll = min(yCurrentScroll, yMaxScroll);
 	if (yCurrentScroll < 0)
 	{
@@ -1237,10 +1237,10 @@ void			CTextureViewer::forceRender(void)
 	si.cbSize = sizeof(si);
 	si.fMask = SIF_RANGE | SIF_PAGE | SIF_POS;
 	si.nMin = yMinScroll;
-	si.nMax = getKGM()->getEntryViewerManager()->getTextureViewer()->getWindowScrollbarMaxRange();
+	si.nMax = getIMGF()->getEntryViewerManager()->getTextureViewer()->getWindowScrollbarMaxRange();
 	si.nPage = yNewSize;
 	si.nPos = yCurrentScroll;
-	SetScrollInfo(getKGM()->getEntryViewerManager()->getTextureViewer()->getWindowHwnd(), SB_VERT, &si, TRUE);
+	SetScrollInfo(getIMGF()->getEntryViewerManager()->getTextureViewer()->getWindowHwnd(), SB_VERT, &si, TRUE);
 }
 
 void				CTextureViewer::clearWindowBackground(HDC hdc)
@@ -1350,17 +1350,17 @@ void				CTextureViewer::clearWindowBackground(HDC hdc)
 
 void			onPaint(HWND hwnd)
 {
-	getKGM()->getEntryViewerManager()->getTextureViewer()->render();
+	getIMGF()->getEntryViewerManager()->getTextureViewer()->render();
 }
 
 void			CTextureViewer::render(void)
 {
 	// display textures (images + text)
-	if (getKGM()->getEntryViewerManager()->getTextureViewer()->getDisplayType() == DISPLAYTYPE_SINGLE)
+	if (getIMGF()->getEntryViewerManager()->getTextureViewer()->getDisplayType() == DISPLAYTYPE_SINGLE)
 	{
 		renderDisplayType_Single();
 	}
-	else if (getKGM()->getEntryViewerManager()->getTextureViewer()->getDisplayType() == DISPLAYTYPE_FLOAT)
+	else if (getIMGF()->getEntryViewerManager()->getTextureViewer()->getDisplayType() == DISPLAYTYPE_FLOAT)
 	{
 		renderDisplayType_Float();
 	}
@@ -1398,7 +1398,7 @@ void			CTextureViewer::renderDisplayType_Single(void)
 
 	if (!bPremultipledAlphaApplied)
 	{
-		for (auto pImageData : getKGM()->getEntryViewerManager()->getTextureViewer()->getEntries())
+		for (auto pImageData : getIMGF()->getEntryViewerManager()->getTextureViewer()->getEntries())
 		{
 			PremultiplyBitmapAlpha(hdc, pImageData->m_hBitmap);
 		}
@@ -1409,7 +1409,7 @@ void			CTextureViewer::renderDisplayType_Single(void)
 	{
 		BitBlt(ps.hdc,
 			0, 0,
-			800, getKGM()->getEntryViewerManager()->getTextureViewer()->getWindowScrollbarMaxRange(),
+			800, getIMGF()->getEntryViewerManager()->getTextureViewer()->getWindowScrollbarMaxRange(),
 			hdcScreenCompat,
 			0, yCurrentScroll,
 			SRCCOPY);
@@ -1417,7 +1417,7 @@ void			CTextureViewer::renderDisplayType_Single(void)
 		fSize = FALSE;
 	}
 
-	getKGM()->getEntryViewerManager()->getTextureViewer()->clearWindowBackground(hdc);
+	getIMGF()->getEntryViewerManager()->getTextureViewer()->clearWindowBackground(hdc);
 
 	GetClientRect(hwnd, &clientRect);
 	width = clientRect.right - clientRect.left;
@@ -1443,11 +1443,11 @@ void			CTextureViewer::renderDisplayType_Single(void)
 		uiCalculatedWidth,
 		uiTextureIndex = 0;
 	CTextureViewerTextureData
-		*pActiveImageData = getKGM()->getEntryViewerManager()->getTextureViewer()->getActiveEntry();
-	for (auto pImageData : getKGM()->getEntryViewerManager()->getTextureViewer()->getEntries())
+		*pActiveImageData = getIMGF()->getEntryViewerManager()->getTextureViewer()->getActiveEntry();
+	for (auto pImageData : getIMGF()->getEntryViewerManager()->getTextureViewer()->getEntries())
 	{
 		uint32 uiTop = uiImageY == 0 ? 0 : (uiImageY - 5);
-		if (getKGM()->getEntryViewerManager()->getTextureViewer()->isTexturePreviewEnabled())
+		if (getIMGF()->getEntryViewerManager()->getTextureViewer()->isTexturePreviewEnabled())
 		{
 			pImageData->m_rect.left = 0;
 			pImageData->m_rect.top = (uiImageY - 5) + 1;
@@ -1551,7 +1551,7 @@ void			CTextureViewer::renderDisplayType_Single(void)
 			}
 
 			// draw active texture background colour
-			if (pImageData == getKGM()->getEntryViewerManager()->getTextureViewer()->getActiveEntry())
+			if (pImageData == getIMGF()->getEntryViewerManager()->getTextureViewer()->getActiveEntry())
 			{
 				RECT rect2 = pImageData->m_rect;
 				rect2.top -= yCurrentScroll;
@@ -1652,7 +1652,7 @@ void			CTextureViewer::renderDisplayType_Single(void)
 			DeleteObject(hFont2);
 
 			// draw texture image preview
-			if (getKGM()->getEntryViewerManager()->getTextureViewer()->isTexturePreviewEnabled())
+			if (getIMGF()->getEntryViewerManager()->getTextureViewer()->isTexturePreviewEnabled())
 			{
 				old = (HBITMAP)SelectObject(memDC, pImageData->m_hBitmap);
 
@@ -1739,8 +1739,8 @@ void			CTextureViewer::renderDisplayType_Single(void)
 	//float32 fZoom = 4.0;
 	//uint32 uiDestinationWidth = ((float32)pActiveImageData->m_uiWidth) * fZoom;
 	//uint32 uiDestinationHeight = ((float32)pActiveImageData->m_uiHeight) * fZoom;
-	uint32 uiDestinationWidth = (float32)pActiveImageData->m_uiWidth * getKGM()->getEntryViewerManager()->getTextureViewer()->getZoomLevel();
-	uint32 uiDestinationHeight = (float32)pActiveImageData->m_uiHeight * getKGM()->getEntryViewerManager()->getTextureViewer()->getZoomLevel();
+	uint32 uiDestinationWidth = (float32)pActiveImageData->m_uiWidth * getIMGF()->getEntryViewerManager()->getTextureViewer()->getZoomLevel();
+	uint32 uiDestinationHeight = (float32)pActiveImageData->m_uiHeight * getIMGF()->getEntryViewerManager()->getTextureViewer()->getZoomLevel();
 
 	//BitBlt(hdc, g_uiLeftPanelWidth, 50 + 1, uiDestinationWidth, uiDestinationHeight, memDC, 0, 0, SRCCOPY);
 	//StretchBlt(hdc, g_uiLeftPanelWidth, 50 + 1, uiDestinationWidth, uiDestinationHeight, memDC, 0, 0, pActiveImageData->m_uiWidth, pActiveImageData->m_uiHeight, SRCCOPY);
@@ -1797,7 +1797,7 @@ void			CTextureViewer::renderDisplayType_Single(void)
 	SelectObject(hdc, old);
 	DeleteObject(hFont);
 	
-	getKGM()->getEntryViewerManager()->getTextureViewer()->setWindowScrollbarMaxRange(uiImageY + 200);
+	getIMGF()->getEntryViewerManager()->getTextureViewer()->setWindowScrollbarMaxRange(uiImageY + 200);
 
 	if (false)
 	{
@@ -1807,7 +1807,7 @@ void			CTextureViewer::renderDisplayType_Single(void)
 			uiMaxXPosition = clientRect.bottom;
 		}
 		uiMaxXPosition += 100;
-		getKGM()->getEntryViewerManager()->getTextureViewer()->setSingleDisplayTypeTopScrollbarMaxXPosition(uiMaxXPosition);
+		getIMGF()->getEntryViewerManager()->getTextureViewer()->setSingleDisplayTypeTopScrollbarMaxXPosition(uiMaxXPosition);
 	}
 
 
@@ -1832,7 +1832,7 @@ void			CTextureViewer::renderDisplayType_Float(void)
 
 	if (!bPremultipledAlphaApplied)
 	{
-		for (auto pImageData : getKGM()->getEntryViewerManager()->getTextureViewer()->getEntries())
+		for (auto pImageData : getIMGF()->getEntryViewerManager()->getTextureViewer()->getEntries())
 		{
 			PremultiplyBitmapAlpha(hdc, pImageData->m_hBitmap);
 		}
@@ -1843,7 +1843,7 @@ void			CTextureViewer::renderDisplayType_Float(void)
 	{
 		BitBlt(ps.hdc,
 			0, 0,
-			800, getKGM()->getEntryViewerManager()->getTextureViewer()->getWindowScrollbarMaxRange(),
+			800, getIMGF()->getEntryViewerManager()->getTextureViewer()->getWindowScrollbarMaxRange(),
 			hdcScreenCompat,
 			0, yCurrentScroll,
 			SRCCOPY);
@@ -1851,7 +1851,7 @@ void			CTextureViewer::renderDisplayType_Float(void)
 		fSize = FALSE;
 	}
 
-	getKGM()->getEntryViewerManager()->getTextureViewer()->clearWindowBackground(hdc);
+	getIMGF()->getEntryViewerManager()->getTextureViewer()->clearWindowBackground(hdc);
 
 	GetClientRect(hwnd, &clientRect);
 	width = clientRect.right - clientRect.left;
@@ -1875,7 +1875,7 @@ void			CTextureViewer::renderDisplayType_Float(void)
 		uiImageY = 0,
 		uiHighestImageInRow = 0,
 		uiCalculatedWidth;
-	for (auto pImageData : getKGM()->getEntryViewerManager()->getTextureViewer()->getEntries())
+	for (auto pImageData : getIMGF()->getEntryViewerManager()->getTextureViewer()->getEntries())
 	{
 		uiCalculatedWidth = 0;
 		old = (HBITMAP)SelectObject(memDC, pImageData->m_hBitmap);
@@ -1958,7 +1958,7 @@ void			CTextureViewer::renderDisplayType_Float(void)
 		uiMaxYPosition = clientRect.bottom;
 	}
 	uiMaxYPosition += 100;
-	getKGM()->getEntryViewerManager()->getTextureViewer()->setWindowScrollbarMaxRange(uiMaxYPosition);
+	getIMGF()->getEntryViewerManager()->getTextureViewer()->setWindowScrollbarMaxRange(uiMaxYPosition);
 
 
 

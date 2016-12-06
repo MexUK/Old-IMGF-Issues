@@ -16,7 +16,7 @@
 #include "Controls/CDropControl.h"
 #include "GUI/ThemeDesigner/CThemeDesigner.h"
 #include "Type/Vector/CColour.h"
-#include "CKGM.h"
+#include "CIMGF.h"
 #include "GUI/ThemeDesigner/CThemeDesigner.h"
 
 using namespace std;
@@ -186,7 +186,7 @@ void									CThemeDesignerTab_AddItem::initDesign(void)
 // input - theme designer window
 void									CThemeDesignerTab_AddItem::onLeftMouseDown(CPoint2D& vecCursorPosition)
 {
-	getKGM()->getThemeDesigner()->setThemeDesignerModeEnabled(true);
+	getIMGF()->getThemeDesigner()->setThemeDesignerModeEnabled(true);
 	gui::CGUIManager::getInstance()->getEntryByIndex(1)->setMarkedToRedraw(true); // redraw main window title bar
 
 	uint32
@@ -249,7 +249,7 @@ void									CThemeDesignerTab_AddItem::onLeftMouseDown(CPoint2D& vecCursorPosit
 			getThemeDesigner()->getWindow()->setMarkedToRedraw(true);
 		}
 
-		getKGM()->getThemeDesigner()->setThemeDesignerModeEnabled(false);
+		getIMGF()->getThemeDesigner()->setThemeDesignerModeEnabled(false);
 	}
 }
 

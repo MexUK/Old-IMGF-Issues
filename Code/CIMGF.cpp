@@ -1,6 +1,6 @@
 #pragma warning(disable : 4005)
 
-#include "CKGM.h"
+#include "CIMGF.h"
 #include "Format/RenderWare/Helper/BinaryStream/CRWManager.h"
 #include "Format/RenderWare/Helper/BinaryStream/CRWVersionManager.h"
 #include "Format/RAGE/CRageManager.h"
@@ -72,16 +72,16 @@
 #include "Format/RenderWare/Helper/BinaryStream/CRWSection.h"
 #include "Timing/CTiming.h"
 #include "CLastUsedValueManager.h"
-#include "GUI/Window/CKGMWindow.h"
+#include "GUI/Window/CIMGFWindow.h"
 #include "GUI/ThemeDesigner/CThemeDesigner.h"
 
 using namespace std;
 using namespace mcore;
 
 // construct/destruct
-CKGM::CKGM(void)
+CIMGF::CIMGF(void)
 {
-	// construct objects stored by CKGM
+	// construct objects stored by CIMGF
 	m_pEntryViewerManager	= new CEntryViewerManager;
 	m_pPopupGUIManager		= new CPopupGUIManager;
 	m_pLanguageManager		= new CLanguageManager;
@@ -96,9 +96,9 @@ CKGM::CKGM(void)
 	m_pLastUsedValueManager	= new CLastUsedValueManager;
 	m_pThemeDesigner		= new CThemeDesigner;
 }
-CKGM::~CKGM(void)
+CIMGF::~CIMGF(void)
 {
-	// destruct objects stored by CKGM
+	// destruct objects stored by CIMGF
 	delete m_pEntryViewerManager;
 	delete m_pPopupGUIManager;
 	delete m_pLanguageManager;
@@ -115,19 +115,19 @@ CKGM::~CKGM(void)
 }
 
 // init/uninit (ocurs in original thread)
-void				CKGM::init(void)
+void				CIMGF::init(void)
 {
 	m_pWindowManager->init();
 	m_pThemeDesigner->init();
 	initInitializationThread();
 }
 
-void				CKGM::uninit(void)
+void				CIMGF::uninit(void)
 {
 }
 
 // init tasks (ocurs in original thread)
-void				CKGM::initInitializationThread(void)
+void				CIMGF::initInitializationThread(void)
 {
 	SECURITY_ATTRIBUTES sa;
 	sa.nLength = sizeof(SECURITY_ATTRIBUTES);
@@ -139,11 +139,11 @@ void				CKGM::initInitializationThread(void)
 // init (occurs in different thread)
 uint32 WINAPI		onInitializationThreadStart(void *pThreadParameter)
 {
-	((CKGM*)pThreadParameter)->_init();
+	((CIMGF*)pThreadParameter)->_init();
 	return 0;
 }
 
-void				CKGM::_init(void)
+void				CIMGF::_init(void)
 {
 	initBuildMeta();
 	initInstallationMeta();
@@ -161,45 +161,45 @@ void				CKGM::_init(void)
 }
 
 // init tasks (occurs in different thread)
-void				CKGM::initBuildMeta(void)
+void				CIMGF::initBuildMeta(void)
 {
 	getBuildMeta().setCurrentVersion(1.3f);
 	getBuildMeta().setIsAlphaBuild(true);
 	getBuildMeta().setCurrentVersionString("1.3" + string(getBuildMeta().isAlphaBuild() ? " Alpha" : ""));
 }
 
-void				CKGM::initInstallationMeta(void)
+void				CIMGF::initInstallationMeta(void)
 {
 	// choose installation folder
-	string strInstallationPath = CRegistryManager::getSoftwareValueString("KGM\\InternalSettings", "InstallationPath");
+	string strInstallationPath = CRegistryManager::getSoftwareValueString("IMGF\\InternalSettings", "InstallationPath");
 	if (strInstallationPath == "")
 	{
-		string strPotentialInstallationPath = "C:\\Program Files (x86)\\KGM\\" + getKGM()->getBuildMeta().getCurrentVersionString() + "\\";
+		string strPotentialInstallationPath = "C:\\Program Files (x86)\\IMGF\\" + getIMGF()->getBuildMeta().getCurrentVersionString() + "\\";
 		if (CFileManager::doesFolderExist(strPotentialInstallationPath))
 		{
 			strInstallationPath = strPotentialInstallationPath;
-			CRegistryManager::setSoftwareValueString("KGM\\InternalSettings", "InstallationPath", strPotentialInstallationPath);
+			CRegistryManager::setSoftwareValueString("IMGF\\InternalSettings", "InstallationPath", strPotentialInstallationPath);
 		}
 		else
 		{
-			//string strChosenInstallationFolder = mcore::CGUIManager::chooseFolderDialog(getDialog()->GetSafeHwnd(), CLocalizationManager::getInstance()->getTranslatedText("ChooseFolderPopup_11"), getKGM()->getLastUsedDirectory("INSTALLATION"));
-			string strChosenInstallationFolder = mcore::CGUIManager::chooseFolderDialog(getActiveWindow()->getWindowHandle(), "Choose the installation folder for KGM. (e.g. In program files x86)", getKGM()->getLastUsedDirectory("INSTALLATION"));
+			//string strChosenInstallationFolder = mcore::CGUIManager::chooseFolderDialog(getDialog()->GetSafeHwnd(), CLocalizationManager::getInstance()->getTranslatedText("ChooseFolderPopup_11"), getIMGF()->getLastUsedDirectory("INSTALLATION"));
+			string strChosenInstallationFolder = mcore::CGUIManager::chooseFolderDialog(getActiveWindow()->getWindowHandle(), "Choose the installation folder for IMGF. (e.g. In program files x86)", getIMGF()->getLastUsedDirectory("INSTALLATION"));
 			if (strChosenInstallationFolder == "")
 			{
 			}
 			else
 			{
 				strInstallationPath = strChosenInstallationFolder;
-				getKGM()->setLastUsedDirectory("INSTALLATION", strChosenInstallationFolder);
-				CRegistryManager::setSoftwareValueString("KGM\\InternalSettings", "InstallationPath", strChosenInstallationFolder);
+				getIMGF()->setLastUsedDirectory("INSTALLATION", strChosenInstallationFolder);
+				CRegistryManager::setSoftwareValueString("IMGF\\InternalSettings", "InstallationPath", strChosenInstallationFolder);
 			}
 		}
 	}
 }
 
-void				CKGM::initStoredObjects(void)
+void				CIMGF::initStoredObjects(void)
 {
-	// initialize objects stored by CKGM
+	// initialize objects stored by CIMGF
 	// Excludes: CWindowManager and CSortManager
 	m_pEntryViewerManager->init();
 	m_pPopupGUIManager->init();
@@ -212,7 +212,7 @@ void				CKGM::initStoredObjects(void)
 	m_pUpdateManager->init();
 }
 
-void				CKGM::initSingletonObjects(void)
+void				CIMGF::initSingletonObjects(void)
 {
 	// initialize singleton objects
 	CBMPManager::getInstance()->init();
@@ -238,24 +238,24 @@ void				CKGM::initSingletonObjects(void)
 	CWTDManager::getInstance()->init();
 }
 
-void				CKGM::initStaticData(void)
+void				CIMGF::initStaticData(void)
 {
 	CRWSection::initStatic();
 }
 
-void				CKGM::initEventBinding(void)
+void				CIMGF::initEventBinding(void)
 {
 	auto pOnEntriesExtensionChange = [](void *pData)
 	{
-		if (getKGM()->getEntryListTab() != nullptr) // When opening an IMG parseIMG() will call addEntry() which will trigger this callback, but the active view instance won't be set yet.
+		if (getIMGF()->getEntryListTab() != nullptr) // When opening an IMG parseIMG() will call addEntry() which will trigger this callback, but the active view instance won't be set yet.
 		{
-			getKGM()->getEntryListTab()->loadFilter_Type();
+			getIMGF()->getEntryListTab()->loadFilter_Type();
 		}
 	};
 	
 	auto pOnTaskProgress = [](void *pData)
 	{
-		getKGM()->getTaskManager()->onTaskProgressTick();
+		getIMGF()->getTaskManager()->onTaskProgressTick();
 	};
 	
 	CEventManager::getInstance()->bindEvent(EVENT_onTaskProgress,				pOnTaskProgress);
@@ -265,29 +265,29 @@ void				CKGM::initEventBinding(void)
 	CEventManager::getInstance()->bindEvent(EVENT_onRemoveIMGEntryExtension,	pOnEntriesExtensionChange);
 }
 
-void				CKGM::initSettings(void)
+void				CIMGF::initSettings(void)
 {
 	getSettingsManager()->loadSettings();
 }
 
-void				CKGM::initLocalization(void)
+void				CIMGF::initLocalization(void)
 {
-	eLanguage eActiveLanguage = (eLanguage)getKGM()->getSettingsManager()->getSettingInt("Language");
+	eLanguage eActiveLanguage = (eLanguage)getIMGF()->getSettingsManager()->getSettingInt("Language");
 	CLocalizationManager::getInstance()->setActiveLanguage(eActiveLanguage);
-	CLocalizationManager::getInstance()->setActiveLanguageName(getKGM()->getLanguageManager()->getLanguageById(eActiveLanguage)->getLanguageName());
-	CLocalizationManager::getInstance()->setInstallationPath(CRegistryManager::getSoftwareValueString("KGM\\InternalSettings", "InstallationPath"));
+	CLocalizationManager::getInstance()->setActiveLanguageName(getIMGF()->getLanguageManager()->getLanguageById(eActiveLanguage)->getLanguageName());
+	CLocalizationManager::getInstance()->setInstallationPath(CRegistryManager::getSoftwareValueString("IMGF\\InternalSettings", "InstallationPath"));
 	CLocalizationManager::getInstance()->loadTranslatedText();
 }
 
-void				CKGM::initSorting(void)
+void				CIMGF::initSorting(void)
 {
 	m_pSortManager->init();
 }
 
-void				CKGM::initOldVersionMigration(void)
+void				CIMGF::initOldVersionMigration(void)
 {
 	// delete previous version's exe file
-	string strPreviousVersionExePath = CRegistryManager::getSoftwareValueString("KGM\\InternalSettings", "DeletePreviousVersionOnNextLaunch");
+	string strPreviousVersionExePath = CRegistryManager::getSoftwareValueString("IMGF\\InternalSettings", "DeletePreviousVersionOnNextLaunch");
 	if (strPreviousVersionExePath != "")
 	{
 		int iResult;
@@ -311,11 +311,11 @@ void				CKGM::initOldVersionMigration(void)
 			}
 		}
 		while (bFileExists && iResult == 0);
-		CRegistryManager::removeSoftwareValue("KGM\\InternalSettings", "DeletePreviousVersionOnNextLaunch");
+		CRegistryManager::removeSoftwareValue("IMGF\\InternalSettings", "DeletePreviousVersionOnNextLaunch");
 	}
 }
 
-void				CKGM::initCommandLine(void)
+void				CIMGF::initCommandLine(void)
 {
 	// command line
 	wchar_t *pCommandLine = GetCommandLine();
@@ -332,66 +332,66 @@ void				CKGM::initCommandLine(void)
 	}
 }
 
-void				CKGM::initAutoUpdateCheck(void)
+void				CIMGF::initAutoUpdateCheck(void)
 {
 	/*
 	todo
 	This currently calls a onRequestBlah which eventualls calls CTaskManager::onFeatureEnd which can crash before the CIMGEditor object has been created.
 	So move this to like lambda: onWindowOpen()
-	getKGM()->getTaskManager()->getDispatch()->onRequestAutoUpdate();
+	getIMGF()->getTaskManager()->getDispatch()->onRequestAutoUpdate();
 	*/
 }
 
-void				CKGM::initTempStuff(void)
+void				CIMGF::initTempStuff(void)
 {
 }
 
 // windows/tabs
-void				CKGM::openWindow(void)
+void				CIMGF::openWindow(void)
 {
 	getWindowManager()->openWindow();
 	CEventManager::getInstance()->triggerEvent(EVENT_onToolReady);
 }
 
-void				CKGM::processWindows(void)
+void				CIMGF::processWindows(void)
 {
 	getWindowManager()->processWindows();
 }
 
-CWindow*			CKGM::getActiveWindow(void)
+CWindow*			CIMGF::getActiveWindow(void)
 {
 	return gui::CGUIManager::getInstance()->getActiveWindow();
 }
 
-CEditorTab*			CKGM::getActiveTab(void)
+CEditorTab*			CIMGF::getActiveTab(void)
 {
-	CKGMWindow *pKGMWindow = (CKGMWindow*) gui::CGUIManager::getInstance()->getEntryByIndex(0);
-	CIMGEditor *pIMGEditor = (CIMGEditor*) pKGMWindow->getEntryByIndex(0);
+	CIMGFWindow *pIMGFWindow = (CIMGFWindow*) gui::CGUIManager::getInstance()->getEntryByIndex(0);
+	CIMGEditor *pIMGEditor = (CIMGEditor*) pIMGFWindow->getEntryByIndex(0);
 	CEditorTab *pEditorTab = pIMGEditor->getActiveTab();
 	return pEditorTab;
 }
 
-CIMGEditor*			CKGM::getIMGEditor(void)
+CIMGEditor*			CIMGF::getIMGEditor(void)
 {
-	CKGMWindow *pKGMWindow = (CKGMWindow*) gui::CGUIManager::getInstance()->getEntryByIndex(0);
-	CIMGEditor *pIMGEditor = (CIMGEditor*) pKGMWindow->getEntryByIndex(0);
+	CIMGFWindow *pIMGFWindow = (CIMGFWindow*) gui::CGUIManager::getInstance()->getEntryByIndex(0);
+	CIMGEditor *pIMGEditor = (CIMGEditor*) pIMGFWindow->getEntryByIndex(0);
 	return pIMGEditor;
 }
 
-CIMGEditorTab*		CKGM::getEntryListTab(void)
+CIMGEditorTab*		CIMGF::getEntryListTab(void)
 {
-	CKGMWindow *pKGMWindow = (CKGMWindow*) gui::CGUIManager::getInstance()->getEntryByIndex(0);
-	CIMGEditor *pIMGEditor = (CIMGEditor*) pKGMWindow->getEntryByIndex(0);
+	CIMGFWindow *pIMGFWindow = (CIMGFWindow*) gui::CGUIManager::getInstance()->getEntryByIndex(0);
+	CIMGEditor *pIMGEditor = (CIMGEditor*) pIMGFWindow->getEntryByIndex(0);
 	CIMGEditorTab *pIMGEditorTab = (CIMGEditorTab*) pIMGEditor->getTabs().getEntryByIndex(0);
 	return pIMGEditorTab;
 }
 
 // last used directory
-void				CKGM::setLastUsedDirectory(string strHandleName, string strDirectory)
+void				CIMGF::setLastUsedDirectory(string strHandleName, string strDirectory)
 {
-	CRegistryManager::setSoftwareValueString("KGM\\LastUsedDirectories", strHandleName, strDirectory);
+	CRegistryManager::setSoftwareValueString("IMGF\\LastUsedDirectories", strHandleName, strDirectory);
 }
-string				CKGM::getLastUsedDirectory(string strHandleName)
+string				CIMGF::getLastUsedDirectory(string strHandleName)
 {
-	return CRegistryManager::getSoftwareValueString("KGM\\LastUsedDirectories", strHandleName);
+	return CRegistryManager::getSoftwareValueString("IMGF\\LastUsedDirectories", strHandleName);
 }

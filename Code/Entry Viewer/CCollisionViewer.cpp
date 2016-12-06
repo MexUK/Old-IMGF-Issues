@@ -3,7 +3,7 @@
 #include "GL/glew.h"
 #include "GL/wglew.h"
 #include "CCollisionViewer.h"
-#include "CKGM.h"
+#include "CIMGF.h"
 #include "CEntryViewerManager.h"
 #include "Format/RockstarGames/COL/CCOLEntry.h"
 #include "Math/CMath.h"
@@ -421,7 +421,7 @@ void						handleCursorButton(GLFWwindow* window, int button, int action, int mod
 void						handleScrollInput(GLFWwindow * 	window, double dXOffset, double dYOffset)
 {
 	float32 fMouseWheelScrollMultiplier = 5.0f;
-	CCollisionViewer *pCollisionViewer = getKGM()->getEntryViewerManager()->getCollisionViewer();
+	CCollisionViewer *pCollisionViewer = getIMGF()->getEntryViewerManager()->getCollisionViewer();
 	pCollisionViewer->zoomCamera(-dYOffset * fMouseWheelScrollMultiplier);
 }
 

@@ -1,10 +1,10 @@
 #ifndef Globals_H
 #define Globals_H
 
-class CKGM;
+class CIMGF;
 
-extern CKGM*	g_pKGM;
+extern CIMGF*	g_pIMGF;
 
-CKGM*			getKGM(void);
+CIMGF*			getIMGF(void);
 
 #endif

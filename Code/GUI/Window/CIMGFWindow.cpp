@@ -1,4 +1,4 @@
-#include "CKGMWindow.h"
+#include "CIMGFWindow.h"
 #include "GUI/Editors/CIMGEditor.h"
 #include "Controls/CButtonControl.h"
 #include "Controls/CListControl.h"
@@ -9,7 +9,7 @@
 #include "Event/CEventManager.h"
 #include "Event/eEvent.h"
 #include "Globals.h"
-#include "CKGM.h"
+#include "CIMGF.h"
 #include "Task/CTaskManager.h"
 #include "Task/CTaskDispatchManager.h"
 #include "File/CFileManager.h"
@@ -21,23 +21,23 @@
 using namespace std;
 using namespace mcore;
 
-CKGMWindow::CKGMWindow(void)
+CIMGFWindow::CIMGFWindow(void)
 {
 }
 
 // event binding
-void					CKGMWindow::bindEvents(void)
+void					CIMGFWindow::bindEvents(void)
 {
 	storeEventBoundFunction(bindEvent(EVENT_onRender, [](void *pWindow)
 	{
-		((CKGMWindow*) pWindow)->onRender();
+		((CIMGFWindow*) pWindow)->onRender();
 	}, this));
 
 	CWindow::bindEvents();
 }
 
 // window initialization
-void					CKGMWindow::initTabs(void)
+void					CIMGFWindow::initTabs(void)
 {
 	getStyles()->setStyle("fill-colour", CColour(0xFF, 0xFF, 0xFF));
 	return; // todo
@@ -74,21 +74,21 @@ void					CKGMWindow::initTabs(void)
 		CButtonControl *pButton = (CButtonControl*) pData;
 		if (pButton->getControlId() == 1)
 		{
-			getKGM()->getTaskManager()->getDispatch()->onRequestOpen();
-			// todo getKGM()->getWindowManager()->getMainWindow()->setMarkedToRedraw(true);
-			// todo getKGM()->getWindowManager()->render(); // todo - needed?
+			getIMGF()->getTaskManager()->getDispatch()->onRequestOpen();
+			// todo getIMGF()->getWindowManager()->getMainWindow()->setMarkedToRedraw(true);
+			// todo getIMGF()->getWindowManager()->render(); // todo - needed?
 		}
 	}, this);
 }
 
 // render
-void					CKGMWindow::onRender(void)
+void					CIMGFWindow::onRender(void)
 {
 	renderTitleBar();
 	renderEtc();
 }
 
-void					CKGMWindow::renderTitleBar(void)
+void					CIMGFWindow::renderTitleBar(void)
 {
 	CGraphicsLibrary *pGFX = gui::CGUIManager::getInstance()->getGraphicsLibrary();
 
@@ -106,7 +106,7 @@ void					CKGMWindow::renderTitleBar(void)
 	pGFX->drawRectangle(CPoint2D((int32) 0, 0), CSize2D(getSize().m_x, getTitleBarHeight()), &styles1);
 	pGFX->drawText(CPoint2D(uiTitleBarTextX, 1), CSize2D(uiTitleBarTextWidth, getTitleBarHeight()), strTitleBarText, &styles1);
 
-	if (getKGM()->getThemeDesigner()->isThemeDesignerModeEnabled())
+	if (getIMGF()->getThemeDesigner()->isThemeDesignerModeEnabled())
 	{
 		CGUIStyles stylesThemeDesigner;
 		stylesThemeDesigner.setStyle("text-colour", CColour(241, 155, 30));
@@ -117,7 +117,7 @@ void					CKGMWindow::renderTitleBar(void)
 	}
 }
 
-void					CKGMWindow::renderEtc(void)
+void					CIMGFWindow::renderEtc(void)
 {
 	CGraphicsLibrary *pGFX = gui::CGUIManager::getInstance()->getGraphicsLibrary();
 	CPoint2D vecDrawStartPosition = CPoint2D(0, getTitleBarHeight());
@@ -193,7 +193,7 @@ void					CKGMWindow::renderEtc(void)
 }
 
 // input processing
-void					CKGMWindow::onDropFiles(vector<string>& vecPaths)
+void					CIMGFWindow::onDropFiles(vector<string>& vecPaths)
 {
 	vector<string>
 		vecOpenPaths,
@@ -222,7 +222,7 @@ void					CKGMWindow::onDropFiles(vector<string>& vecPaths)
 		}
 		else
 		{
-			if (getKGM()->getActiveTab() == nullptr)
+			if (getIMGF()->getActiveTab() == nullptr)
 			{
 				return;
 			}
@@ -235,15 +235,15 @@ void					CKGMWindow::onDropFiles(vector<string>& vecPaths)
 	{
 		for (auto strPath : vecEntryPaths)
 		{
-			getKGM()->getEntryListTab()->addOrReplaceEntryViaFileAndSettings(strPath);
+			getIMGF()->getEntryListTab()->addOrReplaceEntryViaFileAndSettings(strPath);
 		}
-		//getKGM()->getEntryListTab()->log(CLocalizationManager::getInstance()->getTranslatedFormattedText("Log_23", vecImportPaths.size()));
+		//getIMGF()->getEntryListTab()->log(CLocalizationManager::getInstance()->getTranslatedFormattedText("Log_23", vecImportPaths.size()));
 
-		getKGM()->getEntryListTab()->setIMGModifiedSinceRebuild(true);
+		getIMGF()->getEntryListTab()->setIMGModifiedSinceRebuild(true);
 	}
 
 	for (auto strPath : vecOpenPaths)
 	{
-		getKGM()->getTaskManager()->getDispatch()->onRequestOpen2(strPath);
+		getIMGF()->getTaskManager()->getDispatch()->onRequestOpen2(strPath);
 	}
 }

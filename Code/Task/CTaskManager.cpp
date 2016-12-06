@@ -1,6 +1,6 @@
 #include "CTaskManager.h"
 #include "Globals.h"
-#include "CKGM.h"
+#include "CIMGF.h"
 #include "CTaskDispatchManager.h"
 #include "Type/String/CString2.h"
 #include "Path/CPathManager.h"
@@ -110,9 +110,9 @@ void							CTaskManager::onTaskEnd(string strFeatureName, bool bFeatureAborted)
 	/*
 	todo
 
-	if (getKGM()->getIMGEditor()->getEntryCount() > 0)
+	if (getIMGF()->getIMGEditor()->getEntryCount() > 0)
 	{
-		getKGM()->getEntryListTab()->resetOverwriteEntryOption();
+		getIMGF()->getEntryListTab()->resetOverwriteEntryOption();
 	}
 	*/
 
@@ -127,7 +127,7 @@ void							CTaskManager::onTaskEnd(string strFeatureName, bool bFeatureAborted)
 	m_uiTaskPauseDuration = 0;
 	m_uiTaskPauseStartTime = 0;
 
-	string strINIPath = getKGM()->getInstallationMeta().getLocalAppPath() + "Data\\FeatureProcessingTimes.txt";
+	string strINIPath = getIMGF()->getInstallationMeta().getLocalAppPath() + "Data\\FeatureProcessingTimes.txt";
 	if (!CFileManager::doesFolderExist(CPathManager::getDirectory(strINIPath)))
 	{
 		CFileManager::createFoldersForPath(strINIPath);
@@ -149,7 +149,7 @@ void							CTaskManager::onTaskEnd(string strFeatureName, bool bFeatureAborted)
 	CINIManager::setItem(strINIPath, "FeatureProcessingTimes", strFeatureName, CString2::join(deqTokens, " "));
 
 	// auto save
-	if (getKGM()->getSettingsManager()->getSettingBool("AutoSave"))
+	if (getIMGF()->getSettingsManager()->getSettingBool("AutoSave"))
 	{
 		if (strFeatureName != "onRequestOpen" &&
 			strFeatureName != "onRequestOpen2" &&
@@ -167,7 +167,7 @@ void							CTaskManager::onTaskEnd(string strFeatureName, bool bFeatureAborted)
 			strFeatureName != "onRequestSearchSelection")
 		{
 			//mcore::CGUIManager::showMessage("Feature: " + strFeatureName, "Feature Causing Rebuild Bug", MB_OK);
-			getKGM()->getTaskManager()->getDispatch()->onRequestRebuild();
+			getIMGF()->getTaskManager()->getDispatch()->onRequestRebuild();
 		}
 	}
 }

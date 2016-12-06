@@ -1,7 +1,7 @@
 #pragma warning(disable : 4005)
 
 #include "CIMGEditorTab.h"
-#include "CKGM.h"
+#include "CIMGF.h"
 #include "Globals.h"
 #include "Type/String/CString2.h"
 #include "Type/StdVector/CStdVector.h"
@@ -96,18 +96,18 @@ void					CIMGEditorTab::initTab(void)
 {
 	// add visual tab
 	// todo
-	//((CTabCtrl*)getKGM()->getDialog()->GetDlgItem(1))->InsertItem(getIndex(), CString2::convertStdStringToStdWString(CPathManager::getFileName(getIMGFile()->getFilePath())).c_str());
-	//((CTabCtrl*)getKGM()->getDialog()->GetDlgItem(1))->SetCurSel(getIndex());
+	//((CTabCtrl*)getIMGF()->getDialog()->GetDlgItem(1))->InsertItem(getIndex(), CString2::convertStdStringToStdWString(CPathManager::getFileName(getIMGFile()->getFilePath())).c_str());
+	//((CTabCtrl*)getIMGF()->getDialog()->GetDlgItem(1))->SetCurSel(getIndex());
 
 	// store tab data
-	// todo setListViewHwnd(GetDlgItem(getKGM()->getDialog()->GetSafeHwnd(), 37));
+	// todo setListViewHwnd(GetDlgItem(getIMGF()->getDialog()->GetSafeHwnd(), 37));
 
 	// add to recently open
-	getKGM()->getRecentlyOpenManager()->addRecentlyOpenEntry(getIMGFile()->getFilePath());
-	getKGM()->getRecentlyOpenManager()->loadRecentlyOpenEntries();
+	getIMGF()->getRecentlyOpenManager()->addRecentlyOpenEntry(getIMGFile()->getFilePath());
+	getIMGF()->getRecentlyOpenManager()->loadRecentlyOpenEntries();
 
 	// update filename for open last
-	getKGM()->getActiveWindow()->setOpenLastFilename(CPathManager::getFileName(getIMGFile()->getFilePath()));
+	getIMGF()->getActiveWindow()->setOpenLastFilename(CPathManager::getFileName(getIMGFile()->getFilePath()));
 
 	// load corresponding DB file & protected entry states
 	m_pDBFile = nullptr;
@@ -153,8 +153,8 @@ void					CIMGEditorTab::checkForUnknownRWVersionEntries(void)
 			vecIMGEntryNames.push_back(pIMGEntry->getEntryName());
 		}
 
-		getKGM()->getTaskManager()->onTaskPause();
-		getKGM()->getPopupGUIManager()->showListViewDialog(
+		getIMGF()->getTaskManager()->onTaskPause();
+		getIMGF()->getPopupGUIManager()->showListViewDialog(
 			CLocalizationManager::getInstance()->getTranslatedText("UnknownVersions"),
 			CLocalizationManager::getInstance()->getTranslatedFormattedText("UnknownVersionsCheck", CPathManager::getFileName(getIMGFile()->getFilePath()).c_str(), vecUnknownRWVersionEntries.size()),
 			CLocalizationManager::getInstance()->getTranslatedText("Window_OrphanEntries_EntryName"),
@@ -163,7 +163,7 @@ void					CIMGEditorTab::checkForUnknownRWVersionEntries(void)
 			CPathManager::replaceFileExtension(CPathManager::getFileName(getIMGFile()->getFilePath()), "TXT").c_str()),
 			"UNKNOWNRWVERSIONS"
 			);
-		getKGM()->getTaskManager()->onTaskUnpause();
+		getIMGF()->getTaskManager()->onTaskUnpause();
 	}
 }
 
@@ -177,12 +177,12 @@ void					CIMGEditorTab::log(string strText, bool bExtendedModeOnly)
 		m_vecLogLinesExtended.push_back(strLogEntryWithTimestampAndIMG);
 
 		// automatic logging to file
-		if (getKGM()->getSettingsManager()->getSettingString("AutomaticLoggingPath") != "")
+		if (getIMGF()->getSettingsManager()->getSettingString("AutomaticLoggingPath") != "")
 		{
 			// extended file
-			if (getKGM()->getSettingsManager()->getSettingBool("AutomaticLoggingExtended"))
+			if (getIMGF()->getSettingsManager()->getSettingBool("AutomaticLoggingExtended"))
 			{
-				string strExtendedLogPath = CPathManager::addSlashToEnd(getKGM()->getSettingsManager()->getSettingString("AutomaticLoggingPath"));
+				string strExtendedLogPath = CPathManager::addSlashToEnd(getIMGF()->getSettingsManager()->getSettingString("AutomaticLoggingPath"));
 				strExtendedLogPath += CString2::getDateTextForFolder() + "/" + CLocalizationManager::getInstance()->getTranslatedText("LogFilename_Extended");
 				CFileManager::storeFile(strExtendedLogPath, strLogEntryWithTimestampAndIMG + "\n", true, false);
 			}
@@ -195,31 +195,31 @@ void					CIMGEditorTab::log(string strText, bool bExtendedModeOnly)
 		m_vecLogLinesExtended.push_back(strLogEntryWithTimestampAndIMG);
 
 		// automatic logging to file
-		if (getKGM()->getSettingsManager()->getSettingString("AutomaticLoggingPath") != "")
+		if (getIMGF()->getSettingsManager()->getSettingString("AutomaticLoggingPath") != "")
 		{
 			// basic file
-			if (getKGM()->getSettingsManager()->getSettingBool("AutomaticLoggingBasic"))
+			if (getIMGF()->getSettingsManager()->getSettingBool("AutomaticLoggingBasic"))
 			{
-				string strExtendedLogPath = CPathManager::addSlashToEnd(getKGM()->getSettingsManager()->getSettingString("AutomaticLoggingPath"));
+				string strExtendedLogPath = CPathManager::addSlashToEnd(getIMGF()->getSettingsManager()->getSettingString("AutomaticLoggingPath"));
 				strExtendedLogPath += CString2::getDateTextForFolder() + "/" + CLocalizationManager::getInstance()->getTranslatedText("LogFilename_Basic");
 				CFileManager::storeFile(strExtendedLogPath, strLogEntryWithTimestampAndIMG + "\n", true, false);
 			}
 			
 			// extended file
-			if (getKGM()->getSettingsManager()->getSettingBool("AutomaticLoggingExtended"))
+			if (getIMGF()->getSettingsManager()->getSettingBool("AutomaticLoggingExtended"))
 			{
-				string strExtendedLogPath = CPathManager::addSlashToEnd(getKGM()->getSettingsManager()->getSettingString("AutomaticLoggingPath"));
+				string strExtendedLogPath = CPathManager::addSlashToEnd(getIMGF()->getSettingsManager()->getSettingString("AutomaticLoggingPath"));
 				strExtendedLogPath += CString2::getDateTextForFolder() + "/" + CLocalizationManager::getInstance()->getTranslatedText("LogFilename_Extended");
 				CFileManager::storeFile(strExtendedLogPath, strLogEntryWithTimestampAndIMG + "\n", true, false);
 			}
 		}
 	}
 
-	if (getKGM()->getActiveTab() == this)
+	if (getIMGF()->getActiveTab() == this)
 	{
 		/*
 		todo
-		CEdit *pEdit = ((CEdit*)getKGM()->getDialog()->GetDlgItem(14));
+		CEdit *pEdit = ((CEdit*)getIMGF()->getDialog()->GetDlgItem(14));
 		pEdit->SetWindowTextW(CString2::convertStdStringToStdWString(CString2::join(m_vecLogLinesGUI, "\r\n")).c_str());
 		pEdit->LineScroll(pEdit->GetLineCount());
 		*/
@@ -234,7 +234,7 @@ void					CIMGEditorTab::clearLogs(void)
 
 	/*
 	todo
-	CEdit *pEdit = ((CEdit*)getKGM()->getDialog()->GetDlgItem(14));
+	CEdit *pEdit = ((CEdit*)getIMGF()->getDialog()->GetDlgItem(14));
 	pEdit->SetWindowTextW(L"");
 	pEdit->LineScroll(0);
 	*/
@@ -242,11 +242,11 @@ void					CIMGEditorTab::clearLogs(void)
 
 void					CIMGEditorTab::checkToApplyCompression(CIMGEntry *pIMGEntry)
 {
-	if (getKGM()->getSettingsManager()->getSettingBool("AutoCompressionImportReplace"))
+	if (getIMGF()->getSettingsManager()->getSettingBool("AutoCompressionImportReplace"))
 	{
 		if (getIMGFile()->getIMGVersion() == IMG_FASTMAN92)
 		{
-			//eCompressionAlgorithm eCompressionAlgorithmValue = (eCompressionAlgorithm)getKGM()->getSettingsManager()->getSettingInt("Fastman92IMGAutoCompressionType");
+			//eCompressionAlgorithm eCompressionAlgorithmValue = (eCompressionAlgorithm)getIMGF()->getSettingsManager()->getSettingInt("Fastman92IMGAutoCompressionType");
 			if (getIMGFile()->getEntryCount() > 1) // > 1 instead of > 0, because the entry has already been added to the pool.
 			{
 				eCompressionAlgorithm eCompressionAlgorithmValue;
@@ -348,7 +348,7 @@ void					CIMGEditorTab::addOrReplaceEntryViaFileAndSettings(string strEntryFileP
 	}
 
 	// entry name is found in IMG
-	if (getKGM()->getSettingsManager()->getSettingBool("AskBeforeOverwritingFiles"))
+	if (getIMGF()->getSettingsManager()->getSettingBool("AskBeforeOverwritingFiles"))
 	{
 		// Setting is enabled: Ask before overwriting files
 
@@ -360,7 +360,7 @@ void					CIMGEditorTab::addOrReplaceEntryViaFileAndSettings(string strEntryFileP
 		}
 		else
 		{
-			COverwriteEntryDialogData *pOverwriteEntryDialogData = getKGM()->getPopupGUIManager()->showOverwriteEntryDialog();
+			COverwriteEntryDialogData *pOverwriteEntryDialogData = getIMGF()->getPopupGUIManager()->showOverwriteEntryDialog();
 			if (pOverwriteEntryDialogData->m_bCancel)
 			{
 				// cancel
@@ -388,7 +388,7 @@ void					CIMGEditorTab::addOrReplaceEntryViaFileAndSettings(string strEntryFileP
 	{
 		// entry is protected
 
-		if (getKGM()->getSettingsManager()->getSettingBool("OverwriteProtectedFiles"))
+		if (getIMGF()->getSettingsManager()->getSettingBool("OverwriteProtectedFiles"))
 		{
 			// Setting is enabled: Overwrite protected files
 			return replaceEntryViaFile(strEntryName, strEntryFilePath);
@@ -421,7 +421,7 @@ void					CIMGEditorTab::addOrReplaceEntryViaFileAndSettings(string strEntryFileP
 	{
 		// the existing entry is older than the new entry
 
-		if (getKGM()->getSettingsManager()->getSettingBool("OverwriteOlderFiles"))
+		if (getIMGF()->getSettingsManager()->getSettingBool("OverwriteOlderFiles"))
 		{
 			// Setting is enabled: Overwrite older files
 			return replaceEntryViaFile(strEntryName, strEntryFilePath);
@@ -437,7 +437,7 @@ void					CIMGEditorTab::addOrReplaceEntryViaFileAndSettings(string strEntryFileP
 	{
 		// the existing entry is newer than the new entry
 
-		if (getKGM()->getSettingsManager()->getSettingBool("OverwriteNewerFiles"))
+		if (getIMGF()->getSettingsManager()->getSettingBool("OverwriteNewerFiles"))
 		{
 			// Setting is enabled: Overwrite newer files
 			return replaceEntryViaFile(strEntryName, strEntryFilePath);
@@ -464,12 +464,12 @@ void					CIMGEditorTab::addOrReplaceEntryViaDataAndSettings(string strEntryName,
 	}
 
 	// entry name is found in IMG
-	if (getKGM()->getSettingsManager()->getSettingBool("AskBeforeOverwritingFiles"))
+	if (getIMGF()->getSettingsManager()->getSettingBool("AskBeforeOverwritingFiles"))
 	{
 		// Setting is enabled: Ask before overwriting files
 
 		// show popup - ask to replace or import
-		COverwriteEntryDialogData *pOverwriteEntryDialogData = getKGM()->getPopupGUIManager()->showOverwriteEntryDialog();
+		COverwriteEntryDialogData *pOverwriteEntryDialogData = getIMGF()->getPopupGUIManager()->showOverwriteEntryDialog();
 		if (pOverwriteEntryDialogData->m_bCancel)
 		{
 			// cancel
@@ -494,7 +494,7 @@ void					CIMGEditorTab::addOrReplaceEntryViaDataAndSettings(string strEntryName,
 	{
 		// entry is protected
 
-		if (getKGM()->getSettingsManager()->getSettingBool("OverwriteProtectedFiles"))
+		if (getIMGF()->getSettingsManager()->getSettingBool("OverwriteProtectedFiles"))
 		{
 			// Setting is enabled: Overwrite protected files
 			return replaceEntryViaData(strEntryName, strEntryData);
@@ -518,14 +518,14 @@ void					CIMGEditorTab::removeEntry(CIMGEntry *pIMGEntry)
 
 void					CIMGEditorTab::addColumnsToMainListView(void)
 {
-	getKGM()->getIMGEditor()->addColumnsToMainListView(getIMGFile()->getIMGVersion());
+	getIMGF()->getIMGEditor()->addColumnsToMainListView(getIMGFile()->getIMGVersion());
 }
 void					CIMGEditorTab::readdAllEntriesToMainListView(void)
 {
 	getWindow()->getEntryListControl()->removeAllEntries();
 	
-	getKGM()->getIMGEditor()->setSelectedEntryCount(0);
-	getKGM()->getIMGEditor()->updateSelectedEntryCountText();
+	getIMGF()->getIMGEditor()->setSelectedEntryCount(0);
+	getIMGF()->getIMGEditor()->updateSelectedEntryCountText();
 
 	addAllEntriesToMainListView();
 
@@ -533,8 +533,8 @@ void					CIMGEditorTab::readdAllEntriesToMainListView(void)
 }
 void					CIMGEditorTab::addAllEntriesToMainListView(void)
 {
-	//getKGM()->getTaskManager()->setTaskMaxProgressTickCount(getIMGFile()->m_vecEntries.size());
-	// setProgressMaxTicks() is called in CKGM::addMainWindowTab(). (as the bottom of this code contains a call to onProgressTick()).
+	//getIMGF()->getTaskManager()->setTaskMaxProgressTickCount(getIMGFile()->m_vecEntries.size());
+	// setProgressMaxTicks() is called in CIMGF::addMainWindowTab(). (as the bottom of this code contains a call to onProgressTick()).
 
 	/*
 	todo
@@ -542,11 +542,11 @@ void					CIMGEditorTab::addAllEntriesToMainListView(void)
 	int iCurSel;
 	::CString strText1;
 
-	iCurSel = ((CComboBox*)getKGM()->getDialog()->GetDlgItem(54))->GetCurSel();
+	iCurSel = ((CComboBox*)getIMGF()->getDialog()->GetDlgItem(54))->GetCurSel();
 	bool bFilterCheckBox_Extensions = iCurSel != 0;
 	uint32 uiFilterCombo_Extensions = iCurSel;
 	
-	CComboBox *pComboBox1 = ((CComboBox*)getKGM()->getDialog()->GetDlgItem(5));
+	CComboBox *pComboBox1 = ((CComboBox*)getIMGF()->getDialog()->GetDlgItem(5));
 	iCurSel = pComboBox1->GetCurSel();
 	bool bFilterCheckBox_Version = iCurSel != 0;
 	uint32 uiFilterCombo_Version = iCurSel;
@@ -563,7 +563,7 @@ void					CIMGEditorTab::addAllEntriesToMainListView(void)
 		string strEntryExtensionUpper = CString2::toUpperCase(CPathManager::getFileExtension(pIMGEntry->getEntryName()));
 		if (bFilterCheckBox_Version)
 		{
-			if (uiFilterCombo_Version == getKGM()->m_iFilterMapping_UnknownVersion) // Unknown Version
+			if (uiFilterCombo_Version == getIMGF()->m_iFilterMapping_UnknownVersion) // Unknown Version
 			{
 				if (strEntryExtensionUpper == "COL")
 				{
@@ -600,9 +600,9 @@ void					CIMGEditorTab::addAllEntriesToMainListView(void)
 					// add the entry
 				}
 			}
-			else if (getKGM()->m_umapFilterMapping_COLVersion.count(uiFilterCombo_Version) > 0)
+			else if (getIMGF()->m_umapFilterMapping_COLVersion.count(uiFilterCombo_Version) > 0)
 			{
-				eCOLVersion eStoredVersion = getKGM()->m_umapFilterMapping_COLVersion[uiFilterCombo_Version];
+				eCOLVersion eStoredVersion = getIMGF()->m_umapFilterMapping_COLVersion[uiFilterCombo_Version];
 				eCOLVersion eEntryVersion = pIMGEntry->getCOLVersion() == nullptr ? COL_UNKNOWN : pIMGEntry->getCOLVersion()->getVersionId();
 
 				if (strEntryExtensionUpper != "COL" || eEntryVersion != eStoredVersion)
@@ -610,9 +610,9 @@ void					CIMGEditorTab::addAllEntriesToMainListView(void)
 					bAddEntry = false;
 				}
 			}
-			else if (getKGM()->m_umapFilterMapping_RWVersion.count(uiFilterCombo_Version) > 0)
+			else if (getIMGF()->m_umapFilterMapping_RWVersion.count(uiFilterCombo_Version) > 0)
 			{
-				eRWVersion eVersion = getKGM()->m_umapFilterMapping_RWVersion[uiFilterCombo_Version];
+				eRWVersion eVersion = getIMGF()->m_umapFilterMapping_RWVersion[uiFilterCombo_Version];
 				if (strEntryExtensionUpper == "DFF" || strEntryExtensionUpper == "TXD")
 				{
 					if (pIMGEntry->getRWVersion() == nullptr)
@@ -644,7 +644,7 @@ void					CIMGEditorTab::addAllEntriesToMainListView(void)
 			::CString cstrExtensionText;
 			if (uiFilterCombo_Extensions != -1)
 			{
-				((CComboBox*)getKGM()->getDialog()->GetDlgItem(54))->GetLBText(uiFilterCombo_Extensions, cstrExtensionText);
+				((CComboBox*)getIMGF()->getDialog()->GetDlgItem(54))->GetLBText(uiFilterCombo_Extensions, cstrExtensionText);
 				vecExtensions.push_back(CString2::convertCStringToStdString(cstrExtensionText));
 			}
 
@@ -661,7 +661,7 @@ void					CIMGEditorTab::addAllEntriesToMainListView(void)
 			addEntryToMainListView(pIMGEntry);
 		}
 
-		getKGM()->getTaskManager()->onTaskProgressTick();
+		getIMGF()->getTaskManager()->onTaskProgressTick();
 	}
 
 	// todo
@@ -704,7 +704,7 @@ void					CIMGEditorTab::addEntryToMainListView(CIMGEntry *pIMGEntry)
 	getListView()->SetItem(uiEntryIndex, 2, LVIF_TEXT, CString2::convertStdStringToStdWString(pIMGEntry->getEntryName()).c_str(), 0, 0, 0, 0);
 	getListView()->SetItem(uiEntryIndex, 3, LVIF_TEXT, CString2::convertStdStringToStdWString(CString2::addNumberGrouping(CString2::toString(pIMGEntry->getEntryOffset()))).c_str(), 0, 0, 0, 0);
 	getListView()->SetItem(uiEntryIndex, 4, LVIF_TEXT, CString2::convertStdStringToStdWString(CString2::addNumberGrouping(CString2::toString(pIMGEntry->getEntrySize()))).c_str(), 0, 0, 0, 0);
-	getKGM()->getIMGEditor()->applyVersionAndResourceTypeColumn(uiEntryIndex, getKGM()->getEntryListTab()->getIMGFile(), pIMGEntry);
+	getIMGF()->getIMGEditor()->applyVersionAndResourceTypeColumn(uiEntryIndex, getIMGF()->getEntryListTab()->getIMGFile(), pIMGEntry);
 	if (pIMGEntry->getIMGFile()->getIMGVersion() == IMG_FASTMAN92)
 	{
 		getListView()->SetItem(uiEntryIndex, 6, LVIF_TEXT, CString2::convertStdStringToStdWString(CIMGManager::getCompressionTypeText(pIMGEntry->getCompressionAlgorithmId())).c_str(), 0, 0, 0, 0);
@@ -728,7 +728,7 @@ void					CIMGEditorTab::updateEntryInMainListView(CIMGEntry *pIMGEntry)
 	getListView()->SetItem(uiEntryIndex, 2, LVIF_TEXT, CString2::convertStdStringToStdWString(pIMGEntry->getEntryName()).c_str(), 0, 0, 0, 0);
 	getListView()->SetItem(uiEntryIndex, 3, LVIF_TEXT, CString2::convertStdStringToStdWString(CString2::addNumberGrouping(CString2::toString(pIMGEntry->getEntryOffset()))).c_str(), 0, 0, 0, 0);
 	getListView()->SetItem(uiEntryIndex, 4, LVIF_TEXT, CString2::convertStdStringToStdWString(CString2::addNumberGrouping(CString2::toString(pIMGEntry->getEntrySize()))).c_str(), 0, 0, 0, 0);
-	//getKGM()->getIMGEditor()->applyVersionAndResourceTypeColumn(uiEntryIndex, getKGM()->getEntryListTab()->getIMGFile(), pIMGEntry);
+	//getIMGF()->getIMGEditor()->applyVersionAndResourceTypeColumn(uiEntryIndex, getIMGF()->getEntryListTab()->getIMGFile(), pIMGEntry);
 	if (pIMGEntry->getIMGFile()->getIMGVersion() == IMG_FASTMAN92)
 	{
 		getListView()->SetItem(uiEntryIndex, 6, LVIF_TEXT, CString2::convertStdStringToStdWString(CIMGManager::getCompressionTypeText(pIMGEntry->getCompressionAlgorithmId())).c_str(), 0, 0, 0, 0);
@@ -759,11 +759,11 @@ void					CIMGEditorTab::updateEntryCountText(void)
 		uiEntryCount = getIMGFile()->getEntryCount();
 	if (isFilterActive())
 	{
-		((CStatic*)getKGM()->getDialog()->GetDlgItem(20))->SetWindowTextW(CLocalizationManager::getInstance()->getTranslatedFormattedTextW("Window_Main_Text_FilteredEntryCount", uiFilteredEntryCount, uiEntryCount).c_str());
+		((CStatic*)getIMGF()->getDialog()->GetDlgItem(20))->SetWindowTextW(CLocalizationManager::getInstance()->getTranslatedFormattedTextW("Window_Main_Text_FilteredEntryCount", uiFilteredEntryCount, uiEntryCount).c_str());
 	}
 	else
 	{
-		((CStatic*)getKGM()->getDialog()->GetDlgItem(20))->SetWindowTextW(CLocalizationManager::getInstance()->getTranslatedFormattedTextW("Window_Main_Text_EntryCount", uiEntryCount).c_str());
+		((CStatic*)getIMGF()->getDialog()->GetDlgItem(20))->SetWindowTextW(CLocalizationManager::getInstance()->getTranslatedFormattedTextW("Window_Main_Text_EntryCount", uiEntryCount).c_str());
 	}
 	*/
 }
@@ -790,11 +790,11 @@ void					CIMGEditorTab::updateIMGText(void)
 		{
 			strVersionSuffix = CLocalizationManager::getInstance()->getTranslatedText("CompressionValue_PartiallyCompressed");
 		}
-		((CStatic*)getKGM()->getDialog()->GetDlgItem(19))->SetWindowTextW(CLocalizationManager::getInstance()->getTranslatedFormattedTextW("IMGVersion", CIMGManager::getIMGVersionName(IMG_FASTMAN92, getIMGFile()->isEncrypted()).c_str(), strPlatformName.c_str(), strVersionSuffix.c_str()).c_str());
+		((CStatic*)getIMGF()->getDialog()->GetDlgItem(19))->SetWindowTextW(CLocalizationManager::getInstance()->getTranslatedFormattedTextW("IMGVersion", CIMGManager::getIMGVersionName(IMG_FASTMAN92, getIMGFile()->isEncrypted()).c_str(), strPlatformName.c_str(), strVersionSuffix.c_str()).c_str());
 	}
 	else
 	{
-		((CStatic*)getKGM()->getDialog()->GetDlgItem(19))->SetWindowTextW(CLocalizationManager::getInstance()->getTranslatedFormattedTextW("IMGVersion", CIMGManager::getIMGVersionName(getIMGFile()->getIMGVersion(), getIMGFile()->isEncrypted()).c_str(), strPlatformName.c_str(), CIMGManager::getIMGVersionGames(getIMGFile()->getIMGVersion()).c_str()).c_str());
+		((CStatic*)getIMGF()->getDialog()->GetDlgItem(19))->SetWindowTextW(CLocalizationManager::getInstance()->getTranslatedFormattedTextW("IMGVersion", CIMGManager::getIMGVersionName(getIMGFile()->getIMGVersion(), getIMGFile()->isEncrypted()).c_str(), strPlatformName.c_str(), CIMGManager::getIMGVersionGames(getIMGFile()->getIMGVersion()).c_str()).c_str());
 	}
 	*/
 }
@@ -812,7 +812,7 @@ CIMGEntry*				CIMGEditorTab::getEntryByName(string strEntryName)
 
 void					CIMGEditorTab::rebuild(string strIMGPath, bool bLog)
 {
-	getKGM()->getTaskManager()->setTaskMaxProgressTickCount(getIMGFile()->getEntryCount() * 3);
+	getIMGF()->getTaskManager()->setTaskMaxProgressTickCount(getIMGFile()->getEntryCount() * 3);
 	getIMGFile()->serializeViaFile(strIMGPath == "" ? getIMGFile()->getFilePath() : strIMGPath);
 	setIMGModifiedSinceRebuild(false);
 	if (bLog)
@@ -829,7 +829,7 @@ void					CIMGEditorTab::splitSelectedEntries(string strPath, eIMGVersion eIMGVer
 	/*
 	todo
 	vector<CIMGEntry*> vecIMGEntries;
-	CListCtrl *pListControl = ((CListCtrl*)getKGM()->getDialog()->GetDlgItem(37));
+	CListCtrl *pListControl = ((CListCtrl*)getIMGF()->getDialog()->GetDlgItem(37));
 	POSITION pos = pListControl->GetFirstSelectedItemPosition();
 	CIMGEntry *pIMGEntry = nullptr;
 	if (pos == NULL)
@@ -837,7 +837,7 @@ void					CIMGEditorTab::splitSelectedEntries(string strPath, eIMGVersion eIMGVer
 		return;
 	}
 
-	getKGM()->getTaskManager()->setTaskMaxProgressTickCount(pListControl->GetSelectedCount() * (bDeleteFromSource ? 2 : 1));
+	getIMGF()->getTaskManager()->setTaskMaxProgressTickCount(pListControl->GetSelectedCount() * (bDeleteFromSource ? 2 : 1));
 
 	while (pos)
 	{
@@ -853,7 +853,7 @@ void					CIMGEditorTab::splitSelectedEntries(string strPath, eIMGVersion eIMGVer
 			pos = pListControl->GetFirstSelectedItemPosition();
 		}
 
-		getKGM()->getTaskManager()->onTaskProgressTick();
+		getIMGF()->getTaskManager()->onTaskProgressTick();
 	}
 
 	getIMGFile()->split(vecIMGEntries, strPath, eIMGVersion);
@@ -864,7 +864,7 @@ void					CIMGEditorTab::splitSelectedEntries(string strPath, eIMGVersion eIMGVer
 		{
 			removeEntry(pIMGEntry);
 
-			getKGM()->getTaskManager()->onTaskProgressTick();
+			getIMGF()->getTaskManager()->onTaskProgressTick();
 		}
 	}
 
@@ -878,7 +878,7 @@ void					CIMGEditorTab::replace(vector<string>& vecPaths, vector<string>& vecRep
 
 	for (auto pIMGEntry : vecReplacedEntries)
 	{
-		getKGM()->getEntryListTab()->onEntryChange(pIMGEntry);
+		getIMGF()->getEntryListTab()->onEntryChange(pIMGEntry);
 	}
 }
 bool					sortStdVectorAzCaseInsensitive(CSearchEntry *pSearchEntry1, CSearchEntry *pSearchEntry2)
@@ -891,21 +891,21 @@ void					CIMGEditorTab::searchText(void)
 	todo
 
 	CListCtrl
-		*pListControl = (CListCtrl*)getKGM()->getDialog()->GetDlgItem(22),
-		*pListControlMain = (CListCtrl*)getKGM()->getDialog()->GetDlgItem(37);
+		*pListControl = (CListCtrl*)getIMGF()->getDialog()->GetDlgItem(22),
+		*pListControlMain = (CListCtrl*)getIMGF()->getDialog()->GetDlgItem(37);
 	pListControl->DeleteAllItems();
-	for (auto pSearchEntry : getKGM()->getIMGEditor()->getSearchEntries())
+	for (auto pSearchEntry : getIMGF()->getIMGEditor()->getSearchEntries())
 	{
 		delete pSearchEntry;
 	}
-	getKGM()->getIMGEditor()->getSearchEntries().clear();
+	getIMGF()->getIMGEditor()->getSearchEntries().clear();
 
 	string strSearchText = CString2::toUpperCase(m_strSearchText);
-	bool bAllTabs = ((CButton*)getKGM()->getDialog()->GetDlgItem(46))->GetCheck() == BST_CHECKED;
+	bool bAllTabs = ((CButton*)getIMGF()->getDialog()->GetDlgItem(46))->GetCheck() == BST_CHECKED;
 
 	if (strSearchText == "")
 	{
-		((CStatic*)getKGM()->getDialog()->GetDlgItem(0))->SetWindowTextW(CLocalizationManager::getInstance()->getTranslatedFormattedTextW("Window_Main_Text_SearchResult_ActiveTab", 0).c_str());
+		((CStatic*)getIMGF()->getDialog()->GetDlgItem(0))->SetWindowTextW(CLocalizationManager::getInstance()->getTranslatedFormattedTextW("Window_Main_Text_SearchResult_ActiveTab", 0).c_str());
 		return;
 	}
 
@@ -913,15 +913,15 @@ void					CIMGEditorTab::searchText(void)
 	uint32 uiTotalEntryCount;
 	if (bAllTabs)
 	{
-		vecEditorTabs = getKGM()->getIMGEditor()->getEntries();
-		uiTotalEntryCount = getKGM()->getIMGEditor()->getEntryCountForAllTabs();
+		vecEditorTabs = getIMGF()->getIMGEditor()->getEntries();
+		uiTotalEntryCount = getIMGF()->getIMGEditor()->getEntryCountForAllTabs();
 	}
 	else
 	{
 		vecEditorTabs.push_back(this);
 		uiTotalEntryCount = getIMGFile()->getEntryCount();
 	}
-	getKGM()->getTaskManager()->setTaskMaxProgressTickCount(uiTotalEntryCount);
+	getIMGF()->getTaskManager()->setTaskMaxProgressTickCount(uiTotalEntryCount);
 
 	uint32
 		uiMatchCount = 0,
@@ -983,7 +983,7 @@ void					CIMGEditorTab::searchText(void)
 				CSearchEntry *pSearchEntry = new CSearchEntry;
 				pSearchEntry->setWindowTab((CIMGEditorTab*)pEditorTab);
 				pSearchEntry->setIMGEntry(pIMGEntry);
-				getKGM()->getIMGEditor()->getSearchEntries().push_back(pSearchEntry);
+				getIMGF()->getIMGEditor()->getSearchEntries().push_back(pSearchEntry);
 
 				uiMatchCount++;
 				bMatchFoundInFile = true;
@@ -994,7 +994,7 @@ void					CIMGEditorTab::searchText(void)
 			}
 			i++;
 
-			getKGM()->getTaskManager()->onTaskProgressTick();
+			getIMGF()->getTaskManager()->onTaskProgressTick();
 		}
 
 		if (bMatchFoundInFile)
@@ -1004,10 +1004,10 @@ void					CIMGEditorTab::searchText(void)
 	}
 
 	// sort search results list view by entry name A-Z case-insensitive
-	std::sort(getKGM()->getIMGEditor()->getSearchEntries().begin(), getKGM()->getIMGEditor()->getSearchEntries().end(), sortStdVectorAzCaseInsensitive);
+	std::sort(getIMGF()->getIMGEditor()->getSearchEntries().begin(), getIMGF()->getIMGEditor()->getSearchEntries().end(), sortStdVectorAzCaseInsensitive);
 
 	// add all entries to search results list view
-	for (auto pSearchEntry : getKGM()->getIMGEditor()->getSearchEntries())
+	for (auto pSearchEntry : getIMGF()->getIMGEditor()->getSearchEntries())
 	{
 		CIMGEntry *pIMGEntry = pSearchEntry->getIMGEntry();
 		uint32 uiRowIndex = pListControl->GetItemCount();
@@ -1037,11 +1037,11 @@ void					CIMGEditorTab::searchText(void)
 		wstrSearchResultText = CLocalizationManager::getInstance()->getTranslatedFormattedTextW("Window_Main_Text_SearchResult_ActiveTab", uiMatchCount);
 	}
 
-	((CStatic*)getKGM()->getDialog()->GetDlgItem(0))->SetWindowTextW(wstrSearchResultText.c_str());
+	((CStatic*)getIMGF()->getDialog()->GetDlgItem(0))->SetWindowTextW(wstrSearchResultText.c_str());
 	pListControlMain->SetFocus();
 
-	getKGM()->getIMGEditor()->setSearchHitCount(uiMatchCount);
-	getKGM()->getIMGEditor()->setSearchFileCount(uiFileCountWithMatches);
+	getIMGF()->getIMGEditor()->setSearchHitCount(uiMatchCount);
+	getIMGF()->getIMGEditor()->setSearchFileCount(uiFileCountWithMatches);
 	*/
 }
 
@@ -1049,8 +1049,8 @@ void					CIMGEditorTab::storeFilterOptions(void)
 {
 	/*
 	todo
-	CComboBox *pComboBox1 = (CComboBox*)getKGM()->getDialog()->GetDlgItem(54);
-	CComboBox *pComboBox2 = (CComboBox*)getKGM()->getDialog()->GetDlgItem(5);
+	CComboBox *pComboBox1 = (CComboBox*)getIMGF()->getDialog()->GetDlgItem(54);
+	CComboBox *pComboBox2 = (CComboBox*)getIMGF()->getDialog()->GetDlgItem(5);
 	::CString cstr1, cstr2;
 	pComboBox1->GetWindowTextW(cstr1);
 	pComboBox2->GetWindowTextW(cstr2);
@@ -1063,16 +1063,16 @@ void					CIMGEditorTab::restoreFilterOptions(void)
 	/*
 	todo
 	m_bRestoringFilterOptions = true;
-	((CButton*)getKGM()->getDialog()->GetDlgItem(44))->SetCheck(m_filterOptions.m_bCheckboxes[0] ? BST_CHECKED : BST_UNCHECKED);
-	((CButton*)getKGM()->getDialog()->GetDlgItem(3))->SetCheck(m_filterOptions.m_bCheckboxes[1] ? BST_CHECKED : BST_UNCHECKED);
-	((CButton*)getKGM()->getDialog()->GetDlgItem(4))->SetCheck(m_filterOptions.m_bCheckboxes[2] ? BST_CHECKED : BST_UNCHECKED);
-	((CButton*)getKGM()->getDialog()->GetDlgItem(10))->SetCheck(m_filterOptions.m_bCheckboxes[3] ? BST_CHECKED : BST_UNCHECKED);
-	((CComboBox*)getKGM()->getDialog()->GetDlgItem(7))->SetCurSel(m_filterOptions.m_iComboBoxes[0]);
-	((CComboBox*)getKGM()->getDialog()->GetDlgItem(6))->SetCurSel(m_filterOptions.m_iComboBoxes[1]);
-	((CComboBox*)getKGM()->getDialog()->GetDlgItem(5))->SetCurSel(m_filterOptions.m_iComboBoxes[2]);
-	((CEdit*)getKGM()->getDialog()->GetDlgItem(9))->SetWindowTextW(CString2::convertStdStringToStdWString(m_filterOptions.m_strEditBoxes[0]).c_str());
-	((CEdit*)getKGM()->getDialog()->GetDlgItem(8))->SetWindowTextW(CString2::convertStdStringToStdWString(m_filterOptions.m_strEditBoxes[1]).c_str());
-	((CEdit*)getKGM()->getDialog()->GetDlgItem(48))->SetWindowTextW(CString2::convertStdStringToStdWString(m_filterOptions.m_strEditBoxes[2]).c_str());
+	((CButton*)getIMGF()->getDialog()->GetDlgItem(44))->SetCheck(m_filterOptions.m_bCheckboxes[0] ? BST_CHECKED : BST_UNCHECKED);
+	((CButton*)getIMGF()->getDialog()->GetDlgItem(3))->SetCheck(m_filterOptions.m_bCheckboxes[1] ? BST_CHECKED : BST_UNCHECKED);
+	((CButton*)getIMGF()->getDialog()->GetDlgItem(4))->SetCheck(m_filterOptions.m_bCheckboxes[2] ? BST_CHECKED : BST_UNCHECKED);
+	((CButton*)getIMGF()->getDialog()->GetDlgItem(10))->SetCheck(m_filterOptions.m_bCheckboxes[3] ? BST_CHECKED : BST_UNCHECKED);
+	((CComboBox*)getIMGF()->getDialog()->GetDlgItem(7))->SetCurSel(m_filterOptions.m_iComboBoxes[0]);
+	((CComboBox*)getIMGF()->getDialog()->GetDlgItem(6))->SetCurSel(m_filterOptions.m_iComboBoxes[1]);
+	((CComboBox*)getIMGF()->getDialog()->GetDlgItem(5))->SetCurSel(m_filterOptions.m_iComboBoxes[2]);
+	((CEdit*)getIMGF()->getDialog()->GetDlgItem(9))->SetWindowTextW(CString2::convertStdStringToStdWString(m_filterOptions.m_strEditBoxes[0]).c_str());
+	((CEdit*)getIMGF()->getDialog()->GetDlgItem(8))->SetWindowTextW(CString2::convertStdStringToStdWString(m_filterOptions.m_strEditBoxes[1]).c_str());
+	((CEdit*)getIMGF()->getDialog()->GetDlgItem(48))->SetWindowTextW(CString2::convertStdStringToStdWString(m_filterOptions.m_strEditBoxes[2]).c_str());
 	m_bRestoringFilterOptions = false;
 	*/
 }
@@ -1080,18 +1080,18 @@ bool					CIMGEditorTab::isFilterActive(void)
 {
 	/*
 	todo
-	bool bFilterCheckBox_Offset = ((CButton*)getKGM()->getDialog()->GetDlgItem(44))->GetCheck() == BST_CHECKED;
-	bool bFilterCheckBox_Size = ((CButton*)getKGM()->getDialog()->GetDlgItem(3))->GetCheck() == BST_CHECKED;
-	bool bFilterCheckBox_RWVersion = ((CButton*)getKGM()->getDialog()->GetDlgItem(4))->GetCheck() == BST_CHECKED;
-	bool bFilterCheckBox_Extensions = ((CButton*)getKGM()->getDialog()->GetDlgItem(10))->GetCheck() == BST_CHECKED;
+	bool bFilterCheckBox_Offset = ((CButton*)getIMGF()->getDialog()->GetDlgItem(44))->GetCheck() == BST_CHECKED;
+	bool bFilterCheckBox_Size = ((CButton*)getIMGF()->getDialog()->GetDlgItem(3))->GetCheck() == BST_CHECKED;
+	bool bFilterCheckBox_RWVersion = ((CButton*)getIMGF()->getDialog()->GetDlgItem(4))->GetCheck() == BST_CHECKED;
+	bool bFilterCheckBox_Extensions = ((CButton*)getIMGF()->getDialog()->GetDlgItem(10))->GetCheck() == BST_CHECKED;
 	
 	return bFilterCheckBox_Offset || bFilterCheckBox_Size || bFilterCheckBox_RWVersion || bFilterCheckBox_Extensions;
 	*/
 	/*
 	todo
 	return
-		((CComboBox*)getKGM()->getDialog()->GetDlgItem(54))->GetCurSel() != 0
-		|| ((CComboBox*)getKGM()->getDialog()->GetDlgItem(5))->GetCurSel() != 0;
+		((CComboBox*)getIMGF()->getDialog()->GetDlgItem(54))->GetCurSel() != 0
+		|| ((CComboBox*)getIMGF()->getDialog()->GetDlgItem(5))->GetCurSel() != 0;
 		*/
 	return true;
 }
@@ -1099,11 +1099,11 @@ bool					CIMGEditorTab::isFilterActive(void)
 void					CIMGEditorTab::sortEntries(void)
 {
 	// sort
-	getKGM()->getSortManager()->sort(getIMGFile());
+	getIMGF()->getSortManager()->sort(getIMGFile());
 
 	// log
 	vector<string> vecExtendedLogLines;
-	CSortPriorities *pSortPriorities = getKGM()->getSortManager()->getSortPriorities();
+	CSortPriorities *pSortPriorities = getIMGF()->getSortManager()->getSortPriorities();
 	uint32 i = 0;
 	CSortPriority *pSortPriority2 = nullptr;
 	for (auto pSortPriority : pSortPriorities->getEntries())
@@ -1162,7 +1162,7 @@ void				CIMGEditorTab::loadFilter_Type(void)
 {
 	/*
 	todo
-	CComboBox *pComboBox = (CComboBox*)getKGM()->getDialog()->GetDlgItem(54);
+	CComboBox *pComboBox = (CComboBox*)getIMGF()->getDialog()->GetDlgItem(54);
 	unloadFilter_Type();
 	vector<string> vecExtensions = getIMGFile()->getEntryExtensions();
 	CStdVector::sortAZCaseInsensitive(vecExtensions);
@@ -1185,13 +1185,13 @@ void				CIMGEditorTab::loadFilter_Version(void)
 {
 	/*
 	todo
-	CComboBox *pComboBox = (CComboBox*)getKGM()->getDialog()->GetDlgItem(5);
+	CComboBox *pComboBox = (CComboBox*)getIMGF()->getDialog()->GetDlgItem(5);
 	unloadFilter_Version();
 
 	todo
-	//getKGM()->m_umapFilterMapping_COLVersion.clear();
-	//getKGM()->m_umapFilterMapping_RWVersion.clear();
-	//getKGM()->m_iFilterMapping_UnknownVersion = 0;
+	//getIMGF()->m_umapFilterMapping_COLVersion.clear();
+	//getIMGF()->m_umapFilterMapping_RWVersion.clear();
+	//getIMGF()->m_iFilterMapping_UnknownVersion = 0;
 
 	vector<eCOLVersion> vecCOLVersions;
 	vector<eRWVersion> vecRWVersions;
@@ -1211,15 +1211,15 @@ void				CIMGEditorTab::loadFilter_Version(void)
 		todo
 		if(strVersionText == strUnknownVersionText)
 		{
-			getKGM()->m_iFilterMapping_UnknownVersion = i;
+			getIMGF()->m_iFilterMapping_UnknownVersion = i;
 		}
 		else if (i <= vecCOLVersions.size())
 		{
-			getKGM()->m_umapFilterMapping_COLVersion[i] = vecCOLVersions[i - 1];
+			getIMGF()->m_umapFilterMapping_COLVersion[i] = vecCOLVersions[i - 1];
 		}
 		else
 		{
-			getKGM()->m_umapFilterMapping_RWVersion[i] = vecRWVersions[(i - 1) - vecCOLVersions.size()];
+			getIMGF()->m_umapFilterMapping_RWVersion[i] = vecRWVersions[(i - 1) - vecCOLVersions.size()];
 		}
 
 		i++;
@@ -1232,7 +1232,7 @@ void				CIMGEditorTab::unloadFilter_Type(void)
 {
 	/*
 	todo
-	CComboBox *pComboBox = (CComboBox*)getKGM()->getDialog()->GetDlgItem(54);
+	CComboBox *pComboBox = (CComboBox*)getIMGF()->getDialog()->GetDlgItem(54);
 
 	for (uint32 i = 0, j = pComboBox->GetCount(); i < j; i++)
 	{
@@ -1248,7 +1248,7 @@ void				CIMGEditorTab::unloadFilter_Version(void)
 {
 	/*
 	todo
-	CComboBox *pComboBox = (CComboBox*)getKGM()->getDialog()->GetDlgItem(5);
+	CComboBox *pComboBox = (CComboBox*)getIMGF()->getDialog()->GetDlgItem(5);
 
 	for (uint32 i = 0, j = pComboBox->GetCount(); i < j; i++)
 	{
@@ -1265,7 +1265,7 @@ void				CIMGEditorTab::reassignEntryIds(void)
 {
 	/*
 	todo
-	CListCtrl *pListControl = (CListCtrl*)getKGM()->getDialog()->GetDlgItem(37);
+	CListCtrl *pListControl = (CListCtrl*)getIMGF()->getDialog()->GetDlgItem(37);
 	for (uint32 i = 0, j = pListControl->GetItemCount(); i < j; i++)
 	{
 		pListControl->SetItem(i, 0, LVIF_TEXT, CString2::convertStdStringToStdWString(CString2::toString(i + 1)).c_str(), 0, 0, 0, 0);
@@ -1279,7 +1279,7 @@ vector<CIMGEntry*>	CIMGEditorTab::getSelectedEntries(void)
 	todo
 	vector<CIMGEntry*> vecIMGEntries;
 
-	CListCtrl *pListControl = ((CListCtrl*)getKGM()->getDialog()->GetDlgItem(37));
+	CListCtrl *pListControl = ((CListCtrl*)getIMGF()->getDialog()->GetDlgItem(37));
 	POSITION pos = pListControl->GetFirstSelectedItemPosition();
 	if (pos == NULL)
 	{
